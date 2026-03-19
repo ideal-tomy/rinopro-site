@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import { Noto_Sans_JP } from "next/font/google";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
+import { ChatContainer } from "@/components/chat/ChatContainer";
 import "./globals.css";
 
 const geist = Geist({
@@ -16,8 +19,16 @@ const notoSansJP = Noto_Sans_JP({
 });
 
 export const metadata: Metadata = {
-  title: "rinopro",
-  description: "現場業務を、AIで再設計して実装まで伴走する。",
+  title: {
+    default: "rinopro | 現場業務を、AIで再設計して実装まで伴走する",
+    template: "%s | rinopro",
+  },
+  description: "現場業務を、AIで再設計して実装まで伴走する。DXツール・AIツールの開発とコンサルティング。",
+  openGraph: {
+    type: "website",
+    locale: "ja_JP",
+  },
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://rinopro.example.com"),
 };
 
 export default function RootLayout({
@@ -31,7 +42,10 @@ export default function RootLayout({
       className={`${geist.variable} ${notoSansJP.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-[var(--color-base)] text-[var(--color-text)]">
+        <Header />
         {children}
+        <Footer />
+        <ChatContainer />
       </body>
     </html>
   );
