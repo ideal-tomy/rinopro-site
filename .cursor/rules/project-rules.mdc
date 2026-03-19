@@ -1,0 +1,134 @@
+---
+description: プロジェクト全体のコーディング規約・エラー防止策・公式リファレンス
+alwaysApply: true
+---
+
+# プロジェクトルール（rinopro）
+
+## 1. コーディング規約
+
+### 1.1 命名規則
+
+| 種類 | 規則 | 例 |
+|------|------|-----|
+| コンポーネント | PascalCase | `ChatBot.tsx`, `PageTransition.tsx` |
+| ファイル（非コンポーネント） | kebab-case | `use-chat.ts`, `format-date.ts` |
+| 変数・関数 | camelCase | `userInput`, `handleSubmit` |
+| 定数 | UPPER_SNAKE_CASE | `API_BASE_URL` |
+| 型・インターフェース | PascalCase | `ChatMessage`, `UserProfile` |
+| CSS クラス | Tailwind ユーティリティ優先 | カスタムは kebab-case |
+
+### 1.2 ファイル構成
+
+- `app/`: ページ・ルーティング（App Router）
+- `components/`: UI コンポーネント（`ui/`, `chat/`, `layout/`, `demo/`, `motion/`）
+- `lib/`: ユーティリティ・クライアント
+- `hooks/`: カスタムフック
+- `docs/`: 要件・設計ドキュメント
+
+### 1.3 コンポーネント設計
+
+- 1 コンポーネント 1 責務
+- 200 行超えたら分割を検討
+- Props は型定義必須（TypeScript）
+- クライアントコンポーネントは `'use client'` を明示
+
+---
+
+## 2. Git 運用ルール
+
+- **main**: 本番デプロイ
+- **feature/xxx**: 機能開発
+- **fix/xxx**: バグ修正
+- コミットメッセージ: 日本語可、`feat:`, `fix:`, `docs:` 等のプレフィックス推奨
+- `package-lock.json` / `pnpm-lock.yaml` は必ずコミット
+
+---
+
+## 3. エラー未然防止チェックリスト
+
+### 3.1 実装前
+
+- [ ] `docs/要件定義.md` の該当セクションを確認
+- [ ] `docs/技術要件.md` のスタック・公式ドキュメントを参照
+- [ ] 環境変数は `.env.example` に記載し、本物は `.env.local`（gitignore 済み）
+
+### 3.2 実装中
+
+- [ ] API Key をハードコードしない
+- [ ] `async` 関数は `try/catch` でエラーハンドリング
+- [ ] 画像は `next/image` を使用
+- [ ] フォントは `next/font` を使用
+- [ ] Three.js は重い 3D を避け、LCP 悪化に注意
+
+### 3.3 実装後
+
+- [ ] `npm run build` が通る
+- [ ] ESLint エラーなし
+- [ ] Lighthouse（Performance, Accessibility）を確認
+- [ ] `prefers-reduced-motion` でアニメーション軽減を確認
+
+---
+
+## 4. エラー時参照すべき公式ドキュメント一覧
+
+### 4.1 コアフレームワーク
+
+| 技術 | URL | 用途 |
+|------|-----|------|
+| Next.js | https://nextjs.org/docs | App Router, SSR, API Routes |
+| Next.js エラー | https://nextjs.org/docs/messages | エラーメッセージの説明 |
+| React | https://react.dev/reference | Hooks, コンポーネント |
+| TypeScript | https://www.typescriptlang.org/docs/ | 型エラー |
+
+### 4.2 UI・スタイリング
+
+| 技術 | URL | 用途 |
+|------|-----|------|
+| Tailwind CSS | https://tailwindcss.com/docs | ユーティリティクラス |
+| shadcn/ui | https://ui.shadcn.com/docs | コンポーネント |
+| Framer Motion | https://www.framer.com/motion/ | アニメーション |
+| Rive | https://rive.app/docs | インタラクティブアニメ |
+
+### 4.3 AI・音声
+
+| 技術 | URL | 用途 |
+|------|-----|------|
+| Vercel AI SDK | https://sdk.vercel.ai/docs | チャット, ストリーミング |
+| OpenAI API | https://platform.openai.com/docs | モデル, エラー |
+| Deepgram | https://developers.deepgram.com/ | 音声認識 |
+
+### 4.4 インフラ・DB・CMS
+
+| 技術 | URL | 用途 |
+|------|-----|------|
+| Vercel | https://vercel.com/docs | デプロイ, 環境変数 |
+| Supabase | https://supabase.com/docs | DB, 認証 |
+| Sanity | https://www.sanity.io/docs | コンテンツ管理 |
+
+### 4.5 3D・グラフィックス
+
+| 技術 | URL | 用途 |
+|------|-----|------|
+| React Three Fiber | https://docs.pmnd.rs/react-three-fiber | 3D コンポーネント |
+| Three.js | https://threejs.org/docs/ | 3D 基礎 |
+
+### 4.6 よくあるエラー
+
+| エラー | 参照先 |
+|--------|--------|
+| `Module not found` | package.json の依存関係、パス解決 |
+| `Hydration failed` | https://nextjs.org/docs/messages/react-hydration-error |
+| `CORS` | API Route のレスポンスヘッダー |
+| `Environment variable not found` | 環境変数の設定、`.env.local` |
+| `API rate limit` | 各 API の利用制限ドキュメント |
+
+---
+
+## 5. レビュー基準
+
+- [ ] 要件定義・デザイン要件に沿っているか
+- [ ] パフォーマンス（LCP, INP）を悪化させていないか
+- [ ] アクセシビリティ（キーボード操作, フォーカス, コントラスト）を満たしているか
+- [ ] 営業感を排除した「体験・確認」のトーンを維持しているか
+- [ ] ページ遷移が Speak ライク（フェード同期、遅く感じない）になっているか
