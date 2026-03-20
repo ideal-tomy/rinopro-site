@@ -135,6 +135,11 @@ body {
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+/* ページ遷移・オーバーレイ用 blur ユーティリティ */
+.page-blur-overlay {
+  backdrop-filter: blur(10px);
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

@@ -1,3 +1,6 @@
+"use client";
+
+import { AnimatePresence } from "framer-motion";
 import { PageTransition } from "@/components/motion/PageTransition";
 
 export default function Template({
@@ -5,5 +8,9 @@ export default function Template({
 }: {
   children: React.ReactNode;
 }) {
-  return <PageTransition>{children}</PageTransition>;
+  return (
+    <AnimatePresence mode="wait">
+      <PageTransition>{children}</PageTransition>
+    </AnimatePresence>
+  );
 }

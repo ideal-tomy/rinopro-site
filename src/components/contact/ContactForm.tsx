@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useContactForm } from "@/hooks/use-contact-form";
+import { contactCopy } from "@/lib/content/site-copy";
 import { cn } from "@/lib/utils";
 
 export function ContactForm() {
@@ -12,6 +13,7 @@ export function ContactForm() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const { status, errors, submit } = useContactForm();
+  const form = contactCopy.form;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,13 +29,13 @@ export function ContactForm() {
     <form onSubmit={handleSubmit} className="space-y-6">
       <div>
         <label htmlFor="name" className="mb-2 block text-sm font-medium text-text">
-          お名前
+          {form.nameLabel}
         </label>
         <Input
           id="name"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="山田 太郎"
+          placeholder={form.namePlaceholder}
           className={cn(errors.name && "border-red-500")}
         />
         {errors.name && (
@@ -42,14 +44,14 @@ export function ContactForm() {
       </div>
       <div>
         <label htmlFor="email" className="mb-2 block text-sm font-medium text-text">
-          メールアドレス
+          {form.emailLabel}
         </label>
         <Input
           id="email"
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="example@example.com"
+          placeholder={form.emailPlaceholder}
           className={cn(errors.email && "border-red-500")}
         />
         {errors.email && (
@@ -58,13 +60,13 @@ export function ContactForm() {
       </div>
       <div>
         <label htmlFor="message" className="mb-2 block text-sm font-medium text-text">
-          お問い合わせ内容
+          {form.messageLabel}
         </label>
         <Textarea
           id="message"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          placeholder="お気軽にご相談ください"
+          placeholder={form.messagePlaceholder}
           rows={5}
           className={cn(errors.message && "border-red-500")}
         />
@@ -73,10 +75,10 @@ export function ContactForm() {
         )}
       </div>
       {status === "success" && (
-        <p className="text-sm text-accent">送信しました。ありがとうございます。</p>
+        <p className="text-sm text-accent">{form.success}</p>
       )}
       <Button type="submit" disabled={status === "submitting"}>
-        {status === "submitting" ? "送信中..." : "送信する"}
+        {status === "submitting" ? form.submitting : form.submit}
       </Button>
     </form>
   );

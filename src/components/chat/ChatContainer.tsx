@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useChat } from "@ai-sdk/react";
 import { TextStreamChatTransport } from "ai";
 import { MessageCircle } from "lucide-react";
-import { ChatSheet } from "./ChatSheet";
+import { ChatPopup } from "./ChatPopup";
 import { ChatMessages } from "./ChatMessages";
 import { ChatInput } from "./ChatInput";
 import { PresetQuestions } from "./PresetQuestions";
@@ -51,7 +51,7 @@ export function ChatContainer() {
         <MessageCircle className="h-6 w-6" />
       </Button>
 
-      <ChatSheet
+      <ChatPopup
         open={open}
         onOpenChange={setOpen}
         title="AIコンシェルジュ"
@@ -77,7 +77,7 @@ export function ChatContainer() {
             onVoiceToggle={() => setVoiceEnabled((v) => !v)}
           />
         </div>
-      </ChatSheet>
+      </ChatPopup>
     </>
   );
 }

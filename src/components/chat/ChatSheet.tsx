@@ -30,6 +30,7 @@ export function ChatSheet({
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent
         side="right"
+        overlayClassName="backdrop-blur-lg"
         className={cn(
           "flex w-full flex-col p-0 sm:max-w-md",
           "data-[state=open]:duration-[350ms] data-[state=closed]:duration-[250ms]",

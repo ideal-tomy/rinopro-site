@@ -9,12 +9,52 @@ export const caseStudiesQuery = `*[_type == "caseStudy"] | order(_createdAt desc
   "image": image { "url": asset->url }
 }`;
 
-export const demoItemsQuery = `*[_type == "demoItem"] | order(_createdAt desc) {
+export const demoItemsQuery = `*[_type == "demoItem"] | order(coalesce(featuredRank, 0) desc, _createdAt desc) {
   _id,
   title,
   "slug": slug.current,
   description,
-  "image": image { "url": asset->url }
+  "image": image { "url": asset->url },
+  functionTags,
+  industryTags,
+  moduleTags,
+  featuredRank,
+  featured,
+  videoUrl,
+  "videoPoster": coalesce(videoPoster.asset->url, videoPoster),
+  highlights,
+  howItHelps,
+  useCases,
+  steps,
+  expectedResult,
+  oneLiner,
+  storyLead,
+  embedUrl,
+  embedTitle
+}`;
+
+export const demoItemBySlugQuery = `*[_type == "demoItem" && slug.current == $slug][0] {
+  _id,
+  title,
+  "slug": slug.current,
+  description,
+  "image": image { "url": asset->url },
+  functionTags,
+  industryTags,
+  moduleTags,
+  featuredRank,
+  featured,
+  videoUrl,
+  "videoPoster": coalesce(videoPoster.asset->url, videoPoster),
+  highlights,
+  howItHelps,
+  useCases,
+  steps,
+  expectedResult,
+  oneLiner,
+  storyLead,
+  embedUrl,
+  embedTitle
 }`;
 
 export const teamMembersQuery = `*[_type == "teamMember"] | order(order asc) {

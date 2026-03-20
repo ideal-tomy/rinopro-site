@@ -1,19 +1,34 @@
+"use client";
+
 import * as React from "react";
+import { motion } from "framer-motion";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { cn } from "@/lib/utils";
+import { EASE_OUT_BACK } from "@/lib/motion/variants";
 
 const Card = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn(
-      "rounded-xl border border-silver/20 bg-base-dark text-text shadow-sm",
-      className
-    )}
-    {...props}
-  />
-));
+>(({ className, children, ...props }, ref) => {
+  const prefersReducedMotion = useReducedMotion();
+  return (
+    <motion.div
+      ref={ref}
+      className={cn(
+        "rounded-xl border border-silver/20 bg-base-dark text-text shadow-sm",
+        className
+      )}
+      whileHover={
+        prefersReducedMotion
+          ? undefined
+          : { scale: 1.02, borderColor: "rgba(0,242,255,0.5)" }
+      }
+      transition={{ ease: EASE_OUT_BACK, duration: 0.25 }}
+    >
+      <div {...props}>{children}</div>
+    </motion.div>
+  );
+});
 Card.displayName = "Card";
 
 const CardHeader = React.forwardRef<

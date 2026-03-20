@@ -24,9 +24,9 @@ export function PageTransition({ children, className }: PageTransitionProps) {
   return (
     <motion.div
       key={pathname}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
+      initial={{ opacity: 0, filter: "blur(10px)" }}
+      animate={{ opacity: 1, filter: "blur(0px)" }}
+      exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, filter: "blur(4px)" }}
       transition={{
         duration: durationIn,
         ease: [0.4, 0, 0.2, 1],

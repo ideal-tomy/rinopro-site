@@ -1,6 +1,7 @@
 import { sanityFetch } from "./client";
 import {
   caseStudiesQuery,
+  demoItemBySlugQuery,
   demoItemsQuery,
   teamMembersQuery,
 } from "./queries";
@@ -19,6 +20,19 @@ export async function fetchDemoItems(): Promise<DemoItem[]> {
     return await sanityFetch<DemoItem[]>(demoItemsQuery);
   } catch {
     return [];
+  }
+}
+
+export async function fetchDemoItemBySlug(
+  slug: string
+): Promise<DemoItem | null> {
+  try {
+    const result = await sanityFetch<DemoItem | null>(demoItemBySlugQuery, {
+      slug,
+    });
+    return result ?? null;
+  } catch {
+    return null;
   }
 }
 
