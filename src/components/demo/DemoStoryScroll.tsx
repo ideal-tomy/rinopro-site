@@ -4,16 +4,34 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import type { DemoItem } from "@/lib/sanity/types";
+import type { AiDemo, DemoItem } from "@/lib/sanity/types";
 import { cn } from "@/lib/utils";
 
 interface DemoStoryScrollProps {
-  demos: DemoItem[];
+  demos: (AiDemo | DemoItem)[];
   title?: string;
 }
 
-function getSlug(demo: DemoItem): string | undefined {
+function getSlug(demo: AiDemo | DemoItem): string | undefined {
   return typeof demo.slug === "object" ? demo.slug?.current : demo.slug;
+}
+
+function RunModeBadge({ demo }: { demo: AiDemo | DemoItem }) {
+  if ((demo as AiDemo)._type !== "aiDemo") return null;
+  const runMode = (demo as AiDemo).runMode ?? "mock_preview";
+  const isLive = runMode === "ai_live";
+  return (
+    <span
+      className={cn(
+        "inline-block rounded-full px-3 py-1 text-xs font-medium md:px-4 md:py-1.5 md:text-sm",
+        isLive
+          ? "border border-accent/50 bg-accent/10 text-accent"
+          : "border border-silver/40 bg-silver/10 text-text-sub"
+      )}
+    >
+      {isLive ? "実AIデモ" : "モックデモ（実運用時の出力イメージ）"}
+    </span>
+  );
 }
 
 export function DemoStoryScroll({ demos, title }: DemoStoryScrollProps) {
@@ -70,10 +88,14 @@ export function DemoStoryScroll({ demos, title }: DemoStoryScrollProps) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
-              className="flex max-w-2xl flex-col items-center text-center"
+              className={cn(
+                "flex w-full max-w-2xl flex-col items-center text-center",
+                "md:max-w-3xl md:rounded-2xl md:border md:border-silver/20 md:bg-base-dark/20 md:px-10 md:py-12",
+                "lg:max-w-4xl lg:px-14 lg:py-14"
+              )}
             >
               {imageUrl && (
-                <div className="relative mb-6 aspect-video w-full overflow-hidden rounded-xl">
+                <div className="relative mb-6 aspect-video w-full overflow-hidden rounded-xl lg:mb-8">
                   <Image
                     src={imageUrl}
                     alt={demo.title}
@@ -84,19 +106,24 @@ export function DemoStoryScroll({ demos, title }: DemoStoryScrollProps) {
                   />
                 </div>
               )}
-              <h2 className="mb-2 text-xl font-semibold text-text md:text-2xl">
-                {demo.title}
-              </h2>
+              <div className="mb-3 flex flex-col items-center gap-3">
+                <RunModeBadge demo={demo} />
+                <h2 className="text-3xl font-semibold text-text md:text-4xl lg:text-5xl">
+                  {demo.title}
+                </h2>
+              </div>
               {oneLiner && (
-                <p className="mb-4 line-clamp-2 text-text-sub">{oneLiner}</p>
+                <p className="mb-6 line-clamp-2 text-lg text-text-sub md:mb-8 md:text-xl lg:text-2xl">
+                  {oneLiner}
+                </p>
               )}
               {tags.length > 0 && (
-                <div className="mb-6 flex flex-wrap justify-center gap-2">
+                <div className="mb-8 flex flex-wrap justify-center gap-2 md:mb-10">
                   {tags.map((t) => (
                     <span
                       key={t}
                       className={cn(
-                        "rounded-full px-3 py-1 text-xs",
+                        "rounded-full px-3 py-1 text-xs md:px-4 md:py-1.5 md:text-sm",
                         "border border-silver/30 bg-base-dark text-text-sub"
                       )}
                     >
@@ -105,7 +132,7 @@ export function DemoStoryScroll({ demos, title }: DemoStoryScrollProps) {
                   ))}
                 </div>
               )}
-              <Button asChild>
+              <Button asChild size="lg" className="px-8 text-base md:px-10 md:text-lg">
                 <Link href={slug ? `/demo/${slug}` : "#"}>体験する</Link>
               </Button>
             </motion.div>

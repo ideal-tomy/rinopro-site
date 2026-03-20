@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { PageShell } from "@/components/layout/PageShell";
 import { DemoPageContent } from "@/components/demo/DemoPageContent";
-import { fetchDemoItems } from "@/lib/sanity/fetch";
+import { fetchDemosForDisplay } from "@/lib/sanity/fetch";
 
 export const metadata: Metadata = {
   title: "ツールdemo一覧 | rinopro",
@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 export default async function DemoPage() {
-  const demos = await fetchDemoItems();
+  const demos = await fetchDemosForDisplay();
 
   return (
     <PageShell>

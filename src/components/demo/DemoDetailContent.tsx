@@ -3,11 +3,16 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import type { DemoItem } from "@/lib/sanity/types";
+import { DemoRuntimePanel } from "./DemoRuntimePanel";
+import type { AiDemo, DemoItem } from "@/lib/sanity/types";
 import { cn } from "@/lib/utils";
 
+function isAiDemo(demo: AiDemo | DemoItem): demo is AiDemo {
+  return (demo as AiDemo)._type === "aiDemo" || "systemPrompt" in demo;
+}
+
 interface DemoDetailContentProps {
-  demo: DemoItem;
+  demo: AiDemo | DemoItem;
 }
 
 export function DemoDetailContent({ demo }: DemoDetailContentProps) {
@@ -17,11 +22,28 @@ export function DemoDetailContent({ demo }: DemoDetailContentProps) {
     ...(demo.moduleTags ?? []),
   ];
 
+  const runMode = isAiDemo(demo) ? (demo.runMode ?? "mock_preview") : null;
+  const isLive = runMode === "ai_live";
+
   return (
     <div className="container mx-auto max-w-3xl px-4 py-16 md:px-6">
-      <h1 className="mb-4 text-2xl font-bold text-accent md:text-3xl">
-        {demo.title}
-      </h1>
+      <div className="mb-4 flex flex-wrap items-center gap-3">
+        {runMode !== null && (
+          <span
+            className={cn(
+              "inline-block rounded-full px-3 py-1 text-xs font-medium md:px-4 md:py-1.5 md:text-sm",
+              isLive
+                ? "border border-accent/50 bg-accent/10 text-accent"
+                : "border border-silver/40 bg-silver/10 text-text-sub"
+            )}
+          >
+            {isLive ? "実AIデモ" : "モックデモ（実運用時の出力イメージ）"}
+          </span>
+        )}
+        <h1 className="text-2xl font-bold text-accent md:text-3xl">
+          {demo.title}
+        </h1>
+      </div>
 
       {tags.length > 0 && (
         <div className="mb-8 flex flex-wrap gap-2">
@@ -106,11 +128,34 @@ export function DemoDetailContent({ demo }: DemoDetailContentProps) {
         </div>
       )}
 
-      {/* 導線 */}
+      {/* デモ実行パネル（aiDemo のみ。ai_live=systemPrompt、mock_preview=mockOutput 必須） */}
+      {isAiDemo(demo) &&
+        (demo.systemPrompt ||
+          (demo.runMode === "mock_preview" &&
+            (demo.mockOutputPrimary || demo.mockOutputSecondary))) && (
+        <div className="mb-8">
+          <DemoRuntimePanel demo={demo} />
+        </div>
+      )}
+
+      {/* 導線（ctaTitle / ctaButtonText は aiDemo 用） */}
       <div className="flex flex-wrap gap-4">
-        <Button asChild>
-          <Link href="/contact">相談する</Link>
-        </Button>
+        {(isAiDemo(demo) && (demo.ctaTitle || demo.ctaButtonText)) ? (
+          <>
+            {demo.ctaTitle && (
+              <p className="w-full text-text-sub">{demo.ctaTitle}</p>
+            )}
+            <Button asChild>
+              <Link href="/contact">
+                {demo.ctaButtonText ?? "相談する"}
+              </Link>
+            </Button>
+          </>
+        ) : (
+          <Button asChild>
+            <Link href="/contact">相談する</Link>
+          </Button>
+        )}
         <Button variant="outline" asChild>
           <Link href="/demo">一覧に戻る</Link>
         </Button>

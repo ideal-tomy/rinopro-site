@@ -2,7 +2,11 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PageShell } from "@/components/layout/PageShell";
 import { DemoDetailContent } from "@/components/demo/DemoDetailContent";
-import { fetchDemoItemBySlug, fetchDemoItems } from "@/lib/sanity/fetch";
+import { fetchDemoBySlug, fetchDemosForDisplay } from "@/lib/sanity/fetch";
+
+function getSlug(d: { slug?: string | { current?: string } }): string | undefined {
+  return typeof d.slug === "object" ? d.slug?.current : d.slug;
+}
 
 interface DemoDetailPageProps {
   params: Promise<{ slug: string }>;
@@ -12,7 +16,7 @@ export async function generateMetadata({
   params,
 }: DemoDetailPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const demo = await fetchDemoItemBySlug(slug);
+  const demo = await fetchDemoBySlug(slug);
   if (!demo) return { title: "Demo | rinopro" };
   return {
     title: `${demo.title} | rinopro`,
@@ -21,10 +25,10 @@ export async function generateMetadata({
 }
 
 export async function generateStaticParams() {
-  const demos = await fetchDemoItems();
+  const demos = await fetchDemosForDisplay();
   return demos
     .map((d) => {
-      const slug = typeof d.slug === "object" ? d.slug?.current : d.slug;
+      const slug = getSlug(d);
       return slug ? { slug } : null;
     })
     .filter((x): x is { slug: string } => x != null);
@@ -32,7 +36,7 @@ export async function generateStaticParams() {
 
 export default async function DemoDetailPage({ params }: DemoDetailPageProps) {
   const { slug } = await params;
-  const demo = await fetchDemoItemBySlug(slug);
+  const demo = await fetchDemoBySlug(slug);
   if (!demo) notFound();
 
   return (

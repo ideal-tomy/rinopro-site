@@ -34,6 +34,46 @@ export interface DemoItem {
   embedTitle?: string;
 }
 
+/** 入力タイプ: テキストのみ / 音声+テキスト / 画像+テキスト */
+export type AiDemoInputType = "text_only" | "audio_text" | "image_text";
+
+/** 実行モード: 実AI / モック演出 */
+export type AiDemoRunMode = "ai_live" | "mock_preview";
+
+/** aiDemo（量産用）型。Sanity aiDemo スキーマに対応 */
+export interface AiDemo {
+  _id: string;
+  _type: "aiDemo";
+  title: string;
+  slug?: string;
+  industry?: string;
+  inputType?: AiDemoInputType;
+  inputPlaceholder?: string;
+  runMode?: AiDemoRunMode;
+  mockOutputPrimary?: string;
+  mockOutputSecondary?: string;
+  systemPrompt?: string;
+  outputStructure?: string;
+  sampleData?: string[];
+  ctaTitle?: string;
+  ctaButtonText?: string;
+  description?: string;
+  image?: { url: string };
+  functionTags?: string[];
+  industryTags?: string[];
+  moduleTags?: string[];
+  oneLiner?: string;
+  storyLead?: string;
+  /** DemoItem 互換（一覧・詳細表示用） */
+  videoUrl?: string;
+  videoPoster?: string;
+  highlights?: string[];
+  howItHelps?: string;
+}
+
+/** 一覧・詳細で共通利用するデモ型。AiDemo をベースに DemoItem 互換フィールドを含む */
+export type DemoForDisplay = AiDemo;
+
 export interface TeamMember {
   _id: string;
   name: string;

@@ -8,22 +8,27 @@ import {
   INDUSTRY_KEYS,
   type IndustryKey,
 } from "@/lib/demo/industry-module-map";
-import type { DemoItem } from "@/lib/sanity/types";
+import type { AiDemo, DemoItem } from "@/lib/sanity/types";
 import { cn } from "@/lib/utils";
 
-function getSlug(demo: DemoItem): string | undefined {
+function getSlug(demo: AiDemo | DemoItem): string | undefined {
   return typeof demo.slug === "object" ? demo.slug?.current : demo.slug;
 }
 
 function matchDemos(
-  demos: DemoItem[],
+  demos: (AiDemo | DemoItem)[],
   functionTag: string | null,
   industryKey: IndustryKey
-): DemoItem[] {
+): (AiDemo | DemoItem)[] {
   const industryLabels: Record<IndustryKey, string> = {
     construction: "建設",
     legal: "士業",
     manufacturing: "製造",
+  };
+  const industryValues: Record<IndustryKey, string> = {
+    construction: "construction",
+    legal: "legal",
+    manufacturing: "manufacturing",
   };
   const functionLabels: Record<string, string> = {
     voice: "音声入力",
@@ -32,11 +37,13 @@ function matchDemos(
     chat: "対話",
   };
   const targetIndustry = industryLabels[industryKey];
+  const targetIndustryValue = industryValues[industryKey];
   const targetFunction = functionTag ? functionLabels[functionTag] : null;
 
   return demos.filter((d) => {
     const hasIndustry =
       !targetIndustry ||
+      (d as AiDemo).industry === targetIndustryValue ||
       (d.industryTags ?? []).some(
         (t) => t === targetIndustry || t.includes(targetIndustry)
       );
@@ -50,7 +57,7 @@ function matchDemos(
 }
 
 interface DemoMatrixSectionProps {
-  demos: DemoItem[];
+  demos: (AiDemo | DemoItem)[];
 }
 
 export function DemoMatrixSection({ demos }: DemoMatrixSectionProps) {
@@ -63,7 +70,10 @@ export function DemoMatrixSection({ demos }: DemoMatrixSectionProps) {
   const hasMatch = matchedDemos.length > 0;
 
   return (
-    <section className="container mx-auto max-w-7xl px-4 py-24 md:px-6">
+    <section
+      className="container mx-auto flex min-h-[calc(100vh-4rem)] snap-start snap-always flex-col justify-center px-4 py-24 md:px-6"
+      style={{ scrollSnapAlign: "start", scrollSnapStop: "always" }}
+    >
       <h2 className="mb-2 text-center text-xl font-bold text-accent md:text-2xl">
         RRINO-AI 基盤図
       </h2>

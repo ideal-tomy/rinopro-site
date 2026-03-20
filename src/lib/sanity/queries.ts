@@ -1,4 +1,4 @@
-import type { CaseStudy, DemoItem, TeamMember } from "./types";
+import type { CaseStudy, DemoItem, TeamMember, AiDemo } from "./types";
 
 export const caseStudiesQuery = `*[_type == "caseStudy"] | order(_createdAt desc) {
   _id,
@@ -31,6 +31,56 @@ export const demoItemsQuery = `*[_type == "demoItem"] | order(coalesce(featuredR
   storyLead,
   embedUrl,
   embedTitle
+}`;
+
+export const aiDemosQuery = `*[_type == "aiDemo"] | order(_createdAt desc) {
+  _id,
+  _type,
+  title,
+  "slug": slug.current,
+  industry,
+  inputType,
+  inputPlaceholder,
+  runMode,
+  mockOutputPrimary,
+  mockOutputSecondary,
+  systemPrompt,
+  outputStructure,
+  sampleData,
+  ctaTitle,
+  ctaButtonText,
+  description,
+  "image": image { "url": asset->url },
+  functionTags,
+  industryTags,
+  moduleTags,
+  oneLiner,
+  storyLead
+}`;
+
+export const aiDemoBySlugQuery = `*[_type == "aiDemo" && slug.current == $slug][0] {
+  _id,
+  _type,
+  title,
+  "slug": slug.current,
+  industry,
+  inputType,
+  inputPlaceholder,
+  runMode,
+  mockOutputPrimary,
+  mockOutputSecondary,
+  systemPrompt,
+  outputStructure,
+  sampleData,
+  ctaTitle,
+  ctaButtonText,
+  description,
+  "image": image { "url": asset->url },
+  functionTags,
+  industryTags,
+  moduleTags,
+  oneLiner,
+  storyLead
 }`;
 
 export const demoItemBySlugQuery = `*[_type == "demoItem" && slug.current == $slug][0] {
