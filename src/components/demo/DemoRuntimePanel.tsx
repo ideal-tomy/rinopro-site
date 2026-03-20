@@ -47,35 +47,14 @@ export function DemoRuntimePanel({ demo, className }: DemoRuntimePanelProps) {
   return (
     <div
       className={cn(
-        "rounded-xl border border-silver/20 bg-base-dark p-6",
+        "rounded-xl border border-silver/20 bg-base-dark p-4 md:p-6",
         className
       )}
     >
-      <h3 className="mb-4 text-lg font-semibold text-text">デモを体験</h3>
+      <h3 className="mb-3 text-base font-semibold text-text md:mb-4 md:text-lg">デモを体験</h3>
 
-      {/* サンプルデータボタン */}
-      {demo.sampleData && demo.sampleData.length > 0 && (
-        <div className="mb-4">
-          <p className="mb-2 text-sm text-text-sub">サンプルをワンクリック投入:</p>
-          <div className="flex flex-wrap gap-2">
-            {demo.sampleData.map((sample, i) => (
-              <Button
-                key={i}
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={() => handleSampleClick(sample)}
-                disabled={isLoading}
-              >
-                {sample.length > 30 ? `${sample.slice(0, 30)}...` : sample}
-              </Button>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* 入力エリア（inputType 別） */}
-      <form onSubmit={handleSubmit} className="space-y-4">
+      {/* 入力エリア（チャット画面を先に表示） */}
+      <form onSubmit={handleSubmit} className="space-y-3 md:space-y-4">
         {inputType === "image_text" && (
           <div>
             <label className="mb-2 block text-sm text-text-sub">
@@ -110,6 +89,28 @@ export function DemoRuntimePanel({ demo, className }: DemoRuntimePanelProps) {
           </Button>
         </div>
       </form>
+
+      {/* サンプル（コンパクトでチャットの下に配置） */}
+      {demo.sampleData && demo.sampleData.length > 0 && (
+        <div className="mt-3 md:mt-4">
+          <p className="mb-1.5 text-xs text-text-sub md:mb-2 md:text-sm">サンプルをワンクリック投入:</p>
+          <div className="flex flex-wrap gap-1.5">
+            {demo.sampleData.map((sample, i) => (
+              <Button
+                key={i}
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => handleSampleClick(sample)}
+                disabled={isLoading}
+                className="h-7 px-2 text-xs md:h-8 md:px-3 md:text-sm"
+              >
+                {sample.length > 24 ? `${sample.slice(0, 24)}…` : sample}
+              </Button>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* ストリーミング出力 */}
       {messages.length > 0 && (

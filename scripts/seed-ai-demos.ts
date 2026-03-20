@@ -1,10 +1,11 @@
 /**
- * aiDemo 10件を Sanity に投入するシードスクリプト
+ * aiDemo を Sanity に投入するシードスクリプト
  *
  * 実行: npm run seed:ai-demos
  * 必要: .env.local に SANITY_API_TOKEN と Sanity 設定
  *
- * 1本 ai_live（クレーム返信下書き）+ 9本 mock_preview
+ * existingDemos: 10本（1本 ai_live + 9本 mock_preview）
+ * nextMockDemos: 20本（全て mock_preview）
  */
 
 import { config } from "dotenv";
@@ -13,6 +14,7 @@ import { config } from "dotenv";
 config({ path: ".env.local" });
 
 import { createClient } from "@sanity/client";
+import { nextMockDemos } from "./next-20-demos-data";
 
 const projectId =
   process.env.SANITY_PROJECT_ID ?? process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
@@ -36,8 +38,8 @@ const client = createClient({
   useCdn: false,
 });
 
-/** 10本（1本 ai_live + 9本 mock_preview） */
-const demos = [
+/** 既存10本（1本 ai_live + 9本 mock_preview） */
+const existingDemos = [
   {
     _type: "aiDemo",
     title: "現場監督の影武者",
@@ -386,6 +388,9 @@ const demos = [
     oneLiner: "写真＋メモから点検報告を即生成",
   },
 ];
+
+/** 全デモ（既存 + 次の20本） */
+const demos = [...existingDemos, ...nextMockDemos];
 
 const OLD_DEMO_IDS = [
   "aiDemo-construction-voice-demo",

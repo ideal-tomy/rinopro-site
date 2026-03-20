@@ -6,6 +6,10 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import type { AiDemo, DemoItem } from "@/lib/sanity/types";
 import { cn } from "@/lib/utils";
+import {
+  getIndustryTagClass,
+  getFunctionTagClass,
+} from "@/lib/demo/demo-taxonomy";
 
 interface DemoStoryScrollProps {
   demos: (AiDemo | DemoItem)[];
@@ -63,10 +67,8 @@ export function DemoStoryScroll({ demos, title }: DemoStoryScrollProps) {
         const slug = getSlug(demo);
         const imageUrl = demo.image?.url;
         const oneLiner = demo.oneLiner ?? demo.description;
-        const tags = [
-          ...(demo.functionTags ?? []),
-          ...(demo.industryTags ?? []),
-        ].slice(0, 4);
+        const functionTags = demo.functionTags ?? [];
+        const industryTags = demo.industryTags ?? [];
 
         return (
           <div
@@ -117,14 +119,25 @@ export function DemoStoryScroll({ demos, title }: DemoStoryScrollProps) {
                   {oneLiner}
                 </p>
               )}
-              {tags.length > 0 && (
+              {(functionTags.length > 0 || industryTags.length > 0) && (
                 <div className="mb-8 flex flex-wrap justify-center gap-2 md:mb-10">
-                  {tags.map((t) => (
+                  {functionTags.slice(0, 2).map((t) => (
                     <span
-                      key={t}
+                      key={`fn-${t}`}
                       className={cn(
-                        "rounded-full px-3 py-1 text-xs md:px-4 md:py-1.5 md:text-sm",
-                        "border border-silver/30 bg-base-dark text-text-sub"
+                        "rounded-full border px-3 py-1 text-xs font-medium md:px-4 md:py-1.5 md:text-sm",
+                        getFunctionTagClass(t)
+                      )}
+                    >
+                      {t}
+                    </span>
+                  ))}
+                  {industryTags.slice(0, 2).map((t) => (
+                    <span
+                      key={`ind-${t}`}
+                      className={cn(
+                        "rounded-full border px-3 py-1 text-xs font-medium md:px-4 md:py-1.5 md:text-sm",
+                        getIndustryTagClass(t)
                       )}
                     >
                       {t}

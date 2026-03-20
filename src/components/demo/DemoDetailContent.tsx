@@ -6,6 +6,10 @@ import { Button } from "@/components/ui/button";
 import { DemoRuntimePanel } from "./DemoRuntimePanel";
 import type { AiDemo, DemoItem } from "@/lib/sanity/types";
 import { cn } from "@/lib/utils";
+import {
+  getIndustryTagClass,
+  getFunctionTagClass,
+} from "@/lib/demo/demo-taxonomy";
 
 function isAiDemo(demo: AiDemo | DemoItem): demo is AiDemo {
   return (demo as AiDemo)._type === "aiDemo" || "systemPrompt" in demo;
@@ -16,22 +20,27 @@ interface DemoDetailContentProps {
 }
 
 export function DemoDetailContent({ demo }: DemoDetailContentProps) {
-  const tags = [
-    ...(demo.functionTags ?? []),
-    ...(demo.industryTags ?? []),
-    ...(demo.moduleTags ?? []),
-  ];
+  const functionTags = demo.functionTags ?? [];
+  const industryTags = demo.industryTags ?? [];
+  const hasTags = functionTags.length > 0 || industryTags.length > 0;
 
   const runMode = isAiDemo(demo) ? (demo.runMode ?? "mock_preview") : null;
   const isLive = runMode === "ai_live";
 
+  const hasDemoPanel =
+    isAiDemo(demo) &&
+    (demo.systemPrompt ||
+      (demo.runMode === "mock_preview" &&
+        (demo.mockOutputPrimary || demo.mockOutputSecondary)));
+
   return (
-    <div className="container mx-auto max-w-3xl px-4 py-16 md:px-6">
-      <div className="mb-4 flex flex-wrap items-center gap-3">
+    <div className="container mx-auto max-w-3xl px-4 py-6 md:py-16 md:px-6">
+      {/* 1. タイトル（モバイルでコンパクト） */}
+      <div className="mb-3 flex flex-wrap items-center gap-2 md:mb-4 md:gap-3">
         {runMode !== null && (
           <span
             className={cn(
-              "inline-block rounded-full px-3 py-1 text-xs font-medium md:px-4 md:py-1.5 md:text-sm",
+              "inline-block rounded-full px-2.5 py-0.5 text-xs font-medium md:px-4 md:py-1.5 md:text-sm",
               isLive
                 ? "border border-accent/50 bg-accent/10 text-accent"
                 : "border border-silver/40 bg-silver/10 text-text-sub"
@@ -40,19 +49,31 @@ export function DemoDetailContent({ demo }: DemoDetailContentProps) {
             {isLive ? "実AIデモ" : "モックデモ（実運用時の出力イメージ）"}
           </span>
         )}
-        <h1 className="text-2xl font-bold text-accent md:text-3xl">
+        <h1 className="text-xl font-bold text-accent md:text-3xl">
           {demo.title}
         </h1>
       </div>
 
-      {tags.length > 0 && (
-        <div className="mb-8 flex flex-wrap gap-2">
-          {tags.map((t) => (
+      {/* 2. カテゴリタグ（モバイルでコンパクト） */}
+      {hasTags && (
+        <div className="mb-4 flex flex-wrap gap-1.5 md:mb-8 md:gap-2">
+          {functionTags.map((t) => (
             <span
-              key={t}
+              key={`fn-${t}`}
               className={cn(
-                "rounded-full px-3 py-1 text-xs",
-                "border border-silver/30 bg-base-dark text-text-sub"
+                "rounded-full border px-2.5 py-0.5 text-xs font-medium md:px-4 md:py-1.5 md:text-sm",
+                getFunctionTagClass(t)
+              )}
+            >
+              {t}
+            </span>
+          ))}
+          {industryTags.map((t) => (
+            <span
+              key={`ind-${t}`}
+              className={cn(
+                "rounded-full border px-2.5 py-0.5 text-xs font-medium md:px-4 md:py-1.5 md:text-sm",
+                getIndustryTagClass(t)
               )}
             >
               {t}
@@ -61,7 +82,14 @@ export function DemoDetailContent({ demo }: DemoDetailContentProps) {
         </div>
       )}
 
-      {/* 動画 or 画像 */}
+      {/* 3. チャット画面＋サンプル（モバイルで1画面に収まるよう優先表示） */}
+      {hasDemoPanel && (
+        <div className="mb-8">
+          <DemoRuntimePanel demo={demo} />
+        </div>
+      )}
+
+      {/* 4. 説明エリア（スクロールで下に） */}
       {demo.videoUrl ? (
         <div className="mb-8 aspect-video overflow-hidden rounded-xl">
           <video
@@ -87,7 +115,6 @@ export function DemoDetailContent({ demo }: DemoDetailContentProps) {
         )
       )}
 
-      {/* 説明 */}
       {demo.description && (
         <p className="mb-8 text-text">{demo.description}</p>
       )}
@@ -125,16 +152,6 @@ export function DemoDetailContent({ demo }: DemoDetailContentProps) {
               </span>
             ))}
           </div>
-        </div>
-      )}
-
-      {/* デモ実行パネル（aiDemo のみ。ai_live=systemPrompt、mock_preview=mockOutput 必須） */}
-      {isAiDemo(demo) &&
-        (demo.systemPrompt ||
-          (demo.runMode === "mock_preview" &&
-            (demo.mockOutputPrimary || demo.mockOutputSecondary))) && (
-        <div className="mb-8">
-          <DemoRuntimePanel demo={demo} />
         </div>
       )}
 
