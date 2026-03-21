@@ -6,10 +6,24 @@
 
 ```
 title, slug, industry, inputType, runMode, inputPlaceholder,
+writingTone（任意）,
 mockOutputPrimary, mockOutputSecondary, systemPrompt, outputStructure,
 sampleData, ctaTitle, ctaButtonText, description,
 industryTags, functionTags, moduleTags, oneLiner
 ```
+
+### 文体プリセット `writingTone`（任意）
+
+| 値 | 用途の目安 |
+|----|------------|
+| `default` | 標準（バランス） |
+| `real_estate` | 接客・ホスピタリティ（不動産・小売・飲食など） |
+| `legal` | 慎重・法務寄り（士業・契約） |
+| `care` | やさしく配慮（介護・医療） |
+| `b2b_ops` | 簡潔・業務（建設・製造・物流） |
+| `cs_support` | 問い合わせ・クレーム対応 |
+
+未指定の場合、`npm run seed:ai-demos` は `industry` / `industryTags` から推論して投入します。実AI（`ai_live`）では `systemPrompt` に続けて文体指示が自動追記されます。
 
 ## そのまま貼れるテンプレ
 
@@ -22,6 +36,7 @@ industryTags, functionTags, moduleTags, oneLiner
   inputType: "text_only" | "audio_text" | "image_text",
   runMode: "mock_preview" as const,
   inputPlaceholder: "入力欄のヒント",
+  writingTone: "b2b_ops" as const, // 省略可（シードで industryTags から推論）
   mockOutputPrimary: `## 1. メイン成果物\n\n- 項目1\n- 項目2`,
   mockOutputSecondary: `## 2. 補助成果物\n\n- メモ1\n- メモ2`,
   systemPrompt: "あなたは〇〇をするアシスタントです。",

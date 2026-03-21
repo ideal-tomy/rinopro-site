@@ -1,3 +1,7 @@
+import type { AiDemoWritingTone } from "@/lib/demo/writing-tone-presets";
+
+export type { AiDemoWritingTone };
+
 export interface CaseStudy {
   _id: string;
   title: string;
@@ -50,6 +54,8 @@ export interface AiDemo {
   inputType?: AiDemoInputType;
   inputPlaceholder?: string;
   runMode?: AiDemoRunMode;
+  /** 文体プリセット（モック口調・実AI system 追記） */
+  writingTone?: AiDemoWritingTone;
   mockOutputPrimary?: string;
   mockOutputSecondary?: string;
   systemPrompt?: string;

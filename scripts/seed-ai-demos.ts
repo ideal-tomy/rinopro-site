@@ -14,6 +14,10 @@ import { config } from "dotenv";
 config({ path: ".env.local" });
 
 import { createClient } from "@sanity/client";
+import {
+  inferWritingToneFromDemoTags,
+  normalizeWritingTone,
+} from "../src/lib/demo/writing-tone-presets";
 import { nextMockDemos } from "./next-20-demos-data";
 
 const projectId =
@@ -118,6 +122,7 @@ const existingDemos = [
     inputType: "text_only",
     inputPlaceholder: "お客様からの問い合わせ・クレーム文をペーストしてください",
     runMode: "ai_live",
+    writingTone: "cs_support",
     mockOutputPrimary: "",
     mockOutputSecondary: "",
     systemPrompt: `あなたは「クレームをファンに変える返信下書き」を生成するアシスタントです。忙しい時間帯の長文問い合わせ対応で精神的に消耗する悩みを解消します。
@@ -411,8 +416,16 @@ async function main() {
   for (const demo of demos) {
     const slug = (demo.slug as { current: string }).current;
     const id = `aiDemo-${slug}`;
+    const explicitTone = (demo as { writingTone?: string }).writingTone;
+    const writingTone = explicitTone
+      ? normalizeWritingTone(explicitTone)
+      : inferWritingToneFromDemoTags({
+          industry: (demo as { industry?: string }).industry,
+          industryTags: (demo as { industryTags?: string[] }).industryTags,
+        });
     await client.createOrReplace({
       ...demo,
+      writingTone,
       _id: id,
     });
     console.log(`  ✓ ${demo.title} (${slug})`);

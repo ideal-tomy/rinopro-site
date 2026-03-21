@@ -1,14 +1,15 @@
-import { openai } from "@ai-sdk/openai";
 import { streamText, convertToModelMessages, type UIMessage } from "ai";
 import { rateLimit } from "@/lib/rate-limit";
+import { defaultGeminiModel } from "@/lib/ai/gemini-model";
+import {
+  buildConciergeSystem,
+  buildDemoCatalogForConciergePrompt,
+  maxOutputTokensForConciergeMode,
+  parseConciergeMode,
+} from "@/lib/ai/concierge-prompts";
+import { fetchDemosForDisplay } from "@/lib/sanity/fetch";
 
-const SYSTEM_PROMPT = `あなたはrinoproのAIコンシェルジュです。
-- 回答は簡潔に、的を得た内容にしてください。長文は避けます。
-- 営業的な誘導は行わず、自然な会話を心がけてください。
-- 2回以上の会話ラリー後は「様々なサンプルやdemoを見て、利用可能なdemoや事例が見つかったら、あなたの希望は解決可能です。」と促してください。
-- 技術力と実地理解に基づく開発・コンサルティングについて説明できます。`;
-
-export const maxDuration = 30;
+export const maxDuration = 60;
 
 export async function POST(req: Request) {
   const ip = req.headers.get("x-forwarded-for") ?? req.headers.get("x-real-ip") ?? "anonymous";
@@ -16,14 +17,52 @@ export async function POST(req: Request) {
     return new Response("Too Many Requests", { status: 429 });
   }
 
-  const { messages }: { messages: UIMessage[] } = await req.json();
+  let messages: UIMessage[];
+  let mode = "default" as ReturnType<typeof parseConciergeMode>;
+  try {
+    const body = (await req.json()) as {
+      messages?: unknown;
+      mode?: unknown;
+    };
+    if (!Array.isArray(body.messages)) {
+      return new Response(JSON.stringify({ error: "Invalid body: messages required" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+    messages = body.messages as UIMessage[];
+    mode = parseConciergeMode(body.mode);
+  } catch {
+    return new Response(JSON.stringify({ error: "Invalid JSON" }), {
+      status: 400,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
 
-  const result = streamText({
-    model: openai("gpt-4o-mini"),
-    system: SYSTEM_PROMPT,
-    messages: await convertToModelMessages(messages),
-    maxOutputTokens: 300,
-  });
+  let system: string;
+  if (mode === "default") {
+    const demos = await fetchDemosForDisplay();
+    const demoCatalog = buildDemoCatalogForConciergePrompt(demos);
+    system = buildConciergeSystem(mode, { demoCatalog });
+  } else {
+    system = buildConciergeSystem(mode);
+  }
 
-  return result.toTextStreamResponse();
+  try {
+    const result = streamText({
+      model: defaultGeminiModel,
+      system,
+      messages: await convertToModelMessages(messages),
+      maxOutputTokens: maxOutputTokensForConciergeMode(mode),
+    });
+
+    return result.toUIMessageStreamResponse();
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Chat failed";
+    console.error("[api/chat]", err);
+    return new Response(JSON.stringify({ error: message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
 }

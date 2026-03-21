@@ -3,6 +3,7 @@ import { Geist } from "next/font/google";
 import { Noto_Sans_JP } from "next/font/google";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { ConciergeChatProvider } from "@/components/chat/concierge-chat-context";
 import { ChatContainer } from "@/components/chat/ChatContainer";
 import "./globals.css";
 
@@ -42,10 +43,12 @@ export default function RootLayout({
       className={`${geist.variable} ${notoSansJP.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-[var(--color-base)] text-[var(--color-text)]">
-        <Header />
-        {children}
-        <Footer />
-        <ChatContainer />
+        <ConciergeChatProvider>
+          <Header />
+          {children}
+          <Footer />
+          <ChatContainer />
+        </ConciergeChatProvider>
       </body>
     </html>
   );

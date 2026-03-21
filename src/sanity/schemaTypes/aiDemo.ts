@@ -68,6 +68,24 @@ export const aiDemoType = defineType({
       description: "ai_live=実際にAIが応答 / mock_preview=用意した出力を表示",
     }),
     defineField({
+      name: "writingTone",
+      title: "文体プリセット",
+      type: "string",
+      options: {
+        list: [
+          { title: "標準（バランス）", value: "default" },
+          { title: "接客・ホスピタリティ（不動産・接客系）", value: "real_estate" },
+          { title: "慎重・法務寄り（士業・契約）", value: "legal" },
+          { title: "やさしく配慮（介護・医療・福祉）", value: "care" },
+          { title: "簡潔・業務（建設・製造・物流）", value: "b2b_ops" },
+          { title: "丁寧・感情配慮（問い合わせ・クレーム）", value: "cs_support" },
+        ],
+      },
+      initialValue: "default",
+      description:
+        "モック返答の口調と、実AI（ai_live）時の system に追記する文体指示に使用。シード未指定時は industryTags から推論可能。",
+    }),
+    defineField({
       name: "mockOutputPrimary",
       title: "モック出力1（メイン成果物）",
       type: "text",

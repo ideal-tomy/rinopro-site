@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useChat } from "@ai-sdk/react";
-import { TextStreamChatTransport } from "ai";
+import { DefaultChatTransport, TextStreamChatTransport } from "ai";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import type { AiDemo } from "@/lib/sanity/types";
@@ -17,11 +17,20 @@ export function DemoRuntimePanel({ demo, className }: DemoRuntimePanelProps) {
   const [inputText, setInputText] = useState("");
   const [imageFile, setImageFile] = useState<File | null>(null);
 
-  const { messages, sendMessage, status } = useChat({
-    transport: new TextStreamChatTransport({
+  const runMode = demo.runMode ?? "mock_preview";
+  const transport = useMemo(() => {
+    const opts = {
       api: "/api/demo/run",
       body: { slug: demo.slug },
-    }),
+    };
+    return runMode === "ai_live"
+      ? new DefaultChatTransport(opts)
+      : new TextStreamChatTransport(opts);
+  }, [runMode, demo.slug]);
+
+  const { messages, sendMessage, status, error, clearError } = useChat({
+    id: `demo-${demo.slug ?? "unknown"}`,
+    transport,
   });
 
   const isLoading = status === "streaming" || status === "submitted";
@@ -109,6 +118,19 @@ export function DemoRuntimePanel({ demo, className }: DemoRuntimePanelProps) {
               </Button>
             ))}
           </div>
+        </div>
+      )}
+
+      {error && (
+        <div className="mt-4 rounded-lg border border-destructive/40 bg-destructive/10 px-3 py-2 text-sm text-destructive">
+          <p className="mb-2">{error.message}</p>
+          <button
+            type="button"
+            className="underline underline-offset-2"
+            onClick={() => clearError()}
+          >
+            閉じる
+          </button>
         </div>
       )}
 

@@ -7,8 +7,11 @@ import {
   StaggerGrid,
 } from "@/components/layout/PageSectionWithScroll";
 import { servicesCopy } from "@/lib/content/site-copy";
+import { useConciergeChat } from "@/components/chat/concierge-chat-context";
 
 export function ServicesPageContent() {
+  const { openConcierge } = useConciergeChat();
+
   return (
     <PageSectionWithScroll
       title={servicesCopy.title}
@@ -18,26 +21,57 @@ export function ServicesPageContent() {
         {servicesCopy.purpose}
       </p>
       <StaggerGrid cols="2">
-        <Link href={servicesCopy.development.href}>
-          <Card className="p-6 transition-colors hover:border-accent/50">
+        <Card className="flex flex-col overflow-hidden border-silver/20 p-0 transition-colors hover:border-accent/50">
+          <button
+            type="button"
+            className="flex flex-1 flex-col px-6 py-6 text-left"
+            onClick={() => openConcierge("development")}
+          >
             <h2 className="mb-2 font-semibold text-text">
               {servicesCopy.development.title}
             </h2>
             <p className="text-sm text-text-sub">
               {servicesCopy.development.desc}
             </p>
-          </Card>
-        </Link>
-        <Link href={servicesCopy.consulting.href}>
-          <Card className="p-6 transition-colors hover:border-accent/50">
+            <span className="mt-4 text-sm font-medium text-accent">
+              チャットで相談する
+            </span>
+          </button>
+          <div className="border-t border-silver/20 px-6 py-3">
+            <Link
+              href={servicesCopy.development.href}
+              className="text-sm text-text-sub underline-offset-4 hover:text-accent hover:underline"
+            >
+              開発の流れの詳細を見る
+            </Link>
+          </div>
+        </Card>
+
+        <Card className="flex flex-col overflow-hidden border-silver/20 p-0 transition-colors hover:border-accent/50">
+          <button
+            type="button"
+            className="flex flex-1 flex-col px-6 py-6 text-left"
+            onClick={() => openConcierge("consulting")}
+          >
             <h2 className="mb-2 font-semibold text-text">
               {servicesCopy.consulting.title}
             </h2>
             <p className="text-sm text-text-sub">
               {servicesCopy.consulting.desc}
             </p>
-          </Card>
-        </Link>
+            <span className="mt-4 text-sm font-medium text-accent">
+              チャットで相談する
+            </span>
+          </button>
+          <div className="border-t border-silver/20 px-6 py-3">
+            <Link
+              href={servicesCopy.consulting.href}
+              className="text-sm text-text-sub underline-offset-4 hover:text-accent hover:underline"
+            >
+              コンサル内容の詳細を見る
+            </Link>
+          </div>
+        </Card>
       </StaggerGrid>
     </PageSectionWithScroll>
   );
