@@ -51,3 +51,55 @@ export const MOCK_EXPENSES_SETTLED = [
   { id: "s1", title: "2月光熱費", amount: 12400, paidOn: "3/10" },
   { id: "s2", title: "衛生用品", amount: 9200, paidOn: "3/15" },
 ] as const;
+
+/** 提出者・未払い/精算済みが混在する明細（精算画面用） */
+export const MOCK_EXPENSE_LINE_ITEMS = [
+  {
+    id: "e1",
+    submitter: "田中（ホール）",
+    title: "食材仕入（○○商事）",
+    amount: 12480,
+    status: "unpaid" as const,
+    meta: "期日 3/31",
+  },
+  {
+    id: "e2",
+    submitter: "佐藤（キッチン）",
+    title: "衛生消耗品（△△卸）",
+    amount: 3200,
+    status: "settled" as const,
+    meta: "3/15 精算",
+  },
+  {
+    id: "e3",
+    submitter: "鈴木（ホール）",
+    title: "3月食材まとめ（未払）",
+    amount: 32720,
+    status: "unpaid" as const,
+    meta: "期日 3/31",
+  },
+  {
+    id: "e4",
+    submitter: "店長代理",
+    title: "消耗品注文（ネット）",
+    amount: 6800,
+    status: "unpaid" as const,
+    meta: "期日 4/5",
+  },
+  {
+    id: "e5",
+    submitter: "田中（ホール）",
+    title: "2月光熱費（按分）",
+    amount: 12400,
+    status: "settled" as const,
+    meta: "3/10 精算",
+  },
+  {
+    id: "e6",
+    submitter: "佐藤（キッチン）",
+    title: "衛生用品",
+    amount: 9200,
+    status: "settled" as const,
+    meta: "3/15 精算",
+  },
+] as const;

@@ -1,6 +1,13 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { fadeIn } from "@/lib/motion/variants";
@@ -11,6 +18,15 @@ import {
   DEMO_SCENARIO_STEPS,
   HOME_CARDS,
 } from "@/lib/experience/restaurant-dashboard/scenario";
+import {
+  CUE_EXPENSES_MS,
+  CUE_RECEIPTS_MS,
+  CUE_SHIFT_MS,
+  CUE_TRAFFIC_MS,
+  logEmphasisForDemoStep,
+  scaleCueMs,
+  type DemoSpotlight,
+} from "@/lib/experience/restaurant-dashboard/demo-visual-cues";
 import {
   CROSSFADE_GAP_MS,
   DEFAULT_HOLD_AFTER_REVEAL_MS,
@@ -31,7 +47,11 @@ import { DemoTelopOverlay } from "./restaurant-dashboard/DemoTelopOverlay";
 import { DemoTelopFullSlide } from "./restaurant-dashboard/DemoTelopFullSlide";
 import { EventLog, type LogBlock } from "./restaurant-dashboard/EventLog";
 import { ReplayControls } from "./restaurant-dashboard/ReplayControls";
-import { ShiftChapter } from "./restaurant-dashboard/chapters/ShiftChapter";
+import { SpotlightRing } from "./restaurant-dashboard/SpotlightRing";
+import {
+  ShiftChapter,
+  type ShiftApproveStage,
+} from "./restaurant-dashboard/chapters/ShiftChapter";
 import { TrafficChapter } from "./restaurant-dashboard/chapters/TrafficChapter";
 import { ReceiptsChapter } from "./restaurant-dashboard/chapters/ReceiptsChapter";
 import { PayrollChapter } from "./restaurant-dashboard/chapters/PayrollChapter";
@@ -95,8 +115,20 @@ export function RestaurantOpsDashboardExperience({
   const [notice, setNotice] = useState<string | null>(null);
   const [telopText, setTelopText] = useState<string | null>(null);
   const [telopStepKey, setTelopStepKey] = useState<number | null>(null);
+  const [demoSpotlight, setDemoSpotlight] = useState<DemoSpotlight>("off");
+  const [shiftApproveStage, setShiftApproveStage] =
+    useState<ShiftApproveStage>("idle");
+  const [trafficBarsRevealed, setTrafficBarsRevealed] = useState(true);
+  const [receiptsDemoView, setReceiptsDemoView] = useState<"upload" | "list">(
+    "list"
+  );
+  /** シフト①のシーン内で出す「一括承認」説明テロップ（シナリオ②の telop 文） */
+  const [shiftInlineTelop, setShiftInlineTelop] = useState<string | null>(null);
 
   const playingRef = useRef(playing);
+  const shiftInlineTelopTimersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const mobileMainScrollRef = useRef<HTMLDivElement | null>(null);
+  const mobileLogScrollRef = useRef<HTMLDivElement | null>(null);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const noticeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const loopTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -144,6 +176,146 @@ export function RestaurantOpsDashboardExperience({
     };
   }, [clearLoopTimer, clearTimer]);
 
+  const resetDemoVisuals = useCallback(() => {
+    setDemoSpotlight("off");
+    setShiftApproveStage("idle");
+    setShiftInlineTelop(null);
+    setTrafficBarsRevealed(true);
+    setReceiptsDemoView("list");
+  }, []);
+
+  useEffect(() => {
+    const ids: ReturnType<typeof setTimeout>[] = [];
+    const t = (fn: () => void, ms: number) => {
+      ids.push(setTimeout(fn, ms));
+    };
+
+    if (!playing || telopText) {
+      setDemoSpotlight("off");
+      setShiftApproveStage("idle");
+      if (stepIndex !== 2) setTrafficBarsRevealed(true);
+      if (stepIndex !== 3) setReceiptsDemoView("list");
+      return () => ids.forEach(clearTimeout);
+    }
+
+    /** シフト①は専用 effect（②テロップ挿入あり） */
+    if (stepIndex === 0 && surface === "shift") {
+      return () => ids.forEach(clearTimeout);
+    }
+
+    if (stepIndex === 1 && surface === "shift") {
+      setDemoSpotlight("off");
+      setShiftApproveStage("idle");
+      return () => ids.forEach(clearTimeout);
+    }
+
+    if (stepIndex === 2 && surface === "traffic") {
+      setTrafficBarsRevealed(false);
+      setDemoSpotlight("main");
+      t(
+        () => setTrafficBarsRevealed(true),
+        scaleCueMs(CUE_TRAFFIC_MS.barsRevealDelay, reduceMotion)
+      );
+      t(
+        () => setDemoSpotlight("log"),
+        scaleCueMs(CUE_TRAFFIC_MS.toLog, reduceMotion)
+      );
+      return () => ids.forEach(clearTimeout);
+    }
+
+    if (stepIndex === 3 && surface === "receipts") {
+      setReceiptsDemoView("upload");
+      setDemoSpotlight("main");
+      t(() => {
+        setReceiptsDemoView("list");
+        setDemoSpotlight("main");
+      }, scaleCueMs(CUE_RECEIPTS_MS.toList, reduceMotion));
+      t(
+        () => setDemoSpotlight("log"),
+        scaleCueMs(CUE_RECEIPTS_MS.toLog, reduceMotion)
+      );
+      return () => ids.forEach(clearTimeout);
+    }
+
+    if (stepIndex === 5 && surface === "expenses") {
+      setDemoSpotlight("main");
+      t(
+        () => setDemoSpotlight("log"),
+        scaleCueMs(CUE_EXPENSES_MS.toLog, reduceMotion)
+      );
+      return () => ids.forEach(clearTimeout);
+    }
+
+    setDemoSpotlight("off");
+    setShiftApproveStage("idle");
+    return () => ids.forEach(clearTimeout);
+  }, [playing, telopText, stepIndex, surface, reduceMotion]);
+
+  /** シフト①: ログ → メイン → ②説明テロップ（steps[1].telop）→ 承認演出は次 effect */
+  useEffect(() => {
+    if (stepIndex !== 0 || surface !== "shift") return;
+    if (!playing || telopText) return;
+
+    const ids: ReturnType<typeof setTimeout>[] = [];
+    const run = (fn: () => void, ms: number) => {
+      ids.push(setTimeout(fn, scaleCueMs(ms, reduceMotion)));
+    };
+
+    setDemoSpotlight("main");
+    setShiftApproveStage("idle");
+    run(() => setDemoSpotlight("log"), CUE_SHIFT_MS.toLog);
+    run(() => setDemoSpotlight("main"), CUE_SHIFT_MS.toMainBeforeBulkTelop);
+    const bulkText = steps[1]?.telop;
+    if (bulkText) {
+      run(() => setShiftInlineTelop(bulkText), CUE_SHIFT_MS.toBulkApproveTelop);
+    }
+
+    return () => ids.forEach(clearTimeout);
+  }, [playing, telopText, stepIndex, surface, reduceMotion, steps]);
+
+  /** ②テロップ終了後に一括承認 → 押下 → 確定 */
+  useEffect(() => {
+    shiftInlineTelopTimersRef.current.forEach(clearTimeout);
+    shiftInlineTelopTimersRef.current = [];
+    if (!shiftInlineTelop || !playing) return;
+
+    const step1 = steps[1];
+    const telopMs = reduceMotion
+      ? Math.min(1200, step1?.telopDurationMs ?? DEFAULT_TELOP_MS)
+      : (step1?.telopDurationMs ?? DEFAULT_TELOP_MS);
+    const gapMs = reduceMotion ? 0 : CROSSFADE_GAP_MS;
+    const add = (id: ReturnType<typeof setTimeout>) => {
+      shiftInlineTelopTimersRef.current.push(id);
+    };
+
+    const mainId = setTimeout(() => {
+      setShiftInlineTelop(null);
+      setDemoSpotlight("main");
+      setShiftApproveStage("show");
+      add(
+        setTimeout(
+          () => setShiftApproveStage("pressing"),
+          scaleCueMs(CUE_SHIFT_MS.afterShowToPressing, reduceMotion)
+        )
+      );
+      add(
+        setTimeout(
+          () => setShiftApproveStage("done"),
+          scaleCueMs(
+            CUE_SHIFT_MS.afterShowToPressing + CUE_SHIFT_MS.afterPressingToDone,
+            reduceMotion
+          )
+        )
+      );
+    }, telopMs + gapMs);
+    add(mainId);
+
+    return () => {
+      shiftInlineTelopTimersRef.current.forEach(clearTimeout);
+      shiftInlineTelopTimersRef.current = [];
+    };
+  }, [shiftInlineTelop, playing, reduceMotion, steps]);
+
   const appendStep = useCallback((idx: number) => {
     const step = steps[idx];
     if (!step) return;
@@ -173,6 +345,11 @@ export function RestaurantOpsDashboardExperience({
             setTelopText(null);
             setTelopStepKey(null);
             setIntroPhase("title");
+            setDemoSpotlight("off");
+            setShiftApproveStage("idle");
+            setTrafficBarsRevealed(true);
+            setReceiptsDemoView("list");
+            setShiftInlineTelop(null);
             loopTimerRef.current = null;
           }, LOOP_RESET_HOME_MS);
           return;
@@ -189,6 +366,25 @@ export function RestaurantOpsDashboardExperience({
       const step = steps[k];
       if (!step) return;
 
+      const holdMs = reduceMotion
+        ? Math.min(2800, step.holdAfterRevealMs ?? DEFAULT_HOLD_AFTER_REVEAL_MS)
+        : (step.holdAfterRevealMs ?? DEFAULT_HOLD_AFTER_REVEAL_MS);
+      const gapMs = reduceMotion ? 0 : CROSSFADE_GAP_MS;
+
+      if (step.skipOpeningTelop) {
+        clearTimer();
+        playbackRef.current = { step: k, phase: "hold" };
+        appendStep(k);
+        setStepIndex(k);
+        setTelopText(null);
+        setTelopStepKey(null);
+        timerRef.current = setTimeout(() => {
+          if (!playingRef.current) return;
+          scheduleHoldAfterReveal(k, holdMs);
+        }, gapMs);
+        return;
+      }
+
       playbackRef.current = { step: k, phase: "telop" };
       setTelopStepKey(k);
       setTelopText(step.telop);
@@ -196,22 +392,19 @@ export function RestaurantOpsDashboardExperience({
       const telopMs = reduceMotion
         ? Math.min(1200, step.telopDurationMs ?? DEFAULT_TELOP_MS)
         : (step.telopDurationMs ?? DEFAULT_TELOP_MS);
-      const holdMs = reduceMotion
-        ? Math.min(2800, step.holdAfterRevealMs ?? DEFAULT_HOLD_AFTER_REVEAL_MS)
-        : (step.holdAfterRevealMs ?? DEFAULT_HOLD_AFTER_REVEAL_MS);
-      const gapMs = reduceMotion ? 0 : CROSSFADE_GAP_MS;
 
       clearTimer();
       timerRef.current = setTimeout(() => {
         if (!playingRef.current) return;
+        /** 先に次コマのデータを反映してからテロップを閉じる（フェードアウト中に旧画面が見えないようにする） */
+        appendStep(k);
+        setStepIndex(k);
+        playbackRef.current = { step: k, phase: "hold" };
         setTelopText(null);
         setTelopStepKey(null);
-        playbackRef.current = { step: k, phase: "hold" };
 
         timerRef.current = setTimeout(() => {
           if (!playingRef.current) return;
-          appendStep(k);
-          setStepIndex(k);
           scheduleHoldAfterReveal(k, holdMs);
         }, gapMs);
       }, telopMs);
@@ -226,6 +419,7 @@ export function RestaurantOpsDashboardExperience({
   const beginDemoPlayback = useCallback(() => {
     clearTimer();
     clearLoopTimer();
+    resetDemoVisuals();
     setTelopText(null);
     setTelopStepKey(null);
     setPlaying(false);
@@ -243,7 +437,7 @@ export function RestaurantOpsDashboardExperience({
       }
       runStepAt(0);
     });
-  }, [clearLoopTimer, clearTimer, runStepAt, totalSteps]);
+  }, [clearLoopTimer, clearTimer, resetDemoVisuals, runStepAt, totalSteps]);
 
   const handleIntroPlay = useCallback(() => {
     setIntroPhase(null);
@@ -299,6 +493,7 @@ export function RestaurantOpsDashboardExperience({
   const handleNextStep = useCallback(() => {
     clearTimer();
     clearLoopTimer();
+    resetDemoVisuals();
     setPlaying(false);
     playingRef.current = false;
     playbackRef.current = null;
@@ -317,12 +512,13 @@ export function RestaurantOpsDashboardExperience({
 
     appendStep(next);
     setStepIndex(next);
-  }, [appendStep, clearLoopTimer, clearTimer, stepIndex, totalSteps]);
+  }, [appendStep, clearLoopTimer, clearTimer, resetDemoVisuals, stepIndex, totalSteps]);
 
   const handleNavigate = useCallback(
     (chapter: DashboardChapter) => {
       clearTimer();
       clearLoopTimer();
+      resetDemoVisuals();
       setPlaying(false);
       playingRef.current = false;
       playbackRef.current = null;
@@ -330,7 +526,7 @@ export function RestaurantOpsDashboardExperience({
       setTelopStepKey(null);
       setSurface(chapter);
     },
-    [clearLoopTimer, clearTimer]
+    [clearLoopTimer, clearTimer, resetDemoVisuals]
   );
 
   const handleCardClick = useCallback(
@@ -338,6 +534,7 @@ export function RestaurantOpsDashboardExperience({
       if (card.interactive && card.targetChapter) {
         clearTimer();
         clearLoopTimer();
+        resetDemoVisuals();
         setPlaying(false);
         playingRef.current = false;
         playbackRef.current = null;
@@ -351,24 +548,60 @@ export function RestaurantOpsDashboardExperience({
       }
       showNotice("本デモではこのカードはイメージ表示のみです。");
     },
-    [clearLoopTimer, clearTimer, showNotice]
+    [clearLoopTimer, clearTimer, resetDemoVisuals, showNotice]
   );
 
   const executed = stepIndex >= 0 ? stepIndex + 1 : 0;
   const shiftPhase = phaseForChapter(executed, "shift");
 
-  const chapterView =
-    surface === "home" ? null : surface === "shift" ? (
-      <ShiftChapter phase={shiftPhase} />
-    ) : surface === "traffic" ? (
-      <TrafficChapter />
-    ) : surface === "receipts" ? (
-      <ReceiptsChapter />
-    ) : surface === "payroll" ? (
-      <PayrollChapter />
-    ) : surface === "expenses" ? (
-      <ExpensesChapter />
-    ) : null;
+  const trafficBarsForUi = stepIndex === 2 ? trafficBarsRevealed : true;
+  const receiptsViewForUi = stepIndex === 3 ? receiptsDemoView : "list";
+
+  const chapterView = useMemo(() => {
+    if (surface === "home") return null;
+    if (surface === "shift") {
+      return (
+        <ShiftChapter
+          phase={shiftPhase}
+          emphasizePending={stepIndex === 0 && demoSpotlight === "main"}
+          approveStage={
+            stepIndex === 0 ? shiftApproveStage : "idle"
+          }
+          reduceMotion={reduceMotion}
+        />
+      );
+    }
+    if (surface === "traffic") {
+      return (
+        <TrafficChapter
+          barsRevealed={trafficBarsForUi}
+          reduceMotion={reduceMotion}
+        />
+      );
+    }
+    if (surface === "receipts") {
+      return (
+        <ReceiptsChapter view={receiptsViewForUi} reduceMotion={reduceMotion} />
+      );
+    }
+    if (surface === "payroll") return <PayrollChapter />;
+    if (surface === "expenses") return <ExpensesChapter />;
+    return null;
+  }, [
+    surface,
+    shiftPhase,
+    stepIndex,
+    demoSpotlight,
+    shiftApproveStage,
+    reduceMotion,
+    trafficBarsRevealed,
+    receiptsDemoView,
+  ]);
+
+  const logEmphasis = useMemo(
+    () => logEmphasisForDemoStep(demoSpotlight, stepIndex),
+    [demoSpotlight, stepIndex]
+  );
 
   const gridHighlightId = useMemo(() => {
     if (surface === "home") {
@@ -382,15 +615,41 @@ export function RestaurantOpsDashboardExperience({
   }, [surface, stepIndex, steps, totalSteps]);
 
   const mainMotionKey =
-    surface === "home" ? `home-${stepIndex}` : `${surface}-${stepIndex}`;
+    surface === "home"
+      ? `home-${stepIndex}`
+      : surface === "receipts" && stepIndex === 3
+        ? `receipts-${stepIndex}-${receiptsDemoView}`
+        : `${surface}-${stepIndex}`;
 
-  const demoStarted = stepIndex >= 0 || telopText !== null;
+  const anyTelopOverlay = telopText ?? shiftInlineTelop;
+
+  const demoStarted =
+    stepIndex >= 0 || telopText !== null || shiftInlineTelop !== null;
   const canPauseResume =
     demoStarted &&
-    !(stepIndex >= totalSteps - 1 && !playing && !telopText);
+    !(
+      stepIndex >= totalSteps - 1 &&
+      !playing &&
+      !telopText &&
+      !shiftInlineTelop
+    );
 
   const demoSessionActive = playing || stepIndex >= 0;
   const showIntro = introPhase !== null;
+
+  /** シーン切替時は各ペインのスクロールを先頭へ（key 更新直後の ref 取り違え対策で rAF も1回） */
+  useLayoutEffect(() => {
+    if (!isMobile) return;
+    const run = () => {
+      const mainEl = mobileMainScrollRef.current;
+      const logEl = mobileLogScrollRef.current;
+      if (mainEl) mainEl.scrollTop = 0;
+      if (logEl) logEl.scrollTop = 0;
+    };
+    run();
+    const id = requestAnimationFrame(run);
+    return () => cancelAnimationFrame(id);
+  }, [isMobile, mainMotionKey]);
 
   const replayBar = (
     <ReplayControls
@@ -398,7 +657,7 @@ export function RestaurantOpsDashboardExperience({
       stepIndex={stepIndex}
       totalSteps={totalSteps}
       currentChapter={surface}
-      telopActive={telopText !== null}
+      telopActive={anyTelopOverlay !== null}
       canPauseResume={canPauseResume}
       onPlayFromStart={handlePlayFromStart}
       onTogglePause={handleTogglePause}
@@ -406,8 +665,43 @@ export function RestaurantOpsDashboardExperience({
     />
   );
 
+  const eventLogPanel = (
+    <SpotlightRing
+      active={demoSpotlight === "log"}
+      reduceMotion={reduceMotion}
+      label="イベントログ"
+    >
+      <EventLog
+        entries={logEntries}
+        emphasizeStepNumber={logEmphasis?.stepNumber}
+        emphasizePhases={logEmphasis?.phases}
+      />
+    </SpotlightRing>
+  );
+
+  const eventLogPanelDense = (
+    <SpotlightRing
+      active={demoSpotlight === "log"}
+      reduceMotion={reduceMotion}
+      label="ログ"
+      className="min-h-full min-w-0"
+    >
+      <EventLog
+        dense
+        entries={logEntries}
+        className="max-h-none min-h-0"
+        emphasizeStepNumber={logEmphasis?.stepNumber}
+        emphasizePhases={logEmphasis?.phases}
+      />
+    </SpotlightRing>
+  );
+
   const mainPanel = (
-    <>
+    <SpotlightRing
+      active={demoSpotlight === "main"}
+      reduceMotion={reduceMotion}
+      label="機能"
+    >
       {surface === "home" ? (
         <DashboardHomeGrid
           highlightId={gridHighlightId}
@@ -420,30 +714,32 @@ export function RestaurantOpsDashboardExperience({
           {chapterView}
         </div>
       )}
-    </>
+    </SpotlightRing>
   );
 
   const desktopBody = (
-    <div className="relative flex flex-col gap-3 lg:flex-row lg:items-stretch lg:gap-4">
-      <DemoTelopOverlay text={telopText} reduceMotion={reduceMotion} />
-      <div className="min-w-0 flex-1">
-        <AnimatePresence mode="wait" initial={false}>
-          <motion.div
-            key={mainMotionKey}
-            initial={reduceMotion ? false : "hidden"}
-            animate="visible"
-            exit={reduceMotion ? undefined : "exit"}
-            variants={fadeIn}
-            transition={{ duration: crossSec, ease: EASE }}
-            className="min-w-0"
-          >
-            {mainPanel}
-          </motion.div>
-        </AnimatePresence>
-      </div>
-      <div className="w-full shrink-0 lg:w-80">
-        <EventLog entries={logEntries} />
-      </div>
+    <div className="relative flex min-h-0 min-w-0 flex-1 flex-col gap-3 lg:flex-row lg:items-stretch lg:gap-4">
+      <DemoTelopOverlay text={anyTelopOverlay} reduceMotion={reduceMotion} />
+      {/*
+        テロップがフェードアウトするのと同じ秒数で、下層はぼかし→ピント（opacity 同期）。
+        AnimatePresence の exit と競合させず key 切替でマウントし直す。
+      */}
+      <motion.div
+        key={mainMotionKey}
+        className="flex min-h-0 min-w-0 flex-1 flex-col gap-3 lg:flex-row lg:items-stretch lg:gap-4"
+        initial={
+          reduceMotion ? false : { opacity: 0, filter: "blur(12px)" }
+        }
+        animate={
+          reduceMotion
+            ? { opacity: 1, filter: "none" }
+            : { opacity: 1, filter: "blur(0px)" }
+        }
+        transition={{ duration: reduceMotion ? 0 : crossSec, ease: EASE }}
+      >
+        <div className="min-w-0 flex-1">{mainPanel}</div>
+        <div className="w-full shrink-0 lg:w-80">{eventLogPanel}</div>
+      </motion.div>
     </div>
   );
 
@@ -456,36 +752,62 @@ export function RestaurantOpsDashboardExperience({
       </div>
       {replayBar}
       <div className="relative min-h-0 flex-1 overflow-hidden">
-        <AnimatePresence mode="wait" initial={false}>
-          {telopText ? (
-            <motion.div
-              key={`telop-${telopStepKey ?? 0}`}
-              className="absolute inset-0 min-h-0"
-              initial={reduceMotion ? false : "hidden"}
-              animate="visible"
-              exit={reduceMotion ? undefined : "exit"}
-              variants={fadeIn}
-              transition={{ duration: crossSec, ease: EASE }}
-            >
-              <DemoTelopFullSlide text={telopText} />
-            </motion.div>
-          ) : (
-            <motion.div
-              key={mainMotionKey}
-              className="absolute inset-0 flex min-h-0 flex-col gap-2 overflow-y-auto overflow-x-hidden"
-              initial={reduceMotion ? false : "hidden"}
-              animate="visible"
-              exit={reduceMotion ? undefined : "exit"}
-              variants={fadeIn}
-              transition={{ duration: crossSec, ease: EASE }}
-            >
+        {/*
+          メイン＋ログは常時マウント（上下分割）。テロップは上に重ねてフェードし、
+          テロップ中も下層で次ステップに更新するので切替後に旧画面が映り込まない。
+        */}
+        <motion.div
+          key={mainMotionKey}
+          className="flex h-full min-h-0 flex-col gap-1.5"
+          initial={
+            reduceMotion ? false : { opacity: 0, filter: "blur(12px)" }
+          }
+          animate={
+            reduceMotion
+              ? { opacity: 1, filter: "none" }
+              : { opacity: 1, filter: "blur(0px)" }
+          }
+          transition={{ duration: reduceMotion ? 0 : crossSec, ease: EASE }}
+        >
+          <div
+            ref={mobileMainScrollRef}
+            className="min-h-0 shrink-0 overflow-y-auto overflow-x-hidden overscroll-contain [overflow-anchor:none]"
+            style={{ flex: "1.2 1 0%", minHeight: "38%" }}
+          >
+            <div className="origin-top scale-[0.78] transform-gpu pb-0.5 sm:scale-[0.82]">
               {mainPanel}
-              <EventLog
-                entries={logEntries}
-                className="max-h-[32vh] shrink-0 sm:max-h-[min(420px,50vh)]"
-              />
+            </div>
+          </div>
+          <div
+            ref={mobileLogScrollRef}
+            className="flex min-h-0 min-w-0 flex-col overflow-y-auto overflow-x-hidden overscroll-contain border-t border-slate-200/90 pt-1.5 [overflow-anchor:none]"
+            style={{ flex: "1 1 0%", minHeight: "34%" }}
+          >
+            {eventLogPanelDense}
+          </div>
+        </motion.div>
+
+        <AnimatePresence>
+          {anyTelopOverlay ? (
+            <motion.div
+              key={
+                telopText
+                  ? `telop-${telopStepKey ?? 0}`
+                  : "shift-inline-bulk-approve"
+              }
+              className="absolute inset-0 z-30 flex min-h-0 flex-col"
+              initial={reduceMotion ? false : "hidden"}
+              animate="visible"
+              exit={reduceMotion ? undefined : "exit"}
+              variants={fadeIn}
+              transition={{ duration: crossSec, ease: EASE }}
+            >
+              <div className="absolute inset-0 bg-slate-950" aria-hidden />
+              <div className="relative flex min-h-0 flex-1 flex-col items-center justify-center p-3 text-white">
+                <DemoTelopFullSlide text={anyTelopOverlay} />
+              </div>
             </motion.div>
-          )}
+          ) : null}
         </AnimatePresence>
       </div>
     </div>

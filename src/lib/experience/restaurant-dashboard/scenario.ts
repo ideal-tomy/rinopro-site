@@ -63,7 +63,8 @@ export const DEMO_SCENARIO_STEPS: ScenarioStep[] = [
     telop:
       "スタッフのシフト希望を集め、勤務可否と法令の範囲で仮シフトを自動組み立てします。",
     telopDurationMs: 3000,
-    holdAfterRevealMs: 6200,
+    /** ログ→②テロップ→承認演出 まで含めたホールド（次ステップへ） */
+    holdAfterRevealMs: 15000,
     lines: [
       {
         phase: "trigger",
@@ -89,6 +90,8 @@ export const DEMO_SCENARIO_STEPS: ScenarioStep[] = [
     telop:
       "店長が一括承認するとシフトが確定し、スタッフへ通知。給与計算の元データにも連携します。",
     telopDurationMs: 3000,
+    /** ①のシーン内で上記テロップを既に表示するため、ここでは頭出ししない */
+    skipOpeningTelop: true,
     holdAfterRevealMs: 6200,
     lines: [
       {

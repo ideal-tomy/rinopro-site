@@ -44,6 +44,10 @@ export interface ScenarioStep {
   delayMs?: number;
   /** このステップの画面が動く直前に見せる説明文 */
   telop: string;
+  /**
+   * true のとき、再生でこのステップの冒頭テロップを出さない（直前ステップのシーン内で既に表示済み）
+   */
+  skipOpeningTelop?: boolean;
   lines: ScenarioLogLine[];
 }
 

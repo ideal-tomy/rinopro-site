@@ -26,7 +26,7 @@ export function DemoIntroOverlay({
   return (
     <div
       className={cn(
-        "fixed inset-0 z-[200] flex items-center justify-center bg-slate-950/55 p-4 backdrop-blur-[3px]",
+        "fixed inset-0 z-[200] flex items-center justify-center bg-slate-950 p-4",
         "pt-[max(1rem,env(safe-area-inset-top))] pb-[max(1rem,env(safe-area-inset-bottom))]",
         className
       )}
@@ -49,7 +49,7 @@ export function DemoIntroOverlay({
             }}
             className="max-w-md px-4 text-center"
           >
-            <p className="text-lg font-semibold leading-relaxed text-white drop-shadow-sm sm:text-xl">
+            <p className="text-lg font-semibold leading-relaxed !text-white drop-shadow-sm sm:text-xl">
               {INTRO_TITLE}
             </p>
           </motion.div>
@@ -63,7 +63,7 @@ export function DemoIntroOverlay({
             transition={{ duration: cross, ease: [0.4, 0, 0.2, 1] }}
             className="flex w-full max-w-sm flex-col items-center gap-4 px-4"
           >
-            <p className="text-center text-sm text-white/90">
+            <p className="text-center text-sm !text-white/95">
               タップすると自動で進みます（一時停止・次へも利用できます）
             </p>
             <button

@@ -14,14 +14,14 @@ export function DemoTelopFullSlide({ text, className }: DemoTelopFullSlideProps)
       role="status"
       aria-live="polite"
       className={cn(
-        "flex h-full min-h-[12rem] flex-col items-center justify-center rounded-lg border border-slate-200 bg-gradient-to-b from-slate-50 to-white p-4",
+        "flex h-full min-h-[12rem] flex-col items-center justify-center rounded-lg border border-emerald-500/25 bg-slate-950 p-4 shadow-inner",
         className
       )}
     >
-      <p className="max-w-md text-center text-sm font-medium leading-relaxed text-slate-800 sm:text-base">
+      <p className="max-w-md text-center text-sm font-medium leading-relaxed !text-white sm:text-base">
         {text}
       </p>
-      <p className="mt-6 text-[10px] text-slate-400">次の画面に進みます…</p>
+      <p className="mt-6 text-[10px] !text-emerald-300/90">次の画面に進みます…</p>
     </div>
   );
 }

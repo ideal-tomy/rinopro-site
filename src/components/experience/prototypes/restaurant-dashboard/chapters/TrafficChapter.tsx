@@ -1,8 +1,17 @@
 "use client";
 
+import { motion } from "framer-motion";
+import { DEMO_CROSSFADE_SEC } from "@/lib/experience/restaurant-dashboard/timing";
 import { MAX_TRAFFIC, WEEKDAY_TRAFFIC } from "@/lib/experience/restaurant-dashboard/mock-data";
 
-export function TrafficChapter() {
+const CHART_INNER_PX = 120;
+
+interface TrafficChapterProps {
+  barsRevealed: boolean;
+  reduceMotion: boolean;
+}
+
+export function TrafficChapter({ barsRevealed, reduceMotion }: TrafficChapterProps) {
   return (
     <div className="space-y-3">
       <div>
@@ -17,16 +26,26 @@ export function TrafficChapter() {
         </p>
         <div className="flex h-36 items-end justify-between gap-1 sm:gap-2">
           {WEEKDAY_TRAFFIC.map(({ day, count }) => {
-            const h = Math.round((count / MAX_TRAFFIC) * 100);
+            const pct = Math.round((count / MAX_TRAFFIC) * 100);
+            const targetPx = Math.round((Math.max(pct, 8) / 100) * CHART_INNER_PX);
+            const startPx = 6;
             return (
               <div
                 key={day}
-                className="flex flex-1 flex-col items-center gap-1"
+                className="flex h-36 flex-1 flex-col items-center justify-end gap-1"
               >
-                <div className="flex w-full flex-1 items-end justify-center">
-                  <div
-                    className="w-full max-w-[2rem] rounded-t bg-emerald-500/90 sm:max-w-[2.5rem]"
-                    style={{ height: `${Math.max(h, 8)}%` }}
+                <div className="flex w-full flex-1 flex-col items-center justify-end">
+                  <motion.div
+                    className="w-full max-w-[2rem] origin-bottom rounded-t bg-emerald-500/90 sm:max-w-[2.5rem]"
+                    initial={false}
+                    animate={{
+                      height:
+                        barsRevealed || reduceMotion ? targetPx : startPx,
+                    }}
+                    transition={{
+                      duration: reduceMotion ? 0 : DEMO_CROSSFADE_SEC * 1.85,
+                      ease: [0.4, 0, 0.2, 1],
+                    }}
                     title={`${count}件`}
                   />
                 </div>
