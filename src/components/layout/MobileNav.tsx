@@ -34,7 +34,7 @@ export function MobileNav({ items, open, onOpenChange }: MobileNavProps) {
               href={href}
               onClick={() => onOpenChange(false)}
               className={cn(
-                "text-base font-medium text-text transition-colors hover:text-accent"
+                "text-[1rem] font-medium text-text transition-colors hover:text-accent"
               )}
             >
               {label}

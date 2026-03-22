@@ -1,6 +1,8 @@
 # 次の20本 シード追加フォーマット
 
-`scripts/seed-ai-demos.ts` に追加する際のテンプレート。`scripts/next-20-demos-data.ts` の `nextMockDemos` 配列にオブジェクトを追加する。
+`scripts/seed-ai-demos.ts` に追加する際のテンプレート。モック配列は [`scripts/demo-batches/`](../scripts/demo-batches/) 内のバッチファイル（例: `batch-01-next-mock.ts`）にオブジェクトを追加し、[`scripts/demo-batches/index.ts`](../scripts/demo-batches/index.ts) の `nextMockDemos` 結合に含める。既存インポート互換のため [`scripts/next-20-demos-data.ts`](../scripts/next-20-demos-data.ts) はバッチ群を re-export している。
+
+全体の手順・重複防止・運用リズムは [`docs/新規デモ追加手順.md`](新規デモ追加手順.md) を参照。
 
 ## キー順（統一）
 

@@ -76,8 +76,10 @@ export function ChatContainer() {
   const hideFabOnServicesIndex = pathname === "/services";
 
   useEffect(() => {
-    if (pathname === "/services/development") setMode("development");
-    else if (pathname === "/services/consulting") setMode("consulting");
+    if (pathname === "/flow" || pathname === "/services/development")
+      setMode("development");
+    else if (pathname === "/consulting" || pathname === "/services/consulting")
+      setMode("consulting");
     else setMode("default");
   }, [pathname, setMode]);
 

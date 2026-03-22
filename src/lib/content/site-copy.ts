@@ -40,12 +40,12 @@ export const servicesCopy = {
   development: {
     title: "開発",
     desc: "現状整理から要件化、試作、現場検証を経て本実装まで。段階的な検証でリスクを抑える。",
-    href: "/services/development",
+    href: "/flow",
   },
   consulting: {
     title: "コンサルティング",
     desc: "業務診断、優先順位設計、PoC設計、定着支援。過剰提案せず、検証可能な範囲で進める。",
-    href: "/services/consulting",
+    href: "/consulting",
   },
 } as const;
 
@@ -93,6 +93,96 @@ export const consultingCopy = {
     },
   ],
   cta: "相談する",
+} as const;
+
+/** /consulting 詳細ページ（チャット以外で流れを確認する向け） */
+export const consultingDetailPageCopy = {
+  title: consultingCopy.title,
+  purpose: consultingCopy.purpose,
+  intro:
+    "チャットを開かずに、コンサルティングの進め方と判断の軸をここで把握いただけます。",
+  sections: [
+    {
+      kicker: "セクション1：業務診断",
+      heading: "現場の解像度を、知性の深度へ。",
+      body: "私たちのコンサルティングは、現場の観察から始まります。単なるヒアリングに留まらず、業務フローの中に埋もれた「非構造化データ」と「暗黙知」を可視化。DXの失敗要因となる「現場の抵抗」や「慣習の壁」を事前に特定し、AIが真に機能する余地を精密に診断します。",
+    },
+    {
+      kicker: "セクション2：優先順位設計",
+      heading: "投資対効果を、数学的に設計する。",
+      body: "すべての業務をAI化する必要はありません。私たちは、実装の「容易性」と「事業インパクト」の二軸で全タスクを評価。最短2週間で成果が出る「クイックウィン」を定義し、中長期的なスケーラビリティを見据えた戦略的なロードマップを策定します。",
+    },
+    {
+      kicker: "セクション3：PoC設計・定着支援",
+      heading: "ツールではなく、変革（Change）を定着させる。",
+      body: "優れたAIも、現場に受け入れられなければ価値はゼロです。実機デモを用いた現場検証（PoC）を繰り返し、UI/UXの微調整からプロンプトの最適化までをアジャイルに実行。システムが自律的に運用され、文化として定着するまで伴走します。",
+    },
+  ],
+  reassurance:
+    "スコープと成功条件は文書で共有し、合意した範囲内で反復します。検証結果を踏まえ、次フェーズを冷静に決められます。",
+  cta: consultingCopy.cta,
+} as const;
+
+/** /flow 詳細ページ（Engineering Lifecycle） */
+export const flowDetailPageCopy = {
+  title: developmentFlowCopy.title,
+  purpose: developmentFlowCopy.purpose,
+  lifecycleLabel: "Engineering Lifecycle",
+  lifecycleSub: "技術的裏付け",
+  intro:
+    "「作ります」だけではなく、どのような品質管理と工程で構築されるかを開示します。以下は、rinopro の開発ライフサイクルにおける標準的な進め方です。",
+  steps: [
+    {
+      step: "01",
+      labelJa: "現状整理",
+      labelEn: "Discovery",
+      body: "業務プロセスのマッピングを行い、情報のボトルネックを特定。",
+      deliverables: [
+        "業務フロー図",
+        "課題抽出レポート",
+        "AI適応定義書",
+      ],
+    },
+    {
+      step: "02",
+      labelJa: "要件化",
+      labelEn: "Structuring",
+      body: "AIが扱う「入力データ」と「期待される出力」のプロトコルを定義。独自のプロンプト・エンジニアリングにより、回答の精度と一貫性を保証するためのロジックを設計します。",
+      deliverables: [
+        "プロンプト構成案",
+        "データ連携仕様書",
+        "KPI設計書",
+      ],
+    },
+    {
+      step: "03",
+      labelJa: "試作・現場検証",
+      labelEn: "Validation",
+      body: "Gemini 3 Flash等の軽量・高速モデルを用いたラピッド・プロトタイピング。実際の現場環境でのストレス操作を行い、実務に耐えうるレスポンス速度と精度を磨き上げます。",
+      deliverables: [
+        "プロトタイプ実機",
+        "フィードバックログ",
+        "精度検証報告書",
+      ],
+    },
+    {
+      step: "04",
+      labelJa: "本実装",
+      labelEn: "Integration",
+      body: "セキュリティ、スケーラビリティ、メンテナンス性を考慮した本番環境への実装。Vercel等のモダンなインフラを活用し、ダウンタイムを最小限に抑えたデプロイメントを実現します。",
+      deliverables: [
+        "本番システム",
+        "運用マニュアル",
+        "管理者向けダッシュボード",
+      ],
+    },
+  ],
+  reassurance:
+    "各マイルストーンで受入基準をすり合わせ、仕様の自然増殖を抑えます。運用開始後の改善サイクルも設計に含めます。",
+  architectureTitle: "Architecture Logic",
+  architectureBody:
+    "私たちは、大規模言語モデル（LLM）のポテンシャルを最大限に引き出すため、**「軽量モデル（Flash等）の最適化」と「コンテキスト設計」**に特化しています。これにより、高額な演算リソースに依存せず、圧倒的な高速レスポンスと運用コストの最適化を両立。ITリテラシーに依存しない、直感的なUXを技術で支えています。",
+  cta: developmentFlowCopy.cta,
 } as const;
 
 // --- 会社紹介 ---

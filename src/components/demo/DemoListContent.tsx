@@ -107,7 +107,7 @@ function DemoCard({
       <div className="flex flex-1 flex-col p-2.5 md:p-4">
         <div className="mb-1.5 flex items-center gap-1.5 md:mb-2 md:gap-2">
           <RunModeBadge demo={demo} />
-          <h2 className="line-clamp-1 text-sm font-semibold text-text group-hover:text-accent md:text-base">
+          <h2 className="line-clamp-1 text-sm font-semibold text-text group-hover:text-accent md:text-[1rem]">
             {demo.title}
           </h2>
         </div>
@@ -559,7 +559,7 @@ export function DemoListContent({ demos }: DemoListContentProps) {
               <button
                 type="button"
                 onClick={handleConciergeApply}
-                className="rounded-md bg-accent px-4 py-2 text-sm font-medium text-base transition-opacity hover:opacity-90"
+                className="rounded-md bg-accent px-4 py-2 text-sm font-medium text-[color:var(--color-base)] transition-opacity hover:opacity-90"
               >
                 AIに提案してもらう
               </button>

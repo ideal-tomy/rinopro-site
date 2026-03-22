@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { RrinoFoundationDiagram } from "./RrinoFoundationDiagram";
+import { DemoCrossServiceLinks } from "@/components/layout/CrossServiceNav";
 import {
   INDUSTRY_KEYS,
   type IndustryKey,
@@ -119,6 +120,8 @@ export function DemoMatrixSection({ demos }: DemoMatrixSectionProps) {
           <Link href="/contact">相談する</Link>
         </Button>
       </div>
+
+      <DemoCrossServiceLinks />
     </section>
   );
 }

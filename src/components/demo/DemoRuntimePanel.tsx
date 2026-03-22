@@ -60,7 +60,7 @@ export function DemoRuntimePanel({ demo, className }: DemoRuntimePanelProps) {
         className
       )}
     >
-      <h3 className="mb-3 text-base font-semibold text-text md:mb-4 md:text-lg">デモを体験</h3>
+      <h3 className="mb-3 text-[1rem] font-semibold text-text md:mb-4 md:text-lg">デモを体験</h3>
 
       {/* 入力エリア（チャット画面を先に表示） */}
       <form onSubmit={handleSubmit} className="space-y-3 md:space-y-4">

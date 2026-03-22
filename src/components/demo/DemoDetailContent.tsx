@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { DemoRuntimePanel } from "./DemoRuntimePanel";
+import { DemoCrossServiceLinks } from "@/components/layout/CrossServiceNav";
 import type { AiDemo, DemoItem } from "@/lib/sanity/types";
 import { cn } from "@/lib/utils";
 import {
@@ -177,6 +178,8 @@ export function DemoDetailContent({ demo }: DemoDetailContentProps) {
           <Link href="/demo">一覧に戻る</Link>
         </Button>
       </div>
+
+      <DemoCrossServiceLinks />
     </div>
   );
 }

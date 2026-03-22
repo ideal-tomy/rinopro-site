@@ -47,6 +47,7 @@
 }
 
 @theme inline {
+  /* 注意: --color-base があるためユーティリティ `text-base` は「文字色=ベース色」になる。本文の 1rem には `text-[1rem]` を使う。 */
   --color-base: #0a0e17;
   --color-base-dark: #0d1220;
   --color-accent: #00f2ff;

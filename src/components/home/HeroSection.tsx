@@ -34,7 +34,7 @@ export function HeroSection() {
           {topCopy.tagline}
         </motion.h1>
         <motion.p
-          className="max-w-xl text-center text-sm text-text-sub md:text-base"
+          className="max-w-xl text-center text-sm text-text-sub md:text-[1rem]"
           variants={heroStaggerItem}
           custom={[0.2, 0.3]}
         >

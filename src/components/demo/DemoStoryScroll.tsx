@@ -145,7 +145,7 @@ export function DemoStoryScroll({ demos, title }: DemoStoryScrollProps) {
                   ))}
                 </div>
               )}
-              <Button asChild size="lg" className="px-8 text-base md:px-10 md:text-lg">
+              <Button asChild size="lg" className="px-8 text-[1rem] md:px-10 md:text-lg">
                 <Link href={slug ? `/demo/${slug}` : "#"}>体験する</Link>
               </Button>
             </motion.div>
