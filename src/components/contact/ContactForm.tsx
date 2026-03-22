@@ -11,16 +11,24 @@ import { cn } from "@/lib/utils";
 export function ContactForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [triedExperience, setTriedExperience] = useState("");
   const [message, setMessage] = useState("");
   const { status, errors, submit } = useContactForm();
   const form = contactCopy.form;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const success = await submit({ name, email, message });
+    const trimmed = triedExperience.trim();
+    const success = await submit({
+      name,
+      email,
+      message,
+      ...(trimmed ? { triedExperience: trimmed } : {}),
+    });
     if (success) {
       setName("");
       setEmail("");
+      setTriedExperience("");
       setMessage("");
     }
   };
@@ -56,6 +64,26 @@ export function ContactForm() {
         />
         {errors.email && (
           <p className="mt-1 text-sm text-red-500">{errors.email}</p>
+        )}
+      </div>
+      <div>
+        <label
+          htmlFor="triedExperience"
+          className="mb-2 block text-sm font-medium text-text"
+        >
+          {form.triedExperienceLabel}
+        </label>
+        <Input
+          id="triedExperience"
+          value={triedExperience}
+          onChange={(e) => setTriedExperience(e.target.value)}
+          placeholder={form.triedExperiencePlaceholder}
+          className={cn(errors.triedExperience && "border-red-500")}
+          maxLength={200}
+          autoComplete="off"
+        />
+        {errors.triedExperience && (
+          <p className="mt-1 text-sm text-red-500">{errors.triedExperience}</p>
         )}
       </div>
       <div>

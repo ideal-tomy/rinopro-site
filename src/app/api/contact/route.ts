@@ -22,11 +22,16 @@ export async function POST(req: Request) {
       );
     }
 
-    const { name, email, message } = result.data;
+    const { name, email, message, triedExperience } = result.data;
 
     // TODO: メール送信 or Supabase保存
     // 現時点ではログのみ（本番ではResend, SendGrid, Supabase等に接続）
-    console.info("[Contact]", { name, email, messageLength: message.length });
+    console.info("[Contact]", {
+      name,
+      email,
+      messageLength: message.length,
+      triedExperience: triedExperience ?? null,
+    });
 
     return NextResponse.json({ success: true });
   } catch {

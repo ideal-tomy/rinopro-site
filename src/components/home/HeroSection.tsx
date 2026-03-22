@@ -54,7 +54,7 @@ export function HeroSection() {
               className="border-silver/40 text-text hover:border-accent/50 hover:bg-accent/10"
               asChild
             >
-              <Link href="/cases">{topCopy.ctaCases}</Link>
+              <Link href="/experience">{topCopy.ctaExperience}</Link>
             </Button>
           </motion.div>
         </div>

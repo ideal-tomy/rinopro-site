@@ -5,7 +5,7 @@
  * 必要: .env.local に SANITY_API_TOKEN と Sanity 設定
  *
  * existingDemos: 10本（1本 ai_live + 9本 mock_preview）
- * nextMockDemos: scripts/demo-batches/ で結合（batch-01〜08: 計90本 mock_preview）
+ * nextMockDemos: scripts/demo-batches/ で結合（batch-01〜09: 計91本 mock_preview）
  */
 
 import { config } from "dotenv";

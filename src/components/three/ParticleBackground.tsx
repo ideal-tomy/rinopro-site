@@ -26,7 +26,7 @@ export function ParticleBackground() {
 
   return (
     <div
-      className="fixed inset-0 -z-10"
+      className="pointer-events-none fixed inset-0 -z-10 bg-base"
       aria-hidden="true"
     >
       <Suspense fallback={null}>

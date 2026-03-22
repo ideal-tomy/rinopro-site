@@ -33,7 +33,7 @@ export const demoItemsQuery = `*[_type == "demoItem"] | order(coalesce(featuredR
   embedTitle
 }`;
 
-export const aiDemosQuery = `*[_type == "aiDemo"] | order(_createdAt desc) {
+export const aiDemosQuery = `*[_type == "aiDemo" && coalesce(listedOnCatalog, true) == true] | order(_createdAt desc) {
   _id,
   _type,
   title,
@@ -55,8 +55,17 @@ export const aiDemosQuery = `*[_type == "aiDemo"] | order(_createdAt desc) {
   functionTags,
   industryTags,
   moduleTags,
+  audienceRole,
+  issueTags,
+  automationDepth,
+  workStyle,
   oneLiner,
-  storyLead
+  storyLead,
+  primaryPortfolioTrack,
+  experienceUrl,
+  holdRank,
+  holdReasonTags,
+  listedOnCatalog
 }`;
 
 export const aiDemoBySlugQuery = `*[_type == "aiDemo" && slug.current == $slug][0] {
@@ -81,8 +90,17 @@ export const aiDemoBySlugQuery = `*[_type == "aiDemo" && slug.current == $slug][
   functionTags,
   industryTags,
   moduleTags,
+  audienceRole,
+  issueTags,
+  automationDepth,
+  workStyle,
   oneLiner,
-  storyLead
+  storyLead,
+  primaryPortfolioTrack,
+  experienceUrl,
+  holdRank,
+  holdReasonTags,
+  listedOnCatalog
 }`;
 
 export const demoItemBySlugQuery = `*[_type == "demoItem" && slug.current == $slug][0] {

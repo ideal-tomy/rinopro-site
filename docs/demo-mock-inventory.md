@@ -1,7 +1,9 @@
 # 作成済みデモ/モック一覧
 
-最終更新: 2026-03-22  
-参照元: [`scripts/seed-ai-demos.ts`](../scripts/seed-ai-demos.ts) の `existingDemos` ＋ [`scripts/demo-batches/`](../scripts/demo-batches/) の `nextMockDemos` 結合（計100本）
+最終更新: 2026-03-23  
+参照元: [`scripts/seed-ai-demos.ts`](../scripts/seed-ai-demos.ts) の `existingDemos` ＋ [`scripts/demo-batches/`](../scripts/demo-batches/) の `nextMockDemos` 結合（計101本）
+
+**ポートフォリオ運用**: [demo-portfolio-governance.md](demo-portfolio-governance.md) ／ **トリアージ（主ラベル・保留）**: [demo-portfolio-triage.md](demo-portfolio-triage.md)（100行は `npx tsx scripts/generate-demo-portfolio-triage-md.ts` でインベントリから再生成可）
 
 ## 1) 現在の作成済み一覧
 
@@ -107,8 +109,9 @@
 | 98 | 施策リストからESG開示の数値骨子 | `esg-kpi-draft-from-initiatives` | mock_preview | manufacturing | text_only | 開示用KPI骨子 / データギャップ・収集メモ | 要約, 報告書生成 |
 | 99 | 搬入立ち合いボイスからタイムライン | `venue-loadin-voice-timeline` | mock_preview | legal | audio_text | タイムライン草案 / リスク・連絡メモ | 音声入力, 議事録生成 |
 | 100 | 医療機器卸の訪問記録草案 | `medical-device-visit-report-draft` | mock_preview | manufacturing | text_only | 訪問記録草案 / コンプライアンスメモ | 報告書生成, 要約 |
+| 101 | 社内ナレッジ共有BOT（業種別・二画面体験） | `internal-knowledge-share-bot` | mock_preview | manufacturing | text_only | 体験導線説明 / 補助メモ（本編は `/experience`） | 問い合わせ対応, 要約 |
 
-**カウント**: 100本（`ai_live` 1 ／ `mock_preview` 99）
+**カウント**: 101本（`ai_live` 1 ／ `mock_preview` 100）
 
 ## 2) 他業種にも連携可能なデモ（横展開候補）
 
@@ -145,3 +148,9 @@
 - 昇格方針: 反応が良いもののみ `ai_live` に変更  
 - `runMode` の変更だけで昇格できるよう、入力UIは共通で維持  
 - 新バッチのコード置き場: [`scripts/demo-batches/`](../scripts/demo-batches/)（`index.ts` で `nextMockDemos` に結合）
+
+## 6) インタラクティブ体験のみ（`/experience`・Sanity ツールdemo と別系統）
+
+| タイトル（要約） | slug | 備考 |
+|---|---|---|
+| 飲食店オペレーション・ダッシュボード（シナリオ再生） | `restaurant-ops-dashboard-demo` | 画面体験。ツールdemo本文は未投入可。重複テーマ確認時は本行を参照 |

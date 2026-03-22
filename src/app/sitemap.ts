@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { EXPERIENCE_PROTOTYPES } from "@/lib/experience/prototype-registry";
 import { fetchDemoItems } from "@/lib/sanity/fetch";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://rinopro.example.com";
@@ -15,7 +16,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: BASE_URL, lastModified: new Date(), changeFrequency: "weekly", priority: 1 },
     { url: `${BASE_URL}/demo`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.9 },
     ...demoEntries,
-    { url: `${BASE_URL}/cases`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.9 },
+    { url: `${BASE_URL}/experience`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.9 },
+    ...EXPERIENCE_PROTOTYPES.map((p) => ({
+      url: `${BASE_URL}/experience/${p.slug}`,
+      lastModified: new Date(),
+      changeFrequency: "weekly" as const,
+      priority: 0.85,
+    })),
     { url: `${BASE_URL}/services`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
     { url: `${BASE_URL}/flow`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.7 },
     { url: `${BASE_URL}/consulting`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.7 },

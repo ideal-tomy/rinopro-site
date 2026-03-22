@@ -50,14 +50,18 @@ function Particles() {
   );
 }
 
+/** `globals.css` の `--color-base` と揃え、透明 Canvas が白く見える環境でもトップの地色を他ページと一致させる */
+const SCENE_BACKGROUND = "#0a0e17";
+
 export function ParticleField() {
   return (
     <Canvas
       camera={{ position: [0, 0, 5], fov: 75 }}
       dpr={[1, 2]}
-      gl={{ alpha: true, antialias: true }}
+      gl={{ alpha: false, antialias: true }}
+      className="block size-full touch-none"
     >
-      <color attach="background" args={["transparent"]} />
+      <color attach="background" args={[SCENE_BACKGROUND]} />
       <Particles />
     </Canvas>
   );

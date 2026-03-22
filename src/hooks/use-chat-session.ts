@@ -5,7 +5,7 @@ import type { UIMessage } from "ai";
 
 const RALLY_THRESHOLD = 2;
 const DEMO_PROMPT =
-  "様々なサンプルやdemoを見て、利用可能なdemoや事例が見つかったら、あなたの希望は解決可能です。";
+  "ツールdemoや体験ページで近いものが見つかれば、あなたの希望は実現しやすくなります。まずは触ってイメージを合わせてみてください。";
 
 export function useChatSession(messages: UIMessage[]) {
   const userMessageCount = useMemo(() => {

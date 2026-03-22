@@ -126,6 +126,11 @@ export function ChatContainer() {
         onOpenChange={setOpen}
         title={popupMeta.title}
         description={popupMeta.description}
+        className={
+          pathname === "/"
+            ? "md:max-h-[min(90vh,880px)] md:max-w-2xl lg:max-w-3xl"
+            : undefined
+        }
       >
         <div className="flex flex-1 flex-col overflow-hidden">
           {messages.length === 0 ? (

@@ -10,6 +10,7 @@ import { batch05NextMockDemos } from "./batch-05-next-mock";
 import { batch06NextMockDemos } from "./batch-06-next-mock";
 import { batch07NextMockDemos } from "./batch-07-next-mock";
 import { batch08NextMockDemos } from "./batch-08-next-mock";
+import { batch09NextMockDemos } from "./batch-09-next-mock";
 
 export const nextMockDemos = [
   ...batch01NextMockDemos,
@@ -20,4 +21,5 @@ export const nextMockDemos = [
   ...batch06NextMockDemos,
   ...batch07NextMockDemos,
   ...batch08NextMockDemos,
+  ...batch09NextMockDemos,
 ];

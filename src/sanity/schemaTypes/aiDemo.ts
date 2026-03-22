@@ -4,6 +4,28 @@ import { defineType, defineField } from "sanity";
 export const INPUT_TYPES = ["text_only", "audio_text", "image_text"] as const;
 export type InputType = (typeof INPUT_TYPES)[number];
 
+/** Intelligent Concierge 用: 想定読者・役割 */
+export const AUDIENCE_ROLES = ["field", "management", "executive"] as const;
+export type AudienceRole = (typeof AUDIENCE_ROLES)[number];
+
+/** 課題軸（チップ・スコアリング用） */
+export const ISSUE_TAG_VALUES = [
+  "reporting",
+  "search",
+  "customer_response",
+  "document_work",
+  "coordination",
+] as const;
+export type IssueTagValue = (typeof ISSUE_TAG_VALUES)[number];
+
+/** 望ましい自動化の深度 */
+export const AUTOMATION_DEPTHS = ["full_auto", "semi_auto", "centralized"] as const;
+export type AutomationDepth = (typeof AUTOMATION_DEPTHS)[number];
+
+/** 内勤 / 現場 など作業スタイル（広い候補時の分散表示用） */
+export const WORK_STYLES = ["desk", "onsite", "either"] as const;
+export type WorkStyle = (typeof WORK_STYLES)[number];
+
 export const aiDemoType = defineType({
   name: "aiDemo",
   title: "AI Demo",
@@ -159,6 +181,65 @@ export const aiDemoType = defineType({
       of: [{ type: "string" }],
     }),
     defineField({
+      name: "audienceRole",
+      title: "想定読者・役割（コンシェルジュ）",
+      type: "string",
+      options: {
+        list: [
+          { title: "現場・外勤寄り", value: "field" },
+          { title: "管理職・内勤寄り", value: "management" },
+          { title: "経営・意思決定寄り", value: "executive" },
+        ],
+      },
+      description: "未設定の場合は既存タグからの推論のみでスコアされます。",
+    }),
+    defineField({
+      name: "issueTags",
+      title: "課題タグ（コンシェルジュ）",
+      type: "array",
+      of: [
+        {
+          type: "string",
+          options: {
+            list: [
+              { title: "報告・記録", value: "reporting" },
+              { title: "検索・要約", value: "search" },
+              { title: "顧客対応・問い合わせ", value: "customer_response" },
+              { title: "帳票・文書・契約", value: "document_work" },
+              { title: "調整・オペ・品質・安全", value: "coordination" },
+            ],
+          },
+        },
+      ],
+      description: "ユーザーの「課題」チップと照合します。未設定時は機能タグから推論します。",
+    }),
+    defineField({
+      name: "automationDepth",
+      title: "自動化の深度（コンシェルジュ）",
+      type: "string",
+      options: {
+        list: [
+          { title: "完全自動（生成まで任せる）", value: "full_auto" },
+          { title: "半自動（下書き・支援）", value: "semi_auto" },
+          { title: "一元化（整理・検索・ダッシュボード）", value: "centralized" },
+        ],
+      },
+    }),
+    defineField({
+      name: "workStyle",
+      title: "作業スタイル（コンシェルジュ）",
+      type: "string",
+      options: {
+        list: [
+          { title: "内勤・デスク中心", value: "desk" },
+          { title: "現場・外勤中心", value: "onsite" },
+          { title: "どちらでも / 未分類", value: "either" },
+        ],
+      },
+      initialValue: "either",
+      description: "候補が広いとき、内勤向けと現場向けを1本ずつ出し分けるのに使います。",
+    }),
+    defineField({
       name: "oneLiner",
       title: "一言説明",
       type: "string",
@@ -167,6 +248,68 @@ export const aiDemoType = defineType({
       name: "storyLead",
       title: "ストーリーリード",
       type: "text",
+    }),
+    defineField({
+      name: "primaryPortfolioTrack",
+      title: "ポートフォリオ主ラベル（1つ）",
+      type: "string",
+      options: {
+        list: [
+          { title: "① 文章カタログ（/demo）", value: "catalog_text" },
+          { title: "② 体験（画面・操作）", value: "experience" },
+          { title: "③ プロダクト（導入・見積）", value: "product" },
+          { title: "④ 保留", value: "hold" },
+        ],
+      },
+      description:
+        "運用定義はリポジトリの docs/demo-portfolio-governance.md。未設定時はトリアージ表（demo-portfolio-triage.md）を正とする。",
+    }),
+    defineField({
+      name: "experienceUrl",
+      title: "体験用 URL（②③）",
+      type: "url",
+      description: "Flutter デモ・外部プロトタイプなど。②または③でリンク表示に使う。",
+    }),
+    defineField({
+      name: "holdRank",
+      title: "保留ランク（④のとき）",
+      type: "string",
+      options: {
+        list: [
+          { title: "A（①文章で救出可）", value: "A" },
+          { title: "B（②体験で救出可）", value: "B" },
+          { title: "C（③フローで救出可）", value: "C" },
+          { title: "D（削除優先）", value: "D" },
+        ],
+      },
+    }),
+    defineField({
+      name: "holdReasonTags",
+      title: "保留理由タグ",
+      type: "array",
+      of: [
+        {
+          type: "string",
+          options: {
+            list: [
+              { title: "需要不明", value: "需要不明" },
+              { title: "成果物曖昧", value: "成果物曖昧" },
+              { title: "規制・個人情報", value: "規制・個人情報" },
+              { title: "入力が重い", value: "入力が重い" },
+              { title: "タイトル説明UI不整合", value: "タイトル説明UI不整合" },
+              { title: "モックが意図と無関係", value: "モックが意図と無関係" },
+            ],
+          },
+        },
+      ],
+    }),
+    defineField({
+      name: "listedOnCatalog",
+      title: "デモ一覧に表示",
+      type: "boolean",
+      initialValue: true,
+      description:
+        "オフにすると /demo 一覧とコンシェルジュの候補から除外。詳細 URL 直アクセスは可能。",
     }),
   ],
   preview: {

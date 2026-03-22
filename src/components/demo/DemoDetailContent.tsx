@@ -11,6 +11,7 @@ import {
   getIndustryTagClass,
   getFunctionTagClass,
 } from "@/lib/demo/demo-taxonomy";
+import { getExperienceUrlForDemoSlug } from "@/lib/experience/prototype-registry";
 
 function isAiDemo(demo: AiDemo | DemoItem): demo is AiDemo {
   return (demo as AiDemo)._type === "aiDemo" || "systemPrompt" in demo;
@@ -33,6 +34,12 @@ export function DemoDetailContent({ demo }: DemoDetailContentProps) {
     (demo.systemPrompt ||
       (demo.runMode === "mock_preview" &&
         (demo.mockOutputPrimary || demo.mockOutputSecondary)));
+
+  const experienceHref =
+    isAiDemo(demo) &&
+    (demo.experienceUrl ?? getExperienceUrlForDemoSlug(demo.slug));
+  const experienceIsExternal =
+    typeof experienceHref === "string" && experienceHref.startsWith("http");
 
   return (
     <div className="container mx-auto max-w-3xl px-4 py-6 md:py-16 md:px-6">
@@ -82,6 +89,26 @@ export function DemoDetailContent({ demo }: DemoDetailContentProps) {
           ))}
         </div>
       )}
+
+      {experienceHref ? (
+        <div className="mb-6 rounded-lg border border-accent/30 bg-accent/5 px-4 py-3 text-sm md:text-base">
+          <p className="mb-2 text-text-sub">
+            画面操作の体験版（プロトタイプ）があります。
+          </p>
+          <Button asChild variant="outline" size="sm" className="border-accent/50">
+            <a
+              href={experienceHref}
+              {...(experienceIsExternal
+                ? { target: "_blank", rel: "noopener noreferrer" }
+                : {})}
+            >
+              {experienceIsExternal
+                ? "体験版を別タブで開く"
+                : "体験版を開く"}
+            </a>
+          </Button>
+        </div>
+      ) : null}
 
       {/* 3. チャット画面＋サンプル（モバイルで1画面に収まるよう優先表示） */}
       {hasDemoPanel && (

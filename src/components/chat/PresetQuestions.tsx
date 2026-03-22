@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 const PRESET_QUESTIONS = [
   "どんなツールを開発していますか？",
   "導入までの流れを教えてください",
-  "事例を見たい",
+  "体験やデモを見たい",
 ] as const;
 
 interface PresetQuestionsProps {

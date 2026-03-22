@@ -1,52 +1,33 @@
 "use client";
 
 import { type ReactNode, useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight, Mic, Search } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import type { AiDemo, DemoItem } from "@/lib/sanity/types";
 import { cn } from "@/lib/utils";
-import { Input } from "@/components/ui/input";
 import {
   getCategoryId,
   CATEGORY_LABELS,
   getIndustryTagClass,
   getFunctionTagClass,
 } from "@/lib/demo/demo-taxonomy";
-
-const PURPOSE_FILTER_LABELS: Record<string, string> = {
-  report: "報告・記録",
-  search: "検索・要約",
-  inquiry: "問い合わせ",
-  document: "帳票・契約",
-  safety: "安全管理",
-  quality: "品質・製造",
-  sales: "販促・営業",
-  legal: "士業・法務",
-  hr: "採用・人材",
-  inspection: "点検・画像",
-  logistics: "物流",
-  other: "その他",
-};
-
-type SpeechRecognitionLike = new () => {
-  lang: string;
-  interimResults: boolean;
-  maxAlternatives: number;
-  start: () => void;
-  onresult: ((event: { results?: ArrayLike<ArrayLike<{ transcript?: string }>> }) => void) | null;
-  onerror: (() => void) | null;
-  onend: (() => void) | null;
-};
-
-function getSpeechRecognitionCtor(): SpeechRecognitionLike | undefined {
-  if (typeof window === "undefined") return undefined;
-  const browserWindow = window as Window & {
-    SpeechRecognition?: SpeechRecognitionLike;
-    webkitSpeechRecognition?: SpeechRecognitionLike;
-  };
-  return browserWindow.SpeechRecognition ?? browserWindow.webkitSpeechRecognition;
-}
+import {
+  pickRecommendedDemos,
+  CONCIERGE_DOMAIN_OPTIONS,
+  CONCIERGE_ROLE_OPTIONS,
+  CONCIERGE_ISSUE_OPTIONS,
+  CONCIERGE_DEPTH_OPTIONS,
+  type ConciergeAnswers,
+  type ConciergeDomainId,
+  type ConciergePick,
+} from "@/lib/demo/intelligent-concierge";
+import type {
+  AiDemoAudienceRole,
+  AiDemoAutomationDepth,
+  AiDemoIssueTag,
+} from "@/lib/sanity/types";
 
 function getSlug(demo: AiDemo | DemoItem): string | undefined {
   return typeof demo.slug === "object" ? demo.slug?.current : demo.slug;
@@ -73,9 +54,12 @@ function RunModeBadge({ demo }: { demo: AiDemo | DemoItem }) {
 function DemoCard({
   demo,
   className,
+  reason,
 }: {
   demo: AiDemo | DemoItem;
   className?: string;
+  /** コンシェルジュ推薦の一行説明 */
+  reason?: string;
 }) {
   const slug = getSlug(demo);
   const imageUrl = demo.image?.url;
@@ -97,7 +81,7 @@ function DemoCard({
             src={imageUrl}
             alt={demo.title}
             fill
-            className="object-cover transition-transform group-hover:scale-105"
+            className="object-cover transition-transform group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
             sizes="(max-width: 768px) 152px, 248px"
           />
         </div>
@@ -111,6 +95,11 @@ function DemoCard({
             {demo.title}
           </h2>
         </div>
+        {reason && (
+          <p className="mb-1.5 line-clamp-2 text-[10px] leading-tight text-accent/90 md:mb-2 md:text-xs">
+            {reason}
+          </p>
+        )}
         {oneLiner && (
           <p className="mb-2 line-clamp-2 flex-1 text-xs leading-4 text-text-sub md:mb-3 md:text-sm md:leading-5">
             {oneLiner}
@@ -233,24 +222,40 @@ function HorizontalRail({
   );
 }
 
+const STEP_HEADLINES = [
+  "事業領域に近いものを選んでください",
+  "ご自身の立ち位置に近いものを選んでください",
+  "いま負荷が大きいと感じる領域はどれですか",
+  "望ましい進め方に近いものを選んでください",
+] as const;
+
+function labelForDomain(id: ConciergeDomainId): string {
+  return CONCIERGE_DOMAIN_OPTIONS.find((o) => o.id === id)?.label ?? id;
+}
+function labelForRole(id: AiDemoAudienceRole): string {
+  return CONCIERGE_ROLE_OPTIONS.find((o) => o.id === id)?.label ?? id;
+}
+function labelForIssue(id: AiDemoIssueTag): string {
+  return CONCIERGE_ISSUE_OPTIONS.find((o) => o.id === id)?.label ?? id;
+}
+function labelForDepth(id: AiDemoAutomationDepth): string {
+  return CONCIERGE_DEPTH_OPTIONS.find((o) => o.id === id)?.label ?? id;
+}
+
 interface DemoListContentProps {
   demos: (AiDemo | DemoItem)[];
 }
 
 export function DemoListContent({ demos }: DemoListContentProps) {
-  const [selectedCategoryIds, setSelectedCategoryIds] = useState<string[]>([]);
-  const [selectedIndustries, setSelectedIndustries] = useState<string[]>([]);
-  const [keywordQuery, setKeywordQuery] = useState("");
   const [isConciergeOpen, setIsConciergeOpen] = useState(false);
-  const [isListening, setIsListening] = useState(false);
   const [hasMounted, setHasMounted] = useState(false);
-  const [speechSupported, setSpeechSupported] = useState(false);
+  const [conciergeStep, setConciergeStep] = useState(0);
+  const [wizardAnswers, setWizardAnswers] = useState<Partial<ConciergeAnswers>>({});
+  const [appliedAnswers, setAppliedAnswers] = useState<ConciergeAnswers | null>(null);
+  const [conciergePicks, setConciergePicks] = useState<ConciergePick[]>([]);
 
   useEffect(() => {
     setHasMounted(true);
-    if (typeof window === "undefined") return;
-    setSpeechSupported(Boolean(getSpeechRecognitionCtor()));
-    // 一覧に来たら毎回、最上部でAIコンシェルジュを表示
     setIsConciergeOpen(true);
   }, []);
 
@@ -288,46 +293,7 @@ export function DemoListContent({ demos }: DemoListContentProps) {
     "other",
   ];
 
-  const availableIndustries = useMemo(() => {
-    const set = new Set<string>();
-    for (const demo of demos) {
-      for (const tag of demo.industryTags ?? []) set.add(tag);
-    }
-    return [...set].sort((a, b) => a.localeCompare(b, "ja"));
-  }, [demos]);
-
-  const availableCategoryIds = useMemo(() => {
-    const set = new Set<string>();
-    for (const demo of demos) {
-      set.add(getCategoryId(demo.functionTags));
-    }
-    return categoryOrder.filter((id) => set.has(id));
-  }, [demos]);
-
-  const filteredDemos = useMemo(() => {
-    const normalizedQuery = keywordQuery.trim().toLowerCase();
-    return demos.filter((demo) => {
-      const catId = getCategoryId(demo.functionTags);
-      const industryTags = demo.industryTags ?? [];
-      const categoryOk =
-        selectedCategoryIds.length === 0 || selectedCategoryIds.includes(catId);
-      const industryOk =
-        selectedIndustries.length === 0 ||
-        industryTags.some((tag) => selectedIndustries.includes(tag));
-      const searchable = [
-        demo.title,
-        demo.description ?? "",
-        demo.oneLiner ?? "",
-        ...(demo.functionTags ?? []),
-        ...(demo.industryTags ?? []),
-      ]
-        .join(" ")
-        .toLowerCase();
-      const keywordOk =
-        normalizedQuery.length === 0 || searchable.includes(normalizedQuery);
-      return categoryOk && industryOk && keywordOk;
-    });
-  }, [demos, keywordQuery, selectedCategoryIds, selectedIndustries]);
+  const filteredDemos = demos;
 
   const grouped = useMemo(() => {
     const map = new Map<string, (AiDemo | DemoItem)[]>();
@@ -344,93 +310,107 @@ export function DemoListContent({ demos }: DemoListContentProps) {
   const rest = [...grouped.keys()].filter((id) => !categoryOrder.includes(id));
   const allCategories = [...orderedCategories, ...rest];
 
-  const recommendedDemos = useMemo(() => filteredDemos.slice(0, 6), [filteredDemos]);
-
-  const toggleCategory = (id: string) => {
-    setSelectedCategoryIds((prev) =>
-      prev.includes(id) ? prev.filter((v) => v !== id) : [...prev, id]
-    );
+  const openConcierge = () => {
+    setConciergeStep(0);
+    setWizardAnswers(appliedAnswers ? { ...appliedAnswers } : {});
+    setIsConciergeOpen(true);
   };
 
-  const toggleIndustry = (tag: string) => {
-    setSelectedIndustries((prev) =>
-      prev.includes(tag) ? prev.filter((v) => v !== tag) : [...prev, tag]
-    );
-  };
-
-  const handleConciergeApply = () => {
+  const closeConciergeBrowseOnly = () => {
     setIsConciergeOpen(false);
   };
 
-  const startVoiceInput = () => {
-    const SpeechRecognitionCtor = getSpeechRecognitionCtor();
-    if (!SpeechRecognitionCtor) return;
-    const recognition = new SpeechRecognitionCtor();
-    recognition.lang = "ja-JP";
-    recognition.interimResults = false;
-    recognition.maxAlternatives = 1;
-    setIsListening(true);
-    recognition.onresult = (event) => {
-      const transcript = event.results?.[0]?.[0]?.transcript ?? "";
-      if (transcript.trim()) {
-        setKeywordQuery((prev) =>
-          prev.trim() ? `${prev.trim()} ${transcript.trim()}` : transcript.trim()
-        );
-      }
-    };
-    recognition.onerror = () => setIsListening(false);
-    recognition.onend = () => setIsListening(false);
-    recognition.start();
+  const goBackStep = () => {
+    setConciergeStep((s) => Math.max(0, s - 1));
   };
+
+  const selectDomainAndAdvance = (id: ConciergeDomainId) => {
+    setWizardAnswers((w) => ({ ...w, domain: id }));
+    setConciergeStep(1);
+  };
+
+  const selectRoleAndAdvance = (id: AiDemoAudienceRole) => {
+    setWizardAnswers((w) => ({ ...w, audienceRole: id }));
+    setConciergeStep(2);
+  };
+
+  const selectIssueAndAdvance = (id: AiDemoIssueTag) => {
+    setWizardAnswers((w) => ({ ...w, issue: id }));
+    setConciergeStep(3);
+  };
+
+  /** 最終ステップ: タップで即提案を確定してモーダルを閉じる */
+  const selectDepthAndFinish = (id: AiDemoAutomationDepth) => {
+    const w = { ...wizardAnswers, automationDepth: id };
+    setWizardAnswers(w);
+    const { domain, audienceRole, issue } = w;
+    if (!domain || !audienceRole || !issue) return;
+    const full: ConciergeAnswers = {
+      domain,
+      audienceRole,
+      issue,
+      automationDepth: id,
+    };
+    setAppliedAnswers(full);
+    setConciergePicks(pickRecommendedDemos(demos, full));
+    setIsConciergeOpen(false);
+  };
+
+  const conciergeChipClass = (active: boolean) =>
+    cn(
+      "rounded-lg border px-2 py-1.5 text-left text-[11px] leading-snug transition-colors sm:rounded-full sm:px-3 sm:py-2 sm:text-sm",
+      active
+        ? "border-accent/60 bg-accent/15 text-accent"
+        : "border-silver/30 text-text-sub hover:border-accent/40 hover:text-accent"
+    );
 
   return (
     <div className="space-y-8 pb-8">
       <section className="rounded-xl border border-silver/20 bg-base-dark/70 p-4">
         <div className="mb-3 flex items-center justify-between gap-2">
           <p className="text-sm text-text-sub">
-            AI提案条件: {keywordQuery || "キーワード未入力"} / 目的
-            {selectedCategoryIds.length > 0 ? ` ${selectedCategoryIds.length}` : " 未選択"} / 業種
-            {selectedIndustries.length > 0 ? ` ${selectedIndustries.length}` : " 未選択"}
+            {appliedAnswers
+              ? "直近のコンシェルジュ条件を表示しています"
+              : "コンシェルジュで条件を選ぶと、最適なデモを最大3件提示します"}
           </p>
           <button
             type="button"
-            onClick={() => setIsConciergeOpen(true)}
+            onClick={openConcierge}
             className="rounded-md border border-silver/30 px-3 py-1 text-xs text-text-sub transition-colors hover:border-accent/50 hover:text-accent"
           >
-            AIに相談し直す
+            {appliedAnswers ? "条件を選び直す" : "コンシェルジュを開く"}
           </button>
         </div>
         <div className="flex flex-wrap gap-2">
-          {selectedCategoryIds.map((id) => (
-            <span
-              key={`selected-cat-${id}`}
-              className="rounded-full border border-accent/40 bg-accent/10 px-2.5 py-1 text-xs text-accent"
-            >
-              {PURPOSE_FILTER_LABELS[id] ?? CATEGORY_LABELS[id] ?? id}
-            </span>
-          ))}
-          {selectedIndustries.map((tag) => (
-            <span
-              key={`selected-ind-${tag}`}
-              className="rounded-full border border-accent/40 bg-accent/10 px-2.5 py-1 text-xs text-accent"
-            >
-              {tag}
-            </span>
-          ))}
-          {!keywordQuery && selectedCategoryIds.length === 0 && selectedIndustries.length === 0 && (
+          {appliedAnswers ? (
+            <>
+              <span className="rounded-full border border-accent/40 bg-accent/10 px-2.5 py-1 text-xs text-accent">
+                領域: {labelForDomain(appliedAnswers.domain)}
+              </span>
+              <span className="rounded-full border border-accent/40 bg-accent/10 px-2.5 py-1 text-xs text-accent">
+                立場: {labelForRole(appliedAnswers.audienceRole)}
+              </span>
+              <span className="rounded-full border border-accent/40 bg-accent/10 px-2.5 py-1 text-xs text-accent">
+                課題: {labelForIssue(appliedAnswers.issue)}
+              </span>
+              <span className="rounded-full border border-accent/40 bg-accent/10 px-2.5 py-1 text-xs text-accent">
+                進め方: {labelForDepth(appliedAnswers.automationDepth)}
+              </span>
+            </>
+          ) : (
             <span className="text-xs text-text-sub">条件は未設定です</span>
           )}
         </div>
       </section>
 
-      {recommendedDemos.length > 0 && (
+      {conciergePicks.length > 0 && (
         <section>
           <h2 className="mb-3 text-lg font-bold text-accent md:text-xl">
-            AIが提案した候補
+            あなた向けの提案（最大3件）
           </h2>
-          <HorizontalRail ariaLabel="AIが提案した候補">
-            {recommendedDemos.map((demo) => (
-              <DemoCard key={`rec-${demo._id}`} demo={demo} />
+          <HorizontalRail ariaLabel="コンシェルジュが提案したデモ">
+            {conciergePicks.map(({ demo, reason }) => (
+              <DemoCard key={`rec-${demo._id}`} demo={demo} reason={reason} />
             ))}
           </HorizontalRail>
         </section>
@@ -453,120 +433,150 @@ export function DemoListContent({ demos }: DemoListContentProps) {
         );
       })}
 
-      {filteredDemos.length === 0 && (
-        <p className="rounded-lg border border-silver/20 bg-base-dark/70 p-4 text-sm text-text-sub">
-          条件に合うデモが見つかりませんでした。業種または目的の選択を少し広げてみてください。
-        </p>
-      )}
+      {hasMounted &&
+        isConciergeOpen &&
+        createPortal(
+          <div
+            className="fixed inset-0 z-[60] flex items-end justify-center bg-base/80 p-0 backdrop-blur-sm sm:items-center sm:p-4 sm:pt-16 md:pt-24"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="concierge-title"
+          >
+          <div
+            className="flex max-h-[92dvh] w-full max-w-xl flex-col overflow-hidden rounded-t-2xl border border-silver/30 border-b-0 bg-base-dark shadow-2xl sm:max-h-[min(92dvh,760px)] sm:rounded-2xl sm:border-b"
+          >
+            <div className="shrink-0 px-3 pb-2 pt-3 sm:px-5 sm:pb-2 sm:pt-5">
+              <p className="mb-0.5 text-[10px] uppercase tracking-[0.14em] text-accent/90 sm:mb-1 sm:text-xs sm:tracking-[0.16em]">
+                Intelligent Concierge
+              </p>
+              <h3
+                id="concierge-title"
+                className="mb-0.5 text-base font-semibold text-text sm:mb-1 sm:text-lg md:text-xl"
+              >
+                デモへの最短ルート
+              </h3>
+              <p className="hidden text-sm text-text-sub sm:mb-3 sm:block">
+                4つの選択だけで、100本近いデモから近いものを最大3件に絞り込みます。いつでも一覧から探せます。
+              </p>
+              <p className="mb-2 text-[11px] leading-snug text-text-sub sm:hidden">
+                4つの選択で最大3件に絞ります。一覧からも探せます。
+              </p>
 
-      {hasMounted && isConciergeOpen && (
-        <div className="fixed inset-0 z-50 flex items-start justify-center bg-base/80 p-4 pt-24 backdrop-blur-sm">
-          <div className="w-full max-w-xl rounded-2xl border border-silver/30 bg-base-dark p-5 shadow-2xl">
-            <p className="mb-1 text-xs uppercase tracking-[0.16em] text-accent/90">
-              AI Concierge
-            </p>
-            <h3 className="mb-2 text-lg font-semibold text-text">
-              どんなデモをお探しですか？
-            </h3>
-            <p className="mb-4 text-sm text-text-sub">
-              キーワード入力を中心に、必要に応じて業種と目的を追加すると精度が上がります。
-            </p>
-            <div className="mb-4">
-              <p className="mb-2 text-xs text-text-sub">ワード検索（音声入力対応）</p>
-              <div className="flex items-center gap-2">
-                <div className="relative flex-1">
-                  <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-text-sub" />
-                  <Input
-                    value={keywordQuery}
-                    onChange={(e) => setKeywordQuery(e.target.value)}
-                    placeholder="例: クレーム 返信 / 面接 評価 / 点検 報告"
-                    className="pl-9"
+              <div className="mb-2 flex gap-1 sm:mb-3" aria-hidden>
+                {[0, 1, 2, 3].map((i) => (
+                  <div
+                    key={`prog-${i}`}
+                    className={cn(
+                      "h-0.5 flex-1 rounded-full transition-colors",
+                      i <= conciergeStep ? "bg-accent/80" : "bg-silver/25"
+                    )}
                   />
-                </div>
-                <button
-                  type="button"
-                  onClick={startVoiceInput}
-                  disabled={!speechSupported}
-                  className={cn(
-                    "inline-flex h-10 items-center justify-center rounded-md border px-3",
-                    speechSupported
-                      ? "border-silver/30 text-text-sub hover:border-accent/50 hover:text-accent"
-                      : "cursor-not-allowed border-silver/20 text-text-sub/50"
-                  )}
-                  aria-label="音声入力を開始"
-                >
-                  <Mic className={cn("h-4 w-4", isListening && "text-accent")} />
-                </button>
+                ))}
               </div>
-              {isListening && (
-                <p className="mt-1 text-xs text-accent">音声を認識しています...</p>
+
+              <p className="text-xs font-medium leading-tight text-text sm:text-sm">
+                {STEP_HEADLINES[conciergeStep]}
+              </p>
+            </div>
+
+            {/*
+              親に確定高さがない状態で flex-1 + min-h-0 にすると、flex 子の高さが 0 になりカードが消えたように見える。
+              スクロールはこの領域の max-h で確実に確保する。
+            */}
+            <div className="max-h-[min(48dvh,340px)] overflow-y-auto overscroll-contain px-3 pb-2 sm:max-h-[min(52dvh,400px)] sm:px-5 sm:pb-3">
+              {conciergeStep === 0 && (
+                <div className="grid grid-cols-2 gap-1.5 sm:gap-2">
+                  {CONCIERGE_DOMAIN_OPTIONS.map((opt) => (
+                    <button
+                      key={opt.id}
+                      type="button"
+                      onClick={() => selectDomainAndAdvance(opt.id)}
+                      className={conciergeChipClass(wizardAnswers.domain === opt.id)}
+                    >
+                      {opt.label}
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              {conciergeStep === 1 && (
+                <div className="grid grid-cols-1 gap-1.5 sm:gap-2">
+                  {CONCIERGE_ROLE_OPTIONS.map((opt) => (
+                    <button
+                      key={opt.id}
+                      type="button"
+                      onClick={() => selectRoleAndAdvance(opt.id)}
+                      className={conciergeChipClass(
+                        wizardAnswers.audienceRole === opt.id
+                      )}
+                    >
+                      {opt.label}
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              {conciergeStep === 2 && (
+                <div className="grid grid-cols-2 gap-1.5 sm:grid-cols-1 sm:gap-2">
+                  {CONCIERGE_ISSUE_OPTIONS.map((opt) => (
+                    <button
+                      key={opt.id}
+                      type="button"
+                      onClick={() => selectIssueAndAdvance(opt.id)}
+                      className={conciergeChipClass(wizardAnswers.issue === opt.id)}
+                    >
+                      {opt.label}
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              {conciergeStep === 3 && (
+                <div className="grid grid-cols-1 gap-1.5 sm:gap-2">
+                  {CONCIERGE_DEPTH_OPTIONS.map((opt) => (
+                    <button
+                      key={opt.id}
+                      type="button"
+                      onClick={() => selectDepthAndFinish(opt.id)}
+                      className={conciergeChipClass(
+                        wizardAnswers.automationDepth === opt.id
+                      )}
+                    >
+                      {opt.label}
+                    </button>
+                  ))}
+                </div>
               )}
             </div>
-            <div className="mb-4">
-              <p className="mb-2 text-xs text-text-sub">目的（複数選択可）</p>
-              <div className="flex gap-2 overflow-x-auto pb-1 whitespace-nowrap scrollbar-thin scrollbar-track-transparent scrollbar-thumb-silver/30">
-                {availableCategoryIds.map((id) => {
-                  const active = selectedCategoryIds.includes(id);
-                  return (
-                    <button
-                      key={`modal-cat-${id}`}
-                      type="button"
-                      onClick={() => toggleCategory(id)}
-                      className={cn(
-                        "shrink-0 rounded-full border px-2.5 py-1 text-xs transition-colors",
-                        active
-                          ? "border-accent/60 bg-accent/15 text-accent"
-                          : "border-silver/30 text-text-sub hover:border-accent/40 hover:text-accent"
-                      )}
-                    >
-                      {PURPOSE_FILTER_LABELS[id] ?? CATEGORY_LABELS[id] ?? id}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-            <div className="mb-5">
-              <p className="mb-2 text-xs text-text-sub">業種（複数選択可）</p>
-              <div className="flex gap-2 overflow-x-auto pb-1 whitespace-nowrap scrollbar-thin scrollbar-track-transparent scrollbar-thumb-silver/30">
-                {availableIndustries.map((tag) => {
-                  const active = selectedIndustries.includes(tag);
-                  return (
-                    <button
-                      key={`modal-ind-${tag}`}
-                      type="button"
-                      onClick={() => toggleIndustry(tag)}
-                      className={cn(
-                        "shrink-0 rounded-full border px-2.5 py-1 text-xs transition-colors",
-                        active
-                          ? "border-accent/60 bg-accent/15 text-accent"
-                          : "border-silver/30 text-text-sub hover:border-accent/40 hover:text-accent"
-                      )}
-                    >
-                      {tag}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-            <div className="flex items-center justify-end gap-2">
+
+            <div
+              className={cn(
+                "shrink-0 border-t border-silver/20 bg-base-dark p-3 sm:px-5 sm:py-4",
+                conciergeStep > 0 &&
+                  "flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between"
+              )}
+            >
               <button
                 type="button"
-                onClick={() => setIsConciergeOpen(false)}
-                className="rounded-md border border-silver/30 px-3 py-2 text-sm text-text-sub transition-colors hover:border-silver/50 hover:text-text"
+                onClick={closeConciergeBrowseOnly}
+                className="w-full rounded-md border border-silver/30 px-3 py-2 text-xs text-text-sub transition-colors hover:border-silver/50 hover:text-text sm:w-auto sm:text-sm"
               >
-                あとで
+                一覧で探す（閉じる）
               </button>
-              <button
-                type="button"
-                onClick={handleConciergeApply}
-                className="rounded-md bg-accent px-4 py-2 text-sm font-medium text-[color:var(--color-base)] transition-opacity hover:opacity-90"
-              >
-                AIに提案してもらう
-              </button>
+              {conciergeStep > 0 && (
+                <button
+                  type="button"
+                  onClick={goBackStep}
+                  className="w-full rounded-md bg-accent px-4 py-2 text-sm font-medium text-[color:var(--color-base)] transition-opacity hover:opacity-90 sm:ml-auto sm:w-auto"
+                >
+                  一つ前に戻る
+                </button>
+              )}
             </div>
           </div>
-        </div>
-      )}
+        </div>,
+        document.body
+        )}
     </div>
   );
 }

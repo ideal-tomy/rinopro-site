@@ -1,5 +1,7 @@
 # モックデモ品質ゲート（1本ごと・バッチごと）
 
+**ポートフォリオ分類（①②③④・保留ランク）**: [demo-portfolio-governance.md](demo-portfolio-governance.md) ／ トリアージ表 [demo-portfolio-triage.md](demo-portfolio-triage.md)
+
 新規 `aiDemo`（特に `mock_preview`）を追加する前に、以下を満たすこと。  
 詳細のサイト実装観点は [`docs/tool-demo-implementation-checklist.md`](tool-demo-implementation-checklist.md) も参照。
 

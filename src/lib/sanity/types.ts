@@ -44,6 +44,27 @@ export type AiDemoInputType = "text_only" | "audio_text" | "image_text";
 /** 実行モード: 実AI / モック演出 */
 export type AiDemoRunMode = "ai_live" | "mock_preview";
 
+/** Intelligent Concierge（aiDemo 拡張メタ） */
+export type AiDemoAudienceRole = "field" | "management" | "executive";
+export type AiDemoIssueTag =
+  | "reporting"
+  | "search"
+  | "customer_response"
+  | "document_work"
+  | "coordination";
+export type AiDemoAutomationDepth = "full_auto" | "semi_auto" | "centralized";
+export type AiDemoWorkStyle = "desk" | "onsite" | "either";
+
+/** ポートフォリオ主ラベル（Sanity primaryPortfolioTrack） */
+export type AiDemoPortfolioTrack =
+  | "catalog_text"
+  | "experience"
+  | "product"
+  | "hold";
+
+/** ④保留時の救出／削除判断（Sanity holdRank） */
+export type AiDemoHoldRank = "A" | "B" | "C" | "D";
+
 /** aiDemo（量産用）型。Sanity aiDemo スキーマに対応 */
 export interface AiDemo {
   _id: string;
@@ -68,8 +89,26 @@ export interface AiDemo {
   functionTags?: string[];
   industryTags?: string[];
   moduleTags?: string[];
+  /** 想定読者・役割（コンシェルジュ用・任意） */
+  audienceRole?: AiDemoAudienceRole;
+  /** 課題軸（コンシェルジュ用・任意） */
+  issueTags?: AiDemoIssueTag[];
+  /** 自動化の深度（コンシェルジュ用・任意） */
+  automationDepth?: AiDemoAutomationDepth;
+  /** 内勤 / 現場（コンシェルジュ用・任意） */
+  workStyle?: AiDemoWorkStyle;
   oneLiner?: string;
   storyLead?: string;
+  /** ①②③④ のどれを主とするか（未設定可） */
+  primaryPortfolioTrack?: AiDemoPortfolioTrack;
+  /** ②③ 用の外部体験 URL */
+  experienceUrl?: string;
+  /** ④ のとき A〜D */
+  holdRank?: AiDemoHoldRank;
+  /** ④ の保留理由タグ */
+  holdReasonTags?: string[];
+  /** false のとき一覧・コンシェルジュ候補から除外（未設定は表示） */
+  listedOnCatalog?: boolean;
   /** DemoItem 互換（一覧・詳細表示用） */
   videoUrl?: string;
   videoPoster?: string;
