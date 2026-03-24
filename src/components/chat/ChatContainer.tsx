@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { usePathname } from "next/navigation";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
@@ -9,6 +9,7 @@ import { ChatPopup } from "./ChatPopup";
 import { ChatMessages } from "./ChatMessages";
 import { ChatInput } from "./ChatInput";
 import { PresetQuestions } from "./PresetQuestions";
+import { HomeConciergeFlow } from "./HomeConciergeFlow";
 import { useChatSession } from "@/hooks/use-chat-session";
 import { Button } from "@/components/ui/button";
 import {
@@ -50,6 +51,14 @@ export function ChatContainer() {
   const { open, setOpen, mode, setMode } = useConciergeChat();
 
   const [voiceEnabled, setVoiceEnabled] = useState(false);
+  const [draftInjection, setDraftInjection] = useState<{
+    id: number;
+    text: string;
+  } | null>(null);
+
+  const clearDraftInjection = useCallback(() => {
+    setDraftInjection(null);
+  }, []);
 
   const chatId = useMemo(
     () => chatSessionId(pathname, mode),
@@ -133,7 +142,14 @@ export function ChatContainer() {
         }
       >
         <div className="flex flex-1 flex-col overflow-hidden">
-          {messages.length === 0 ? (
+          {messages.length === 0 && pathname === "/" ? (
+            <HomeConciergeFlow
+              disabled={isLoading}
+              onInjectDraft={(draft) =>
+                setDraftInjection({ id: Date.now(), text: draft })
+              }
+            />
+          ) : messages.length === 0 ? (
             <PresetQuestions onSelect={handleSend} disabled={isLoading} />
           ) : (
             <ChatMessages messages={messages} />
@@ -163,6 +179,9 @@ export function ChatContainer() {
             disabled={isLoading}
             voiceEnabled={voiceEnabled}
             onVoiceToggle={() => setVoiceEnabled((v) => !v)}
+            draftInjection={draftInjection}
+            onDraftConsumed={clearDraftInjection}
+            inputId="concierge-chat-input"
           />
         </div>
       </ChatPopup>

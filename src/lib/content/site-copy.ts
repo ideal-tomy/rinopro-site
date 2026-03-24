@@ -8,8 +8,8 @@ export const topCopy = {
   tagline: "現場業務を、AIで再設計して実装まで伴走する。",
   subline:
     "建設・士業など、現場に根ざした業務の効率化と、AIによる判定・要約・検索の実装。",
-  ctaDemo: "ツールdemoを見る",
-  ctaExperience: "体験を見る",
+  ctaDemo: "体験・demoハブ",
+  ctaExperience: "注目の体験（2本）",
   nextAction: "次に見る",
   nextActionTarget: "サービス",
   nextActionHref: "/services",
@@ -226,7 +226,7 @@ export const contactCopy = {
     emailPlaceholder: "example@example.com",
     triedExperienceLabel: "触れた体験・デモ（任意）",
     triedExperiencePlaceholder:
-      "例: 体験ページの〇〇、ツールdemoの△△ など。未入力でも構いません。",
+      "例: demoページの〇〇、モックdemoの△△ など。未入力でも構いません。",
     messageLabel: "ご相談内容",
     messagePlaceholder:
       "業務内容、困りごと、検討中の時期など、わかる範囲でお書きください。",

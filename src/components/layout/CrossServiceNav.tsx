@@ -25,7 +25,7 @@ export function ServiceCrossLinks({ current }: { current: ServiceCurrent }) {
       <ul className="flex flex-wrap items-center justify-center gap-x-10 gap-y-3">
         <li className="list-none">
           <Link href="/demo" className={linkClass}>
-            ツールdemo
+            体験・demo
           </Link>
         </li>
         <li className="list-none">

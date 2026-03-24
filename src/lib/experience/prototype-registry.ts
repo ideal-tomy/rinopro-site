@@ -78,6 +78,31 @@ export const EXPERIENCE_PROTOTYPES: ExperiencePrototypeMeta[] = [
 
 const PROTOTYPE_SLUGS = new Set(EXPERIENCE_PROTOTYPES.map((p) => p.slug));
 
+/** トップ・/demo で最上段に置く注力プロトタイプ（順序固定） */
+export const FEATURED_EXPERIENCE_SLUGS = [
+  "internal-knowledge-share-bot",
+  "restaurant-ops-dashboard-demo",
+] as const;
+
+export type FeaturedExperienceSlug =
+  (typeof FEATURED_EXPERIENCE_SLUGS)[number];
+
+const FEATURED_SLUG_SET = new Set<string>(FEATURED_EXPERIENCE_SLUGS);
+
+export function getFeaturedExperiencePrototypes(): ExperiencePrototypeMeta[] {
+  return FEATURED_EXPERIENCE_SLUGS.map((slug) => {
+    const meta = EXPERIENCE_PROTOTYPES.find((p) => p.slug === slug);
+    if (!meta) {
+      throw new Error(`Featured prototype missing from registry: ${slug}`);
+    }
+    return meta;
+  });
+}
+
+export function getOtherExperiencePrototypes(): ExperiencePrototypeMeta[] {
+  return EXPERIENCE_PROTOTYPES.filter((p) => !FEATURED_SLUG_SET.has(p.slug));
+}
+
 export function getExperiencePrototypeBySlug(
   slug: string
 ): ExperiencePrototypeMeta | undefined {

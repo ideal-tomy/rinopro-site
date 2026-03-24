@@ -15,6 +15,10 @@ import {
   heroStaggerItemWithScale,
 } from "@/lib/motion/variants";
 import { topCopy } from "@/lib/content/site-copy";
+import { FeaturedExperienceVideoCard } from "@/components/experience/FeaturedExperienceVideoCard";
+import { getFeaturedExperiencePrototypes } from "@/lib/experience/prototype-registry";
+import { FEATURED_SHOWCASE_VIDEO_BY_SLUG } from "@/lib/experience/featured-showcase-media";
+import type { FeaturedExperienceSlug } from "@/lib/experience/prototype-registry";
 
 export function HeroSection() {
   return (
@@ -54,11 +58,44 @@ export function HeroSection() {
               className="border-silver/40 text-text hover:border-accent/50 hover:bg-accent/10"
               asChild
             >
-              <Link href="/experience">{topCopy.ctaExperience}</Link>
+              <Link href="/demo#featured-experiences">
+                {topCopy.ctaExperience}
+              </Link>
             </Button>
           </motion.div>
         </div>
       </motion.section>
+
+      <motion.div
+        className="container mx-auto max-w-5xl px-4 pb-10 md:px-6"
+        variants={heroStaggerContainer}
+        initial="hidden"
+        animate="visible"
+      >
+        <motion.p
+          className="mb-4 text-center text-xs font-medium uppercase tracking-widest text-text-sub/90 md:text-sm"
+          variants={heroStaggerItem}
+          custom={[0.05, 0.15]}
+        >
+          注目の体験（2本）
+        </motion.p>
+        <div className="grid gap-4 sm:grid-cols-2 sm:gap-5">
+          {getFeaturedExperiencePrototypes().map((p, i) => (
+            <motion.div
+              key={p.slug}
+              variants={heroStaggerItem}
+              custom={[0.1 + i * 0.08, 0.2 + i * 0.08] as [number, number]}
+            >
+              <FeaturedExperienceVideoCard
+                meta={p}
+                videoSrc={
+                  FEATURED_SHOWCASE_VIDEO_BY_SLUG[p.slug as FeaturedExperienceSlug]
+                }
+              />
+            </motion.div>
+          ))}
+        </div>
+      </motion.div>
 
       <ScrollSequence className="container mx-auto max-w-4xl px-4 pb-24 md:px-6">
         <ScrollSequenceItem thresholds={[0.1, 0.2]}>

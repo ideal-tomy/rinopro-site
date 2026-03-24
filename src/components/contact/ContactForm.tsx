@@ -1,20 +1,41 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useContactForm } from "@/hooks/use-contact-form";
 import { contactCopy } from "@/lib/content/site-copy";
 import { cn } from "@/lib/utils";
+import {
+  buildContactMessageDraft,
+  decodeChatHandoff,
+} from "@/lib/chat/estimate-handoff";
 
 export function ContactForm() {
+  const searchParams = useSearchParams();
+  const handoffApplied = useRef(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [triedExperience, setTriedExperience] = useState("");
   const [message, setMessage] = useState("");
   const { status, errors, submit } = useContactForm();
   const form = contactCopy.form;
+
+  useEffect(() => {
+    if (handoffApplied.current) return;
+    const raw = searchParams.get("handoff");
+    if (!raw) return;
+    const payload = decodeChatHandoff(raw);
+    if (!payload) return;
+    handoffApplied.current = true;
+    setMessage((prev) => {
+      const draft = buildContactMessageDraft(payload);
+      const t = prev.trim();
+      return t ? `${t}\n\n${draft}` : draft;
+    });
+  }, [searchParams]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

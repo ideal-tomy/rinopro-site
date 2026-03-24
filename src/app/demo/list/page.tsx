@@ -5,8 +5,9 @@ import { fetchDemosForDisplay } from "@/lib/sanity/fetch";
 import { DemoListContent } from "@/components/demo/DemoListContent";
 
 export const metadata: Metadata = {
-  title: "デモ一覧 | rinopro",
-  description: "すべてのツールデモを一覧で確認できます。",
+  title: "モックdemo一覧（カタログ） | rinopro",
+  description:
+    "問い合わせ文→返信案や入力試し込みなど、ツールdemoをカタログ形式で一覧できます。",
 };
 
 export default async function DemoListPage() {
@@ -15,20 +16,20 @@ export default async function DemoListPage() {
   return (
     <PageShell>
       <div className="container mx-auto max-w-5xl px-4 py-12 md:px-6">
-        <div className="mb-8 flex items-center justify-between">
+        <div className="mb-8 flex items-center justify-between gap-4">
           <div>
             <h1 className="text-2xl font-bold text-accent md:text-3xl">
-              デモ一覧
+              モックdemo一覧（カタログ）
             </h1>
-            <p className="mt-2 text-text-sub">
-              すべてのツールデモを確認できます。気になるものを体験してみてください。
+            <p className="mt-2 max-w-2xl text-text-sub">
+              チャット型・入力試し込みのモックdemoを一覧から選べます。気になるものから触って、業務への当てはめをイメージしてください。
             </p>
           </div>
           <Link
             href="/demo"
-            className="text-sm text-text-sub transition-colors hover:text-accent"
+            className="shrink-0 text-sm text-text-sub transition-colors hover:text-accent"
           >
-            ← 代表デモに戻る
+            ← 体験・demoハブに戻る
           </Link>
         </div>
         <DemoListContent demos={demos} />

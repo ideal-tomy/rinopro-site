@@ -12,8 +12,7 @@ import { EASE_OUT_BACK } from "@/lib/motion/variants";
 
 const NAV_ITEMS = [
   { href: "/", label: "トップ" },
-  { href: "/demo", label: "ツールdemo" },
-  { href: "/experience", label: "体験" },
+  { href: "/demo", label: "体験・demo" },
   { href: "/services", label: "サービス" },
   { href: "/about", label: "会社紹介" },
   { href: "/contact", label: "問い合わせ" },

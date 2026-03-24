@@ -36,8 +36,8 @@ export default async function ExperiencePrototypePage({ params }: Props) {
     <PageShell>
       <div className="container mx-auto max-w-6xl px-4 py-8 md:py-14 md:px-6">
         <nav className="mb-6 text-sm text-text-sub">
-          <Link href="/experience" className="text-accent underline-offset-2 hover:underline">
-            体験トップ
+          <Link href="/demo" className="text-accent underline-offset-2 hover:underline">
+            体験・demoハブ
           </Link>
           <span className="mx-2 text-silver/50">/</span>
           <span className="text-text">{meta.title}</span>

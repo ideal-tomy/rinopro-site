@@ -1,20 +1,6 @@
-import type { Metadata } from "next";
-import { PageShell } from "@/components/layout/PageShell";
-import { ExperiencePageContent } from "@/components/experience/ExperiencePageContent";
-import { fetchCaseStudies } from "@/lib/sanity/fetch";
+import { redirect } from "next/navigation";
 
-export const metadata: Metadata = {
-  title: "体験 | rinopro",
-  description:
-    "アプリやダッシュボードに近い画面で、使うイメージを掴めます。ツールdemoとあわせて技術の感触を確認してください。",
-};
-
-export default async function ExperiencePage() {
-  const items = await fetchCaseStudies();
-
-  return (
-    <PageShell>
-      <ExperiencePageContent items={items} />
-    </PageShell>
-  );
+/** 体験ハブは `/demo` に統合 */
+export default function ExperienceIndexPage() {
+  redirect("/demo");
 }
