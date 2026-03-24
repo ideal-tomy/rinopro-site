@@ -156,6 +156,10 @@ export const COMMON_FINISH_BODY =
   "ご入力ありがとうございます。いただいた内容をもとに、**初期検討用の「仮要件定義」と「概算見積もり（前提条件つき）」**を約30秒で作成できます。社内共有用のたたき台としてご活用ください。";
 
 export const CTA_PRIMARY_LABEL = "無料で仮見積もり・要件定義を作成する";
+/** 詳細見積もりページ（多段質問 + AI 要件定義）へ */
+export const CTA_DETAILED_ESTIMATE_LABEL = "より詳しい見積もりを希望の方はコチラ";
+export const CTA_DEMO_DIRECT_LABEL = "この内容に近いdemoを直接体験する";
+export const CTA_CONTACT_SIMPLE_LABEL = "問い合わせフォームへ（選択内容を送る）";
 export const CTA_ADJUST_LABEL = "条件を調整する";
 export const CTA_FREEFORM_LABEL = "自由記述で相談する";
 

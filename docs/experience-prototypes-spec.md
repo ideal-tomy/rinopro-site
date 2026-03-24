@@ -121,3 +121,35 @@
 | property-exterior-photo-memo | `/experience/property-exterior-photo-memo` |
 | receipt-photo-expense-memo | `/experience/receipt-photo-expense-memo` |
 | driver-voice-incident-draft | `/experience/driver-voice-incident-draft` |
+| inquiry-intake-triage-demo | `/experience/inquiry-intake-triage-demo` |
+| workflow-approval-lite-demo | `/experience/workflow-approval-lite-demo` |
+| ops-report-metrics-demo | `/experience/ops-report-metrics-demo` |
+
+---
+
+## ③ `inquiry-intake-triage-demo`（問い合わせ受付トリアージ）
+
+| 項目 | 内容 |
+|------|------|
+| 誰が | CS・窓口（一次分類と返信草案が欲しい側） |
+| 何が減る | カテゴリ判断と初回返信の迷い |
+| 入力 | 問い合わせ本文（サンプルワンタップ可） |
+| 画面 | 分類・優先度・タグ・顧客向け草案・社内メモ（**クライアントモック**） |
+
+## ③ `workflow-approval-lite-demo`（承認・通知フロー ライト）
+
+| 項目 | 内容 |
+|------|------|
+| 誰が | バックオフィス・承認者 |
+| 何が減る | 承認待ちの可視化・通知連携の説明コスト |
+| 入力 | 各行の承認 / 差し戻しボタン |
+| 画面 | 一覧から状態更新のみの最小UI（モック） |
+
+## ③ `ops-report-metrics-demo`（数値メモから週次レポート草案）
+
+| 項目 | 内容 |
+|------|------|
+| 誰が | 店舗・現場マネージャー |
+| 何が減る | 週次まとめの手作業 |
+| 入力 | 数値・メモの箇条書き |
+| 画面 | KPIカード・要約・次アクション案（**クライアントモック**） |

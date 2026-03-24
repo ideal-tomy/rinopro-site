@@ -49,6 +49,33 @@ export const EXPERIENCE_PROTOTYPES: ExperiencePrototypeMeta[] = [
     inputHint: "「最初から再生」で自動化の流れを確認してください。",
   },
   {
+    slug: "inquiry-intake-triage-demo",
+    title: "問い合わせ受付トリアージ（分類・返信草案）",
+    tier: "track3",
+    demoSlug: "inquiry-intake-triage-demo",
+    shortDescription:
+      "問い合わせ本文からカテゴリ・優先度・タグを付与し、顧客向け返信案と社内メモをモック生成します。",
+    inputHint: "例: 配送が遅れている／商品が破損／解約の手続きを知りたい",
+  },
+  {
+    slug: "workflow-approval-lite-demo",
+    title: "承認・通知フロー（ライト）",
+    tier: "track3",
+    demoSlug: "workflow-approval-lite-demo",
+    shortDescription:
+      "承認待ち一覧からワンタップで承認・差し戻しするUIの体験。通知・アラート連携のイメージ用です。",
+    inputHint: "各行のボタンで状態を更新して操作感を確認してください。",
+  },
+  {
+    slug: "ops-report-metrics-demo",
+    title: "数値メモから週次レポート草案",
+    tier: "track3",
+    demoSlug: "ops-report-metrics-demo",
+    shortDescription:
+      "箇条書きの数値・メモから、KPIカードと要約・次アクション案をモック生成します。",
+    inputHint: "例: 売上320万 / 欠品3SKU / 客訴2件 などを改行で入力",
+  },
+  {
     slug: "property-exterior-photo-memo",
     title: "外観・共用部の写真メモ",
     tier: "track2",

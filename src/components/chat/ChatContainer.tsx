@@ -1,6 +1,14 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useState,
+  type ReactNode,
+} from "react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
@@ -8,17 +16,38 @@ import { MessageCircle } from "lucide-react";
 import { ChatPopup } from "./ChatPopup";
 import { ChatMessages } from "./ChatMessages";
 import { ChatInput } from "./ChatInput";
-import { PresetQuestions } from "./PresetQuestions";
 import { HomeConciergeFlow } from "./HomeConciergeFlow";
+import { ServicesConciergeFlow } from "./ServicesConciergeFlow";
+import { ConciergeEmptyPanel } from "./ConciergeEmptyPanel";
+import { ConciergeEntryPicker } from "./ConciergeEntryPicker";
+import type { ConciergeEntryChoice } from "./ConciergeEntryPicker";
 import { useChatSession } from "@/hooks/use-chat-session";
 import { Button } from "@/components/ui/button";
 import {
   useConciergeChat,
   type ConciergeMode,
 } from "@/components/chat/concierge-chat-context";
+import {
+  chatAutoOpenStorageKey,
+  consumeSuppressChatAutoOnce,
+  shouldAttemptChatAutoOpen,
+  writeServicesFlowPick,
+  readServicesFlowPick,
+  suppressNextChatAutoOpen,
+  type ServicesFlowPick,
+} from "@/lib/chat/chat-auto-open";
 
-function chatSessionId(pathname: string, mode: ConciergeMode): string {
-  if (pathname === "/") return "concierge-home";
+type ConciergeSurface = "pick" | "page" | "global";
+
+/** メッセージなし時の仮セッション ID（表面・パス・モードから決定） */
+function provisionalChatSessionId(
+  pathname: string,
+  mode: ConciergeMode,
+  surface: ConciergeSurface
+): string {
+  if (surface === "pick") return "concierge-entry-pick";
+  if (surface === "global") return "concierge-home";
+  if (pathname === "/services") return "concierge-services-hub";
   if (pathname.startsWith("/demo")) {
     return `concierge-demo-${pathname.replace(/\//g, "_")}`;
   }
@@ -50,20 +79,32 @@ export function ChatContainer() {
   const pathname = usePathname();
   const { open, setOpen, mode, setMode } = useConciergeChat();
 
+  const dismissConciergeForSiteLink = useCallback(() => {
+    suppressNextChatAutoOpen();
+    setOpen(false);
+  }, [setOpen]);
+
   const [voiceEnabled, setVoiceEnabled] = useState(false);
   const [draftInjection, setDraftInjection] = useState<{
     id: number;
     text: string;
   } | null>(null);
+  const [servicesIntroComplete, setServicesIntroComplete] = useState(false);
+
+  /** FAB 直後の選択: ページ文脈 / 全体ガイド */
+  const [conciergeSurface, setConciergeSurface] =
+    useState<ConciergeSurface>("pick");
 
   const clearDraftInjection = useCallback(() => {
     setDraftInjection(null);
   }, []);
 
-  const chatId = useMemo(
-    () => chatSessionId(pathname, mode),
-    [pathname, mode]
+  const provisionalId = useMemo(
+    () => provisionalChatSessionId(pathname, mode, conciergeSurface),
+    [pathname, mode, conciergeSurface]
   );
+
+  const [chatSessionId, setChatSessionId] = useState("concierge-entry-pick");
 
   const transport = useMemo(
     () =>
@@ -75,89 +116,219 @@ export function ChatContainer() {
   );
 
   const { messages, sendMessage, status, error, clearError } = useChat({
-    id: chatId,
+    id: chatSessionId,
     transport,
   });
+
+  /** メッセージがないときだけセッション ID を追随。会話開始後は固定（ページ遷移でも履歴を切らない） */
+  useEffect(() => {
+    if (messages.length > 0) return;
+    setChatSessionId(provisionalId);
+  }, [provisionalId, messages.length]);
 
   const { shouldShowDemoPrompt, demoPrompt } = useChatSession(messages);
   const isLoading = status === "streaming" || status === "submitted";
 
-  const hideFabOnServicesIndex = pathname === "/services";
+  useLayoutEffect(() => {
+    if (pathname === "/services") {
+      setServicesIntroComplete(readServicesFlowPick() !== null);
+    } else {
+      setServicesIntroComplete(false);
+    }
+  }, [pathname]);
 
   useEffect(() => {
-    if (pathname === "/flow" || pathname === "/services/development")
+    if (pathname === "/flow" || pathname === "/services/development") {
       setMode("development");
-    else if (pathname === "/consulting" || pathname === "/services/consulting")
+    } else if (
+      pathname === "/consulting" ||
+      pathname === "/services/consulting"
+    ) {
       setMode("consulting");
-    else setMode("default");
+    } else if (pathname === "/services") {
+      const picked = readServicesFlowPick();
+      if (picked) setMode(picked);
+      else setMode("default");
+    } else {
+      setMode("default");
+    }
   }, [pathname, setMode]);
 
   useEffect(() => {
-    if (pathname !== "/") return;
-    const timer = setTimeout(() => setOpen(true), 400);
+    if (!shouldAttemptChatAutoOpen(pathname)) return;
+    const key = chatAutoOpenStorageKey(pathname);
+    if (!key) return;
+    if (consumeSuppressChatAutoOnce()) return;
+    if (typeof window === "undefined") return;
+    try {
+      if (sessionStorage.getItem(key) === "1") return;
+    } catch {
+      return;
+    }
+    const timer = setTimeout(() => {
+      try {
+        sessionStorage.setItem(key, "1");
+      } catch {
+        /* ignore */
+      }
+      setOpen(true);
+    }, 400);
     return () => clearTimeout(timer);
-  }, [pathname, setOpen]);
-
-  useEffect(() => {
-    if (pathname === "/services") {
-      setOpen(false);
-    }
-  }, [pathname, setOpen]);
-
-  useEffect(() => {
-    if (pathname.startsWith("/demo")) {
-      setOpen(false);
-    }
   }, [pathname, setOpen]);
 
   const handleSend = (text: string) => {
     sendMessage({ text });
   };
 
+  const handleServicesPick = useCallback(
+    (next: ServicesFlowPick) => {
+      writeServicesFlowPick(next);
+      setMode(next);
+      setServicesIntroComplete(true);
+    },
+    [setMode]
+  );
+
+  const handleEntryChoice = useCallback((choice: ConciergeEntryChoice) => {
+    if (choice === "global") {
+      setConciergeSurface("global");
+      return;
+    }
+    setConciergeSurface("page");
+  }, []);
+
+  const handlePopupOpenChange = useCallback(
+    (next: boolean) => {
+      setOpen(next);
+      if (!next) {
+        setConciergeSurface("pick");
+      }
+    },
+    [setOpen]
+  );
+
   const popupMeta = POPUP_COPY[mode];
+
+  const showGlobalHomeFlow =
+    conciergeSurface === "global" && messages.length === 0;
+
+  const showEntryPicker = messages.length === 0 && conciergeSurface === "pick";
+
+  let mainContent: ReactNode;
+  if (messages.length > 0) {
+    mainContent = <ChatMessages messages={messages} />;
+  } else if (showEntryPicker) {
+    mainContent = (
+      <ConciergeEntryPicker
+        disabled={isLoading}
+        onChoose={handleEntryChoice}
+      />
+    );
+  } else if (showGlobalHomeFlow) {
+    mainContent = (
+      <HomeConciergeFlow
+        disabled={isLoading}
+        onInjectDraft={(draft) =>
+          setDraftInjection({ id: Date.now(), text: draft })
+        }
+      />
+    );
+  } else if (
+    pathname === "/services" &&
+    conciergeSurface === "page" &&
+    !servicesIntroComplete
+  ) {
+    mainContent = (
+      <ServicesConciergeFlow
+        disabled={isLoading}
+        onPickService={handleServicesPick}
+      />
+    );
+  } else {
+    mainContent = (
+      <ConciergeEmptyPanel pathname={pathname}>
+        {pathname === "/services" &&
+          conciergeSurface === "page" &&
+          servicesIntroComplete && (
+            <div className="border-b border-silver/15 px-4 py-3 text-sm text-text-sub">
+              <p className="font-medium text-text">
+                {mode === "development" ? "開発" : "コンサルティング"}
+                についてお答えします。下の入力欄から自由にご質問ください。
+              </p>
+            </div>
+          )}
+      </ConciergeEmptyPanel>
+    );
+  }
+
+  const showChatInput = !showEntryPicker;
+  const wideHomeLayout = showGlobalHomeFlow;
 
   return (
     <>
-      {!hideFabOnServicesIndex && (
-        <Button
-          variant="outline"
-          size="icon"
-          className="fixed bottom-6 right-6 z-40 h-14 w-14 rounded-full border-silver/30 bg-base-dark shadow-lg hover:border-accent/50 md:bottom-8 md:right-8"
-          onClick={() => setOpen(true)}
-          aria-label="チャットを開く"
-        >
-          <MessageCircle className="h-6 w-6" />
-        </Button>
-      )}
+      <Button
+        type="button"
+        variant="outline"
+        className="fixed bottom-5 right-4 z-[45] box-border flex min-h-[3.5rem] min-w-[3.5rem] flex-col items-center justify-center gap-1 rounded-full border-2 border-silver/35 bg-base-dark/95 px-3 py-2 shadow-[0_6px_28px_rgba(0,0,0,0.5)] ring-1 ring-white/[0.06] backdrop-blur-sm transition-[border-color,box-shadow] duration-200 hover:border-accent/50 hover:shadow-[0_8px_32px_rgba(0,242,255,0.12)] sm:bottom-6 sm:right-6 sm:min-h-[3.75rem] sm:min-w-[10.5rem] sm:flex-row sm:gap-2 sm:px-4 sm:py-0 md:bottom-8 md:right-8"
+        onClick={() => setOpen(true)}
+        aria-label="相談・ガイド（AIコンシェルジュ）を開く"
+      >
+        <MessageCircle className="h-6 w-6 shrink-0 text-accent" aria-hidden />
+        <span className="max-w-[4.75rem] text-center text-[0.62rem] font-semibold leading-snug tracking-tight text-text sm:max-w-none sm:text-sm sm:font-medium sm:tracking-normal">
+          相談・ガイド
+        </span>
+      </Button>
 
       <ChatPopup
         open={open}
-        onOpenChange={setOpen}
+        onOpenChange={handlePopupOpenChange}
         title={popupMeta.title}
         description={popupMeta.description}
         className={
-          pathname === "/"
+          wideHomeLayout
             ? "md:max-h-[min(90vh,880px)] md:max-w-2xl lg:max-w-3xl"
             : undefined
         }
       >
         <div className="flex flex-1 flex-col overflow-hidden">
-          {messages.length === 0 && pathname === "/" ? (
-            <HomeConciergeFlow
-              disabled={isLoading}
-              onInjectDraft={(draft) =>
-                setDraftInjection({ id: Date.now(), text: draft })
-              }
-            />
-          ) : messages.length === 0 ? (
-            <PresetQuestions onSelect={handleSend} disabled={isLoading} />
-          ) : (
-            <ChatMessages messages={messages} />
-          )}
+          {mainContent}
 
-          {shouldShowDemoPrompt && mode === "default" && (
-            <div className="border-t border-silver/20 bg-base/50 px-4 py-3">
-              <p className="text-sm text-text-sub">{demoPrompt}</p>
+          {shouldShowDemoPrompt &&
+            mode === "default" &&
+            !showEntryPicker && (
+              <div className="border-t border-silver/20 bg-base/50 px-4 py-3">
+                <p className="text-sm text-text-sub">{demoPrompt}</p>
+              </div>
+            )}
+
+          {messages.length > 0 && (
+            <div className="border-t border-silver/15 bg-base/30 px-4 py-2.5 text-xs leading-relaxed text-text-sub">
+              <p className="mb-1.5 font-medium text-text/85">
+                次の一歩（サイト内）
+              </p>
+              <div className="flex flex-wrap gap-x-4 gap-y-1">
+                <Link
+                  href="/demo/list"
+                  className="text-accent underline-offset-2 hover:underline"
+                  onClick={() => dismissConciergeForSiteLink()}
+                >
+                  demo一覧
+                </Link>
+                <Link
+                  href="/estimate-detailed"
+                  className="text-accent underline-offset-2 hover:underline"
+                  onClick={() => dismissConciergeForSiteLink()}
+                >
+                  詳細見積もり（概算レンジ）
+                </Link>
+                <Link
+                  href="/contact"
+                  className="text-accent underline-offset-2 hover:underline"
+                  onClick={() => dismissConciergeForSiteLink()}
+                >
+                  お問い合わせ
+                </Link>
+              </div>
             </div>
           )}
 
@@ -174,15 +345,21 @@ export function ChatContainer() {
             </div>
           )}
 
-          <ChatInput
-            onSend={handleSend}
-            disabled={isLoading}
-            voiceEnabled={voiceEnabled}
-            onVoiceToggle={() => setVoiceEnabled((v) => !v)}
-            draftInjection={draftInjection}
-            onDraftConsumed={clearDraftInjection}
-            inputId="concierge-chat-input"
-          />
+          {showChatInput ? (
+            <ChatInput
+              onSend={handleSend}
+              disabled={isLoading}
+              voiceEnabled={voiceEnabled}
+              onVoiceToggle={() => setVoiceEnabled((v) => !v)}
+              draftInjection={draftInjection}
+              onDraftConsumed={clearDraftInjection}
+              inputId="concierge-chat-input"
+            />
+          ) : (
+            <div className="border-t border-silver/15 bg-base/40 px-4 py-3 text-center text-xs text-text-sub">
+              上の2択から選ぶと、入力欄が使えるようになります。
+            </div>
+          )}
         </div>
       </ChatPopup>
     </>

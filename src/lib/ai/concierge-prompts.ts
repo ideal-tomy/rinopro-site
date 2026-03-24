@@ -21,6 +21,14 @@ const BASE_RULES = `共通ルール:
 - 営業的な誘導は行わず、自然な会話を心がけてください。
 - 確約や料金・納期の断定はせず、整理と次の一歩を示す。詳細は問い合わせで、と促してよい。`;
 
+/** チャットからの固定導線（UIのフッターと揃える） */
+const SITE_ROUTE_CTA = `サイト内の次の一歩（「締め」や本文で、必要に応じて簡潔に触れてよい。全部を毎回並べない）:
+- **demo一覧** … パス \`/demo/list\`（個別の体験demoは、default モードで下に掲載があるものの \`/demo/{slug}\` のみ。それ以外のスラッグは作らない）
+- **詳細見積もり（初期検討・概算レンジの整理）** … \`/estimate-detailed\`
+- **お問い合わせ** … \`/contact\`
+
+development / consulting モードでは個別demoのパスが不明なときは \`/demo/list\` に誘導し、URL を捏造しない。`;
+
 function getDemoSlug(d: AiDemo | DemoItem): string | undefined {
   const s = d.slug;
   if (typeof s === "string" && s) return s;
@@ -111,6 +119,8 @@ ${formatDevelopmentFlow()}
 
 ${DEVELOPMENT_CROSS_TOPIC}
 
+${SITE_ROUTE_CTA}
+
 ${OUTPUT_SHAPE}
 
 ${BASE_RULES}`;
@@ -127,6 +137,8 @@ ${formatConsultingFlow()}
 
 ${CONSULTING_CROSS_TOPIC}
 
+${SITE_ROUTE_CTA}
+
 ${OUTPUT_SHAPE}
 
 ${BASE_RULES}`;
@@ -136,6 +148,8 @@ ${BASE_RULES}`;
 
   return `${DEFAULT_EXTRA}
 ${catalogBlock}
+
+${SITE_ROUTE_CTA}
 
 ${OUTPUT_SHAPE}
 

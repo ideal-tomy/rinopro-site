@@ -173,6 +173,17 @@ export function ReceiptPhotoExpenseExperience({
         <Button type="button" onClick={run}>
           実行（モック結果）
         </Button>
+        {result ? (
+          <div
+            className="mt-4 rounded-lg border border-accent/30 bg-accent/5 px-3 py-3 text-sm leading-relaxed text-text md:px-4"
+            role="status"
+          >
+            <p>自動で指定の計算シートに振り分けることが可能です。</p>
+            <p className="mt-2">
+              経費項目ごとに自動で振り分け、画像投稿のみで申告書類作成の手間を大幅削減できます。
+            </p>
+          </div>
+        ) : null}
         <p className="mt-2 text-xs text-text-sub">
           本画面はプロトタイプです。チャットで実AIを試す場合は{" "}
           <Link

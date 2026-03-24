@@ -8,6 +8,9 @@ import { InternalKnowledgeBotExperience } from "@/components/experience/prototyp
 import { ReceiptPhotoExpenseExperience } from "@/components/experience/prototypes/ReceiptPhotoExpenseExperience";
 import { RestaurantOpsDashboardExperience } from "@/components/experience/prototypes/RestaurantOpsDashboardExperience";
 import { ServiceClaimReplyExperience } from "@/components/experience/prototypes/ServiceClaimReplyExperience";
+import { InquiryIntakeTriageExperience } from "@/components/experience/prototypes/InquiryIntakeTriageExperience";
+import { WorkflowApprovalLiteExperience } from "@/components/experience/prototypes/WorkflowApprovalLiteExperience";
+import { OpsReportMetricsExperience } from "@/components/experience/prototypes/OpsReportMetricsExperience";
 
 interface ExperiencePrototypeRunnerProps {
   meta: ExperiencePrototypeMeta;
@@ -57,6 +60,24 @@ export function ExperiencePrototypeRunner({
   if (meta.slug === "driver-voice-incident-draft") {
     return (
       <DriverVoiceIncidentExperience meta={meta} className={className} />
+    );
+  }
+
+  if (meta.slug === "inquiry-intake-triage-demo") {
+    return (
+      <InquiryIntakeTriageExperience meta={meta} className={className} />
+    );
+  }
+
+  if (meta.slug === "workflow-approval-lite-demo") {
+    return (
+      <WorkflowApprovalLiteExperience meta={meta} className={className} />
+    );
+  }
+
+  if (meta.slug === "ops-report-metrics-demo") {
+    return (
+      <OpsReportMetricsExperience meta={meta} className={className} />
     );
   }
 

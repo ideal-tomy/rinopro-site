@@ -74,9 +74,9 @@ export function ScrollSequenceItem({
   return (
     <motion.div
       style={{ opacity, y, scale }}
-      className={cn(className)}
+      className={cn("pointer-events-none", className)}
     >
-      {children}
+      <div className="pointer-events-auto">{children}</div>
     </motion.div>
   );
 }

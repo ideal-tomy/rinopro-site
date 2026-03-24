@@ -18,8 +18,10 @@ import {
   C_STEP2,
   COMMON_FINISH_BODY,
   CTA_ADJUST_LABEL,
+  CTA_CONTACT_SIMPLE_LABEL,
+  CTA_DETAILED_ESTIMATE_LABEL,
+  CTA_DEMO_DIRECT_LABEL,
   CTA_FREEFORM_LABEL,
-  CTA_PRIMARY_LABEL,
   D_STEP2,
   E_STEP2,
   ROOT_CHOICES,
@@ -35,8 +37,18 @@ import {
 } from "@/lib/chat/concierge-flow";
 import {
   buildContactHandoffUrl,
-  buildHandoffPayload,
+  buildEstimateContextPayload,
+  buildEstimateDetailedEntryUrl,
+  buildHandoffPayloadV1,
 } from "@/lib/chat/estimate-handoff";
+import {
+  experienceHref,
+  getDemoSlugForAbTrack,
+  getDemoSlugForCdeTrack,
+} from "@/lib/chat/concierge-routing";
+import { suppressNextChatAutoOpen } from "@/lib/chat/chat-auto-open";
+import { getExperiencePrototypeBySlug } from "@/lib/experience/prototype-registry";
+import { useConciergeChat } from "@/components/chat/concierge-chat-context";
 
 type FlowFrame =
   | { kind: "root" }
@@ -141,8 +153,15 @@ export function HomeConciergeFlow({
   className,
 }: HomeConciergeFlowProps) {
   const router = useRouter();
+  const { setOpen: setConciergeOpen } = useConciergeChat();
   const reduce = useReducedMotion();
   const [frames, setFrames] = useState<FlowFrame[]>([{ kind: "root" }]);
+
+  /** チャット内リンク・router 遷移でページを開く直前に呼ぶ（ポップアップ状態は pathname ではリセットされない） */
+  const dismissConciergeForNavigation = useCallback(() => {
+    suppressNextChatAutoOpen();
+    setConciergeOpen(false);
+  }, [setConciergeOpen]);
 
   const current = frames[frames.length - 1];
 
@@ -255,9 +274,25 @@ export function HomeConciergeFlow({
     });
   };
 
-  const handlePrimaryCta = () => {
+  const handleDetailedEstimate = () => {
     if (current.kind !== "done") return;
-    const payload = buildHandoffPayload(current.track, current.path, current.body);
+    const ctx = buildEstimateContextPayload(
+      current.track,
+      current.path,
+      current.body
+    );
+    dismissConciergeForNavigation();
+    router.push(buildEstimateDetailedEntryUrl(ctx));
+  };
+
+  const handleContactSimple = () => {
+    if (current.kind !== "done") return;
+    const payload = buildHandoffPayloadV1(
+      current.track,
+      current.path,
+      current.body
+    );
+    dismissConciergeForNavigation();
     router.push(buildContactHandoffUrl(payload));
   };
 
@@ -384,12 +419,16 @@ export function HomeConciergeFlow({
           {current.kind === "done" && (
             <DoneStep
               disabled={disabled}
+              track={current.track}
+              path={current.path}
               body={current.body}
-              shortcut={current.shortcut}
+              shortcutIntro={current.shortcut?.intro}
               onBack={pop}
               onAdjust={restart}
-              onPrimary={handlePrimaryCta}
+              onDetailedEstimate={handleDetailedEstimate}
+              onContactSimple={handleContactSimple}
               onFreeform={handleFreeformCta}
+              onDismissForNavigation={dismissConciergeForNavigation}
             />
           )}
         </motion.div>
@@ -449,22 +488,52 @@ function FreeformStep({
 }
 
 function DoneStep({
+  track,
+  path,
   body,
-  shortcut,
+  shortcutIntro,
   disabled,
   onBack,
   onAdjust,
-  onPrimary,
+  onDetailedEstimate,
+  onContactSimple,
   onFreeform,
+  onDismissForNavigation,
 }: {
+  track: ConciergeTrack;
+  path: FlowSelection[];
   body: string;
-  shortcut?: ShortcutPanel;
+  shortcutIntro?: string;
   disabled: boolean;
   onBack: () => void;
   onAdjust: () => void;
-  onPrimary: () => void;
+  onDetailedEstimate: () => void;
+  onContactSimple: () => void;
   onFreeform: () => void;
+  onDismissForNavigation: () => void;
 }) {
+  const demoSlugResolved =
+    track === "A" || track === "B"
+      ? getDemoSlugForAbTrack(track, path)
+      : getDemoSlugForCdeTrack(track, path);
+
+  const demoMeta = demoSlugResolved
+    ? getExperiencePrototypeBySlug(demoSlugResolved)
+    : undefined;
+
+  const extraLinks =
+    track === "C"
+      ? [
+          { href: "/services/development", label: "開発スタック" },
+          { href: "/demo/list", label: "demo一覧" },
+        ]
+      : track === "D"
+        ? [{ href: "/demo/list", label: "demo一覧" }]
+        : [
+            { href: "/consulting", label: "コンサル・流れ" },
+            { href: "/flow", label: "開発の流れ" },
+          ];
+
   return (
     <div className="space-y-5">
       <div className="flex items-center justify-between gap-2">
@@ -488,31 +557,65 @@ function DoneStep({
         ))}
       </div>
 
-      {shortcut && (
-        <div className="space-y-2">
-          <p className="text-sm font-medium text-text">おすすめの次の一歩</p>
-          <div className="flex flex-col gap-2">
-            {shortcut.links.map((l) => (
-              <Button
-                key={l.href}
-                asChild
-                variant="outline"
-                className="w-full justify-center"
-              >
-                <Link href={l.href}>{l.label}</Link>
-              </Button>
-            ))}
-          </div>
-        </div>
+      {shortcutIntro && (
+        <p className="text-sm text-text-sub">{shortcutIntro}</p>
       )}
+
+      {demoSlugResolved && demoMeta && (
+        <Button asChild variant="outline" className="w-full justify-center">
+          <Link
+            href={experienceHref(demoSlugResolved)}
+            onClick={() => onDismissForNavigation()}
+          >
+            {CTA_DEMO_DIRECT_LABEL}（{demoMeta.title}）
+          </Link>
+        </Button>
+      )}
+
+      {!demoSlugResolved && (track === "C" || track === "D" || track === "E") && (
+        <p className="text-xs text-text-sub">
+          選択内容に専用demoが未割当のため、demo一覧から近いものをお選びください。
+        </p>
+      )}
+
+      <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-accent">
+        {extraLinks.map((l) => (
+          <Link
+            key={l.href}
+            href={l.href}
+            className="underline-offset-2 hover:underline"
+            onClick={() => onDismissForNavigation()}
+          >
+            {l.label}
+          </Link>
+        ))}
+      </div>
 
       <div className="rounded-lg border border-accent/25 bg-accent/5 p-3 text-sm leading-relaxed text-text">
         {parseBoldLine(COMMON_FINISH_BODY)}
       </div>
 
       <div className="flex flex-col gap-2">
-        <Button type="button" disabled={disabled} onClick={onPrimary}>
-          {CTA_PRIMARY_LABEL}
+        <Button type="button" disabled={disabled} onClick={onDetailedEstimate}>
+          {CTA_DETAILED_ESTIMATE_LABEL}
+        </Button>
+        {demoSlugResolved && demoMeta && (
+          <Button asChild variant="outline" disabled={disabled}>
+            <Link
+              href={experienceHref(demoSlugResolved)}
+              onClick={() => onDismissForNavigation()}
+            >
+              {CTA_DEMO_DIRECT_LABEL}（{demoMeta.title}）
+            </Link>
+          </Button>
+        )}
+        <Button
+          type="button"
+          variant="outline"
+          disabled={disabled}
+          onClick={onContactSimple}
+        >
+          {CTA_CONTACT_SIMPLE_LABEL}
         </Button>
         <Button
           type="button"
