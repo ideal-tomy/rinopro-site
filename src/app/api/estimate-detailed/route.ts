@@ -1,23 +1,15 @@
 import { generateObject } from "ai";
-import { z } from "zod";
+import {
+  ESTIMATE_DETAILED_SYSTEM_PROMPT,
+  buildEstimateDetailedUserPrompt,
+} from "@/lib/ai/estimate-prompts";
 import { defaultGeminiModel } from "@/lib/ai/gemini-model";
+import { estimateDetailedAiOutputSchema } from "@/lib/estimate/estimate-snapshot";
 import { rateLimit } from "@/lib/rate-limit";
 
 export const maxDuration = 60;
 
-const ResultSchema = z.object({
-  requirementTitle: z.string(),
-  requirementSections: z.array(
-    z.object({
-      heading: z.string(),
-      bullets: z.array(z.string()),
-    })
-  ),
-  assumptions: z.array(z.string()),
-  risks: z.array(z.string()),
-  estimateLoMan: z.number().int().min(0),
-  estimateHiMan: z.number().int().min(0),
-});
+const ResultSchema = estimateDetailedAiOutputSchema;
 
 export async function POST(req: Request) {
   const ip = req.headers.get("x-forwarded-for") ?? req.headers.get("x-real-ip") ?? "anonymous";
@@ -52,27 +44,16 @@ export async function POST(req: Request) {
     });
   }
 
-  const userContent = [
-    prior && `【コンシェルジュまでの文脈】\n${prior}`,
-    `【詳細ヒアリング回答】\n${answerLines.join("\n")}`,
-  ]
-    .filter(Boolean)
-    .join("\n\n");
-
-  const system = `あなたは rinopro の開発・コンサル見積もり前ヒアリングを整理するアシスタントです。
-ルール:
-- 日本語で出力する。
-- 確定契約や確定金額の保証はしない。「目安」「初期検討用」と明示する。
-- 顧客名・実在企業名は捏造しない。
-- estimateLoMan / estimateHiMan は万円単位の整数。ヒアリング内容から現実的な幅をつけたレンジにする（極端に狭くしない）。
-- requirementSections は最大5セクション、各 bullets は最大5項目。
-- 技術スタックは一般論でよい（Next.js / Supabase / LLM 等の言及可）。`;
+  const userContent = buildEstimateDetailedUserPrompt({
+    answerLines,
+    priorContext: prior || undefined,
+  });
 
   try {
     const { object } = await generateObject({
       model: defaultGeminiModel,
       schema: ResultSchema,
-      system,
+      system: ESTIMATE_DETAILED_SYSTEM_PROMPT,
       prompt: userContent,
       maxOutputTokens: 4096,
     });

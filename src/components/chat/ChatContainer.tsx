@@ -27,6 +27,7 @@ import { useChatSession } from "@/hooks/use-chat-session";
 import { Button } from "@/components/ui/button";
 import {
   useConciergeChat,
+  type ConciergeEntrySource,
   type ConciergeMode,
 } from "@/components/chat/concierge-chat-context";
 import {
@@ -38,18 +39,28 @@ import {
   suppressNextChatAutoOpen,
   type ServicesFlowPick,
 } from "@/lib/chat/chat-auto-open";
+import { getServiceCardPresetReply } from "@/lib/chat/service-card-preset-content";
 
 type ConciergeSurface = "pick" | "page" | "global";
 
-/** メッセージなし時の仮セッション ID（表面・パス・モードから決定） */
+/** ページ・文脈ごとのチャットセッション ID（同じ ID 同士だけ履歴を共有） */
 function provisionalChatSessionId(
   pathname: string,
   mode: ConciergeMode,
-  surface: ConciergeSurface
+  surface: ConciergeSurface,
+  entrySource: ConciergeEntrySource
 ): string {
   if (surface === "pick") return "concierge-entry-pick";
   if (surface === "global") return "concierge-home";
-  if (pathname === "/services") return "concierge-services-hub";
+  if (pathname === "/services") {
+    if (entrySource === "services-card-development") {
+      return "concierge-services-card-development";
+    }
+    if (entrySource === "services-card-consulting") {
+      return "concierge-services-card-consulting";
+    }
+    return "concierge-services-hub";
+  }
   if (pathname.startsWith("/demo")) {
     return `concierge-demo-${pathname.replace(/\//g, "_")}`;
   }
@@ -103,8 +114,9 @@ export function ChatContainer() {
   }, []);
 
   const provisionalId = useMemo(
-    () => provisionalChatSessionId(pathname, mode, conciergeSurface),
-    [pathname, mode, conciergeSurface]
+    () =>
+      provisionalChatSessionId(pathname, mode, conciergeSurface, entrySource),
+    [pathname, mode, conciergeSurface, entrySource]
   );
 
   const [chatSessionId, setChatSessionId] = useState("concierge-entry-pick");
@@ -118,16 +130,16 @@ export function ChatContainer() {
     [mode]
   );
 
-  const { messages, sendMessage, status, error, clearError } = useChat({
-    id: chatSessionId,
-    transport,
-  });
+  const { messages, sendMessage, setMessages, status, error, clearError } =
+    useChat({
+      id: chatSessionId,
+      transport,
+    });
 
-  /** メッセージがないときだけセッション ID を追随。会話開始後は固定（ページ遷移でも履歴を切らない） */
+  /** パス・文脈が変わったら必ずセッションを切り替え（サービスカードの会話が全ページに漏れないようにする） */
   useEffect(() => {
-    if (messages.length > 0) return;
     setChatSessionId(provisionalId);
-  }, [provisionalId, messages.length]);
+  }, [provisionalId]);
 
   const { shouldShowDemoPrompt, demoPrompt } = useChatSession(messages);
   const isLoading = status === "streaming" || status === "submitted";
@@ -219,8 +231,39 @@ export function ChatContainer() {
 
   const [serviceCardStartDone, setServiceCardStartDone] = useState(false);
 
+  useEffect(() => {
+    if (pathname !== "/services" && isServiceCardDirect) {
+      setEntrySource("fab");
+    }
+  }, [pathname, isServiceCardDirect, setEntrySource]);
+
+  useEffect(() => {
+    if (pathname !== "/services") {
+      setServiceCardStartDone(false);
+    }
+  }, [pathname]);
+
   const handleServiceCardPreset = useCallback(
     (label: string) => {
+      const variant = mode === "consulting" ? "consulting" : "development";
+      const reply = getServiceCardPresetReply(variant, label);
+      const userMsg = {
+        id: crypto.randomUUID(),
+        role: "user" as const,
+        parts: [{ type: "text" as const, text: label }],
+      };
+      if (reply) {
+        setMessages((prev) => [
+          ...prev,
+          userMsg,
+          {
+            id: crypto.randomUUID(),
+            role: "assistant" as const,
+            parts: [{ type: "text" as const, text: reply }],
+          },
+        ]);
+        return;
+      }
       const topicPrefix =
         mode === "development"
           ? "【開発相談の開始メモ】"
@@ -229,14 +272,34 @@ export function ChatContainer() {
         id: Date.now(),
         text: `${topicPrefix}\n- 相談したい項目: ${label}`,
       });
-      setServiceCardStartDone(true);
+      setMessages((prev) => [
+        ...prev,
+        userMsg,
+        {
+          id: crypto.randomUUID(),
+          role: "assistant" as const,
+          parts: [
+            {
+              type: "text" as const,
+              text: "ご選択を確認しました。詳細は入力欄の下書きを編集のうえ送信してください。",
+            },
+          ],
+        },
+      ]);
     },
-    [mode]
+    [mode, setDraftInjection, setMessages]
   );
 
   const handleServiceCardFreeform = useCallback(() => {
     setServiceCardStartDone(true);
   }, []);
+
+  const handleServiceCardRestart = useCallback(() => {
+    setMessages([]);
+    setServiceCardStartDone(false);
+    clearDraftInjection();
+    clearError();
+  }, [setMessages, clearDraftInjection, clearError]);
 
   const handlePopupOpenChange = useCallback(
     (next: boolean) => {
@@ -266,11 +329,18 @@ export function ChatContainer() {
     messages.length === 0 &&
     conciergeSurface === "page" &&
     (pathname === "/demo/list" || pathname === "/demo");
+  /**
+   * プリセット「はじめに」UI。
+   * FAB→このページについて→開発/コンサル は page 表面。
+   * サービスカードから開き直すと閉じる処理で surface が pick に戻るため、カード経路は pick でも表示する。
+   */
   const showServiceCardStartFlow =
     pathname === "/services" &&
-    isServiceCardDirect &&
+    servicesIntroComplete &&
+    (mode === "development" || mode === "consulting") &&
     !serviceCardStartDone &&
-    messages.length === 0;
+    messages.length === 0 &&
+    (conciergeSurface === "page" || isServiceCardDirect);
 
   let mainContent: ReactNode;
   if (messages.length > 0) {
@@ -323,8 +393,8 @@ export function ChatContainer() {
     mainContent = (
       <ConciergeEmptyPanel pathname={pathname}>
         {pathname === "/services" &&
-          conciergeSurface === "page" &&
-          servicesIntroComplete && (
+          servicesIntroComplete &&
+          (mode === "development" || mode === "consulting") && (
             <div className="border-b border-silver/15 px-4 py-3 text-sm text-text-sub">
               <p className="font-medium text-text">
                 {mode === "development" ? "開発" : "コンサルティング"}
@@ -338,15 +408,19 @@ export function ChatContainer() {
 
   const showChatInput = !showEntryPicker && !showServiceCardStartFlow;
   const wideHomeLayout = showGlobalHomeFlow;
+  const onServicesDevOrConsult =
+    pathname === "/services" &&
+    (mode === "development" || mode === "consulting");
+
   const chatPlaceholder = useMemo(() => {
-    if (showServiceCardStartFlow || isServiceCardDirect) {
+    if (onServicesDevOrConsult) {
       if (mode === "development") {
         return "例: 資料がまとまっていなくて探すのに時間がかかる / 売上計算と利益計算で同じデータを何度も入力して面倒";
       }
       return "例: 現場課題が整理できていない / どこから改善すべきか迷っている";
     }
     return "メッセージを入力...";
-  }, [showServiceCardStartFlow, isServiceCardDirect, mode]);
+  }, [onServicesDevOrConsult, mode]);
 
   return (
     <>
@@ -382,6 +456,20 @@ export function ChatContainer() {
       >
         <div className="flex flex-1 flex-col overflow-hidden">
           {mainContent}
+
+          {messages.length > 0 &&
+            pathname === "/services" &&
+            onServicesDevOrConsult && (
+              <div className="border-b border-silver/15 bg-base/40 px-4 py-2">
+                <button
+                  type="button"
+                  className="text-xs font-medium text-accent underline-offset-2 hover:underline"
+                  onClick={handleServiceCardRestart}
+                >
+                  はじめの選択に戻る
+                </button>
+              </div>
+            )}
 
           {shouldShowDemoPrompt &&
             mode === "default" &&

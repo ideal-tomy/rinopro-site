@@ -2,6 +2,10 @@
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import {
+  CONSULTING_PRESET_LABELS,
+  DEVELOPMENT_PRESET_LABELS,
+} from "@/lib/chat/service-card-preset-content";
 
 type Variant = "development" | "consulting";
 
@@ -12,21 +16,6 @@ interface ServiceCardConciergeStartFlowProps {
   onChooseFreeform: () => void;
 }
 
-const DEVELOPMENT_OPTIONS = [
-  "開発できるものを知りたい",
-  "期間の目安を知りたい",
-  "必要な環境・準備を知りたい",
-  "技術スタックを知りたい",
-  "開発コストの目安を知りたい",
-] as const;
-
-const CONSULTING_OPTIONS = [
-  "具体的な支援内容を知りたい",
-  "実績・進め方を知りたい",
-  "期待できる成果を知りたい",
-  "費用感を知りたい",
-] as const;
-
 export function ServiceCardConciergeStartFlow({
   variant,
   disabled = false,
@@ -34,7 +23,9 @@ export function ServiceCardConciergeStartFlow({
   onChooseFreeform,
 }: ServiceCardConciergeStartFlowProps) {
   const options =
-    variant === "development" ? DEVELOPMENT_OPTIONS : CONSULTING_OPTIONS;
+    variant === "development"
+      ? DEVELOPMENT_PRESET_LABELS
+      : CONSULTING_PRESET_LABELS;
 
   return (
     <div className="flex min-h-0 flex-1 flex-col overflow-y-auto">

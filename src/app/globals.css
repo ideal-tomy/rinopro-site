@@ -203,3 +203,12 @@ body {
     @apply font-sans;
   }
 }
+
+/* View Transitions API（対応ブラウザ）: ページ切り替えのクロスフェード感を強める */
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
+  }
+}

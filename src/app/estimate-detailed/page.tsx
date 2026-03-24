@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { PageShell } from "@/components/layout/PageShell";
-import { EstimateDetailedContent } from "@/components/estimate/EstimateDetailedContent";
+import { EstimateDetailedFormContent } from "@/components/estimate/EstimateDetailedFormContent";
 
 export const metadata: Metadata = {
   title: "詳細見積もり（初期検討） | rinopro",
@@ -18,7 +18,7 @@ export default function EstimateDetailedPage() {
             <p className="text-sm text-text-sub">読み込み中…</p>
           }
         >
-          <EstimateDetailedContent />
+          <EstimateDetailedFormContent />
         </Suspense>
       </div>
     </PageShell>

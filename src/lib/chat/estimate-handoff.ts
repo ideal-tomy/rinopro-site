@@ -1,8 +1,14 @@
+import type { EstimateSnapshot } from "@/lib/estimate/estimate-snapshot";
+import { estimateSnapshotSchema } from "@/lib/estimate/estimate-snapshot";
 import type { ConciergeTrack, FlowSelection } from "@/lib/chat/concierge-flow";
 
 const HANDOFF_V1 = 1 as const;
 const HANDOFF_V2 = 2 as const;
 const CTX_V1 = 1 as const;
+
+/** URLが長くなりすぎる場合に sessionStorage へ退避するときの query 値 */
+export const CONTACT_HANDOFF_SESSION_QUERY = "session";
+export const CONTACT_HANDOFF_STORAGE_KEY = "rinopro_contact_handoff_payload_v1";
 
 /** 問い合わせフォームへ：コンシェルジュ完了時 */
 export interface ChatHandoffPayloadV1 {
@@ -13,8 +19,15 @@ export interface ChatHandoffPayloadV1 {
   detailBlock: string;
 }
 
-/** 問い合わせフォームへ：詳細見積もりページ完了時 */
+/** 問い合わせフォームへ：詳細見積もりページ完了時（現在形式） */
 export interface ChatHandoffPayloadV2 {
+  v: typeof HANDOFF_V2;
+  source: "estimate_detailed";
+  snapshot: EstimateSnapshot;
+}
+
+/** 旧URL互換（スナップショット導入前） */
+export interface ChatHandoffPayloadV2Legacy {
   v: typeof HANDOFF_V2;
   source: "estimate_detailed";
   requirementDoc: string;
@@ -23,7 +36,10 @@ export interface ChatHandoffPayloadV2 {
   answersSummary: string;
 }
 
-export type ChatHandoffPayload = ChatHandoffPayloadV1 | ChatHandoffPayloadV2;
+export type ChatHandoffPayload =
+  | ChatHandoffPayloadV1
+  | ChatHandoffPayloadV2
+  | ChatHandoffPayloadV2Legacy;
 
 /** 詳細見積もりページの入口：コンシェルジュからのコンテキスト */
 export interface ConciergeEstimateContextPayload {
@@ -64,18 +80,42 @@ export function encodeChatHandoff(payload: ChatHandoffPayload): string {
   return utf8ToBase64Url(JSON.stringify(payload));
 }
 
+function isV2Legacy(
+  parsed: Record<string, unknown>
+): parsed is Record<string, unknown> & ChatHandoffPayloadV2Legacy {
+  if (parsed.snapshot != null) return false;
+  return (
+    typeof parsed.requirementDoc === "string" &&
+    typeof parsed.estimateLoMan === "number" &&
+    typeof parsed.estimateHiMan === "number" &&
+    typeof parsed.answersSummary === "string"
+  );
+}
+
 export function decodeChatHandoff(raw: string): ChatHandoffPayload | null {
   try {
     const parsed = JSON.parse(base64UrlToUtf8(raw)) as Record<string, unknown>;
     if (parsed.v === HANDOFF_V2 && parsed.source === "estimate_detailed") {
-      const p = parsed as unknown as ChatHandoffPayloadV2;
-      if (
-        typeof p.requirementDoc === "string" &&
-        typeof p.estimateLoMan === "number" &&
-        typeof p.estimateHiMan === "number" &&
-        typeof p.answersSummary === "string"
-      ) {
-        return p;
+      if (parsed.snapshot != null) {
+        const checked = estimateSnapshotSchema.safeParse(parsed.snapshot);
+        if (checked.success) {
+          return {
+            v: HANDOFF_V2,
+            source: "estimate_detailed",
+            snapshot: checked.data,
+          };
+        }
+        return null;
+      }
+      if (isV2Legacy(parsed)) {
+        return {
+          v: HANDOFF_V2,
+          source: "estimate_detailed",
+          requirementDoc: parsed.requirementDoc,
+          estimateLoMan: parsed.estimateLoMan,
+          estimateHiMan: parsed.estimateHiMan,
+          answersSummary: parsed.answersSummary,
+        };
       }
       return null;
     }
@@ -129,10 +169,88 @@ const TRACK_LABELS: Record<ConciergeTrack, string> = {
   E: "依頼方法",
 };
 
+/** 概算見積（コンシェルジュ）からの文脈を、画面上で見せやすい形にする */
+export function summarizeConciergeEstimateContextForDisplay(
+  ctx: ConciergeEstimateContextPayload
+): {
+  trackLabel: string;
+  steps: { title: string; answerLine: string }[];
+  freeNotes: string;
+} {
+  return {
+    trackLabel: TRACK_LABELS[ctx.track],
+    steps: ctx.path.map((p) => ({
+      title: p.stepTitle,
+      answerLine: p.freeform?.trim()
+        ? `${p.label}（追記: ${p.freeform.trim()}）`
+        : p.label,
+    })),
+    freeNotes: ctx.detailBlock.trim(),
+  };
+}
+
 export function buildContactHandoffUrl(payload: ChatHandoffPayload): string {
   const encoded = encodeChatHandoff(payload);
   const params = new URLSearchParams({ handoff: encoded });
   return `/contact?${params.toString()}`;
+}
+
+/** 推奨: 長い場合は sessionStorage + ?handoff=session */
+export function buildContactHandoffNavigation(
+  payload: ChatHandoffPayload,
+  maxEncodedLength = 2400
+): { href: string; storeInSession: boolean } {
+  const encoded = encodeChatHandoff(payload);
+  if (encoded.length > maxEncodedLength) {
+    return {
+      href: `/contact?handoff=${encodeURIComponent(CONTACT_HANDOFF_SESSION_QUERY)}`,
+      storeInSession: true,
+    };
+  }
+  return { href: buildContactHandoffUrl(payload), storeInSession: false };
+}
+
+export function storeHandoffPayloadInSession(payload: ChatHandoffPayload): void {
+  if (typeof window === "undefined") return;
+  try {
+    window.sessionStorage.setItem(CONTACT_HANDOFF_STORAGE_KEY, JSON.stringify(payload));
+  } catch {
+    // ignore quota / private mode
+  }
+}
+
+export function consumeHandoffPayloadFromSession(): ChatHandoffPayload | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = window.sessionStorage.getItem(CONTACT_HANDOFF_STORAGE_KEY);
+    if (!raw) return null;
+    window.sessionStorage.removeItem(CONTACT_HANDOFF_STORAGE_KEY);
+    const parsed = JSON.parse(raw) as ChatHandoffPayload;
+    if (parsed.v === HANDOFF_V2 && parsed.source === "estimate_detailed") {
+      if ("snapshot" in parsed && parsed.snapshot) {
+        const checked = estimateSnapshotSchema.safeParse(parsed.snapshot);
+        if (checked.success) {
+          return { v: HANDOFF_V2, source: "estimate_detailed", snapshot: checked.data };
+        }
+        return null;
+      }
+      const rec = parsed as unknown as Record<string, unknown>;
+      if (isV2Legacy(rec)) {
+        return {
+          v: HANDOFF_V2,
+          source: "estimate_detailed",
+          requirementDoc: rec.requirementDoc,
+          estimateLoMan: rec.estimateLoMan,
+          estimateHiMan: rec.estimateHiMan,
+          answersSummary: rec.answersSummary,
+        };
+      }
+    }
+    if (parsed.v === HANDOFF_V1) return parsed;
+    return null;
+  } catch {
+    return null;
+  }
 }
 
 export function buildEstimateDetailedEntryUrl(
@@ -169,51 +287,70 @@ export function buildEstimateContextPayload(
   };
 }
 
-export function buildHandoffPayloadV2FromDetailed(args: {
-  requirementDoc: string;
-  estimateLoMan: number;
-  estimateHiMan: number;
-  answersSummary: string;
-}): ChatHandoffPayloadV2 {
+export function buildHandoffPayloadV2FromDetailed(
+  snapshot: EstimateSnapshot
+): ChatHandoffPayloadV2 {
   return {
     v: HANDOFF_V2,
     source: "estimate_detailed",
-    requirementDoc: args.requirementDoc,
-    estimateLoMan: args.estimateLoMan,
-    estimateHiMan: args.estimateHiMan,
-    answersSummary: args.answersSummary,
+    snapshot,
   };
 }
 
 /** 問い合わせフォームのメッセージ欄用ドラフト */
 export function buildContactMessageDraft(payload: ChatHandoffPayload): string {
-  if (payload.v === HANDOFF_V2) {
+  if (payload.v === HANDOFF_V2 && payload.source === "estimate_detailed") {
+    if ("snapshot" in payload && payload.snapshot) {
+      const { snapshot } = payload;
+      return [
+        "【詳細見積もりページからのお問い合わせ】",
+        "",
+        "（この上に、追加で伝えたいことを書いてください）",
+        "",
+        "--- 以下は自動メモです ---",
+        "",
+        snapshot.ai.plainCustomerSummary,
+        "",
+        `金額の目安: 約${snapshot.ai.estimateLoMan}万円〜${snapshot.ai.estimateHiMan}万円程度`,
+        "",
+        "--- 開発に向けた内容の整理（自動） ---",
+        "",
+        snapshot.requirementDocMarkdown,
+        "",
+        "---",
+        "※ 正式なお見積もりではありません。内容は返信前にすり合わせます。",
+      ].join("\n");
+    }
+    const legacy = payload as ChatHandoffPayloadV2Legacy;
     return [
       "【詳細見積もりからの引き継ぎ】",
       "",
-      payload.answersSummary,
+      legacy.answersSummary,
       "",
-      "--- 仮要件定義（自動生成） ---",
+      "--- 開発に向けた内容の整理（自動） ---",
       "",
-      payload.requirementDoc,
+      legacy.requirementDoc,
       "",
-      `概算レンジ（目安）: 約${payload.estimateLoMan}万円〜${payload.estimateHiMan}万円程度`,
+      `金額の目安: 約${legacy.estimateLoMan}万円〜${legacy.estimateHiMan}万円程度`,
       "",
       "---",
-      "正式見積もり・追加ヒアリングのご希望があれば続けてご記入ください。",
+      "追加のご希望があれば、この上にご記入ください。",
     ].join("\n");
   }
-  const lines = [
-    "【AIコンシェルジュからの引き継ぎ】",
-    "",
-    `ご用件: ${payload.trackLabel}（トラック ${payload.track}）`,
-    "",
-    payload.detailBlock,
-    "",
-    "---",
-    "上記はチャット上の選択に基づくたたき台です。追加のご要望があれば続けてご記入ください。",
-  ];
-  return lines.join("\n");
+  if (payload.v === HANDOFF_V1) {
+    const lines = [
+      "【AIコンシェルジュからの引き継ぎ】",
+      "",
+      `ご用件: ${payload.trackLabel}（トラック ${payload.track}）`,
+      "",
+      payload.detailBlock,
+      "",
+      "---",
+      "上記はチャット上の選択に基づくたたき台です。追加のご要望があれば続けてご記入ください。",
+    ];
+    return lines.join("\n");
+  }
+  return "";
 }
 
 /** @deprecated 互換: V1 のみ生成 */
