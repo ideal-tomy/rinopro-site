@@ -21,6 +21,8 @@ import { ServicesConciergeFlow } from "./ServicesConciergeFlow";
 import { ConciergeEmptyPanel } from "./ConciergeEmptyPanel";
 import { ConciergeEntryPicker } from "./ConciergeEntryPicker";
 import type { ConciergeEntryChoice } from "./ConciergeEntryPicker";
+import { DemoListConciergeFlow } from "./DemoListConciergeFlow";
+import { ServiceCardConciergeStartFlow } from "./ServiceCardConciergeStartFlow";
 import { useChatSession } from "@/hooks/use-chat-session";
 import { Button } from "@/components/ui/button";
 import {
@@ -77,7 +79,8 @@ const POPUP_COPY: Record<
 
 export function ChatContainer() {
   const pathname = usePathname();
-  const { open, setOpen, mode, setMode } = useConciergeChat();
+  const { open, setOpen, mode, setMode, entrySource, setEntrySource } =
+    useConciergeChat();
 
   const dismissConciergeForSiteLink = useCallback(() => {
     suppressNextChatAutoOpen();
@@ -194,7 +197,45 @@ export function ChatContainer() {
       setConciergeSurface("global");
       return;
     }
+    if (pathname === "/") {
+      setConciergeSurface("global");
+      return;
+    }
     setConciergeSurface("page");
+  }, [pathname]);
+
+  const handleDemoRouteFreeform = useCallback(() => {
+    setConciergeSurface("page");
+  }, []);
+
+  const handleDemoRouteDraft = useCallback((text: string) => {
+    setDraftInjection({ id: Date.now(), text });
+    setConciergeSurface("page");
+  }, []);
+
+  const isServiceCardDirect =
+    entrySource === "services-card-development" ||
+    entrySource === "services-card-consulting";
+
+  const [serviceCardStartDone, setServiceCardStartDone] = useState(false);
+
+  const handleServiceCardPreset = useCallback(
+    (label: string) => {
+      const topicPrefix =
+        mode === "development"
+          ? "【開発相談の開始メモ】"
+          : "【コンサル相談の開始メモ】";
+      setDraftInjection({
+        id: Date.now(),
+        text: `${topicPrefix}\n- 相談したい項目: ${label}`,
+      });
+      setServiceCardStartDone(true);
+    },
+    [mode]
+  );
+
+  const handleServiceCardFreeform = useCallback(() => {
+    setServiceCardStartDone(true);
   }, []);
 
   const handlePopupOpenChange = useCallback(
@@ -202,17 +243,34 @@ export function ChatContainer() {
       setOpen(next);
       if (!next) {
         setConciergeSurface("pick");
+        setEntrySource("fab");
+        setServiceCardStartDone(false);
       }
     },
-    [setOpen]
+    [setOpen, setEntrySource]
   );
 
   const popupMeta = POPUP_COPY[mode];
 
+  const isHomePage = pathname === "/";
   const showGlobalHomeFlow =
-    conciergeSurface === "global" && messages.length === 0;
+    messages.length === 0 &&
+    (conciergeSurface === "global" || (isHomePage && conciergeSurface === "pick"));
 
-  const showEntryPicker = messages.length === 0 && conciergeSurface === "pick";
+  const showEntryPicker =
+    messages.length === 0 &&
+    conciergeSurface === "pick" &&
+    !isHomePage &&
+    !isServiceCardDirect;
+  const showDemoRouteFlow =
+    messages.length === 0 &&
+    conciergeSurface === "page" &&
+    (pathname === "/demo/list" || pathname === "/demo");
+  const showServiceCardStartFlow =
+    pathname === "/services" &&
+    isServiceCardDirect &&
+    !serviceCardStartDone &&
+    messages.length === 0;
 
   let mainContent: ReactNode;
   if (messages.length > 0) {
@@ -244,6 +302,23 @@ export function ChatContainer() {
         onPickService={handleServicesPick}
       />
     );
+  } else if (showServiceCardStartFlow) {
+    mainContent = (
+      <ServiceCardConciergeStartFlow
+        variant={mode === "consulting" ? "consulting" : "development"}
+        disabled={isLoading}
+        onChoosePreset={handleServiceCardPreset}
+        onChooseFreeform={handleServiceCardFreeform}
+      />
+    );
+  } else if (showDemoRouteFlow) {
+    mainContent = (
+      <DemoListConciergeFlow
+        disabled={isLoading}
+        onUseFreeform={handleDemoRouteFreeform}
+        onInjectDraft={handleDemoRouteDraft}
+      />
+    );
   } else {
     mainContent = (
       <ConciergeEmptyPanel pathname={pathname}>
@@ -261,23 +336,38 @@ export function ChatContainer() {
     );
   }
 
-  const showChatInput = !showEntryPicker;
+  const showChatInput = !showEntryPicker && !showServiceCardStartFlow;
   const wideHomeLayout = showGlobalHomeFlow;
+  const chatPlaceholder = useMemo(() => {
+    if (showServiceCardStartFlow || isServiceCardDirect) {
+      if (mode === "development") {
+        return "例: 資料がまとまっていなくて探すのに時間がかかる / 売上計算と利益計算で同じデータを何度も入力して面倒";
+      }
+      return "例: 現場課題が整理できていない / どこから改善すべきか迷っている";
+    }
+    return "メッセージを入力...";
+  }, [showServiceCardStartFlow, isServiceCardDirect, mode]);
 
   return (
     <>
-      <Button
-        type="button"
-        variant="outline"
-        className="fixed bottom-5 right-4 z-[45] box-border flex min-h-[3.5rem] min-w-[3.5rem] flex-col items-center justify-center gap-1 rounded-full border-2 border-silver/35 bg-base-dark/95 px-3 py-2 shadow-[0_6px_28px_rgba(0,0,0,0.5)] ring-1 ring-white/[0.06] backdrop-blur-sm transition-[border-color,box-shadow] duration-200 hover:border-accent/50 hover:shadow-[0_8px_32px_rgba(0,242,255,0.12)] sm:bottom-6 sm:right-6 sm:min-h-[3.75rem] sm:min-w-[10.5rem] sm:flex-row sm:gap-2 sm:px-4 sm:py-0 md:bottom-8 md:right-8"
-        onClick={() => setOpen(true)}
-        aria-label="相談・ガイド（AIコンシェルジュ）を開く"
-      >
-        <MessageCircle className="h-6 w-6 shrink-0 text-accent" aria-hidden />
-        <span className="max-w-[4.75rem] text-center text-[0.62rem] font-semibold leading-snug tracking-tight text-text sm:max-w-none sm:text-sm sm:font-medium sm:tracking-normal">
-          相談・ガイド
-        </span>
-      </Button>
+      <div className="pointer-events-none fixed bottom-5 right-4 z-[80] sm:bottom-6 sm:right-6 md:bottom-8 md:right-8">
+        <Button
+          type="button"
+          variant="outline"
+          className="pointer-events-auto box-border flex min-h-[3.5rem] min-w-[3.5rem] flex-col items-center justify-center gap-1 rounded-full border-2 border-silver/35 bg-base-dark/95 px-3 py-2 shadow-[0_6px_28px_rgba(0,0,0,0.5)] ring-1 ring-white/[0.06] backdrop-blur-sm transition-[border-color,box-shadow] duration-200 hover:border-accent/50 hover:shadow-[0_8px_32px_rgba(0,242,255,0.12)] sm:min-h-[3.75rem] sm:min-w-[10.5rem] sm:flex-row sm:gap-2 sm:px-4 sm:py-0"
+          onClick={() => {
+            setEntrySource("fab");
+            setServiceCardStartDone(false);
+            setOpen(true);
+          }}
+          aria-label="相談・ガイド（AIコンシェルジュ）を開く"
+        >
+          <MessageCircle className="h-6 w-6 shrink-0 text-accent" aria-hidden />
+          <span className="max-w-[4.75rem] text-center text-[0.62rem] font-semibold leading-snug tracking-tight text-text sm:max-w-none sm:text-sm sm:font-medium sm:tracking-normal">
+            相談・ガイド
+          </span>
+        </Button>
+      </div>
 
       <ChatPopup
         open={open}
@@ -349,6 +439,7 @@ export function ChatContainer() {
             <ChatInput
               onSend={handleSend}
               disabled={isLoading}
+              placeholder={chatPlaceholder}
               voiceEnabled={voiceEnabled}
               onVoiceToggle={() => setVoiceEnabled((v) => !v)}
               draftInjection={draftInjection}
@@ -357,7 +448,9 @@ export function ChatContainer() {
             />
           ) : (
             <div className="border-t border-silver/15 bg-base/40 px-4 py-3 text-center text-xs text-text-sub">
-              上の2択から選ぶと、入力欄が使えるようになります。
+              {showServiceCardStartFlow
+                ? "上の選択肢か自由記述を選ぶと、入力欄が使えるようになります。"
+                : "上の2択から選ぶと、入力欄が使えるようになります。"}
             </div>
           )}
         </div>

@@ -8,6 +8,7 @@ import {
 } from "@/components/layout/PageSectionWithScroll";
 import { servicesCopy } from "@/lib/content/site-copy";
 import { useConciergeChat } from "@/components/chat/concierge-chat-context";
+import { writeServicesFlowPick } from "@/lib/chat/chat-auto-open";
 
 export function ServicesPageContent() {
   const { openConcierge } = useConciergeChat();
@@ -25,7 +26,10 @@ export function ServicesPageContent() {
           <button
             type="button"
             className="flex flex-1 flex-col px-6 py-6 text-left"
-            onClick={() => openConcierge("development")}
+            onClick={() => {
+              writeServicesFlowPick("development");
+              openConcierge("development", "services-card-development");
+            }}
           >
             <h2 className="mb-2 font-semibold text-text">
               {servicesCopy.development.title}
@@ -51,7 +55,10 @@ export function ServicesPageContent() {
           <button
             type="button"
             className="flex flex-1 flex-col px-6 py-6 text-left"
-            onClick={() => openConcierge("consulting")}
+            onClick={() => {
+              writeServicesFlowPick("consulting");
+              openConcierge("consulting", "services-card-consulting");
+            }}
           >
             <h2 className="mb-2 font-semibold text-text">
               {servicesCopy.consulting.title}

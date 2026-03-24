@@ -10,13 +10,23 @@ import {
 } from "react";
 
 export type ConciergeMode = "default" | "development" | "consulting";
+export type ConciergeEntrySource =
+  | "fab"
+  | "auto"
+  | "services-card-development"
+  | "services-card-consulting";
 
 type ConciergeChatContextValue = {
   open: boolean;
   setOpen: (value: boolean) => void;
   mode: ConciergeMode;
   setMode: (value: ConciergeMode) => void;
-  openConcierge: (nextMode: ConciergeMode) => void;
+  entrySource: ConciergeEntrySource;
+  setEntrySource: (value: ConciergeEntrySource) => void;
+  openConcierge: (
+    nextMode: ConciergeMode,
+    source?: ConciergeEntrySource
+  ) => void;
 };
 
 const ConciergeChatContext = createContext<ConciergeChatContextValue | null>(
@@ -26,11 +36,16 @@ const ConciergeChatContext = createContext<ConciergeChatContextValue | null>(
 export function ConciergeChatProvider({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState<ConciergeMode>("default");
+  const [entrySource, setEntrySource] = useState<ConciergeEntrySource>("fab");
 
-  const openConcierge = useCallback((nextMode: ConciergeMode) => {
-    setMode(nextMode);
-    setOpen(true);
-  }, []);
+  const openConcierge = useCallback(
+    (nextMode: ConciergeMode, source: ConciergeEntrySource = "fab") => {
+      setEntrySource(source);
+      setMode(nextMode);
+      setOpen(true);
+    },
+    []
+  );
 
   const value = useMemo(
     () => ({
@@ -38,9 +53,11 @@ export function ConciergeChatProvider({ children }: { children: ReactNode }) {
       setOpen,
       mode,
       setMode,
+      entrySource,
+      setEntrySource,
       openConcierge,
     }),
-    [open, mode, openConcierge]
+    [open, mode, entrySource, openConcierge]
   );
 
   return (
