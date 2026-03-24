@@ -1,5 +1,6 @@
 import type { EstimateSnapshot } from "@/lib/estimate/estimate-snapshot";
 import { buildAnswersSummaryLines } from "@/lib/estimate/estimate-snapshot";
+import { ESTIMATE_PHILOSOPHY_UI_PARAGRAPH } from "@/lib/estimate/estimate-output-philosophy";
 
 export interface ContactMailContext {
   name: string;
@@ -95,7 +96,9 @@ export function buildCustomerContactEmail(ctx: ContactMailContext): {
       "",
       "▼ 見積もりの目安（参考）",
       `金額の目安: 約${ai.estimateLoMan}万円〜${ai.estimateHiMan}万円程度`,
-      "※ 正式なお見積もりではありません。詳細は返信にてご案内します。"
+      "※ 正式なお見積もりではありません。詳細は返信にてご案内します。",
+      "",
+      ESTIMATE_PHILOSOPHY_UI_PARAGRAPH
     );
   }
   lines.push("", "※ 本メールに心当たりがない場合は、お手数ですが破棄してください。");

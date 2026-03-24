@@ -5,6 +5,7 @@ import {
   useEffect,
   useLayoutEffect,
   useMemo,
+  useRef,
   useState,
   type ReactNode,
 } from "react";
@@ -32,6 +33,7 @@ import {
 } from "@/components/chat/concierge-chat-context";
 import {
   chatAutoOpenStorageKey,
+  clearServicesFlowPick,
   consumeSuppressChatAutoOnce,
   shouldAttemptChatAutoOpen,
   writeServicesFlowPick,
@@ -40,35 +42,13 @@ import {
   type ServicesFlowPick,
 } from "@/lib/chat/chat-auto-open";
 import { getServiceCardPresetReply } from "@/lib/chat/service-card-preset-content";
+import {
+  buildConciergeChatSessionId,
+  CONCIERGE_CHAT_SESSION_INITIAL,
+  type ConciergeChatSurface,
+} from "@/lib/chat/concierge-session-id";
 
-type ConciergeSurface = "pick" | "page" | "global";
-
-/** ページ・文脈ごとのチャットセッション ID（同じ ID 同士だけ履歴を共有） */
-function provisionalChatSessionId(
-  pathname: string,
-  mode: ConciergeMode,
-  surface: ConciergeSurface,
-  entrySource: ConciergeEntrySource
-): string {
-  if (surface === "pick") return "concierge-entry-pick";
-  if (surface === "global") return "concierge-home";
-  if (pathname === "/services") {
-    if (entrySource === "services-card-development") {
-      return "concierge-services-card-development";
-    }
-    if (entrySource === "services-card-consulting") {
-      return "concierge-services-card-consulting";
-    }
-    return "concierge-services-hub";
-  }
-  if (pathname.startsWith("/demo")) {
-    return `concierge-demo-${pathname.replace(/\//g, "_")}`;
-  }
-  if (mode === "development") return "concierge-session-development";
-  if (mode === "consulting") return "concierge-session-consulting";
-  const slug = pathname.slice(1).replace(/\//g, "-") || "root";
-  return `concierge-path-${slug}`;
-}
+type ConciergeSurface = ConciergeChatSurface;
 
 const POPUP_COPY: Record<
   ConciergeMode,
@@ -93,6 +73,11 @@ export function ChatContainer() {
   const { open, setOpen, mode, setMode, entrySource, setEntrySource } =
     useConciergeChat();
 
+  const openRef = useRef(open);
+  useEffect(() => {
+    openRef.current = open;
+  }, [open]);
+
   const dismissConciergeForSiteLink = useCallback(() => {
     suppressNextChatAutoOpen();
     setOpen(false);
@@ -115,11 +100,16 @@ export function ChatContainer() {
 
   const provisionalId = useMemo(
     () =>
-      provisionalChatSessionId(pathname, mode, conciergeSurface, entrySource),
+      buildConciergeChatSessionId({
+        pathname,
+        mode,
+        surface: conciergeSurface,
+        entrySource,
+      }),
     [pathname, mode, conciergeSurface, entrySource]
   );
 
-  const [chatSessionId, setChatSessionId] = useState("concierge-entry-pick");
+  const [chatSessionId, setChatSessionId] = useState(CONCIERGE_CHAT_SESSION_INITIAL);
 
   const transport = useMemo(
     () =>
@@ -144,13 +134,14 @@ export function ChatContainer() {
   const { shouldShowDemoPrompt, demoPrompt } = useChatSession(messages);
   const isLoading = status === "streaming" || status === "submitted";
 
+  /** sessionStorage の pick と React 状態を同期（同一 /services 上でカードを押した直後も取りこぼさない） */
   useLayoutEffect(() => {
     if (pathname === "/services") {
       setServicesIntroComplete(readServicesFlowPick() !== null);
     } else {
       setServicesIntroComplete(false);
     }
-  }, [pathname]);
+  }, [pathname, open, entrySource]);
 
   useEffect(() => {
     if (pathname === "/flow" || pathname === "/services/development") {
@@ -186,10 +177,21 @@ export function ChatContainer() {
       } catch {
         /* ignore */
       }
+      // 既にユーザーが FAB 等で開いている場合は表面を上書きしない
+      if (openRef.current) return;
+      /**
+       * /demo/list・/services は「そのページにいる＝文脈が決まっている」ため、
+       * 自動オープンでは入口の 2 択（このページ / サイト全体）を挟まず page に入る。
+       * `/` は pick のまま（ホームの分岐フロー）。
+       */
+      if (pathname === "/demo/list" || pathname === "/services") {
+        setEntrySource("auto");
+        setConciergeSurface("page");
+      }
       setOpen(true);
     }, 400);
     return () => clearTimeout(timer);
-  }, [pathname, setOpen]);
+  }, [pathname, setOpen, setEntrySource]);
 
   const handleSend = (text: string) => {
     sendMessage({ text });
@@ -204,17 +206,24 @@ export function ChatContainer() {
     [setMode]
   );
 
-  const handleEntryChoice = useCallback((choice: ConciergeEntryChoice) => {
-    if (choice === "global") {
-      setConciergeSurface("global");
-      return;
-    }
-    if (pathname === "/") {
-      setConciergeSurface("global");
-      return;
-    }
-    setConciergeSurface("page");
-  }, [pathname]);
+  const handleEntryChoice = useCallback(
+    (choice: ConciergeEntryChoice) => {
+      if (choice === "global") {
+        setConciergeSurface("global");
+        return;
+      }
+      if (pathname === "/") {
+        setConciergeSurface("global");
+        return;
+      }
+      if (pathname === "/services") {
+        clearServicesFlowPick();
+        setMode("default");
+      }
+      setConciergeSurface("page");
+    },
+    [pathname, setMode]
+  );
 
   const handleDemoRouteFreeform = useCallback(() => {
     setConciergeSurface("page");
@@ -230,6 +239,13 @@ export function ChatContainer() {
     entrySource === "services-card-consulting";
 
   const [serviceCardStartDone, setServiceCardStartDone] = useState(false);
+
+  /** サービスカード経路は常に page 表面（閉じると pick に戻るため、カード再開で入口ピッカーと混線しないようにする） */
+  useEffect(() => {
+    if (open && isServiceCardDirect) {
+      setConciergeSurface("page");
+    }
+  }, [open, isServiceCardDirect]);
 
   useEffect(() => {
     if (pathname !== "/services" && isServiceCardDirect) {
@@ -313,8 +329,6 @@ export function ChatContainer() {
     [setOpen, setEntrySource]
   );
 
-  const popupMeta = POPUP_COPY[mode];
-
   const isHomePage = pathname === "/";
   const showGlobalHomeFlow =
     messages.length === 0 &&
@@ -325,6 +339,13 @@ export function ChatContainer() {
     conciergeSurface === "pick" &&
     !isHomePage &&
     !isServiceCardDirect;
+
+  /** /services で FAB 経路の入口ピッカー中は、カード用レーンに引っ張られない中立タイトル */
+  const neutralServicesFabEntry =
+    pathname === "/services" &&
+    showEntryPicker &&
+    entrySource === "fab";
+  const popupMeta = neutralServicesFabEntry ? POPUP_COPY.default : POPUP_COPY[mode];
   const showDemoRouteFlow =
     messages.length === 0 &&
     conciergeSurface === "page" &&
@@ -432,6 +453,10 @@ export function ChatContainer() {
           onClick={() => {
             setEntrySource("fab");
             setServiceCardStartDone(false);
+            if (pathname === "/services") {
+              clearServicesFlowPick();
+              setMode("default");
+            }
             setOpen(true);
           }}
           aria-label="相談・ガイド（AIコンシェルジュ）を開く"

@@ -25,6 +25,7 @@ import {
   compareEstimateToBudgetBand,
   resolveBudgetBandFromFlow,
 } from "@/lib/estimate/estimate-detailed-budget";
+import { EstimateDetailedPhilosophyFootnote } from "@/components/estimate/EstimateDetailedPhilosophyFootnote";
 import { EstimateDetailedResumeQuestionsButton } from "@/components/estimate/EstimateDetailedResumeQuestionsButton";
 
 const copy = estimateDetailedCopy;
@@ -122,6 +123,8 @@ export function EstimateDetailedAmountContent() {
           {flow.ai.plainCustomerSummary}
         </p>
       </div>
+
+      <EstimateDetailedPhilosophyFootnote />
 
       <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:justify-center">
         <Button type="button" className="min-h-12 w-full px-8 text-base sm:w-auto" onClick={goContact}>

@@ -13,6 +13,12 @@ export const estimateFormDraftSchema = z.object({
   integration: z.string(),
   /** 載せる場所・利用チャネル（レンジ絞り込み用） */
   usageSurface: z.string().default("unknown"),
+  dataSensitivity: z.string().default("unknown"),
+  audienceScope: z.string().default("unknown"),
+  currentWorkflow: z.string().default("unknown"),
+  updateFrequency: z.string().default("unknown"),
+  designExpectation: z.string().default("unknown"),
+  loginModel: z.string().default("unknown"),
   budgetBand: z.string(),
   budgetFeel: z.string(),
   constraints: z.string(),

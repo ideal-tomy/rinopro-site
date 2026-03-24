@@ -34,6 +34,12 @@ const initialForm: FormState = {
   timeline: "3m",
   integration: "nice",
   usageSurface: "unknown",
+  dataSensitivity: "unknown",
+  audienceScope: "unknown",
+  currentWorkflow: "unknown",
+  updateFrequency: "unknown",
+  designExpectation: "unknown",
+  loginModel: "unknown",
   budgetBand: "unknown",
   budgetFeel: "",
   constraints: "",
@@ -56,6 +62,22 @@ function buildAnswersRecord(f: EstimateFormDraft): Record<string, string> {
       copy.integrationOptions,
       f.integration
     ),
+    "主な使い方・載せる場所": optionLabel(copy.usageSurfaceOptions, f.usageSurface),
+    "扱う情報に個人情報は含まれますか": optionLabel(
+      copy.dataSensitivityOptions,
+      f.dataSensitivity
+    ),
+    "誰が使う・見るか（社内・外部）": optionLabel(copy.audienceScopeOptions, f.audienceScope),
+    "いまの情報の扱い方（中心）": optionLabel(
+      copy.currentWorkflowOptions,
+      f.currentWorkflow
+    ),
+    "情報の更新の頻度": optionLabel(copy.updateFrequencyOptions, f.updateFrequency),
+    "見た目・デザインの期待": optionLabel(
+      copy.designExpectationOptions,
+      f.designExpectation
+    ),
+    "ログインの使い方": optionLabel(copy.loginModelOptions, f.loginModel),
     "ご予算のイメージ": optionLabel(copy.budgetBandOptions, f.budgetBand),
   };
   const pain = f.pain.trim();
@@ -415,6 +437,127 @@ export function EstimateDetailedFormContent() {
               </option>
             ))}
           </select>
+        </div>
+
+        <div className="space-y-4 border-t border-silver/20 pt-6">
+          <div>
+            <h3 className="text-base font-semibold text-accent">{copy.sectionCostDrivers}</h3>
+            <p className="mt-1 text-xs text-text-sub md:text-sm">{copy.sectionCostDriversSub}</p>
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-text" htmlFor="ed-data-sens">
+              {copy.fieldDataSensitivity}
+            </label>
+            <p className="text-xs text-text-sub">{copy.fieldDataSensitivityHint}</p>
+            <select
+              id="ed-data-sens"
+              className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-base text-text md:text-sm"
+              value={form.dataSensitivity}
+              onChange={(e) => setForm((f) => ({ ...f, dataSensitivity: e.target.value }))}
+            >
+              {copy.dataSensitivityOptions.map((o) => (
+                <option key={o.value} value={o.value}>
+                  {o.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-text" htmlFor="ed-audience">
+              {copy.fieldAudienceScope}
+            </label>
+            <p className="text-xs text-text-sub">{copy.fieldAudienceScopeHint}</p>
+            <select
+              id="ed-audience"
+              className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-base text-text md:text-sm"
+              value={form.audienceScope}
+              onChange={(e) => setForm((f) => ({ ...f, audienceScope: e.target.value }))}
+            >
+              {copy.audienceScopeOptions.map((o) => (
+                <option key={o.value} value={o.value}>
+                  {o.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-text" htmlFor="ed-workflow">
+              {copy.fieldCurrentWorkflow}
+            </label>
+            <p className="text-xs text-text-sub">{copy.fieldCurrentWorkflowHint}</p>
+            <select
+              id="ed-workflow"
+              className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-base text-text md:text-sm"
+              value={form.currentWorkflow}
+              onChange={(e) => setForm((f) => ({ ...f, currentWorkflow: e.target.value }))}
+            >
+              {copy.currentWorkflowOptions.map((o) => (
+                <option key={o.value} value={o.value}>
+                  {o.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-text" htmlFor="ed-update-freq">
+              {copy.fieldUpdateFrequency}
+            </label>
+            <p className="text-xs text-text-sub">{copy.fieldUpdateFrequencyHint}</p>
+            <select
+              id="ed-update-freq"
+              className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-base text-text md:text-sm"
+              value={form.updateFrequency}
+              onChange={(e) => setForm((f) => ({ ...f, updateFrequency: e.target.value }))}
+            >
+              {copy.updateFrequencyOptions.map((o) => (
+                <option key={o.value} value={o.value}>
+                  {o.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-text" htmlFor="ed-design">
+              {copy.fieldDesignExpectation}
+            </label>
+            <p className="text-xs text-text-sub">{copy.fieldDesignExpectationHint}</p>
+            <select
+              id="ed-design"
+              className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-base text-text md:text-sm"
+              value={form.designExpectation}
+              onChange={(e) => setForm((f) => ({ ...f, designExpectation: e.target.value }))}
+            >
+              {copy.designExpectationOptions.map((o) => (
+                <option key={o.value} value={o.value}>
+                  {o.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-text" htmlFor="ed-login">
+              {copy.fieldLoginModel}
+            </label>
+            <p className="text-xs text-text-sub">{copy.fieldLoginModelHint}</p>
+            <select
+              id="ed-login"
+              className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-base text-text md:text-sm"
+              value={form.loginModel}
+              onChange={(e) => setForm((f) => ({ ...f, loginModel: e.target.value }))}
+            >
+              {copy.loginModelOptions.map((o) => (
+                <option key={o.value} value={o.value}>
+                  {o.label}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
 
         <div className="space-y-2">

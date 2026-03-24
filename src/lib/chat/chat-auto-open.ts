@@ -71,3 +71,13 @@ export function writeServicesFlowPick(mode: ServicesFlowPick): void {
     /* ignore */
   }
 }
+
+/** FAB「このページについて」など、サービスページの中立入口用にレーン記憶を消す */
+export function clearServicesFlowPick(): void {
+  if (typeof window === "undefined") return;
+  try {
+    sessionStorage.removeItem(SERVICES_FLOW_PICK_KEY);
+  } catch {
+    /* ignore */
+  }
+}

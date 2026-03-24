@@ -1,4 +1,8 @@
 import { z } from "zod";
+import {
+  ESTIMATE_PHILOSOPHY_MARKDOWN_HEADING,
+  ESTIMATE_PHILOSOPHY_UI_PARAGRAPH,
+} from "@/lib/estimate/estimate-output-philosophy";
 
 /** 見積もりページから問い合わせへ同封する構造化データ（API・メール・ログ用） */
 export const ESTIMATE_SNAPSHOT_SCHEMA_VERSION = 1 as const;
@@ -16,7 +20,7 @@ export const estimateDetailedAiOutputSchema = z.object({
   assumptions: z.array(z.string()),
   risks: z.array(z.string()),
   /** お客様向けのやさしい要約（専門用語は避ける） */
-  plainCustomerSummary: z.string().max(900),
+  plainCustomerSummary: z.string().max(1100),
   /** 追加で確認したいこと（箇条書き用） */
   openQuestions: z.array(z.string()).max(8),
   estimateLoMan: z.number().int().min(0),
@@ -56,7 +60,8 @@ export function formatRequirementDocMarkdown(output: EstimateDetailedAiOutput): 
       ""
     );
   }
-  lines.push("## 注意点・リスク", ...output.risks.map((x) => `- ${x}`));
+  lines.push("## 注意点・リスク", ...output.risks.map((x) => `- ${x}`), "");
+  lines.push(`## ${ESTIMATE_PHILOSOPHY_MARKDOWN_HEADING}`, "", ESTIMATE_PHILOSOPHY_UI_PARAGRAPH, "");
   return lines.join("\n");
 }
 

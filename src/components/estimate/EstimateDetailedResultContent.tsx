@@ -7,6 +7,7 @@ import { useConciergeChat } from "@/components/chat/concierge-chat-context";
 import { estimateDetailedCopy } from "@/lib/content/site-copy";
 import { releaseEstimateProcessingLock } from "@/lib/estimate/estimate-detailed-processing-lock";
 import { readEstimateDetailedFlow, type EstimateDetailedFlowState } from "@/lib/estimate/estimate-detailed-session";
+import { EstimateDetailedPhilosophyFootnote } from "@/components/estimate/EstimateDetailedPhilosophyFootnote";
 import { EstimateDetailedResultBody } from "@/components/estimate/EstimateDetailedResultBody";
 import { EstimateDetailedResumeQuestionsButton } from "@/components/estimate/EstimateDetailedResumeQuestionsButton";
 
@@ -49,6 +50,8 @@ export function EstimateDetailedResultContent() {
 
       <section className="rounded-xl border border-accent/30 bg-accent/5 p-5 md:p-8">
         <EstimateDetailedResultBody result={flow.ai} />
+
+        <EstimateDetailedPhilosophyFootnote />
 
         <div className="mt-8 flex flex-col gap-3 border-t border-silver/20 pt-8 sm:flex-row sm:flex-wrap">
           <Button
