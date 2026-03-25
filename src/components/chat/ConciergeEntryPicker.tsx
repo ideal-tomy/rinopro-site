@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { ConciergeChoiceButton } from "@/components/chat/ConciergeChoiceButton";
 import { cn } from "@/lib/utils";
 import { Globe, LayoutTemplate } from "lucide-react";
 
@@ -39,41 +39,27 @@ export function ConciergeEntryPicker({
       </p>
 
       <div className="flex flex-col gap-3">
-        <Button
+        <ConciergeChoiceButton
           type="button"
-          variant="outline"
+          order={1}
+          label="このページについて"
+          description="いまのページの内容に沿って補足します（サービスページでは開発／コンサルを選べます）。"
+          icon={<LayoutTemplate className="h-4 w-4" aria-hidden />}
           disabled={disabled}
-          className="h-auto min-h-[4.25rem] flex-col items-stretch gap-1.5 whitespace-normal border-silver/30 px-4 py-3 text-left hover:border-accent/45 hover:bg-accent/5"
+          className="min-h-[4.25rem]"
           onClick={() => onChoose("page")}
-        >
-          <span className="flex w-full items-center gap-2 font-semibold text-text">
-            <LayoutTemplate
-              className="h-4 w-4 shrink-0 text-accent"
-              aria-hidden
-            />
-            このページについて
-          </span>
-          <span className="pl-6 text-xs font-normal leading-snug text-text-sub">
-            いまのページの内容に沿って補足します（サービスページでは開発／コンサルを選べます）。
-          </span>
-        </Button>
+        />
 
-        <Button
+        <ConciergeChoiceButton
           type="button"
-          variant="outline"
+          order={2}
+          label="サイト全体のガイド"
+          description="トップページと同じ分岐（開発コスト・コンサル費用・技術・demo など）から、目安と次の一歩を選べます。"
+          icon={<Globe className="h-4 w-4" aria-hidden />}
           disabled={disabled}
-          className="h-auto min-h-[4.25rem] flex-col items-stretch gap-1.5 whitespace-normal border-silver/30 px-4 py-3 text-left hover:border-accent/45 hover:bg-accent/5"
+          className="min-h-[4.25rem]"
           onClick={() => onChoose("global")}
-        >
-          <span className="flex w-full items-center gap-2 font-semibold text-text">
-            <Globe className="h-4 w-4 shrink-0 text-accent" aria-hidden />
-            サイト全体のガイド
-          </span>
-          <span className="pl-6 text-xs font-normal leading-snug text-text-sub">
-            トップページと同じ分岐（開発コスト・コンサル費用・技術・demo
-            など）から、目安と次の一歩を選べます。
-          </span>
-        </Button>
+        />
       </div>
     </div>
   );

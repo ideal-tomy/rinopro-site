@@ -1,13 +1,17 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
+import {
+  ConciergeChoiceButton,
+  ConciergeCtaButton,
+  ConciergeCtaLink,
+} from "@/components/chat/ConciergeChoiceButton";
 import {
   A_STEP_BUILD,
   A_STEP_INTEGRATION,
@@ -140,6 +144,15 @@ function parseBoldLine(line: string): ReactNode {
   });
 }
 
+function stepTitleFor(step: FlowStepDef): string {
+  if (step.stepKey.startsWith("A")) return "開発コスト（質問）";
+  if (step.stepKey.startsWith("B")) return "コンサル費用（質問）";
+  if (step.stepKey.startsWith("C")) return "開発技術（質問）";
+  if (step.stepKey.startsWith("D")) return "ツール内容（質問）";
+  if (step.stepKey.startsWith("E")) return "依頼方法（質問）";
+  return "質問";
+}
+
 interface HomeConciergeFlowProps {
   disabled?: boolean;
   /** チャット入力欄へ分岐メモを追記（APIは呼ばない） */
@@ -156,6 +169,18 @@ export function HomeConciergeFlow({
   const { setOpen: setConciergeOpen } = useConciergeChat();
   const reduce = useReducedMotion();
   const [frames, setFrames] = useState<FlowFrame[]>([{ kind: "root" }]);
+  /** 押下直後の視覚フィードバック用（フレーム遷移前に「選択済み」を短時間表示） */
+  const [pressedChoiceKey, setPressedChoiceKey] = useState<string | null>(null);
+  const feedbackTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (feedbackTimeoutRef.current) {
+        clearTimeout(feedbackTimeoutRef.current);
+        feedbackTimeoutRef.current = null;
+      }
+    };
+  }, []);
 
   /** チャット内リンク・router 遷移でページを開く直前に呼ぶ（ポップアップ状態は pathname ではリセットされない） */
   const dismissConciergeForNavigation = useCallback(() => {
@@ -187,69 +212,67 @@ export function HomeConciergeFlow({
     return null;
   };
 
-  const stepTitleFor = (step: FlowStepDef): string => {
-    if (step.stepKey.startsWith("A")) return "開発コスト（質問）";
-    if (step.stepKey.startsWith("B")) return "コンサル費用（質問）";
-    if (step.stepKey.startsWith("C")) return "開発技術（質問）";
-    if (step.stepKey.startsWith("D")) return "ツール内容（質問）";
-    if (step.stepKey.startsWith("E")) return "依頼方法（質問）";
-    return "質問";
-  };
+  const handleRootPick = useCallback(
+    (choice: FlowChoice) => {
+      const track = trackFromRootId(choice.id);
+      if (!track) return;
+      const path = [rootSelection(choice)];
+      if (track === "A") {
+        push({ kind: "question", track: "A", step: A_STEP_TEAM, path });
+        return;
+      }
+      if (track === "B") {
+        push({ kind: "question", track: "B", step: B_STEP_SUPPORT, path });
+        return;
+      }
+      if (track === "C") {
+        push({ kind: "question", track: "C", step: C_STEP2, path });
+        return;
+      }
+      if (track === "D") {
+        push({ kind: "question", track: "D", step: D_STEP2, path });
+        return;
+      }
+      push({ kind: "question", track: "E", step: E_STEP2, path });
+    },
+    [push]
+  );
 
-  const handleRootPick = (choice: FlowChoice) => {
-    const track = trackFromRootId(choice.id);
-    if (!track) return;
-    const path = [rootSelection(choice)];
-    if (track === "A") {
-      push({ kind: "question", track: "A", step: A_STEP_TEAM, path });
-      return;
-    }
-    if (track === "B") {
-      push({ kind: "question", track: "B", step: B_STEP_SUPPORT, path });
-      return;
-    }
-    if (track === "C") {
-      push({ kind: "question", track: "C", step: C_STEP2, path });
-      return;
-    }
-    if (track === "D") {
-      push({ kind: "question", track: "D", step: D_STEP2, path });
-      return;
-    }
-    push({ kind: "question", track: "E", step: E_STEP2, path });
-  };
+  const handleChoicePick = useCallback(
+    (
+      frame: Extract<FlowFrame, { kind: "question" }>,
+      choice: FlowChoice
+    ) => {
+      const isOther =
+        choice.id.endsWith("_other") ||
+        choice.label.includes("その他（自由記述）");
+      if (isOther) {
+        push({
+          kind: "freeform",
+          track: frame.track,
+          step: frame.step,
+          path: frame.path,
+          choice,
+        });
+        return;
+      }
 
-  const handleChoicePick = (
-    frame: Extract<FlowFrame, { kind: "question" }>,
-    choice: FlowChoice
-  ) => {
-    const isOther =
-      choice.id.endsWith("_other") || choice.label.includes("その他（自由記述）");
-    if (isOther) {
-      push({
-        kind: "freeform",
-        track: frame.track,
-        step: frame.step,
-        path: frame.path,
-        choice,
-      });
-      return;
-    }
-
-    const sel: FlowSelection = {
-      stepKey: frame.step.stepKey,
-      optionId: choice.id,
-      label: choice.label,
-      stepTitle: stepTitleFor(frame.step),
-    };
-    const path = [...frame.path, sel];
-    const next = buildNextFrameAfterAnswer(
-      frame.track,
-      frame.step.stepKey,
-      path
-    );
-    setFrames((prev) => [...prev.slice(0, -1), next]);
-  };
+      const sel: FlowSelection = {
+        stepKey: frame.step.stepKey,
+        optionId: choice.id,
+        label: choice.label,
+        stepTitle: stepTitleFor(frame.step),
+      };
+      const path = [...frame.path, sel];
+      const next = buildNextFrameAfterAnswer(
+        frame.track,
+        frame.step.stepKey,
+        path
+      );
+      setFrames((prev) => [...prev.slice(0, -1), next]);
+    },
+    [push]
+  );
 
   const handleFreeformConfirm = (text: string) => {
     setFrames((prev) => {
@@ -323,6 +346,50 @@ export function HomeConciergeFlow({
     return `done-${current.track}-${current.path.length}`;
   }, [current]);
 
+  useEffect(() => {
+    setPressedChoiceKey(null);
+  }, [frameKey]);
+
+  const choiceKey = useCallback(
+    (choiceId: string) => `${frameKey}-${choiceId}`,
+    [frameKey]
+  );
+
+  const choiceBusy = pressedChoiceKey !== null;
+
+  const FEEDBACK_DELAY_MS = 100;
+
+  const scheduleRootPick = useCallback(
+    (choice: FlowChoice) => {
+      if (feedbackTimeoutRef.current) {
+        clearTimeout(feedbackTimeoutRef.current);
+      }
+      setPressedChoiceKey(choiceKey(choice.id));
+      feedbackTimeoutRef.current = setTimeout(() => {
+        feedbackTimeoutRef.current = null;
+        handleRootPick(choice);
+      }, FEEDBACK_DELAY_MS);
+    },
+    [choiceKey, handleRootPick]
+  );
+
+  const scheduleChoicePick = useCallback(
+    (
+      frame: Extract<FlowFrame, { kind: "question" }>,
+      choice: FlowChoice
+    ) => {
+      if (feedbackTimeoutRef.current) {
+        clearTimeout(feedbackTimeoutRef.current);
+      }
+      setPressedChoiceKey(choiceKey(choice.id));
+      feedbackTimeoutRef.current = setTimeout(() => {
+        feedbackTimeoutRef.current = null;
+        handleChoicePick(frame, choice);
+      }, FEEDBACK_DELAY_MS);
+    },
+    [choiceKey, handleChoicePick]
+  );
+
   const motionProps = useMemo(
     () => ({
       initial: reduce ? false : { opacity: 0, y: 10 },
@@ -354,18 +421,16 @@ export function HomeConciergeFlow({
               <h3 className="text-center text-base font-semibold text-accent">
                 まず、知りたいことを選んでください
               </h3>
-              <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                {ROOT_CHOICES.map((c) => (
-                  <Button
+              <div className="flex flex-col gap-3">
+                {ROOT_CHOICES.map((c, idx) => (
+                  <ConciergeChoiceButton
                     key={c.id}
-                    type="button"
-                    variant="outline"
-                    disabled={disabled}
-                    className="h-auto min-h-11 justify-center whitespace-normal px-3 py-2.5 text-left text-sm leading-snug"
-                    onClick={() => handleRootPick(c)}
-                  >
-                    {c.label}
-                  </Button>
+                    order={idx + 1}
+                    label={c.label}
+                    disabled={disabled || choiceBusy}
+                    selected={pressedChoiceKey === choiceKey(c.id)}
+                    onClick={() => scheduleRootPick(c)}
+                  />
                 ))}
               </div>
             </div>
@@ -388,18 +453,22 @@ export function HomeConciergeFlow({
               <h3 className="text-base font-semibold text-text">
                 {current.step.question}
               </h3>
-              <div className="flex flex-col gap-2">
-                {current.step.choices.map((c) => (
-                  <Button
+              <div
+                className={cn(
+                  current.step.stepLabel === "Step 3"
+                    ? "grid grid-cols-2 gap-2"
+                    : "flex flex-col gap-3"
+                )}
+              >
+                {current.step.choices.map((c, idx) => (
+                  <ConciergeChoiceButton
                     key={c.id}
-                    type="button"
-                    variant="outline"
-                    disabled={disabled}
-                    className="h-auto min-h-11 justify-start whitespace-normal px-3 py-2.5 text-left text-sm leading-snug"
-                    onClick={() => handleChoicePick(current, c)}
-                  >
-                    {c.label}
-                  </Button>
+                    order={idx + 1}
+                    label={c.label}
+                    disabled={disabled || choiceBusy}
+                    selected={pressedChoiceKey === choiceKey(c.id)}
+                    onClick={() => scheduleChoicePick(current, c)}
+                  />
                 ))}
               </div>
             </div>
@@ -476,13 +545,14 @@ function FreeformStep({
         className="resize-none text-sm"
         placeholder="例：〇〇部門の△△業務で、□□を減らしたい"
       />
-      <Button
+      <ConciergeCtaButton
         type="button"
+        variant="primary"
         disabled={disabled || !text.trim()}
         onClick={() => onConfirm(text)}
       >
         確定して次へ
-      </Button>
+      </ConciergeCtaButton>
     </div>
   );
 }
@@ -562,14 +632,14 @@ function DoneStep({
       )}
 
       {demoSlugResolved && demoMeta && (
-        <Button asChild variant="outline" className="w-full justify-center">
-          <Link
-            href={experienceHref(demoSlugResolved)}
-            onClick={() => onDismissForNavigation()}
-          >
-            {CTA_DEMO_DIRECT_LABEL}（{demoMeta.title}）
-          </Link>
-        </Button>
+        <ConciergeCtaLink
+          href={experienceHref(demoSlugResolved)}
+          variant="secondary"
+          disabled={disabled}
+          onClick={() => onDismissForNavigation()}
+        >
+          {CTA_DEMO_DIRECT_LABEL}（{demoMeta.title}）
+        </ConciergeCtaLink>
       )}
 
       {!demoSlugResolved && (track === "C" || track === "D" || track === "E") && (
@@ -596,44 +666,48 @@ function DoneStep({
       </div>
 
       <div className="flex flex-col gap-2">
-        <Button type="button" disabled={disabled} onClick={onDetailedEstimate}>
-          {CTA_DETAILED_ESTIMATE_LABEL}
-        </Button>
-        {demoSlugResolved && demoMeta && (
-          <Button asChild variant="outline" disabled={disabled}>
-            <Link
-              href={experienceHref(demoSlugResolved)}
-              onClick={() => onDismissForNavigation()}
-            >
-              {CTA_DEMO_DIRECT_LABEL}（{demoMeta.title}）
-            </Link>
-          </Button>
-        )}
-        <Button
+        <ConciergeCtaButton
           type="button"
-          variant="outline"
+          variant="primary"
+          disabled={disabled}
+          onClick={onDetailedEstimate}
+        >
+          {CTA_DETAILED_ESTIMATE_LABEL}
+        </ConciergeCtaButton>
+        {demoSlugResolved && demoMeta && (
+          <ConciergeCtaLink
+            href={experienceHref(demoSlugResolved)}
+            variant="secondary"
+            disabled={disabled}
+            onClick={() => onDismissForNavigation()}
+          >
+            {CTA_DEMO_DIRECT_LABEL}（{demoMeta.title}）
+          </ConciergeCtaLink>
+        )}
+        <ConciergeCtaButton
+          type="button"
+          variant="secondary"
           disabled={disabled}
           onClick={onContactSimple}
         >
           {CTA_CONTACT_SIMPLE_LABEL}
-        </Button>
-        <Button
+        </ConciergeCtaButton>
+        <ConciergeCtaButton
           type="button"
-          variant="outline"
+          variant="secondary"
           disabled={disabled}
           onClick={onAdjust}
         >
           {CTA_ADJUST_LABEL}
-        </Button>
-        <Button
+        </ConciergeCtaButton>
+        <ConciergeCtaButton
           type="button"
           variant="ghost"
-          className="text-text-sub"
           disabled={disabled}
           onClick={onFreeform}
         >
           {CTA_FREEFORM_LABEL}
-        </Button>
+        </ConciergeCtaButton>
       </div>
     </div>
   );
