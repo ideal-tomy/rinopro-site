@@ -34,6 +34,13 @@ export type ReceiptCheckRow = {
 export type ReceiptExpenseMockResult = {
   fields: ReceiptFieldRow[];
   checks: ReceiptCheckRow[];
+  compliance: {
+    upperLimitYen: number;
+    ok: boolean;
+    label: string;
+    advice: string;
+    extractedAmountYen: number;
+  };
 };
 
 export const FIELD_HINTS: Record<ReceiptFieldId, string> = {
@@ -51,12 +58,33 @@ export const RECEIPT_HINT_DEFAULT =
   "項目を選ぶと、領収書上の該当箇所が強調されます（モック・固定座標）。";
 
 export function buildReceiptExpenseMock(_text: string): ReceiptExpenseMockResult {
-  void _text;
+  const text = _text.trim();
+  const isMeal =
+    /飲食|4名|会議/i.test(text) ||
+    /ランチ|ディナー/i.test(text);
+
+  const upperLimitYen = 2000;
+  const extractedAmountYen = isMeal ? 2480 : 1680;
+  const ok = extractedAmountYen <= upperLimitYen;
+
+  const amountValue = isMeal ? "¥2,480（税込）" : "¥1,680（税込）";
+  const merchantValue = isMeal
+    ? "〇〇会議室（飲食費）"
+    : "〇〇交通 タクシー";
+
+  const advice = ok
+    ? "金額は社内規定の範囲内です。次に、日付・店名・インボイス情報の整合を確認してください。"
+    : "金額が社内規定の上限（2000円）を超過しています。例外扱いの理由（会食目的・人数・代替手段の有無）を確認してください。";
+
+  const label = ok
+    ? `社内規定（上限${upperLimitYen}円）に適合`
+    : `社内規定（上限${upperLimitYen}円）を超過`;
+
   return {
     fields: [
       { id: "date", label: "日付", value: "2025-03-18" },
-      { id: "amount", label: "金額", value: "¥4,820（税込）" },
-      { id: "merchant", label: "店名・摘要", value: "〇〇交通 タクシー" },
+      { id: "amount", label: "金額", value: amountValue },
+      { id: "merchant", label: "店名・摘要", value: merchantValue },
       {
         id: "invoice",
         label: "インボイス登録番号",
@@ -67,15 +95,24 @@ export function buildReceiptExpenseMock(_text: string): ReceiptExpenseMockResult
       { ok: true, label: "日付が申請期間内", relatedFieldId: "date" },
       { ok: true, label: "金額と領収書一致", relatedFieldId: "amount" },
       {
-        ok: false,
-        label: "社内規程の上限チェック（要確認）",
+        ok,
+        label: ok
+          ? `社内規定（上限${upperLimitYen}円）に適合`
+          : "社内規程の上限チェック（要確認）",
         relatedFieldId: "amount",
       },
       {
         ok: true,
-        label: "交通費の内訳メモあり",
+        label: isMeal ? "会食目的メモあり" : "交通費の内訳メモあり",
         relatedFieldId: "merchant",
       },
     ],
+    compliance: {
+      upperLimitYen,
+      ok,
+      label,
+      advice,
+      extractedAmountYen,
+    },
   };
 }

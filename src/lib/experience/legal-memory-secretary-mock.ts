@@ -55,6 +55,12 @@ export interface LegalMemoryMockResult {
   hits: LegalMemoryHit[];
   summarySegments: LegalMemorySummarySegment[];
   internal: string;
+  /** 統合された回答（UI「統合回答」用） */
+  integratedAnswer: string;
+  /** 回答横のステータス（例: 法務チェック済み） */
+  lawCheckStatusLabel: string;
+  /** ステータスの補足（1〜2行） */
+  lawCheckNote: string;
 }
 
 const HIT_LEASE: LegalMemoryHit = {
@@ -168,10 +174,24 @@ export function buildLegalMemoryMock(params: {
         ? "次: 委託契約PDFの第15条但書を開き、即時解除トリガーを一覧化。"
         : "次: 該当物件の最新版契約PDFを開き、第12条の但書を確認。顧問へは引用2件のみ添付でOK。";
 
+  const integratedAnswer =
+    primary === "nda"
+      ? "NDA終了後の対応は、原則として返還・破棄を30日以内に行う条項が中心です。電子媒体の場合の消去証跡提出もあわせて確認し、必要なら顧問へ該当の但書を一行追記するとスムーズです。"
+      : primary === "vendor"
+        ? "業務委託基本契約は、原則として30日前の書面通知で解約が可能です。重大な債務不履行時は即時解除があり得るため、想定事象の分類（不履行の種類）を先に揃えるのが安全です。"
+        : "賃貸借契約の解約は、原則として契約満了の3か月前までに書面で意思表示を行う要件が繰り返し現れます。事業用の特約・別紙が優先されるため、今回の入力条件に該当する但書を優先して読み解くと実用性が上がります。";
+
+  const lawCheckStatusLabel = "法務チェック済み（モック）";
+  const lawCheckNote =
+    "引用条文の要点を統合し、例外（事業用特約/電子媒体/重大不履行）に触れる形で整理しています。";
+
   return {
     searchScope,
     hits,
     summarySegments,
     internal,
+    integratedAnswer,
+    lawCheckStatusLabel,
+    lawCheckNote,
   };
 }

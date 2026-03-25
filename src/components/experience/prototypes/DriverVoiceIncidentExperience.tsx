@@ -11,7 +11,14 @@ import {
 } from "@dnd-kit/core";
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { useCallback, useMemo, useState, useSyncExternalStore } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -99,6 +106,40 @@ function PseudoWaveform({
       ))}
     </div>
   );
+}
+
+function TypewriterText({
+  text,
+  active,
+  reduceMotion,
+  runId,
+}: {
+  text: string;
+  active: boolean;
+  reduceMotion: boolean;
+  runId: number;
+}) {
+  const [display, setDisplay] = useState("");
+
+  useEffect(() => {
+    if (reduceMotion || !active) return;
+
+    let i = 0;
+    const step = 2;
+    const intervalMs = 16;
+
+    const id = window.setInterval(() => {
+      i += step;
+      setDisplay(text.slice(0, i));
+      if (i >= text.length) {
+        window.clearInterval(id);
+      }
+    }, intervalMs);
+
+    return () => window.clearInterval(id);
+  }, [text, active, reduceMotion, runId]);
+
+  return <span>{reduceMotion || !active ? text : display}</span>;
 }
 
 function TimelineStrip({
@@ -296,6 +337,10 @@ export function DriverVoiceIncidentExperience({
   const [selectedFragmentId, setSelectedFragmentId] = useState<string | null>(
     null
   );
+  const [isConverting, setIsConverting] = useState(false);
+  const [typewriterActive, setTypewriterActive] = useState(false);
+  const [typewriterRunId, setTypewriterRunId] = useState(0);
+  const typewriterTimerRef = useRef<number | null>(null);
   const reduceMotion = useSyncExternalStore(
     subscribePrefersReducedMotion,
     prefersReducedMotionSnapshot,
@@ -309,11 +354,37 @@ export function DriverVoiceIncidentExperience({
   );
 
   const split = useCallback(() => {
-    const next = splitTranscriptMock(text);
-    setFragments(next);
-    setAssignments(emptyAssignments());
-    setSelectedFragmentId(next[0]?.id ?? null);
-  }, [text]);
+    if (isConverting) return;
+    if (!text.trim()) return;
+
+    // 音声波形（モック）→書き起こし（モック）→5W1H変換を体験するための遅延
+    setIsConverting(true);
+    setTypewriterActive(false);
+
+    const captured = text;
+    const delayMs = reduceMotion ? 0 : 650;
+
+    if (typewriterTimerRef.current) {
+      clearTimeout(typewriterTimerRef.current);
+      typewriterTimerRef.current = null;
+    }
+
+    window.setTimeout(() => {
+      const next = splitTranscriptMock(captured);
+      setFragments(next);
+      setAssignments(emptyAssignments());
+      setSelectedFragmentId(next[0]?.id ?? null);
+
+      setIsConverting(false);
+      setTypewriterRunId((n) => n + 1);
+      setTypewriterActive(!reduceMotion);
+
+      typewriterTimerRef.current = window.setTimeout(() => {
+        setTypewriterActive(false);
+        typewriterTimerRef.current = null;
+      }, reduceMotion ? 0 : 2200);
+    }, delayMs);
+  }, [text, isConverting, reduceMotion]);
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
@@ -365,7 +436,7 @@ export function DriverVoiceIncidentExperience({
   return (
     <div className={cn("space-y-6", className)}>
       <div className="rounded-xl border border-silver/25 bg-base-dark/80 p-4 md:p-6">
-        <h2 className="mb-3 text-sm font-semibold text-accent md:text-base">
+        <h2 className="mb-3 text-sm font-semibold text-accent md:text-[1rem]">
           入力（音声の代わりにテキスト）
         </h2>
         <Textarea
@@ -373,7 +444,7 @@ export function DriverVoiceIncidentExperience({
           onChange={(e) => setText(e.target.value)}
           placeholder={meta.inputHint}
           rows={4}
-          className="mb-3 resize-y text-sm md:text-base"
+          className="mb-3 resize-y text-sm md:text-[1rem]"
         />
         <div className="mb-3 flex flex-wrap gap-2">
           {SAMPLES.map((s) => (
@@ -387,11 +458,15 @@ export function DriverVoiceIncidentExperience({
             </button>
           ))}
         </div>
-        <div className="flex flex-wrap gap-2">
-          <Button type="button" onClick={split}>
-            書き起こしに分割（モック）
-          </Button>
-        </div>
+            <div className="flex flex-wrap gap-2">
+              <Button
+                type="button"
+                onClick={split}
+                disabled={isConverting || !text.trim()}
+              >
+                {isConverting ? "変換中…" : "書き起こしに分割（モック）"}
+              </Button>
+            </div>
         <p className="mt-2 text-xs text-text-sub">
           本画面はプロトタイプです。チャットで実AIを試す場合は{" "}
           <Link
@@ -404,10 +479,26 @@ export function DriverVoiceIncidentExperience({
         </p>
       </div>
 
+      {isConverting && fragments.length === 0 && (
+        <div className="rounded-xl border border-silver/25 bg-base-dark/80 p-4 md:p-6">
+          <h2 className="mb-3 text-sm font-semibold text-accent md:text-[1rem]">
+            疑似音声波形 → 書き起こし変換（モック）
+          </h2>
+          <PseudoWaveform
+            barCount={Math.min(64, 30 + text.trim().length)}
+            seed={text.trim().length * 7 + 13}
+            reduceMotion={reduceMotion}
+          />
+          <p className="mt-3 text-xs text-text-sub md:text-[1rem]">
+            波形を解析して、5W1Hのインシデント報告書に変換しています。
+          </p>
+        </div>
+      )}
+
       {fragments.length > 0 && (
         <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
           <div className="rounded-xl border border-silver/25 bg-base-dark/80 p-4 md:p-6">
-            <h2 className="mb-3 text-sm font-semibold text-accent md:text-base">
+            <h2 className="mb-3 text-sm font-semibold text-accent md:text-[1rem]">
               疑似音声波形・レーン振り分け
             </h2>
             <PseudoWaveform
@@ -468,16 +559,36 @@ export function DriverVoiceIncidentExperience({
       {fragments.length > 0 && (
         <div className="grid gap-4 md:grid-cols-2">
           <div className="rounded-xl border border-silver/20 bg-base-dark p-4">
-            <h3 className="mb-3 text-sm font-semibold text-text md:text-base">
-              インシデント報告（ドラフト）
+            <h3 className="mb-2 text-sm font-semibold text-text md:text-[1rem]">
+              インシデント報告書（ビジネス文書）
             </h3>
+            <p className="mb-3 text-xs text-text-sub md:text-[1rem]">
+              話し言葉 → 5W1Hに整形（モック変換）
+            </p>
             <ul className="space-y-4">
               {draft.sections.map((s) => (
                 <li key={s.laneId}>
-                  <p className="font-mono text-xs text-accent/90">{s.heading}</p>
+                  <p className="font-mono text-xs text-accent/90">
+                    {s.heading}{" "}
+                    {s.laneId === "datetime"
+                      ? "(When)"
+                      : s.laneId === "location"
+                        ? "(Where)"
+                        : s.laneId === "summary"
+                          ? "(What)"
+                          : s.laneId === "immediate"
+                            ? "(Action)"
+                            : "(Impact)"}
+                  </p>
                   {s.body ? (
                     <p className="mt-1 text-sm leading-relaxed text-text-sub">
-                      {s.body}
+                      <TypewriterText
+                        key={`${s.laneId}-${typewriterRunId}`}
+                        text={s.body}
+                        active={typewriterActive}
+                        reduceMotion={reduceMotion}
+                        runId={typewriterRunId}
+                      />
                     </p>
                   ) : (
                     <p className="mt-1 text-sm text-text-sub/70">
@@ -489,7 +600,7 @@ export function DriverVoiceIncidentExperience({
             </ul>
           </div>
           <div className="rounded-xl border border-accent/25 bg-accent/5 p-4">
-            <h3 className="mb-3 text-sm font-semibold text-text md:text-base">
+            <h3 className="mb-3 text-sm font-semibold text-text md:text-[1rem]">
               荷主連絡メモ
             </h3>
             <p className="whitespace-pre-wrap text-sm leading-relaxed text-text-sub">

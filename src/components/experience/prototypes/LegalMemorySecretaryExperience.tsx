@@ -24,6 +24,15 @@ const SAMPLES = [
   "NDAの秘密保持は契約終了後どれくらい？",
 ];
 
+const THOUGHT_STEPS = [
+  "入力を正規化",
+  "タグでスコープを適用",
+  "関連候補を抽出",
+  "引用スニペットを切り出し",
+  "統合回答を生成",
+  "法務チェック（モック）",
+] as const;
+
 interface LegalMemorySecretaryExperienceProps {
   meta: ExperiencePrototypeMeta;
   className?: string;
@@ -40,7 +49,10 @@ export function LegalMemorySecretaryExperience({
   > | null>(null);
   const [selectedHitId, setSelectedHitId] = useState<string | null>(null);
   const [reduceMotion, setReduceMotion] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
+  const [thoughtStepIndex, setThoughtStepIndex] = useState(0);
   const hitRefs = useRef<Record<string, HTMLElement | null>>({});
+  const searchTimersRef = useRef<number[]>([]);
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -50,12 +62,22 @@ export function LegalMemorySecretaryExperience({
     return () => mq.removeEventListener("change", apply);
   }, []);
 
+  useEffect(() => {
+    return () => {
+      searchTimersRef.current.forEach((id) => clearTimeout(id));
+      searchTimersRef.current = [];
+    };
+  }, []);
+
   const scopePreview = useMemo(
     () => getSearchScopeLabel(selectedTags),
     [selectedTags]
   );
 
   const toggleTag = (id: LegalMemoryTagId) => {
+    searchTimersRef.current.forEach((tid) => clearTimeout(tid));
+    searchTimersRef.current = [];
+    setIsSearching(false);
     setSelectedTags((prev) =>
       prev.includes(id) ? prev.filter((t) => t !== id) : [...prev, id]
     );
@@ -64,8 +86,29 @@ export function LegalMemorySecretaryExperience({
   };
 
   const run = () => {
-    setResult(buildLegalMemoryMock({ tagIds: selectedTags, query: text }));
+    searchTimersRef.current.forEach((id) => clearTimeout(id));
+    searchTimersRef.current = [];
+
+    setIsSearching(true);
+    setThoughtStepIndex(0);
     setSelectedHitId(null);
+    setResult(null);
+
+    const data = buildLegalMemoryMock({ tagIds: selectedTags, query: text });
+    const durations = reduceMotion
+      ? THOUGHT_STEPS.map(() => 0)
+      : [360, 420, 520, 420, 520, 320];
+
+    THOUGHT_STEPS.forEach((_, i) => {
+      const id = window.setTimeout(() => {
+        setThoughtStepIndex(i);
+        if (i === THOUGHT_STEPS.length - 1) {
+          setResult(data);
+          setIsSearching(false);
+        }
+      }, durations[i] ?? 0);
+      searchTimersRef.current.push(id);
+    });
   };
 
   const focusHit = useCallback(
@@ -98,7 +141,7 @@ export function LegalMemorySecretaryExperience({
   return (
     <div className={cn("space-y-6", className)}>
       <div className="rounded-xl border border-silver/25 bg-base-dark/80 p-4 md:p-6">
-        <h2 className="mb-3 text-sm font-semibold text-accent md:text-base">
+        <h2 className="mb-3 text-sm font-semibold text-accent md:text-[1rem]">
           入力
         </h2>
 
@@ -142,7 +185,7 @@ export function LegalMemorySecretaryExperience({
           onChange={(e) => setText(e.target.value)}
           placeholder={meta.inputHint}
           rows={4}
-          className="mb-3 resize-y text-sm md:text-base"
+          className="mb-3 resize-y text-sm md:text-[1rem]"
         />
         <div className="mb-3 flex flex-wrap gap-2">
           {SAMPLES.map((s) => (
@@ -171,97 +214,196 @@ export function LegalMemorySecretaryExperience({
         </p>
       </div>
 
-      {result && (
-        <div className="grid gap-4 md:grid-cols-2">
-          <div className="rounded-xl border border-silver/20 bg-base-dark p-4">
-            <h3 className="mb-2 text-sm font-semibold text-text md:text-base">
-              検索ヒット（引用付き）
-            </h3>
-            <p className="mb-3 text-xs text-text-sub">
-              スコープ: {result.searchScope}
-            </p>
-            <ul className="space-y-2">
-              {result.hits.map((h) => (
-                <li key={h.id} ref={(el) => { hitRefs.current[h.id] = el; }}>
-                  <details
-                    className={cn(
-                      "group rounded-lg border bg-silver/5 text-sm transition-colors",
-                      selectedHitId === h.id
-                        ? "border-accent/50 bg-accent/10"
-                        : "border-silver/15"
-                    )}
-                    style={{
-                      transitionDuration: reduceMotion ? "0ms" : undefined,
-                    }}
-                    onToggle={(e) => {
-                      if ((e.currentTarget as HTMLDetailsElement).open) {
-                        setSelectedHitId(h.id);
-                      }
-                    }}
-                  >
-                    <summary
-                      className="cursor-pointer list-none p-3 [&::-webkit-details-marker]:hidden"
-                    >
-                      <p className="font-medium text-accent">{h.title}</p>
-                      <p className="mt-1 text-text-sub">{h.collapsedExcerpt}</p>
-                      <span className="mt-2 inline-block text-xs text-accent/80 underline-offset-2 group-open:no-underline">
-                        根拠スニペットを展開
-                      </span>
-                    </summary>
-                    <div className="border-t border-silver/10 px-3 pb-3 pt-2">
-                      <p className="text-text-sub">{h.expandedExcerpt}</p>
-                      <p className="mt-2 font-mono text-xs text-accent/90">
-                        {h.citation}
-                      </p>
-                    </div>
-                  </details>
-                </li>
-              ))}
-            </ul>
-            <p className="mt-3 text-xs text-amber-200/90">
-              ※ デモは固定モックです。本番では根拠と元ファイル位置を必ず紐づけます。
-            </p>
-          </div>
-
-          <div className="space-y-4">
-            <div className="rounded-xl border border-silver/20 bg-base-dark p-4">
-              <h3 className="mb-2 text-sm font-semibold text-text md:text-base">
-                対外メモ（要約）
+      {(isSearching || result) && (
+        <div className="space-y-4">
+          <div className="rounded-xl border border-silver/20 bg-base-dark/80 p-4">
+            <div className="mb-2 flex items-start justify-between gap-3">
+              <h3 className="text-sm font-semibold text-accent md:text-[1rem]">
+                AIの思考プロセス（検索中ログ）
               </h3>
-              <div className="text-sm leading-relaxed text-text-sub">
-                {result.summarySegments.map((seg, i) => {
-                  if (!seg.hitId) {
-                    return <span key={i}>{seg.text}</span>;
-                  }
-                  return (
-                    <button
-                      key={i}
-                      type="button"
-                      tabIndex={0}
-                      onClick={() => focusHit(seg.hitId!)}
-                      onKeyDown={(e) => onSummaryKeyDown(e, seg.hitId)}
+              <span className="rounded-full border border-silver/30 bg-silver/10 px-2.5 py-1 text-xs font-medium text-text-sub">
+                {isSearching
+                  ? `進行中: ${thoughtStepIndex + 1}/${THOUGHT_STEPS.length}`
+                  : "完了"}
+              </span>
+            </div>
+            <ol className="space-y-2">
+              {THOUGHT_STEPS.map((s, i) => {
+                const state =
+                  i < thoughtStepIndex
+                    ? "done"
+                    : i === thoughtStepIndex
+                      ? "current"
+                      : "todo";
+                return (
+                  <li
+                    key={s}
+                    className={cn(
+                      "flex items-start gap-2 rounded-lg border px-3 py-2 text-sm",
+                      state === "done" && "border-emerald-500/35 bg-emerald-500/10 text-text-sub",
+                      state === "current" && "border-accent/40 bg-accent/10 text-text",
+                      state === "todo" && "border-silver/15 bg-base-dark text-text-sub"
+                    )}
+                  >
+                    <span
+                      aria-hidden
                       className={cn(
-                        "mx-0.5 inline rounded px-0.5 text-left underline decoration-accent/50 decoration-dotted underline-offset-2 transition-colors",
-                        selectedHitId === seg.hitId
-                          ? "bg-accent/15 text-text ring-1 ring-accent/40"
-                          : "hover:bg-silver/10 hover:text-text"
+                        "mt-0.5 inline-flex h-5 w-5 items-center justify-center rounded-full border text-xs",
+                        state === "done" && "border-emerald-500/40 bg-emerald-500/15 text-emerald-200",
+                        state === "current" && "border-accent/40 bg-accent/15 text-accent",
+                        state === "todo" && "border-silver/30 bg-silver/10 text-text-sub"
                       )}
                     >
-                      {seg.text}
-                    </button>
-                  );
-                })}
+                      {state === "done" ? "✓" : i + 1}
+                    </span>
+                    <span>{s}</span>
+                  </li>
+                );
+              })}
+            </ol>
+          </div>
+
+          {result && (
+            <div className="grid gap-4 md:grid-cols-2">
+              <div className="rounded-xl border border-silver/20 bg-base-dark p-4">
+                <h3 className="mb-2 text-sm font-semibold text-text md:text-[1rem]">
+                  検索ヒット（引用付き）
+                </h3>
+                <p className="mb-3 text-xs text-text-sub">
+                  スコープ: {result.searchScope}
+                </p>
+                <ul className="space-y-2">
+                  {result.hits.map((h) => (
+                    <li
+                      key={h.id}
+                      ref={(el) => {
+                        hitRefs.current[h.id] = el;
+                      }}
+                    >
+                      <details
+                        className={cn(
+                          "group rounded-lg border bg-silver/5 text-sm transition-colors",
+                          selectedHitId === h.id
+                            ? "border-accent/50 bg-accent/10"
+                            : "border-silver/15"
+                        )}
+                        style={{
+                          transitionDuration: reduceMotion ? "0ms" : undefined,
+                        }}
+                        onToggle={(e) => {
+                          if ((e.currentTarget as HTMLDetailsElement).open) {
+                            setSelectedHitId(h.id);
+                          }
+                        }}
+                      >
+                        <summary
+                          className="cursor-pointer list-none p-3 [&::-webkit-details-marker]:hidden"
+                        >
+                          <p className="font-medium text-accent">{h.title}</p>
+                          <p className="mt-1 text-text-sub">
+                            {h.collapsedExcerpt}
+                          </p>
+                          <span className="mt-2 inline-block text-xs text-accent/80 underline-offset-2 group-open:no-underline">
+                            根拠スニペットを展開
+                          </span>
+                        </summary>
+                        <div className="border-t border-silver/10 px-3 pb-3 pt-2">
+                          <p className="text-text-sub">{h.expandedExcerpt}</p>
+                          <p className="mt-2 font-mono text-xs text-accent/90">
+                            {h.citation}
+                          </p>
+                        </div>
+                      </details>
+                    </li>
+                  ))}
+                </ul>
+                <p className="mt-3 text-xs text-amber-200/90">
+                  ※ デモは固定モックです。本番では根拠と元ファイル位置を必ず紐づけます。
+                </p>
+              </div>
+
+              <div className="space-y-4">
+                <div className="rounded-xl border border-accent/25 bg-accent/5 p-4">
+                  <div className="mb-2 flex items-start justify-between gap-3">
+                    <h3 className="text-sm font-semibold text-text md:text-[1rem]">
+                      統合された回答
+                    </h3>
+                    <span className="rounded-full border border-emerald-500/35 bg-emerald-500/10 px-2.5 py-1 text-xs font-medium text-emerald-200/90">
+                      {result.lawCheckStatusLabel}
+                    </span>
+                  </div>
+                  <p className="whitespace-pre-wrap text-sm leading-relaxed text-text-sub md:text-[1rem]">
+                    {result.integratedAnswer}
+                  </p>
+
+                  <div className="mt-3 rounded-lg border border-silver/20 bg-base-dark/40 p-3">
+                    <p className="mb-2 text-xs font-medium text-text-sub">
+                      参照元リンク（モック）
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {result.hits.map((h) => (
+                        <button
+                          key={h.id}
+                          type="button"
+                          onClick={() => focusHit(h.id)}
+                          className={cn(
+                            "rounded-full border px-3 py-1 text-xs font-medium transition",
+                            selectedHitId === h.id
+                              ? "border-accent/50 bg-accent/15 text-accent"
+                              : "border-silver/30 bg-silver/10 text-text-sub hover:border-accent/40 hover:text-accent"
+                          )}
+                        >
+                          {h.title}
+                        </button>
+                      ))}
+                    </div>
+                    <p className="mt-2 text-[11px] leading-relaxed text-text-sub">
+                      {result.lawCheckNote}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="rounded-xl border border-silver/20 bg-base-dark p-4">
+                  <h3 className="mb-2 text-sm font-semibold text-text md:text-[1rem]">
+                    対外メモ（要約）
+                  </h3>
+                  <div className="text-sm leading-relaxed text-text-sub">
+                    {result.summarySegments.map((seg, i) => {
+                      if (!seg.hitId) {
+                        return <span key={i}>{seg.text}</span>;
+                      }
+                      return (
+                        <button
+                          key={i}
+                          type="button"
+                          tabIndex={0}
+                          onClick={() => focusHit(seg.hitId!)}
+                          onKeyDown={(e) => onSummaryKeyDown(e, seg.hitId)}
+                          className={cn(
+                            "mx-0.5 inline rounded px-0.5 text-left underline decoration-accent/50 decoration-dotted underline-offset-2 transition-colors",
+                            selectedHitId === seg.hitId
+                              ? "bg-accent/15 text-text ring-1 ring-accent/40"
+                              : "hover:bg-silver/10 hover:text-text"
+                          )}
+                        >
+                          {seg.text}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <div className="rounded-xl border border-accent/25 bg-accent/5 p-4">
+                  <h3 className="mb-2 text-sm font-semibold text-text md:text-[1rem]">
+                    社内メモ
+                  </h3>
+                  <p className="text-sm leading-relaxed text-text-sub">
+                    {result.internal}
+                  </p>
+                </div>
               </div>
             </div>
-            <div className="rounded-xl border border-accent/25 bg-accent/5 p-4">
-              <h3 className="mb-2 text-sm font-semibold text-text md:text-base">
-                社内メモ
-              </h3>
-              <p className="text-sm leading-relaxed text-text-sub">
-                {result.internal}
-              </p>
-            </div>
-          </div>
+          )}
         </div>
       )}
     </div>

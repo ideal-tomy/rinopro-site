@@ -131,7 +131,7 @@ export function ReceiptPhotoExpenseExperience({
   return (
     <div className={cn("space-y-6", className)}>
       <div className="rounded-xl border border-silver/25 bg-base-dark/80 p-4 md:p-6">
-        <h2 className="mb-3 text-sm font-semibold text-accent md:text-base">
+        <h2 className="mb-3 text-sm font-semibold text-accent md:text-[1rem]">
           入力
         </h2>
         <div className="mb-3">
@@ -156,7 +156,7 @@ export function ReceiptPhotoExpenseExperience({
           onChange={(e) => setText(e.target.value)}
           placeholder={meta.inputHint}
           rows={4}
-          className="mb-3 resize-y text-sm md:text-base"
+          className="mb-3 resize-y text-sm md:text-[1rem]"
         />
         <div className="mb-3 flex flex-wrap gap-2">
           {SAMPLES.map((s) => (
@@ -202,7 +202,7 @@ export function ReceiptPhotoExpenseExperience({
           aria-label="抽出結果と領収書対応"
         >
           <div className="rounded-xl border border-silver/20 bg-base-dark p-4 md:order-1">
-            <h3 className="mb-3 text-sm font-semibold text-text md:text-base">
+            <h3 className="mb-3 text-sm font-semibold text-text md:text-[1rem]">
               領収書
             </h3>
             <ReceiptImageStage
@@ -212,7 +212,7 @@ export function ReceiptPhotoExpenseExperience({
           </div>
 
           <div className="rounded-xl border border-silver/20 bg-base-dark p-4 md:order-2">
-            <h3 className="mb-3 text-sm font-semibold text-text md:text-base">
+            <h3 className="mb-3 text-sm font-semibold text-text md:text-[1rem]">
               抽出フィールド
             </h3>
             <p className="mb-2 text-xs text-text-sub">
@@ -254,9 +254,29 @@ export function ReceiptPhotoExpenseExperience({
 
           <div className="flex flex-col gap-4 md:order-3">
             <div className="rounded-xl border border-accent/25 bg-accent/5 p-4">
-              <h3 className="mb-2 text-sm font-semibold text-text md:text-base">
+              <h3 className="mb-2 text-sm font-semibold text-text md:text-[1rem]">
                 承認前チェック
               </h3>
+              <div
+                className={cn(
+                  "mb-3 rounded-lg border p-3",
+                  result.compliance.ok
+                    ? "border-emerald-500/35 bg-emerald-500/10"
+                    : "border-amber-500/35 bg-amber-500/10"
+                )}
+                role="status"
+                aria-live="polite"
+              >
+                <p className="text-xs font-semibold text-text">
+                  社内規定チェック（AI照合ログ）
+                </p>
+                <p className="mt-1 text-sm font-semibold text-text md:text-[1rem]">
+                  {result.compliance.label}
+                </p>
+                <p className="mt-1 text-xs leading-relaxed text-text-sub">
+                  {result.compliance.advice}
+                </p>
+              </div>
               <ul className="space-y-2 text-sm">
                 {result.checks.map((c) => {
                   const related =

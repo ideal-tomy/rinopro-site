@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  forwardRef,
   useCallback,
   useEffect,
   useId,
@@ -18,11 +19,93 @@ import {
 import type { ExperiencePrototypeMeta } from "@/lib/experience/prototype-registry";
 import { cn } from "@/lib/utils";
 
+const SAMPLE_IMAGE_URL = "/media/experience/property-exterior-corridor-sample.svg";
+
 const LABEL_PRESETS = ["照明", "外壁", "共用部", "その他"] as const;
 
 function newPinId(): string {
   return `pin-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
 }
+
+type PhoneFramedPhotoProps = {
+  imageUrl: string;
+  pins: PropertyPhotoPin[];
+  selectedPinId: string | null;
+  onSelectPin: (id: string) => void;
+  onScreenClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
+  interactive?: boolean;
+  imageAlt: string;
+};
+
+const PhoneFramedPhoto = forwardRef<HTMLDivElement, PhoneFramedPhotoProps>(
+  function PhoneFramedPhoto(
+    {
+      imageUrl,
+      pins,
+      selectedPinId,
+      onSelectPin,
+      onScreenClick,
+      interactive = true,
+      imageAlt,
+    },
+    ref
+  ) {
+    return (
+      <div
+        className={cn(
+          "mx-auto w-full max-w-[min(280px,88vw)] motion-safe:transition-shadow",
+          "rounded-[2.35rem] border-[10px] border-zinc-600/90 bg-zinc-800 p-2",
+          "shadow-[0_25px_50px_-12px_rgba(0,0,0,0.55)]"
+        )}
+      >
+        <div className="rounded-[1.65rem] bg-black pb-1.5 pt-2">
+          <div className="mb-2 flex justify-center" aria-hidden>
+            <div className="h-6 w-[88px] rounded-full bg-zinc-950 ring-1 ring-zinc-700/80" />
+          </div>
+          <div
+            ref={ref}
+            role={interactive ? "presentation" : undefined}
+            className={cn(
+              "relative mx-1 mb-1 overflow-hidden rounded-xl bg-zinc-950",
+              interactive ? "cursor-crosshair" : "cursor-default"
+            )}
+            onClick={onScreenClick}
+          >
+            {/* blob または静的サンプル — プロトタイプ用 */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={imageUrl}
+              alt={imageAlt}
+              className="block max-h-[min(52vh,520px)] w-full object-contain"
+            />
+            {pins.map((p, i) => (
+              <button
+                key={p.id}
+                type="button"
+                data-pin-marker
+                aria-label={`ピン${i + 1} ${p.label}`}
+                className={cn(
+                  "absolute flex h-7 w-7 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 border-base-dark text-xs font-bold text-base-dark motion-safe:transition motion-safe:duration-150",
+                  "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
+                  selectedPinId === p.id
+                    ? "z-10 scale-110 bg-accent"
+                    : "z-[1] bg-accent/85 hover:bg-accent"
+                )}
+                style={{ left: `${p.xPct}%`, top: `${p.yPct}%` }}
+                onClick={(ev) => {
+                  ev.stopPropagation();
+                  onSelectPin(p.id);
+                }}
+              >
+                {i + 1}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+);
 
 interface PropertyExteriorPhotoExperienceProps {
   meta: ExperiencePrototypeMeta;
@@ -49,7 +132,7 @@ export function PropertyExteriorPhotoExperience({
 
   const revokePreview = useCallback(() => {
     setPreviewUrl((prev) => {
-      if (prev) URL.revokeObjectURL(prev);
+      if (prev?.startsWith("blob:")) URL.revokeObjectURL(prev);
       return null;
     });
   }, []);
@@ -69,6 +152,15 @@ export function PropertyExteriorPhotoExperience({
     },
     [revokePreview]
   );
+
+  const loadSampleImage = useCallback(() => {
+    revokePreview();
+    setPreviewUrl(SAMPLE_IMAGE_URL);
+    setPins([]);
+    setSelectedPinId(null);
+    setResult(null);
+    setAnalyzeError(null);
+  }, [revokePreview]);
 
   const onDrop = (e: React.DragEvent) => {
     e.preventDefault();
@@ -129,8 +221,8 @@ export function PropertyExteriorPhotoExperience({
   return (
     <div className={cn("space-y-6", className)}>
       <div className="rounded-xl border border-silver/25 bg-base-dark/80 p-4 md:p-6">
-        <h2 className="mb-3 text-sm font-semibold text-accent md:text-base">
-          入力
+        <h2 className="mb-3 text-sm font-semibold text-accent md:text-[1rem]">
+          入力（スマホ撮影イメージ）
         </h2>
 
         <div
@@ -153,7 +245,7 @@ export function PropertyExteriorPhotoExperience({
             dragActive
               ? "border-accent/70 bg-accent/10"
               : "border-silver/35 bg-silver/5 hover:border-accent/40",
-            previewUrl && "min-h-0 border-solid border-silver/25 p-2"
+            previewUrl && "min-h-0 border-solid border-silver/25 p-4"
           )}
         >
           <input
@@ -166,57 +258,46 @@ export function PropertyExteriorPhotoExperience({
           />
 
           {!previewUrl ? (
-            <button
-              type="button"
-              className="flex flex-col items-center gap-2 text-center text-sm text-text-sub"
-              onClick={() => fileInputRef.current?.click()}
-            >
-              <span className="text-text">
-                写真をドラッグ＆ドロップ
-              </span>
-              <span>またはクリックでファイルを選択</span>
-              <span className="text-xs text-text-sub/80">
-                配置後、画像上をクリックしてピン（所見位置）を追加できます
-              </span>
-            </button>
-          ) : (
-            <div className="w-full space-y-2">
-              <div
-                ref={previewWrapRef}
-                role="presentation"
-                className="relative mx-auto max-h-[min(420px,55vh)] w-full cursor-crosshair overflow-hidden rounded-lg bg-black/40"
-                onClick={onPreviewClick}
+            <div className="flex w-full max-w-md flex-col items-center gap-3 text-center">
+              <button
+                type="button"
+                className="flex flex-col items-center gap-2 text-sm text-text-sub"
+                onClick={() => fileInputRef.current?.click()}
               >
-                {/* blob URL のため next/image は使わず img（LCP 対象外のプロトタイプ） */}
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={previewUrl}
-                  alt="アップロードした現場写真のプレビュー"
-                  className="mx-auto max-h-[min(420px,55vh)] w-full object-contain"
-                />
-                {pins.map((p, i) => (
-                  <button
-                    key={p.id}
-                    type="button"
-                    data-pin-marker
-                    aria-label={`ピン${i + 1} ${p.label}`}
-                    className={cn(
-                      "absolute flex h-7 w-7 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 border-base-dark text-xs font-bold text-base-dark motion-safe:transition motion-safe:duration-150",
-                      selectedPinId === p.id
-                        ? "z-10 scale-110 bg-accent"
-                        : "z-[1] bg-accent/85 hover:bg-accent"
-                    )}
-                    style={{ left: `${p.xPct}%`, top: `${p.yPct}%` }}
-                    onClick={(ev) => {
-                      ev.stopPropagation();
-                      setSelectedPinId(p.id);
-                    }}
-                  >
-                    {i + 1}
-                  </button>
-                ))}
-              </div>
-              <div className="flex flex-wrap items-center gap-2">
+                <span className="text-text">
+                  写真をドラッグ＆ドロップ
+                </span>
+                <span>またはクリックでファイルを選択</span>
+                <span className="text-xs text-text-sub/80">
+                  配置後、縦長フレーム内の画像をタップしてピン（所見位置）を追加
+                </span>
+              </button>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="text-xs"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  loadSampleImage();
+                }}
+              >
+                サンプル画像で試す
+              </Button>
+            </div>
+          ) : (
+            <div className="w-full space-y-3">
+              <PhoneFramedPhoto
+                ref={previewWrapRef}
+                imageUrl={previewUrl}
+                pins={pins}
+                selectedPinId={selectedPinId}
+                onSelectPin={setSelectedPinId}
+                onScreenClick={onPreviewClick}
+                interactive
+                imageAlt="アップロードした現場写真のプレビュー"
+              />
+              <div className="flex flex-wrap items-center justify-center gap-2">
                 <Button
                   type="button"
                   variant="outline"
@@ -225,6 +306,15 @@ export function PropertyExteriorPhotoExperience({
                   onClick={() => fileInputRef.current?.click()}
                 >
                   写真を差し替え
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="text-xs"
+                  onClick={loadSampleImage}
+                >
+                  サンプルに戻す
                 </Button>
                 <Button
                   type="button"
@@ -300,7 +390,7 @@ export function PropertyExteriorPhotoExperience({
           }}
           placeholder={meta.inputHint}
           rows={4}
-          className="mb-3 resize-y text-sm md:text-base"
+          className="mb-3 resize-y text-sm md:text-[1rem]"
         />
         <div className="mb-3 flex flex-wrap gap-2">
           {samples.map((s) => (
@@ -350,49 +440,82 @@ export function PropertyExteriorPhotoExperience({
         </p>
       </div>
 
-      {result && (
-        <div className="grid gap-4 md:grid-cols-2">
-          <div className="rounded-xl border border-silver/20 bg-base-dark p-4">
-            <h3 className="mb-2 text-sm font-semibold text-text md:text-base">
-              状況タグ
-            </h3>
-            <div className="flex flex-wrap gap-2">
-              {result.tags.map((t) => (
-                <span
-                  key={t}
-                  className="rounded-full border border-silver/30 bg-silver/10 px-3 py-1 text-xs md:text-sm"
-                >
-                  {t}
-                </span>
-              ))}
-            </div>
-            {result.pinFindings.length > 0 && (
-              <div className="mt-4 border-t border-silver/15 pt-4">
-                <h4 className="mb-2 text-xs font-medium text-accent md:text-sm">
-                  ピン連動所見
-                </h4>
-                <ul className="list-inside list-disc space-y-1.5 text-sm text-text-sub">
-                  {result.pinFindings.map((line, idx) => (
-                    <li key={idx}>{line}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
-          <div className="space-y-4">
-            <div className="rounded-xl border border-silver/20 bg-base-dark p-4">
-              <h3 className="mb-2 text-sm font-semibold text-text md:text-base">
-                記録メモ
-              </h3>
-              <p className="whitespace-pre-wrap text-sm text-text-sub">
-                {result.memo}
+      {result && previewUrl && (
+        <div className="space-y-4">
+          <h2 className="text-sm font-semibold text-white md:text-[1rem]">
+            出力（ピン位置 ＋ 修繕依頼文案）
+          </h2>
+
+          <div className="grid gap-6 lg:grid-cols-[minmax(0,280px)_1fr] lg:items-start">
+            <div className="space-y-2">
+              <p className="text-center text-xs text-text-sub">
+                依頼・共有イメージ（読み取り専用）
               </p>
+              <PhoneFramedPhoto
+                imageUrl={previewUrl}
+                pins={pins}
+                selectedPinId={selectedPinId}
+                onSelectPin={setSelectedPinId}
+                interactive={false}
+                imageAlt="分析結果とともに表示する現場写真とピン位置"
+              />
             </div>
-            <div className="rounded-xl border border-accent/25 bg-accent/5 p-4">
-              <h3 className="mb-2 text-sm font-semibold text-text md:text-base">
-                次アクション
-              </h3>
-              <p className="text-sm text-text-sub">{result.next}</p>
+
+            <div className="min-w-0 space-y-4">
+              <div className="rounded-xl border border-accent/30 bg-accent/5 p-4">
+                <h3 className="mb-2 text-sm font-semibold text-accent md:text-[1rem]">
+                  修繕依頼文案（ドラフト・モック）
+                </h3>
+                <p className="mb-2 text-xs text-text-sub">
+                  写真とピン座標を前提にした、管理会社・業者向けの下書きイメージです。
+                </p>
+                <pre className="max-h-[min(60vh,28rem)] overflow-auto whitespace-pre-wrap break-words rounded-lg border border-silver/20 bg-base-dark/90 p-3 text-[13px] leading-relaxed text-text md:text-sm">
+                  {result.repairRequestDraft}
+                </pre>
+              </div>
+
+              <div className="rounded-xl border border-silver/20 bg-base-dark p-4">
+                <h3 className="mb-2 text-sm font-semibold text-text md:text-[1rem]">
+                  状況タグ
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  {result.tags.map((t) => (
+                    <span
+                      key={t}
+                      className="rounded-full border border-silver/30 bg-silver/10 px-3 py-1 text-xs md:text-sm"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+                {result.pinFindings.length > 0 && (
+                  <div className="mt-4 border-t border-silver/15 pt-4">
+                    <h4 className="mb-2 text-xs font-medium text-accent md:text-sm">
+                      ピン連動所見
+                    </h4>
+                    <ul className="list-inside list-disc space-y-1.5 text-sm text-text-sub">
+                      {result.pinFindings.map((line, idx) => (
+                        <li key={idx}>{line}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+
+              <div className="rounded-xl border border-silver/20 bg-base-dark p-4">
+                <h3 className="mb-2 text-sm font-semibold text-text md:text-[1rem]">
+                  記録メモ
+                </h3>
+                <p className="whitespace-pre-wrap text-sm text-text-sub">
+                  {result.memo}
+                </p>
+              </div>
+              <div className="rounded-xl border border-accent/25 bg-accent/5 p-4">
+                <h3 className="mb-2 text-sm font-semibold text-text md:text-[1rem]">
+                  次アクション
+                </h3>
+                <p className="text-sm text-text-sub">{result.next}</p>
+              </div>
             </div>
           </div>
         </div>
