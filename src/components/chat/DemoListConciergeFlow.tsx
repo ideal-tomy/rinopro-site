@@ -1,23 +1,28 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   ConciergeChoiceButton,
   ConciergeCtaButton,
 } from "@/components/chat/ConciergeChoiceButton";
+import { ConciergeDemoRecommendOverlay } from "@/components/chat/ConciergeDemoRecommendOverlay";
 import { cn } from "@/lib/utils";
 import {
   CONCIERGE_DEPTH_OPTIONS,
   CONCIERGE_DOMAIN_OPTIONS,
   CONCIERGE_ISSUE_OPTIONS,
   CONCIERGE_ROLE_OPTIONS,
+  pickRecommendedDemos,
   type ConciergeAnswers,
   type ConciergeDomainId,
+  type ConciergePick,
 } from "@/lib/demo/intelligent-concierge";
 import type {
+  AiDemo,
   AiDemoAudienceRole,
   AiDemoAutomationDepth,
   AiDemoIssueTag,
+  DemoItem,
 } from "@/lib/sanity/types";
 
 const STEP_HEADLINES = [
@@ -30,22 +35,44 @@ const STEP_HEADLINES = [
 interface DemoListConciergeFlowProps {
   disabled?: boolean;
   onUseFreeform: () => void;
-  onInjectDraft: (text: string) => void;
+  onDismissForNavigation: () => void;
 }
 
 export function DemoListConciergeFlow({
   disabled = false,
   onUseFreeform,
-  onInjectDraft,
+  onDismissForNavigation,
 }: DemoListConciergeFlowProps) {
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<Partial<ConciergeAnswers>>({});
+  const [demos, setDemos] = useState<(AiDemo | DemoItem)[] | null>(null);
+  const [recommendationPicks, setRecommendationPicks] = useState<
+    ConciergePick[] | null
+  >(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/demos/catalog")
+      .then((r) => r.json())
+      .then((data: unknown) => {
+        if (cancelled) return;
+        setDemos(Array.isArray(data) ? (data as (AiDemo | DemoItem)[]) : []);
+      })
+      .catch(() => {
+        if (!cancelled) setDemos([]);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const progress = useMemo(() => {
     return [0, 1, 2, 3].map((i) =>
       i <= step ? "bg-accent/80" : "bg-silver/25"
     );
   }, [step]);
+
+  const catalogLoading = demos === null;
 
   const pickDomain = (id: ConciergeDomainId) => {
     setAnswers((prev) => ({ ...prev, domain: id }));
@@ -63,36 +90,30 @@ export function DemoListConciergeFlow({
   };
 
   const pickDepth = (id: AiDemoAutomationDepth) => {
-    const full = { ...answers, automationDepth: id };
+    const full = { ...answers, automationDepth: id } as ConciergeAnswers;
     setAnswers(full);
-    const domainLabel =
-      CONCIERGE_DOMAIN_OPTIONS.find((o) => o.id === full.domain)?.label ??
-      "未選択";
-    const roleLabel =
-      CONCIERGE_ROLE_OPTIONS.find((o) => o.id === full.audienceRole)?.label ??
-      "未選択";
-    const issueLabel =
-      CONCIERGE_ISSUE_OPTIONS.find((o) => o.id === full.issue)?.label ??
-      "未選択";
-    const depthLabel =
-      CONCIERGE_DEPTH_OPTIONS.find((o) => o.id === full.automationDepth)
-        ?.label ?? "未選択";
-
-    onInjectDraft(
-      [
-        "【demo最短ルートの選択メモ】",
-        `- 事業領域: ${domainLabel}`,
-        `- 立ち位置: ${roleLabel}`,
-        `- 課題: ${issueLabel}`,
-        `- 進め方: ${depthLabel}`,
-        "",
-        "この条件に近い demo を 2〜3 件、理由つきで提案してください。",
-      ].join("\n")
-    );
+    const picks = pickRecommendedDemos(demos ?? [], full);
+    setRecommendationPicks(picks);
   };
 
+  const resetRecommendationFlow = () => {
+    setRecommendationPicks(null);
+    setStep(0);
+    setAnswers({});
+  };
+
+  const flowDisabled = disabled || catalogLoading;
+
   return (
-    <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
+    <div className="relative flex min-h-0 flex-1 flex-col overflow-hidden">
+      {recommendationPicks !== null && (
+        <ConciergeDemoRecommendOverlay
+          picks={recommendationPicks}
+          onResetFlow={resetRecommendationFlow}
+          onDismissForNavigation={onDismissForNavigation}
+        />
+      )}
+
       <div className="shrink-0 border-b border-silver/15 px-4 py-3">
         <div className="mt-1 flex gap-1" aria-hidden>
           {progress.map((cls, i) => (
@@ -102,6 +123,9 @@ export function DemoListConciergeFlow({
         <p className="mt-3 text-sm font-medium leading-relaxed tracking-wide text-text/95">
           {STEP_HEADLINES[step]}
         </p>
+        {catalogLoading && (
+          <p className="mt-2 text-xs text-text-sub">demo一覧を読み込み中…</p>
+        )}
       </div>
 
       <div className="max-h-[min(44vh,300px)] overflow-y-auto px-4 py-3 md:max-h-[min(50vh,360px)]">
@@ -113,7 +137,7 @@ export function DemoListConciergeFlow({
                 type="button"
                 order={idx + 1}
                 label={opt.label}
-                disabled={disabled}
+                disabled={flowDisabled}
                 selected={answers.domain === opt.id}
                 onClick={() => pickDomain(opt.id)}
               />
@@ -137,7 +161,7 @@ export function DemoListConciergeFlow({
                 type="button"
                 order={idx + 1}
                 label={opt.label}
-                disabled={disabled}
+                disabled={flowDisabled}
                 selected={answers.audienceRole === opt.id}
                 onClick={() => pickRole(opt.id)}
               />
@@ -153,7 +177,7 @@ export function DemoListConciergeFlow({
                 type="button"
                 order={idx + 1}
                 label={opt.label}
-                disabled={disabled}
+                disabled={flowDisabled}
                 selected={answers.issue === opt.id}
                 onClick={() => pickIssue(opt.id)}
               />
@@ -169,7 +193,7 @@ export function DemoListConciergeFlow({
                 type="button"
                 order={idx + 1}
                 label={opt.label}
-                disabled={disabled}
+                disabled={flowDisabled}
                 selected={answers.automationDepth === opt.id}
                 onClick={() => pickDepth(opt.id)}
               />

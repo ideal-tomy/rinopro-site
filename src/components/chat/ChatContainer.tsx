@@ -26,9 +26,9 @@ import { DemoListConciergeFlow } from "./DemoListConciergeFlow";
 import { ServiceCardConciergeStartFlow } from "./ServiceCardConciergeStartFlow";
 import { useChatSession } from "@/hooks/use-chat-session";
 import { Button } from "@/components/ui/button";
+import { ConciergeCtaLink } from "@/components/chat/ConciergeChoiceButton";
 import {
   useConciergeChat,
-  type ConciergeEntrySource,
   type ConciergeMode,
 } from "@/components/chat/concierge-chat-context";
 import {
@@ -229,11 +229,6 @@ export function ChatContainer() {
     setConciergeSurface("page");
   }, []);
 
-  const handleDemoRouteDraft = useCallback((text: string) => {
-    setDraftInjection({ id: Date.now(), text });
-    setConciergeSurface("page");
-  }, []);
-
   const isServiceCardDirect =
     entrySource === "services-card-development" ||
     entrySource === "services-card-consulting";
@@ -407,7 +402,7 @@ export function ChatContainer() {
       <DemoListConciergeFlow
         disabled={isLoading}
         onUseFreeform={handleDemoRouteFreeform}
-        onInjectDraft={handleDemoRouteDraft}
+        onDismissForNavigation={dismissConciergeForSiteLink}
       />
     );
   } else {
@@ -432,6 +427,8 @@ export function ChatContainer() {
   const onServicesDevOrConsult =
     pathname === "/services" &&
     (mode === "development" || mode === "consulting");
+  const isDevOrConsultMode =
+    mode === "development" || mode === "consulting";
 
   const chatPlaceholder = useMemo(() => {
     if (onServicesDevOrConsult) {
@@ -504,7 +501,34 @@ export function ChatContainer() {
               </div>
             )}
 
-          {messages.length > 0 && (
+          {messages.length > 0 && isDevOrConsultMode && (
+            <div className="border-t border-silver/15 bg-base/30 px-4 py-3">
+              <p className="mb-2 text-xs font-medium leading-relaxed text-text/85">
+                次の一歩（サイト内）
+              </p>
+              <div className="grid grid-cols-2 gap-2">
+                <ConciergeCtaLink
+                  href="/demo"
+                  variant="secondary"
+                  onClick={() => dismissConciergeForSiteLink()}
+                >
+                  体験demo
+                </ConciergeCtaLink>
+                <ConciergeCtaLink
+                  href="/estimate-detailed"
+                  variant="primary"
+                  onClick={() => dismissConciergeForSiteLink()}
+                >
+                  概算見積もり
+                </ConciergeCtaLink>
+              </div>
+            </div>
+          )}
+
+          {messages.length > 0 &&
+            !isDevOrConsultMode &&
+            mode === "default" &&
+            !showEntryPicker && (
             <div className="border-t border-silver/15 bg-base/30 px-4 py-2.5 text-xs leading-relaxed text-text-sub">
               <p className="mb-1.5 font-medium text-text/85">
                 次の一歩（サイト内）

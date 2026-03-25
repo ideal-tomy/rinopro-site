@@ -10,7 +10,6 @@ import { cn } from "@/lib/utils";
 import {
   ConciergeChoiceButton,
   ConciergeCtaButton,
-  ConciergeCtaLink,
 } from "@/components/chat/ConciergeChoiceButton";
 import {
   A_STEP_BUILD,
@@ -20,11 +19,7 @@ import {
   B_STEP_SUPPORT,
   B_STEP_TEAM,
   C_STEP2,
-  COMMON_FINISH_BODY,
   CTA_ADJUST_LABEL,
-  CTA_CONTACT_SIMPLE_LABEL,
-  CTA_DETAILED_ESTIMATE_LABEL,
-  CTA_DEMO_DIRECT_LABEL,
   CTA_FREEFORM_LABEL,
   D_STEP2,
   E_STEP2,
@@ -346,9 +341,11 @@ export function HomeConciergeFlow({
     return `done-${current.track}-${current.path.length}`;
   }, [current]);
 
-  useEffect(() => {
+  const [prevFrameKey, setPrevFrameKey] = useState(frameKey);
+  if (frameKey !== prevFrameKey) {
+    setPrevFrameKey(frameKey);
     setPressedChoiceKey(null);
-  }, [frameKey]);
+  }
 
   const choiceKey = useCallback(
     (choiceId: string) => `${frameKey}-${choiceId}`,
@@ -475,7 +472,6 @@ export function HomeConciergeFlow({
               track={current.track}
               path={current.path}
               body={current.body}
-              shortcutIntro={current.shortcut?.intro}
               onBack={pop}
               onAdjust={restart}
               onDetailedEstimate={handleDetailedEstimate}
@@ -539,11 +535,18 @@ function FreeformStep({
   );
 }
 
+function doneBodyForDisplay(track: ConciergeTrack, body: string): string {
+  if (track === "C" || track === "D" || track === "E") {
+    const cut = body.split(/\n\*\*ご案内\*\*/)[0];
+    return cut.trim() || body;
+  }
+  return body;
+}
+
 function DoneStep({
   track,
   path,
   body,
-  shortcutIntro,
   disabled,
   onBack,
   onAdjust,
@@ -555,7 +558,6 @@ function DoneStep({
   track: ConciergeTrack;
   path: FlowSelection[];
   body: string;
-  shortcutIntro?: string;
   disabled: boolean;
   onBack: () => void;
   onAdjust: () => void;
@@ -573,23 +575,12 @@ function DoneStep({
     ? getExperiencePrototypeBySlug(demoSlugResolved)
     : undefined;
 
-  const extraLinks =
-    track === "C"
-      ? [
-          { href: "/services/development", label: "開発スタック" },
-          { href: "/demo/list", label: "demo一覧" },
-        ]
-      : track === "D"
-        ? [{ href: "/demo/list", label: "demo一覧" }]
-        : [
-            { href: "/consulting", label: "コンサル・流れ" },
-            { href: "/flow", label: "開発の流れ" },
-          ];
+  const displayBody = doneBodyForDisplay(track, body);
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-4">
       <div className="flex items-center justify-between gap-2">
-        <p className="text-xs font-medium uppercase tracking-wide text-text-sub">
+        <p className="text-xs font-medium uppercase tracking-wide text-text/90">
           結果
         </p>
         <button
@@ -601,96 +592,84 @@ function DoneStep({
         </button>
       </div>
 
-      <div className="rounded-lg border border-silver/20 bg-base/40 p-3 text-sm leading-relaxed text-text">
-        {body.split("\n").map((line, i) => (
+      <div className="max-h-36 overflow-y-auto rounded-lg border border-silver/20 bg-base/40 p-3 text-xs leading-relaxed text-text/95 sm:max-h-40 sm:text-sm">
+        {displayBody.split("\n").map((line, i) => (
           <p key={i} className="mb-1.5 last:mb-0">
             {parseBoldLine(line)}
           </p>
         ))}
       </div>
 
-      {shortcutIntro && (
-        <p className="text-sm text-text-sub">{shortcutIntro}</p>
-      )}
-
-      {demoSlugResolved && demoMeta && (
-        <ConciergeCtaLink
-          href={experienceHref(demoSlugResolved)}
-          variant="secondary"
-          disabled={disabled}
-          onClick={() => onDismissForNavigation()}
-        >
-          {CTA_DEMO_DIRECT_LABEL}（{demoMeta.title}）
-        </ConciergeCtaLink>
-      )}
-
-      {!demoSlugResolved && (track === "C" || track === "D" || track === "E") && (
-        <p className="text-xs text-text-sub">
-          選択内容に専用demoが未割当のため、demo一覧から近いものをお選びください。
+      <div>
+        <p className="text-xs font-medium uppercase tracking-wide text-accent">
+          参考となる体験demo
         </p>
-      )}
-
-      <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-accent">
-        {extraLinks.map((l) => (
-          <Link
-            key={l.href}
-            href={l.href}
-            className="underline-offset-2 hover:underline"
-            onClick={() => onDismissForNavigation()}
-          >
-            {l.label}
-          </Link>
-        ))}
+        <div className="mt-2">
+          {demoSlugResolved && demoMeta ? (
+            <Link
+              href={experienceHref(demoSlugResolved)}
+              onClick={() => onDismissForNavigation()}
+              className="block rounded-xl border border-silver/20 bg-base/40 p-3 transition-colors hover:border-accent/35"
+            >
+              <span className="block text-sm font-semibold leading-snug text-text/95">
+                {demoMeta.title}
+              </span>
+              <span className="mt-1 block text-xs text-text-sub">
+                体験ページを開く
+              </span>
+            </Link>
+          ) : (
+            <Link
+              href="/demo/list"
+              onClick={() => onDismissForNavigation()}
+              className="block rounded-xl border border-silver/20 bg-base/40 p-3 text-sm text-text/95 transition-colors hover:border-accent/35"
+            >
+              選択に紐づく体験がない場合は、
+              <span className="font-medium text-accent">demo一覧</span>
+              から近いものをお選びください。
+            </Link>
+          )}
+        </div>
       </div>
 
-      <div className="rounded-lg border border-accent/25 bg-accent/5 p-3 text-sm leading-relaxed text-text">
-        {parseBoldLine(COMMON_FINISH_BODY)}
-      </div>
+      <ConciergeCtaButton
+        type="button"
+        variant="primary"
+        disabled={disabled}
+        onClick={onDetailedEstimate}
+      >
+        入力内容を元に概算見積もりへ
+      </ConciergeCtaButton>
 
-      <div className="flex flex-col gap-2">
-        <ConciergeCtaButton
-          type="button"
-          variant="primary"
-          disabled={disabled}
-          onClick={onDetailedEstimate}
-        >
-          {CTA_DETAILED_ESTIMATE_LABEL}
-        </ConciergeCtaButton>
-        {demoSlugResolved && demoMeta && (
-          <ConciergeCtaLink
-            href={experienceHref(demoSlugResolved)}
-            variant="secondary"
-            disabled={disabled}
-            onClick={() => onDismissForNavigation()}
-          >
-            {CTA_DEMO_DIRECT_LABEL}（{demoMeta.title}）
-          </ConciergeCtaLink>
-        )}
+      <div className="grid grid-cols-2 gap-2">
         <ConciergeCtaButton
           type="button"
           variant="secondary"
           disabled={disabled}
           onClick={onContactSimple}
+          className="px-2 text-xs sm:text-sm"
         >
-          {CTA_CONTACT_SIMPLE_LABEL}
+          問い合わせフォームへ
         </ConciergeCtaButton>
         <ConciergeCtaButton
           type="button"
           variant="secondary"
           disabled={disabled}
           onClick={onAdjust}
+          className="px-2 text-xs sm:text-sm"
         >
           {CTA_ADJUST_LABEL}
         </ConciergeCtaButton>
-        <ConciergeCtaButton
-          type="button"
-          variant="ghost"
-          disabled={disabled}
-          onClick={onFreeform}
-        >
-          {CTA_FREEFORM_LABEL}
-        </ConciergeCtaButton>
       </div>
+
+      <ConciergeCtaButton
+        type="button"
+        variant="ghost"
+        disabled={disabled}
+        onClick={onFreeform}
+      >
+        {CTA_FREEFORM_LABEL}
+      </ConciergeCtaButton>
     </div>
   );
 }

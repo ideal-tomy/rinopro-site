@@ -85,9 +85,9 @@ export function ConciergeChoiceButton({
 
 const ctaPrimary =
   "w-full rounded-2xl border border-accent/50 bg-accent/25 px-4 py-3 font-semibold leading-relaxed tracking-wide " +
-  "text-[#0a0e17] shadow-[0_0_20px_rgba(0,242,255,0.2)] backdrop-blur-[20px] " +
-  "transition-[transform,box-shadow,border-color,background-color] duration-200 ease-out " +
-  "hover:border-accent/70 hover:bg-accent/35 hover:shadow-[0_0_28px_rgba(0,242,255,0.28)] " +
+  "text-white shadow-[0_0_20px_rgba(0,242,255,0.2)] backdrop-blur-[20px] " +
+  "transition-[transform,box-shadow,border-color,background-color,color] duration-200 ease-out " +
+  "hover:border-accent/70 hover:bg-accent/35 hover:text-white hover:shadow-[0_0_28px_rgba(0,242,255,0.28)] " +
   "active:scale-[0.98] " +
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-base " +
   "disabled:pointer-events-none disabled:opacity-50";
