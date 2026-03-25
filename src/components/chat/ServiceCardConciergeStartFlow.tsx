@@ -1,7 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { ConciergeChoiceButton } from "@/components/chat/ConciergeChoiceButton";
 import {
   CONSULTING_PRESET_LABELS,
   DEVELOPMENT_PRESET_LABELS,
@@ -27,45 +26,33 @@ export function ServiceCardConciergeStartFlow({
       ? DEVELOPMENT_PRESET_LABELS
       : CONSULTING_PRESET_LABELS;
 
+  const freeformOrder = options.length + 1;
+
   return (
     <div className="flex min-h-0 flex-1 flex-col overflow-y-auto">
-      <div className="border-b border-silver/15 px-4 py-3">
-        <p className="text-xs font-medium uppercase tracking-wide text-text-sub">
-          はじめに
-        </p>
-        <h3 className="mt-1 text-lg font-semibold text-text">
+      <div className="space-y-4 p-4">
+        <h3 className="text-center text-[16px] font-semibold leading-relaxed tracking-wide text-text/95">
           どちらから始めますか？
         </h3>
-        <p className="mt-2 text-sm leading-relaxed text-text-sub">
-          {variant === "development"
-            ? "開発に関する質問にお答えします。下記の選択肢の中から選択するか、自由記述を選択し、相談内容を入力してください。※漠然とした記述でも構いません。"
-            : "コンサルティングに関する質問にお答えします。下記の選択肢の中から選択するか、自由記述を選択し、相談内容を入力してください。※漠然とした記述でも構いません。"}
-        </p>
-      </div>
-      <div className="space-y-2 p-4">
-        {options.map((label) => (
-          <Button
-            key={label}
+        <div className="flex flex-col gap-3">
+          {options.map((label, idx) => (
+            <ConciergeChoiceButton
+              key={label}
+              type="button"
+              order={idx + 1}
+              label={label}
+              disabled={disabled}
+              onClick={() => onChoosePreset(label)}
+            />
+          ))}
+          <ConciergeChoiceButton
             type="button"
-            variant="outline"
+            order={freeformOrder}
+            label="自由記述で相談する"
             disabled={disabled}
-            className={cn(
-              "h-auto min-h-11 w-full justify-start whitespace-normal border-silver/30 px-3 py-2.5 text-left text-sm leading-snug hover:border-accent/45 hover:bg-accent/5"
-            )}
-            onClick={() => onChoosePreset(label)}
-          >
-            {label}
-          </Button>
-        ))}
-        <Button
-          type="button"
-          variant="outline"
-          disabled={disabled}
-          className="h-auto min-h-11 w-full justify-start whitespace-normal border-silver/30 px-3 py-2.5 text-left text-sm leading-snug hover:border-accent/45 hover:bg-accent/5"
-          onClick={onChooseFreeform}
-        >
-          自由記述で相談する
-        </Button>
+            onClick={onChooseFreeform}
+          />
+        </div>
       </div>
     </div>
   );

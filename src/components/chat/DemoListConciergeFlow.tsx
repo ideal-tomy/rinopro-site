@@ -1,7 +1,10 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Button } from "@/components/ui/button";
+import {
+  ConciergeChoiceButton,
+  ConciergeCtaButton,
+} from "@/components/chat/ConciergeChoiceButton";
 import { cn } from "@/lib/utils";
 import {
   CONCIERGE_DEPTH_OPTIONS,
@@ -38,14 +41,6 @@ export function DemoListConciergeFlow({
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<Partial<ConciergeAnswers>>({});
 
-  const chipClass = (active: boolean) =>
-    cn(
-      "rounded-lg border px-2 py-1.5 text-left text-[11px] leading-snug transition-colors sm:rounded-full sm:px-3 sm:py-2 sm:text-sm",
-      active
-        ? "border-accent/60 bg-accent/15 text-accent"
-        : "border-silver/30 text-text-sub hover:border-accent/40 hover:text-accent"
-    );
-
   const progress = useMemo(() => {
     return [0, 1, 2, 3].map((i) =>
       i <= step ? "bg-accent/80" : "bg-silver/25"
@@ -69,6 +64,7 @@ export function DemoListConciergeFlow({
 
   const pickDepth = (id: AiDemoAutomationDepth) => {
     const full = { ...answers, automationDepth: id };
+    setAnswers(full);
     const domainLabel =
       CONCIERGE_DOMAIN_OPTIONS.find((o) => o.id === full.domain)?.label ??
       "未選択";
@@ -79,8 +75,8 @@ export function DemoListConciergeFlow({
       CONCIERGE_ISSUE_OPTIONS.find((o) => o.id === full.issue)?.label ??
       "未選択";
     const depthLabel =
-      CONCIERGE_DEPTH_OPTIONS.find((o) => o.id === full.automationDepth)?.label ??
-      "未選択";
+      CONCIERGE_DEPTH_OPTIONS.find((o) => o.id === full.automationDepth)
+        ?.label ?? "未選択";
 
     onInjectDraft(
       [
@@ -98,92 +94,85 @@ export function DemoListConciergeFlow({
   return (
     <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
       <div className="shrink-0 border-b border-silver/15 px-4 py-3">
-        <p className="mb-1 text-xs uppercase tracking-[0.16em] text-accent/90">
-          Intelligent Concierge
-        </p>
-        <h3 className="mb-1 text-lg font-semibold text-text md:text-xl">
-          デモへの最短ルート
-        </h3>
-        <p className="text-sm text-text-sub">
-          4つの選択だけで、100本近いデモから近いものを最大3件に絞り込みます。いつでも一覧から探せます。
-        </p>
-        <div className="mt-3 flex gap-1" aria-hidden>
+        <div className="mt-1 flex gap-1" aria-hidden>
           {progress.map((cls, i) => (
             <div key={i} className={cn("h-0.5 flex-1 rounded-full", cls)} />
           ))}
         </div>
-        <p className="mt-3 text-sm font-medium text-text">{STEP_HEADLINES[step]}</p>
+        <p className="mt-3 text-sm font-medium leading-relaxed tracking-wide text-text/95">
+          {STEP_HEADLINES[step]}
+        </p>
       </div>
 
       <div className="max-h-[min(44vh,300px)] overflow-y-auto px-4 py-3 md:max-h-[min(50vh,360px)]">
         {step === 0 && (
           <div className="grid grid-cols-2 gap-2">
-            {CONCIERGE_DOMAIN_OPTIONS.map((opt) => (
-              <button
+            {CONCIERGE_DOMAIN_OPTIONS.map((opt, idx) => (
+              <ConciergeChoiceButton
                 key={opt.id}
                 type="button"
+                order={idx + 1}
+                label={opt.label}
                 disabled={disabled}
+                selected={answers.domain === opt.id}
                 onClick={() => pickDomain(opt.id)}
-                className={chipClass(answers.domain === opt.id)}
-              >
-                {opt.label}
-              </button>
+              />
             ))}
-            <button
+            <ConciergeChoiceButton
               type="button"
+              order={CONCIERGE_DOMAIN_OPTIONS.length + 1}
+              label="自由記述で相談する"
               disabled={disabled}
+              className="col-span-2"
               onClick={onUseFreeform}
-              className={chipClass(false)}
-            >
-              自由記述で相談する
-            </button>
+            />
           </div>
         )}
 
         {step === 1 && (
           <div className="grid grid-cols-1 gap-2">
-            {CONCIERGE_ROLE_OPTIONS.map((opt) => (
-              <button
+            {CONCIERGE_ROLE_OPTIONS.map((opt, idx) => (
+              <ConciergeChoiceButton
                 key={opt.id}
                 type="button"
+                order={idx + 1}
+                label={opt.label}
                 disabled={disabled}
+                selected={answers.audienceRole === opt.id}
                 onClick={() => pickRole(opt.id)}
-                className={chipClass(answers.audienceRole === opt.id)}
-              >
-                {opt.label}
-              </button>
+              />
             ))}
           </div>
         )}
 
         {step === 2 && (
           <div className="grid grid-cols-2 gap-2 md:grid-cols-1">
-            {CONCIERGE_ISSUE_OPTIONS.map((opt) => (
-              <button
+            {CONCIERGE_ISSUE_OPTIONS.map((opt, idx) => (
+              <ConciergeChoiceButton
                 key={opt.id}
                 type="button"
+                order={idx + 1}
+                label={opt.label}
                 disabled={disabled}
+                selected={answers.issue === opt.id}
                 onClick={() => pickIssue(opt.id)}
-                className={chipClass(answers.issue === opt.id)}
-              >
-                {opt.label}
-              </button>
+              />
             ))}
           </div>
         )}
 
         {step === 3 && (
           <div className="grid grid-cols-1 gap-2">
-            {CONCIERGE_DEPTH_OPTIONS.map((opt) => (
-              <button
+            {CONCIERGE_DEPTH_OPTIONS.map((opt, idx) => (
+              <ConciergeChoiceButton
                 key={opt.id}
                 type="button"
+                order={idx + 1}
+                label={opt.label}
                 disabled={disabled}
+                selected={answers.automationDepth === opt.id}
                 onClick={() => pickDepth(opt.id)}
-                className={chipClass(answers.automationDepth === opt.id)}
-              >
-                {opt.label}
-              </button>
+              />
             ))}
           </div>
         )}
@@ -191,16 +180,16 @@ export function DemoListConciergeFlow({
 
       <div className="shrink-0 border-t border-silver/15 bg-base/30 px-4 py-3">
         {step > 0 ? (
-          <Button
+          <ConciergeCtaButton
             type="button"
-            variant="outline"
+            variant="secondary"
             disabled={disabled}
             onClick={() => setStep((s) => Math.max(0, s - 1))}
           >
             一つ前に戻る
-          </Button>
+          </ConciergeCtaButton>
         ) : (
-          <p className="text-xs text-text-sub">
+          <p className="text-xs leading-relaxed text-text/95">
             自由記述を選ぶと、すぐ入力欄から相談できます。
           </p>
         )}

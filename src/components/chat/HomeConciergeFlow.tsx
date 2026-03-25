@@ -402,23 +402,11 @@ export function HomeConciergeFlow({
 
   return (
     <div className={cn("flex min-h-0 flex-1 flex-col overflow-y-auto", className)}>
-      <div className="border-b border-silver/15 px-4 py-2">
-        <p className="text-xs font-medium uppercase tracking-wide text-text-sub">
-          ガイド
-        </p>
-        <p className="text-sm text-text-sub">
-          タップで進めます。いつでも下の入力欄から自由にご相談いただけます。
-        </p>
-      </div>
-
       <AnimatePresence mode="wait">
         <motion.div key={frameKey} {...motionProps} className="flex-1 p-4">
           {current.kind === "root" && (
             <div className="space-y-4">
-              <p className="text-center text-xs font-medium uppercase tracking-wide text-text-sub">
-                Step 1
-              </p>
-              <h3 className="text-center text-base font-semibold text-accent">
+              <h3 className="text-center text-base font-semibold leading-relaxed tracking-wide text-text/95">
                 まず、知りたいことを選んでください
               </h3>
               <div className="flex flex-col gap-3">
@@ -438,10 +426,7 @@ export function HomeConciergeFlow({
 
           {current.kind === "question" && (
             <div className="space-y-4">
-              <div className="flex items-center justify-between gap-2">
-                <p className="text-xs font-medium uppercase tracking-wide text-text-sub">
-                  {current.step.stepLabel}
-                </p>
+              <div className="flex items-center justify-end gap-2">
                 <button
                   type="button"
                   className="text-xs text-accent underline-offset-2 hover:underline"
@@ -450,7 +435,7 @@ export function HomeConciergeFlow({
                   戻る
                 </button>
               </div>
-              <h3 className="text-base font-semibold text-text">
+              <h3 className="text-base font-semibold leading-relaxed tracking-wide text-text/95">
                 {current.step.question}
               </h3>
               <div
@@ -480,7 +465,6 @@ export function HomeConciergeFlow({
               disabled={disabled}
               onBack={pop}
               onConfirm={handleFreeformConfirm}
-              stepLabel={current.step.stepLabel}
               choiceLabel={current.choice.label}
             />
           )}
@@ -510,13 +494,11 @@ function FreeformStep({
   disabled,
   onBack,
   onConfirm,
-  stepLabel,
   choiceLabel,
 }: {
   disabled: boolean;
   onBack: () => void;
   onConfirm: (text: string) => void;
-  stepLabel: string;
   choiceLabel: string;
 }) {
   const [text, setText] = useState("");
@@ -524,7 +506,7 @@ function FreeformStep({
     <div className="space-y-4">
       <div className="flex items-center justify-between gap-2">
         <p className="text-xs font-medium uppercase tracking-wide text-text-sub">
-          {stepLabel} · 自由記述
+          自由記述
         </p>
         <button
           type="button"
@@ -534,7 +516,7 @@ function FreeformStep({
           戻る
         </button>
       </div>
-      <p className="text-sm text-text-sub">
+      <p className="text-sm leading-relaxed text-text/95">
         「{choiceLabel}」について、簡単で構いませんのでご記入ください。
       </p>
       <Textarea

@@ -37,10 +37,10 @@ export function ConciergeEmptyPanel({
     <div className={cn("flex min-h-0 flex-1 flex-col overflow-y-auto", className)}>
       {children}
       <div className="border-b border-silver/15 px-4 py-3">
-        <p className="text-xs font-medium uppercase tracking-wide text-text-sub">
+        <p className="text-xs font-medium uppercase tracking-wide text-text/90">
           {title}
         </p>
-        <p className="mt-1 text-sm text-text-sub">{body}</p>
+        <p className="mt-1 text-sm leading-relaxed text-text/95">{body}</p>
       </div>
     </div>
   );
