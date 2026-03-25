@@ -8,6 +8,11 @@ export interface ExperiencePrototypeMeta {
   demoSlug: string;
   shortDescription: string;
   inputHint: string;
+  /**
+   * true のとき `/demo/{demoSlug}` でチャットより先に体験UI（同一 Runner）を表示する。
+   * 書類たたき台系など「開いた瞬間から専用画面」を優先するデモ向け。
+   */
+  immersiveOnDemoDetail?: boolean;
 }
 
 /** ③を先、②を後（一覧・静的パラメータの順序） */
@@ -74,6 +79,17 @@ export const EXPERIENCE_PROTOTYPES: ExperiencePrototypeMeta[] = [
     shortDescription:
       "箇条書きの数値・メモから、KPIカードと要約・次アクション案をモック生成します。",
     inputHint: "例: 売上320万 / 欠品3SKU / 客訴2件 などを改行で入力",
+  },
+  {
+    slug: "loan-interview-business-outline",
+    title: "事業メモから融資・事業計画のたたき台",
+    tier: "track3",
+    demoSlug: "loan-interview-business-outline",
+    shortDescription:
+      "雑な事業メモから、事業概要・収支のたたき台・資金用途・面談で想定されやすい論点まで、体裁を模したモックを一画面で確認できます。",
+    inputHint:
+      "例: エステを銀座で開業、融資の計画書を作りたい（内装の目安額があればメモ）",
+    immersiveOnDemoDetail: true,
   },
   {
     slug: "property-exterior-photo-memo",

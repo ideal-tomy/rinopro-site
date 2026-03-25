@@ -11,10 +11,21 @@ import {
   getIndustryTagClass,
   getFunctionTagClass,
 } from "@/lib/demo/demo-taxonomy";
-import { getExperienceUrlForDemoSlug } from "@/lib/experience/prototype-registry";
+import { ExperiencePrototypeRunner } from "@/components/experience/ExperiencePrototypeRunner";
+import {
+  getExperiencePrototypeBySlug,
+  getExperienceUrlForDemoSlug,
+} from "@/lib/experience/prototype-registry";
 
 function isAiDemo(demo: AiDemo | DemoItem): demo is AiDemo {
   return (demo as AiDemo)._type === "aiDemo" || "systemPrompt" in demo;
+}
+
+function getDemoSlugCurrent(demo: AiDemo | DemoItem): string | undefined {
+  const s = demo.slug;
+  if (s == null) return undefined;
+  if (typeof s === "string") return s;
+  return s.current;
 }
 
 interface DemoDetailContentProps {
@@ -35,14 +46,25 @@ export function DemoDetailContent({ demo }: DemoDetailContentProps) {
       (demo.runMode === "mock_preview" &&
         (demo.mockOutputPrimary || demo.mockOutputSecondary)));
 
+  const demoSlugStr = getDemoSlugCurrent(demo);
+  const immersiveProto = demoSlugStr
+    ? getExperiencePrototypeBySlug(demoSlugStr)
+    : undefined;
+  const useImmersiveFirst = Boolean(immersiveProto?.immersiveOnDemoDetail);
+
   const experienceHref =
     isAiDemo(demo) &&
-    (demo.experienceUrl ?? getExperienceUrlForDemoSlug(demo.slug));
+    (demo.experienceUrl ?? getExperienceUrlForDemoSlug(demoSlugStr));
   const experienceIsExternal =
     typeof experienceHref === "string" && experienceHref.startsWith("http");
 
   return (
-    <div className="container mx-auto max-w-3xl px-4 py-6 md:py-16 md:px-6">
+    <div
+      className={cn(
+        "container mx-auto px-4 py-6 md:py-16 md:px-6",
+        useImmersiveFirst ? "max-w-6xl" : "max-w-3xl"
+      )}
+    >
       {/* 1. タイトル（モバイルでコンパクト） */}
       <div className="mb-3 flex flex-wrap items-center gap-2 md:mb-4 md:gap-3">
         {runMode !== null && (
@@ -90,7 +112,18 @@ export function DemoDetailContent({ demo }: DemoDetailContentProps) {
         </div>
       )}
 
-      {experienceHref ? (
+      {experienceHref && useImmersiveFirst ? (
+        <p className="mb-4 text-sm text-text-sub md:text-[1rem]">
+          下の画面が操作の中心です。{" "}
+          <Link
+            href={experienceHref}
+            className="text-accent underline-offset-2 hover:underline"
+          >
+            体験専用ページ
+          </Link>
+          でも同じ内容を開けます。
+        </p>
+      ) : experienceHref ? (
         <div className="mb-6 rounded-lg border border-accent/30 bg-accent/5 px-4 py-3 text-sm md:text-base">
           <p className="mb-2 text-text-sub">
             画面操作の体験版（プロトタイプ）があります。
@@ -110,12 +143,29 @@ export function DemoDetailContent({ demo }: DemoDetailContentProps) {
         </div>
       ) : null}
 
-      {/* 3. チャット画面＋サンプル（モバイルで1画面に収まるよう優先表示） */}
-      {hasDemoPanel && (
+      {useImmersiveFirst && immersiveProto ? (
+        <div className="mb-8">
+          <ExperiencePrototypeRunner meta={immersiveProto} />
+        </div>
+      ) : null}
+
+      {/* 3. チャット画面＋サンプル */}
+      {hasDemoPanel && useImmersiveFirst ? (
+        <details
+          className="mb-8 rounded-xl border border-silver/25 bg-base-dark/50 [&>summary::-webkit-details-marker]:hidden"
+        >
+          <summary className="cursor-pointer select-none px-4 py-3 text-sm font-medium text-text transition-colors hover:text-accent md:text-[1rem]">
+            チャット形式でも試す（モックストリーム）
+          </summary>
+          <div className="border-t border-silver/20 px-4 pb-4 pt-2">
+            <DemoRuntimePanel demo={demo} />
+          </div>
+        </details>
+      ) : hasDemoPanel ? (
         <div className="mb-8">
           <DemoRuntimePanel demo={demo} />
         </div>
-      )}
+      ) : null}
 
       {/* 4. 説明エリア（スクロールで下に） */}
       {demo.videoUrl ? (

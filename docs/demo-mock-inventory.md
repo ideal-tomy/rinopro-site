@@ -1,6 +1,6 @@
 # 作成済みデモ/モック一覧
 
-最終更新: 2026-03-23  
+最終更新: 2026-03-26  
 参照元: [`scripts/seed-ai-demos.ts`](../scripts/seed-ai-demos.ts) の `existingDemos` ＋ [`scripts/demo-batches/`](../scripts/demo-batches/) の `nextMockDemos` 結合（計101本）
 
 **ポートフォリオ運用**: [demo-portfolio-governance.md](demo-portfolio-governance.md) ／ **トリアージ（主ラベル・保留）**: [demo-portfolio-triage.md](demo-portfolio-triage.md)（100行は `npx tsx scripts/generate-demo-portfolio-triage-md.ts` でインベントリから再生成可）
@@ -81,7 +81,7 @@
 | 70 | 原文メモから翻訳依頼ブリーフ | `translation-brief-from-notes` | mock_preview | legal | text_only | 翻訳依頼ブリーフ / ベンダーへの確認事項 | 文書生成, 要約 |
 | 71 | 要件メモからユーザーストーリー草案 | `user-story-draft-from-bullets` | mock_preview | manufacturing | text_only | ユーザーストーリー案 / 受け入れ条件・未決メモ | 資料作成, 要約 |
 | 72 | 変更メモからリリースノート草案 | `release-note-draft-from-ship-list` | mock_preview | manufacturing | text_only | リリースノート（ユーザー向け） / 社内メモ | 文書生成, 要約 |
-| 73 | 事業メモから融資面談用の説明骨子 | `loan-interview-business-outline` | mock_preview | legal | text_only | 面談用説明骨子 / 想定質問と準備メモ | 資料作成, 要約 |
+| 73 | 事業メモから融資面談用の説明骨子 | `loan-interview-business-outline` | mock_preview | legal | text_only | 事業計画・資金計画のたたき台（体験UI）／面談用骨子・想定質問 | 資料作成, 要約 |
 | 74 | 予約状況から仕込みリスト草案 | `restaurant-prep-list-from-bookings` | mock_preview | manufacturing | text_only | 仕込みリスト草案 / 当日注意メモ | チェックリスト, 要約 |
 | 75 | 問い合わせスレッドからヘルプ記事草案 | `help-article-draft-from-ticket` | mock_preview | manufacturing | text_only | ヘルプ記事草案 / 公開前チェックメモ | 要約, 文書生成 |
 | 76 | モニタリングメモからフィードバック文 | `call-monitor-feedback-coaching` | mock_preview | manufacturing | audio_text | オペレーター向けフィードバック / 品質管理共有メモ | 音声入力, 要約 |

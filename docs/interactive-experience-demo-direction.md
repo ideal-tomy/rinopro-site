@@ -43,6 +43,13 @@
 | 疑似音声波形 | **本物のマイク不要**。CSS/Canvas のループアニメ＋タイプライターでモック。 |
 | 現場写真・領収書 | **静止画サンプル**（`public/`）があると没入感が上がる。動画は必須ではない。 |
 
+### 2.4 書類たたき台系（Before/After シェル）と `/demo` の優先表示
+
+- **共有UI**: [`src/components/experience/shells/BeforeAfterDocumentShell.tsx`](../src/components/experience/shells/BeforeAfterDocumentShell.tsx) — 左メモ・中央実行・右に体裁付きブロック（見出し・段落・箇条書き・表・KPI）。モックは `src/lib/experience/*-mock.ts` 等の **決定論的ビルダ** で `DocumentShellBlock[]` を返す。
+- **タイプライター**: ブロック単位で逐次表示。`prefers-reduced-motion: reduce` では **即時全文**（プロジェクトルール準拠）。
+- **`immersiveOnDemoDetail`**: [`ExperiencePrototypeMeta`](../src/lib/experience/prototype-registry.ts) の任意フラグ。`true` のとき [`DemoDetailContent`](../src/components/demo/DemoDetailContent.tsx) は **チャットより先に** [`ExperiencePrototypeRunner`](../src/components/experience/ExperiencePrototypeRunner.tsx) を表示し、チャットは `<details>` で折りたたみ（モックストリーム維持）。
+- **横展開**: 新プリセットは (1) `buildXxxMock`（またはプリセットマップ）(2) 薄い `*Experience.tsx` または Runner 分岐 (3) レジストリ1行 (4) 必要なら `immersiveOnDemoDetail` を付与、の順。
+
 ---
 
 ## 3. 各デモ要件（③〜⑩）

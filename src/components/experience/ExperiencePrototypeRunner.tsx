@@ -10,6 +10,7 @@ import { RestaurantOpsDashboardExperience } from "@/components/experience/protot
 import { ServiceClaimReplyExperience } from "@/components/experience/prototypes/ServiceClaimReplyExperience";
 import { InquiryIntakeTriageExperience } from "@/components/experience/prototypes/InquiryIntakeTriageExperience";
 import { WorkflowApprovalLiteExperience } from "@/components/experience/prototypes/WorkflowApprovalLiteExperience";
+import { LoanPlanDraftExperience } from "@/components/experience/prototypes/LoanPlanDraftExperience";
 import { OpsReportMetricsExperience } from "@/components/experience/prototypes/OpsReportMetricsExperience";
 
 interface ExperiencePrototypeRunnerProps {
@@ -79,6 +80,10 @@ export function ExperiencePrototypeRunner({
     return (
       <OpsReportMetricsExperience meta={meta} className={className} />
     );
+  }
+
+  if (meta.slug === "loan-interview-business-outline") {
+    return <LoanPlanDraftExperience meta={meta} className={className} />;
   }
 
   return null;
