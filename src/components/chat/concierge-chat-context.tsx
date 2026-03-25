@@ -8,6 +8,10 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import type {
+  ConciergeAnswers,
+  ConciergePick,
+} from "@/lib/demo/intelligent-concierge";
 
 export type ConciergeMode = "default" | "development" | "consulting";
 export type ConciergeEntrySource =
@@ -15,6 +19,12 @@ export type ConciergeEntrySource =
   | "auto"
   | "services-card-development"
   | "services-card-consulting";
+
+/** `/demo/list` 上のチップ・提案レールと `DemoListConciergeFlow` を同期する */
+export type DemoListWizardSnapshot = {
+  answers: ConciergeAnswers;
+  picks: ConciergePick[];
+};
 
 type ConciergeChatContextValue = {
   open: boolean;
@@ -27,6 +37,10 @@ type ConciergeChatContextValue = {
     nextMode: ConciergeMode,
     source?: ConciergeEntrySource
   ) => void;
+  demoListWizardSnapshot: DemoListWizardSnapshot | null;
+  setDemoListWizardSnapshot: (value: DemoListWizardSnapshot | null) => void;
+  demoListPageOpenSeq: number;
+  requestOpenDemoListPageConcierge: () => void;
 };
 
 const ConciergeChatContext = createContext<ConciergeChatContextValue | null>(
@@ -37,6 +51,9 @@ export function ConciergeChatProvider({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState<ConciergeMode>("default");
   const [entrySource, setEntrySource] = useState<ConciergeEntrySource>("fab");
+  const [demoListWizardSnapshot, setDemoListWizardSnapshot] =
+    useState<DemoListWizardSnapshot | null>(null);
+  const [demoListPageOpenSeq, setDemoListPageOpenSeq] = useState(0);
 
   const openConcierge = useCallback(
     (nextMode: ConciergeMode, source: ConciergeEntrySource = "fab") => {
@@ -47,6 +64,10 @@ export function ConciergeChatProvider({ children }: { children: ReactNode }) {
     []
   );
 
+  const requestOpenDemoListPageConcierge = useCallback(() => {
+    setDemoListPageOpenSeq((n) => n + 1);
+  }, []);
+
   const value = useMemo(
     () => ({
       open,
@@ -56,8 +77,20 @@ export function ConciergeChatProvider({ children }: { children: ReactNode }) {
       entrySource,
       setEntrySource,
       openConcierge,
+      demoListWizardSnapshot,
+      setDemoListWizardSnapshot,
+      demoListPageOpenSeq,
+      requestOpenDemoListPageConcierge,
     }),
-    [open, mode, entrySource, openConcierge]
+    [
+      open,
+      mode,
+      entrySource,
+      openConcierge,
+      demoListWizardSnapshot,
+      demoListPageOpenSeq,
+      requestOpenDemoListPageConcierge,
+    ]
   );
 
   return (

@@ -70,8 +70,18 @@ const POPUP_COPY: Record<
 
 export function ChatContainer() {
   const pathname = usePathname();
-  const { open, setOpen, mode, setMode, entrySource, setEntrySource } =
-    useConciergeChat();
+  const {
+    open,
+    setOpen,
+    mode,
+    setMode,
+    entrySource,
+    setEntrySource,
+    setDemoListWizardSnapshot,
+    demoListPageOpenSeq,
+  } = useConciergeChat();
+
+  const lastDemoListOpenSeqHandled = useRef(0);
 
   const openRef = useRef(open);
   useEffect(() => {
@@ -142,6 +152,24 @@ export function ChatContainer() {
       setServicesIntroComplete(false);
     }
   }, [pathname, open, entrySource]);
+
+  /** `/demo/list` の「コンシェルジュを開く」と同一経路（page 表面の DemoListConciergeFlow） */
+  useEffect(() => {
+    if (pathname !== "/demo/list") return;
+    if (demoListPageOpenSeq === 0) return;
+    if (demoListPageOpenSeq === lastDemoListOpenSeqHandled.current) return;
+    lastDemoListOpenSeqHandled.current = demoListPageOpenSeq;
+    setEntrySource("fab");
+    setConciergeSurface("page");
+    setOpen(true);
+  }, [demoListPageOpenSeq, pathname, setEntrySource, setOpen]);
+
+  /** `/demo/list` の自動オープン直後に `/demo` へ遷移したとき、モーダルが開いたまま残らないようにする */
+  useEffect(() => {
+    if (pathname !== "/demo") return;
+    if (entrySource !== "auto") return;
+    setOpen(false);
+  }, [pathname, entrySource, setOpen]);
 
   useEffect(() => {
     if (pathname === "/flow" || pathname === "/services/development") {
@@ -403,6 +431,10 @@ export function ChatContainer() {
         disabled={isLoading}
         onUseFreeform={handleDemoRouteFreeform}
         onDismissForNavigation={dismissConciergeForSiteLink}
+        onWizardComplete={(answers, picks) =>
+          setDemoListWizardSnapshot({ answers, picks })
+        }
+        onWizardReset={() => setDemoListWizardSnapshot(null)}
       />
     );
   } else {

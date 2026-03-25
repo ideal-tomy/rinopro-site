@@ -36,12 +36,21 @@ interface DemoListConciergeFlowProps {
   disabled?: boolean;
   onUseFreeform: () => void;
   onDismissForNavigation: () => void;
+  /** 最終ステップ確定時: 一覧ページのチップ・提案レールと同期 */
+  onWizardComplete?: (
+    answers: ConciergeAnswers,
+    picks: ConciergePick[]
+  ) => void;
+  /** 「demo検索ボットに戻る」でウィザードをリセットしたとき */
+  onWizardReset?: () => void;
 }
 
 export function DemoListConciergeFlow({
   disabled = false,
   onUseFreeform,
   onDismissForNavigation,
+  onWizardComplete,
+  onWizardReset,
 }: DemoListConciergeFlowProps) {
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<Partial<ConciergeAnswers>>({});
@@ -94,12 +103,14 @@ export function DemoListConciergeFlow({
     setAnswers(full);
     const picks = pickRecommendedDemos(demos ?? [], full);
     setRecommendationPicks(picks);
+    onWizardComplete?.(full, picks);
   };
 
   const resetRecommendationFlow = () => {
     setRecommendationPicks(null);
     setStep(0);
     setAnswers({});
+    onWizardReset?.();
   };
 
   const flowDisabled = disabled || catalogLoading;

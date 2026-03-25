@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     default: "rinopro | 現場業務を、AIで再設計して実装まで伴走する",
     template: "%s | rinopro",
   },
-  description: "現場業務を、AIで再設計して実装まで伴走する。DXツール・AIツールの開発とコンサルティング。",
+  description: "ビジネスを再設計するDXツール・AIツールの開発とコンサルティング。",
   openGraph: {
     type: "website",
     locale: "ja_JP",

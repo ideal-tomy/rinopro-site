@@ -1,23 +1,20 @@
 import type { Metadata } from "next";
 import { PageShell } from "@/components/layout/PageShell";
 import { DemoPageContent } from "@/components/demo/DemoPageContent";
-import { fetchCaseStudies, fetchDemosForDisplay } from "@/lib/sanity/fetch";
+import { fetchDemosForDisplay } from "@/lib/sanity/fetch";
 
 export const metadata: Metadata = {
   title: "体験・ツールdemo | rinopro",
   description:
-    "注目のインタラクティブ体験から、モックdemoカタログ・業種マトリクスまで。導入後の操作イメージをこのページからたどれます。",
+    "プロトタイプのインタラクティブ体験と、モックdemo一覧への導線をまとめたハブです。",
 };
 
 export default async function DemoPage() {
-  const [demos, caseStudies] = await Promise.all([
-    fetchDemosForDisplay(),
-    fetchCaseStudies(),
-  ]);
+  const demos = await fetchDemosForDisplay();
 
   return (
     <PageShell>
-      <DemoPageContent demos={demos} caseStudies={caseStudies} />
+      <DemoPageContent demos={demos} />
     </PageShell>
   );
 }

@@ -13,7 +13,7 @@ export function Footer() {
     <footer className="mt-auto border-t border-silver/20 bg-base-dark">
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 py-8 md:flex-row md:px-6">
         <p className="text-sm text-text-sub">
-          現場業務を、AIで再設計して実装まで伴走する。
+          ビジネスを再設計する
         </p>
         <nav className="flex flex-wrap justify-center gap-4 md:gap-6">
           {FOOTER_LINKS.map(({ href, label }) => (

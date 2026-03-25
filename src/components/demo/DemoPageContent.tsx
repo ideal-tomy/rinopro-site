@@ -2,26 +2,75 @@
 
 import Link from "next/link";
 import { List } from "lucide-react";
-import { DemoMatrixSection } from "./DemoMatrixSection";
-import { ExperienceCard } from "@/components/experience/ExperienceCard";
 import { Card } from "@/components/ui/card";
 import { FeaturedExperienceVideoCard } from "@/components/experience/FeaturedExperienceVideoCard";
 import {
   getFeaturedExperiencePrototypes,
   getOtherExperiencePrototypes,
+  type ExperiencePrototypeMeta,
+  type FeaturedExperienceSlug,
 } from "@/lib/experience/prototype-registry";
 import { FEATURED_SHOWCASE_VIDEO_BY_SLUG } from "@/lib/experience/featured-showcase-media";
-import type { FeaturedExperienceSlug } from "@/lib/experience/prototype-registry";
-import type { AiDemo, CaseStudy, DemoItem } from "@/lib/sanity/types";
+import type { AiDemo, DemoItem } from "@/lib/sanity/types";
 import { StaggerGrid } from "@/components/layout/PageSectionWithScroll";
+import {
+  getFunctionTagClass,
+  getIndustryTagClass,
+} from "@/lib/demo/demo-taxonomy";
+import { cn } from "@/lib/utils";
 
 interface DemoPageContentProps {
   demos: (AiDemo | DemoItem)[];
-  caseStudies: CaseStudy[];
 }
 
-export function DemoPageContent({ demos, caseStudies }: DemoPageContentProps) {
+function getDemoSlug(demo: AiDemo | DemoItem): string | undefined {
+  return typeof demo.slug === "object" ? demo.slug?.current : demo.slug;
+}
+
+function findDemoForPrototype(
+  demos: (AiDemo | DemoItem)[],
+  meta: ExperiencePrototypeMeta
+): AiDemo | DemoItem | undefined {
+  return demos.find((d) => getDemoSlug(d) === meta.demoSlug);
+}
+
+function PrototypeTagRow({ demo }: { demo: AiDemo | DemoItem | undefined }) {
+  if (!demo) return null;
+  const functionTags = demo.functionTags ?? [];
+  const industryTags = demo.industryTags ?? [];
+  if (functionTags.length === 0 && industryTags.length === 0) return null;
+  return (
+    <div className="flex min-w-0 flex-1 flex-wrap items-center justify-end gap-1 sm:gap-1.5">
+      {functionTags.slice(0, 1).map((t) => (
+        <span
+          key={`fn-${t}`}
+          className={cn(
+            "shrink-0 rounded-full border px-1.5 py-0.5 text-[10px] font-medium md:px-2 md:text-xs",
+            getFunctionTagClass(t)
+          )}
+        >
+          {t}
+        </span>
+      ))}
+      {industryTags.slice(0, 2).map((t) => (
+        <span
+          key={`ind-${t}`}
+          className={cn(
+            "shrink-0 rounded-full border px-1.5 py-0.5 text-[10px] font-medium md:px-2 md:text-xs",
+            getIndustryTagClass(t)
+          )}
+        >
+          {t}
+        </span>
+      ))}
+    </div>
+  );
+}
+
+export function DemoPageContent({ demos }: DemoPageContentProps) {
   const featured = getFeaturedExperiencePrototypes();
+  /** 飲食ダッシュボード → 社内ナレッジの順（レジストリの逆順） */
+  const featuredOrdered = [...featured].reverse();
   const others = getOtherExperiencePrototypes();
   const othersTrack3 = others.filter((p) => p.tier === "track3");
   const othersTrack2 = others.filter((p) => p.tier === "track2");
@@ -29,33 +78,22 @@ export function DemoPageContent({ demos, caseStudies }: DemoPageContentProps) {
   return (
     <div className="relative pb-32">
       <div className="container mx-auto max-w-6xl px-4 py-10 md:px-6 md:py-14">
-        <header className="mb-12">
+        <header className="mb-10">
           <h1 className="text-2xl font-bold text-accent md:text-3xl">
             体験・ツールdemo
           </h1>
-          <p className="mt-3 max-w-2xl text-sm text-text-sub md:text-[1rem]">
-            まずは画面に近いプロトタイプで流れを掴み、続けてチャット型のモックdemoカタログや業種マトリクスから深掘りできます。
-          </p>
         </header>
 
         <section
           id="featured-experiences"
           className="mb-16 scroll-mt-24"
-          aria-labelledby="featured-experiences-heading"
+          aria-label="注目のインタラクティブ体験"
         >
-          <h2
-            id="featured-experiences-heading"
-            className="mb-2 text-lg font-semibold text-accent md:text-xl"
-          >
-            まずここから（注目の2本）
-          </h2>
-          <p className="mb-6 max-w-2xl text-sm text-text-sub md:text-[1rem]">
-            社内ナレッジBOTと飲食オペレーション・ダッシュボード。動画が未配置の環境では静かなプレビュー表示に切り替わります。
-          </p>
-          <div className="grid gap-6 md:grid-cols-2">
-            {featured.map((p) => (
+          <div className="mx-auto grid max-w-2xl grid-cols-1 gap-6">
+            {featuredOrdered.map((p) => (
               <FeaturedExperienceVideoCard
                 key={p.slug}
+                variant="hub"
                 meta={p}
                 videoSrc={
                   FEATURED_SHOWCASE_VIDEO_BY_SLUG[p.slug as FeaturedExperienceSlug]
@@ -71,15 +109,12 @@ export function DemoPageContent({ demos, caseStudies }: DemoPageContentProps) {
         >
           <h2
             id="other-experiences-heading"
-            className="mb-2 text-lg font-semibold text-accent md:text-xl"
+            className="mb-6 text-lg font-semibold text-accent md:text-xl"
           >
             その他のインタラクティブ体験
           </h2>
-          <p className="mb-6 max-w-2xl text-sm text-text-sub md:text-[1rem]">
-            ③プロダクト寄り・②画面体験の残りです。いずれもモック結果で操作感を確認できます。
-          </p>
           <div className="mb-8">
-            <h3 className="mb-3 text-sm font-medium text-text md:text-base">
+            <h3 className="mb-3 text-sm font-medium text-text md:text-[1rem]">
               ③ プロダクト寄り
             </h3>
             <StaggerGrid layout="list">
@@ -88,14 +123,17 @@ export function DemoPageContent({ demos, caseStudies }: DemoPageContentProps) {
                   key={p.slug}
                   className="border-silver/25 p-5 transition-colors hover:border-accent/40"
                 >
-                  <Link
-                    href={`/experience/${p.slug}`}
-                    className="block text-accent underline-offset-2 hover:underline"
-                  >
-                    <span className="text-base font-semibold text-text md:text-lg">
-                      {p.title}
-                    </span>
-                  </Link>
+                  <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between sm:gap-3">
+                    <Link
+                      href={`/experience/${p.slug}`}
+                      className="min-w-0 shrink text-accent underline-offset-2 hover:underline"
+                    >
+                      <span className="text-[1rem] font-semibold text-text md:text-lg">
+                        {p.title}
+                      </span>
+                    </Link>
+                    <PrototypeTagRow demo={findDemoForPrototype(demos, p)} />
+                  </div>
                   <p className="mt-2 text-sm text-text-sub">
                     {p.shortDescription}
                   </p>
@@ -104,7 +142,7 @@ export function DemoPageContent({ demos, caseStudies }: DemoPageContentProps) {
             </StaggerGrid>
           </div>
           <div>
-            <h3 className="mb-3 text-sm font-medium text-text md:text-base">
+            <h3 className="mb-3 text-sm font-medium text-text md:text-[1rem]">
               ② 画面体験
             </h3>
             <StaggerGrid layout="list">
@@ -113,14 +151,17 @@ export function DemoPageContent({ demos, caseStudies }: DemoPageContentProps) {
                   key={p.slug}
                   className="border-silver/25 p-5 transition-colors hover:border-accent/40"
                 >
-                  <Link
-                    href={`/experience/${p.slug}`}
-                    className="block text-accent underline-offset-2 hover:underline"
-                  >
-                    <span className="text-base font-semibold text-text md:text-lg">
-                      {p.title}
-                    </span>
-                  </Link>
+                  <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between sm:gap-3">
+                    <Link
+                      href={`/experience/${p.slug}`}
+                      className="min-w-0 shrink text-accent underline-offset-2 hover:underline"
+                    >
+                      <span className="text-[1rem] font-semibold text-text md:text-lg">
+                        {p.title}
+                      </span>
+                    </Link>
+                    <PrototypeTagRow demo={findDemoForPrototype(demos, p)} />
+                  </div>
                   <p className="mt-2 text-sm text-text-sub">
                     {p.shortDescription}
                   </p>
@@ -129,50 +170,7 @@ export function DemoPageContent({ demos, caseStudies }: DemoPageContentProps) {
             </StaggerGrid>
           </div>
         </section>
-
-        <section className="mb-16" aria-labelledby="case-studies-heading">
-          <h2
-            id="case-studies-heading"
-            className="mb-4 text-lg font-semibold text-accent md:text-xl"
-          >
-            事例・紹介（Sanity）
-          </h2>
-          {caseStudies.length > 0 ? (
-            <StaggerGrid cols="2" layout="list">
-              {caseStudies.map((c) => (
-                <ExperienceCard key={c._id} caseStudy={c} />
-              ))}
-            </StaggerGrid>
-          ) : (
-            <p className="text-sm text-text-sub">
-              掲載中の事例は準備中です。
-            </p>
-          )}
-        </section>
-
-        <section
-          className="mb-4 rounded-xl border border-silver/20 bg-base-dark/30 p-6 md:p-8"
-          aria-labelledby="mock-catalog-heading"
-        >
-          <h2
-            id="mock-catalog-heading"
-            className="text-lg font-semibold text-accent md:text-xl"
-          >
-            モックdemoカタログ
-          </h2>
-          <p className="mt-2 max-w-2xl text-sm text-text-sub md:text-[1rem]">
-            問い合わせ文→返信案や入力試し込みなど、ツールdemoを一覧から選べます。
-          </p>
-          <Link
-            href="/demo/list"
-            className="mt-5 inline-flex items-center text-sm font-medium text-accent underline-offset-4 hover:underline"
-          >
-            モックdemo一覧へ →
-          </Link>
-        </section>
       </div>
-
-      <DemoMatrixSection demos={demos} />
 
       <Link
         href="/demo/list"

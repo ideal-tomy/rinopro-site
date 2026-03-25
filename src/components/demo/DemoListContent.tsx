@@ -1,7 +1,13 @@
 "use client";
 
-import { type ReactNode, useEffect, useMemo, useRef, useState } from "react";
-import { createPortal } from "react-dom";
+import {
+  type ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -14,15 +20,13 @@ import {
   getFunctionTagClass,
 } from "@/lib/demo/demo-taxonomy";
 import {
-  pickRecommendedDemos,
   CONCIERGE_DOMAIN_OPTIONS,
   CONCIERGE_ROLE_OPTIONS,
   CONCIERGE_ISSUE_OPTIONS,
   CONCIERGE_DEPTH_OPTIONS,
-  type ConciergeAnswers,
   type ConciergeDomainId,
-  type ConciergePick,
 } from "@/lib/demo/intelligent-concierge";
+import { useConciergeChat } from "@/components/chat/concierge-chat-context";
 import type {
   AiDemoAudienceRole,
   AiDemoAutomationDepth,
@@ -146,29 +150,36 @@ function HorizontalRail({
 }) {
   const [canLeft, setCanLeft] = useState(false);
   const [canRight, setCanRight] = useState(false);
-  const [mounted, setMounted] = useState(false);
   const railRef = useRef<HTMLDivElement | null>(null);
+  const detachScrollRef = useRef<(() => void) | null>(null);
 
-  const updateScrollState = () => {
+  const updateScrollState = useCallback(() => {
     const node = railRef.current;
     if (!node) return;
     setCanLeft(node.scrollLeft > 4);
     setCanRight(node.scrollLeft + node.clientWidth < node.scrollWidth - 4);
-  };
+  }, []);
+
+  const setRailNode = useCallback(
+    (node: HTMLDivElement | null) => {
+      detachScrollRef.current?.();
+      detachScrollRef.current = null;
+      railRef.current = node;
+      if (!node) return;
+      updateScrollState();
+      const onScroll = () => updateScrollState();
+      node.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("resize", updateScrollState);
+      detachScrollRef.current = () => {
+        node.removeEventListener("scroll", onScroll);
+        window.removeEventListener("resize", updateScrollState);
+      };
+    },
+    [updateScrollState]
+  );
 
   useEffect(() => {
-    setMounted(true);
-    updateScrollState();
-    const node = railRef.current;
-    if (!node) return;
-    const onScroll = () => updateScrollState();
-    node.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", updateScrollState);
-    return () => {
-      node.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", updateScrollState);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    return () => detachScrollRef.current?.();
   }, []);
 
   const scrollByAmount = (direction: 1 | -1) => {
@@ -180,10 +191,7 @@ function HorizontalRail({
   return (
     <div className="relative left-1/2 w-screen -translate-x-1/2">
       <div
-        ref={(el) => {
-          railRef.current = el;
-          if (mounted) updateScrollState();
-        }}
+        ref={setRailNode}
         className={cn(
           "no-scrollbar flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-2 md:gap-4 md:px-8 xl:px-12"
         )}
@@ -222,13 +230,6 @@ function HorizontalRail({
   );
 }
 
-const STEP_HEADLINES = [
-  "事業領域に近いものを選んでください",
-  "ご自身の立ち位置に近いものを選んでください",
-  "いま負荷が大きいと感じる領域はどれですか",
-  "望ましい進め方に近いものを選んでください",
-] as const;
-
 function labelForDomain(id: ConciergeDomainId): string {
   return CONCIERGE_DOMAIN_OPTIONS.find((o) => o.id === id)?.label ?? id;
 }
@@ -247,36 +248,10 @@ interface DemoListContentProps {
 }
 
 export function DemoListContent({ demos }: DemoListContentProps) {
-  const [isConciergeOpen, setIsConciergeOpen] = useState(false);
-  const [hasMounted, setHasMounted] = useState(false);
-  const [conciergeStep, setConciergeStep] = useState(0);
-  const [wizardAnswers, setWizardAnswers] = useState<Partial<ConciergeAnswers>>({});
-  const [appliedAnswers, setAppliedAnswers] = useState<ConciergeAnswers | null>(null);
-  const [conciergePicks, setConciergePicks] = useState<ConciergePick[]>([]);
-
-  useEffect(() => {
-    setHasMounted(true);
-    setIsConciergeOpen(true);
-  }, []);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    if (isConciergeOpen) {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [isConciergeOpen]);
-
-  if (demos.length === 0) {
-    return (
-      <p className="py-16 text-center text-text-sub">デモは準備中です。</p>
-    );
-  }
+  const { demoListWizardSnapshot, requestOpenDemoListPageConcierge } =
+    useConciergeChat();
+  const appliedAnswers = demoListWizardSnapshot?.answers ?? null;
+  const conciergePicks = demoListWizardSnapshot?.picks ?? [];
 
   const categoryOrder = [
     "report",
@@ -293,76 +268,26 @@ export function DemoListContent({ demos }: DemoListContentProps) {
     "other",
   ];
 
-  const filteredDemos = demos;
-
   const grouped = useMemo(() => {
     const map = new Map<string, (AiDemo | DemoItem)[]>();
-    for (const demo of filteredDemos) {
+    for (const demo of demos) {
       const catId = getCategoryId(demo.functionTags);
       const list = map.get(catId) ?? [];
       list.push(demo);
       map.set(catId, list);
     }
     return map;
-  }, [filteredDemos]);
+  }, [demos]);
 
   const orderedCategories = categoryOrder.filter((id) => grouped.has(id));
   const rest = [...grouped.keys()].filter((id) => !categoryOrder.includes(id));
   const allCategories = [...orderedCategories, ...rest];
 
-  const openConcierge = () => {
-    setConciergeStep(0);
-    setWizardAnswers(appliedAnswers ? { ...appliedAnswers } : {});
-    setIsConciergeOpen(true);
-  };
-
-  const closeConciergeBrowseOnly = () => {
-    setIsConciergeOpen(false);
-  };
-
-  const goBackStep = () => {
-    setConciergeStep((s) => Math.max(0, s - 1));
-  };
-
-  const selectDomainAndAdvance = (id: ConciergeDomainId) => {
-    setWizardAnswers((w) => ({ ...w, domain: id }));
-    setConciergeStep(1);
-  };
-
-  const selectRoleAndAdvance = (id: AiDemoAudienceRole) => {
-    setWizardAnswers((w) => ({ ...w, audienceRole: id }));
-    setConciergeStep(2);
-  };
-
-  const selectIssueAndAdvance = (id: AiDemoIssueTag) => {
-    setWizardAnswers((w) => ({ ...w, issue: id }));
-    setConciergeStep(3);
-  };
-
-  /** 最終ステップ: タップで即提案を確定してモーダルを閉じる */
-  const selectDepthAndFinish = (id: AiDemoAutomationDepth) => {
-    const w = { ...wizardAnswers, automationDepth: id };
-    setWizardAnswers(w);
-    const { domain, audienceRole, issue } = w;
-    if (!domain || !audienceRole || !issue) return;
-    const full: ConciergeAnswers = {
-      domain,
-      audienceRole,
-      issue,
-      automationDepth: id,
-    };
-    setAppliedAnswers(full);
-    setConciergePicks(pickRecommendedDemos(demos, full));
-    setIsConciergeOpen(false);
-  };
-
-  const conciergeChipClass = (active: boolean) =>
-    cn(
-      "rounded-lg border px-2 py-1.5 text-left text-[11px] leading-snug transition-colors sm:rounded-full sm:px-3 sm:py-2 sm:text-sm",
-      active
-        ? "border-accent/60 bg-accent/15 text-accent"
-        : "border-silver/30 text-text-sub hover:border-accent/40 hover:text-accent"
+  if (demos.length === 0) {
+    return (
+      <p className="py-16 text-center text-text-sub">デモは準備中です。</p>
     );
+  }
 
   return (
     <div className="space-y-8 pb-8">
@@ -375,7 +300,7 @@ export function DemoListContent({ demos }: DemoListContentProps) {
           </p>
           <button
             type="button"
-            onClick={openConcierge}
+            onClick={() => requestOpenDemoListPageConcierge()}
             className="rounded-md border border-silver/30 px-3 py-1 text-xs text-text-sub transition-colors hover:border-accent/50 hover:text-accent"
           >
             {appliedAnswers ? "条件を選び直す" : "コンシェルジュを開く"}
@@ -433,150 +358,6 @@ export function DemoListContent({ demos }: DemoListContentProps) {
         );
       })}
 
-      {hasMounted &&
-        isConciergeOpen &&
-        createPortal(
-          <div
-            className="fixed inset-0 z-[60] flex items-end justify-center bg-base/80 p-0 backdrop-blur-sm sm:items-center sm:p-4 sm:pt-16 md:pt-24"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="concierge-title"
-          >
-          <div
-            className="flex max-h-[92dvh] w-full max-w-xl flex-col overflow-hidden rounded-t-2xl border border-silver/30 border-b-0 bg-base-dark shadow-2xl sm:max-h-[min(92dvh,760px)] sm:rounded-2xl sm:border-b"
-          >
-            <div className="shrink-0 px-3 pb-2 pt-3 sm:px-5 sm:pb-2 sm:pt-5">
-              <p className="mb-0.5 text-[10px] uppercase tracking-[0.14em] text-accent/90 sm:mb-1 sm:text-xs sm:tracking-[0.16em]">
-                Intelligent Concierge
-              </p>
-              <h3
-                id="concierge-title"
-                className="mb-0.5 text-base font-semibold text-text sm:mb-1 sm:text-lg md:text-xl"
-              >
-                デモへの最短ルート
-              </h3>
-              <p className="hidden text-sm text-text-sub sm:mb-3 sm:block">
-                4つの選択だけで、100本近いデモから近いものを最大3件に絞り込みます。いつでも一覧から探せます。
-              </p>
-              <p className="mb-2 text-[11px] leading-snug text-text-sub sm:hidden">
-                4つの選択で最大3件に絞ります。一覧からも探せます。
-              </p>
-
-              <div className="mb-2 flex gap-1 sm:mb-3" aria-hidden>
-                {[0, 1, 2, 3].map((i) => (
-                  <div
-                    key={`prog-${i}`}
-                    className={cn(
-                      "h-0.5 flex-1 rounded-full transition-colors",
-                      i <= conciergeStep ? "bg-accent/80" : "bg-silver/25"
-                    )}
-                  />
-                ))}
-              </div>
-
-              <p className="text-xs font-medium leading-tight text-text sm:text-sm">
-                {STEP_HEADLINES[conciergeStep]}
-              </p>
-            </div>
-
-            {/*
-              親に確定高さがない状態で flex-1 + min-h-0 にすると、flex 子の高さが 0 になりカードが消えたように見える。
-              スクロールはこの領域の max-h で確実に確保する。
-            */}
-            <div className="max-h-[min(48dvh,340px)] overflow-y-auto overscroll-contain px-3 pb-2 sm:max-h-[min(52dvh,400px)] sm:px-5 sm:pb-3">
-              {conciergeStep === 0 && (
-                <div className="grid grid-cols-2 gap-1.5 sm:gap-2">
-                  {CONCIERGE_DOMAIN_OPTIONS.map((opt) => (
-                    <button
-                      key={opt.id}
-                      type="button"
-                      onClick={() => selectDomainAndAdvance(opt.id)}
-                      className={conciergeChipClass(wizardAnswers.domain === opt.id)}
-                    >
-                      {opt.label}
-                    </button>
-                  ))}
-                </div>
-              )}
-
-              {conciergeStep === 1 && (
-                <div className="grid grid-cols-1 gap-1.5 sm:gap-2">
-                  {CONCIERGE_ROLE_OPTIONS.map((opt) => (
-                    <button
-                      key={opt.id}
-                      type="button"
-                      onClick={() => selectRoleAndAdvance(opt.id)}
-                      className={conciergeChipClass(
-                        wizardAnswers.audienceRole === opt.id
-                      )}
-                    >
-                      {opt.label}
-                    </button>
-                  ))}
-                </div>
-              )}
-
-              {conciergeStep === 2 && (
-                <div className="grid grid-cols-2 gap-1.5 sm:grid-cols-1 sm:gap-2">
-                  {CONCIERGE_ISSUE_OPTIONS.map((opt) => (
-                    <button
-                      key={opt.id}
-                      type="button"
-                      onClick={() => selectIssueAndAdvance(opt.id)}
-                      className={conciergeChipClass(wizardAnswers.issue === opt.id)}
-                    >
-                      {opt.label}
-                    </button>
-                  ))}
-                </div>
-              )}
-
-              {conciergeStep === 3 && (
-                <div className="grid grid-cols-1 gap-1.5 sm:gap-2">
-                  {CONCIERGE_DEPTH_OPTIONS.map((opt) => (
-                    <button
-                      key={opt.id}
-                      type="button"
-                      onClick={() => selectDepthAndFinish(opt.id)}
-                      className={conciergeChipClass(
-                        wizardAnswers.automationDepth === opt.id
-                      )}
-                    >
-                      {opt.label}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            <div
-              className={cn(
-                "shrink-0 border-t border-silver/20 bg-base-dark p-3 sm:px-5 sm:py-4",
-                conciergeStep > 0 &&
-                  "flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between"
-              )}
-            >
-              <button
-                type="button"
-                onClick={closeConciergeBrowseOnly}
-                className="w-full rounded-md border border-silver/30 px-3 py-2 text-xs text-text-sub transition-colors hover:border-silver/50 hover:text-text sm:w-auto sm:text-sm"
-              >
-                一覧で探す（閉じる）
-              </button>
-              {conciergeStep > 0 && (
-                <button
-                  type="button"
-                  onClick={goBackStep}
-                  className="w-full rounded-md bg-accent px-4 py-2 text-sm font-medium text-[color:var(--color-base)] transition-opacity hover:opacity-90 sm:ml-auto sm:w-auto"
-                >
-                  一つ前に戻る
-                </button>
-              )}
-            </div>
-          </div>
-        </div>,
-        document.body
-        )}
     </div>
   );
 }

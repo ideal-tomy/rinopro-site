@@ -12,6 +12,12 @@
 トップの選択式フローから **詳細見積もり**へ渡す文脈は、チャット session とは別経路（[`src/lib/chat/estimate-handoff.ts`](../src/lib/chat/estimate-handoff.ts) のペイロード／URL／sessionStorage）で行う。  
 会話スコープをページ単位に分離しても、見積の引き継ぎはこの仕組みで維持できる。
 
+## `/demo/list` とグローバルコンシェルジュ
+
+- **ウィザード本体**は [`ChatContainer`](../src/components/chat/ChatContainer.tsx) 内の `DemoListConciergeFlow` のみ（一覧ページに埋め込んだ二重モーダルは廃止）。
+- **一覧上の条件チップ・「あなた向けの提案」**は [`ConciergeChatProvider`](../src/components/chat/concierge-chat-context.tsx) の `demoListWizardSnapshot` と同期する（ウィザード完了時に `setDemoListWizardSnapshot`、リセット時に `null`）。
+- **「コンシェルジュを開く」**は `requestOpenDemoListPageConcierge()` でシーケンスを進め、`ChatContainer` が `conciergeSurface === "page"` でポップアップを開く（自動オープン・FAB→このページについてと同じ表面）。
+
 ## スコープ表
 
 | 優先順（実装と同順） | 条件 | sessionId パターン | 主な UI / 状態 |

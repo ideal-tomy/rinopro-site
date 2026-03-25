@@ -4,23 +4,105 @@ import Link from "next/link";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
+import { Button } from "@/components/ui/button";
 import type { ExperiencePrototypeMeta } from "@/lib/experience/prototype-registry";
+
+const INTERNAL_EXPERIENCE_PATH = "/experience/internal-knowledge-share-bot";
+const RESTAURANT_EXPERIENCE_PATH = "/experience/restaurant-ops-dashboard-demo";
 
 type Props = {
   meta: ExperiencePrototypeMeta;
   videoSrc: string;
   className?: string;
+  /**
+   * `hub`: /demo 用。動画下にタイトル・説明・2CTA。
+   * 未指定: トップ等。動画上オーバーレイ＋カード全体リンク（従来）。
+   */
+  variant?: "hub" | "default";
 };
 
 export function FeaturedExperienceVideoCard({
   meta,
   videoSrc,
   className,
+  variant = "default",
 }: Props) {
   const [videoFailed, setVideoFailed] = useState(false);
   const prefersReducedMotion = useReducedMotion();
   const showVideo =
     !prefersReducedMotion && !videoFailed && Boolean(videoSrc);
+
+  const isInternal = meta.slug === "internal-knowledge-share-bot";
+  const isRestaurant = meta.slug === "restaurant-ops-dashboard-demo";
+
+  const ctaButtonClass =
+    "w-full min-h-12 px-4 text-[15px] font-semibold leading-snug sm:min-h-[3.25rem] sm:flex-1 sm:text-[1.05rem] md:min-h-14 md:text-[1.125rem]";
+
+  if (variant === "hub") {
+    return (
+      <article
+        className={cn(
+          "overflow-hidden rounded-xl border border-silver/25 bg-base-dark/50 transition-[border-color,box-shadow] duration-300 hover:border-accent/40",
+          className
+        )}
+      >
+        <div
+          className={cn(
+            "relative aspect-video w-full overflow-hidden",
+            showVideo
+              ? "bg-black"
+              : "bg-gradient-to-br from-base-dark via-base-dark/90 to-base-dark/70"
+          )}
+        >
+          {showVideo ? (
+            <video
+              className="h-full w-full object-cover"
+              src={videoSrc}
+              muted
+              playsInline
+              loop
+              autoPlay
+              preload="metadata"
+              aria-label={`${meta.title}のプレビュー動画`}
+              onError={() => setVideoFailed(true)}
+            />
+          ) : null}
+        </div>
+
+        <div className="border-t border-silver/20 bg-base-dark/90 px-4 py-4 md:px-5 md:py-5">
+          <h3 className="text-[1rem] font-semibold leading-snug text-text md:text-lg">
+            {meta.title}
+          </h3>
+          <p className="mt-2 text-sm leading-relaxed text-text-sub md:text-[1rem]">
+            {meta.shortDescription}
+          </p>
+
+          <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-stretch">
+            <Button
+              asChild
+              variant={isInternal ? "default" : "outline"}
+              size="lg"
+              className={ctaButtonClass}
+            >
+              <Link href={INTERNAL_EXPERIENCE_PATH}>
+                体験ページへ（社内ボット）
+              </Link>
+            </Button>
+            <Button
+              asChild
+              variant={isRestaurant ? "default" : "outline"}
+              size="lg"
+              className={ctaButtonClass}
+            >
+              <Link href={RESTAURANT_EXPERIENCE_PATH}>
+                閲覧ページへ（飲食店ダッシュボード）
+              </Link>
+            </Button>
+          </div>
+        </div>
+      </article>
+    );
+  }
 
   return (
     <Link
@@ -52,7 +134,7 @@ export function FeaturedExperienceVideoCard({
           aria-hidden
         />
         <div className="absolute inset-x-0 bottom-0 p-4 md:p-5">
-          <h3 className="text-base font-semibold leading-snug text-text md:text-lg">
+          <h3 className="text-[1rem] font-semibold leading-snug text-text md:text-lg">
             {meta.title}
           </h3>
           <p className="mt-1 line-clamp-2 text-xs text-text-sub md:text-sm">
