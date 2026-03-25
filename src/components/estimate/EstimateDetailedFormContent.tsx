@@ -11,6 +11,7 @@ import {
 } from "@/lib/chat/estimate-handoff";
 import type { ConciergeEstimateContextPayload } from "@/lib/chat/estimate-handoff";
 import { resetEstimateProcessingLock } from "@/lib/estimate/estimate-detailed-processing-lock";
+import { buildEstimateDetailedAnswersRecord } from "@/lib/estimate/build-estimate-detailed-answers";
 import {
   clearEstimateDetailedFlow,
   readEstimateDetailedFlow,
@@ -44,50 +45,6 @@ const initialForm: FormState = {
   budgetFeel: "",
   constraints: "",
 };
-
-function optionLabel(
-  options: readonly { value: string; label: string }[],
-  value: string
-): string {
-  return options.find((o) => o.value === value)?.label ?? value;
-}
-
-function buildAnswersRecord(f: EstimateFormDraft): Record<string, string> {
-  const answers: Record<string, string> = {
-    業種: optionLabel(copy.industryOptions, f.industry),
-    "いまいちばんやりたいこと・課題": f.summary.trim(),
-    "会社やチームの人数のイメージ": optionLabel(copy.teamOptions, f.teamSize),
-    "いつ頃までに、という希望": optionLabel(copy.timelineOptions, f.timeline),
-    "今お使いのツールや、他のシステムとのつなぎ": optionLabel(
-      copy.integrationOptions,
-      f.integration
-    ),
-    "主な使い方・載せる場所": optionLabel(copy.usageSurfaceOptions, f.usageSurface),
-    "扱う情報に個人情報は含まれますか": optionLabel(
-      copy.dataSensitivityOptions,
-      f.dataSensitivity
-    ),
-    "誰が使う・見るか（社内・外部）": optionLabel(copy.audienceScopeOptions, f.audienceScope),
-    "いまの情報の扱い方（中心）": optionLabel(
-      copy.currentWorkflowOptions,
-      f.currentWorkflow
-    ),
-    "情報の更新の頻度": optionLabel(copy.updateFrequencyOptions, f.updateFrequency),
-    "見た目・デザインの期待": optionLabel(
-      copy.designExpectationOptions,
-      f.designExpectation
-    ),
-    "ログインの使い方": optionLabel(copy.loginModelOptions, f.loginModel),
-    "ご予算のイメージ": optionLabel(copy.budgetBandOptions, f.budgetBand),
-  };
-  const pain = f.pain.trim();
-  if (pain) answers["うまくいっていないこと"] = pain.slice(0, 400);
-  const budgetNote = f.budgetFeel.trim();
-  if (budgetNote) answers["予算の補足"] = budgetNote.slice(0, 120);
-  const c = f.constraints.trim();
-  if (c) answers["気になること・制約"] = c.slice(0, 600);
-  return answers;
-}
 
 function RoughEstimateCard({ ctx }: { ctx: ConciergeEstimateContextPayload }) {
   const s = summarizeConciergeEstimateContextForDisplay(ctx);
@@ -239,7 +196,7 @@ export function EstimateDetailedFormContent() {
 
     const commit = () => {
       exitTimerRef.current = null;
-      const answers = buildAnswersRecord(form);
+      const answers = buildEstimateDetailedAnswersRecord(form);
       resetEstimateProcessingLock();
       writeEstimateDetailedFlow({
         v: 1,
@@ -280,7 +237,7 @@ export function EstimateDetailedFormContent() {
       <header className="space-y-3">
         <p className="text-sm font-medium text-accent">{copy.kicker}</p>
         <h1 className="text-2xl font-bold text-text md:text-3xl">{copy.title}</h1>
-        <p className="max-w-2xl text-sm leading-relaxed text-text-sub md:text-base">
+        <p className="max-w-2xl text-sm leading-relaxed text-white/85 md:text-[16px]">
           {copy.intro}
         </p>
       </header>
@@ -320,7 +277,7 @@ export function EstimateDetailedFormContent() {
           <p className="text-xs text-text-sub">{copy.fieldIndustryHint}</p>
           <select
             id="ed-industry"
-            className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-base text-text md:text-sm"
+            className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
             value={form.industry}
             onChange={(e) => setForm((f) => ({ ...f, industry: e.target.value }))}
           >
@@ -344,7 +301,7 @@ export function EstimateDetailedFormContent() {
             maxLength={600}
             onChange={(e) => setForm((f) => ({ ...f, summary: e.target.value }))}
             placeholder="例: 問い合わせメールの返信に毎日2時間かかっているので、楽にしたい"
-            className="min-h-[100px] resize-y text-base md:text-sm"
+            className="min-h-[100px] resize-y text-[16px] md:text-sm"
           />
         </div>
 
@@ -360,7 +317,7 @@ export function EstimateDetailedFormContent() {
             maxLength={400}
             onChange={(e) => setForm((f) => ({ ...f, pain: e.target.value }))}
             placeholder="例: 担当者によって返信の質がバラバラになる"
-            className="min-h-[80px] resize-y text-base md:text-sm"
+            className="min-h-[80px] resize-y text-[16px] md:text-sm"
           />
         </div>
 
@@ -371,7 +328,7 @@ export function EstimateDetailedFormContent() {
             </label>
             <select
               id="ed-team"
-              className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-base text-text md:text-sm"
+              className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
               value={form.teamSize}
               onChange={(e) => setForm((f) => ({ ...f, teamSize: e.target.value }))}
             >
@@ -388,7 +345,7 @@ export function EstimateDetailedFormContent() {
             </label>
             <select
               id="ed-time"
-              className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-base text-text md:text-sm"
+              className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
               value={form.timeline}
               onChange={(e) => setForm((f) => ({ ...f, timeline: e.target.value }))}
             >
@@ -408,7 +365,7 @@ export function EstimateDetailedFormContent() {
           <p className="text-xs text-text-sub">{copy.fieldIntegrationHint}</p>
           <select
             id="ed-int"
-            className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-base text-text md:text-sm"
+            className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
             value={form.integration}
             onChange={(e) => setForm((f) => ({ ...f, integration: e.target.value }))}
           >
@@ -427,7 +384,7 @@ export function EstimateDetailedFormContent() {
           <p className="text-xs text-text-sub">{copy.fieldUsageSurfaceHint}</p>
           <select
             id="ed-usage"
-            className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-base text-text md:text-sm"
+            className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
             value={form.usageSurface}
             onChange={(e) => setForm((f) => ({ ...f, usageSurface: e.target.value }))}
           >
@@ -441,7 +398,7 @@ export function EstimateDetailedFormContent() {
 
         <div className="space-y-4 border-t border-silver/20 pt-6">
           <div>
-            <h3 className="text-base font-semibold text-accent">{copy.sectionCostDrivers}</h3>
+            <h3 className="text-[16px] font-semibold text-white">{copy.sectionCostDrivers}</h3>
             <p className="mt-1 text-xs text-text-sub md:text-sm">{copy.sectionCostDriversSub}</p>
           </div>
 
@@ -452,7 +409,7 @@ export function EstimateDetailedFormContent() {
             <p className="text-xs text-text-sub">{copy.fieldDataSensitivityHint}</p>
             <select
               id="ed-data-sens"
-              className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-base text-text md:text-sm"
+              className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
               value={form.dataSensitivity}
               onChange={(e) => setForm((f) => ({ ...f, dataSensitivity: e.target.value }))}
             >
@@ -471,7 +428,7 @@ export function EstimateDetailedFormContent() {
             <p className="text-xs text-text-sub">{copy.fieldAudienceScopeHint}</p>
             <select
               id="ed-audience"
-              className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-base text-text md:text-sm"
+              className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
               value={form.audienceScope}
               onChange={(e) => setForm((f) => ({ ...f, audienceScope: e.target.value }))}
             >
@@ -490,7 +447,7 @@ export function EstimateDetailedFormContent() {
             <p className="text-xs text-text-sub">{copy.fieldCurrentWorkflowHint}</p>
             <select
               id="ed-workflow"
-              className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-base text-text md:text-sm"
+              className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
               value={form.currentWorkflow}
               onChange={(e) => setForm((f) => ({ ...f, currentWorkflow: e.target.value }))}
             >
@@ -509,7 +466,7 @@ export function EstimateDetailedFormContent() {
             <p className="text-xs text-text-sub">{copy.fieldUpdateFrequencyHint}</p>
             <select
               id="ed-update-freq"
-              className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-base text-text md:text-sm"
+              className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
               value={form.updateFrequency}
               onChange={(e) => setForm((f) => ({ ...f, updateFrequency: e.target.value }))}
             >
@@ -528,7 +485,7 @@ export function EstimateDetailedFormContent() {
             <p className="text-xs text-text-sub">{copy.fieldDesignExpectationHint}</p>
             <select
               id="ed-design"
-              className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-base text-text md:text-sm"
+              className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
               value={form.designExpectation}
               onChange={(e) => setForm((f) => ({ ...f, designExpectation: e.target.value }))}
             >
@@ -547,7 +504,7 @@ export function EstimateDetailedFormContent() {
             <p className="text-xs text-text-sub">{copy.fieldLoginModelHint}</p>
             <select
               id="ed-login"
-              className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-base text-text md:text-sm"
+              className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
               value={form.loginModel}
               onChange={(e) => setForm((f) => ({ ...f, loginModel: e.target.value }))}
             >
@@ -566,7 +523,7 @@ export function EstimateDetailedFormContent() {
           </label>
           <select
             id="ed-band"
-            className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-base text-text md:text-sm"
+            className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
             value={form.budgetBand}
             onChange={(e) => setForm((f) => ({ ...f, budgetBand: e.target.value }))}
           >
@@ -588,7 +545,7 @@ export function EstimateDetailedFormContent() {
             maxLength={120}
             onChange={(e) => setForm((f) => ({ ...f, budgetFeel: e.target.value }))}
             placeholder="例: まずは小さく試したい"
-            className="min-h-11 text-base md:text-sm"
+            className="min-h-11 text-[16px] md:text-sm"
           />
         </div>
 
@@ -604,7 +561,7 @@ export function EstimateDetailedFormContent() {
             maxLength={600}
             onChange={(e) => setForm((f) => ({ ...f, constraints: e.target.value }))}
             placeholder="例: お客様の個人情報を扱う／スマホから使いたい"
-            className="min-h-[80px] resize-y text-base md:text-sm"
+            className="min-h-[80px] resize-y text-[16px] md:text-sm"
           />
         </div>
 

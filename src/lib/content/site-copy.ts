@@ -236,6 +236,12 @@ export const estimateDetailedCopy = {
   sectionResult: "内容の整理（自動）",
   resultIntro:
     "内容を読んで問題なければ「内容を確認し金額を表示」で金額の目安へ。入力を直す場合は「質問に戻って直す」からどうぞ。",
+  /** 結果ページ：作成された要件定義書アコーディオン */
+  requirementDefinitionAccordionTitle: "作成された要件定義書",
+  /** 結果ページ：ヒアリング回答の Q&A */
+  selectedAnswersAccordionTitle: "選択した内容",
+  /** 結果ページ：確認事項とリスクの統合 */
+  followUpMergedTitle: "詳しく確認が必要なこと",
   sectionRange: "金額の目安",
   processingTitle: "いま、内容を整理しています",
   processingSub:
@@ -307,13 +313,13 @@ export const estimateDetailedCopy = {
   btnEditAnswers: "質問に戻って直す",
   btnBackToQuestionsShort: "質問に戻る",
   btnContact: "この内容で問い合わせる",
-  rangeDisclaimer:
-    "※ ここに出る金額は「だいたいの幅」です。正式な金額は、お話を伺ったうえでお出しします。",
+  rangeDisclaimer: "最終的な開発費用は、お話を伺ったうえでお出しします。",
+  /** 結果・金額ページの要約ブロック見出し */
+  overviewTitle: "概略",
+  overviewTitleRecap: "概略（再掲）",
   /** 任意の予算帯が見積上限以下に収まるとき */
   budgetWithinMessage: "希望のご予算で開発可能です",
-  openQuestionsTitle: "あとで確認したいこと",
   assumptionsTitle: "こういう前提で整理しています",
-  risksTitle: "あいまいなままだと、ずれやすいポイント",
   industryOptions: [
     { value: "construction", label: "建設・土木・現場系" },
     { value: "professional", label: "士業・コンサル・事務所" },
@@ -406,6 +412,8 @@ export const contactCopy = {
   title: "課題整理の相談窓口",
   purpose:
     "売り込みではなく、現場の課題を一緒に棚卸しする場。初回は要件整理が中心です。",
+  /** 問い合わせページ：詳細見積フローへ（説明は出さずボタンのみ） */
+  estimateShortcutCta: "詳しい見積もりの目安へ進む",
   form: {
     nameLabel: "お名前",
     namePlaceholder: "山田 太郎",
@@ -426,6 +434,7 @@ export const contactCopy = {
       "業務内容、困りごと、検討中の時期など、わかる範囲でお書きください。",
     messageHintFromEstimate:
       "上の「追加で伝えたいこと」に書いた内容と、下の自動メモがあわせて送信されます。",
+    overviewRevealLabel: "概略を開く",
     submit: "送信する",
     submitting: "送信中...",
     success: "送信しました。2営業日以内にご返信します。",

@@ -7,9 +7,13 @@ import {
 
 export function EstimateDetailedPhilosophyFootnote() {
   return (
-    <aside className="mt-6 rounded-lg border border-silver/20 bg-base-dark/35 p-4 md:p-5">
-      <p className="text-xs font-medium text-text-sub">{ESTIMATE_PHILOSOPHY_MARKDOWN_HEADING}</p>
-      <p className="mt-2 text-sm leading-relaxed text-text-sub">{ESTIMATE_PHILOSOPHY_UI_PARAGRAPH}</p>
+    <aside className="mt-6 rounded-xl border border-accent/25 bg-accent/[0.06] p-5 md:p-6">
+      <p className="text-[16px] font-semibold leading-snug text-white md:text-lg">
+        {ESTIMATE_PHILOSOPHY_MARKDOWN_HEADING}
+      </p>
+      <p className="mt-3 text-[15px] leading-relaxed text-white/90 md:text-[16px] md:leading-relaxed">
+        {ESTIMATE_PHILOSOPHY_UI_PARAGRAPH}
+      </p>
     </aside>
   );
 }

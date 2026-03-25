@@ -43,6 +43,8 @@ export function EstimateDetailedAmountContent() {
       router.replace("/estimate-detailed");
       return;
     }
+    // sessionStorage のスナップショットをマウント時に state へ同期（再訪・遷移直後の表示用）
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- 外部ストア→React state の一回同期
     setFlow(f);
   }, [router]);
 
@@ -52,7 +54,7 @@ export function EstimateDetailedAmountContent() {
 
   const goContact = useCallback(() => {
     if (!flow?.ai) return;
-    const requirementDocMarkdown = formatRequirementDocMarkdown(flow.ai);
+    const requirementDocMarkdown = formatRequirementDocMarkdown(flow.ai, flow.answers);
     const snapshot: EstimateSnapshot = {
       schemaVersion: ESTIMATE_SNAPSHOT_SCHEMA_VERSION,
       source: "estimate_detailed",
@@ -85,8 +87,8 @@ export function EstimateDetailedAmountContent() {
     <div className="space-y-10">
       <header className="space-y-2 text-center">
         <p className="text-sm font-medium text-accent">{copy.amountPageKicker}</p>
-        <h1 className="text-2xl font-bold text-text md:text-3xl">{copy.amountPageTitle}</h1>
-        <p className="mx-auto max-w-xl text-sm leading-relaxed text-text-sub">
+        <h1 className="text-2xl font-bold text-white md:text-3xl">{copy.amountPageTitle}</h1>
+        <p className="mx-auto max-w-xl text-sm leading-relaxed text-white/85">
           {copy.amountPageSub}
         </p>
       </header>
@@ -95,21 +97,21 @@ export function EstimateDetailedAmountContent() {
         className="mx-auto max-w-xl rounded-2xl border-2 border-accent/50 bg-gradient-to-b from-accent/10 to-base-dark/80 px-6 py-10 text-center shadow-lg shadow-accent/5 md:px-10 md:py-12"
         aria-label={copy.sectionRange}
       >
-        <p className="text-sm font-medium text-text-sub">{copy.amountHeroPrefix}</p>
+        <p className="text-sm font-medium text-white/80">{copy.amountHeroPrefix}</p>
         <p className="mt-2 flex flex-wrap items-baseline justify-center gap-1 text-4xl font-bold tabular-nums text-accent md:text-5xl">
           <span>{estimateLoMan}</span>
-          <span className="text-2xl font-semibold text-text md:text-3xl">
+          <span className="text-2xl font-semibold text-white md:text-3xl">
             {copy.amountBetween}
           </span>
           <span>{estimateHiMan}</span>
         </p>
-        <p className="mt-2 text-base font-medium text-text">{copy.amountHeroSuffix}</p>
-        <p className="mt-6 text-left text-xs leading-relaxed text-text-sub md:text-sm">
+        <p className="mt-2 text-[16px] font-medium text-white">{copy.amountHeroSuffix}</p>
+        <p className="mt-6 text-left text-sm font-medium leading-relaxed text-white/90 md:text-[16px]">
           {copy.rangeDisclaimer}
         </p>
         {budgetVsEstimate === "within" ? (
           <p
-            className="mt-5 rounded-lg border border-accent/40 bg-accent/15 px-4 py-3 text-center text-base font-semibold text-accent"
+            className="mt-5 rounded-lg border border-accent/40 bg-accent/15 px-4 py-3 text-center text-[16px] font-semibold text-white"
             role="status"
           >
             {copy.budgetWithinMessage}
@@ -118,8 +120,8 @@ export function EstimateDetailedAmountContent() {
       </section>
 
       <div className="rounded-xl border border-silver/20 bg-base-dark/40 p-4 md:p-5">
-        <p className="text-xs font-medium text-text-sub">やさしい要約（再掲）</p>
-        <p className="mt-2 text-sm leading-relaxed text-text-sub">
+        <p className="text-sm font-semibold text-white">{copy.overviewTitleRecap}</p>
+        <p className="mt-2 text-[16px] leading-relaxed text-white/90">
           {flow.ai.plainCustomerSummary}
         </p>
       </div>
@@ -127,7 +129,7 @@ export function EstimateDetailedAmountContent() {
       <EstimateDetailedPhilosophyFootnote />
 
       <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:justify-center">
-        <Button type="button" className="min-h-12 w-full px-8 text-base sm:w-auto" onClick={goContact}>
+        <Button type="button" className="min-h-12 w-full px-8 text-[16px] sm:w-auto" onClick={goContact}>
           {copy.btnContact}
         </Button>
         <EstimateDetailedResumeQuestionsButton className="min-h-12 w-full sm:w-auto">

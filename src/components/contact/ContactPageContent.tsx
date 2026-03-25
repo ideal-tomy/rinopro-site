@@ -1,9 +1,11 @@
 "use client";
 
+import Link from "next/link";
 import {
   ScrollSequence,
   ScrollSequenceItem,
 } from "@/components/motion/ScrollSequence";
+import { Button } from "@/components/ui/button";
 import { ContactForm } from "./ContactForm";
 import { contactCopy } from "@/lib/content/site-copy";
 
@@ -16,7 +18,14 @@ export function ContactPageContent() {
         </h1>
       </ScrollSequenceItem>
       <ScrollSequenceItem thresholds={[0.2, 0.5]}>
-        <p className="mb-12 text-text-sub">{contactCopy.purpose}</p>
+        <p className="mb-8 text-text-sub">{contactCopy.purpose}</p>
+      </ScrollSequenceItem>
+      <ScrollSequenceItem thresholds={[0.35, 0.55]}>
+        <div className="mb-8">
+          <Button asChild className="min-h-11 w-full sm:w-auto">
+            <Link href="/estimate-detailed">{contactCopy.estimateShortcutCta}</Link>
+          </Button>
+        </div>
       </ScrollSequenceItem>
       <ScrollSequenceItem thresholds={[0.5, 0.7]}>
         <ContactForm />

@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { estimateDetailedCopy } from "@/lib/content/site-copy";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
@@ -90,7 +90,7 @@ export function EstimateDetailedProcessingContent() {
   useEffect(() => {
     const iv = setInterval(() => {
       setTipIndex((i) => (i + 1) % copy.processingTips.length);
-    }, 5500);
+    }, 6500);
     return () => clearInterval(iv);
   }, []);
 
@@ -209,11 +209,37 @@ export function EstimateDetailedProcessingContent() {
         <p className="text-center text-xs text-text-sub">{copy.processingVideoEmptyHint}</p>
       )}
 
-      <section className="rounded-xl border border-silver/25 bg-base-dark/50 p-5">
+      <section className="overflow-hidden rounded-xl border border-silver/25 bg-base-dark/50 p-5">
         <h2 className="text-sm font-semibold text-accent">{copy.processingTipHeading}</h2>
-        <p className="mt-3 min-h-[4.5rem] text-sm leading-relaxed text-text-sub transition-opacity duration-300">
-          {copy.processingTips[tipIndex]}
-        </p>
+        <div className="relative mt-4 min-h-[6.5rem] md:min-h-[5.75rem]">
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              key={tipIndex}
+              initial={
+                prefersReducedMotion
+                  ? { opacity: 0 }
+                  : { opacity: 0, x: 28, filter: "blur(8px)" }
+              }
+              animate={
+                prefersReducedMotion
+                  ? { opacity: 1 }
+                  : { opacity: 1, x: 0, filter: "blur(0px)" }
+              }
+              exit={
+                prefersReducedMotion
+                  ? { opacity: 0 }
+                  : { opacity: 0, x: -20, filter: "blur(6px)" }
+              }
+              transition={{
+                duration: prefersReducedMotion ? 0.15 : 0.85,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="text-[16px] font-semibold leading-relaxed text-white/95 md:text-lg"
+            >
+              {copy.processingTips[tipIndex]}
+            </motion.div>
+          </AnimatePresence>
+        </div>
       </section>
 
       <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">

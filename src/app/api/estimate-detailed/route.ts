@@ -9,7 +9,6 @@ import {
   estimateRangeWidthMan,
   isNarrowRangeEligible,
 } from "@/lib/estimate/estimate-detailed-narrow-eligibility";
-import { applyEstimateOutputPhilosophy } from "@/lib/estimate/estimate-output-philosophy";
 import { estimateDetailedAiOutputSchema } from "@/lib/estimate/estimate-snapshot";
 import { rateLimit } from "@/lib/rate-limit";
 
@@ -96,8 +95,6 @@ export async function POST(req: Request) {
         console.warn("[api/estimate-detailed] narrow retry skipped", retryErr);
       }
     }
-
-    applyEstimateOutputPhilosophy(final);
 
     return Response.json(final);
   } catch (err) {

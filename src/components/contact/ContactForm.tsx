@@ -179,7 +179,7 @@ export function ContactForm() {
           </label>
           <details className="rounded-lg border border-silver/20 bg-base-dark/40 p-3 text-sm">
             <summary className="cursor-pointer font-medium text-text">
-              やさしい要約を開く
+              {form.overviewRevealLabel}
             </summary>
             <p className="mt-2 whitespace-pre-wrap text-text-sub">
               {estimateSnapshot.ai.plainCustomerSummary}
