@@ -14,6 +14,54 @@ export interface LiveSyncTranslationOptions {
 
 /** 長いフレーズを先にマッチさせる（部分一致の取りこぼし防止） */
 const JA_EN_PHRASES: [string, string][] = [
+  // --- モック音声ストリーム15種（全文一致で英語化） ---
+  [
+    "お客様のご要望を社内で共有し、折り返しご連絡します。",
+    "We'll share your request internally and follow up with you.",
+  ],
+  [
+    "急ぎの件ですので、本日中に確認をお願いします。",
+    "This is urgent; please confirm by end of day.",
+  ],
+  [
+    "申し訳ありませんが、今日は対応が難しいです。",
+    "I'm sorry, but we can't handle this today.",
+  ],
+  ["問題ありません。承知しました。", "No problem. Noted."],
+  [
+    "了解しました。明日の会議に参加します。",
+    "Understood. I'll join tomorrow's meeting.",
+  ],
+  [
+    "すみません、電話が折り返し必要でしょうか。",
+    "Sorry—do you need a phone callback?",
+  ],
+  [
+    "来週の会議の日程を調整したいです。",
+    "I'd like to reschedule next week's meeting.",
+  ],
+  [
+    "本日はありがとうございました。よろしくお願いします。",
+    "Thank you for today. Best regards.",
+  ],
+  [
+    "お手数をおかけしますが、資料を添付してください。",
+    "Sorry for the trouble; please attach the materials.",
+  ],
+  ["恐れ入りますが、もう一度ご確認ください。", "Could you please check again?"],
+  [
+    "後ほど連絡しますので、少々お待ちください。",
+    "I'll reach out shortly; thank you for waiting.",
+  ],
+  [
+    "無理ですが、別の日を調整できますか。",
+    "It's tight, but could we pick another day?",
+  ],
+  [
+    "資料は後ほど送付しますのでご確認ください。",
+    "Please review after we send the materials later.",
+  ],
+  ["期限は来週金曜まででお願いします。", "Please meet the deadline by next Friday."],
   [
     "明日の会議は誠に恐縮ながら無理です。",
     "I'm very sorry to say, but I can't make tomorrow's meeting.",

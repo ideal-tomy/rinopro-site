@@ -3,32 +3,32 @@ import type { LogPhase } from "@/lib/experience/restaurant-dashboard/types";
 /** ホールド中の視線誘導・演出タイミング（ms） */
 export const CUE_SHIFT_MS = {
   /** 承認待ちカードに注目 */
-  toLog: 2000,
+  toLog: 2600,
   /** メインに戻し「承認待ち」を見せる（②テロップの直前） */
-  toMainBeforeBulkTelop: 3500,
+  toMainBeforeBulkTelop: 4600,
   /** ②テロップ（一括承認の説明）を重ねる */
-  toBulkApproveTelop: 4000,
+  toBulkApproveTelop: 5600,
   /** ②テロップ終了後: ボタン表示 → 押下 → 確定 までの間隔（ms） */
   afterShowToPressing: 1800,
-  afterPressingToDone: 1600,
+  afterPressingToDone: 1800,
 } as const;
 
 export const CUE_TRAFFIC_MS = {
   /** 棒が伸び始める */
-  barsRevealDelay: 350,
+  barsRevealDelay: 520,
   /** グラフ→ログ */
-  toLog: 2800,
+  toLog: 4400,
 } as const;
 
 export const CUE_RECEIPTS_MS = {
   /** アップロード→一覧 */
-  toList: 2400,
+  toList: 3400,
   /** カード→ログ */
-  toLog: 4800,
+  toLog: 6800,
 } as const;
 
 export const CUE_EXPENSES_MS = {
-  toLog: 2800,
+  toLog: 4400,
 } as const;
 
 export function scaleCueMs(ms: number, reduceMotion: boolean): number {

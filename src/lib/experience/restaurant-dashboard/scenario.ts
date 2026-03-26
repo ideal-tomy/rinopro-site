@@ -62,9 +62,9 @@ export const DEMO_SCENARIO_STEPS: ScenarioStep[] = [
     chapterPhase: 0,
     telop:
       "スタッフのシフト希望を集め、勤務可否と法令の範囲で仮シフトを自動組み立てします。",
-    telopDurationMs: 3000,
+    telopDurationMs: 4800,
     /** ログ→②テロップ→承認演出 まで含めたホールド（次ステップへ） */
-    holdAfterRevealMs: 15000,
+    holdAfterRevealMs: 16400,
     lines: [
       {
         phase: "trigger",
@@ -89,10 +89,10 @@ export const DEMO_SCENARIO_STEPS: ScenarioStep[] = [
     chapterPhase: 1,
     telop:
       "店長が一括承認するとシフトが確定し、スタッフへ通知。給与計算の元データにも連携します。",
-    telopDurationMs: 3000,
+    telopDurationMs: 4800,
     /** ①のシーン内で上記テロップを既に表示するため、ここでは頭出ししない */
     skipOpeningTelop: true,
-    holdAfterRevealMs: 6200,
+    holdAfterRevealMs: 9000,
     lines: [
       {
         phase: "trigger",
@@ -118,8 +118,8 @@ export const DEMO_SCENARIO_STEPS: ScenarioStep[] = [
     chapterPhase: 0,
     telop:
       "POSの来店データを取り込み、曜日ごとの忙しさをグラフで可視化します。",
-    telopDurationMs: 3000,
-    holdAfterRevealMs: 6200,
+    telopDurationMs: 4800,
+    holdAfterRevealMs: 9000,
     lines: [
       {
         phase: "trigger",
@@ -145,8 +145,8 @@ export const DEMO_SCENARIO_STEPS: ScenarioStep[] = [
     chapterPhase: 0,
     telop:
       "レシート画像から金額・取引先を読み取り、経費科目と確定申告用タグの案を自動付与します。",
-    telopDurationMs: 3000,
-    holdAfterRevealMs: 6200,
+    telopDurationMs: 4800,
+    holdAfterRevealMs: 9000,
     lines: [
       {
         phase: "trigger",
@@ -172,8 +172,8 @@ export const DEMO_SCENARIO_STEPS: ScenarioStep[] = [
     chapterPhase: 0,
     telop:
       "確定シフトから労働時間を集計し、時給マスタと照らして支給額を試算します。",
-    telopDurationMs: 3000,
-    holdAfterRevealMs: 6200,
+    telopDurationMs: 4800,
+    holdAfterRevealMs: 9000,
     lines: [
       {
         phase: "trigger",
@@ -199,8 +199,8 @@ export const DEMO_SCENARIO_STEPS: ScenarioStep[] = [
     chapterPhase: 0,
     telop:
       "仕入・経費の支払ステータスを同期し、未払いと精算済みを一覧で確認できるようにします。",
-    telopDurationMs: 3000,
-    holdAfterRevealMs: 6200,
+    telopDurationMs: 4800,
+    holdAfterRevealMs: 9000,
     lines: [
       {
         phase: "trigger",

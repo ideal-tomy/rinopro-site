@@ -31,6 +31,7 @@ interface AppShellProps {
   topBar: ReactNode;
   children: ReactNode;
   notice: string | null;
+  className?: string;
 }
 
 export function AppShell({
@@ -39,12 +40,14 @@ export function AppShell({
   topBar,
   children,
   notice,
+  className,
 }: AppShellProps) {
   return (
     <div
       className={cn(
-        "flex w-full flex-col overflow-hidden rounded-xl border border-slate-200 bg-slate-50 text-slate-900 shadow-sm",
-        "min-h-0 font-sans antialiased"
+        "flex h-full w-full flex-col overflow-hidden rounded-xl border border-slate-200 bg-slate-50 text-slate-900 shadow-sm",
+        "min-h-0 font-sans antialiased",
+        className
       )}
     >
       <header className="flex shrink-0 flex-wrap items-center justify-between gap-2 border-b border-slate-200 bg-white px-3 py-2 sm:px-4">

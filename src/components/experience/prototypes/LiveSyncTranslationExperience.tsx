@@ -17,6 +17,11 @@ import {
   type TargetLanguageId,
   type TonePreset,
 } from "@/lib/experience/live-sync-translation-mock";
+import {
+  MOCK_VOICE_STREAM_CHUNKS,
+  MOCK_VOICE_STREAM_COUNT,
+  pickRandomMockStreamIndex,
+} from "@/lib/experience/live-sync-mock-voice-streams";
 import type { ExperiencePrototypeMeta } from "@/lib/experience/prototype-registry";
 import { cn } from "@/lib/utils";
 
@@ -48,17 +53,6 @@ function getSpeechRecognitionCtor(): (new () => SpeechRecognition) | null {
     null
   );
 }
-
-const MOCK_STREAM_PARTS = [
-  "明日",
-  "の",
-  "会議",
-  "は",
-  "誠に恐縮ながら",
-  "無理",
-  "です",
-  "。",
-];
 
 const LANG_LABEL: Record<TargetLanguageId, string> = {
   en: "English",
@@ -126,6 +120,10 @@ export function LiveSyncTranslationExperience({
 
   const [speechSupported, setSpeechSupported] = useState(false);
   const [speechError, setSpeechError] = useState<string | null>(null);
+  const [showMicDemoScopeNote, setShowMicDemoScopeNote] = useState(false);
+  const [lastMockPatternLabel, setLastMockPatternLabel] = useState<string | null>(
+    null
+  );
 
   const [timeline, setTimeline] = useState<string[]>([]);
 
@@ -166,27 +164,6 @@ export function LiveSyncTranslationExperience({
     }
     setMockStreaming(false);
   }, []);
-
-  const startMockStream = useCallback(() => {
-    stopMockStream();
-    setInputChannel("speech");
-    setSpeechFinal("");
-    setSpeechInterim("");
-    setMockStreaming(true);
-    let i = 0;
-    const stepMs = reduceMotion ? 80 : 420;
-    mockTimerRef.current = window.setInterval(() => {
-      if (i >= MOCK_STREAM_PARTS.length) {
-        stopMockStream();
-        pushTimeline("モック音声ストリーム: 完了");
-        return;
-      }
-      const part = MOCK_STREAM_PARTS[i];
-      i += 1;
-      setSpeechFinal((prev) => prev + part);
-      setSpeechInterim("");
-    }, stepMs);
-  }, [pushTimeline, reduceMotion, stopMockStream]);
 
   useEffect(() => {
     return () => {
@@ -239,10 +216,12 @@ export function LiveSyncTranslationExperience({
         setSpeechError(`音声認識エラー: ${code}`);
       }
       setListening(false);
+      setShowMicDemoScopeNote(false);
     };
 
     rec.onend = () => {
       setListening(false);
+      setShowMicDemoScopeNote(false);
     };
 
     recognitionRef.current = rec;
@@ -258,6 +237,7 @@ export function LiveSyncTranslationExperience({
 
   const startListening = useCallback(() => {
     setSpeechError(null);
+    stopMockStream();
     setInputChannel("speech");
     const rec = recognitionRef.current;
     if (!rec) {
@@ -266,14 +246,16 @@ export function LiveSyncTranslationExperience({
     }
     try {
       setListening(true);
+      setShowMicDemoScopeNote(true);
       setSpeechInterim("");
       rec.start();
       pushTimeline("音声認識: 開始");
     } catch {
       setListening(false);
+      setShowMicDemoScopeNote(false);
       setSpeechError("音声認識を開始できませんでした。少し待って再度お試しください。");
     }
-  }, [pushTimeline]);
+  }, [pushTimeline, stopMockStream]);
 
   const stopListening = useCallback(() => {
     const rec = recognitionRef.current;
@@ -286,8 +268,48 @@ export function LiveSyncTranslationExperience({
     }
     setListening(false);
     setSpeechInterim("");
+    setShowMicDemoScopeNote(false);
     pushTimeline("音声認識: 停止");
   }, [pushTimeline]);
+
+  const startMockStream = useCallback(() => {
+    if (listening) {
+      stopListening();
+    }
+    setShowMicDemoScopeNote(false);
+    stopMockStream();
+    setInputChannel("speech");
+    setSpeechFinal("");
+    setSpeechInterim("");
+    const patternIndex = pickRandomMockStreamIndex();
+    const parts = MOCK_VOICE_STREAM_CHUNKS[patternIndex] ?? [];
+    setLastMockPatternLabel(
+      `${patternIndex + 1} / ${MOCK_VOICE_STREAM_COUNT}`
+    );
+    setMockStreaming(true);
+    let i = 0;
+    const stepMs = reduceMotion ? 80 : 420;
+    pushTimeline(
+      `モック音声ストリーム開始（ランダム ${patternIndex + 1}/${MOCK_VOICE_STREAM_COUNT}）`
+    );
+    mockTimerRef.current = window.setInterval(() => {
+      if (i >= parts.length) {
+        stopMockStream();
+        pushTimeline("モック音声ストリーム: 完了");
+        return;
+      }
+      const part = parts[i];
+      i += 1;
+      setSpeechFinal((prev) => prev + part);
+      setSpeechInterim("");
+    }, stepMs);
+  }, [
+    listening,
+    pushTimeline,
+    reduceMotion,
+    stopMockStream,
+    stopListening,
+  ]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -317,11 +339,11 @@ export function LiveSyncTranslationExperience({
 
           {!speechSupported && (
             <p className="mb-3 rounded-lg border border-amber-400/30 bg-amber-400/10 px-3 py-2 text-sm text-amber-100">
-              このブラウザでは Web Speech API が利用できません。下の「モック音声ストリーム」でライブ感を再現できます。
+              このブラウザでは Web Speech API が利用できません。下の「モック音声ストリームを再生」でライブ翻訳の演出をお試しください。
             </p>
           )}
 
-          <div className="mb-3 flex flex-wrap gap-2">
+          <div className="mb-4 flex flex-wrap gap-2">
             <Button
               type="button"
               size="sm"
@@ -336,6 +358,7 @@ export function LiveSyncTranslationExperience({
               variant={inputChannel === "manual" ? "default" : "outline"}
               onClick={() => {
                 setInputChannel("manual");
+                setShowMicDemoScopeNote(false);
                 stopListening();
                 stopMockStream();
               }}
@@ -344,29 +367,65 @@ export function LiveSyncTranslationExperience({
             </Button>
           </div>
 
-          <div className="mb-3 space-y-2">
+          <div className="mb-5 rounded-xl border-2 border-accent/55 bg-gradient-to-br from-accent/20 via-base-dark/90 to-base-dark/95 p-4 shadow-[0_0_24px_-4px_rgba(34,211,238,0.35)] ring-1 ring-accent/30 md:p-5">
+            <p className="text-[11px] font-semibold uppercase tracking-wider text-accent">
+              おすすめ
+            </p>
+            <h3 className="mt-1 text-sm font-semibold text-white md:text-[1rem]">
+              ライブ翻訳の演出を試す
+            </h3>
+            <Button
+              type="button"
+              size="lg"
+              className="mt-4 w-full font-semibold shadow-md sm:w-auto"
+              disabled={mockStreaming}
+              onClick={() => {
+                setInputChannel("speech");
+                startMockStream();
+              }}
+            >
+              {mockStreaming ? "再生中…" : "モック音声ストリームを再生"}
+            </Button>
+            {lastMockPatternLabel && !mockStreaming && (
+              <p className="mt-3 text-xs text-text-sub">
+                直近のパターン: {lastMockPatternLabel}
+              </p>
+            )}
+          </div>
+
+          <div className="mb-3 space-y-3 border-t border-silver/20 pt-4">
+            <p className="text-xs font-medium text-text-sub">
+              実マイク（ブラウザの音声認識）
+            </p>
             <div className="flex flex-wrap items-center gap-2">
               <Button
                 type="button"
                 size="sm"
+                variant="outline"
                 disabled={!speechSupported || inputChannel !== "speech"}
                 onClick={listening ? stopListening : startListening}
               >
                 {listening ? "音声入力を停止" : "音声入力を開始"}
               </Button>
-              <Button
-                type="button"
-                size="sm"
-                variant="outline"
-                disabled={inputChannel !== "speech" || mockStreaming}
-                onClick={startMockStream}
-              >
-                モック音声ストリーム
-              </Button>
               <span className="text-xs text-text-sub">
                 ショートカット: Alt+M
               </span>
             </div>
+            {showMicDemoScopeNote && speechSupported && (
+              <div
+                className="rounded-lg border border-silver/25 bg-silver/5 px-3 py-2.5 text-xs leading-relaxed text-text-sub"
+                role="note"
+                aria-live="polite"
+              >
+                <span className="font-medium text-text">このデモの範囲: </span>
+                マイク入力は<strong className="text-text">日本語の文字起こし</strong>
+                までです。右ペインの英語が実音声にリアルタイムで連動するには、本番で
+                <strong className="text-text">
+                  サーバー経由の翻訳API
+                </strong>
+                （例: Cloud Translation / DeepL）を組み込む必要があります。ライブ感の確認は上の「モック音声ストリーム」が該当します。
+              </div>
+            )}
             <PseudoWaveform active={listening || mockStreaming} reduceMotion={reduceMotion} />
           </div>
 
@@ -416,6 +475,8 @@ export function LiveSyncTranslationExperience({
                 setSpeechInterim("");
                 setManualText("");
                 setTimeline([]);
+                setLastMockPatternLabel(null);
+                setShowMicDemoScopeNote(false);
               }}
             >
               入力をクリア

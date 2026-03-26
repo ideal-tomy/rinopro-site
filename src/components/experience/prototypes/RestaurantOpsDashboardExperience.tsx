@@ -204,7 +204,7 @@ export function RestaurantOpsDashboardExperience({
     }
 
     if (stepIndex === 1 && surface === "shift") {
-      setDemoSpotlight("off");
+      setDemoSpotlight("main");
       setShiftApproveStage("idle");
       return () => ids.forEach(clearTimeout);
     }
@@ -584,7 +584,14 @@ export function RestaurantOpsDashboardExperience({
         <ReceiptsChapter view={receiptsViewForUi} reduceMotion={reduceMotion} />
       );
     }
-    if (surface === "payroll") return <PayrollChapter />;
+    if (surface === "payroll") {
+      return (
+        <PayrollChapter
+          emphasize={stepIndex === 4 && demoSpotlight === "main"}
+          reduceMotion={reduceMotion}
+        />
+      );
+    }
     if (surface === "expenses") return <ExpensesChapter />;
     return null;
   }, [
@@ -703,14 +710,16 @@ export function RestaurantOpsDashboardExperience({
       label="機能"
     >
       {surface === "home" ? (
-        <DashboardHomeGrid
-          highlightId={gridHighlightId}
-          reduceMotion={reduceMotion}
-          onCardClick={handleCardClick}
-          cards={HOME_CARDS}
-        />
+        <div className="min-h-[360px]">
+          <DashboardHomeGrid
+            highlightId={gridHighlightId}
+            reduceMotion={reduceMotion}
+            onCardClick={handleCardClick}
+            cards={HOME_CARDS}
+          />
+        </div>
       ) : (
-        <div className="rounded-lg border border-slate-200 bg-white p-3 shadow-sm sm:p-4">
+        <div className="min-h-[360px] rounded-lg border border-slate-200 bg-white p-3 shadow-sm sm:p-4">
           {chapterView}
         </div>
       )}
@@ -818,20 +827,22 @@ export function RestaurantOpsDashboardExperience({
       <p className="sr-only">{meta.shortDescription}</p>
 
       {!isMobile && (
-        <div
-          className={cn(
-            "w-full transition-opacity duration-300",
-            showIntro && "pointer-events-none select-none opacity-[0.2]"
-          )}
-        >
-          <AppShell
-            surface={surface}
-            onNavigate={handleNavigate}
-            notice={notice}
-            topBar={replayBar}
+        <div className="mx-auto w-full max-w-[1180px]">
+          <div
+            className={cn(
+              "h-[clamp(640px,72vh,820px)] w-full transition-opacity duration-300",
+              showIntro && "pointer-events-none select-none opacity-[0.2]"
+            )}
           >
-            {desktopBody}
-          </AppShell>
+            <AppShell
+              surface={surface}
+              onNavigate={handleNavigate}
+              notice={notice}
+              topBar={replayBar}
+            >
+              {desktopBody}
+            </AppShell>
+          </div>
         </div>
       )}
 
