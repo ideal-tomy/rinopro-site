@@ -117,6 +117,8 @@ ${developmentFlowCopy.purpose}
 当社の開発の流れ（これに沿って説明・提案する）:
 ${formatDevelopmentFlow()}
 
+サイト内パス \`/flow\` では、共通の進め方に加え、Webサイト制作・アプリ開発・業務ダッシュボードの進め方をタブで切り替えて確認できます（工程の全体像は上記と同じ4段階です）。
+
 ${DEVELOPMENT_CROSS_TOPIC}
 
 ${SITE_ROUTE_CTA}

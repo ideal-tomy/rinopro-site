@@ -1,10 +1,16 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ServiceCrossLinks } from "@/components/layout/CrossServiceNav";
-import { flowDetailPageCopy } from "@/lib/content/site-copy";
+import {
+  FLOW_TRACK_ORDER,
+  type FlowTrackKey,
+  flowDetailPageCopyByTrack,
+} from "@/lib/content/site-copy";
+import { cn } from "@/lib/utils";
 
 const EASE_MIST = [0.22, 1, 0.36, 1] as const;
 
@@ -107,7 +113,10 @@ const tagClass =
 export function FlowTimelinePageContent() {
   const reduce = useReducedMotion();
   const v = mistVariants(!!reduce);
-  const { steps } = flowDetailPageCopy;
+  const [activeTrack, setActiveTrack] = useState<FlowTrackKey>("common");
+  const activeCopy = flowDetailPageCopyByTrack[activeTrack];
+  const { steps } = activeCopy;
+  const flowPanelId = "flow-track-panel";
 
   return (
     <div className="mx-auto max-w-3xl px-6 py-24 md:px-10 md:py-32 lg:max-w-5xl lg:py-40">
@@ -119,28 +128,72 @@ export function FlowTimelinePageContent() {
         variants={v}
       >
         <p className="mb-3 text-[0.65rem] font-medium uppercase tracking-[0.35em] text-accent/80">
-          {flowDetailPageCopy.lifecycleLabel}
+          {activeCopy.lifecycleLabel}
         </p>
         <p className="mb-6 text-xs tracking-[0.25em] text-text/75">
-          {flowDetailPageCopy.lifecycleSub}
+          {activeCopy.lifecycleSub}
         </p>
         <h1 className="mb-6 text-4xl font-semibold tracking-tight text-accent md:text-5xl lg:text-[3.25rem] lg:leading-tight">
-          {flowDetailPageCopy.title}
+          {activeCopy.title}
         </h1>
         <p className="mx-auto max-w-2xl text-lg leading-relaxed text-text/85 md:text-xl">
-          {flowDetailPageCopy.purpose}
+          {activeCopy.purpose}
         </p>
       </motion.header>
 
-      <motion.p
-        className="mx-auto mb-20 max-w-2xl text-center text-sm leading-[2] text-text/85 md:mb-24 md:text-[1rem] md:leading-[2.05]"
+      {/* サイトヘッダー h-16 の直下に張り付く（Global Header と z-index を調整） */}
+      <nav
+        className="sticky top-16 z-30 -mx-6 mb-10 border-b border-silver/15 bg-base-dark/90 py-3 backdrop-blur-md supports-[backdrop-filter]:bg-base-dark/75 md:-mx-10 md:mb-12"
+        aria-label="開発の進め方の種類"
+      >
+        <div className="mx-auto max-w-2xl px-0">
+          <div
+            className="no-scrollbar flex snap-x snap-mandatory gap-2 overflow-x-auto pb-0.5 md:flex-wrap md:justify-center md:gap-2.5 md:overflow-visible"
+            role="tablist"
+            aria-orientation="horizontal"
+          >
+            {FLOW_TRACK_ORDER.map((key) => {
+              const selected = activeTrack === key;
+              const { tabLabel } = flowDetailPageCopyByTrack[key];
+              return (
+                <button
+                  key={key}
+                  type="button"
+                  role="tab"
+                  id={`flow-tab-${key}`}
+                  aria-selected={selected}
+                  aria-controls={flowPanelId}
+                  tabIndex={selected ? 0 : -1}
+                  className={cn(
+                    "shrink-0 snap-start rounded-full border px-3.5 py-2 text-[0.65rem] font-medium uppercase tracking-[0.18em] transition-colors md:px-4 md:text-xs",
+                    selected
+                      ? "border-accent/70 bg-accent/15 text-accent shadow-[0_0_16px_-4px_rgba(0,242,255,0.35)]"
+                      : "border-silver/25 bg-base-dark/40 text-text/80 hover:border-accent/35 hover:text-text"
+                  )}
+                  onClick={() => setActiveTrack(key)}
+                >
+                  {tabLabel}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </nav>
+
+      <motion.div
+        id={flowPanelId}
+        role="tabpanel"
+        aria-labelledby={`flow-tab-${activeTrack}`}
+        className="mx-auto mb-20 max-w-2xl md:mb-24"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-60px" }}
         variants={v}
       >
-        {flowDetailPageCopy.intro}
-      </motion.p>
+        <p className="text-center text-sm leading-[2] text-text/85 md:text-[1rem] md:leading-[2.05]">
+          <EmphasisText text={activeCopy.intro} />
+        </p>
+      </motion.div>
 
       <div className="relative mx-auto max-w-2xl md:max-w-3xl">
         <div
@@ -151,7 +204,7 @@ export function FlowTimelinePageContent() {
         <ol className="relative m-0 list-none p-0">
           {steps.map((step, i) => (
             <motion.li
-              key={step.step}
+              key={`${activeTrack}-${step.step}`}
               className="relative pb-24 last:pb-12 md:pb-32 md:last:pb-16"
               initial="hidden"
               whileInView="visible"
@@ -243,7 +296,7 @@ export function FlowTimelinePageContent() {
         variants={v}
       >
         <p className="text-sm leading-[2] text-text/85 md:text-[1rem] md:leading-[2.05]">
-          {flowDetailPageCopy.reassurance}
+          {activeCopy.reassurance}
         </p>
       </motion.div>
 
@@ -255,15 +308,15 @@ export function FlowTimelinePageContent() {
         variants={v}
       >
         <h3 className="text-[0.65rem] font-medium uppercase tracking-[0.35em] text-accent/85">
-          {flowDetailPageCopy.architectureTitle}
+          {activeCopy.architectureTitle}
         </h3>
         <p className="mt-5 text-left text-sm leading-[2.05] text-text/90 md:text-[0.9375rem] md:leading-[2.1]">
-          <EmphasisText text={flowDetailPageCopy.architectureBody} />
+          <EmphasisText text={activeCopy.architectureBody} />
         </p>
       </motion.section>
 
       <motion.div
-        className="mx-auto mt-14 flex justify-center md:mt-16"
+        className="mx-auto mt-14 flex flex-col items-center gap-4 md:mt-16"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-40px" }}
@@ -274,8 +327,14 @@ export function FlowTimelinePageContent() {
           size="lg"
           className="rounded-full px-10 shadow-[0_0_24px_-4px_rgba(0,242,255,0.45)]"
         >
-          <Link href="/contact">{flowDetailPageCopy.cta}</Link>
+          <Link href={activeCopy.ctaHref}>{activeCopy.cta}</Link>
         </Button>
+        <Link
+          href="/contact"
+          className="text-[0.65rem] font-medium uppercase tracking-[0.22em] text-text/55 transition-colors hover:text-accent/90"
+        >
+          お問い合わせはこちら
+        </Link>
       </motion.div>
 
       <ServiceCrossLinks current="flow" />

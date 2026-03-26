@@ -15,8 +15,8 @@ export const homeDevelopmentSectionCopy = {
   sectionTitle: "開発について",
   lead: "現状整理から本実装まで、段階的な検証で判断を積み重ねる。",
   body: "「作ります」だけではなく、どのような品質管理と工程で構築されるかを開示します。以下は、rinopro の開発ライフサイクルにおける標準的な進め方です。",
-  ctaLabel: "サービスを見る",
-  ctaHref: "/services",
+  ctaLabel: "開発の流れ",
+  ctaHref: "/flow",
 } as const;
 
 /** トップページ「コンサルティングについて」セクション */
@@ -119,67 +119,307 @@ export const consultingDetailPageCopy = {
   cta: consultingCopy.cta,
 } as const;
 
-/** /flow 詳細ページ（Engineering Lifecycle） */
-export const flowDetailPageCopy = {
-  title: developmentFlowCopy.title,
-  purpose: developmentFlowCopy.purpose,
-  lifecycleLabel: "Engineering Lifecycle",
-  lifecycleSub: "技術的裏付け",
-  intro:
-    "「作ります」だけではなく、どのような品質管理と工程で構築されるかを開示します。以下は、rinopro の開発ライフサイクルにおける標準的な進め方です。",
-  steps: [
-    {
-      step: "01",
-      labelJa: "現状整理",
-      labelEn: "Discovery",
-      body: "業務プロセスのマッピングを行い、情報のボトルネックを特定。",
-      deliverables: [
-        "業務フロー図",
-        "課題抽出レポート",
-        "AI適応定義書",
-      ],
-    },
-    {
-      step: "02",
-      labelJa: "要件化",
-      labelEn: "Structuring",
-      body: "AIが扱う「入力データ」と「期待される出力」のプロトコルを定義。独自のプロンプト・エンジニアリングにより、回答の精度と一貫性を保証するためのロジックを設計します。",
-      deliverables: [
-        "プロンプト構成案",
-        "データ連携仕様書",
-        "KPI設計書",
-      ],
-    },
-    {
-      step: "03",
-      labelJa: "試作・現場検証",
-      labelEn: "Validation",
-      body: "Gemini 3 Flash等の軽量・高速モデルを用いたラピッド・プロトタイピング。実際の現場環境でのストレス操作を行い、実務に耐えうるレスポンス速度と精度を磨き上げます。",
-      deliverables: [
-        "プロトタイプ実機",
-        "フィードバックログ",
-        "精度検証報告書",
-      ],
-    },
-    {
-      step: "04",
-      labelJa: "本実装",
-      labelEn: "Integration",
-      body: "セキュリティ、スケーラビリティ、メンテナンス性を考慮した本番環境への実装。Vercel等のモダンなインフラを活用し、ダウンタイムを最小限に抑えたデプロイメントを実現します。",
-      deliverables: [
-        "本番システム",
-        "運用マニュアル",
-        "管理者向けダッシュボード",
-      ],
-    },
-  ],
-  reassurance:
-    "各マイルストーンで受入基準をすり合わせ、仕様の自然増殖を抑えます。運用開始後の改善サイクルも設計に含めます。",
-  architectureTitle: "Architecture Logic",
-  architectureBody:
-    "私たちは、大規模言語モデル（LLM）のポテンシャルを最大限に引き出すため、**「軽量モデル（Flash等）の最適化」と「コンテキスト設計」**に特化しています。これにより、高額な演算リソースに依存せず、圧倒的な高速レスポンスと運用コストの最適化を両立。ITリテラシーに依存しない、直感的なUXを技術で支えています。",
-  cta: developmentFlowCopy.cta,
-} as const;
+/**
+ * `/flow` タブ識別子。
+ * 将来追加候補: `ai_automation`（文書生成・問い合わせトリアージ・ナレッジ検索等）、
+ * `operations_enablement`（運用・定着・権限設計の伴走）など。
+ */
+export type FlowTrackKey = "common" | "website" | "app" | "dashboard";
+
+export const FLOW_TRACK_ORDER: readonly FlowTrackKey[] = [
+  "common",
+  "website",
+  "app",
+  "dashboard",
+] as const;
+
+export type FlowDetailStepCopy = {
+  step: string;
+  labelJa: string;
+  labelEn: string;
+  body: string;
+  deliverables: readonly string[];
+};
+
+export type FlowDetailPageTrackCopy = {
+  /** タブに表示する短いラベル */
+  tabLabel: string;
+  title: string;
+  purpose: string;
+  lifecycleLabel: string;
+  lifecycleSub: string;
+  intro: string;
+  steps: readonly FlowDetailStepCopy[];
+  reassurance: string;
+  architectureTitle: string;
+  architectureBody: string;
+  /** 見積もり導線（本文では金額を明示しない） */
+  cta: string;
+  ctaHref: string;
+};
+
+/** /flow 詳細ページ：トラック別コピー */
+export const flowDetailPageCopyByTrack: Record<
+  FlowTrackKey,
+  FlowDetailPageTrackCopy
+> = {
+  common: {
+    tabLabel: "共通の進め方",
+    title: "開発の進め方（共通）",
+    purpose: developmentFlowCopy.purpose,
+    lifecycleLabel: "Engineering Lifecycle",
+    lifecycleSub: "技術的裏付け",
+    intro:
+      "「作ります」だけではなく、どのような品質管理と工程で構築されるかを開示します。以下は、rinopro の開発ライフサイクルにおける標準的な進め方です。費用は案件ごとに異なるため、**選択式の見積もり**で要件を整理したうえで目安をご案内します。",
+    steps: [
+      {
+        step: "01",
+        labelJa: "現状整理",
+        labelEn: "Discovery",
+        body: "業務プロセスのマッピングを行い、情報のボトルネックを特定。",
+        deliverables: [
+          "業務フロー図",
+          "課題抽出レポート",
+          "AI適応定義書",
+        ],
+      },
+      {
+        step: "02",
+        labelJa: "要件化",
+        labelEn: "Structuring",
+        body: "AIが扱う「入力データ」と「期待される出力」のプロトコルを定義。独自のプロンプト・エンジニアリングにより、回答の精度と一貫性を保証するためのロジックを設計します。",
+        deliverables: [
+          "プロンプト構成案",
+          "データ連携仕様書",
+          "KPI設計書",
+        ],
+      },
+      {
+        step: "03",
+        labelJa: "試作・現場検証",
+        labelEn: "Validation",
+        body: "Gemini 3 Flash等の軽量・高速モデルを用いたラピッド・プロトタイピング。実際の現場環境でのストレス操作を行い、実務に耐えうるレスポンス速度と精度を磨き上げます。",
+        deliverables: [
+          "プロトタイプ実機",
+          "フィードバックログ",
+          "精度検証報告書",
+        ],
+      },
+      {
+        step: "04",
+        labelJa: "本実装",
+        labelEn: "Integration",
+        body: "セキュリティ、スケーラビリティ、メンテナンス性を考慮した本番環境への実装。Vercel等のモダンなインフラを活用し、ダウンタイムを最小限に抑えたデプロイメントを実現します。",
+        deliverables: [
+          "本番システム",
+          "運用マニュアル",
+          "管理者向けダッシュボード",
+        ],
+      },
+    ],
+    reassurance:
+      "各マイルストーンで受入基準をすり合わせ、仕様の自然増殖を抑えます。運用開始後の改善サイクルも設計に含めます。",
+    architectureTitle: "Architecture Logic",
+    architectureBody:
+      "私たちは、大規模言語モデル（LLM）のポテンシャルを最大限に引き出すため、**「軽量モデル（Flash等）の最適化」と「コンテキスト設計」**に特化しています。これにより、高額な演算リソースに依存せず、圧倒的な高速レスポンスと運用コストの最適化を両立。ITリテラシーに依存しない、直感的なUXを技術で支えています。",
+    cta: "見積もりで要件を整理する",
+    ctaHref: "/estimate-detailed",
+  },
+  website: {
+    tabLabel: "Webサイト制作",
+    title: "Webサイト制作の進め方",
+    purpose:
+      "ブランド体験と運用性を両立し、公開後の改善まで見据えて構築します。",
+    lifecycleLabel: "Web Delivery",
+    lifecycleSub: "導線と運用",
+    intro:
+      "コーポレート、LP、採用など、サイトの役割と導線を先に定め、更新・計測まで含めた設計で進めます。費用はページ構成や連携範囲で変わるため、**選択式の見積もり**で整理したうえで目安をご確認ください。",
+    steps: [
+      {
+        step: "01",
+        labelJa: "現状整理",
+        labelEn: "Discovery",
+        body: "導線、コンテンツ更新の体制、計測の有無を整理し、改善の優先度を決めます。",
+        deliverables: [
+          "導線の整理",
+          "更新体制メモ",
+          "計測の前提整理",
+        ],
+      },
+      {
+        step: "02",
+        labelJa: "要件化",
+        labelEn: "Structuring",
+        body: "サイトマップとページ役割、CMSや権限、計測イベントの定義を固めます。",
+        deliverables: [
+          "サイトマップ",
+          "画面設計",
+          "CMS運用設計",
+          "計測定義",
+        ],
+      },
+      {
+        step: "03",
+        labelJa: "試作・検証",
+        labelEn: "Validation",
+        body: "ワイヤーやプロトタイプで実機確認し、表示速度と読みやすさを検証します。",
+        deliverables: [
+          "プロトタイプ",
+          "レビュー記録",
+          "表示速度の確認",
+        ],
+      },
+      {
+        step: "04",
+        labelJa: "本実装",
+        labelEn: "Integration",
+        body: "本番公開に向け、監視・バックアップ、公開後の改善サイクルを設計します。",
+        deliverables: [
+          "本番サイト",
+          "運用マニュアル",
+          "計測ダッシュボード",
+        ],
+      },
+    ],
+    reassurance:
+      "公開前に受入基準をすり合わせ、リリース後の更新・計測の見直しも前提に置きます。",
+    architectureTitle: "Experience & Performance",
+    architectureBody:
+      "**表示速度・検索・読みやすさ**を設計段階から組み込み、モダンなフロント基盤で保守しやすい構成にします。ブランドのトーンと運用負荷のバランスを、実装で支えます。",
+    cta: "見積もりで要件を整理する",
+    ctaHref: "/estimate-detailed",
+  },
+  app: {
+    tabLabel: "アプリ開発",
+    title: "アプリ開発の進め方",
+    purpose:
+      "利用シーンから逆算し、継続利用される操作体験と運用を設計します。",
+    lifecycleLabel: "Product Engineering",
+    lifecycleSub: "体験と運用",
+    intro:
+      "Webアプリやスマホ向けの利用想定から、認証・通知・データ連携までを一つの体験として設計します。費用は機能範囲と連携先に左右されるため、**選択式の見積もり**で要件を選び、目安をご確認ください。",
+    steps: [
+      {
+        step: "01",
+        labelJa: "現状整理",
+        labelEn: "Discovery",
+        body: "利用者・利用端末、オフライン要否、既存システムとの連携前提を整理します。",
+        deliverables: [
+          "利用シナリオ",
+          "連携一覧",
+          "前提制約",
+        ],
+      },
+      {
+        step: "02",
+        labelJa: "要件化",
+        labelEn: "Structuring",
+        body: "画面遷移、API・権限、通知・監査の要件を定義します。",
+        deliverables: [
+          "画面遷移図",
+          "API要件定義",
+          "通知仕様",
+        ],
+      },
+      {
+        step: "03",
+        labelJa: "試作・検証",
+        labelEn: "Validation",
+        body: "試作ビルドで操作感とエラーハンドリングを検証します。",
+        deliverables: [
+          "試作ビルド",
+          "フィードバックログ",
+          "負荷の目安",
+        ],
+      },
+      {
+        step: "04",
+        labelJa: "本実装",
+        labelEn: "Integration",
+        body: "本番リリース、運用・監視、改善のリリースサイクルを設計します。",
+        deliverables: [
+          "本番アプリ",
+          "運用設計",
+          "リリース手順",
+        ],
+      },
+    ],
+    reassurance:
+      "権限とデータの境界を早い段階で固定し、仕様の自然増殖を抑えます。",
+    architectureTitle: "Reliability & Security",
+    architectureBody:
+      "**認証・権限・監査**を設計に組み込み、運用で追いやすいログとリリース手順を用意します。利用者の負荷を下げる操作設計を優先します。",
+    cta: "見積もりで要件を整理する",
+    ctaHref: "/estimate-detailed",
+  },
+  dashboard: {
+    tabLabel: "業務ダッシュボード",
+    title: "業務ダッシュボード開発の進め方",
+    purpose:
+      "意思決定に必要な数字とアクションを、一画面で判断できる状態を作ります。",
+    lifecycleLabel: "Operations Intelligence",
+    lifecycleSub: "指標と権限",
+    intro:
+      "KPI・権限・データの更新頻度を揃え、現場の判断が遅れないダッシュボードを目指します。費用は指標・データソースの数に依存するため、**選択式の見積もり**で範囲を選び、目安をご確認ください。",
+    steps: [
+      {
+        step: "01",
+        labelJa: "現状整理",
+        labelEn: "Discovery",
+        body: "業務の意思決定フローと、必要な指標・例外を洗い出します。",
+        deliverables: [
+          "業務フロー図",
+          "KPI候補",
+          "データソース一覧",
+        ],
+      },
+      {
+        step: "02",
+        labelJa: "要件化",
+        labelEn: "Structuring",
+        body: "KPI定義、データソース、更新頻度、権限・監査ログを設計します。",
+        deliverables: [
+          "KPI辞書",
+          "データマッピング",
+          "権限設計",
+        ],
+      },
+      {
+        step: "03",
+        labelJa: "試作・検証",
+        labelEn: "Validation",
+        body: "試作画面で数字の見え方と操作を現場検証します。",
+        deliverables: [
+          "プロトタイプ",
+          "検証ログ",
+          "改善メモ",
+        ],
+      },
+      {
+        step: "04",
+        labelJa: "本実装",
+        labelEn: "Integration",
+        body: "本番運用、データ連携の監視、指標の改善サイクルを設計します。",
+        deliverables: [
+          "本番ダッシュボード",
+          "運用ルール",
+          "管理者向け手順",
+        ],
+      },
+    ],
+    reassurance:
+      "指標の定義とデータの鮮度を合意し、運用でブレない見え方を維持します。",
+    architectureTitle: "Data & Governance",
+    architectureBody:
+      "**データの出所と更新頻度**を明確にし、権限に応じた表示と監査に耐える構成を設計します。現場の意思決定が止まらないUIを優先します。",
+    cta: "見積もりで要件を整理する",
+    ctaHref: "/estimate-detailed",
+  },
+};
+
+/** 後方互換・metadata 用：共通トラック */
+export const flowDetailPageCopy: FlowDetailPageTrackCopy =
+  flowDetailPageCopyByTrack.common;
 
 // --- 会社紹介 ---
 export const aboutCopy = {
