@@ -8,28 +8,24 @@ export const topCopy = {
   tagline: "ビジネスを再設計する",
   subline:
     "日報作成、写真整理、顧客対応……。現場に潜む『定型作業』をAIが担います。人にしかできない業務に集中できる環境を、実装から定着まで創り上げます。",
-  ctaDemo: "体験・demoハブ",
-  ctaExperience: "注目の体験",
-  nextAction: "次に見る",
-  nextActionTarget: "サービス",
-  nextActionHref: "/services",
-  approach: {
-    title: "アプローチ",
-    items: [
-      {
-        label: "現場理解",
-        desc: "業務を分解し、どこに負荷があるかを可視化する。",
-      },
-      {
-        label: "AI設計",
-        desc: "判定・要約・検索など、用途に応じたモデル選定とプロンプト設計。",
-      },
-      {
-        label: "実装運用",
-        desc: "既存システムとの連携、検証サイクル、改善ループまで。",
-      },
-    ],
-  },
+} as const;
+
+/** トップページ「開発について」セクション */
+export const homeDevelopmentSectionCopy = {
+  sectionTitle: "開発について",
+  lead: "現状整理から本実装まで、段階的な検証で判断を積み重ねる。",
+  body: "「作ります」だけではなく、どのような品質管理と工程で構築されるかを開示します。以下は、rinopro の開発ライフサイクルにおける標準的な進め方です。",
+  ctaLabel: "サービスを見る",
+  ctaHref: "/services",
+} as const;
+
+/** トップページ「コンサルティングについて」セクション */
+export const homeConsultingSectionCopy = {
+  sectionTitle: "コンサルティングについて",
+  lead: "業務診断から定着支援まで。検証可能な範囲で、過剰提案しない。",
+  body: "チャットを開かずに、コンサルティングの進め方と判断の軸をここで把握いただけます。",
+  ctaLabel: "コンサルティングを見る",
+  ctaHref: "/consulting",
 } as const;
 
 // --- サービス ---

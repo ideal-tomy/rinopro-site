@@ -32,6 +32,8 @@ interface TypeExperienceSectionProps {
   demos?: (AiDemo | DemoItem)[];
   headingId?: string;
   className?: string;
+  /** 見出しの配置。トップは `center` */
+  headingAlign?: "start" | "center";
   /**
    * PC のみ。`carousel` はトップページ向け（3枚×2スライドの自動カルーセル）。
    * `/demo` では未指定（grid）のままにすること。
@@ -64,6 +66,7 @@ export function TypeExperienceSection({
   demos,
   headingId = "type-experiences-heading",
   className,
+  headingAlign = "start",
   pcLayout = "grid",
 }: TypeExperienceSectionProps) {
   const [carouselSlide, setCarouselSlide] = useState(0);
@@ -191,7 +194,10 @@ export function TypeExperienceSection({
     <section className={cn(className)} aria-labelledby={headingId}>
       <h2
         id={headingId}
-        className="mb-8 text-lg font-semibold text-accent md:mb-10 md:text-xl"
+        className={cn(
+          "mb-8 text-lg font-semibold text-accent md:mb-10 md:text-xl",
+          headingAlign === "center" && "text-center"
+        )}
       >
         タイプ別に体験する
       </h2>

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
 import { PageShell } from "@/components/layout/PageShell";
+import { PageSectionDivider } from "@/components/layout/PageSectionDivider";
 import { fetchDemosForDisplay } from "@/lib/sanity/fetch";
 import { DemoListContent } from "@/components/demo/DemoListContent";
 import { DemoListConciergeUrlSync } from "@/components/demo/DemoListConciergeUrlSync";
@@ -18,22 +19,25 @@ export default async function DemoListPage() {
   return (
     <PageShell>
       <div className="container mx-auto max-w-5xl px-4 py-12 md:px-6">
-        <div className="mb-8 flex items-center justify-between gap-4">
-          <div>
-            <h1 className="text-2xl font-bold text-accent md:text-3xl">
-              モックdemo一覧（カタログ）
-            </h1>
-            <p className="mt-2 max-w-2xl text-text-sub">
-              チャット型・入力試し込みのモックdemoを一覧から選べます。気になるものから触って、業務への当てはめをイメージしてください。
-            </p>
-          </div>
+        <header className="mb-8 text-center">
+          <h1 className="text-2xl font-bold text-accent md:text-3xl">
+            モックdemo一覧（カタログ）
+          </h1>
+          <p className="mx-auto mt-3 max-w-2xl text-sm text-text-sub md:text-[1rem]">
+            チャット型・入力試し込みのモックdemoを一覧から選べます。気になるものから触って、業務への当てはめをイメージしてください。
+          </p>
           <Link
             href="/demo"
-            className="shrink-0 text-sm text-text-sub transition-colors hover:text-accent"
+            className="mt-5 inline-block text-sm text-text-sub transition-colors hover:text-accent"
           >
             ← 体験・demoハブに戻る
           </Link>
+        </header>
+
+        <div className="py-10 md:py-14">
+          <PageSectionDivider variant="inset" />
         </div>
+
         <Suspense fallback={null}>
           <DemoListConciergeUrlSync />
         </Suspense>

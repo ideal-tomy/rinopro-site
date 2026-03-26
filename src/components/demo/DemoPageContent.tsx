@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { LayoutGrid } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import { PageSectionDivider } from "@/components/layout/PageSectionDivider";
 import { FeaturedExperienceVideoCard } from "@/components/experience/FeaturedExperienceVideoCard";
 import { TypeExperienceSection } from "@/components/demo/TypeExperienceSection";
 import { PurposePickSection } from "@/components/demo/PurposePickSection";
@@ -25,19 +26,23 @@ export function DemoPageContent({ demos }: DemoPageContentProps) {
   return (
     <div className="relative pb-32">
       <div className="container mx-auto max-w-6xl px-4 py-10 md:px-6 md:py-14">
-        <header className="mb-10">
+        <header className="mb-10 text-center">
           <h1 className="text-2xl font-bold text-accent md:text-3xl">
             体験・ツールdemo
           </h1>
-          <p className="mt-3 max-w-2xl text-sm text-text-sub md:text-[1rem]">
+          <p className="mx-auto mt-3 max-w-2xl text-sm text-text-sub md:text-[1rem]">
             情報提供を、読みやすい画面と操作感で体験できるよう並べています。
           </p>
         </header>
 
+        <div className="py-10 md:py-14">
+          <PageSectionDivider />
+        </div>
+
         {/* 1段目: Featured */}
         <section
           id="featured-experiences"
-          className="mb-16 scroll-mt-24"
+          className="scroll-mt-24 pb-16 md:pb-20"
           aria-label="注目のインタラクティブ体験"
         >
           <div className="mx-auto grid max-w-2xl grid-cols-1 gap-6">
@@ -54,17 +59,34 @@ export function DemoPageContent({ demos }: DemoPageContentProps) {
           </div>
         </section>
 
-        <TypeExperienceSection demos={demos} className="mb-16" />
+        <div className="py-10 md:py-14">
+          <PageSectionDivider />
+        </div>
 
-        <PurposePickSection demos={demos} className="mb-16" />
+        <TypeExperienceSection
+          demos={demos}
+          headingAlign="center"
+          className="pb-16 md:pb-20"
+        />
+
+        <div className="py-10 md:py-14">
+          <PageSectionDivider />
+        </div>
+
+        <PurposePickSection
+          demos={demos}
+          headingAlign="center"
+          className="pb-16 md:pb-20"
+        />
+
+        <div className="py-10 md:py-14">
+          <PageSectionDivider />
+        </div>
 
         {/* モック一覧（網羅探索） */}
-        <section
-          className="mb-16"
-          aria-labelledby="catalog-cta-heading"
-        >
+        <section aria-labelledby="catalog-cta-heading">
           <Card className="border-silver/30 bg-base-dark/60 p-6 md:p-8">
-            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between md:gap-8">
+            <div className="flex flex-col items-center gap-6 text-center">
               <div className="min-w-0">
                 <h2
                   id="catalog-cta-heading"

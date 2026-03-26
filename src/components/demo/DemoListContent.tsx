@@ -33,6 +33,7 @@ import type {
   AiDemoIssueTag,
 } from "@/lib/sanity/types";
 import { DemoListRecommendationPopup } from "@/components/demo/DemoListRecommendationPopup";
+import { PageSectionDivider } from "@/components/layout/PageSectionDivider";
 
 function getSlug(demo: AiDemo | DemoItem): string | undefined {
   return typeof demo.slug === "object" ? demo.slug?.current : demo.slug;
@@ -190,11 +191,11 @@ function HorizontalRail({
   };
 
   return (
-    <div className="relative left-1/2 w-screen -translate-x-1/2">
+    <div className="relative w-full">
       <div
         ref={setRailNode}
         className={cn(
-          "no-scrollbar flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-2 md:gap-4 md:px-8 xl:px-12"
+          "no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 md:gap-5"
         )}
         aria-label={ariaLabel}
       >
@@ -319,9 +320,9 @@ export function DemoListContent({ demos }: DemoListContentProps) {
   }
 
   return (
-    <div className="space-y-8 pb-8">
-      <section className="rounded-xl border border-silver/20 bg-base-dark/70 p-4">
-        <div className="mb-3 flex items-center justify-between gap-2">
+    <div className="space-y-10 pb-8 md:space-y-12">
+      <section className="rounded-xl border border-silver/20 bg-base-dark/70 p-4 md:p-5">
+        <div className="mb-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-sm text-text-sub">
             {appliedAnswers
               ? "直近のコンシェルジュ条件を表示しています"
@@ -357,12 +358,16 @@ export function DemoListContent({ demos }: DemoListContentProps) {
         </div>
       </section>
 
+      <div className="py-8 md:py-10">
+        <PageSectionDivider variant="inset" />
+      </div>
+
       {allCategories.map((catId) => {
         const items = grouped.get(catId) ?? [];
         const label = CATEGORY_LABELS[catId] ?? catId;
         return (
           <section key={catId}>
-            <h2 className="mb-3 text-lg font-bold text-text md:text-xl">
+            <h2 className="mb-4 text-center text-lg font-bold text-text md:mb-5 md:text-xl">
               {label}
             </h2>
             <HorizontalRail ariaLabel={`${label}のデモ一覧`}>

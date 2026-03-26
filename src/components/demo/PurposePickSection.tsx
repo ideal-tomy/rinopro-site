@@ -38,12 +38,15 @@ interface PurposePickSectionProps {
   demos?: (AiDemo | DemoItem)[];
   headingId?: string;
   className?: string;
+  /** 見出しの配置。トップは `center` */
+  headingAlign?: "start" | "center";
 }
 
 export function PurposePickSection({
   demos,
   headingId = "purpose-shortcuts-heading",
   className,
+  headingAlign = "start",
 }: PurposePickSectionProps) {
   const [openPurposeId, setOpenPurposeId] = useState<string | null>(null);
 
@@ -54,7 +57,10 @@ export function PurposePickSection({
       <section className={cn(className)} aria-labelledby={headingId}>
         <h2
           id={headingId}
-          className="mb-8 text-lg font-semibold text-accent md:mb-10 md:text-xl"
+          className={cn(
+            "mb-8 text-lg font-semibold text-accent md:mb-10 md:text-xl",
+            headingAlign === "center" && "text-center"
+          )}
         >
           目的から選ぶ
         </h2>
