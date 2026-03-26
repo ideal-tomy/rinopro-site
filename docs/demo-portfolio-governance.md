@@ -11,7 +11,7 @@
 | 段 | 内容 | 役割 |
 |----|------|------|
 | 1 | Featured（注力2件） | `FEATURED_EXPERIENCE_SLUGS`（社内ナレッジBOT・飲食ダッシュボード） |
-| 2 | **タイプ別に体験する** | 形式の違いを並べて比較（PC: 3列×2行）。固定6件は [`src/lib/experience/prototype-registry.ts`](../src/lib/experience/prototype-registry.ts) の `DEMO_HUB_TYPE_SECTION_SLUGS`。バッジ文言は [`src/lib/demo/demo-hub-sections.ts`](../src/lib/demo/demo-hub-sections.ts) の `DEMO_HUB_TYPE_SECTION_BADGES`。トップページも同一 [`TypeExperienceSection`](../src/components/demo/TypeExperienceSection.tsx) を埋め込み |
+| 2 | **タイプ別に体験する** | 形式の違いを並べて比較（PC: 3列×2行）。固定6件は [`src/lib/experience/prototype-registry.ts`](../src/lib/experience/prototype-registry.ts) の `DEMO_HUB_TYPE_SECTION_SLUGS`。カード見た目は [`MockStyleExperienceCard`](../src/components/demo/MockStyleExperienceCard.tsx)（`/demo/list` の `DemoCard` と同型）。トップページも同一 [`TypeExperienceSection`](../src/components/demo/TypeExperienceSection.tsx) を埋め込み |
 | 3 | **目的から選ぶ** | 業務ゴール別4目的・タップでおすすめ体験最大3件をシート表示。定義は [`demo-hub-sections.ts`](../src/lib/demo/demo-hub-sections.ts) の `DEMO_HUB_PURPOSE_GROUPS`。一覧へは [`/demo/list?concierge=1`](../src/app/demo/list/page.tsx) でコンシェルジュを自動表示（[`DemoListConciergeUrlSync`](../src/components/demo/DemoListConciergeUrlSync.tsx)） |
 | 4 | **モックdemo一覧で網羅探索** | `/demo/list` へ誘導。100本規模の横断・コンシェルジュ絞り込みの入口 |
 

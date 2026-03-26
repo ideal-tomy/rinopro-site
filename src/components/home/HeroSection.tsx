@@ -21,8 +21,13 @@ import { PurposePickSection } from "@/components/demo/PurposePickSection";
 import { getFeaturedExperiencePrototypes } from "@/lib/experience/prototype-registry";
 import { FEATURED_SHOWCASE_VIDEO_BY_SLUG } from "@/lib/experience/featured-showcase-media";
 import type { FeaturedExperienceSlug } from "@/lib/experience/prototype-registry";
+import type { AiDemo, DemoItem } from "@/lib/sanity/types";
 
-export function HeroSection() {
+interface HeroSectionProps {
+  demos: (AiDemo | DemoItem)[];
+}
+
+export function HeroSection({ demos }: HeroSectionProps) {
   return (
     <>
       <ParticleBackground />
@@ -69,7 +74,7 @@ export function HeroSection() {
       </motion.section>
 
       <motion.div
-        className="container mx-auto max-w-5xl px-4 pb-10 md:px-6"
+        className="container mx-auto max-w-6xl px-4 pb-10 md:px-6"
         variants={heroStaggerContainer}
         initial="hidden"
         animate="visible"
@@ -79,16 +84,18 @@ export function HeroSection() {
           variants={heroStaggerItem}
           custom={[0.05, 0.15]}
         >
-          注目の体験（2本）
+          注目の体験
         </motion.p>
-        <div className="grid gap-4 sm:grid-cols-2 sm:gap-5">
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 sm:justify-items-center sm:gap-x-8 sm:gap-y-8 md:gap-x-10 md:gap-y-10 lg:gap-x-12">
           {getFeaturedExperiencePrototypes().map((p, i) => (
             <motion.div
               key={p.slug}
               variants={heroStaggerItem}
               custom={[0.1 + i * 0.08, 0.2 + i * 0.08] as [number, number]}
+              className="w-full max-w-[400px]"
             >
               <FeaturedExperienceVideoCard
+                variant="split"
                 meta={p}
                 videoSrc={
                   FEATURED_SHOWCASE_VIDEO_BY_SLUG[p.slug as FeaturedExperienceSlug]
@@ -110,13 +117,20 @@ export function HeroSection() {
           custom={[0.12, 0.22] as [number, number]}
           className="mb-12"
         >
-          <TypeExperienceSection headingId="home-type-experiences-heading" />
+          <TypeExperienceSection
+            demos={demos}
+            headingId="home-type-experiences-heading"
+            pcLayout="carousel"
+          />
         </motion.div>
         <motion.div
           variants={heroStaggerItem}
           custom={[0.18, 0.28] as [number, number]}
         >
-          <PurposePickSection headingId="home-purpose-shortcuts-heading" />
+          <PurposePickSection
+            demos={demos}
+            headingId="home-purpose-shortcuts-heading"
+          />
         </motion.div>
       </motion.div>
 

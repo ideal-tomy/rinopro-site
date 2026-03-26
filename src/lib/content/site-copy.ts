@@ -7,9 +7,9 @@
 export const topCopy = {
   tagline: "ビジネスを再設計する",
   subline:
-    "日報作成、写真整理、顧客対応……。現場に潜む『定型作業』をAIが担い、人間にしかできない業務」に集中できる環境を、実装から定着まで創り上げます。。",
+    "日報作成、写真整理、顧客対応……。現場に潜む『定型作業』をAIが担います。人にしかできない業務に集中できる環境を、実装から定着まで創り上げます。",
   ctaDemo: "体験・demoハブ",
-  ctaExperience: "注目の体験（2本）",
+  ctaExperience: "注目の体験",
   nextAction: "次に見る",
   nextActionTarget: "サービス",
   nextActionHref: "/services",

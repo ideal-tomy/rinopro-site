@@ -16,9 +16,10 @@ type Props = {
   className?: string;
   /**
    * `hub`: /demo 用。動画下にタイトル・説明・2CTA。
-   * 未指定: トップ等。動画上オーバーレイ＋カード全体リンク（従来）。
+   * `split`: トップ用。hub と同じく動画＋下段にタイトル・説明・単一CTA（オーバーレイなし）。
+   * `default`: 動画上オーバーレイ＋カード全体リンク。
    */
-  variant?: "hub" | "default";
+  variant?: "hub" | "split" | "default";
 };
 
 export function FeaturedExperienceVideoCard({
@@ -99,6 +100,57 @@ export function FeaturedExperienceVideoCard({
               </Link>
             </Button>
           </div>
+        </div>
+      </article>
+    );
+  }
+
+  if (variant === "split") {
+    return (
+      <article
+        className={cn(
+          "overflow-hidden rounded-xl border border-silver/25 bg-base-dark/50 transition-[border-color,box-shadow] duration-300 hover:border-accent/40",
+          className
+        )}
+      >
+        <div
+          className={cn(
+            "relative aspect-video w-full overflow-hidden",
+            showVideo
+              ? "bg-black"
+              : "bg-gradient-to-br from-base-dark via-base-dark/90 to-base-dark/70"
+          )}
+        >
+          {showVideo ? (
+            <video
+              className="h-full w-full object-cover"
+              src={videoSrc}
+              muted
+              playsInline
+              loop
+              autoPlay
+              preload="metadata"
+              aria-label={`${meta.title}のプレビュー動画`}
+              onError={() => setVideoFailed(true)}
+            />
+          ) : null}
+        </div>
+
+        <div className="border-t border-silver/20 bg-base-dark/90 px-4 py-4 md:px-5 md:py-5">
+          <h3 className="text-[1rem] font-semibold leading-snug text-text md:text-lg">
+            {meta.title}
+          </h3>
+          <p className="mt-2 text-sm leading-relaxed text-text-sub md:text-[1rem]">
+            {meta.shortDescription}
+          </p>
+          <Button
+            asChild
+            variant="outline"
+            size="lg"
+            className="mt-4 w-full min-h-12 border-silver/25 px-4 text-[15px] font-medium text-text-sub hover:border-accent/45 hover:bg-accent/10 hover:text-accent sm:min-h-[3.25rem] sm:text-[1.05rem] md:min-h-14"
+          >
+            <Link href={`/experience/${meta.slug}`}>体験を開く</Link>
+          </Button>
         </div>
       </article>
     );

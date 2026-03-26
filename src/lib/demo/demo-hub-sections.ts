@@ -1,18 +1,3 @@
-import { DEMO_HUB_TYPE_SECTION_SLUGS } from "@/lib/experience/prototype-registry";
-
-/** タイプ別セクション各カードのラベル（`/demo`・トップ共通） */
-export const DEMO_HUB_TYPE_SECTION_BADGES: Record<
-  (typeof DEMO_HUB_TYPE_SECTION_SLUGS)[number],
-  string
-> = {
-  "live-sync-voice-translation": "Live Sync",
-  "loan-interview-business-outline": "書類・計画ドラフト",
-  "workflow-approval-lite-demo": "承認・通知",
-  "legal-memory-secretary": "検索・ナレッジ",
-  "webinar-invite-email-draft": "メール草案",
-  "presentation-outline": "資料骨子",
-};
-
 export type DemoHubPurposeId =
   | "inquiry"
   | "report"

@@ -51,7 +51,7 @@ export const EXPERIENCE_PROTOTYPES: ExperiencePrototypeMeta[] = [
   },
   {
     slug: "restaurant-ops-dashboard-demo",
-    title: "飲食店オペレーション・ダッシュボード（シナリオ再生）",
+    title: "飲食店オペレーション・ダッシュボード",
     tier: "track3",
     demoSlug: "restaurant-ops-dashboard-demo",
     shortDescription:
