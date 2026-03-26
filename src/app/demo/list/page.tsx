@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Suspense } from "react";
 import { PageShell } from "@/components/layout/PageShell";
 import { fetchDemosForDisplay } from "@/lib/sanity/fetch";
 import { DemoListContent } from "@/components/demo/DemoListContent";
+import { DemoListConciergeUrlSync } from "@/components/demo/DemoListConciergeUrlSync";
 
 export const metadata: Metadata = {
   title: "モックdemo一覧（カタログ） | rinopro",
@@ -32,6 +34,9 @@ export default async function DemoListPage() {
             ← 体験・demoハブに戻る
           </Link>
         </div>
+        <Suspense fallback={null}>
+          <DemoListConciergeUrlSync />
+        </Suspense>
         <DemoListContent demos={demos} />
       </div>
     </PageShell>

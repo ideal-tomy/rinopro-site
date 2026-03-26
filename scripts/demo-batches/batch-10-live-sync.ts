@@ -38,7 +38,7 @@ export const batch10LiveSyncDemos = [
     ctaTitle: "ライブ同期型の翻訳・要約を業務フローに組み込みたい場合はお問い合わせください。",
     ctaButtonText: "相談する",
     description:
-      "話しながら右側が自動で言語切り替わりする「伴走」体験。会議・窓口・越境コミュニケーションのイメージに使えます。",
+      "話しながら右側が自動で言語切り替わりする「伴走」体験（翻訳モード）。会議・窓口・越境コミュニケーションのイメージに使えます。インタラクティブ体験: /experience/live-sync-voice-translation（Live Sync）。",
     industryTags: ["製造", "SaaS", "物流"],
     functionTags: ["音声入力", "要約"],
     moduleTags: ["Speech", "LLM"],

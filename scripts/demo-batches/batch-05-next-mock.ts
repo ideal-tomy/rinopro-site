@@ -29,7 +29,8 @@ export const batch05NextMockDemos = [
     ],
     ctaTitle: "あなたのカスタマーサクセス運用に合わせた試作を3営業日で提出します。",
     ctaButtonText: "3営業日で試作デモを受け取る",
-    description: "定例の音声メモからサマリと社内アクションを即整理。顧客フォローの記録を揃えます。",
+    description:
+      "定例の音声メモからサマリと社内アクションを即整理。顧客フォローの記録を揃えます。インタラクティブ体験: /experience/cs-qbr-voice-summary（Live Sync）。",
     industryTags: ["SaaS", "サービス"],
     functionTags: ["音声入力", "要約"],
     moduleTags: ["Whisper", "LLM"],
@@ -62,7 +63,8 @@ export const batch05NextMockDemos = [
     ],
     ctaTitle: "あなたのイベント見積フローに合わせた試作を3営業日で提出します。",
     ctaButtonText: "3営業日で試作デモを受け取る",
-    description: "打ち合わせの音声から要件整理と確認事項を即作成。見積ミスマッチを減らします。",
+    description:
+      "打ち合わせの音声から要件整理と確認事項を即作成。見積ミスマッチを減らします。インタラクティブ体験: /experience/event-brief-voice-to-quote-memo（Live Sync）。",
     industryTags: ["サービス", "小売"],
     functionTags: ["音声入力", "見積作成"],
     moduleTags: ["Whisper", "LLM"],

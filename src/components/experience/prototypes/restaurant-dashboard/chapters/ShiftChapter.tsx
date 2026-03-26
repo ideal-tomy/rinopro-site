@@ -116,7 +116,7 @@ export function ShiftChapter({
           {approveStage === "done" || approveStage === "pressing" ? (
             <p className="text-center text-[10px] text-emerald-800">
               {approveStage === "done"
-                ? "承認を記録しました（モック）"
+                ? "承認を記録しました"
                 : "承認中…"}
             </p>
           ) : null}
@@ -125,7 +125,7 @@ export function ShiftChapter({
         <div className="rounded-lg border border-dashed border-slate-200 bg-white p-3 text-center">
           {chapterApproved ? (
             <p className="text-xs text-emerald-800">
-              ① 一括承認済み · スタッフへ確定通知を送信中（モック）
+              ① 一括承認済み · スタッフへ確定通知を送信中
             </p>
           ) : (
             <p className="text-xs text-slate-600">

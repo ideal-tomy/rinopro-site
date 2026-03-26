@@ -32,6 +32,7 @@ import type {
   AiDemoAutomationDepth,
   AiDemoIssueTag,
 } from "@/lib/sanity/types";
+import { DemoListRecommendationPopup } from "@/components/demo/DemoListRecommendationPopup";
 
 function getSlug(demo: AiDemo | DemoItem): string | undefined {
   return typeof demo.slug === "object" ? demo.slug?.current : demo.slug;
@@ -252,6 +253,34 @@ export function DemoListContent({ demos }: DemoListContentProps) {
     useConciergeChat();
   const appliedAnswers = demoListWizardSnapshot?.answers ?? null;
   const conciergePicks = demoListWizardSnapshot?.picks ?? [];
+  const [recommendPopupOpen, setRecommendPopupOpen] = useState(false);
+  const lastPicksSignatureRef = useRef<string>("");
+  const popupTimerRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (conciergePicks.length === 0) return;
+    const signature = conciergePicks
+      .map((pick) => pick.demo._id)
+      .join("|");
+    if (signature === lastPicksSignatureRef.current) return;
+    lastPicksSignatureRef.current = signature;
+    if (popupTimerRef.current !== null) {
+      window.clearTimeout(popupTimerRef.current);
+    }
+    // コンシェルジュのクローズアニメーション直後に重ねて表示し、クロスフェード感を作る
+    popupTimerRef.current = window.setTimeout(() => {
+      setRecommendPopupOpen(true);
+      popupTimerRef.current = null;
+    }, 180);
+  }, [conciergePicks]);
+
+  useEffect(() => {
+    return () => {
+      if (popupTimerRef.current !== null) {
+        window.clearTimeout(popupTimerRef.current);
+      }
+    };
+  }, []);
 
   const categoryOrder = [
     "report",
@@ -328,19 +357,6 @@ export function DemoListContent({ demos }: DemoListContentProps) {
         </div>
       </section>
 
-      {conciergePicks.length > 0 && (
-        <section>
-          <h2 className="mb-3 text-lg font-bold text-accent md:text-xl">
-            あなた向けの提案（最大3件）
-          </h2>
-          <HorizontalRail ariaLabel="コンシェルジュが提案したデモ">
-            {conciergePicks.map(({ demo, reason }) => (
-              <DemoCard key={`rec-${demo._id}`} demo={demo} reason={reason} />
-            ))}
-          </HorizontalRail>
-        </section>
-      )}
-
       {allCategories.map((catId) => {
         const items = grouped.get(catId) ?? [];
         const label = CATEGORY_LABELS[catId] ?? catId;
@@ -358,6 +374,11 @@ export function DemoListContent({ demos }: DemoListContentProps) {
         );
       })}
 
+      <DemoListRecommendationPopup
+        picks={conciergePicks}
+        open={recommendPopupOpen}
+        onClose={() => setRecommendPopupOpen(false)}
+      />
     </div>
   );
 }

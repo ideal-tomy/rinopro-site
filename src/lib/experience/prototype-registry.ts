@@ -1,3 +1,6 @@
+import type { LiveSyncMode } from "@/lib/experience/live-sync-modes-mock";
+import { LIVE_SYNC_AUDIO_TEXT_PROTOTYPES } from "@/lib/experience/live-sync-audio-text-prototypes";
+
 export type ExperiencePrototypeTier = "track3" | "track2";
 
 export interface ExperiencePrototypeMeta {
@@ -13,6 +16,8 @@ export interface ExperiencePrototypeMeta {
    * 書類たたき台系など「開いた瞬間から専用画面」を優先するデモ向け。
    */
   immersiveOnDemoDetail?: boolean;
+  /** Live Sync テンプレの出力モード（`ExperiencePrototypeRunner` が Live Sync へルーティング） */
+  liveSyncMode?: LiveSyncMode;
 }
 
 /** ③を先、②を後（一覧・静的パラメータの順序） */
@@ -72,6 +77,7 @@ export const EXPERIENCE_PROTOTYPES: ExperiencePrototypeMeta[] = [
     inputHint:
       "例: 明日の会議は誠に恐縮ながら無理です。期限だけ先に教えてください。",
     immersiveOnDemoDetail: true,
+    liveSyncMode: "translation",
   },
   {
     slug: "workflow-approval-lite-demo",
@@ -268,6 +274,7 @@ export const EXPERIENCE_PROTOTYPES: ExperiencePrototypeMeta[] = [
     inputHint:
       "例: 積み忘れ1箱、15時着予定が17時に変更連絡済み（分割後にドラッグでレーンへ）",
   },
+  ...LIVE_SYNC_AUDIO_TEXT_PROTOTYPES,
 ];
 
 const PROTOTYPE_SLUGS = new Set(EXPERIENCE_PROTOTYPES.map((p) => p.slug));
@@ -276,6 +283,19 @@ const PROTOTYPE_SLUGS = new Set(EXPERIENCE_PROTOTYPES.map((p) => p.slug));
 export const FEATURED_EXPERIENCE_SLUGS = [
   "internal-knowledge-share-bot",
   "restaurant-ops-dashboard-demo",
+] as const;
+
+/**
+ * `/demo` ハブ・トップ「タイプ別に体験する」セクションの固定6件（順序固定・3列×2行）。
+ * 変更時は `docs/demo-portfolio-governance.md` の「`/demo` ハブの4段構成」節も更新する。
+ */
+export const DEMO_HUB_TYPE_SECTION_SLUGS = [
+  "live-sync-voice-translation",
+  "loan-interview-business-outline",
+  "workflow-approval-lite-demo",
+  "legal-memory-secretary",
+  "webinar-invite-email-draft",
+  "presentation-outline",
 ] as const;
 
 export type FeaturedExperienceSlug =

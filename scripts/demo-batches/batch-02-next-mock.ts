@@ -31,7 +31,8 @@ export const batch02NextMockDemos = [
     ],
     ctaTitle: "あなたの日報フォーマットに合わせた試作を3営業日で提出します。",
     ctaButtonText: "3営業日で試作デモを受け取る",
-    description: "朝礼の内容を入力するだけで、日報ドラフトと現場共有メモを即生成。帰社後の記録作業を短縮します。",
+    description:
+      "朝礼の内容を入力するだけで、日報ドラフトと現場共有メモを即生成。帰社後の記録作業を短縮します。インタラクティブ体験: /experience/morning-meeting-daily-draft（Live Sync）。",
     industryTags: ["建設", "製造"],
     functionTags: ["音声入力", "報告書生成"],
     moduleTags: ["Whisper", "LLM"],
@@ -63,7 +64,8 @@ export const batch02NextMockDemos = [
     ],
     ctaTitle: "あなたの店舗報告フォーマットに合わせた試作を3営業日で提出します。",
     ctaButtonText: "3営業日で試作デモを受け取る",
-    description: "接客メモからサマリと共有メモを即整理。シフト引き継ぎと本部報告を速くします。",
+    description:
+      "接客メモからサマリと共有メモを即整理。シフト引き継ぎと本部報告を速くします。インタラクティブ体験: /experience/retail-floor-voice-handoff（Live Sync）。",
     industryTags: ["小売", "飲食", "サービス"],
     functionTags: ["音声入力", "引継ぎ"],
     moduleTags: ["Whisper", "LLM"],

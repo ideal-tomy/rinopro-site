@@ -175,7 +175,7 @@ export const execMeetingPreset: DocumentShellPresetDefinition = {
     };
   },
   leftPanelTitle: "会議メモ・箇条書き",
-  centerButtonLabel: "サマリを生成（モック）",
+  centerButtonLabel: "サマリを生成",
   rightPanelTitle: "共有用サマリ（体裁イメージ）",
 };
 

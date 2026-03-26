@@ -9,7 +9,7 @@ export type PropertyExteriorMockResult = {
   tags: string[];
   memo: string;
   next: string;
-  /** 管理会社・業者向けの修繕依頼文案（モック） */
+  /** 管理会社・業者向けの修繕依頼文案 */
   repairRequestDraft: string;
   /** ピン1件あたり1行の所見（UI でリスト表示） */
   pinFindings: string[];
@@ -65,7 +65,7 @@ export function buildPropertyMockFromPins(
   const baseMemo = text.trim() || DEFAULT_MEMO;
   const pinFindings = pins.map((p, i) => {
     const pos = `位置 横${Math.round(p.xPct)}%・縦${Math.round(p.yPct)}%`;
-    return `ピン${i + 1}（${p.label}）: ${pos} において、${p.label}に関する所見を記録（モック）。`;
+    return `ピン${i + 1}（${p.label}）: ${pos} において、${p.label}に関する所見を記録。`;
   });
 
   const labelSet = new Set<string>();
@@ -84,7 +84,7 @@ export function buildPropertyMockFromPins(
 
   const memo =
     pinFindings.length > 0
-      ? `${baseMemo}\n\n【ピン連動所見（モック）】\n${pinFindings.join("\n")}`
+      ? `${baseMemo}\n\n【ピン連動所見】\n${pinFindings.join("\n")}`
       : baseMemo;
 
   const repairRequestDraft = buildRepairRequestDraft(

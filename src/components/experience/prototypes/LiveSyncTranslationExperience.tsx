@@ -12,11 +12,9 @@ import {
 } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  buildLiveSyncTranslationOutput,
-  type TargetLanguageId,
-  type TonePreset,
-} from "@/lib/experience/live-sync-translation-mock";
+import type { TargetLanguageId, TonePreset } from "@/lib/experience/live-sync-translation-mock";
+import { buildLiveSyncUnifiedOutput } from "@/lib/experience/live-sync-modes-mock";
+import type { LiveSyncMode } from "@/lib/experience/live-sync-modes-mock";
 import {
   MOCK_VOICE_STREAM_CHUNKS,
   MOCK_VOICE_STREAM_COUNT,
@@ -60,6 +58,13 @@ const LANG_LABEL: Record<TargetLanguageId, string> = {
   zh: "中文（模拟）",
 };
 
+const LIVE_SYNC_MODE_LABEL: Record<LiveSyncMode, string> = {
+  translation: "リアルタイム翻訳",
+  rewrite: "丁寧語・言い換え",
+  digest: "結論・期限・TODO",
+  handover: "申し送り",
+};
+
 function PseudoWaveform({
   active,
   reduceMotion,
@@ -96,6 +101,7 @@ export function LiveSyncTranslationExperience({
   meta,
   className,
 }: LiveSyncTranslationExperienceProps) {
+  const mode = meta.liveSyncMode ?? "translation";
   const panelId = useId();
   const recognitionRef = useRef<SpeechRecognition | null>(null);
   const mockTimerRef = useRef<number | null>(null);
@@ -134,17 +140,14 @@ export function LiveSyncTranslationExperience({
   const speechDraft = `${speechFinal}${speechInterim}`;
 
   const liveOut = useMemo(() => {
-    if (inputChannel === "manual") {
-      return buildLiveSyncTranslationOutput(manualText, "", {
-        targetLang,
-        tone,
-      });
-    }
-    return buildLiveSyncTranslationOutput(speechFinal, speechInterim, {
+    const finalized = inputChannel === "manual" ? manualText : speechFinal;
+    const interim = inputChannel === "manual" ? "" : speechInterim;
+    return buildLiveSyncUnifiedOutput(mode, finalized, interim, {
       targetLang,
       tone,
     });
   }, [
+    mode,
     inputChannel,
     manualText,
     speechFinal,
@@ -339,7 +342,8 @@ export function LiveSyncTranslationExperience({
 
           {!speechSupported && (
             <p className="mb-3 rounded-lg border border-amber-400/30 bg-amber-400/10 px-3 py-2 text-sm text-amber-100">
-              このブラウザでは Web Speech API が利用できません。下の「モック音声ストリームを再生」でライブ翻訳の演出をお試しください。
+              このブラウザでは Web Speech API が利用できません。下の「モック音声ストリームを再生」で
+              Live Sync（{LIVE_SYNC_MODE_LABEL[mode]}）の演出をお試しください。
             </p>
           )}
 
@@ -372,7 +376,7 @@ export function LiveSyncTranslationExperience({
               おすすめ
             </p>
             <h3 className="mt-1 text-sm font-semibold text-white md:text-[1rem]">
-              ライブ翻訳の演出を試す
+              Live Sync（{LIVE_SYNC_MODE_LABEL[mode]}）の演出を試す
             </h3>
             <Button
               type="button"
@@ -419,11 +423,22 @@ export function LiveSyncTranslationExperience({
               >
                 <span className="font-medium text-text">このデモの範囲: </span>
                 マイク入力は<strong className="text-text">日本語の文字起こし</strong>
-                までです。右ペインの英語が実音声にリアルタイムで連動するには、本番で
-                <strong className="text-text">
-                  サーバー経由の翻訳API
-                </strong>
-                （例: Cloud Translation / DeepL）を組み込む必要があります。ライブ感の確認は上の「モック音声ストリーム」が該当します。
+                までです。
+                {mode === "translation" ? (
+                  <>
+                    右ペインの英語が実音声にリアルタイムで連動するには、本番で
+                    <strong className="text-text">
+                      サーバー経由の翻訳API
+                    </strong>
+                    （例: Cloud Translation / DeepL）を組み込む必要があります。ライブ感の確認は上の「モック音声ストリーム」が該当します。
+                  </>
+                ) : (
+                  <>
+                    右ペインの{LIVE_SYNC_MODE_LABEL[mode]}
+                    は<strong className="text-text">辞書・ルールベースのモック</strong>
+                    です。本番では意図抽出・要約モデルをサーバー経由で組み込む想定です。ライブ感の確認は「モック音声ストリーム」が該当します。
+                  </>
+                )}
               </div>
             )}
             <PseudoWaveform active={listening || mockStreaming} reduceMotion={reduceMotion} />
@@ -493,44 +508,51 @@ export function LiveSyncTranslationExperience({
             className="mb-3 text-sm font-semibold text-accent md:text-[1rem]"
           >
             Live Sync（自動更新）
+            <span className="mt-1 block text-xs font-normal text-text-sub">
+              {LIVE_SYNC_MODE_LABEL[mode]}
+            </span>
           </h2>
 
-          <div className="mb-4 flex flex-wrap gap-2">
-            <span className="w-full text-xs text-text-sub">翻訳先</span>
-            {(["en", "ko", "zh"] as const).map((id) => (
-              <Button
-                key={id}
-                type="button"
-                size="sm"
-                variant={targetLang === id ? "default" : "outline"}
-                onClick={() => setTargetLang(id)}
-              >
-                {LANG_LABEL[id]}
-              </Button>
-            ))}
-          </div>
+          {liveOut.mode === "translation" && (
+            <>
+              <div className="mb-4 flex flex-wrap gap-2">
+                <span className="w-full text-xs text-text-sub">翻訳先</span>
+                {(["en", "ko", "zh"] as const).map((id) => (
+                  <Button
+                    key={id}
+                    type="button"
+                    size="sm"
+                    variant={targetLang === id ? "default" : "outline"}
+                    onClick={() => setTargetLang(id)}
+                  >
+                    {LANG_LABEL[id]}
+                  </Button>
+                ))}
+              </div>
 
-          <div className="mb-4 flex flex-wrap gap-2">
-            <span className="w-full text-xs text-text-sub">トーン（英語モック）</span>
-            <Button
-              type="button"
-              size="sm"
-              variant={tone === "standard" ? "default" : "outline"}
-              onClick={() => setTone("standard")}
-            >
-              標準
-            </Button>
-            <Button
-              type="button"
-              size="sm"
-              variant={tone === "polite" ? "default" : "outline"}
-              onClick={() => setTone("polite")}
-            >
-              丁寧
-            </Button>
-          </div>
+              <div className="mb-4 flex flex-wrap gap-2">
+                <span className="w-full text-xs text-text-sub">トーン（英語モック）</span>
+                <Button
+                  type="button"
+                  size="sm"
+                  variant={tone === "standard" ? "default" : "outline"}
+                  onClick={() => setTone("standard")}
+                >
+                  標準
+                </Button>
+                <Button
+                  type="button"
+                  size="sm"
+                  variant={tone === "polite" ? "default" : "outline"}
+                  onClick={() => setTone("polite")}
+                >
+                  丁寧
+                </Button>
+              </div>
+            </>
+          )}
 
-          <p className="mb-2 text-xs font-medium text-text-sub">意図（モック）</p>
+          <p className="mb-2 text-xs font-medium text-text-sub">意図</p>
           <p className="mb-4 inline-block rounded-full border border-silver/30 bg-base-dark/80 px-3 py-1 text-xs text-accent">
             {liveOut.intentHint}
           </p>
@@ -540,14 +562,71 @@ export function LiveSyncTranslationExperience({
             {liveOut.sourceDraft || "（空）"}
           </p>
 
-          <p className="mb-1 text-xs font-medium text-text-sub">翻訳（自動）</p>
-          <div
-            className="min-h-[8rem] whitespace-pre-wrap rounded-lg border border-accent/30 bg-base-dark/90 p-3 text-sm text-text"
-            aria-live="polite"
-            aria-atomic="false"
-          >
-            {liveOut.translatedDraft || "（入力に応じて更新）"}
-          </div>
+          {liveOut.mode === "translation" && (
+            <>
+              <p className="mb-1 text-xs font-medium text-text-sub">翻訳（自動）</p>
+              <div
+                className="min-h-[8rem] whitespace-pre-wrap rounded-lg border border-accent/30 bg-base-dark/90 p-3 text-sm text-text"
+                aria-live="polite"
+                aria-atomic="false"
+              >
+                {liveOut.translatedDraft || "（入力に応じて更新）"}
+              </div>
+            </>
+          )}
+
+          {liveOut.mode === "rewrite" && (
+            <>
+              <p className="mb-1 text-xs font-medium text-text-sub">丁寧語・言い換え（自動）</p>
+              <div
+                className="min-h-[8rem] whitespace-pre-wrap rounded-lg border border-accent/30 bg-base-dark/90 p-3 text-sm text-text"
+                aria-live="polite"
+                aria-atomic="false"
+              >
+                {liveOut.politeDraft || "（入力に応じて更新）"}
+              </div>
+            </>
+          )}
+
+          {liveOut.mode === "digest" && (
+            <>
+              <p className="mb-1 text-xs font-medium text-text-sub">結論</p>
+              <p className="mb-3 whitespace-pre-wrap rounded-lg border border-accent/30 bg-base-dark/90 p-3 text-sm text-text">
+                {liveOut.conclusion || "（入力に応じて更新）"}
+              </p>
+              <p className="mb-1 text-xs font-medium text-text-sub">期限</p>
+              <p className="mb-3 rounded-lg border border-silver/20 bg-base-dark/80 p-3 text-sm text-text">
+                {liveOut.deadline}
+              </p>
+              <p className="mb-1 text-xs font-medium text-text-sub">TODO</p>
+              <ul className="min-h-[4rem] list-inside list-disc space-y-1 rounded-lg border border-accent/25 bg-base-dark/90 p-3 text-sm text-text">
+                {liveOut.todos.length > 0 ? (
+                  liveOut.todos.map((t, i) => (
+                    <li key={`${i}-${t.slice(0, 12)}`}>{t}</li>
+                  ))
+                ) : (
+                  <li className="list-none text-text-sub">（入力に応じて更新）</li>
+                )}
+              </ul>
+            </>
+          )}
+
+          {liveOut.mode === "handover" && (
+            <>
+              <p className="mb-1 text-xs font-medium text-text-sub">申し送りメモ</p>
+              <p className="mb-3 whitespace-pre-wrap rounded-lg border border-accent/30 bg-base-dark/90 p-3 text-sm text-text">
+                {liveOut.handoverNote || "（入力に応じて更新）"}
+              </p>
+              <p className="mb-1 text-xs font-medium text-text-sub">注意</p>
+              <p className="mb-3 rounded-lg border border-amber-400/20 bg-amber-400/5 p-3 text-sm text-text">
+                {liveOut.caution}
+              </p>
+              <p className="mb-1 text-xs font-medium text-text-sub">次アクション</p>
+              <div className="min-h-[4rem] whitespace-pre-wrap rounded-lg border border-accent/25 bg-base-dark/90 p-3 text-sm text-text">
+                {liveOut.nextAction}
+              </div>
+            </>
+          )}
 
           <details className="mt-4 rounded-lg border border-silver/20 bg-base-dark/50 p-2 text-xs text-text-sub">
             <summary className="cursor-pointer select-none font-medium text-text">

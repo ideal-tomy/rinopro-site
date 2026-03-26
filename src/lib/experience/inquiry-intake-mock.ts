@@ -7,7 +7,7 @@ export interface InquiryIntakeMockResult {
   priority: InquiryPriorityLevel;
   /** なぜその優先度か（1行） */
   priorityReason: string;
-  /** 担当部署（モック） */
+  /** 担当部署 */
   department: string;
   tags: string[];
   draftReply: string;
@@ -64,6 +64,6 @@ export function buildInquiryIntakeMock(text: string): InquiryIntakeMockResult {
     tags,
     draftReply: `【モック返信案】\nお問い合わせありがとうございます。${category}に関する内容で承りました。担当部署（${department}）より○営業日以内にご連絡いたします。\n\n※ 実装ではテンプレとナレッジを組み合わせて生成します。`,
     internalNote:
-      "【社内メモ（モック）】類似チケット: 過去30日で同カテゴリ推定12件。SLA: 優先度に応じて24h/72h。",
+      "【社内メモ】類似チケット: 過去30日で同カテゴリ推定12件。SLA: 優先度に応じて24h/72h。",
   };
 }

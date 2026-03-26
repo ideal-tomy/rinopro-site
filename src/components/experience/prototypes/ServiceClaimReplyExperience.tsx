@@ -77,7 +77,7 @@ export function ServiceClaimReplyExperience({
           </div>
           <Mail className="ml-2 h-4 w-4 text-indigo-300/90" aria-hidden />
           <span className="text-xs font-medium tracking-wide text-indigo-100/90 md:text-sm">
-            CS返信スタジオ（モック）
+            CS返信スタジオ
           </span>
         </div>
 
@@ -105,7 +105,7 @@ export function ServiceClaimReplyExperience({
             ))}
           </div>
           <Button type="button" onClick={run}>
-            返信案を生成（モック）
+            返信案を生成
           </Button>
           <p className="mt-2 text-xs text-text-sub">
             本画面はプロトタイプです。実AIは{" "}

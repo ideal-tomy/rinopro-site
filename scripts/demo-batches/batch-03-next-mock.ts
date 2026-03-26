@@ -94,7 +94,8 @@ export const batch03NextMockDemos = [
     ],
     ctaTitle: "あなたの調査票フォーマットに合わせた試作を3営業日で提出します。",
     ctaButtonText: "3営業日で試作デモを受け取る",
-    description: "現地の音声メモから調査記録と引き継ぎを即整理。帰社後の清書を短時間にします。",
+    description:
+      "現地の音声メモから調査記録と引き継ぎを即整理。帰社後の清書を短時間にします。インタラクティブ体験: /experience/site-survey-voice-memo（Live Sync）。",
     industryTags: ["建設", "士業", "不動産"],
     functionTags: ["音声入力", "報告書生成"],
     moduleTags: ["Whisper", "LLM"],
@@ -126,7 +127,8 @@ export const batch03NextMockDemos = [
     ],
     ctaTitle: "あなたの記録様式に合わせた試作を3営業日で提出します。",
     ctaButtonText: "3営業日で試作デモを受け取る",
-    description: "面談の音声やメモから記録と共有事項を即整理。文書化の負担を減らします。",
+    description:
+      "面談の音声やメモから記録と共有事項を即整理。文書化の負担を減らします。インタラクティブ体験: /experience/parent-meeting-voice-summary（Live Sync）。",
     industryTags: ["教育"],
     functionTags: ["音声入力", "議事録生成"],
     moduleTags: ["Whisper", "LLM"],

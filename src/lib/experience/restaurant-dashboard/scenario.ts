@@ -104,7 +104,7 @@ export const DEMO_SCENARIO_STEPS: ScenarioStep[] = [
       },
       {
         phase: "notify",
-        text: "LINE公式に確定シフトを配信（モック）",
+        text: "LINE公式に確定シフトを配信",
       },
       {
         phase: "state",
@@ -212,7 +212,7 @@ export const DEMO_SCENARIO_STEPS: ScenarioStep[] = [
       },
       {
         phase: "notify",
-        text: "未払いが期日接近時にリマインド（モック）",
+        text: "未払いが期日接近時にリマインド",
       },
       {
         phase: "state",

@@ -430,9 +430,12 @@ export function ChatContainer() {
         disabled={isLoading}
         onUseFreeform={handleDemoRouteFreeform}
         onDismissForNavigation={dismissConciergeForSiteLink}
-        onWizardComplete={(answers, picks) =>
-          setDemoListWizardSnapshot({ answers, picks })
-        }
+        onWizardComplete={(answers, picks) => {
+          setDemoListWizardSnapshot({ answers, picks });
+          setOpen(false);
+          setConciergeSurface("pick");
+          setEntrySource("fab");
+        }}
         onWizardReset={() => setDemoListWizardSnapshot(null)}
       />
     );
@@ -484,6 +487,11 @@ export function ChatContainer() {
             if (pathname === "/services") {
               clearServicesFlowPick();
               setMode("default");
+            }
+            if (pathname === "/demo/list" || pathname === "/demo") {
+              setConciergeSurface("page");
+            } else {
+              setConciergeSurface("pick");
             }
             setOpen(true);
           }}

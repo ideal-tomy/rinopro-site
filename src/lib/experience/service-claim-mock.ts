@@ -43,7 +43,7 @@ export function buildClaimMock(input: string): ServiceClaimMockResult {
         body: `ご不快な思いをさせてしまい申し訳ございません。${topic}について、状況確認のうえ次回ご利用分として10%オフクーポンをご案内可能です（条件あり）。ご希望であれば返信でお知らせください。改めて担当より詳細をご連絡します。`,
       },
     ],
-    internal: `【社内共有（モック）】エスカレ: 返金明示ありなら上長承認。遅延理由ログ: #4821 参照。顧客感情: やや強め。\n入力要約: ${topic.slice(0, 80)}${topic.length > 80 ? "…" : ""}`,
+    internal: `【社内共有】エスカレ: 返金明示ありなら上長承認。遅延理由ログ: #4821 参照。顧客感情: やや強め。\n入力要約: ${topic.slice(0, 80)}${topic.length > 80 ? "…" : ""}`,
     angerFocus,
   };
 }

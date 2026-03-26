@@ -183,7 +183,7 @@ export const jobOfferPreset: DocumentShellPresetDefinition = {
     };
   },
   leftPanelTitle: "条件・メモ",
-  centerButtonLabel: "通知骨子を生成（モック）",
+  centerButtonLabel: "通知骨子を生成",
   rightPanelTitle: "内定通知（体裁イメージ）",
 };
 

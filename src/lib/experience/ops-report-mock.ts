@@ -25,7 +25,7 @@ export function buildOpsReportMock(raw: string): OpsReportMockResult {
         ];
 
   return {
-    headline: "週次オペレーションサマリ（モック）",
+    headline: "週次オペレーションサマリ",
     kpis,
     narrative:
       "入力されたメモをもとに、重点課題とトレンドを1段落に圧縮した体験です。実装では部門・期間・目標値をヒアリングし、グラフとアラート閾値まで含めて生成できます。",

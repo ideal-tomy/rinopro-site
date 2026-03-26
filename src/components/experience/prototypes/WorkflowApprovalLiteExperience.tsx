@@ -197,7 +197,7 @@ export function WorkflowApprovalLiteExperience({
                       type="button"
                       className="rounded-lg py-2 text-center text-[13px] font-medium text-accent underline-offset-2 hover:underline"
                     >
-                      詳細を確認（モック）
+                      詳細を確認
                     </button>
                   </div>
                 </div>

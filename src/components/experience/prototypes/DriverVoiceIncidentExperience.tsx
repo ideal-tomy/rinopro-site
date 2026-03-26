@@ -357,7 +357,7 @@ export function DriverVoiceIncidentExperience({
     if (isConverting) return;
     if (!text.trim()) return;
 
-    // 音声波形（モック）→書き起こし（モック）→5W1H変換を体験するための遅延
+    // 音声波形→書き起こし→5W1H変換を体験するための遅延
     setIsConverting(true);
     setTypewriterActive(false);
 
@@ -464,7 +464,7 @@ export function DriverVoiceIncidentExperience({
                 onClick={split}
                 disabled={isConverting || !text.trim()}
               >
-                {isConverting ? "変換中…" : "書き起こしに分割（モック）"}
+                {isConverting ? "変換中…" : "書き起こしに分割"}
               </Button>
             </div>
         <p className="mt-2 text-xs text-text-sub">
@@ -482,7 +482,7 @@ export function DriverVoiceIncidentExperience({
       {isConverting && fragments.length === 0 && (
         <div className="rounded-xl border border-silver/25 bg-base-dark/80 p-4 md:p-6">
           <h2 className="mb-3 text-sm font-semibold text-accent md:text-[1rem]">
-            疑似音声波形 → 書き起こし変換（モック）
+            疑似音声波形 → 書き起こし変換
           </h2>
           <PseudoWaveform
             barCount={Math.min(64, 30 + text.trim().length)}

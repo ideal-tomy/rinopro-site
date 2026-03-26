@@ -67,7 +67,7 @@ function urgencyNote(input: { selections: Record<string, string> }): string {
 }
 
 /**
- * 雑な事業メモ＋選択から、融資面談・事業計画のたたき台（モック）を決定論的に生成する。
+ * 雑な事業メモ＋選択から、融資面談・事業計画のたたき台を決定論的に生成する。
  */
 export function buildLoanPlanDraftMock(
   input: DocumentShellUserInput

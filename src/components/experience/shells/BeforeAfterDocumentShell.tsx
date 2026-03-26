@@ -246,7 +246,7 @@ function RightPanel({
   if (cursor.phase === "idle") {
     return (
       <p className="text-sm text-text-sub md:text-[1rem]">
-        左のメモを入力し、中央のボタンでたたき台を生成します（モック）。
+        左のメモを入力し、中央のボタンでたたき台を生成します。
       </p>
     );
   }
@@ -496,7 +496,7 @@ export function BeforeAfterDocumentShell({
               />
             ) : (
               <p className="text-sm text-text-sub md:text-[1rem]">
-                左のメモを入力し、中央の「AI実行」で体裁のたたき台を生成します（モック）。
+                左のメモを入力し、中央の「AI実行」で体裁のたたき台を生成します。
               </p>
             )}
           </div>

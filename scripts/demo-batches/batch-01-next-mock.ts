@@ -402,7 +402,8 @@ export const batch01NextMockDemos = [
     ],
     ctaTitle: "あなたの内見フォーマットに合わせた試作を3営業日で提出します。",
     ctaButtonText: "3営業日で試作デモを受け取る",
-    description: "内見内容からサマリと次アクションを即整理。不動産営業の記録業務を効率化します。",
+    description:
+      "内見内容からサマリと次アクションを即整理。不動産営業の記録業務を効率化します。インタラクティブ体験: /experience/property-viewing-memo（Live Sync）。",
     industryTags: ["不動産", "士業"],
     functionTags: ["音声入力", "案件整理"],
     moduleTags: ["Whisper", "LLM"],

@@ -75,7 +75,8 @@ const existingDemos = [
     ],
     ctaTitle: "あなたの帳票フォーマットに合わせた試作を3営業日で提出します。",
     ctaButtonText: "3営業日で試作デモを受け取る",
-    description: "写真1枚＋音声メモから、点検報告書と協力会社への指示メールを自動生成。スマホだけで完結し、帰社後の事務作業が半減します。",
+    description:
+      "写真1枚＋音声メモから、点検報告書と協力会社への指示メールを自動生成。スマホだけで完結し、帰社後の事務作業が半減します。インタラクティブ体験: /experience/construction-shadow-foreman（Live Sync）。",
     industryTags: ["建設"],
     functionTags: ["音声入力", "報告書生成"],
     moduleTags: ["Whisper", "LLM"],
@@ -184,7 +185,8 @@ const existingDemos = [
     ],
     ctaTitle: "あなたの会議フォーマットに合わせた試作を3営業日で提出します。",
     ctaButtonText: "3営業日で試作デモを受け取る",
-    description: "会議音声から議事録とアクション項目を自動抽出。議事録作成の手間をゼロにします。",
+    description:
+      "会議音声から議事録とアクション項目を自動抽出。議事録作成の手間をゼロにします。インタラクティブ体験: /experience/meeting-minutes-auto（Live Sync）。",
     industryTags: ["士業", "製造", "小売"],
     functionTags: ["音声入力", "議事録生成"],
     moduleTags: ["Whisper", "LLM"],

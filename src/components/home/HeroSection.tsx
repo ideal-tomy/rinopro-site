@@ -16,6 +16,8 @@ import {
 } from "@/lib/motion/variants";
 import { topCopy } from "@/lib/content/site-copy";
 import { FeaturedExperienceVideoCard } from "@/components/experience/FeaturedExperienceVideoCard";
+import { TypeExperienceSection } from "@/components/demo/TypeExperienceSection";
+import { PurposePickSection } from "@/components/demo/PurposePickSection";
 import { getFeaturedExperiencePrototypes } from "@/lib/experience/prototype-registry";
 import { FEATURED_SHOWCASE_VIDEO_BY_SLUG } from "@/lib/experience/featured-showcase-media";
 import type { FeaturedExperienceSlug } from "@/lib/experience/prototype-registry";
@@ -95,6 +97,27 @@ export function HeroSection() {
             </motion.div>
           ))}
         </div>
+      </motion.div>
+
+      <motion.div
+        className="container mx-auto max-w-6xl px-4 pb-10 md:px-6"
+        variants={heroStaggerContainer}
+        initial="hidden"
+        animate="visible"
+      >
+        <motion.div
+          variants={heroStaggerItem}
+          custom={[0.12, 0.22] as [number, number]}
+          className="mb-12"
+        >
+          <TypeExperienceSection headingId="home-type-experiences-heading" />
+        </motion.div>
+        <motion.div
+          variants={heroStaggerItem}
+          custom={[0.18, 0.28] as [number, number]}
+        >
+          <PurposePickSection headingId="home-purpose-shortcuts-heading" />
+        </motion.div>
       </motion.div>
 
       <ScrollSequence className="container mx-auto max-w-4xl px-4 pb-24 md:px-6">

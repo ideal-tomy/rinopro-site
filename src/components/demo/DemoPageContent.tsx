@@ -1,10 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { List } from "lucide-react";
+import { LayoutGrid, List } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { FeaturedExperienceVideoCard } from "@/components/experience/FeaturedExperienceVideoCard";
+import { TypeExperienceSection } from "@/components/demo/TypeExperienceSection";
+import { PurposePickSection } from "@/components/demo/PurposePickSection";
 import {
+  DEMO_HUB_TYPE_SECTION_SLUGS,
   getFeaturedExperiencePrototypes,
   getOtherExperiencePrototypes,
   type ExperiencePrototypeMeta,
@@ -67,11 +70,16 @@ function PrototypeTagRow({ demo }: { demo: AiDemo | DemoItem | undefined }) {
   );
 }
 
+const typeSectionSlugSet = new Set<string>(DEMO_HUB_TYPE_SECTION_SLUGS);
+
 export function DemoPageContent({ demos }: DemoPageContentProps) {
   const featured = getFeaturedExperiencePrototypes();
   /** 飲食ダッシュボード → 社内ナレッジの順（レジストリの逆順） */
   const featuredOrdered = [...featured].reverse();
-  const others = getOtherExperiencePrototypes();
+
+  const others = getOtherExperiencePrototypes().filter(
+    (p) => !typeSectionSlugSet.has(p.slug)
+  );
   const othersTrack3 = others.filter((p) => p.tier === "track3");
   const othersTrack2 = others.filter((p) => p.tier === "track2");
 
@@ -82,8 +90,12 @@ export function DemoPageContent({ demos }: DemoPageContentProps) {
           <h1 className="text-2xl font-bold text-accent md:text-3xl">
             体験・ツールdemo
           </h1>
+          <p className="mt-3 max-w-2xl text-sm text-text-sub md:text-[1rem]">
+            情報提供を、読みやすい画面と操作感で体験できるよう並べています。
+          </p>
         </header>
 
+        {/* 1段目: Featured */}
         <section
           id="featured-experiences"
           className="mb-16 scroll-mt-24"
@@ -103,8 +115,44 @@ export function DemoPageContent({ demos }: DemoPageContentProps) {
           </div>
         </section>
 
+        {/* 2段目: タイプ別に体験する（共通コンポーネント・トップと同一設定） */}
+        <TypeExperienceSection className="mb-16" />
+
+        {/* 3段目: 目的から選ぶ */}
+        <PurposePickSection className="mb-16" />
+
+        {/* 4段目: モック一覧（網羅探索） */}
         <section
           className="mb-16"
+          aria-labelledby="catalog-cta-heading"
+        >
+          <Card className="border-silver/30 bg-base-dark/60 p-6 md:p-8">
+            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between md:gap-8">
+              <div className="min-w-0">
+                <h2
+                  id="catalog-cta-heading"
+                  className="text-lg font-semibold text-accent md:text-xl"
+                >
+                  モックdemo一覧で網羅探索
+                </h2>
+                <p className="mt-2 text-sm text-text-sub md:text-[1rem]">
+                  業種・用途タグで100本超のシナリオを横断できます。コンシェルジュで条件を絞り、比較の起点にも使えます。
+                </p>
+              </div>
+              <Link
+                href="/demo/list"
+                className="inline-flex shrink-0 items-center justify-center gap-2 rounded-lg border border-accent/40 bg-accent/10 px-5 py-3 text-sm font-medium text-accent transition-colors hover:border-accent/60 hover:bg-accent/15"
+              >
+                <LayoutGrid className="h-5 w-5" aria-hidden />
+                一覧を開く
+              </Link>
+            </div>
+          </Card>
+        </section>
+
+        {/* その他のインタラクティブ体験（タイプ別6件は上段で掲載済みのため除外） */}
+        <section
+          className="mb-8"
           aria-labelledby="other-experiences-heading"
         >
           <h2

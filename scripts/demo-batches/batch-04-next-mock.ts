@@ -30,7 +30,8 @@ export const batch04NextMockDemos = [
     ],
     ctaTitle: "あなたのコールセンター運用に合わせた試作を3営業日で提出します。",
     ctaButtonText: "3営業日で試作デモを受け取る",
-    description: "留守電の内容から担当メモと短い返信案を即作成。折り返しの初動を揃えます。",
+    description:
+      "留守電の内容から担当メモと短い返信案を即作成。折り返しの初動を揃えます。インタラクティブ体験: /experience/voicemail-followup-reply-draft（Live Sync）。",
     industryTags: ["小売", "EC", "サービス"],
     functionTags: ["音声入力", "返信生成"],
     moduleTags: ["Whisper", "LLM"],
@@ -62,7 +63,8 @@ export const batch04NextMockDemos = [
     ],
     ctaTitle: "あなたの記録様式に合わせた試作を3営業日で提出します。",
     ctaButtonText: "3営業日で試作デモを受け取る",
-    description: "申し送りの音声からサマリと注意事項を即整理。シフト間の情報欠落を減らします（記録は施設基準に従ってください）。",
+    description:
+      "申し送りの音声からサマリと注意事項を即整理。シフト間の情報欠落を減らします（記録は施設基準に従ってください）。インタラクティブ体験: /experience/care-shift-voice-handover（Live Sync）。",
     industryTags: ["介護", "医療"],
     functionTags: ["音声入力", "記録業務"],
     moduleTags: ["Whisper", "LLM"],

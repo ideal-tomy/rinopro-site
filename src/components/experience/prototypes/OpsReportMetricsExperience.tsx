@@ -51,7 +51,7 @@ function MagicGraph({
       <div className="mb-2 flex items-center justify-between gap-3">
         <p className="text-sm font-semibold text-text md:text-[1rem]">{label}</p>
         <span className="rounded-full border border-silver/30 bg-silver/10 px-2.5 py-1 text-xs font-medium text-text-sub">
-          {reduceMotion ? "静的表示" : "ループ解析（モック）"}
+          {reduceMotion ? "静的表示" : "ループ解析"}
         </span>
       </div>
       <svg
@@ -174,7 +174,7 @@ export function OpsReportMetricsExperience({
           className="mb-3 resize-y text-sm md:text-[1rem]"
         />
         <Button type="button" onClick={run} disabled={!text.trim()}>
-          レポート草案を生成（モック）
+          レポート草案を生成
         </Button>
       </div>
 

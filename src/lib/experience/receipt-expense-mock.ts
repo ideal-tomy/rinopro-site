@@ -7,7 +7,7 @@ export type ReceiptHighlightRegion = {
   heightPct: number;
 };
 
-/** 領収書レイアウト想定の固定％矩形（モック） */
+/** 領収書レイアウト想定の固定％矩形 */
 export const RECEIPT_HIGHLIGHT_REGIONS: Record<
   ReceiptFieldId,
   ReceiptHighlightRegion
@@ -45,13 +45,13 @@ export type ReceiptExpenseMockResult = {
 
 export const FIELD_HINTS: Record<ReceiptFieldId, string> = {
   date:
-    "日付は申請期間と照合してください。跨月の場合は精算ルールを確認します（モック）。",
+    "日付は申請期間と照合してください。跨月の場合は精算ルールを確認します。",
   amount:
     "金額は税込表示と精算システム入力の桁・消費税区分をダブルチェックしてください。",
   merchant:
     "店名・摘要は交通費か会議費かなど、経費科目との整合を確認してください。",
   invoice:
-    "インボイス登録番号の桁数と適格請求書の要否を確認してください（モック）。",
+    "インボイス登録番号の桁数と適格請求書の要否を確認してください。",
 };
 
 export const RECEIPT_HINT_DEFAULT =

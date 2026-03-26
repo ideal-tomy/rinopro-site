@@ -5,6 +5,8 @@
 
 **ポートフォリオ運用**: [demo-portfolio-governance.md](demo-portfolio-governance.md) ／ **トリアージ（主ラベル・保留）**: [demo-portfolio-triage.md](demo-portfolio-triage.md)（100行は `npx tsx scripts/generate-demo-portfolio-triage-md.ts` でインベントリから再生成可）
 
+**Live Sync（`audio_text`）**: `driver-voice-incident-draft` を除く各 slug は `/experience/{slug}` で Live Sync UI（モードは [live-sync-audio-text-matrix.md](live-sync-audio-text-matrix.md)）。`/demo/{slug}` は `immersiveOnDemoDetail` で体験 UI を先頭表示。
+
 ## 1) 現在の作成済み一覧
 
 | No | タイトル | slug | runMode | industry（スキーマ） | inputType | 成果物ペア（要約） | 主な functionTags |
@@ -151,6 +153,7 @@
 - 昇格方針: 反応が良いもののみ `ai_live` に変更  
 - `runMode` の変更だけで昇格できるよう、入力UIは共通で維持  
 - 新バッチのコード置き場: [`scripts/demo-batches/`](../scripts/demo-batches/)（`index.ts` で `nextMockDemos` に結合）
+- **`/demo` ハブの見せ方**: 4段構成（Featured → タイプ別固定3件 → 目的別ショートカット → `/demo/list` 誘導）の責務は [demo-portfolio-governance.md](demo-portfolio-governance.md) の「`/demo` ハブの4段構成」を参照。放置・低優先のカタログ行は Sanity の `listedOnCatalog: false` で一覧から外し、詳細URL直アクセスは方針に応じて許容
 
 ## 6) インタラクティブ体験のみ（`/experience`・Sanity ツールdemo と別系統）
 

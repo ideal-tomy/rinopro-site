@@ -161,7 +161,8 @@ export const batch07NextMockDemos = [
     ],
     ctaTitle: "あなたのカルテ様式に合わせた試作を3営業日で提出します。",
     ctaButtonText: "3営業日で試作デモを受け取る",
-    description: "音声メモからお迎え時のサマリと次回メモを即整理。引き渡しの説明を短時間にまとめます。",
+    description:
+      "音声メモからお迎え時のサマリと次回メモを即整理。引き渡しの説明を短時間にまとめます。インタラクティブ体験: /experience/pet-hotel-handover-voice-memo（Live Sync）。",
     industryTags: ["サービス", "小売"],
     functionTags: ["音声入力", "記録業務"],
     moduleTags: ["Whisper", "LLM"],
@@ -192,7 +193,8 @@ export const batch07NextMockDemos = [
     ],
     ctaTitle: "あなたの館のトーンに合わせた試作を3営業日で提出します。",
     ctaButtonText: "3営業日で試作デモを受け取る",
-    description: "学芸メモからナレーションとキャプション注意を即草案。音声ガイド・動画台本の初稿を速くします。",
+    description:
+      "学芸メモからナレーションとキャプション注意を即草案。音声ガイド・動画台本の初稿を速くします。インタラクティブ体験: /experience/gallery-exhibit-voice-script-draft（Live Sync）。",
     industryTags: ["教育", "観光"],
     functionTags: ["音声入力", "資料作成"],
     moduleTags: ["Whisper", "LLM"],

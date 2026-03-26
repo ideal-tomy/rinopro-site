@@ -30,7 +30,7 @@ const THOUGHT_STEPS = [
   "関連候補を抽出",
   "引用スニペットを切り出し",
   "統合回答を生成",
-  "法務チェック（モック）",
+  "法務チェック",
 ] as const;
 
 interface LegalMemorySecretaryExperienceProps {
@@ -338,7 +338,7 @@ export function LegalMemorySecretaryExperience({
 
                   <div className="mt-3 rounded-lg border border-silver/20 bg-base-dark/40 p-3">
                     <p className="mb-2 text-xs font-medium text-text-sub">
-                      参照元リンク（モック）
+                      参照元リンク
                     </p>
                     <div className="flex flex-wrap gap-2">
                       {result.hits.map((h) => (

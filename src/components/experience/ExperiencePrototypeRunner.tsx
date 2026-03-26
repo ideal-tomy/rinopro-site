@@ -95,7 +95,7 @@ export function ExperiencePrototypeRunner({
     );
   }
 
-  if (meta.slug === "live-sync-voice-translation") {
+  if (meta.liveSyncMode) {
     return (
       <LiveSyncTranslationExperience meta={meta} className={className} />
     );

@@ -196,7 +196,8 @@ export const batch06NextMockDemos = [
     ],
     ctaTitle: "あなたの品質基準に合わせた試作を3営業日で提出します。",
     ctaButtonText: "3営業日で試作デモを受け取る",
-    description: "監視メモからフィードバックと品管メモを即作成。コーチングの文面化を速くします。",
+    description:
+      "監視メモからフィードバックと品管メモを即作成。コーチングの文面化を速くします。インタラクティブ体験: /experience/call-monitor-feedback-coaching（Live Sync）。",
     industryTags: ["サービス", "小売"],
     functionTags: ["音声入力", "要約"],
     moduleTags: ["Whisper", "LLM"],
@@ -228,7 +229,8 @@ export const batch06NextMockDemos = [
     ],
     ctaTitle: "あなたの受付運用に合わせた試作を3営業日で提出します。",
     ctaButtonText: "3営業日で試作デモを受け取る",
-    description: "受付の音声申し送りからサマリと翌朝確認を即整理。事務引き継ぎを明確にします。",
+    description:
+      "受付の音声申し送りからサマリと翌朝確認を即整理。事務引き継ぎを明確にします。インタラクティブ体験: /experience/clinic-reception-voice-handover（Live Sync）。",
     industryTags: ["医療"],
     functionTags: ["音声入力", "引継ぎ"],
     moduleTags: ["Whisper", "LLM"],

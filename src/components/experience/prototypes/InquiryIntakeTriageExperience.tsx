@@ -78,7 +78,7 @@ export function InquiryIntakeTriageExperience({
         <div className="flex items-center gap-2 border-b border-silver/15 bg-amber-500/10 px-4 py-2.5">
           <Inbox className="h-4 w-4 text-amber-400" aria-hidden />
           <span className="text-xs font-semibold text-amber-100/95 md:text-sm">
-            チケット・トリアージ（モック）
+            チケット・トリアージ
           </span>
         </div>
 
@@ -106,7 +106,7 @@ export function InquiryIntakeTriageExperience({
             ))}
           </div>
           <Button type="button" onClick={run} disabled={!text.trim()}>
-            分類・タグ付与・下書き生成（モック）
+            分類・タグ付与・下書き生成
           </Button>
           <p className="mt-2 text-xs text-text-sub">
             ツールdemoは{" "}

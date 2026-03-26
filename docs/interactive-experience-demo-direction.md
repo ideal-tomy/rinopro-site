@@ -15,7 +15,7 @@
 |------|----------------|------|
 | `internal-knowledge-share-bot` | 社内ナレッジ共有BOT | 注力・完成 |
 | `restaurant-ops-dashboard-demo` | 飲食オペレーション・ダッシュボード | 注力・完成 |
-| `live-sync-voice-translation` | Live Sync（音声→リアルタイム翻訳） | 第1テンプレ・実装済（2026-03-26） |
+| `live-sync-voice-translation` ほか `audio_text` 17本 | Live Sync（翻訳 / 丁寧語 / 要約 / 申し送り） | マッピングは [`docs/live-sync-audio-text-matrix.md`](live-sync-audio-text-matrix.md) |
 
 以下 **③〜⑩** が本ドキュメントでの強化対象（既にコンポーネントあり → **差分強化** が主作業）。
 
@@ -54,13 +54,14 @@
 - **AI 昇格時の契約**: [`docs/prompts/document-shell-json-output.md`](../docs/prompts/document-shell-json-output.md)。
 - **横展開**: 新プリセットは (1) `document-shell-mocks-wave*.ts` 等に `DocumentShellPresetDefinition` を追加 (2) `document-shell-presets.ts` に slug を登録 (3) [`prototype-registry.ts`](../src/lib/experience/prototype-registry.ts) に 1 行 (4) 必要なら `immersiveOnDemoDetail`。
 
-### 2.5 Live Sync テンプレ（音声→リアルタイム翻訳・横展開の第1号）
+### 2.5 Live Sync テンプレ（音声→右ペイン自動更新・横展開）
 
-- **目的**: 入力中に右ペインが **自動で書き換わる**「伴走」体験を、翻訳に先んじて共通化する（敬語化・要約は同じ骨格に差し替え可能）。
-- **実装**: [`LiveSyncTranslationExperience.tsx`](../src/components/experience/prototypes/LiveSyncTranslationExperience.tsx) ＋ [`live-sync-translation-mock.ts`](../src/lib/experience/live-sync-translation-mock.ts)。
+- **目的**: 入力中に右ペインが **自動で書き換わる**「伴走」体験を、`translation` / `rewrite`（丁寧語） / `digest`（結論・期限・TODO） / `handover`（申し送り）で共通化する。
+- **実装**: [`LiveSyncTranslationExperience.tsx`](../src/components/experience/prototypes/LiveSyncTranslationExperience.tsx) ＋ [`live-sync-translation-mock.ts`](../src/lib/experience/live-sync-translation-mock.ts) ＋ [`live-sync-modes-mock.ts`](../src/lib/experience/live-sync-modes-mock.ts)。ルーティングは `ExperiencePrototypeMeta.liveSyncMode`（[`prototype-registry.ts`](../src/lib/experience/prototype-registry.ts)）。
 - **入力**: Web Speech API（`ja-JP`、途中認識あり）。非対応ブラウザは **モック音声ストリーム**。
-- **出力**: 辞書ベースのモック翻訳（英語＋KO/ZHラベル）。**実行ボタン不要**で `sourceDraft` / `translatedDraft` が追従更新。
-- **`/demo`**: `immersiveOnDemoDetail` により [`DemoDetailContent`](../src/components/demo/DemoDetailContent.tsx) で Runner を先に表示（チャットは折りたたみ）。
+- **出力**: `translation` は辞書ベースのモック翻訳（英語＋KO/ZHラベル）。それ以外はルールベースのモック。**実行ボタン不要**で右ペインが追従更新。
+- **`/demo`**: 対象デモは `immersiveOnDemoDetail: true` により [`DemoDetailContent`](../src/components/demo/DemoDetailContent.tsx) で Runner を先に表示（チャットは折りたたみ）。
+- **マッピング表**: [`docs/live-sync-audio-text-matrix.md`](live-sync-audio-text-matrix.md)（`driver-voice-incident-draft` は専用 UI のため除外）。
 
 ---
 
