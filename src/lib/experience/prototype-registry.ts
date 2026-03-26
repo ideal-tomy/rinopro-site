@@ -63,6 +63,17 @@ export const EXPERIENCE_PROTOTYPES: ExperiencePrototypeMeta[] = [
     inputHint: "例: 配送が遅れている／商品が破損／解約の手続きを知りたい",
   },
   {
+    slug: "live-sync-voice-translation",
+    title: "Live Sync：音声入力のリアルタイム翻訳",
+    tier: "track3",
+    demoSlug: "live-sync-voice-translation",
+    shortDescription:
+      "マイク入力（Web Speech API）の日本語を、右ペインへ辞書ベースのモック翻訳で逐次表示。非対応時はモック音声ストリームで同じ体験を再現します。",
+    inputHint:
+      "例: 明日の会議は誠に恐縮ながら無理です。期限だけ先に教えてください。",
+    immersiveOnDemoDetail: true,
+  },
+  {
     slug: "workflow-approval-lite-demo",
     title: "承認・通知フロー（ライト）",
     tier: "track3",

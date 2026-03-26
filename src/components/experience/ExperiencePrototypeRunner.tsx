@@ -12,6 +12,7 @@ import { InquiryIntakeTriageExperience } from "@/components/experience/prototype
 import { WorkflowApprovalLiteExperience } from "@/components/experience/prototypes/WorkflowApprovalLiteExperience";
 import { DocumentShellPresetExperience } from "@/components/experience/prototypes/DocumentShellPresetExperience";
 import { OpsReportMetricsExperience } from "@/components/experience/prototypes/OpsReportMetricsExperience";
+import { LiveSyncTranslationExperience } from "@/components/experience/prototypes/LiveSyncTranslationExperience";
 import { getDocumentShellPreset } from "@/lib/experience/document-shell-presets";
 
 interface ExperiencePrototypeRunnerProps {
@@ -91,6 +92,12 @@ export function ExperiencePrototypeRunner({
   if (meta.slug === "ops-report-metrics-demo") {
     return (
       <OpsReportMetricsExperience meta={meta} className={className} />
+    );
+  }
+
+  if (meta.slug === "live-sync-voice-translation") {
+    return (
+      <LiveSyncTranslationExperience meta={meta} className={className} />
     );
   }
 

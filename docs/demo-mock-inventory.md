@@ -1,7 +1,7 @@
 # 作成済みデモ/モック一覧
 
 最終更新: 2026-03-26  
-参照元: [`scripts/seed-ai-demos.ts`](../scripts/seed-ai-demos.ts) の `existingDemos` ＋ [`scripts/demo-batches/`](../scripts/demo-batches/) の `nextMockDemos` 結合（計101本）
+参照元: [`scripts/seed-ai-demos.ts`](../scripts/seed-ai-demos.ts) の `existingDemos` ＋ [`scripts/demo-batches/`](../scripts/demo-batches/) の `nextMockDemos` 結合（計102本）
 
 **ポートフォリオ運用**: [demo-portfolio-governance.md](demo-portfolio-governance.md) ／ **トリアージ（主ラベル・保留）**: [demo-portfolio-triage.md](demo-portfolio-triage.md)（100行は `npx tsx scripts/generate-demo-portfolio-triage-md.ts` でインベントリから再生成可）
 
@@ -110,8 +110,9 @@
 | 99 | 搬入立ち合いボイスからタイムライン | `venue-loadin-voice-timeline` | mock_preview | legal | audio_text | タイムライン草案 / リスク・連絡メモ | 音声入力, 議事録生成 |
 | 100 | 医療機器卸の訪問記録草案 | `medical-device-visit-report-draft` | mock_preview | manufacturing | text_only | 訪問記録草案 / コンプライアンスメモ | 報告書生成, 要約 |
 | 101 | 社内ナレッジ共有BOT（業種別・二画面体験） | `internal-knowledge-share-bot` | mock_preview | manufacturing | text_only | 体験導線説明 / 補助メモ（本編は `/experience`） | 問い合わせ対応, 要約 |
+| 102 | Live Sync：音声入力のリアルタイム翻訳 | `live-sync-voice-translation` | mock_preview | manufacturing | audio_text | ライブ翻訳モック / 体験補足（本編は `/experience`） | 音声入力, 要約 |
 
-**カウント**: 101本（`ai_live` 1 ／ `mock_preview` 100）
+**カウント**: 102本（`ai_live` 1 ／ `mock_preview` 101）
 
 **書類たたき台シェル**（`/experience/{slug}`・`immersiveOnDemoDetail`）: `loan-interview-business-outline` に加え、`bullet-mess-to-meeting-agenda`・`exec-meeting-notes-to-summary`・`presentation-outline`・`rfp-requirements-extract`・`order-form-generator`・`quote-draft-generator`・`webinar-invite-email-draft`・`nonprofit-donor-thanks-letter-draft`・`contract-amendment-draft`・`release-note-draft-from-ship-list`・`job-offer-draft-from-terms`・`privacy-notice-update-draft`・`subsidy-application-topic-checklist`・`onboarding-checklist-from-role`（実装は [`document-shell-presets.ts`](../src/lib/experience/document-shell-presets.ts) を参照）。
 

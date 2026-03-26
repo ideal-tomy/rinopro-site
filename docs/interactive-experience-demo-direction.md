@@ -15,6 +15,7 @@
 |------|----------------|------|
 | `internal-knowledge-share-bot` | 社内ナレッジ共有BOT | 注力・完成 |
 | `restaurant-ops-dashboard-demo` | 飲食オペレーション・ダッシュボード | 注力・完成 |
+| `live-sync-voice-translation` | Live Sync（音声→リアルタイム翻訳） | 第1テンプレ・実装済（2026-03-26） |
 
 以下 **③〜⑩** が本ドキュメントでの強化対象（既にコンポーネントあり → **差分強化** が主作業）。
 
@@ -52,6 +53,14 @@
 - **`immersiveOnDemoDetail`**: [`ExperiencePrototypeMeta`](../src/lib/experience/prototype-registry.ts) の任意フラグ。`true` のとき [`DemoDetailContent`](../src/components/demo/DemoDetailContent.tsx) は **チャットより先に** Runner を表示し、チャットは `<details>` で折りたたみ（モックストリーム維持）。
 - **AI 昇格時の契約**: [`docs/prompts/document-shell-json-output.md`](../docs/prompts/document-shell-json-output.md)。
 - **横展開**: 新プリセットは (1) `document-shell-mocks-wave*.ts` 等に `DocumentShellPresetDefinition` を追加 (2) `document-shell-presets.ts` に slug を登録 (3) [`prototype-registry.ts`](../src/lib/experience/prototype-registry.ts) に 1 行 (4) 必要なら `immersiveOnDemoDetail`。
+
+### 2.5 Live Sync テンプレ（音声→リアルタイム翻訳・横展開の第1号）
+
+- **目的**: 入力中に右ペインが **自動で書き換わる**「伴走」体験を、翻訳に先んじて共通化する（敬語化・要約は同じ骨格に差し替え可能）。
+- **実装**: [`LiveSyncTranslationExperience.tsx`](../src/components/experience/prototypes/LiveSyncTranslationExperience.tsx) ＋ [`live-sync-translation-mock.ts`](../src/lib/experience/live-sync-translation-mock.ts)。
+- **入力**: Web Speech API（`ja-JP`、途中認識あり）。非対応ブラウザは **モック音声ストリーム**。
+- **出力**: 辞書ベースのモック翻訳（英語＋KO/ZHラベル）。**実行ボタン不要**で `sourceDraft` / `translatedDraft` が追従更新。
+- **`/demo`**: `immersiveOnDemoDetail` により [`DemoDetailContent`](../src/components/demo/DemoDetailContent.tsx) で Runner を先に表示（チャットは折りたたみ）。
 
 ---
 
@@ -179,6 +188,7 @@
   - **Phase B（ログ・ストーリー）**: ③⑧ — 実装済（2026-03-26）: ログ表示、統合回答/参照元リンク、規定照合ログ/違反時アドバイス。
   - **Phase C（インタラクション重め）**: ⑥⑨ — 実装済（2026-03-26）: マジック・スライダー（SVGグラフ/トピックス）＋波形→書き起こし変換のタイピング（モック）。
   - **Phase D（画像・枠）**: ⑦ — 実装済（2026-03-26）: 縦長スマホ枠・画像内ピン・修繕依頼文案パネル・`public/media/experience` サンプルSVG。
+  - **Phase E（Live Sync テンプレ）**: 音声→リアルタイム翻訳 — 実装済（2026-03-26）: [`live-sync-voice-translation`](../src/lib/experience/prototype-registry.ts)（Web Speech API／モックストリーム／`immersiveOnDemoDetail`）。
 
 並行作業する場合は **Phase ごとにブランチ**、または **デモ2本ずつPR** が現実的。
 
