@@ -15,6 +15,10 @@ export type DocumentShellBlock =
   | {
       type: "kpis";
       items: { label: string; value: string; note?: string }[];
+    }
+  | {
+      type: "checklist";
+      items: { label: string; done?: boolean; note?: string }[];
     };
 
 export interface DocumentShellMockResult {

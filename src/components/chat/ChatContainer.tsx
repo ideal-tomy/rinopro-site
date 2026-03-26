@@ -93,7 +93,6 @@ export function ChatContainer() {
     setOpen(false);
   }, [setOpen]);
 
-  const [voiceEnabled, setVoiceEnabled] = useState(false);
   const [draftInjection, setDraftInjection] = useState<{
     id: number;
     text: string;
@@ -609,8 +608,6 @@ export function ChatContainer() {
               onSend={handleSend}
               disabled={isLoading}
               placeholder={chatPlaceholder}
-              voiceEnabled={voiceEnabled}
-              onVoiceToggle={() => setVoiceEnabled((v) => !v)}
               draftInjection={draftInjection}
               onDraftConsumed={clearDraftInjection}
               inputId="concierge-chat-input"

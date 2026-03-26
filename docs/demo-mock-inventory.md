@@ -113,6 +113,8 @@
 
 **カウント**: 101本（`ai_live` 1 ／ `mock_preview` 100）
 
+**書類たたき台シェル**（`/experience/{slug}`・`immersiveOnDemoDetail`）: `loan-interview-business-outline` に加え、`bullet-mess-to-meeting-agenda`・`exec-meeting-notes-to-summary`・`presentation-outline`・`rfp-requirements-extract`・`order-form-generator`・`quote-draft-generator`・`webinar-invite-email-draft`・`nonprofit-donor-thanks-letter-draft`・`contract-amendment-draft`・`release-note-draft-from-ship-list`・`job-offer-draft-from-terms`・`privacy-notice-update-draft`・`subsidy-application-topic-checklist`・`onboarding-checklist-from-role`（実装は [`document-shell-presets.ts`](../src/lib/experience/document-shell-presets.ts) を参照）。
+
 ## 2) 他業種にも連携可能なデモ（横展開候補）
 
 以下は業務構造が業種横断しやすく、テンプレ差し替えで展開しやすい候補。

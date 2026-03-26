@@ -6,6 +6,11 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
+import { DocumentShellChoiceFields } from "@/components/experience/shells/DocumentShellChoiceFields";
+import type {
+  DocumentShellChoiceStep,
+  DocumentShellUserInput,
+} from "@/lib/experience/document-shell-preset-types";
 import type { DocumentShellBlock, DocumentShellMockResult } from "@/lib/experience/document-plan-shell-types";
 import type { ExperiencePrototypeMeta } from "@/lib/experience/prototype-registry";
 import { cn } from "@/lib/utils";
@@ -17,7 +22,8 @@ export interface BeforeAfterDocumentShellProps {
   meta: ExperiencePrototypeMeta;
   className?: string;
   sampleTexts: string[];
-  buildMock: (input: string) => DocumentShellMockResult;
+  buildMock: (input: DocumentShellUserInput) => DocumentShellMockResult;
+  choiceSteps?: DocumentShellChoiceStep[];
   leftPanelTitle?: string;
   centerButtonLabel?: string;
   rightPanelTitle?: string;
@@ -116,6 +122,37 @@ function BlockKpis({
   );
 }
 
+function BlockChecklist({
+  items,
+}: {
+  items: { label: string; done?: boolean; note?: string }[];
+}) {
+  return (
+    <ul className="mt-3 space-y-2">
+      {items.map((it, i) => (
+        <li
+          key={i}
+          className="flex gap-2 rounded-lg border border-silver/25 bg-base-dark/50 px-3 py-2 text-sm text-text md:text-[1rem]"
+        >
+          <span
+            className={cn(
+              "mt-0.5 h-4 w-4 shrink-0 rounded border border-accent/50",
+              it.done ? "bg-accent/30" : "bg-transparent"
+            )}
+            aria-hidden
+          />
+          <span className="min-w-0 flex-1">
+            <span className="font-medium text-white/90">{it.label}</span>
+            {it.note ? (
+              <span className="mt-0.5 block text-xs text-text-sub">{it.note}</span>
+            ) : null}
+          </span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 function renderPartialBlock(
   block: DocumentShellBlock,
   partial: { bulletIndex: number; charIndex: number } | null
@@ -170,6 +207,9 @@ function renderPartialBlock(
   }
   if (block.type === "kpis") {
     return <BlockKpis items={block.items} />;
+  }
+  if (block.type === "checklist") {
+    return <BlockChecklist items={block.items} />;
   }
   return null;
 }
@@ -270,11 +310,22 @@ function advanceCursor(blocks: DocumentShellBlock[], c: Cursor): Cursor {
     return { phase: "typing", blockIndex, bulletIndex, charIndex: next };
   }
 
-  if (block.type === "table" || block.type === "kpis") {
+  if (
+    block.type === "table" ||
+    block.type === "kpis" ||
+    block.type === "checklist"
+  ) {
     return { phase: "typing", blockIndex: blockIndex + 1, bulletIndex: 0, charIndex: 0 };
   }
 
   return { phase: "idle" };
+}
+
+function requiredChoicesFilled(
+  steps: DocumentShellChoiceStep[],
+  selections: Record<string, string>
+): boolean {
+  return steps.every((s) => s.optional || Boolean(selections[s.id]?.trim()));
 }
 
 export function BeforeAfterDocumentShell({
@@ -282,12 +333,14 @@ export function BeforeAfterDocumentShell({
   className,
   sampleTexts,
   buildMock,
+  choiceSteps = [],
   leftPanelTitle = "入力メモ（雑でOK）",
-  centerButtonLabel = "たたき台を生成（モック）",
+  centerButtonLabel = "AI実行",
   rightPanelTitle = "生成結果（体裁イメージ）",
 }: BeforeAfterDocumentShellProps) {
   const reduceMotion = useReducedMotion();
   const [text, setText] = useState("");
+  const [selections, setSelections] = useState<Record<string, string>>({});
   const [busy, setBusy] = useState(false);
   const [result, setResult] = useState<DocumentShellMockResult | null>(null);
   const [cursor, setCursor] = useState<Cursor>({ phase: "idle" });
@@ -302,8 +355,12 @@ export function BeforeAfterDocumentShell({
     }
   }, []);
 
+  const canRun =
+    text.trim().length > 0 &&
+    (choiceSteps.length === 0 || requiredChoicesFilled(choiceSteps, selections));
+
   const run = useCallback(() => {
-    if (busy || !text.trim()) return;
+    if (busy || !canRun) return;
     clearTimer();
     setBusy(true);
     setResult(null);
@@ -312,7 +369,10 @@ export function BeforeAfterDocumentShell({
 
     const delay = reduceMotion ? 0 : 520;
     window.setTimeout(() => {
-      const built = buildMock(text);
+      const built = buildMock({
+        rawText: text.trim(),
+        selections,
+      });
       setResult(built);
       blocksRef.current = built.blocks;
       setBusy(false);
@@ -330,7 +390,7 @@ export function BeforeAfterDocumentShell({
         charIndex: 0,
       });
     }, delay);
-  }, [busy, text, buildMock, reduceMotion, clearTimer]);
+  }, [busy, canRun, text, selections, buildMock, reduceMotion, clearTimer]);
 
   useEffect(() => {
     if (!result || reduceMotion || cursor.phase !== "typing") {
@@ -367,6 +427,14 @@ export function BeforeAfterDocumentShell({
           <h2 className="mb-2 text-sm font-semibold text-accent md:text-[1rem]">
             {leftPanelTitle}
           </h2>
+          <DocumentShellChoiceFields
+            steps={choiceSteps}
+            selections={selections}
+            disabled={busy}
+            onChange={(stepId, optionId) =>
+              setSelections((prev) => ({ ...prev, [stepId]: optionId }))
+            }
+          />
           <Textarea
             value={text}
             onChange={(e) => setText(e.target.value)}
@@ -400,14 +468,14 @@ export function BeforeAfterDocumentShell({
           </p>
         </div>
 
-        <div className="flex flex-row justify-center gap-3 lg:sticky lg:top-24 lg:z-10 lg:flex-col lg:justify-start lg:px-1 lg:pt-1">
+        <div className="flex flex-row justify-center gap-3 lg:sticky lg:top-24 lg:z-10 lg:flex-col lg:items-center lg:justify-start lg:gap-0 lg:px-2 lg:pt-1">
           <Button
             type="button"
             onClick={run}
-            disabled={busy || !text.trim()}
-            className="min-w-[140px]"
+            disabled={busy || !canRun}
+            className="size-[5.25rem] min-h-0 min-w-0 shrink-0 rounded-full px-2 py-2 text-center text-[13px] font-semibold leading-snug [word-break:keep-all] whitespace-normal hover:text-white"
           >
-            {busy ? "生成中…" : centerButtonLabel}
+            {busy ? "実行中" : centerButtonLabel}
           </Button>
         </div>
 
@@ -428,7 +496,7 @@ export function BeforeAfterDocumentShell({
               />
             ) : (
               <p className="text-sm text-text-sub md:text-[1rem]">
-                左のメモを入力し、中央のボタンでたたき台を生成します（モック）。
+                左のメモを入力し、中央の「AI実行」で体裁のたたき台を生成します（モック）。
               </p>
             )}
           </div>

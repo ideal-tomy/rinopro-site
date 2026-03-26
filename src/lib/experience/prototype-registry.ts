@@ -92,6 +92,146 @@ export const EXPERIENCE_PROTOTYPES: ExperiencePrototypeMeta[] = [
     immersiveOnDemoDetail: true,
   },
   {
+    slug: "bullet-mess-to-meeting-agenda",
+    title: "雑メモから会議アジェンダ整形",
+    tier: "track3",
+    demoSlug: "bullet-mess-to-meeting-agenda",
+    shortDescription:
+      "飛び跳びメモから、目的・アジェンダ表・未決論点を体裁付きでモック生成します。",
+    inputHint: "例: 来週のキックオフで話したいこと、担当、気になる点をそのまま書いてください",
+    immersiveOnDemoDetail: true,
+  },
+  {
+    slug: "exec-meeting-notes-to-summary",
+    title: "経営会議メモからサマリと宿題",
+    tier: "track3",
+    demoSlug: "exec-meeting-notes-to-summary",
+    shortDescription:
+      "箇条書きメモから、決定事項・宿題表・リスク一言をモックで整理します。",
+    inputHint: "例: 承認した投資、次アクション、数字のメモを箇条書きで",
+    immersiveOnDemoDetail: true,
+  },
+  {
+    slug: "presentation-outline",
+    title: "プレゼン資料の骨子作成",
+    tier: "track3",
+    demoSlug: "presentation-outline",
+    shortDescription:
+      "テーマメモから、章立てとスライド設計表をモックで組み立てます。",
+    inputHint: "例: 聴衆に伝えたい結論と、話したい論点をメモ",
+    immersiveOnDemoDetail: true,
+  },
+  {
+    slug: "rfp-requirements-extract",
+    title: "提案依頼書から要件抜き出し",
+    tier: "track3",
+    demoSlug: "rfp-requirements-extract",
+    shortDescription:
+      "RFPの断片から要件表とギャップメモをモックで一覧化します。",
+    inputHint: "例: 可用性・セキュリティ・支払条件などの要件を貼り付け",
+    immersiveOnDemoDetail: true,
+  },
+  {
+    slug: "order-form-generator",
+    title: "受注書を即作成",
+    tier: "track3",
+    demoSlug: "order-form-generator",
+    shortDescription:
+      "品目・数量メモから受注明細と取引条件のたたき台をモック生成します。",
+    inputHint: "例: 品名、数量、単価、納期を行でメモ",
+    immersiveOnDemoDetail: true,
+  },
+  {
+    slug: "quote-draft-generator",
+    title: "見積書ドラフト",
+    tier: "track3",
+    demoSlug: "quote-draft-generator",
+    shortDescription:
+      "メモから見積の表組みと注意書きをモックで整形します。",
+    inputHint: "例: 品目、単価、納期、込み条件のメモ",
+    immersiveOnDemoDetail: true,
+  },
+  {
+    slug: "webinar-invite-email-draft",
+    title: "ウェビナー案内メール草案",
+    tier: "track3",
+    demoSlug: "webinar-invite-email-draft",
+    shortDescription:
+      "日時・テーマメモから案内メール体裁の草案をモック生成します。",
+    inputHint: "例: 日時、対象者、URLや資料の有無",
+    immersiveOnDemoDetail: true,
+  },
+  {
+    slug: "nonprofit-donor-thanks-letter-draft",
+    title: "寄付感謝レターの草案",
+    tier: "track3",
+    demoSlug: "nonprofit-donor-thanks-letter-draft",
+    shortDescription:
+      "プロジェクト名とメモから感謝レターのたたき台をモック生成します。",
+    inputHint: "例: プロジェクト名、使途、匿名希望の有無",
+    immersiveOnDemoDetail: true,
+  },
+  {
+    slug: "contract-amendment-draft",
+    title: "契約修正提案ドラフト",
+    tier: "track3",
+    demoSlug: "contract-amendment-draft",
+    shortDescription:
+      "変更メモから条項対比表とリスクメモをモックで整理します。",
+    inputHint: "例: 変えたい条項と希望の内容を箇条書き",
+    immersiveOnDemoDetail: true,
+  },
+  {
+    slug: "release-note-draft-from-ship-list",
+    title: "変更メモからリリースノート草案",
+    tier: "track3",
+    demoSlug: "release-note-draft-from-ship-list",
+    shortDescription:
+      "リリース項目リストからユーザー向け・社内向けの草案をモック生成します。",
+    inputHint: "例: バージョン、改善点、既知の制限を列挙",
+    immersiveOnDemoDetail: true,
+  },
+  {
+    slug: "job-offer-draft-from-terms",
+    title: "条件メモから内定通知の文面骨子",
+    tier: "track3",
+    demoSlug: "job-offer-draft-from-terms",
+    shortDescription:
+      "条件メモから通知文と条件表の骨子をモック生成します。",
+    inputHint: "例: 年収、勤務地、入社日、試用期間のメモ",
+    immersiveOnDemoDetail: true,
+  },
+  {
+    slug: "privacy-notice-update-draft",
+    title: "プライバシー通知の改定骨子",
+    tier: "track3",
+    demoSlug: "privacy-notice-update-draft",
+    shortDescription:
+      "改定ポイントメモから要点リストと条文風ドラフトをモック生成します。",
+    inputHint: "例: 第三者提供、Cookie、保管期間の変更点",
+    immersiveOnDemoDetail: true,
+  },
+  {
+    slug: "subsidy-application-topic-checklist",
+    title: "補助金申請の論点チェックリスト",
+    tier: "track3",
+    demoSlug: "subsidy-application-topic-checklist",
+    shortDescription:
+      "事業メモから提出物チェックとギャップ表をモックで一覧化します。",
+    inputHint: "例: 事業内容、規模、すでに揃っている資料のメモ",
+    immersiveOnDemoDetail: true,
+  },
+  {
+    slug: "onboarding-checklist-from-role",
+    title: "入社手続きチェックリスト生成",
+    tier: "track3",
+    demoSlug: "onboarding-checklist-from-role",
+    shortDescription:
+      "役割・勤務地メモから手続きチェックと担当表をモック生成します。",
+    inputHint: "例: 職種、勤務形態、入社日、希望機器",
+    immersiveOnDemoDetail: true,
+  },
+  {
     slug: "property-exterior-photo-memo",
     title: "外観・共用部の写真メモ",
     tier: "track2",

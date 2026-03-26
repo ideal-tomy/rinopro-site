@@ -45,10 +45,13 @@
 
 ### 2.4 書類たたき台系（Before/After シェル）と `/demo` の優先表示
 
-- **共有UI**: [`src/components/experience/shells/BeforeAfterDocumentShell.tsx`](../src/components/experience/shells/BeforeAfterDocumentShell.tsx) — 左メモ・中央実行・右に体裁付きブロック（見出し・段落・箇条書き・表・KPI）。モックは `src/lib/experience/*-mock.ts` 等の **決定論的ビルダ** で `DocumentShellBlock[]` を返す。
+- **共有UI**: [`src/components/experience/shells/BeforeAfterDocumentShell.tsx`](../src/components/experience/shells/BeforeAfterDocumentShell.tsx) — 左ペインに **コンシェルジュ流の選択**（[`DocumentShellChoiceFields`](../src/components/experience/shells/DocumentShellChoiceFields.tsx) ＋ [`ConciergeChoiceButton`](../src/components/chat/ConciergeChoiceButton.tsx)）＋自由記述、中央実行、右に体裁付きブロック（見出し・段落・箇条書き・表・KPI・**checklist**）。
+- **入力型**: [`DocumentShellUserInput`](../src/lib/experience/document-shell-preset-types.ts)（`rawText` + `selections`）。ビルダは [`document-shell-presets.ts`](../src/lib/experience/document-shell-presets.ts) の `DOCUMENT_SHELL_PRESET_BY_SLUG` から [`ExperiencePrototypeRunner`](../src/components/experience/ExperiencePrototypeRunner.tsx) がディスパッチ（[`DocumentShellPresetExperience`](../src/components/experience/prototypes/DocumentShellPresetExperience.tsx)）。
+- **シグナル抽出（ルールベース）**: [`document-shell-signals.ts`](../src/lib/experience/document-shell-signals.ts)。
 - **タイプライター**: ブロック単位で逐次表示。`prefers-reduced-motion: reduce` では **即時全文**（プロジェクトルール準拠）。
-- **`immersiveOnDemoDetail`**: [`ExperiencePrototypeMeta`](../src/lib/experience/prototype-registry.ts) の任意フラグ。`true` のとき [`DemoDetailContent`](../src/components/demo/DemoDetailContent.tsx) は **チャットより先に** [`ExperiencePrototypeRunner`](../src/components/experience/ExperiencePrototypeRunner.tsx) を表示し、チャットは `<details>` で折りたたみ（モックストリーム維持）。
-- **横展開**: 新プリセットは (1) `buildXxxMock`（またはプリセットマップ）(2) 薄い `*Experience.tsx` または Runner 分岐 (3) レジストリ1行 (4) 必要なら `immersiveOnDemoDetail` を付与、の順。
+- **`immersiveOnDemoDetail`**: [`ExperiencePrototypeMeta`](../src/lib/experience/prototype-registry.ts) の任意フラグ。`true` のとき [`DemoDetailContent`](../src/components/demo/DemoDetailContent.tsx) は **チャットより先に** Runner を表示し、チャットは `<details>` で折りたたみ（モックストリーム維持）。
+- **AI 昇格時の契約**: [`docs/prompts/document-shell-json-output.md`](../docs/prompts/document-shell-json-output.md)。
+- **横展開**: 新プリセットは (1) `document-shell-mocks-wave*.ts` 等に `DocumentShellPresetDefinition` を追加 (2) `document-shell-presets.ts` に slug を登録 (3) [`prototype-registry.ts`](../src/lib/experience/prototype-registry.ts) に 1 行 (4) 必要なら `immersiveOnDemoDetail`。
 
 ---
 

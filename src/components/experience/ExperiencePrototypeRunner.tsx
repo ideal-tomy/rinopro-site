@@ -10,8 +10,9 @@ import { RestaurantOpsDashboardExperience } from "@/components/experience/protot
 import { ServiceClaimReplyExperience } from "@/components/experience/prototypes/ServiceClaimReplyExperience";
 import { InquiryIntakeTriageExperience } from "@/components/experience/prototypes/InquiryIntakeTriageExperience";
 import { WorkflowApprovalLiteExperience } from "@/components/experience/prototypes/WorkflowApprovalLiteExperience";
-import { LoanPlanDraftExperience } from "@/components/experience/prototypes/LoanPlanDraftExperience";
+import { DocumentShellPresetExperience } from "@/components/experience/prototypes/DocumentShellPresetExperience";
 import { OpsReportMetricsExperience } from "@/components/experience/prototypes/OpsReportMetricsExperience";
+import { getDocumentShellPreset } from "@/lib/experience/document-shell-presets";
 
 interface ExperiencePrototypeRunnerProps {
   meta: ExperiencePrototypeMeta;
@@ -22,6 +23,17 @@ export function ExperiencePrototypeRunner({
   meta,
   className,
 }: ExperiencePrototypeRunnerProps) {
+  const documentShellPreset = getDocumentShellPreset(meta.slug);
+  if (documentShellPreset) {
+    return (
+      <DocumentShellPresetExperience
+        meta={meta}
+        preset={documentShellPreset}
+        className={className}
+      />
+    );
+  }
+
   if (meta.slug === "legal-memory-secretary") {
     return (
       <LegalMemorySecretaryExperience meta={meta} className={className} />
@@ -80,10 +92,6 @@ export function ExperiencePrototypeRunner({
     return (
       <OpsReportMetricsExperience meta={meta} className={className} />
     );
-  }
-
-  if (meta.slug === "loan-interview-business-outline") {
-    return <LoanPlanDraftExperience meta={meta} className={className} />;
   }
 
   return null;
