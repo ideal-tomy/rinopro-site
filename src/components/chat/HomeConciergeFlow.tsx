@@ -2,9 +2,12 @@
 
 import type { ReactNode } from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import {
+  AnimatePresence,
+  motion,
+  useReducedMotion as useFramerReducedMotion,
+} from "framer-motion";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import {
@@ -20,7 +23,6 @@ import {
   B_STEP_TEAM,
   C_STEP2,
   CTA_ADJUST_LABEL,
-  CTA_FREEFORM_LABEL,
   D_STEP2,
   E_STEP2,
   ROOT_CHOICES,
@@ -46,8 +48,19 @@ import {
   getDemoSlugForCdeTrack,
 } from "@/lib/chat/concierge-routing";
 import { suppressNextChatAutoOpen } from "@/lib/chat/chat-auto-open";
-import { getExperiencePrototypeBySlug } from "@/lib/experience/prototype-registry";
+import { emitConciergeKpi } from "@/lib/chat/concierge-analytics";
 import { useConciergeChat } from "@/components/chat/concierge-chat-context";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
+
+/** ホーム分岐フローのフッター（結果→CTA→入力）と ChatContainer の入力欄表示を同期 */
+export type HomeConciergeFooterPhase =
+  | "wizard"
+  | "done_result"
+  | "done_cta"
+  | "done_input";
+
+const DONE_STEP_MS_TO_CTA = 3000;
+const DONE_STEP_MS_CTA_TO_INPUT = 3000;
 
 type FlowFrame =
   | { kind: "root" }
@@ -152,17 +165,20 @@ interface HomeConciergeFlowProps {
   disabled?: boolean;
   /** チャット入力欄へ分岐メモを追記（APIは呼ばない） */
   onInjectDraft: (draft: string) => void;
+  /** 結果画面の段階（入力欄の遅延表示と同期） */
+  onFooterPhaseChange?: (phase: HomeConciergeFooterPhase) => void;
   className?: string;
 }
 
 export function HomeConciergeFlow({
   disabled = false,
   onInjectDraft,
+  onFooterPhaseChange,
   className,
 }: HomeConciergeFlowProps) {
   const router = useRouter();
   const { setOpen: setConciergeOpen } = useConciergeChat();
-  const reduce = useReducedMotion();
+  const reduce = useFramerReducedMotion();
   const [frames, setFrames] = useState<FlowFrame[]>([{ kind: "root" }]);
   /** 押下直後の視覚フィードバック用（フレーム遷移前に「選択済み」を短時間表示） */
   const [pressedChoiceKey, setPressedChoiceKey] = useState<string | null>(null);
@@ -184,6 +200,12 @@ export function HomeConciergeFlow({
   }, [setConciergeOpen]);
 
   const current = frames[frames.length - 1];
+
+  useEffect(() => {
+    if (current.kind !== "done") {
+      onFooterPhaseChange?.("wizard");
+    }
+  }, [current.kind, onFooterPhaseChange]);
 
   /** root 直後の質問、または freeform の上積みに使う */
   const push = useCallback((f: FlowFrame) => {
@@ -317,7 +339,8 @@ export function HomeConciergeFlow({
   const handleFreeformCta = () => {
     if (current.kind !== "done") return;
     const pathLines = current.path.map(
-      (p) => `- ${p.stepTitle}: ${p.freeform ? `${p.label}（${p.freeform}）` : p.label}`
+      (p) =>
+        `- ${p.stepTitle}: ${p.freeform ? `${p.label}（${p.freeform}）` : p.label}`
     );
     const draft = [
       "【AIコンシェルジュ分岐メモ】",
@@ -397,10 +420,25 @@ export function HomeConciergeFlow({
     [reduce]
   );
 
+  const doneFrame = current.kind === "done";
+
   return (
-    <div className={cn("flex min-h-0 flex-1 flex-col overflow-y-auto", className)}>
+    <div
+      className={cn(
+        "flex min-h-0 flex-1 flex-col",
+        doneFrame ? "min-h-[min(72dvh,640px)] overflow-hidden md:min-h-0" : "overflow-y-auto",
+        className
+      )}
+    >
       <AnimatePresence mode="wait">
-        <motion.div key={frameKey} {...motionProps} className="flex-1 p-4">
+        <motion.div
+          key={frameKey}
+          {...motionProps}
+          className={cn(
+            "flex min-h-0 flex-1 flex-col p-4",
+            doneFrame && "overflow-hidden"
+          )}
+        >
           {current.kind === "root" && (
             <div className="space-y-4">
               <h3 className="text-center text-base font-semibold leading-relaxed tracking-wide text-text/95">
@@ -476,8 +514,9 @@ export function HomeConciergeFlow({
               onAdjust={restart}
               onDetailedEstimate={handleDetailedEstimate}
               onContactSimple={handleContactSimple}
-              onFreeform={handleFreeformCta}
               onDismissForNavigation={dismissConciergeForNavigation}
+              onFooterPhaseChange={onFooterPhaseChange}
+              onPasteMemoToInput={handleFreeformCta}
             />
           )}
         </motion.div>
@@ -535,12 +574,40 @@ function FreeformStep({
   );
 }
 
-function doneBodyForDisplay(track: ConciergeTrack, body: string): string {
-  if (track === "C" || track === "D" || track === "E") {
-    const cut = body.split(/\n\*\*ご案内\*\*/)[0];
-    return cut.trim() || body;
+function doneBodyForDisplay(_track: ConciergeTrack, body: string): string {
+  return body.trim();
+}
+
+/** 開発コスト／コンサル：金額・一言説明を上に、前提以降を下に */
+function splitAbEstimateBody(body: string): {
+  headline: string;
+  sub: string;
+  detail: string;
+} {
+  const marker = "**前提条件（例）**";
+  const idx = body.indexOf(marker);
+  if (idx === -1) {
+    return { headline: body.trim(), sub: "", detail: "" };
   }
-  return body;
+  const head = body.slice(0, idx).trim();
+  const detail = body.slice(idx).trim();
+  const parts = head.split(/\n\n+/);
+  const headline = parts[0] ?? "";
+  const sub = parts.slice(1).join("\n\n").trim();
+  return { headline, sub, detail };
+}
+
+/** C/D/E：ご案内を上、選択は下（参考） */
+function splitCdeResultBody(body: string): { intro: string; selection: string } {
+  const marker = "**選択内容（参考）**";
+  const idx = body.indexOf(marker);
+  if (idx === -1) {
+    return { intro: body.trim(), selection: "" };
+  }
+  return {
+    intro: body.slice(0, idx).trim(),
+    selection: body.slice(idx).trim(),
+  };
 }
 
 function DoneStep({
@@ -552,8 +619,9 @@ function DoneStep({
   onAdjust,
   onDetailedEstimate,
   onContactSimple,
-  onFreeform,
   onDismissForNavigation,
+  onFooterPhaseChange,
+  onPasteMemoToInput,
 }: {
   track: ConciergeTrack;
   path: FlowSelection[];
@@ -563,23 +631,63 @@ function DoneStep({
   onAdjust: () => void;
   onDetailedEstimate: () => void;
   onContactSimple: () => void;
-  onFreeform: () => void;
   onDismissForNavigation: () => void;
+  onFooterPhaseChange?: (phase: HomeConciergeFooterPhase) => void;
+  onPasteMemoToInput: () => void;
 }) {
+  const router = useRouter();
+  const prefsReduced = useReducedMotion();
+  const [footerUi, setFooterUi] = useState<"result" | "cta" | "input">("result");
+
   const demoSlugResolved =
     track === "A" || track === "B"
       ? getDemoSlugForAbTrack(track, path)
       : getDemoSlugForCdeTrack(track, path);
 
-  const demoMeta = demoSlugResolved
-    ? getExperiencePrototypeBySlug(demoSlugResolved)
-    : undefined;
-
   const displayBody = doneBodyForDisplay(track, body);
+  const isAb = track === "A" || track === "B";
+  const abParts = isAb ? splitAbEstimateBody(displayBody) : null;
+  const cdeParts = !isAb ? splitCdeResultBody(displayBody) : null;
+
+  useEffect(() => {
+    onFooterPhaseChange?.("done_result");
+    setFooterUi("result");
+    const t1 = window.setTimeout(() => {
+      setFooterUi("cta");
+      onFooterPhaseChange?.("done_cta");
+    }, DONE_STEP_MS_TO_CTA);
+    const t2 = window.setTimeout(() => {
+      setFooterUi("input");
+      onFooterPhaseChange?.("done_input");
+    }, DONE_STEP_MS_TO_CTA + DONE_STEP_MS_CTA_TO_INPUT);
+    return () => {
+      window.clearTimeout(t1);
+      window.clearTimeout(t2);
+      onFooterPhaseChange?.("wizard");
+    };
+  }, [displayBody, onFooterPhaseChange]);
+
+  const openDemo = () => {
+    emitConciergeKpi({
+      name: "cta_click",
+      href: demoSlugResolved ? experienceHref(demoSlugResolved) : "/demo/list",
+      ctaKind: demoSlugResolved ? "experience_prototype" : "demo_list",
+      mode: "default",
+    });
+    onDismissForNavigation();
+    if (demoSlugResolved) {
+      router.push(experienceHref(demoSlugResolved));
+    } else {
+      router.push("/demo/list");
+    }
+  };
+
+  const ctaBase =
+    "flex min-h-[3.5rem] w-full flex-col items-center justify-center gap-0.5 rounded-2xl border px-1.5 py-2 text-center text-[11px] font-semibold leading-snug tracking-wide transition-[transform,box-shadow,border-color,background-color] duration-200 sm:min-h-[3.75rem] sm:text-xs";
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between gap-2">
+    <div className="flex min-h-0 flex-1 flex-col">
+      <div className="flex shrink-0 items-center justify-between gap-2 pb-3">
         <p className="text-xs font-medium uppercase tracking-wide text-text/90">
           結果
         </p>
@@ -592,84 +700,165 @@ function DoneStep({
         </button>
       </div>
 
-      <div className="max-h-36 overflow-y-auto rounded-lg border border-silver/20 bg-base/40 p-3 text-xs leading-relaxed text-text/95 sm:max-h-40 sm:text-sm">
-        {displayBody.split("\n").map((line, i) => (
-          <p key={i} className="mb-1.5 last:mb-0">
-            {parseBoldLine(line)}
-          </p>
-        ))}
+      <div className="min-h-0 flex-1 overflow-y-auto pb-4">
+        {isAb && abParts ? (
+          <div className="rounded-2xl border border-silver/20 bg-base/40 p-4 sm:p-6">
+            <p className="text-center text-[1.15rem] font-bold leading-snug text-white sm:text-2xl">
+              {parseBoldLine(abParts.headline)}
+            </p>
+            {abParts.sub ? (
+              <p className="mt-3 text-[15px] leading-relaxed text-text/90 sm:text-[16px]">
+                {parseBoldLine(abParts.sub)}
+              </p>
+            ) : null}
+            {abParts.detail ? (
+              <div className="mt-6 max-h-[min(38vh,320px)] overflow-y-auto border-t border-silver/15 pt-4 text-sm leading-relaxed text-text/90">
+                {abParts.detail.split("\n").map((line, i) => (
+                  <p key={`ab-${i}`} className="mb-1.5 last:mb-0">
+                    {parseBoldLine(line)}
+                  </p>
+                ))}
+              </div>
+            ) : null}
+          </div>
+        ) : cdeParts ? (
+          <div className="rounded-2xl border border-silver/20 bg-base/40 p-4 sm:p-6">
+            <div className="text-[16px] font-semibold leading-relaxed tracking-wide text-text/95">
+              {cdeParts.intro.split("\n").map((line, i) => (
+                <p key={`ci-${i}`} className="mb-2 last:mb-0">
+                  {parseBoldLine(line)}
+                </p>
+              ))}
+            </div>
+            {cdeParts.selection ? (
+              <div className="mt-6 max-h-[min(32vh,280px)] overflow-y-auto border-t border-silver/15 pt-4 text-xs leading-relaxed text-text/80 sm:text-sm">
+                {cdeParts.selection.split("\n").map((line, i) => (
+                  <p key={`cs-${i}`} className="mb-1.5 last:mb-0">
+                    {parseBoldLine(line)}
+                  </p>
+                ))}
+              </div>
+            ) : null}
+          </div>
+        ) : null}
       </div>
 
-      <div>
-        <p className="text-xs font-medium uppercase tracking-wide text-accent">
-          参考となる体験demo
-        </p>
-        <div className="mt-2">
-          {demoSlugResolved && demoMeta ? (
-            <Link
-              href={experienceHref(demoSlugResolved)}
-              onClick={() => onDismissForNavigation()}
-              className="block rounded-xl border border-silver/20 bg-base/40 p-3 transition-colors hover:border-accent/35"
-            >
-              <span className="block text-sm font-semibold leading-snug text-text/95">
-                {demoMeta.title}
-              </span>
-              <span className="mt-1 block text-xs text-text-sub">
-                体験ページを開く
-              </span>
-            </Link>
-          ) : (
-            <Link
-              href="/demo/list"
-              onClick={() => onDismissForNavigation()}
-              className="block rounded-xl border border-silver/20 bg-base/40 p-3 text-sm text-text/95 transition-colors hover:border-accent/35"
-            >
-              選択に紐づく体験がない場合は、
-              <span className="font-medium text-accent">demo一覧</span>
-              から近いものをお選びください。
-            </Link>
-          )}
-        </div>
-      </div>
-
-      <ConciergeCtaButton
-        type="button"
-        variant="primary"
-        disabled={disabled}
-        onClick={onDetailedEstimate}
-      >
-        入力内容を元に概算見積もりへ
-      </ConciergeCtaButton>
-
-      <div className="grid grid-cols-2 gap-2">
-        <ConciergeCtaButton
-          type="button"
-          variant="secondary"
-          disabled={disabled}
-          onClick={onContactSimple}
-          className="px-2 text-xs sm:text-sm"
-        >
-          問い合わせフォームへ
-        </ConciergeCtaButton>
-        <ConciergeCtaButton
-          type="button"
-          variant="secondary"
-          disabled={disabled}
-          onClick={onAdjust}
-          className="px-2 text-xs sm:text-sm"
-        >
-          {CTA_ADJUST_LABEL}
-        </ConciergeCtaButton>
-      </div>
-
-      <ConciergeCtaButton
-        type="button"
-        variant="ghost"
-        disabled={disabled}
-        onClick={onFreeform}
-      >
-        {CTA_FREEFORM_LABEL}
-      </ConciergeCtaButton>
+      <AnimatePresence>
+        {(footerUi === "cta" || footerUi === "input") && (
+          <motion.div
+            key="done-footer"
+            initial={prefsReduced ? false : { opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 6 }}
+            transition={{ duration: prefsReduced ? 0 : 0.3 }}
+            className="pointer-events-none relative shrink-0"
+          >
+            <div className="pointer-events-auto space-y-3 bg-gradient-to-t from-base-dark from-35% via-base-dark/96 to-transparent pb-1 pt-6">
+                <div className="grid grid-cols-3 gap-2">
+                  {(
+                    [
+                      {
+                        key: "demo",
+                        label: "参考demo",
+                        variant: "secondary" as const,
+                        onClick: openDemo,
+                      },
+                      {
+                        key: "est",
+                        label: "自動見積もり",
+                        variant: "primary" as const,
+                        onClick: () => {
+                          emitConciergeKpi({
+                            name: "cta_click",
+                            href: "/estimate-detailed",
+                            ctaKind: "estimate_detailed",
+                            mode: "default",
+                          });
+                          onDetailedEstimate();
+                        },
+                      },
+                      {
+                        key: "adj",
+                        label: CTA_ADJUST_LABEL,
+                        variant: "secondary" as const,
+                        onClick: () => {
+                          emitConciergeKpi({
+                            name: "cta_click",
+                            ctaKind: "concierge_adjust",
+                            mode: "default",
+                          });
+                          onAdjust();
+                        },
+                      },
+                    ] as const
+                  ).map((item, idx) => (
+                    <motion.div
+                      key={item.key}
+                      initial={
+                        prefsReduced ? false : { opacity: 0, y: 18 }
+                      }
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{
+                        delay: prefsReduced ? 0 : idx * 0.12,
+                        duration: prefsReduced ? 0 : 0.38,
+                        ease: [0.22, 0.99, 0.35, 1],
+                      }}
+                    >
+                      <button
+                        type="button"
+                        disabled={disabled}
+                        onClick={item.onClick}
+                        className={cn(
+                          ctaBase,
+                          item.variant === "primary"
+                            ? "border-accent/50 bg-accent/25 text-white shadow-[0_0_18px_rgba(0,242,255,0.18)] hover:border-accent/70 hover:bg-accent/35"
+                            : "border-white/15 bg-white/[0.06] text-text/95 hover:border-white/25"
+                        )}
+                      >
+                        {item.label}
+                      </button>
+                    </motion.div>
+                  ))}
+                </div>
+                <p className="flex flex-col items-center gap-2 text-center sm:flex-row sm:justify-center sm:gap-4">
+                  <button
+                    type="button"
+                    disabled={disabled}
+                    className="text-xs text-accent/90 underline-offset-2 hover:underline"
+                    onClick={() => {
+                      emitConciergeKpi({
+                        name: "cta_click",
+                        href: "/contact",
+                        ctaKind: "contact",
+                        mode: "default",
+                      });
+                      onContactSimple();
+                    }}
+                  >
+                    お問い合わせフォームへ
+                  </button>
+                  {footerUi === "input" ? (
+                    <button
+                      type="button"
+                      disabled={disabled}
+                      className="text-xs text-text-sub underline-offset-2 hover:text-text/90 hover:underline"
+                      onClick={() => {
+                        emitConciergeKpi({
+                          name: "cta_click",
+                          ctaKind: "concierge_freeform",
+                          mode: "default",
+                        });
+                        onPasteMemoToInput();
+                      }}
+                    >
+                      分岐メモを入力欄に貼る
+                    </button>
+                  ) : null}
+                </p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

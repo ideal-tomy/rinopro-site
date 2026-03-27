@@ -1,5 +1,11 @@
 "use client";
 
+/**
+ * コンシェルジュの遷移・自動オープン・session 境界は意図した仕様。
+ * 変更する場合は `docs/concierge-chat-scopes.md` と整合を確認すること。
+ * 本ファイルでは主に「回答表示・CTAタイミング・計測」を扱う。
+ */
+
 import {
   useCallback,
   useEffect,
@@ -13,11 +19,19 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
+import { AnimatePresence, motion } from "framer-motion";
 import { MessageCircle } from "lucide-react";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
+import { emitConciergeKpi } from "@/lib/chat/concierge-analytics";
+import { getConciergeCtaDelayMs } from "@/lib/chat/concierge-cta-delay";
+import { getUIMessageText } from "@/lib/chat/uimessage-text";
 import { ChatPopup } from "./ChatPopup";
 import { ChatMessages } from "./ChatMessages";
 import { ChatInput } from "./ChatInput";
-import { HomeConciergeFlow } from "./HomeConciergeFlow";
+import {
+  HomeConciergeFlow,
+  type HomeConciergeFooterPhase,
+} from "./HomeConciergeFlow";
 import { ServicesConciergeFlow } from "./ServicesConciergeFlow";
 import { ConciergeEmptyPanel } from "./ConciergeEmptyPanel";
 import { ConciergeEntryPicker } from "./ConciergeEntryPicker";
@@ -98,6 +112,8 @@ export function ChatContainer() {
     text: string;
   } | null>(null);
   const [servicesIntroComplete, setServicesIntroComplete] = useState(false);
+  const [homeFooterPhase, setHomeFooterPhase] =
+    useState<HomeConciergeFooterPhase>("wizard");
 
   /** FAB 直後の選択: ページ文脈 / 全体ガイド */
   const [conciergeSurface, setConciergeSurface] =
@@ -124,9 +140,9 @@ export function ChatContainer() {
     () =>
       new DefaultChatTransport({
         api: "/api/chat",
-        body: { mode },
+        body: { mode, pathname },
       }),
-    [mode]
+    [mode, pathname]
   );
 
   const { messages, sendMessage, setMessages, status, error, clearError } =
@@ -135,13 +151,71 @@ export function ChatContainer() {
       transport,
     });
 
+  const prefersReducedMotion = useReducedMotion();
+  const [showDelayedCta, setShowDelayedCta] = useState(false);
+  const lastEmittedAnswerIdRef = useRef<string | null>(null);
+
   /** パス・文脈が変わったら必ずセッションを切り替え（サービスカードの会話が全ページに漏れないようにする） */
   useEffect(() => {
     setChatSessionId(provisionalId);
   }, [provisionalId]);
 
+  useEffect(() => {
+    lastEmittedAnswerIdRef.current = null;
+  }, [chatSessionId]);
+
   const { shouldShowDemoPrompt, demoPrompt } = useChatSession(messages);
   const isLoading = status === "streaming" || status === "submitted";
+
+  /** アシスタント回答完了時の計測（ストリーミング終了後の最終テキスト長） */
+  useEffect(() => {
+    if (isLoading || messages.length === 0) return;
+    const last = messages[messages.length - 1];
+    if (last.role !== "assistant") return;
+    if (lastEmittedAnswerIdRef.current === last.id) return;
+    lastEmittedAnswerIdRef.current = last.id;
+    const text = getUIMessageText(last);
+    emitConciergeKpi({
+      name: "answer_complete",
+      messageId: last.id,
+      textLength: text.length,
+      pathname,
+      mode,
+    });
+  }, [isLoading, messages, pathname, mode]);
+
+  /** 本文を先に読ませ、次の一歩CTAは遅延表示 */
+  useEffect(() => {
+    if (!open || messages.length === 0) {
+      setShowDelayedCta(false);
+      return;
+    }
+    if (isLoading) {
+      setShowDelayedCta(false);
+      return;
+    }
+    const lastAssistant = [...messages]
+      .reverse()
+      .find((m) => m.role === "assistant");
+    if (!lastAssistant) {
+      setShowDelayedCta(false);
+      return;
+    }
+    const len = getUIMessageText(lastAssistant).length;
+    const delayMs = getConciergeCtaDelayMs(len, prefersReducedMotion);
+    setShowDelayedCta(false);
+    const timer = setTimeout(() => {
+      setShowDelayedCta(true);
+      emitConciergeKpi({
+        name: "cta_visible",
+        pathname,
+        mode,
+        delayMs,
+        textLength: len,
+      });
+    }, delayMs);
+    return () => clearTimeout(timer);
+  }, [open, messages, isLoading, prefersReducedMotion, pathname, mode]);
 
   /** sessionStorage の pick と React 状態を同期（同一 /services 上でカードを押した直後も取りこぼさない） */
   useLayoutEffect(() => {
@@ -221,6 +295,15 @@ export function ChatContainer() {
   }, [pathname, setOpen, setEntrySource]);
 
   const handleSend = (text: string) => {
+    const userTurns = messages.filter((m) => m.role === "user").length;
+    if (userTurns >= 1) {
+      emitConciergeKpi({
+        name: "followup_message",
+        turn: userTurns + 1,
+        pathname,
+        mode,
+      });
+    }
     sendMessage({ text });
   };
 
@@ -346,6 +429,7 @@ export function ChatContainer() {
         setConciergeSurface("pick");
         setEntrySource("fab");
         setServiceCardStartDone(false);
+        setHomeFooterPhase("wizard");
       }
     },
     [setOpen, setEntrySource]
@@ -402,6 +486,7 @@ export function ChatContainer() {
         onInjectDraft={(draft) =>
           setDraftInjection({ id: Date.now(), text: draft })
         }
+        onFooterPhaseChange={setHomeFooterPhase}
       />
     );
   } else if (
@@ -456,7 +541,20 @@ export function ChatContainer() {
     );
   }
 
-  const showChatInput = !showEntryPicker && !showServiceCardStartFlow;
+  const hideChatForHomeDoneTiming =
+    showGlobalHomeFlow &&
+    messages.length === 0 &&
+    (homeFooterPhase === "done_result" || homeFooterPhase === "done_cta");
+
+  const showChatInput =
+    !showEntryPicker &&
+    !showServiceCardStartFlow &&
+    !hideChatForHomeDoneTiming;
+
+  const animateHomeDoneInput =
+    showGlobalHomeFlow &&
+    messages.length === 0 &&
+    homeFooterPhase === "done_input";
   const wideHomeLayout = showGlobalHomeFlow;
   const onServicesDevOrConsult =
     pathname === "/services" &&
@@ -532,71 +630,133 @@ export function ChatContainer() {
               </div>
             )}
 
-          {shouldShowDemoPrompt &&
-            mode === "default" &&
-            !showEntryPicker && (
-              <div className="border-t border-silver/20 bg-base/50 px-4 py-3">
-                <p className="text-sm text-text-sub">{demoPrompt}</p>
-              </div>
+          <AnimatePresence>
+            {messages.length > 0 && showDelayedCta && (
+              <motion.div
+                key="concierge-delayed-cta"
+                initial={
+                  prefersReducedMotion ? false : { opacity: 0, y: 14 }
+                }
+                animate={{ opacity: 1, y: 0 }}
+                exit={prefersReducedMotion ? undefined : { opacity: 0, y: 8 }}
+                transition={{
+                  duration: prefersReducedMotion ? 0 : 0.35,
+                  ease: [0.22, 0.99, 0.35, 1],
+                }}
+                className="pointer-events-auto shrink-0 border-t border-silver/15 bg-base/30 pb-[env(safe-area-inset-bottom)] shadow-[0_-8px_24px_rgba(0,0,0,0.25)]"
+              >
+                {shouldShowDemoPrompt &&
+                  mode === "default" &&
+                  !showEntryPicker && (
+                    <div className="border-b border-silver/20 bg-base/50 px-4 py-3">
+                      <p className="text-sm text-text-sub">{demoPrompt}</p>
+                    </div>
+                  )}
+
+                {isDevOrConsultMode && (
+                  <div className="px-4 py-3">
+                    <p className="mb-2 text-xs font-medium leading-relaxed text-text/85">
+                      次の一歩（サイト内）
+                    </p>
+                    <div className="grid grid-cols-2 gap-2">
+                      <ConciergeCtaLink
+                        href="/demo"
+                        variant="secondary"
+                        onClick={() => {
+                          emitConciergeKpi({
+                            name: "cta_click",
+                            href: "/demo",
+                            ctaKind: "experience_demo_hub",
+                            pathname,
+                            mode,
+                          });
+                          dismissConciergeForSiteLink();
+                        }}
+                      >
+                        体験demo
+                      </ConciergeCtaLink>
+                      <ConciergeCtaLink
+                        href="/estimate-detailed"
+                        variant="primary"
+                        onClick={() => {
+                          emitConciergeKpi({
+                            name: "cta_click",
+                            href: "/estimate-detailed",
+                            ctaKind: "estimate_detailed",
+                            pathname,
+                            mode,
+                          });
+                          dismissConciergeForSiteLink();
+                        }}
+                      >
+                        概算見積もり
+                      </ConciergeCtaLink>
+                    </div>
+                  </div>
+                )}
+
+                {!isDevOrConsultMode &&
+                  mode === "default" &&
+                  !showEntryPicker && (
+                    <div className="px-4 py-2.5 text-xs leading-relaxed text-text-sub">
+                      <p className="mb-1.5 font-medium text-text/85">
+                        次の一歩（サイト内）
+                      </p>
+                      <div className="flex flex-wrap gap-x-4 gap-y-1">
+                        <Link
+                          href="/demo/list"
+                          className="text-accent underline-offset-2 hover:underline"
+                          onClick={() => {
+                            emitConciergeKpi({
+                              name: "cta_click",
+                              href: "/demo/list",
+                              ctaKind: "demo_list",
+                              pathname,
+                              mode,
+                            });
+                            dismissConciergeForSiteLink();
+                          }}
+                        >
+                          demo一覧
+                        </Link>
+                        <Link
+                          href="/estimate-detailed"
+                          className="text-accent underline-offset-2 hover:underline"
+                          onClick={() => {
+                            emitConciergeKpi({
+                              name: "cta_click",
+                              href: "/estimate-detailed",
+                              ctaKind: "estimate_detailed",
+                              pathname,
+                              mode,
+                            });
+                            dismissConciergeForSiteLink();
+                          }}
+                        >
+                          詳細見積もり（概算レンジ）
+                        </Link>
+                        <Link
+                          href="/contact"
+                          className="text-accent underline-offset-2 hover:underline"
+                          onClick={() => {
+                            emitConciergeKpi({
+                              name: "cta_click",
+                              href: "/contact",
+                              ctaKind: "contact",
+                              pathname,
+                              mode,
+                            });
+                            dismissConciergeForSiteLink();
+                          }}
+                        >
+                          お問い合わせ
+                        </Link>
+                      </div>
+                    </div>
+                  )}
+              </motion.div>
             )}
-
-          {messages.length > 0 && isDevOrConsultMode && (
-            <div className="border-t border-silver/15 bg-base/30 px-4 py-3">
-              <p className="mb-2 text-xs font-medium leading-relaxed text-text/85">
-                次の一歩（サイト内）
-              </p>
-              <div className="grid grid-cols-2 gap-2">
-                <ConciergeCtaLink
-                  href="/demo"
-                  variant="secondary"
-                  onClick={() => dismissConciergeForSiteLink()}
-                >
-                  体験demo
-                </ConciergeCtaLink>
-                <ConciergeCtaLink
-                  href="/estimate-detailed"
-                  variant="primary"
-                  onClick={() => dismissConciergeForSiteLink()}
-                >
-                  概算見積もり
-                </ConciergeCtaLink>
-              </div>
-            </div>
-          )}
-
-          {messages.length > 0 &&
-            !isDevOrConsultMode &&
-            mode === "default" &&
-            !showEntryPicker && (
-            <div className="border-t border-silver/15 bg-base/30 px-4 py-2.5 text-xs leading-relaxed text-text-sub">
-              <p className="mb-1.5 font-medium text-text/85">
-                次の一歩（サイト内）
-              </p>
-              <div className="flex flex-wrap gap-x-4 gap-y-1">
-                <Link
-                  href="/demo/list"
-                  className="text-accent underline-offset-2 hover:underline"
-                  onClick={() => dismissConciergeForSiteLink()}
-                >
-                  demo一覧
-                </Link>
-                <Link
-                  href="/estimate-detailed"
-                  className="text-accent underline-offset-2 hover:underline"
-                  onClick={() => dismissConciergeForSiteLink()}
-                >
-                  詳細見積もり（概算レンジ）
-                </Link>
-                <Link
-                  href="/contact"
-                  className="text-accent underline-offset-2 hover:underline"
-                  onClick={() => dismissConciergeForSiteLink()}
-                >
-                  お問い合わせ
-                </Link>
-              </div>
-            </div>
-          )}
+          </AnimatePresence>
 
           {error && (
             <div className="border-t border-destructive/40 bg-destructive/10 px-4 py-3 text-sm text-destructive">
@@ -612,14 +772,29 @@ export function ChatContainer() {
           )}
 
           {showChatInput ? (
-            <ChatInput
-              onSend={handleSend}
-              disabled={isLoading}
-              placeholder={chatPlaceholder}
-              draftInjection={draftInjection}
-              onDraftConsumed={clearDraftInjection}
-              inputId="concierge-chat-input"
-            />
+            <motion.div
+              key={animateHomeDoneInput ? "home-done-chat-input" : "chat-input"}
+              initial={
+                animateHomeDoneInput && !prefersReducedMotion
+                  ? { opacity: 0, y: 20 }
+                  : false
+              }
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: prefersReducedMotion ? 0 : 0.38,
+                ease: [0.22, 0.99, 0.35, 1],
+              }}
+              className="shrink-0"
+            >
+              <ChatInput
+                onSend={handleSend}
+                disabled={isLoading}
+                placeholder={chatPlaceholder}
+                draftInjection={draftInjection}
+                onDraftConsumed={clearDraftInjection}
+                inputId="concierge-chat-input"
+              />
+            </motion.div>
           ) : (
             <div className="border-t border-silver/15 bg-base/40 px-4 py-3 text-center text-xs text-text-sub">
               {showServiceCardStartFlow

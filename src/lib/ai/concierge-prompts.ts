@@ -3,23 +3,69 @@ import type { AiDemo, DemoItem } from "@/lib/sanity/types";
 
 export type ConciergeApiMode = "default" | "development" | "consulting";
 
+/** API から受け取る pathname を正規化したページ文脈 */
+export type ConciergePageContext = "top" | "demo" | "services" | "other";
+
 export type BuildConciergeSystemOptions = {
   /** default モード時のみ。Sanity 由来のデモ一覧テキスト */
   demoCatalog?: string;
+  /** ページのパスから推定した文脈（平易語・CTAの優先度） */
+  pageContext?: ConciergePageContext;
 };
+
+/** クライアントから送る pathname をページ文脈に変換（プロンプト補助のみ） */
+export function parseConciergePageContext(pathname: string): ConciergePageContext {
+  const p = pathname.trim() || "/";
+  if (p === "/") return "top";
+  if (p.startsWith("/demo") || p.startsWith("/experience")) return "demo";
+  if (
+    p.startsWith("/services") ||
+    p === "/flow" ||
+    p === "/consulting" ||
+    p.startsWith("/estimate-detailed")
+  ) {
+    return "services";
+  }
+  return "other";
+}
+
+function buildPageContextHints(ctx: ConciergePageContext): string {
+  switch (ctx) {
+    case "top":
+      return `ページ文脈（トップ）:
+- 初めての訪問者向けに、**要旨1行は結論**（ユーザーが一番知りたいこと）を先に書く。
+- 次の一歩は「demo一覧」「詳細見積もり（概算レンジ）」「お問い合わせ」のうち**1つだけ**を締めで推奨。`;
+    case "demo":
+      return `ページ文脈（demo・体験）:
+- 掲載されているデモのパス（/demo/… または /experience/…）に**誘導**する。一覧にないURLは出さない。
+- ユーザーが「どれを見るか」決めやすいよう、**1つに絞って**推奨する。`;
+    case "services":
+      return `ページ文脈（サービス・開発/コンサル・見積）:
+- **意思決定の整理**を優先（現状・選択肢・次の一手）。専門用語は必ず補足する。
+- 締めの次の一歩は、体験demo・詳細見積もり・お問い合わせのうち、文脈に合う**1つ**を選ぶ。`;
+    default:
+      return `ページ文脈（その他）:
+- 結論・根拠・次の一歩の順で簡潔に。サイト内パスは捏造しない。`;
+  }
+}
 
 /** 打ち切り対策: 型を固定すると最後まで書き切りやすい */
 const OUTPUT_SHAPE = `出力の型（必ずこの順・この粒度で書く。途中で止めない）:
-1) **要旨** … 先頭に1行だけ（ユーザー入力の解釈または答えの一行要約。雑・短文の入力でもここで意図を言い換える）
+1) **要旨** … 先頭に1行だけ（**結論ファースト**。ユーザーが一番知りたい答えを、専門用語の羅列ではなく平易な言葉で一行にまとめる）
 2) **本文** … \`## 見出し\` を最大4つまで。各見出しの直下は箇条書き（\`-\`）で最大4行。各行は**必ず句点「。」で終える**完結した文にする
-3) **締め** … 最後に単独の1文（次の一歩や問い合わせへの誘導。**必ず句点「。」で終える**）
+   - 専門用語（AI、API、RAG、PoC など）は**1回答あたり最大2語まで**。使う場合は必ず括弧で一言説明する（例: 小さな試作（PoC））。
+   - 見出し「## なぜそう言えるか」または「## 整理のポイント」で、納得感を3行以内で示す。
+3) **締め** … 最後に単独の1文（**次の具体的な一歩を1つだけ**。demo一覧・詳細見積もり・お問い合わせのいずれか。**必ず句点「。」で終える**）
 
 禁止: 見出しや箇条書きを開いたまま出力を終えないこと。長い前置きだけで終わらないこと。
-固有名詞の顧客・案件・導入先は捏造しない。一般論とrinoproの進め方に留める。`;
+固有名詞の顧客・案件・導入先は捏造しない。一般論とrinoproの進め方に留める。
+回答が抽象的になりそうなときは、ユーザーに確認する質問を1つだけ締めの前に短く入れてよい。`;
 
 const BASE_RULES = `共通ルール:
 - 営業的な誘導は行わず、自然な会話を心がけてください。
-- 確約や料金・納期の断定はせず、整理と次の一歩を示す。詳細は問い合わせで、と促してよい。`;
+- 確約や料金・納期の断定はせず、整理と次の一歩を示す。詳細は問い合わせで、と促してよい。
+- 出力前に自己チェック: 専門用語が多すぎないか、論理の飛躍がないか。最も分かりやすい表現に整えてから出力する。
+- 費用・目安・結論を含む場合は、**先に金額または結論の一行**を書き、そのあとに根拠・前提条件を続ける（選択内容の列挙より前に）。`;
 
 /** チャットからの固定導線（UIのフッターと揃える） */
 const SITE_ROUTE_CTA = `サイト内の次の一歩（「締め」や本文で、必要に応じて簡潔に触れてよい。全部を毎回並べない）:
@@ -107,6 +153,9 @@ export function buildConciergeSystem(
   options?: BuildConciergeSystemOptions
 ): string {
   const demoCatalog = options?.demoCatalog?.trim();
+  const pageContextBlock = buildPageContextHints(
+    options?.pageContext ?? "other"
+  );
 
   if (mode === "development") {
     return `あなたはrinoproの「開発」専用アシスタントです。
@@ -120,6 +169,8 @@ ${formatDevelopmentFlow()}
 サイト内パス \`/flow\` では、共通の進め方に加え、Webサイト制作・アプリ開発・業務ダッシュボードの進め方をタブで切り替えて確認できます（工程の全体像は上記と同じ4段階です）。
 
 ${DEVELOPMENT_CROSS_TOPIC}
+
+${pageContextBlock}
 
 ${SITE_ROUTE_CTA}
 
@@ -139,6 +190,8 @@ ${formatConsultingFlow()}
 
 ${CONSULTING_CROSS_TOPIC}
 
+${pageContextBlock}
+
 ${SITE_ROUTE_CTA}
 
 ${OUTPUT_SHAPE}
@@ -150,6 +203,8 @@ ${BASE_RULES}`;
 
   return `${DEFAULT_EXTRA}
 ${catalogBlock}
+
+${pageContextBlock}
 
 ${SITE_ROUTE_CTA}
 

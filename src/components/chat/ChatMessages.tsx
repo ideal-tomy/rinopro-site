@@ -3,17 +3,11 @@
 import { useRef, useEffect } from "react";
 import { ChatBubble } from "./ChatBubble";
 import type { UIMessage } from "ai";
+import { getUIMessageText } from "@/lib/chat/uimessage-text";
 
 interface ChatMessagesProps {
   messages: UIMessage[];
   className?: string;
-}
-
-function getMessageText(message: UIMessage): string {
-  return message.parts
-    .filter((p): p is { type: "text"; text: string } => p.type === "text")
-    .map((p) => p.text)
-    .join("");
 }
 
 export function ChatMessages({ messages, className }: ChatMessagesProps) {
@@ -32,7 +26,7 @@ export function ChatMessages({ messages, className }: ChatMessagesProps) {
       className={`flex flex-1 flex-col gap-4 overflow-y-auto p-4 ${className ?? ""}`}
     >
       {messages.map((message) => {
-        const text = getMessageText(message);
+        const text = getUIMessageText(message);
         if (!text) return null;
         return (
           <ChatBubble
