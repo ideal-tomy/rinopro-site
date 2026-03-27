@@ -50,9 +50,9 @@ const TITLE_CDE = "知りたいこと（詳細）";
 function assertLeadBlock(track: string, body: string): void {
   const t = body.trimStart();
   if (track === "A" || track === "B") {
-    if (!t.startsWith("**概算レンジ（目安）**")) {
+    if (!t.startsWith("約")) {
       throw new Error(
-        `[${track}] 先頭は概算レンジであること: ${t.slice(0, 100)}`
+        `[${track}] 先頭は概算金額であること: ${t.slice(0, 100)}`
       );
     }
   } else {

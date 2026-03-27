@@ -674,7 +674,7 @@ function splitAbEstimateBody(body: string): {
   sub: string;
   detail: string;
 } {
-  const marker = "**前提条件（例）**";
+  const marker = "**前提条件**";
   const idx = body.indexOf(marker);
   if (idx === -1) {
     return { headline: body.trim(), sub: "", detail: "" };
@@ -689,7 +689,7 @@ function splitAbEstimateBody(body: string): {
 
 /** C/D/E：ご案内を上、選択は下（参考） */
 function splitCdeResultBody(body: string): { intro: string; selection: string } {
-  const marker = "**選択内容（参考）**";
+  const marker = "**選択した内容**";
   const idx = body.indexOf(marker);
   if (idx === -1) {
     return { intro: body.trim(), selection: "" };
@@ -825,7 +825,7 @@ function DoneStep({
           </div>
         ) : cdeParts ? (
           <div className="rounded-2xl border border-silver/20 bg-base/40 p-4 sm:p-6">
-            <div className="text-[16px] font-semibold leading-relaxed tracking-wide text-text/95">
+            <div className="text-[12px] font-semibold leading-relaxed tracking-wide text-text/95 sm:text-[16px]">
               {cdeParts.intro.split("\n").map((line, i) => (
                 <p key={`ci-${i}`} className="mb-2 last:mb-0">
                   {parseBoldLine(line)}
