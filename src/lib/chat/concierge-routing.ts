@@ -3,7 +3,11 @@
  * slug は prototype-registry の EXPERIENCE_PROTOTYPES と一致させる。
  */
 
-import type { ConciergeTrack, FlowSelection } from "@/lib/chat/concierge-flow";
+import {
+  getBChallengeIdForDemoRouting,
+  type ConciergeTrack,
+  type FlowSelection,
+} from "@/lib/chat/concierge-flow";
 
 export function experienceHref(slug: string): string {
   return `/experience/${slug}`;
@@ -90,7 +94,7 @@ export function getDemoSlugForAbTrack(
     if (!a3 || a3.optionId === "build_other") return null;
     return MAP_A3[a3.optionId] ?? null;
   }
-  const b4 = selectionByStep(path, "B4");
-  if (!b4 || b4.optionId === "ch_other") return null;
-  return MAP_B4[b4.optionId] ?? null;
+  const ch = getBChallengeIdForDemoRouting(path);
+  if (!ch) return null;
+  return MAP_B4[ch] ?? null;
 }

@@ -2,6 +2,7 @@
 
 import type { ReactNode } from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
   AnimatePresence,
@@ -16,11 +17,10 @@ import {
 } from "@/components/chat/ConciergeChoiceButton";
 import {
   A_STEP_BUILD,
-  A_STEP_INTEGRATION,
-  A_STEP_TEAM,
-  B_STEP_CHALLENGE,
+  A_STEP_SCOPE,
+  B_STEP_SCOPE,
   B_STEP_SUPPORT,
-  B_STEP_TEAM,
+  CDE_PICK_STEP,
   C_STEP2,
   CTA_ADJUST_LABEL,
   D_STEP2,
@@ -36,6 +36,9 @@ import {
   buildEstimateBlockA,
   buildEstimateBlockB,
 } from "@/lib/chat/concierge-flow";
+
+/** ホームウィザードの遷移用（C/D/E 確定前の中間フェーズ） */
+type ConciergePhase = ConciergeTrack | "CDE";
 import {
   buildContactHandoffUrl,
   buildEstimateContextPayload,
@@ -66,13 +69,13 @@ type FlowFrame =
   | { kind: "root" }
   | {
       kind: "question";
-      track: ConciergeTrack;
+      track: ConciergePhase;
       step: FlowStepDef;
       path: FlowSelection[];
     }
   | {
       kind: "freeform";
-      track: ConciergeTrack;
+      track: ConciergePhase;
       step: FlowStepDef;
       path: FlowSelection[];
       choice: FlowChoice;
@@ -86,47 +89,45 @@ type FlowFrame =
     };
 
 function buildNextFrameAfterAnswer(
-  track: ConciergeTrack,
+  phase: ConciergePhase,
   completedStepKey: string,
   path: FlowSelection[]
 ): FlowFrame {
-  if (track === "A") {
-    if (completedStepKey === "A2") {
-      return { kind: "question", track: "A", step: A_STEP_BUILD, path };
+  if (phase === "CDE" && completedStepKey === "CDE_PICK") {
+    const pick = path.find((p) => p.stepKey === "CDE_PICK");
+    const id = pick?.optionId;
+    if (id === "cde_pick_d") {
+      return { kind: "question", track: "D", step: D_STEP2, path };
     }
+    if (id === "cde_pick_e") {
+      return { kind: "question", track: "E", step: E_STEP2, path };
+    }
+    return { kind: "question", track: "C", step: C_STEP2, path };
+  }
+
+  if (phase === "A") {
     if (completedStepKey === "A3") {
-      return {
-        kind: "question",
-        track: "A",
-        step: A_STEP_INTEGRATION,
-        path,
-      };
+      return { kind: "question", track: "A", step: A_STEP_SCOPE, path };
     }
-    if (completedStepKey === "A4") {
+    if (completedStepKey === "A_SCOPE") {
       const body = buildEstimateBlockA(path);
       return { kind: "done", track: "A", path, body };
     }
     return { kind: "done", track: "A", path, body: buildEstimateBlockA(path) };
   }
-  if (track === "B") {
+
+  if (phase === "B") {
     if (completedStepKey === "B2") {
-      return { kind: "question", track: "B", step: B_STEP_TEAM, path };
+      return { kind: "question", track: "B", step: B_STEP_SCOPE, path };
     }
-    if (completedStepKey === "B3") {
-      return {
-        kind: "question",
-        track: "B",
-        step: B_STEP_CHALLENGE,
-        path,
-      };
-    }
-    if (completedStepKey === "B4") {
+    if (completedStepKey === "B_SCOPE") {
       const body = buildEstimateBlockB(path);
       return { kind: "done", track: "B", path, body };
     }
     return { kind: "done", track: "B", path, body: buildEstimateBlockB(path) };
   }
-  const t = track as "C" | "D" | "E";
+
+  const t = phase as "C" | "D" | "E";
   const shortcut = SHORTCUT_PANELS[t];
   const body = buildCdeSummaryBlock(t, path);
   return { kind: "done", track: t, path, body, shortcut };
@@ -152,7 +153,97 @@ function parseBoldLine(line: string): ReactNode {
   });
 }
 
+const NEXT_STEPS_HEADING = "**次の一歩**";
+const SELECTION_MARKER = "**選択内容（参考）**";
+
+/** 画面上はタップカードで示すため、スクロール内の「次の一歩」箇条書きを除く（全文は body のまま） */
+function stripNextStepsSectionForDisplay(text: string): string {
+  const i = text.indexOf(NEXT_STEPS_HEADING);
+  if (i === -1) return text;
+  const sel = text.indexOf(SELECTION_MARKER, i);
+  if (sel !== -1) {
+    return `${text.slice(0, i).trimEnd()}\n\n${text.slice(sel).trimStart()}`.trim();
+  }
+  const disc = text.indexOf("※ ", i);
+  if (disc !== -1) {
+    return `${text.slice(0, i).trimEnd()}\n\n${text.slice(disc).trimStart()}`.trim();
+  }
+  return text.slice(0, i).trimEnd();
+}
+
+function ConciergeNextStepsCard({
+  track,
+  path,
+  disabled,
+  onDismissForNavigation,
+  onDetailedEstimate,
+}: {
+  track: ConciergeTrack;
+  path: FlowSelection[];
+  disabled: boolean;
+  onDismissForNavigation: () => void;
+  onDetailedEstimate: () => void;
+}) {
+  const router = useRouter();
+  const demoSlugResolved =
+    track === "A" || track === "B"
+      ? getDemoSlugForAbTrack(track, path)
+      : getDemoSlugForCdeTrack(track, path);
+  const demoHref = demoSlugResolved
+    ? experienceHref(demoSlugResolved)
+    : "/demo/list";
+
+  const goDemo = () => {
+    emitConciergeKpi({
+      name: "cta_click",
+      href: demoHref,
+      ctaKind: demoSlugResolved ? "experience_prototype" : "demo_list",
+      mode: "default",
+    });
+    onDismissForNavigation();
+    router.push(demoHref);
+  };
+
+  return (
+    <div className="mt-5 grid grid-cols-2 gap-2.5" role="navigation" aria-label="結果導線">
+      <Link
+        href={demoHref}
+        className={cn(
+          "flex min-h-[3.2rem] items-center justify-center rounded-xl border border-white/18 bg-white/[0.07] px-3 py-3 text-center text-[14px] font-semibold leading-snug text-white shadow-[0_6px_20px_rgba(0,0,0,0.18)] transition-[transform,background-color,border-color,box-shadow]",
+          "hover:-translate-y-0.5 hover:border-accent/55 hover:bg-accent/18 hover:shadow-[0_10px_26px_rgba(0,242,255,0.18)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
+          disabled && "pointer-events-none opacity-50"
+        )}
+        onClick={(e) => {
+          e.preventDefault();
+          if (disabled) return;
+          goDemo();
+        }}
+      >
+        demoを体験
+      </Link>
+      <button
+        type="button"
+        disabled={disabled}
+        className={cn(
+          "flex min-h-[3.2rem] w-full items-center justify-center rounded-xl border border-accent/45 bg-accent/22 px-3 py-3 text-center text-[14px] font-semibold leading-snug text-white shadow-[0_8px_22px_rgba(0,242,255,0.16)] transition-[transform,background-color,border-color,box-shadow]",
+          "hover:-translate-y-0.5 hover:border-accent/75 hover:bg-accent/35 hover:shadow-[0_12px_28px_rgba(0,242,255,0.24)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
+          disabled && "opacity-50"
+        )}
+        onClick={() => {
+          if (disabled) return;
+          onDetailedEstimate();
+        }}
+      >
+        要件をまとめてみる
+      </button>
+    </div>
+  );
+}
+
 function stepTitleFor(step: FlowStepDef): string {
+  if (step.stepKey === "CDE_PICK") return "知りたいこと（詳細）";
+  if (step.stepKey === "A_SCOPE") return "開発コスト（質問）";
+  if (step.stepKey === "B_SCOPE") return "コンサル費用（質問）";
   if (step.stepKey.startsWith("A")) return "開発コスト（質問）";
   if (step.stepKey.startsWith("B")) return "コンサル費用（質問）";
   if (step.stepKey.startsWith("C")) return "開発技術（質問）";
@@ -223,31 +314,30 @@ export function HomeConciergeFlow({
   const trackFromRootId = (id: string): ConciergeTrack | null => {
     if (id === "root_a") return "A";
     if (id === "root_b") return "B";
-    if (id === "root_c") return "C";
-    if (id === "root_d") return "D";
     if (id === "root_e") return "E";
     return null;
   };
 
   const handleRootPick = useCallback(
     (choice: FlowChoice) => {
+      const path = [rootSelection(choice)];
+      if (choice.id === "root_cde") {
+        push({
+          kind: "question",
+          track: "CDE",
+          step: CDE_PICK_STEP,
+          path,
+        });
+        return;
+      }
       const track = trackFromRootId(choice.id);
       if (!track) return;
-      const path = [rootSelection(choice)];
       if (track === "A") {
-        push({ kind: "question", track: "A", step: A_STEP_TEAM, path });
+        push({ kind: "question", track: "A", step: A_STEP_BUILD, path });
         return;
       }
       if (track === "B") {
         push({ kind: "question", track: "B", step: B_STEP_SUPPORT, path });
-        return;
-      }
-      if (track === "C") {
-        push({ kind: "question", track: "C", step: C_STEP2, path });
-        return;
-      }
-      if (track === "D") {
-        push({ kind: "question", track: "D", step: D_STEP2, path });
         return;
       }
       push({ kind: "question", track: "E", step: E_STEP2, path });
@@ -442,7 +532,7 @@ export function HomeConciergeFlow({
           {current.kind === "root" && (
             <div className="space-y-4">
               <h3 className="text-center text-base font-semibold leading-relaxed tracking-wide text-text/95">
-                まず、知りたいことを選んでください
+                目的に近いものを選んでください
               </h3>
               <div className="flex flex-col gap-3">
                 {ROOT_CHOICES.map((c, idx) => (
@@ -645,9 +735,10 @@ function DoneStep({
       : getDemoSlugForCdeTrack(track, path);
 
   const displayBody = doneBodyForDisplay(track, body);
+  const displayBodyForUi = stripNextStepsSectionForDisplay(displayBody);
   const isAb = track === "A" || track === "B";
-  const abParts = isAb ? splitAbEstimateBody(displayBody) : null;
-  const cdeParts = !isAb ? splitCdeResultBody(displayBody) : null;
+  const abParts = isAb ? splitAbEstimateBody(displayBodyForUi) : null;
+  const cdeParts = !isAb ? splitCdeResultBody(displayBodyForUi) : null;
 
   useEffect(() => {
     onFooterPhaseChange?.("done_result");
@@ -666,6 +757,8 @@ function DoneStep({
       onFooterPhaseChange?.("wizard");
     };
   }, [displayBody, onFooterPhaseChange]);
+
+  const showNextStepsCard = displayBody.includes(NEXT_STEPS_HEADING);
 
   const openDemo = () => {
     emitConciergeKpi({
@@ -711,6 +804,15 @@ function DoneStep({
                 {parseBoldLine(abParts.sub)}
               </p>
             ) : null}
+            {showNextStepsCard ? (
+              <ConciergeNextStepsCard
+                track={track}
+                path={path}
+                disabled={disabled}
+                onDismissForNavigation={onDismissForNavigation}
+                onDetailedEstimate={onDetailedEstimate}
+              />
+            ) : null}
             {abParts.detail ? (
               <div className="mt-6 max-h-[min(38vh,320px)] overflow-y-auto border-t border-silver/15 pt-4 text-sm leading-relaxed text-text/90">
                 {abParts.detail.split("\n").map((line, i) => (
@@ -730,6 +832,15 @@ function DoneStep({
                 </p>
               ))}
             </div>
+            {showNextStepsCard ? (
+              <ConciergeNextStepsCard
+                track={track}
+                path={path}
+                disabled={disabled}
+                onDismissForNavigation={onDismissForNavigation}
+                onDetailedEstimate={onDetailedEstimate}
+              />
+            ) : null}
             {cdeParts.selection ? (
               <div className="mt-6 max-h-[min(32vh,280px)] overflow-y-auto border-t border-silver/15 pt-4 text-xs leading-relaxed text-text/80 sm:text-sm">
                 {cdeParts.selection.split("\n").map((line, i) => (

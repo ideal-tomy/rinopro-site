@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "seed:ai-demos": "tsx scripts/seed-ai-demos.ts"
+    "seed:ai-demos": "tsx scripts/seed-ai-demos.ts",
+    "verify:concierge": "tsx scripts/verify-concierge-combos.ts"
   },
   "dependencies": {
     "@ai-sdk/google": "^3.0.52",
