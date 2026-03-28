@@ -1,24 +1,44 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useMemo } from "react";
 import { ChatBubble } from "./ChatBubble";
+import { ConciergeThinkingIndicator } from "./ConciergeThinkingIndicator";
 import type { UIMessage } from "ai";
 import { getUIMessageText } from "@/lib/chat/uimessage-text";
 
 interface ChatMessagesProps {
   messages: UIMessage[];
+  /** 送信中・ストリーミング中（本文未着の間は思考インジケーターを表示） */
+  isLoading?: boolean;
   className?: string;
 }
 
-export function ChatMessages({ messages, className }: ChatMessagesProps) {
+function shouldShowThinking(messages: UIMessage[], isLoading: boolean): boolean {
+  if (!isLoading) return false;
+  const last = messages[messages.length - 1];
+  if (!last) return false;
+  if (last.role === "user") return true;
+  if (last.role === "assistant" && !getUIMessageText(last).trim()) return true;
+  return false;
+}
+
+export function ChatMessages({
+  messages,
+  isLoading = false,
+  className,
+}: ChatMessagesProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const showThinking = useMemo(
+    () => shouldShowThinking(messages, isLoading),
+    [messages, isLoading]
+  );
 
   useEffect(() => {
     scrollRef.current?.scrollTo({
       top: scrollRef.current.scrollHeight,
       behavior: "smooth",
     });
-  }, [messages]);
+  }, [messages, showThinking]);
 
   return (
     <div
@@ -36,6 +56,7 @@ export function ChatMessages({ messages, className }: ChatMessagesProps) {
           />
         );
       })}
+      {showThinking ? <ConciergeThinkingIndicator /> : null}
     </div>
   );
 }

@@ -25,6 +25,7 @@ import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { emitConciergeKpi } from "@/lib/chat/concierge-analytics";
 import { getConciergeCtaDelayMs } from "@/lib/chat/concierge-cta-delay";
 import { getUIMessageText } from "@/lib/chat/uimessage-text";
+import type { ConciergeSignals } from "@/lib/ai/concierge-senior";
 import { ChatPopup } from "./ChatPopup";
 import { ChatMessages } from "./ChatMessages";
 import { ChatInput } from "./ChatInput";
@@ -137,11 +138,49 @@ export function ChatContainer() {
 
   const [chatSessionId, setChatSessionId] = useState(CONCIERGE_CHAT_SESSION_INITIAL);
 
+  /** 次の /api/chat 送信にだけ載せるシグナル（postPreset は1回でクリア） */
+  const conciergeSignalsRef = useRef<Partial<ConciergeSignals>>({});
+
   const transport = useMemo(
     () =>
       new DefaultChatTransport({
         api: "/api/chat",
-        body: { mode, pathname },
+        prepareSendMessagesRequest: ({ body, messages: reqMessages }) => {
+          const base =
+            body && typeof body === "object" && !Array.isArray(body)
+              ? { ...(body as Record<string, unknown>) }
+              : {};
+          const fromCaseStudy =
+            typeof window !== "undefined" &&
+            new URLSearchParams(window.location.search).get("concierge_from") ===
+              "case_study";
+
+          const signals: ConciergeSignals = {};
+          if (conciergeSignalsRef.current.postPreset) {
+            signals.postPreset = true;
+            if (conciergeSignalsRef.current.presetLabel) {
+              signals.presetLabel = conciergeSignalsRef.current.presetLabel;
+            }
+          }
+          if (fromCaseStudy) signals.fromCaseStudy = true;
+
+          if (conciergeSignalsRef.current.postPreset) {
+            delete conciergeSignalsRef.current.postPreset;
+            delete conciergeSignalsRef.current.presetLabel;
+          }
+
+          const hasSignals = Object.keys(signals).length > 0;
+
+          return {
+            body: {
+              ...base,
+              mode,
+              pathname,
+              messages: reqMessages,
+              ...(hasSignals ? { conciergeSignals: signals } : {}),
+            },
+          };
+        },
       }),
     [mode, pathname]
   );
@@ -383,6 +422,8 @@ export function ChatContainer() {
         parts: [{ type: "text" as const, text: label }],
       };
       if (reply) {
+        conciergeSignalsRef.current.postPreset = true;
+        conciergeSignalsRef.current.presetLabel = label;
         setMessages((prev) => [
           ...prev,
           userMsg,
@@ -398,6 +439,8 @@ export function ChatContainer() {
         mode === "development"
           ? "【開発相談の開始メモ】"
           : "【コンサル相談の開始メモ】";
+      conciergeSignalsRef.current.postPreset = true;
+      conciergeSignalsRef.current.presetLabel = label;
       setDraftInjection({
         id: Date.now(),
         text: `${topicPrefix}\n- 相談したい項目: ${label}`,
@@ -421,10 +464,13 @@ export function ChatContainer() {
   );
 
   const handleServiceCardFreeform = useCallback(() => {
+    conciergeSignalsRef.current.postPreset = true;
+    delete conciergeSignalsRef.current.presetLabel;
     setServiceCardStartDone(true);
   }, []);
 
   const handleServiceCardRestart = useCallback(() => {
+    conciergeSignalsRef.current = {};
     setMessages([]);
     setServiceCardStartDone(false);
     setServiceCardResetKey((k) => k + 1);
@@ -436,6 +482,7 @@ export function ChatContainer() {
     (next: boolean) => {
       setOpen(next);
       if (!next) {
+        conciergeSignalsRef.current = {};
         setConciergeSurface("pick");
         setEntrySource("fab");
         setServiceCardStartDone(false);
@@ -486,7 +533,9 @@ export function ChatContainer() {
 
   let mainContent: ReactNode;
   if (messages.length > 0) {
-    mainContent = <ChatMessages messages={messages} />;
+    mainContent = (
+      <ChatMessages messages={messages} isLoading={isLoading} />
+    );
   } else if (showEntryPicker) {
     mainContent = (
       <ConciergeEntryPicker
@@ -570,7 +619,12 @@ export function ChatContainer() {
     showGlobalHomeFlow &&
     messages.length === 0 &&
     homeFooterPhase === "done_input";
-  const wideHomeLayout = showGlobalHomeFlow;
+  /** トップの分岐フローと同じ広ポップアップを、ホームで会話が始まったあとも維持する（messages>0 で showGlobalHomeFlow が false になるため別条件が必要） */
+  const wideHomeLayout =
+    showGlobalHomeFlow ||
+    (isHomePage &&
+      messages.length > 0 &&
+      (conciergeSurface === "global" || conciergeSurface === "pick"));
   const onServicesDevOrConsult =
     isServiceWizardPage &&
     (mode === "development" || mode === "consulting");

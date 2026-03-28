@@ -1,5 +1,9 @@
 import { consultingCopy, developmentFlowCopy } from "@/lib/content/site-copy";
 import type { AiDemo, DemoItem } from "@/lib/sanity/types";
+import {
+  OUTPUT_SHAPE_SENIOR,
+  SENIOR_SYSTEM_APPENDIX,
+} from "@/lib/ai/concierge-senior";
 
 export type ConciergeApiMode = "default" | "development" | "consulting";
 
@@ -11,6 +15,10 @@ export type BuildConciergeSystemOptions = {
   demoCatalog?: string;
   /** ページのパスから推定した文脈（平易語・CTAの優先度） */
   pageContext?: ConciergePageContext;
+  /** 高関与ユーザー向けシステム追記・出力型の切替 */
+  senior?: boolean;
+  /** シニア時のみ。要約デモカタログ（buildSeniorDemoCatalog） */
+  seniorDemoCatalog?: string;
 };
 
 /** クライアントから送る pathname をページ文脈に変換（プロンプト補助のみ） */
@@ -42,7 +50,7 @@ function buildPageContextHints(ctx: ConciergePageContext): string {
     case "services":
       return `ページ文脈（サービス・開発/コンサル・見積）:
 - **意思決定の整理**を優先（現状・選択肢・次の一手）。専門用語は必ず括弧で補足する。
-- サイト内の行動誘導（見積・問い合わせ・demo）は **UI ブロックが担当**する。文中で強くCTAを促さない（補助として1文のみ可）。
+- サイト内の行動誘導（見積・問い合わせ・demo）は **UI ブロックが担当**する。通常時は文中で強くCTAを促さない（補助として1文のみ可）。
 - development モードでは「実装工程・試作・要件整理・連携」を主軸に、consulting モードでは「課題診断・優先順位・合意形成・PoC」を主軸に回答する。`;
     default:
       return `ページ文脈（その他）:
@@ -155,14 +163,37 @@ const CONSULTING_CROSS_TOPIC = `クロストピック（開発の流れ・実装
 ${formatDevelopmentFlow()}
 `;
 
+function buildSeniorPromptBlocks(
+  senior: boolean,
+  seniorDemoCatalog: string | undefined
+): string {
+  if (!senior) return "";
+  const cat = seniorDemoCatalog?.trim();
+  return (
+    "\n\n" +
+    SENIOR_SYSTEM_APPENDIX +
+    (cat
+      ? `\n\n## シニア用・参考デモ一覧（最大10件）\n${cat}`
+      : "") +
+    "\n"
+  );
+}
+
 export function buildConciergeSystem(
   mode: ConciergeApiMode,
   options?: BuildConciergeSystemOptions
 ): string {
+  const senior = options?.senior === true;
   const demoCatalog = options?.demoCatalog?.trim();
-  const pageContextBlock = buildPageContextHints(
+  let pageContextBlock = buildPageContextHints(
     options?.pageContext ?? "other"
   );
+  if (senior) {
+    pageContextBlock +=
+      "\n- シニアモード: 本文のリンクは**納得・参考用**。主な次の一手はチャットUI下部のボタン帯が担う。";
+  }
+  const seniorBlocks = buildSeniorPromptBlocks(senior, options?.seniorDemoCatalog);
+  const outputShape = senior ? OUTPUT_SHAPE_SENIOR : OUTPUT_SHAPE;
 
   if (mode === "development") {
     return `あなたはrinoproの「開発」専用アシスタントです。
@@ -180,8 +211,8 @@ ${DEVELOPMENT_CROSS_TOPIC}
 ${pageContextBlock}
 
 ${SITE_ROUTE_CTA}
-
-${OUTPUT_SHAPE}
+${seniorBlocks}
+${outputShape}
 
 ${BASE_RULES}`;
   }
@@ -200,8 +231,8 @@ ${CONSULTING_CROSS_TOPIC}
 ${pageContextBlock}
 
 ${SITE_ROUTE_CTA}
-
-${OUTPUT_SHAPE}
+${seniorBlocks}
+${outputShape}
 
 ${BASE_RULES}`;
   }
@@ -214,8 +245,8 @@ ${catalogBlock}
 ${pageContextBlock}
 
 ${SITE_ROUTE_CTA}
-
-${OUTPUT_SHAPE}
+${seniorBlocks}
+${outputShape}
 
 ${BASE_RULES}`;
 }
