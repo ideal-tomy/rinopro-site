@@ -945,8 +945,8 @@ function DoneStep({
                       });
                       onContactSimple();
                     }}
-                  >
-                    お問い合わせフォームへ
+                    >
+                    お問い合わせ
                   </button>
                   {footerUi === "input" ? (
                     <button
@@ -962,7 +962,7 @@ function DoneStep({
                         onPasteMemoToInput();
                       }}
                     >
-                      分岐メモを入力欄に貼る
+                      メモを入力欄に貼る
                     </button>
                   ) : null}
                 </p>

@@ -26,13 +26,16 @@
 | 2 | `surface === "global"` | `concierge-home` | 「サイト全体のガイド」選択後（主にトップ）。`HomeConciergeFlow` |
 | 3 | `pathname === "/services"` かつカード | `concierge-services-card-development` / `concierge-services-card-consulting` | `entrySource` が `services-card-*` |
 | 4 | `pathname === "/services"`（上記以外） | `concierge-services-hub` | FAB→このページについて→開発/コンサル確定後の hub 会話 |
+| 4a | `pathname === "/flow"` | `concierge-path-flow` | 開発ページ直訪問。mode は `development` に固定され、2段階ウィザードが表示される（`showServiceCardStartFlow`） |
+| 4b | `pathname === "/consulting"` | `concierge-path-consulting` | コンサルページ直訪問。mode は `consulting` に固定され、2段階ウィザードが表示される |
 | 5 | `pathname` が `/demo` で開始 | `concierge-demo-{path を _ 化}` | デモ一覧・各デモページの page 表面 |
-| 6 | 上記以外 | `concierge-path-{slug}` | 例: `/flow` → `concierge-path-flow`、`/services/development` → `concierge-path-services-development` |
+| 6 | 上記以外 | `concierge-path-{slug}` | 例: `/services/development` → `concierge-path-services-development` |
 
 ### メモ
 
 - **`mode`（development / consulting / default）は API の system 用**。sessionId には **使わない**（pathname でスコープし、広域の dev/consult 共有を避ける）。
 - **`/services` は厳密一致**。`/services/development` は hub ではなく `concierge-path-services-development`。
+- `/flow`・`/consulting` は mode が useState の useEffect で自動設定されるため、`servicesIntroComplete` は `true` に初期化される（ウィザード選択不要でそのまま入れる状態）。
 - 初回マウントの `useState` フォールバックは `CONCIERGE_CHAT_SESSION_INITIAL`（`/` + pick と同じ `concierge-pick-root`）。直後の `useEffect` で `provisionalId` に同期される。
 
 ## 変更時

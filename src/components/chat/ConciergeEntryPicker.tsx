@@ -27,23 +27,12 @@ export function ConciergeEntryPicker({
         className
       )}
     >
-      <p className="mb-1 text-xs font-medium uppercase tracking-wide text-text-sub">
-        はじめに
-      </p>
-      <h3 className="mb-1 text-base font-semibold text-text">
-        どちらから始めますか？
-      </h3>
-      <p className="mb-5 text-sm leading-relaxed text-text-sub">
-        いま見ているページに寄せた案内と、サイト全体の選択式ガイド（費用の目安・進め方・demo
-        への導線）を分けています。営業ではなく、整理・確認のための入口です。
-      </p>
-
-      <div className="flex flex-col gap-3">
+      <div className="mb-4 flex flex-col gap-3">
         <ConciergeChoiceButton
           type="button"
           order={1}
           label="このページについて"
-          description="いまのページの内容に沿って補足します（サービスページでは開発／コンサルを選べます）。"
+          description="このページに沿った案内"
           icon={<LayoutTemplate className="h-4 w-4" aria-hidden />}
           disabled={disabled}
           className="min-h-[4.25rem]"
@@ -54,7 +43,7 @@ export function ConciergeEntryPicker({
           type="button"
           order={2}
           label="サイト全体のガイド"
-          description="トップページと同じ分岐（開発コスト・コンサル費用・技術・demo など）から、目安と次の一歩を選べます。"
+          description="費用・期間・demo 導線の選択式ガイド"
           icon={<Globe className="h-4 w-4" aria-hidden />}
           disabled={disabled}
           className="min-h-[4.25rem]"

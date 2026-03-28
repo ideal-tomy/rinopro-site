@@ -112,6 +112,7 @@ export function ChatContainer() {
     text: string;
   } | null>(null);
   const [servicesIntroComplete, setServicesIntroComplete] = useState(false);
+  const [serviceCardResetKey, setServiceCardResetKey] = useState(0);
   const [homeFooterPhase, setHomeFooterPhase] =
     useState<HomeConciergeFooterPhase>("wizard");
 
@@ -217,14 +218,22 @@ export function ChatContainer() {
     return () => clearTimeout(timer);
   }, [open, messages, isLoading, prefersReducedMotion, pathname, mode]);
 
-  /** sessionStorage の pick と React 状態を同期（同一 /services 上でカードを押した直後も取りこぼさない） */
+  /**
+   * sessionStorage の pick と React 状態を同期。
+   * /flow・/consulting の専用ページでは mode が既に決まっているため常に complete 扱いにする。
+   */
   useLayoutEffect(() => {
     if (pathname === "/services") {
       setServicesIntroComplete(readServicesFlowPick() !== null);
+    } else if (
+      (pathname === "/flow" && mode === "development") ||
+      (pathname === "/consulting" && mode === "consulting")
+    ) {
+      setServicesIntroComplete(true);
     } else {
       setServicesIntroComplete(false);
     }
-  }, [pathname, open, entrySource]);
+  }, [pathname, mode, open, entrySource]);
 
   /** `/demo/list` の「コンシェルジュを開く」と同一経路（page 表面の DemoListConciergeFlow） */
   useEffect(() => {
@@ -418,6 +427,7 @@ export function ChatContainer() {
   const handleServiceCardRestart = useCallback(() => {
     setMessages([]);
     setServiceCardStartDone(false);
+    setServiceCardResetKey((k) => k + 1);
     clearDraftInjection();
     clearError();
   }, [setMessages, clearDraftInjection, clearError]);
@@ -458,11 +468,16 @@ export function ChatContainer() {
     (pathname === "/demo/list" || pathname === "/demo");
   /**
    * プリセット「はじめに」UI。
+   * /services カード経路・/flow・/consulting の専用ページでも表示する。
    * FAB→このページについて→開発/コンサル は page 表面。
    * サービスカードから開き直すと閉じる処理で surface が pick に戻るため、カード経路は pick でも表示する。
    */
+  const isServiceWizardPage =
+    pathname === "/services" ||
+    pathname === "/flow" ||
+    pathname === "/consulting";
   const showServiceCardStartFlow =
-    pathname === "/services" &&
+    isServiceWizardPage &&
     servicesIntroComplete &&
     (mode === "development" || mode === "consulting") &&
     !serviceCardStartDone &&
@@ -507,6 +522,7 @@ export function ChatContainer() {
         disabled={isLoading}
         onChoosePreset={handleServiceCardPreset}
         onChooseFreeform={handleServiceCardFreeform}
+        resetKey={serviceCardResetKey}
       />
     );
   } else if (showDemoRouteFlow) {
@@ -530,10 +546,9 @@ export function ChatContainer() {
         {pathname === "/services" &&
           servicesIntroComplete &&
           (mode === "development" || mode === "consulting") && (
-            <div className="border-b border-silver/15 px-4 py-3 text-sm text-text-sub">
-              <p className="font-medium text-text">
+            <div className="border-b border-silver/15 px-4 py-3">
+              <p className="text-xs font-medium text-text/70">
                 {mode === "development" ? "開発" : "コンサルティング"}
-                についてお答えします。下の入力欄から自由にご質問ください。
               </p>
             </div>
           )}
@@ -557,7 +572,7 @@ export function ChatContainer() {
     homeFooterPhase === "done_input";
   const wideHomeLayout = showGlobalHomeFlow;
   const onServicesDevOrConsult =
-    pathname === "/services" &&
+    isServiceWizardPage &&
     (mode === "development" || mode === "consulting");
   const isDevOrConsultMode =
     mode === "development" || mode === "consulting";
@@ -617,7 +632,7 @@ export function ChatContainer() {
           {mainContent}
 
           {messages.length > 0 &&
-            pathname === "/services" &&
+            isServiceWizardPage &&
             onServicesDevOrConsult && (
               <div className="border-b border-silver/15 bg-base/40 px-4 py-2">
                 <button
@@ -655,26 +670,7 @@ export function ChatContainer() {
 
                 {isDevOrConsultMode && (
                   <div className="px-4 py-3">
-                    <p className="mb-2 text-xs font-medium leading-relaxed text-text/85">
-                      次の一歩（サイト内）
-                    </p>
                     <div className="grid grid-cols-2 gap-2">
-                      <ConciergeCtaLink
-                        href="/demo"
-                        variant="secondary"
-                        onClick={() => {
-                          emitConciergeKpi({
-                            name: "cta_click",
-                            href: "/demo",
-                            ctaKind: "experience_demo_hub",
-                            pathname,
-                            mode,
-                          });
-                          dismissConciergeForSiteLink();
-                        }}
-                      >
-                        体験demo
-                      </ConciergeCtaLink>
                       <ConciergeCtaLink
                         href="/estimate-detailed"
                         variant="primary"
@@ -689,7 +685,23 @@ export function ChatContainer() {
                           dismissConciergeForSiteLink();
                         }}
                       >
-                        概算見積もり
+                        {mode === "consulting" ? "相談・見積もり" : "概算見積もり"}
+                      </ConciergeCtaLink>
+                      <ConciergeCtaLink
+                        href="/contact"
+                        variant="secondary"
+                        onClick={() => {
+                          emitConciergeKpi({
+                            name: "cta_click",
+                            href: "/contact",
+                            ctaKind: "contact",
+                            pathname,
+                            mode,
+                          });
+                          dismissConciergeForSiteLink();
+                        }}
+                      >
+                        お問い合わせ
                       </ConciergeCtaLink>
                     </div>
                   </div>
@@ -698,11 +710,8 @@ export function ChatContainer() {
                 {!isDevOrConsultMode &&
                   mode === "default" &&
                   !showEntryPicker && (
-                    <div className="px-4 py-2.5 text-xs leading-relaxed text-text-sub">
-                      <p className="mb-1.5 font-medium text-text/85">
-                        次の一歩（サイト内）
-                      </p>
-                      <div className="flex flex-wrap gap-x-4 gap-y-1">
+                    <div className="px-4 py-2.5">
+                      <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs leading-relaxed">
                         <Link
                           href="/demo/list"
                           className="text-accent underline-offset-2 hover:underline"
@@ -733,7 +742,7 @@ export function ChatContainer() {
                             dismissConciergeForSiteLink();
                           }}
                         >
-                          詳細見積もり（概算レンジ）
+                          詳細見積もり
                         </Link>
                         <Link
                           href="/contact"
@@ -796,10 +805,8 @@ export function ChatContainer() {
               />
             </motion.div>
           ) : (
-            <div className="border-t border-silver/15 bg-base/40 px-4 py-3 text-center text-xs text-text-sub">
-              {showServiceCardStartFlow
-                ? "上の選択肢か自由記述を選ぶと、入力欄が使えるようになります。"
-                : "上の2択から選ぶと、入力欄が使えるようになります。"}
+            <div className="border-t border-silver/15 bg-base/40 px-4 py-3 text-center text-xs text-text-sub/60">
+              選択すると入力欄が開きます
             </div>
           )}
         </div>

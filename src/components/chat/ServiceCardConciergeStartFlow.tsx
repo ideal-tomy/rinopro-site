@@ -1,18 +1,21 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { ConciergeChoiceButton } from "@/components/chat/ConciergeChoiceButton";
 import {
-  CONSULTING_PRESET_LABELS,
-  DEVELOPMENT_PRESET_LABELS,
+  CON_STEP1_DEFS,
+  DEV_STEP1_DEFS,
+  getStep2Labels,
+  type ServicePresetVariant,
 } from "@/lib/chat/service-card-preset-content";
 
-type Variant = "development" | "consulting";
-
 interface ServiceCardConciergeStartFlowProps {
-  variant: Variant;
+  variant: ServicePresetVariant;
   disabled?: boolean;
   onChoosePreset: (label: string) => void;
   onChooseFreeform: () => void;
+  /** インクリメントで内部状態を step1 にリセット */
+  resetKey?: number;
 }
 
 export function ServiceCardConciergeStartFlow({
@@ -20,34 +23,69 @@ export function ServiceCardConciergeStartFlow({
   disabled = false,
   onChoosePreset,
   onChooseFreeform,
+  resetKey,
 }: ServiceCardConciergeStartFlowProps) {
-  const options =
-    variant === "development"
-      ? DEVELOPMENT_PRESET_LABELS
-      : CONSULTING_PRESET_LABELS;
+  const [phase, setPhase] = useState<"step1" | "step2">("step1");
+  const [step1Key, setStep1Key] = useState<string | null>(null);
 
-  const freeformOrder = options.length + 1;
+  useEffect(() => {
+    setPhase("step1");
+    setStep1Key(null);
+  }, [resetKey]);
+
+  const step1Defs = variant === "development" ? DEV_STEP1_DEFS : CON_STEP1_DEFS;
+
+  if (phase === "step2" && step1Key) {
+    const step2Labels = getStep2Labels(variant, step1Key);
+    const step1Label = step1Defs.find((d) => d.key === step1Key)?.label ?? "";
+
+    return (
+      <div className="flex min-h-0 flex-1 flex-col overflow-y-auto">
+        <div className="space-y-4 p-4">
+          <button
+            type="button"
+            className="flex items-center gap-1 text-xs text-text/55 transition-colors hover:text-text/90"
+            onClick={() => setPhase("step1")}
+          >
+            ← {step1Label}
+          </button>
+          <div className="flex flex-col gap-3">
+            {step2Labels.map((label, idx) => (
+              <ConciergeChoiceButton
+                key={label}
+                type="button"
+                order={idx + 1}
+                label={label}
+                disabled={disabled}
+                onClick={() => onChoosePreset(label)}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex min-h-0 flex-1 flex-col overflow-y-auto">
       <div className="space-y-4 p-4">
-        <h3 className="text-center text-[16px] font-semibold leading-relaxed tracking-wide text-text/95">
-          どちらから始めますか？
-        </h3>
         <div className="flex flex-col gap-3">
-          {options.map((label, idx) => (
+          {step1Defs.map((def, idx) => (
             <ConciergeChoiceButton
-              key={label}
+              key={def.key}
               type="button"
               order={idx + 1}
-              label={label}
+              label={def.label}
               disabled={disabled}
-              onClick={() => onChoosePreset(label)}
+              onClick={() => {
+                setStep1Key(def.key);
+                setPhase("step2");
+              }}
             />
           ))}
           <ConciergeChoiceButton
             type="button"
-            order={freeformOrder}
+            order={step1Defs.length + 1}
             label="自由記述で相談する"
             disabled={disabled}
             onClick={onChooseFreeform}
