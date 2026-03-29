@@ -77,7 +77,7 @@ export function ChatPopup({
     <AnimatePresence>
       {open && (
         <div
-          className="fixed inset-0 z-[90] flex items-center justify-center p-4"
+          className="fixed inset-0 z-[90] overflow-y-auto overflow-x-hidden overscroll-y-contain"
           role="dialog"
           aria-modal="true"
           aria-labelledby="chat-popup-title"
@@ -92,45 +92,52 @@ export function ChatPopup({
             onClick={() => onOpenChange(false)}
             aria-hidden
           />
-          <motion.div
-            className={cn(
-              "relative flex max-h-[85vh] min-h-0 w-full max-w-md flex-col overflow-hidden rounded-xl border border-silver/20 bg-base-dark shadow-2xl",
-              "focus-within:ring-2 focus-within:ring-accent focus-within:ring-offset-2 focus-within:ring-offset-base",
-              className
-            )}
-            variants={prefersReducedMotion ? undefined : popupVariants}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex items-center justify-between border-b border-silver/20 px-4 py-3">
-              <div>
-                <h2
-                  id="chat-popup-title"
-                  className="font-semibold text-text"
+          {/*
+            iOS Safari: 縦中央 + 85vh だとノッチ下・動的ツールバーと噛み合わず上が欠け、
+            外側がスクロール不能だと戻せない。セーフエリア込みの余白・上寄せ・外側スクロールで解消。
+          */}
+          <div className="relative mx-auto flex min-h-full w-full max-w-[100vw] flex-col items-center justify-start px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-[max(1rem,env(safe-area-inset-top))] sm:justify-center sm:py-4">
+            <motion.div
+              className={cn(
+                "relative flex min-h-0 w-full max-w-md flex-col overflow-hidden rounded-xl border border-silver/20 bg-base-dark shadow-2xl",
+                "max-h-[calc(100dvh-1.5rem-env(safe-area-inset-top)-env(safe-area-inset-bottom)-1.5rem)] sm:max-h-[85vh]",
+                "focus-within:ring-2 focus-within:ring-accent focus-within:ring-offset-2 focus-within:ring-offset-base",
+                className
+              )}
+              variants={prefersReducedMotion ? undefined : popupVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex shrink-0 items-center justify-between border-b border-silver/20 px-4 py-3">
+                <div className="min-w-0 pr-2">
+                  <h2
+                    id="chat-popup-title"
+                    className="truncate text-[14px] font-semibold leading-snug text-text sm:text-[16px]"
+                  >
+                    {title}
+                  </h2>
+                  <p
+                    id="chat-popup-description"
+                    className="text-[12px] leading-snug text-text-sub sm:text-sm"
+                  >
+                    {description}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => onOpenChange(false)}
+                  className="rounded-lg p-2 opacity-70 ring-offset-base transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
+                  aria-label="閉じる"
                 >
-                  {title}
-                </h2>
-                <p
-                  id="chat-popup-description"
-                  className="text-sm text-text-sub"
-                >
-                  {description}
-                </p>
+                  <X className="h-5 w-5" />
+                </button>
               </div>
-              <button
-                type="button"
-                onClick={() => onOpenChange(false)}
-                className="rounded-lg p-2 opacity-70 ring-offset-base transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
-                aria-label="閉じる"
-              >
-                <X className="h-5 w-5" />
-              </button>
-            </div>
 
-            {children}
-          </motion.div>
+              {children}
+            </motion.div>
+          </div>
         </div>
       )}
     </AnimatePresence>

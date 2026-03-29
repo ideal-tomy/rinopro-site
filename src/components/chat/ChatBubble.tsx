@@ -29,7 +29,7 @@ export function ChatBubble({ role, content, className }: ChatBubbleProps) {
         {role === "assistant" ? (
           <AssistantMarkdown content={content} />
         ) : (
-          <p className="whitespace-pre-wrap text-sm text-text">{content}</p>
+          <p className="whitespace-pre-wrap text-[12px] text-text sm:text-sm">{content}</p>
         )}
       </div>
     </div>

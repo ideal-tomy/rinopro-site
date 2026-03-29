@@ -43,7 +43,9 @@ const assistantMarkdownComponents: Components = {
     return <AssistantMarkdownInternalLink href={href}>{children}</AssistantMarkdownInternalLink>;
   },
   p({ children }) {
-    return <p className="mb-2 text-sm leading-relaxed text-text last:mb-0">{children}</p>;
+    return (
+      <p className="mb-2 text-[12px] leading-relaxed text-text last:mb-0 sm:text-sm">{children}</p>
+    );
   },
   strong({ children }) {
     return <strong className="font-semibold text-white/95">{children}</strong>;
@@ -65,7 +67,7 @@ const assistantMarkdownComponents: Components = {
     if (isBlock) {
       return (
         <code
-          className={cn("block font-mono text-[13px] text-text", className)}
+          className={cn("block font-mono text-[11px] text-text sm:text-[13px]", className)}
           {...props}
         >
           {children}
@@ -89,17 +91,17 @@ const assistantMarkdownComponents: Components = {
     );
   },
   h1: ({ children }) => (
-    <p className="mb-1 text-sm font-semibold text-white/95">{children}</p>
+    <p className="mb-1 text-[12px] font-semibold text-white/95 sm:text-sm">{children}</p>
   ),
   h2: ({ children }) => (
-    <p className="mb-1 text-sm font-semibold text-white/95">{children}</p>
+    <p className="mb-1 text-[12px] font-semibold text-white/95 sm:text-sm">{children}</p>
   ),
   h3: ({ children }) => (
-    <p className="mb-1 text-sm font-semibold text-white/95">{children}</p>
+    <p className="mb-1 text-[12px] font-semibold text-white/95 sm:text-sm">{children}</p>
   ),
   blockquote({ children }) {
     return (
-      <blockquote className="mb-2 border-l-2 border-accent/40 pl-3 text-sm text-text/90 last:mb-0">
+      <blockquote className="mb-2 border-l-2 border-accent/40 pl-3 text-[12px] text-text/90 last:mb-0 sm:text-sm">
         {children}
       </blockquote>
     );
@@ -113,7 +115,7 @@ export function AssistantMarkdown({ content }: { content: string }) {
     normalizeAssistantMarkdownArtifacts(content)
   );
   return (
-    <div className="assistant-md text-sm text-text">
+    <div className="assistant-md text-[12px] text-text sm:text-sm">
       <ReactMarkdown components={assistantMarkdownComponents}>{linked}</ReactMarkdown>
     </div>
   );

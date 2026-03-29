@@ -54,7 +54,7 @@ export function ConciergeChoiceButton({
     >
       <span className="flex w-full items-start gap-3">
         <span
-          className="shrink-0 pt-0.5 text-[12px] sm:text-[16px] font-semibold tabular-nums tracking-wide text-accent/85"
+          className="shrink-0 pt-0.5 text-[10px] font-semibold tabular-nums tracking-wide text-accent/85 sm:text-[16px]"
           aria-hidden
         >
           {prefix}
@@ -63,17 +63,17 @@ export function ConciergeChoiceButton({
           {icon ? (
             <span className="flex items-start gap-2">
               <span className="mt-0.5 shrink-0 text-accent">{icon}</span>
-              <span className="text-xs font-semibold leading-relaxed tracking-wide text-text/95 sm:text-[16px]">
+              <span className="text-[10px] font-semibold leading-relaxed tracking-wide text-text/95 sm:text-[16px]">
                 {label}
               </span>
             </span>
           ) : (
-            <span className="block text-xs font-semibold leading-relaxed tracking-wide text-text/95 sm:text-[16px]">
+            <span className="block text-[10px] font-semibold leading-relaxed tracking-wide text-text/95 sm:text-[16px]">
               {label}
             </span>
           )}
           {description ? (
-            <span className="mt-1 block text-xs font-normal leading-relaxed tracking-wide text-text/95">
+            <span className="mt-1 block text-[10px] font-normal leading-relaxed tracking-wide text-text/95 sm:text-xs">
               {description}
             </span>
           ) : null}

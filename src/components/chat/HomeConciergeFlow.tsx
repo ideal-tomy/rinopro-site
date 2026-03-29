@@ -209,7 +209,7 @@ function ConciergeNextStepsCard({
       <Link
         href={demoHref}
         className={cn(
-          "flex min-h-[3.2rem] items-center justify-center rounded-xl border border-white/18 bg-white/[0.07] px-3 py-3 text-center text-[14px] font-semibold leading-snug text-white shadow-[0_6px_20px_rgba(0,0,0,0.18)] transition-[transform,background-color,border-color,box-shadow]",
+          "flex min-h-[3.2rem] items-center justify-center rounded-xl border border-white/18 bg-white/[0.07] px-3 py-3 text-center text-[12px] font-semibold leading-snug text-white shadow-[0_6px_20px_rgba(0,0,0,0.18)] transition-[transform,background-color,border-color,box-shadow] sm:text-[14px]",
           "hover:-translate-y-0.5 hover:border-accent/55 hover:bg-accent/18 hover:shadow-[0_10px_26px_rgba(0,242,255,0.18)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
           disabled && "pointer-events-none opacity-50"
         )}
@@ -225,7 +225,7 @@ function ConciergeNextStepsCard({
         type="button"
         disabled={disabled}
         className={cn(
-          "flex min-h-[3.2rem] w-full items-center justify-center rounded-xl border border-accent/45 bg-accent/22 px-3 py-3 text-center text-[14px] font-semibold leading-snug text-white shadow-[0_8px_22px_rgba(0,242,255,0.16)] transition-[transform,background-color,border-color,box-shadow]",
+          "flex min-h-[3.2rem] w-full items-center justify-center rounded-xl border border-accent/45 bg-accent/22 px-3 py-3 text-center text-[12px] font-semibold leading-snug text-white shadow-[0_8px_22px_rgba(0,242,255,0.16)] transition-[transform,background-color,border-color,box-shadow] sm:text-[14px]",
           "hover:-translate-y-0.5 hover:border-accent/75 hover:bg-accent/35 hover:shadow-[0_12px_28px_rgba(0,242,255,0.24)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
           disabled && "opacity-50"
         )}
@@ -531,7 +531,7 @@ export function HomeConciergeFlow({
         >
           {current.kind === "root" && (
             <div className="space-y-4">
-              <h3 className="text-center text-base font-semibold leading-relaxed tracking-wide text-text/95">
+              <h3 className="text-center text-[14px] font-semibold leading-relaxed tracking-wide text-text/95 sm:text-[16px]">
                 目的に近いものを選んでください
               </h3>
               <div className="flex flex-col gap-3">
@@ -554,13 +554,13 @@ export function HomeConciergeFlow({
               <div className="flex items-center justify-end gap-2">
                 <button
                   type="button"
-                  className="text-xs text-accent underline-offset-2 hover:underline"
+                  className="text-[10px] text-accent underline-offset-2 hover:underline sm:text-xs"
                   onClick={pop}
                 >
                   戻る
                 </button>
               </div>
-              <h3 className="text-base font-semibold leading-relaxed tracking-wide text-text/95">
+              <h3 className="text-[14px] font-semibold leading-relaxed tracking-wide text-text/95 sm:text-[16px]">
                 {current.step.question}
               </h3>
               <div
@@ -635,13 +635,13 @@ function FreeformStep({
         </p>
         <button
           type="button"
-          className="text-xs text-accent underline-offset-2 hover:underline"
+          className="text-[10px] text-accent underline-offset-2 hover:underline sm:text-xs"
           onClick={onBack}
         >
           戻る
         </button>
       </div>
-      <p className="text-sm leading-relaxed text-text/95">
+      <p className="text-[12px] leading-relaxed text-text/95 sm:text-sm">
         「{choiceLabel}」について、簡単で構いませんのでご記入ください。
       </p>
       <Textarea
@@ -649,7 +649,7 @@ function FreeformStep({
         onChange={(e) => setText(e.target.value)}
         disabled={disabled}
         rows={4}
-        className="resize-none text-sm"
+        className="resize-none text-[12px] sm:text-sm"
         placeholder="例：〇〇部門の△△業務で、□□を減らしたい"
       />
       <ConciergeCtaButton
@@ -776,17 +776,17 @@ function DoneStep({
   };
 
   const ctaBase =
-    "flex min-h-[3.5rem] w-full flex-col items-center justify-center gap-0.5 rounded-2xl border px-1.5 py-2 text-center text-[11px] font-semibold leading-snug tracking-wide transition-[transform,box-shadow,border-color,background-color] duration-200 sm:min-h-[3.75rem] sm:text-xs";
+    "flex min-h-[3.5rem] w-full flex-col items-center justify-center gap-0.5 rounded-2xl border px-1.5 py-2 text-center text-[9px] font-semibold leading-snug tracking-wide transition-[transform,box-shadow,border-color,background-color] duration-200 sm:min-h-[3.75rem] sm:text-xs";
 
   return (
     <div className="flex min-h-0 flex-1 flex-col">
       <div className="flex shrink-0 items-center justify-between gap-2 pb-3">
-        <p className="text-xs font-medium uppercase tracking-wide text-text/90">
+        <p className="text-[10px] font-medium uppercase tracking-wide text-text/90 sm:text-xs">
           結果
         </p>
         <button
           type="button"
-          className="text-xs text-accent underline-offset-2 hover:underline"
+          className="text-[10px] text-accent underline-offset-2 hover:underline sm:text-xs"
           onClick={onBack}
         >
           戻る
@@ -796,11 +796,11 @@ function DoneStep({
       <div className="min-h-0 flex-1 overflow-y-auto pb-4">
         {isAb && abParts ? (
           <div className="rounded-2xl border border-silver/20 bg-base/40 p-4 sm:p-6">
-            <p className="text-center text-[1.15rem] font-bold leading-snug text-white sm:text-2xl">
+            <p className="text-center text-[16px] font-bold leading-snug text-white sm:text-2xl">
               {parseBoldLine(abParts.headline)}
             </p>
             {abParts.sub ? (
-              <p className="mt-3 text-[15px] leading-relaxed text-text/90 sm:text-[16px]">
+              <p className="mt-3 text-[13px] leading-relaxed text-text/90 sm:text-[16px]">
                 {parseBoldLine(abParts.sub)}
               </p>
             ) : null}
@@ -814,7 +814,7 @@ function DoneStep({
               />
             ) : null}
             {abParts.detail ? (
-              <div className="mt-6 max-h-[min(38vh,320px)] overflow-y-auto border-t border-silver/15 pt-4 text-sm leading-relaxed text-text/90">
+              <div className="mt-6 max-h-[min(38vh,320px)] overflow-y-auto border-t border-silver/15 pt-4 text-[12px] leading-relaxed text-text/90 sm:text-sm">
                 {abParts.detail.split("\n").map((line, i) => (
                   <p key={`ab-${i}`} className="mb-1.5 last:mb-0">
                     {parseBoldLine(line)}
@@ -825,7 +825,7 @@ function DoneStep({
           </div>
         ) : cdeParts ? (
           <div className="rounded-2xl border border-silver/20 bg-base/40 p-4 sm:p-6">
-            <div className="text-[12px] font-semibold leading-relaxed tracking-wide text-text/95 sm:text-[16px]">
+            <div className="text-[10px] font-semibold leading-relaxed tracking-wide text-text/95 sm:text-[16px]">
               {cdeParts.intro.split("\n").map((line, i) => (
                 <p key={`ci-${i}`} className="mb-2 last:mb-0">
                   {parseBoldLine(line)}
@@ -842,7 +842,7 @@ function DoneStep({
               />
             ) : null}
             {cdeParts.selection ? (
-              <div className="mt-6 max-h-[min(32vh,280px)] overflow-y-auto border-t border-silver/15 pt-4 text-xs leading-relaxed text-text/80 sm:text-sm">
+              <div className="mt-6 max-h-[min(32vh,280px)] overflow-y-auto border-t border-silver/15 pt-4 text-[10px] leading-relaxed text-text/80 sm:text-sm">
                 {cdeParts.selection.split("\n").map((line, i) => (
                   <p key={`cs-${i}`} className="mb-1.5 last:mb-0">
                     {parseBoldLine(line)}
@@ -935,7 +935,7 @@ function DoneStep({
                   <button
                     type="button"
                     disabled={disabled}
-                    className="text-xs text-accent/90 underline-offset-2 hover:underline"
+                    className="text-[10px] text-accent/90 underline-offset-2 hover:underline sm:text-xs"
                     onClick={() => {
                       emitConciergeKpi({
                         name: "cta_click",
@@ -952,7 +952,7 @@ function DoneStep({
                     <button
                       type="button"
                       disabled={disabled}
-                      className="text-xs text-text-sub underline-offset-2 hover:text-text/90 hover:underline"
+                      className="text-[10px] text-text-sub underline-offset-2 hover:text-text/90 hover:underline sm:text-xs"
                       onClick={() => {
                         emitConciergeKpi({
                           name: "cta_click",
