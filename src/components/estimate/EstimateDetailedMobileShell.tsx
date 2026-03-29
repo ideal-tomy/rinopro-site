@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { EstimateDetailedHearingWizard } from "@/components/estimate/EstimateDetailedHearingWizard";
 import { EstimateDetailedRoughEstimateFab } from "@/components/estimate/EstimateDetailedRoughEstimateFab";
@@ -13,6 +14,7 @@ import {
 } from "@/lib/estimate/estimate-detailed-intro-storage";
 import { Button } from "@/components/ui/button";
 import { useVisualViewportFrame } from "@/hooks/use-visual-viewport-frame";
+import { scrollChildTopIntoScrollContainer } from "@/lib/dom/scroll-child-into-container";
 import { cn } from "@/lib/utils";
 import type { Dispatch, SetStateAction } from "react";
 
@@ -45,6 +47,9 @@ export function EstimateDetailedMobileShell({
   canSubmitGlobal,
 }: Props) {
   const wizardScrollRef = useRef<HTMLDivElement>(null);
+  const [portalTarget] = useState<HTMLElement | null>(() =>
+    typeof document !== "undefined" ? document.body : null
+  );
   const vvFrame = useVisualViewportFrame();
   const skipIntroOnMount = useRef(readEstimateDetailedIntroDone());
   const [phase, setPhase] = useState<"intro" | "wizard">(() =>
@@ -73,6 +78,29 @@ export function EstimateDetailedMobileShell({
       document.body.style.overflow = prev;
     };
   }, []);
+
+  /** iOS: 入力フォーカス後に内側スクロールだけ動いて見出しが上に消えるのを抑える */
+  const alignStepOnFieldFocus = useCallback(
+    (e: React.FocusEvent<HTMLDivElement>) => {
+      const t = e.target;
+      if (
+        !(t instanceof HTMLInputElement) &&
+        !(t instanceof HTMLTextAreaElement) &&
+        !(t instanceof HTMLSelectElement)
+      ) {
+        return;
+      }
+      const sc = wizardScrollRef.current;
+      if (!sc) return;
+      const step = t.closest("[data-estimate-step-root]");
+      if (!(step instanceof HTMLElement)) return;
+      const run = () => scrollChildTopIntoScrollContainer(sc, step, 12);
+      requestAnimationFrame(run);
+      window.setTimeout(run, 120);
+      window.setTimeout(run, 320);
+    },
+    []
+  );
 
   useEffect(() => {
     if (phase !== "intro") return;
@@ -106,10 +134,10 @@ export function EstimateDetailedMobileShell({
         }
       : undefined;
 
-  return (
+  const shell = (
     <div
       className={cn(
-        "fixed z-50 flex min-h-0 flex-col overflow-hidden bg-[#0a0e17]/95 backdrop-blur-md",
+        "fixed z-[100] flex min-h-0 flex-col overflow-hidden bg-[#0a0e17]/95 backdrop-blur-md",
         vvFrame != null ? "inset-auto" : "inset-0 min-h-[100dvh] max-h-[100dvh]",
         "pt-[max(0.75rem,env(safe-area-inset-top))]",
         "pb-[max(0.75rem,env(safe-area-inset-bottom))]"
@@ -180,6 +208,7 @@ export function EstimateDetailedMobileShell({
         <div
           ref={wizardScrollRef}
           className="flex min-h-0 flex-1 flex-col overflow-y-auto overflow-x-hidden overscroll-y-contain scroll-pt-3 px-2"
+          onFocusCapture={alignStepOnFieldFocus}
         >
           <EstimateDetailedHearingWizard
             form={form}
@@ -200,4 +229,10 @@ export function EstimateDetailedMobileShell({
       ) : null}
     </div>
   );
+
+  if (!portalTarget) {
+    return null;
+  }
+
+  return createPortal(shell, portalTarget);
 }

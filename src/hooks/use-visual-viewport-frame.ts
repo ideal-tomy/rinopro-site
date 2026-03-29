@@ -29,19 +29,21 @@ export function useVisualViewportFrame(): VisualViewportFrame | null {
   const [frame, setFrame] = useState<VisualViewportFrame | null>(readVisualViewportFrame);
 
   useLayoutEffect(() => {
-    const vv = window.visualViewport;
-    if (!vv) return;
-
     const sync = () => {
       setFrame(readVisualViewportFrame());
     };
 
     sync();
-    vv.addEventListener("resize", sync);
-    vv.addEventListener("scroll", sync);
+    const vv = window.visualViewport;
+    vv?.addEventListener("resize", sync);
+    vv?.addEventListener("scroll", sync);
+    window.addEventListener("resize", sync);
+    window.addEventListener("orientationchange", sync);
     return () => {
-      vv.removeEventListener("resize", sync);
-      vv.removeEventListener("scroll", sync);
+      vv?.removeEventListener("resize", sync);
+      vv?.removeEventListener("scroll", sync);
+      window.removeEventListener("resize", sync);
+      window.removeEventListener("orientationchange", sync);
     };
   }, []);
 

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist } from "next/font/google";
 import { Noto_Sans_JP } from "next/font/google";
 import { Header } from "@/components/layout/Header";
@@ -18,6 +18,14 @@ const notoSansJP = Noto_Sans_JP({
   subsets: ["latin"],
   weight: ["300", "700"],
 });
+
+/** モバイルの仮想キーボード時のリサイズ方針（fixed オーバーレイと整合しやすくする） */
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  interactiveWidget: "resizes-content",
+};
 
 export const metadata: Metadata = {
   title: {

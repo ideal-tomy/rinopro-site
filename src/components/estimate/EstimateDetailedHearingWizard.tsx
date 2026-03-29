@@ -215,6 +215,7 @@ export function EstimateDetailedHearingWizard({
             <motion.div
               key={stepId}
               {...motionProps}
+              {...(isFs ? { "data-estimate-step-root": "" } : {})}
               className={cn(
                 "flex flex-col",
                 isFs
