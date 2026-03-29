@@ -464,7 +464,6 @@ export const estimateDetailedCopy = {
   roughEstimateTitle: "概算見積もりから引き継いだ内容",
   roughEstimateSubtitle:
     "すでに伺っている内容です。あなたの回答とあわせて整理に使います。",
-  roughEstimateEmpty: "概算のチャットから来ていない場合、この枠は表示されません。",
   roughTrackLabel: "ご用件の方向",
   roughStepsHeading: "チャットでの選択",
   roughNotesHeading: "概算のメモ・補足",

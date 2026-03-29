@@ -14,6 +14,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { estimateDetailedCopy } from "@/lib/content/site-copy";
 import type { EstimateFormDraft } from "@/lib/estimate/estimate-detailed-session";
+import { ESTIMATE_DETAILED_HEARING_EXAMPLES } from "@/components/estimate/estimate-detailed-hearing-examples";
+import { cn } from "@/lib/utils";
 
 const copy = estimateDetailedCopy;
 
@@ -50,6 +52,10 @@ export type EstimateDetailedHearingWizardProps = {
   isExiting: boolean;
   onSubmit: () => void;
   canSubmitGlobal: boolean;
+  /** モバイル全画面シェル用のコンパクトレイアウト */
+  layoutVariant?: "default" | "fullscreen";
+  /** オープニングで見出しを出したため、セクション見出し行を隠す（バッジのみ等） */
+  hideSectionHeading?: boolean;
 };
 
 const easeSpeak = [0.22, 1, 0.36, 1] as const;
@@ -61,8 +67,11 @@ export function EstimateDetailedHearingWizard({
   isExiting,
   onSubmit,
   canSubmitGlobal,
+  layoutVariant = "default",
+  hideSectionHeading = false,
 }: EstimateDetailedHearingWizardProps) {
   const [stepIndex, setStepIndex] = useState(0);
+  const isFs = layoutVariant === "fullscreen";
 
   const stepId = STEP_IDS[stepIndex] ?? "industry";
   const isFirst = stepIndex === 0;
@@ -108,17 +117,30 @@ export function EstimateDetailedHearingWizard({
   return (
     <section
       id="estimate-hearing"
-      className="space-y-5 rounded-xl border border-silver/25 bg-base-dark/50 p-5 md:p-8"
+      className={cn(
+        "space-y-5 rounded-xl border border-silver/25 bg-base-dark/50 p-5 md:p-8",
+        isFs && "space-y-3 border-0 bg-transparent p-0"
+      )}
     >
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-        <div>
-          <h2 className="text-lg font-semibold text-accent">{copy.sectionHearing}</h2>
-          <p className="mt-1 text-xs text-text-sub md:text-sm">
-            {copy.requirementDefinitionNote}を、あとからAIがたたき台としてまとめます。
-          </p>
-        </div>
+      <div
+        className={cn(
+          "flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between",
+          hideSectionHeading && "flex-row items-center justify-end"
+        )}
+      >
+        {hideSectionHeading ? null : (
+          <div>
+            <h2 className="text-lg font-semibold text-accent">{copy.sectionHearing}</h2>
+            <p className="mt-1 text-xs text-text-sub md:text-sm">
+              {copy.requirementDefinitionNote}を、あとからAIがたたき台としてまとめます。
+            </p>
+          </div>
+        )}
         <div
-          className="shrink-0 rounded-full border border-accent/35 bg-accent/10 px-3 py-1.5 text-center text-xs font-medium text-accent sm:text-left"
+          className={cn(
+            "shrink-0 rounded-full border border-accent/35 bg-accent/10 px-3 py-1.5 text-center text-xs font-medium text-accent sm:text-left",
+            hideSectionHeading && "w-full text-center sm:w-auto sm:text-left"
+          )}
           role="status"
           aria-live="polite"
         >
@@ -132,7 +154,12 @@ export function EstimateDetailedHearingWizard({
         </div>
       </div>
 
-      <div className="relative isolate min-h-[280px] md:min-h-[300px]">
+      <div
+        className={cn(
+          "relative isolate",
+          isFs ? "min-h-[220px]" : "min-h-[360px] md:min-h-[400px]"
+        )}
+      >
         <div
           className="pointer-events-none absolute -inset-px rounded-2xl bg-gradient-to-br from-accent/15 via-transparent to-silver/10 opacity-70"
           aria-hidden
@@ -142,8 +169,14 @@ export function EstimateDetailedHearingWizard({
             <motion.div
               key={stepId}
               {...motionProps}
-              className="p-5 md:p-7"
+              className={cn(
+                "flex flex-col",
+                isFs
+                  ? "min-h-[180px] p-4"
+                  : "min-h-[300px] p-5 md:min-h-[340px] md:p-7"
+              )}
             >
+              <div className="shrink-0">
               {stepId === "industry" ? (
                 <StepBlock title={copy.fieldIndustry} hint={copy.fieldIndustryHint}>
                   <select
@@ -467,6 +500,8 @@ export function EstimateDetailedHearingWizard({
                   </p>
                 </div>
               ) : null}
+              </div>
+              <HearingAnswerExamples stepId={stepId} compact={isFs} />
             </motion.div>
           </AnimatePresence>
         </div>
@@ -520,6 +555,40 @@ export function EstimateDetailedHearingWizard({
         <p className="text-xs text-text-sub">次の画面に移動しています…</p>
       ) : null}
     </section>
+  );
+}
+
+function HearingAnswerExamples({
+  stepId,
+  compact,
+}: {
+  stepId: StepId;
+  compact?: boolean;
+}) {
+  const lines = ESTIMATE_DETAILED_HEARING_EXAMPLES[stepId];
+  if (!lines.length) return null;
+  return (
+    <aside
+      className={cn(
+        "mt-6 flex flex-1 flex-col justify-end rounded-lg border border-silver/15 bg-white/[0.04] p-4",
+        compact ? "min-h-[64px] py-3" : "min-h-[108px] md:min-h-[128px]"
+      )}
+      aria-label="解答例・ヒント"
+    >
+      <p className="text-[11px] font-semibold uppercase tracking-wider text-accent/85">
+        解答例・ヒント
+      </p>
+      <ul
+        className={cn(
+          "mt-2.5 list-disc space-y-2 pl-4 leading-relaxed text-text-sub marker:text-accent/50",
+          compact ? "text-xs" : "text-sm"
+        )}
+      >
+        {lines.map((line, i) => (
+          <li key={i}>{line}</li>
+        ))}
+      </ul>
+    </aside>
   );
 }
 

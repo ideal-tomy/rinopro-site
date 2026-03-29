@@ -1,12 +1,11 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { EstimateDetailedHearingWizard } from "@/components/estimate/EstimateDetailedHearingWizard";
-import {
-  decodeConciergeEstimateContext,
-  summarizeConciergeEstimateContextForDisplay,
-} from "@/lib/chat/estimate-handoff";
+import { EstimateDetailedMobileShell } from "@/components/estimate/EstimateDetailedMobileShell";
+import { EstimateDetailedRoughEstimateAccordion } from "@/components/estimate/EstimateDetailedRoughEstimateAccordion";
+import { decodeConciergeEstimateContext } from "@/lib/chat/estimate-handoff";
 import type { ConciergeEstimateContextPayload } from "@/lib/chat/estimate-handoff";
 import { resetEstimateProcessingLock } from "@/lib/estimate/estimate-detailed-processing-lock";
 import { buildEstimateDetailedAnswersRecord } from "@/lib/estimate/build-estimate-detailed-answers";
@@ -17,6 +16,7 @@ import {
   type EstimateFormDraft,
 } from "@/lib/estimate/estimate-detailed-session";
 import { estimateDetailedCopy } from "@/lib/content/site-copy";
+import { clearEstimateDetailedIntroDone } from "@/lib/estimate/estimate-detailed-intro-storage";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { cn } from "@/lib/utils";
 
@@ -44,48 +44,22 @@ const initialForm: FormState = {
   constraints: "",
 };
 
-function RoughEstimateCard({ ctx }: { ctx: ConciergeEstimateContextPayload }) {
-  const s = summarizeConciergeEstimateContextForDisplay(ctx);
-  return (
-    <section className="rounded-xl border border-accent/35 bg-accent/5 p-5 md:p-6">
-      <h2 className="text-lg font-semibold text-accent">{copy.roughEstimateTitle}</h2>
-      <p className="mt-2 text-sm leading-relaxed text-text-sub">{copy.roughEstimateSubtitle}</p>
-      <dl className="mt-4 space-y-3 text-sm">
-        <div>
-          <dt className="font-medium text-text">{copy.roughTrackLabel}</dt>
-          <dd className="mt-1 text-text-sub">{s.trackLabel}</dd>
-        </div>
-        <div>
-          <dt className="font-medium text-text">{copy.roughStepsHeading}</dt>
-          <dd className="mt-2 space-y-2">
-            {s.steps.map((row) => (
-              <div
-                key={`${row.title}-${row.answerLine}`}
-                className="rounded-lg border border-silver/20 bg-base-dark/40 px-3 py-2"
-              >
-                <p className="text-xs text-text-sub">{row.title}</p>
-                <p className="mt-0.5 text-text">{row.answerLine}</p>
-              </div>
-            ))}
-          </dd>
-        </div>
-        {s.freeNotes ? (
-          <div>
-            <dt className="font-medium text-text">{copy.roughNotesHeading}</dt>
-            <dd className="mt-1 whitespace-pre-wrap text-text-sub">{s.freeNotes}</dd>
-          </div>
-        ) : null}
-      </dl>
-    </section>
-  );
-}
-
 export function EstimateDetailedFormContent() {
   const router = useRouter();
   const routerRef = useRef(router);
   routerRef.current = router;
   const searchParams = useSearchParams();
   const prefersReducedMotion = useReducedMotion();
+  /** ハイドレーション直後の幅誤判定でデスクトップが一瞬出るのを防ぐ */
+  const [viewportNarrow, setViewportNarrow] = useState<boolean | null>(null);
+
+  useLayoutEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px)");
+    const apply = () => setViewportNarrow(mq.matches);
+    apply();
+    mq.addEventListener("change", apply);
+    return () => mq.removeEventListener("change", apply);
+  }, []);
   const [decodedCtx, setDecodedCtx] = useState<ConciergeEstimateContextPayload | null>(null);
   const [priorBlock, setPriorBlock] = useState<string>("");
   const [form, setForm] = useState<FormState>(initialForm);
@@ -137,6 +111,7 @@ export function EstimateDetailedFormContent() {
 
       resetEstimateProcessingLock();
       clearEstimateDetailedFlow();
+      clearEstimateDetailedIntroDone();
       setForm(initialForm);
       setFormInstanceKey((k) => k + 1);
       setIsExiting(false);
@@ -189,6 +164,16 @@ export function EstimateDetailedFormContent() {
 
   const canSubmit = useMemo(() => form.summary.trim().length >= 8, [form.summary]);
 
+  if (viewportNarrow === null) {
+    return (
+      <div className="min-h-[50vh] w-full" aria-busy="true">
+        <span className="sr-only">読み込み中</span>
+      </div>
+    );
+  }
+
+  const isNarrow = viewportNarrow;
+
   const goProcessing = () => {
     if (!canSubmit || isExiting) return;
 
@@ -228,43 +213,60 @@ export function EstimateDetailedFormContent() {
   return (
     <div
       className={cn(
-        "space-y-10 transition-opacity duration-1000 ease-in-out motion-reduce:transition-none",
+        "transition-opacity duration-1000 ease-in-out motion-reduce:transition-none",
+        isNarrow ? "min-h-0" : "space-y-10",
         isExiting && "pointer-events-none opacity-0"
       )}
     >
-      <header className="space-y-3">
-        <p className="text-sm font-medium text-accent">{copy.kicker}</p>
-        <h1 className="text-2xl font-bold text-text md:text-3xl">{copy.title}</h1>
-        <p className="max-w-2xl text-sm leading-relaxed text-white/85 md:text-[16px]">
-          {copy.intro}
-        </p>
-      </header>
-
-      <section
-        className="rounded-xl border border-accent/40 bg-base-dark/30 p-4 md:p-5"
-        aria-label={copy.disclaimerTitle}
-      >
-        <h2 className="text-sm font-semibold text-accent">{copy.disclaimerTitle}</h2>
-        <p className="mt-2 text-sm leading-relaxed text-text-sub">{copy.disclaimerBody}</p>
-      </section>
-
-      {decodedCtx ? (
-        <RoughEstimateCard ctx={decodedCtx} />
+      {isNarrow ? (
+        <EstimateDetailedMobileShell
+          key={formInstanceKey}
+          form={form}
+          setForm={setForm}
+          decodedCtx={decodedCtx}
+          prefersReducedMotion={prefersReducedMotion}
+          isExiting={isExiting}
+          onSubmit={goProcessing}
+          canSubmitGlobal={canSubmit}
+        />
       ) : (
-        <section className="rounded-xl border border-dashed border-silver/30 bg-base-dark/20 p-5 text-center text-sm text-text-sub">
-          {copy.roughEstimateEmpty}
-        </section>
-      )}
+        <>
+          <header className="space-y-3">
+            <p className="text-sm font-medium text-accent">{copy.kicker}</p>
+            <h1 className="text-2xl font-bold text-text md:text-3xl">{copy.title}</h1>
+            <p className="max-w-2xl text-sm leading-relaxed text-white/85 md:text-[16px]">
+              {copy.intro}
+            </p>
+          </header>
 
-      <EstimateDetailedHearingWizard
-        key={formInstanceKey}
-        form={form}
-        setForm={setForm}
-        prefersReducedMotion={prefersReducedMotion}
-        isExiting={isExiting}
-        onSubmit={goProcessing}
-        canSubmitGlobal={canSubmit}
-      />
+          <section
+            className="rounded-xl border border-accent/40 bg-base-dark/30 p-4 md:p-5"
+            aria-label={copy.disclaimerTitle}
+          >
+            <h2 className="text-sm font-semibold text-accent">{copy.disclaimerTitle}</h2>
+            <p className="mt-2 text-sm leading-relaxed text-text-sub">{copy.disclaimerBody}</p>
+          </section>
+
+          <EstimateDetailedHearingWizard
+            key={formInstanceKey}
+            form={form}
+            setForm={setForm}
+            prefersReducedMotion={prefersReducedMotion}
+            isExiting={isExiting}
+            onSubmit={goProcessing}
+            canSubmitGlobal={canSubmit}
+          />
+
+          {decodedCtx ? (
+            <section
+              className="space-y-5 rounded-xl border border-silver/25 bg-base-dark/50 p-5 md:p-8"
+              aria-label={copy.roughEstimateTitle}
+            >
+              <EstimateDetailedRoughEstimateAccordion ctx={decodedCtx} />
+            </section>
+          ) : null}
+        </>
+      )}
     </div>
   );
 }
