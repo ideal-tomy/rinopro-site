@@ -17,6 +17,7 @@
 - **ウィザード本体**は [`ChatContainer`](../src/components/chat/ChatContainer.tsx) 内の `DemoListConciergeFlow` のみ（一覧ページに埋め込んだ二重モーダルは廃止）。
 - **一覧上の条件チップ・「あなた向けの提案」**は [`ConciergeChatProvider`](../src/components/chat/concierge-chat-context.tsx) の `demoListWizardSnapshot` と同期する（ウィザード完了時に `setDemoListWizardSnapshot`、リセット時に `null`）。
 - **「コンシェルジュを開く」**は `requestOpenDemoListPageConcierge()` でシーケンスを進め、`ChatContainer` が `conciergeSurface === "page"` でポップアップを開く（自動オープン・FAB→このページについてと同じ表面）。
+- モーダル内の **「選択式ガイドに戻る」** / **「demoの条件選択に戻る」** は `chatSessionId` を変えず `messages` を空にするだけ（同一 session スコープ内でのやり直し）。
 
 ## スコープ表
 

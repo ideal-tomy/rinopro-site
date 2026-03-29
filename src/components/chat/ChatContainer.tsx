@@ -71,6 +71,8 @@ import {
   useResolvedConciergePath,
 } from "@/lib/chat/concierge-demo-hub-policy";
 import { formatConciergeChatErrorMessage } from "@/lib/chat/concierge-chat-error-message";
+import { prefetchDemoCatalog } from "@/lib/demo/demo-catalog-client";
+import { CONCIERGE_NAVIGATE_FROM_CHAT } from "@/lib/chat/concierge-navigate-from-chat";
 
 type ConciergeSurface = ConciergeChatSurface;
 
@@ -551,21 +553,78 @@ export function ChatContainer() {
     clearError();
   }, [setMessages, clearDraftInjection, clearError]);
 
+  const handleHomeGlobalWizardRestart = useCallback(() => {
+    conciergeSignalsRef.current = {};
+    setMessages([]);
+    clearDraftInjection();
+    clearError();
+    setHomeFooterPhase("wizard");
+    emitConciergeKpi({
+      name: "wizard_reset",
+      pathname: resolvedPath,
+      mode,
+      ctaKind: "home_global_wizard",
+    });
+  }, [setMessages, clearDraftInjection, clearError, resolvedPath, mode]);
+
+  const handleDemoWizardRestart = useCallback(() => {
+    conciergeSignalsRef.current = {};
+    setMessages([]);
+    clearDraftInjection();
+    clearError();
+    setDemoFreeformPicks(null);
+    setDemoRecommendFromTextInFlight(false);
+    setDemoListWizardSnapshot(null);
+    emitConciergeKpi({
+      name: "wizard_reset",
+      pathname: resolvedPath,
+      mode,
+      ctaKind: "demo_list_wizard",
+    });
+  }, [
+    setMessages,
+    clearDraftInjection,
+    clearError,
+    setDemoListWizardSnapshot,
+    resolvedPath,
+    mode,
+  ]);
+
+  const maybePrefetchDemoCatalog = useCallback(() => {
+    if (isDemoHubForConciergePolicy(resolvedPath)) prefetchDemoCatalog();
+  }, [resolvedPath]);
+
+  /** × 閉じる・アシスタント本文リンク遷移のとき共通（モーダル内状態を初期化） */
+  const resetConciergeModalChrome = useCallback(() => {
+    conciergeSignalsRef.current = {};
+    setConciergeSurface("pick");
+    setEntrySource("fab");
+    setServiceCardStartDone(false);
+    setHomeFooterPhase("wizard");
+    setDemoFreeformPicks(null);
+    setDemoRecommendFromTextInFlight(false);
+  }, [setEntrySource]);
+
   const handlePopupOpenChange = useCallback(
     (next: boolean) => {
       setOpen(next);
       if (!next) {
-        conciergeSignalsRef.current = {};
-        setConciergeSurface("pick");
-        setEntrySource("fab");
-        setServiceCardStartDone(false);
-        setHomeFooterPhase("wizard");
-        setDemoFreeformPicks(null);
-        setDemoRecommendFromTextInFlight(false);
+        resetConciergeModalChrome();
       }
     },
-    [setOpen, setEntrySource]
+    [setOpen, resetConciergeModalChrome]
   );
+
+  useEffect(() => {
+    const onNavigateFromChat = () => {
+      suppressNextChatAutoOpen();
+      setOpen(false);
+      resetConciergeModalChrome();
+    };
+    window.addEventListener(CONCIERGE_NAVIGATE_FROM_CHAT, onNavigateFromChat);
+    return () =>
+      window.removeEventListener(CONCIERGE_NAVIGATE_FROM_CHAT, onNavigateFromChat);
+  }, [setOpen, resetConciergeModalChrome]);
 
   useEffect(() => {
     if (!isDemoHubForConciergePolicy(resolvedPath)) {
@@ -573,6 +632,12 @@ export function ChatContainer() {
       setDemoRecommendFromTextInFlight(false);
     }
   }, [resolvedPath]);
+
+  useEffect(() => {
+    if (!open) return;
+    if (pathname !== "/demo" && pathname !== "/demo/list") return;
+    prefetchDemoCatalog();
+  }, [open, pathname]);
 
   const isHomePage = pathname === "/";
   const showGlobalHomeFlow =
@@ -713,6 +778,15 @@ export function ChatContainer() {
     (isHomePage &&
       messages.length > 0 &&
       (conciergeSurface === "global" || conciergeSurface === "pick"));
+  const showHomeGlobalWizardResetBar =
+    isHomePage &&
+    mode === "default" &&
+    messages.length > 0 &&
+    (conciergeSurface === "global" || conciergeSurface === "pick");
+  const showDemoWizardResetBar =
+    messages.length > 0 &&
+    conciergeSurface === "page" &&
+    (pathname === "/demo/list" || pathname === "/demo");
   const onServicesDevOrConsult =
     isServiceWizardPage &&
     (mode === "development" || mode === "consulting");
@@ -736,6 +810,8 @@ export function ChatContainer() {
           type="button"
           variant="outline"
           className="pointer-events-auto box-border flex min-h-[3.5rem] min-w-[3.5rem] flex-col items-center justify-center gap-1 rounded-full border-2 border-silver/35 bg-base-dark/95 px-3 py-2 shadow-[0_6px_28px_rgba(0,0,0,0.5)] ring-1 ring-white/[0.06] backdrop-blur-sm transition-[border-color,box-shadow] duration-200 hover:border-accent/50 hover:shadow-[0_8px_32px_rgba(0,242,255,0.12)] sm:min-h-[3.75rem] sm:min-w-[10.5rem] sm:flex-row sm:gap-2 sm:px-4 sm:py-0"
+          onPointerEnter={maybePrefetchDemoCatalog}
+          onFocus={maybePrefetchDemoCatalog}
           onClick={() => {
             setEntrySource("fab");
             setServiceCardStartDone(false);
@@ -780,7 +856,9 @@ export function ChatContainer() {
                   "min-h-[min(48vh,520px)]"
               )}
             >
-              <div className="min-h-0 flex-1 overflow-hidden">{mainContent}</div>
+              <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
+                {mainContent}
+              </div>
               <AnimatePresence>
                 {useDelayedConciergeCta &&
                   messages.length > 0 &&
@@ -921,6 +999,32 @@ export function ChatContainer() {
               ) : null}
             </div>
           </div>
+
+          {showHomeGlobalWizardResetBar && (
+            <div className="border-b border-silver/15 bg-base/40 px-4 py-2">
+              <button
+                type="button"
+                disabled={isLoading}
+                className="text-xs font-medium text-accent underline-offset-2 hover:underline disabled:pointer-events-none disabled:opacity-50"
+                onClick={handleHomeGlobalWizardRestart}
+              >
+                選択式ガイドに戻る
+              </button>
+            </div>
+          )}
+
+          {showDemoWizardResetBar && (
+            <div className="border-b border-silver/15 bg-base/40 px-4 py-2">
+              <button
+                type="button"
+                disabled={isLoading}
+                className="text-xs font-medium text-accent underline-offset-2 hover:underline disabled:pointer-events-none disabled:opacity-50"
+                onClick={handleDemoWizardRestart}
+              >
+                demoの条件選択に戻る
+              </button>
+            </div>
+          )}
 
           {messages.length > 0 &&
             isServiceWizardPage &&

@@ -6,7 +6,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
-import { DocumentShellChoiceFields } from "@/components/experience/shells/DocumentShellChoiceFields";
+import { DocumentShellChoiceWizard } from "@/components/experience/shells/DocumentShellChoiceWizard";
 import type {
   DocumentShellChoiceStep,
   DocumentShellUserInput,
@@ -341,6 +341,9 @@ export function BeforeAfterDocumentShell({
   const reduceMotion = useReducedMotion();
   const [text, setText] = useState("");
   const [selections, setSelections] = useState<Record<string, string>>({});
+  const [wizardOpen, setWizardOpen] = useState(false);
+  const [wizardStepIndex, setWizardStepIndex] = useState(0);
+  const wizardAutoOpenedRef = useRef(false);
   const [busy, setBusy] = useState(false);
   const [result, setResult] = useState<DocumentShellMockResult | null>(null);
   const [cursor, setCursor] = useState<Cursor>({ phase: "idle" });
@@ -358,6 +361,32 @@ export function BeforeAfterDocumentShell({
   const canRun =
     text.trim().length > 0 &&
     (choiceSteps.length === 0 || requiredChoicesFilled(choiceSteps, selections));
+
+  const choiceStepsKey = choiceSteps.map((s) => s.id).join("|");
+
+  useEffect(() => {
+    wizardAutoOpenedRef.current = false;
+  }, [choiceStepsKey]);
+
+  useEffect(() => {
+    if (
+      choiceSteps.length === 0 ||
+      requiredChoicesFilled(choiceSteps, selections) ||
+      wizardAutoOpenedRef.current
+    ) {
+      return;
+    }
+    wizardAutoOpenedRef.current = true;
+    queueMicrotask(() => {
+      setWizardStepIndex(0);
+      setWizardOpen(true);
+    });
+  }, [choiceSteps, selections]);
+
+  function openChoiceWizard() {
+    setWizardStepIndex(0);
+    setWizardOpen(true);
+  }
 
   const run = useCallback(() => {
     if (busy || !canRun) return;
@@ -390,7 +419,19 @@ export function BeforeAfterDocumentShell({
         charIndex: 0,
       });
     }, delay);
-  }, [busy, canRun, text, selections, buildMock, reduceMotion, clearTimer]);
+  }, [
+    busy,
+    canRun,
+    text,
+    selections,
+    buildMock,
+    reduceMotion,
+    clearTimer,
+    setBusy,
+    setResult,
+    setCursor,
+    setFullReveal,
+  ]);
 
   useEffect(() => {
     if (!result || reduceMotion || cursor.phase !== "typing") {
@@ -423,18 +464,31 @@ export function BeforeAfterDocumentShell({
     <div className={cn("space-y-6", className)}>
       {/* lg: items-start で右だけ縦に伸びる。左・中央は sticky で入力と実行が見え続ける */}
       <div className="grid gap-4 lg:grid-cols-[1fr_auto_1fr] lg:items-start lg:gap-3">
-        <div className="flex min-h-[200px] flex-col rounded-xl border border-silver/25 bg-[#141820] p-4 md:min-h-[240px] md:p-5 lg:sticky lg:top-24 lg:z-10 lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto lg:shadow-lg lg:shadow-black/20">
+        <div className="relative flex min-h-[200px] flex-col rounded-xl border border-silver/25 bg-[#141820] p-4 md:min-h-[240px] md:p-5 lg:sticky lg:top-24 lg:z-10 lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto lg:shadow-lg lg:shadow-black/20">
           <h2 className="mb-2 text-sm font-semibold text-accent md:text-[1rem]">
             {leftPanelTitle}
           </h2>
-          <DocumentShellChoiceFields
-            steps={choiceSteps}
-            selections={selections}
-            disabled={busy}
-            onChange={(stepId, optionId) =>
-              setSelections((prev) => ({ ...prev, [stepId]: optionId }))
-            }
-          />
+          {choiceSteps.length > 0 ? (
+            <div className="mb-3 space-y-2">
+              <p className="text-xs leading-relaxed text-text-sub md:text-sm">
+                {requiredChoicesFilled(choiceSteps, selections)
+                  ? "選択項目は埋まっています。必要なら編集できます。"
+                  : `選択項目が${choiceSteps.length}つあります。ウィザードで順に選んでください。`}
+              </p>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="border-silver/35 text-text hover:bg-silver/10 hover:text-text"
+                disabled={busy}
+                onClick={openChoiceWizard}
+              >
+                {requiredChoicesFilled(choiceSteps, selections)
+                  ? "選択を編集"
+                  : "選択を設定"}
+              </Button>
+            </div>
+          ) : null}
           <Textarea
             value={text}
             onChange={(e) => setText(e.target.value)}
@@ -466,6 +520,21 @@ export function BeforeAfterDocumentShell({
             </Link>
             ではチャット形式も試せます。
           </p>
+          {choiceSteps.length > 0 ? (
+            <DocumentShellChoiceWizard
+              steps={choiceSteps}
+              selections={selections}
+              onSelect={(stepId, optionId) =>
+                setSelections((prev) => ({ ...prev, [stepId]: optionId }))
+              }
+              stepIndex={wizardStepIndex}
+              onStepIndexChange={setWizardStepIndex}
+              open={wizardOpen}
+              onOpenChange={setWizardOpen}
+              onComplete={() => {}}
+              disabled={busy}
+            />
+          ) : null}
         </div>
 
         <div className="flex flex-row justify-center gap-3 lg:sticky lg:top-24 lg:z-10 lg:flex-col lg:items-center lg:justify-start lg:gap-0 lg:px-2 lg:pt-1">

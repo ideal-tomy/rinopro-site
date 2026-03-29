@@ -1,36 +1,46 @@
 "use client";
 
+import type { ReactNode } from "react";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import type { Components } from "react-markdown";
 import { cn } from "@/lib/utils";
+import { isSafeAssistantInternalPath } from "@/lib/chat/assistant-internal-path";
+import {
+  linkifyBareInternalPathsForAssistant,
+  normalizeAssistantMarkdownArtifacts,
+} from "@/lib/chat/assistant-linkify";
+import { emitConciergeNavigateFromChatLink } from "@/lib/chat/concierge-navigate-from-chat";
 
 /**
  * コンシェルジュが返す `[表示名](/path)` をクリック可能にする。
  * 同一オリジン相当のパス（先頭 `/`）のみリンク化。それ以外はテキストのまま。
  */
-function isSafeInternalPath(href: string | undefined): href is string {
-  if (!href || typeof href !== "string") return false;
-  const t = href.trim();
-  if (!t.startsWith("/")) return false;
-  if (t.startsWith("//")) return false;
-  if (t.includes("://")) return false;
-  return true;
+
+function AssistantMarkdownInternalLink({
+  href,
+  children,
+}: {
+  href: string;
+  children: ReactNode;
+}) {
+  return (
+    <Link
+      href={href}
+      className="font-medium text-accent underline underline-offset-2 hover:text-accent/90"
+      onClick={() => emitConciergeNavigateFromChatLink()}
+    >
+      {children}
+    </Link>
+  );
 }
 
 const assistantMarkdownComponents: Components = {
   a({ href, children }) {
-    if (!isSafeInternalPath(href)) {
+    if (!isSafeAssistantInternalPath(href)) {
       return <span className="text-text/90">{children}</span>;
     }
-    return (
-      <Link
-        href={href}
-        className="font-medium text-accent underline underline-offset-2 hover:text-accent/90"
-      >
-        {children}
-      </Link>
-    );
+    return <AssistantMarkdownInternalLink href={href}>{children}</AssistantMarkdownInternalLink>;
   },
   p({ children }) {
     return <p className="mb-2 text-sm leading-relaxed text-text last:mb-0">{children}</p>;
@@ -99,9 +109,12 @@ const assistantMarkdownComponents: Components = {
 };
 
 export function AssistantMarkdown({ content }: { content: string }) {
+  const linked = linkifyBareInternalPathsForAssistant(
+    normalizeAssistantMarkdownArtifacts(content)
+  );
   return (
     <div className="assistant-md text-sm text-text">
-      <ReactMarkdown components={assistantMarkdownComponents}>{content}</ReactMarkdown>
+      <ReactMarkdown components={assistantMarkdownComponents}>{linked}</ReactMarkdown>
     </div>
   );
 }

@@ -43,7 +43,7 @@ export function ChatMessages({
   return (
     <div
       ref={scrollRef}
-      className={`flex flex-1 flex-col gap-4 overflow-y-auto p-4 ${className ?? ""}`}
+      className={`flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto overflow-x-hidden p-4 ${className ?? ""}`}
     >
       {messages.map((message) => {
         const text = getUIMessageText(message);

@@ -4,6 +4,7 @@
  *
  * 対象は {@link AUTO_OPEN_PATHS} のみ（例: `/` `/demo/list` `/services`）。
  * `/experience/…` や `/demo/[slug]` ではそもそも自動オープンは走らない。
+ * コンシェルジュ本文内リンクは `concierge-navigate-from-chat` イベント経由でモーダルを閉じる際に {@link suppressNextChatAutoOpen} も実行し、遷移先の初回自動オープンを抑止する。
  * コンシェルジュが開いたまま別ページへ遷移したときにモーダルが残る場合は、
  * 遷移前に `ConciergeChatProvider` の `setOpen(false)` が必要。
  */

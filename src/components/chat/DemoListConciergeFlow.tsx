@@ -17,6 +17,7 @@ import {
   type ConciergeDomainId,
   type ConciergePick,
 } from "@/lib/demo/intelligent-concierge";
+import { getDemoCatalogCached } from "@/lib/demo/demo-catalog-client";
 import type {
   AiDemo,
   AiDemoAudienceRole,
@@ -24,6 +25,18 @@ import type {
   AiDemoIssueTag,
   DemoItem,
 } from "@/lib/sanity/types";
+
+function ChoiceSkeleton({ className }: { className?: string }) {
+  return (
+    <div
+      className={cn(
+        "h-[3.25rem] rounded-2xl border border-white/10 bg-white/[0.06] animate-pulse",
+        className
+      )}
+      aria-hidden
+    />
+  );
+}
 
 const STEP_HEADLINES = [
   "事業領域に近いものを選んでください",
@@ -61,15 +74,10 @@ export function DemoListConciergeFlow({
 
   useEffect(() => {
     let cancelled = false;
-    fetch("/api/demos/catalog")
-      .then((r) => r.json())
-      .then((data: unknown) => {
-        if (cancelled) return;
-        setDemos(Array.isArray(data) ? (data as (AiDemo | DemoItem)[]) : []);
-      })
-      .catch(() => {
-        if (!cancelled) setDemos([]);
-      });
+    void getDemoCatalogCached().then((list) => {
+      if (cancelled) return;
+      setDemos(list);
+    });
     return () => {
       cancelled = true;
     };
@@ -113,7 +121,7 @@ export function DemoListConciergeFlow({
     onWizardReset?.();
   };
 
-  const flowDisabled = disabled || catalogLoading;
+  const flowDisabled = disabled;
 
   return (
     <div className="relative flex min-h-0 flex-1 flex-col overflow-hidden">
@@ -142,17 +150,25 @@ export function DemoListConciergeFlow({
       <div className="max-h-[min(44vh,300px)] overflow-y-auto px-4 py-3 md:max-h-[min(50vh,360px)]">
         {step === 0 && (
           <div className="grid grid-cols-2 gap-2">
-            {CONCIERGE_DOMAIN_OPTIONS.map((opt, idx) => (
-              <ConciergeChoiceButton
-                key={opt.id}
-                type="button"
-                order={idx + 1}
-                label={opt.label}
-                disabled={flowDisabled}
-                selected={answers.domain === opt.id}
-                onClick={() => pickDomain(opt.id)}
-              />
-            ))}
+            {catalogLoading ? (
+              <>
+                {CONCIERGE_DOMAIN_OPTIONS.map((opt) => (
+                  <ChoiceSkeleton key={opt.id} />
+                ))}
+              </>
+            ) : (
+              CONCIERGE_DOMAIN_OPTIONS.map((opt, idx) => (
+                <ConciergeChoiceButton
+                  key={opt.id}
+                  type="button"
+                  order={idx + 1}
+                  label={opt.label}
+                  disabled={flowDisabled}
+                  selected={answers.domain === opt.id}
+                  onClick={() => pickDomain(opt.id)}
+                />
+              ))
+            )}
             <ConciergeChoiceButton
               type="button"
               order={CONCIERGE_DOMAIN_OPTIONS.length + 1}
@@ -166,49 +182,61 @@ export function DemoListConciergeFlow({
 
         {step === 1 && (
           <div className="grid grid-cols-1 gap-2">
-            {CONCIERGE_ROLE_OPTIONS.map((opt, idx) => (
-              <ConciergeChoiceButton
-                key={opt.id}
-                type="button"
-                order={idx + 1}
-                label={opt.label}
-                disabled={flowDisabled}
-                selected={answers.audienceRole === opt.id}
-                onClick={() => pickRole(opt.id)}
-              />
-            ))}
+            {catalogLoading
+              ? CONCIERGE_ROLE_OPTIONS.map((opt) => (
+                  <ChoiceSkeleton key={opt.id} />
+                ))
+              : CONCIERGE_ROLE_OPTIONS.map((opt, idx) => (
+                  <ConciergeChoiceButton
+                    key={opt.id}
+                    type="button"
+                    order={idx + 1}
+                    label={opt.label}
+                    disabled={flowDisabled}
+                    selected={answers.audienceRole === opt.id}
+                    onClick={() => pickRole(opt.id)}
+                  />
+                ))}
           </div>
         )}
 
         {step === 2 && (
           <div className="grid grid-cols-2 gap-2 md:grid-cols-1">
-            {CONCIERGE_ISSUE_OPTIONS.map((opt, idx) => (
-              <ConciergeChoiceButton
-                key={opt.id}
-                type="button"
-                order={idx + 1}
-                label={opt.label}
-                disabled={flowDisabled}
-                selected={answers.issue === opt.id}
-                onClick={() => pickIssue(opt.id)}
-              />
-            ))}
+            {catalogLoading
+              ? CONCIERGE_ISSUE_OPTIONS.map((opt) => (
+                  <ChoiceSkeleton key={opt.id} />
+                ))
+              : CONCIERGE_ISSUE_OPTIONS.map((opt, idx) => (
+                  <ConciergeChoiceButton
+                    key={opt.id}
+                    type="button"
+                    order={idx + 1}
+                    label={opt.label}
+                    disabled={flowDisabled}
+                    selected={answers.issue === opt.id}
+                    onClick={() => pickIssue(opt.id)}
+                  />
+                ))}
           </div>
         )}
 
         {step === 3 && (
           <div className="grid grid-cols-1 gap-2">
-            {CONCIERGE_DEPTH_OPTIONS.map((opt, idx) => (
-              <ConciergeChoiceButton
-                key={opt.id}
-                type="button"
-                order={idx + 1}
-                label={opt.label}
-                disabled={flowDisabled}
-                selected={answers.automationDepth === opt.id}
-                onClick={() => pickDepth(opt.id)}
-              />
-            ))}
+            {catalogLoading
+              ? CONCIERGE_DEPTH_OPTIONS.map((opt) => (
+                  <ChoiceSkeleton key={opt.id} />
+                ))
+              : CONCIERGE_DEPTH_OPTIONS.map((opt, idx) => (
+                  <ConciergeChoiceButton
+                    key={opt.id}
+                    type="button"
+                    order={idx + 1}
+                    label={opt.label}
+                    disabled={flowDisabled}
+                    selected={answers.automationDepth === opt.id}
+                    onClick={() => pickDepth(opt.id)}
+                  />
+                ))}
           </div>
         )}
       </div>

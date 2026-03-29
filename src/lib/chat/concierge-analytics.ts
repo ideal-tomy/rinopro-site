@@ -6,7 +6,8 @@ export type ConciergeKpiEventName =
   | "answer_complete"
   | "cta_visible"
   | "cta_click"
-  | "followup_message";
+  | "followup_message"
+  | "wizard_reset";
 
 export type ConciergeKpiDetail = {
   name: ConciergeKpiEventName;
