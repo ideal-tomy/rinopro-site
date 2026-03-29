@@ -262,7 +262,10 @@ export function EstimateDetailedHearingWizard({
                       setForm((f) => ({ ...f, summary: e.target.value }))
                     }
                     placeholder="例: 問い合わせメールの返信に毎日2時間かかっているので、楽にしたい"
-                    className="min-h-[100px] resize-y text-[16px] md:text-sm"
+                    className={cn(
+                      "min-h-[100px] resize-y text-[16px] md:text-sm",
+                      isFs && "scroll-mt-6"
+                    )}
                   />
                 </StepBlock>
               ) : null}
@@ -276,7 +279,10 @@ export function EstimateDetailedHearingWizard({
                     maxLength={400}
                     onChange={(e) => setForm((f) => ({ ...f, pain: e.target.value }))}
                     placeholder="例: 担当者によって返信の質がバラバラになる"
-                    className="min-h-[80px] resize-y text-[16px] md:text-sm"
+                    className={cn(
+                      "min-h-[80px] resize-y text-[16px] md:text-sm",
+                      isFs && "scroll-mt-6"
+                    )}
                   />
                 </StepBlock>
               ) : null}
@@ -603,7 +609,10 @@ export function EstimateDetailedHearingWizard({
                       setForm((f) => ({ ...f, budgetFeel: e.target.value }))
                     }
                     placeholder="例: まずは小さく試したい"
-                    className="min-h-11 text-[16px] md:text-sm"
+                    className={cn(
+                      "min-h-11 text-[16px] md:text-sm",
+                      isFs && "scroll-mt-6"
+                    )}
                   />
                 </StepBlock>
               ) : null}
@@ -619,7 +628,10 @@ export function EstimateDetailedHearingWizard({
                       setForm((f) => ({ ...f, constraints: e.target.value }))
                     }
                     placeholder="例: お客様の個人情報を扱う／スマホから使いたい"
-                    className="min-h-[80px] resize-y text-[16px] md:text-sm"
+                    className={cn(
+                      "min-h-[80px] resize-y text-[16px] md:text-sm",
+                      isFs && "scroll-mt-6"
+                    )}
                   />
                 </StepBlock>
               ) : null}

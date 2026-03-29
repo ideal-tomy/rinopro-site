@@ -13,9 +13,15 @@ const copy = estimateDetailedCopy;
 type Props = {
   ctx: ConciergeEstimateContextPayload;
   className?: string;
+  /** true のとき viewport ではなく親（例: モバイル全画面シェル）の下端に固定 */
+  dockToParent?: boolean;
 };
 
-export function EstimateDetailedRoughEstimateFab({ ctx, className }: Props) {
+export function EstimateDetailedRoughEstimateFab({
+  ctx,
+  className,
+  dockToParent = false,
+}: Props) {
   const [open, setOpen] = useState(false);
   const btnRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -45,7 +51,13 @@ export function EstimateDetailedRoughEstimateFab({ ctx, className }: Props) {
   }, [open, close]);
 
   return (
-    <div className={cn("pointer-events-none fixed inset-x-0 bottom-0 z-[60] flex justify-end p-4 pb-[max(1rem,env(safe-area-inset-bottom))]", className)}>
+    <div
+      className={cn(
+        "pointer-events-none inset-x-0 bottom-0 z-[60] flex justify-end p-4 pb-[max(1rem,env(safe-area-inset-bottom))]",
+        dockToParent ? "absolute" : "fixed",
+        className
+      )}
+    >
       <div className="pointer-events-auto relative flex max-w-full flex-col items-end gap-2">
         {open ? (
           <div

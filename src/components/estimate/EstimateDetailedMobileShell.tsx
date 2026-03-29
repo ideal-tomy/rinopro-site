@@ -12,6 +12,7 @@ import {
   writeEstimateDetailedIntroDone,
 } from "@/lib/estimate/estimate-detailed-intro-storage";
 import { Button } from "@/components/ui/button";
+import { useVisualViewportFrame } from "@/hooks/use-visual-viewport-frame";
 import { cn } from "@/lib/utils";
 import type { Dispatch, SetStateAction } from "react";
 
@@ -44,6 +45,7 @@ export function EstimateDetailedMobileShell({
   canSubmitGlobal,
 }: Props) {
   const wizardScrollRef = useRef<HTMLDivElement>(null);
+  const vvFrame = useVisualViewportFrame();
   const skipIntroOnMount = useRef(readEstimateDetailedIntroDone());
   const [phase, setPhase] = useState<"intro" | "wizard">(() =>
     skipIntroOnMount.current ? "wizard" : "intro"
@@ -94,14 +96,25 @@ export function EstimateDetailedMobileShell({
 
   const fadeDuration = prefersReducedMotion ? 0 : FADE_SEC;
 
+  const shellStyle =
+    vvFrame != null
+      ? {
+          top: vvFrame.top,
+          left: vvFrame.left,
+          width: vvFrame.width,
+          height: vvFrame.height,
+        }
+      : undefined;
+
   return (
     <div
       className={cn(
-        "fixed inset-0 z-50 flex min-h-0 flex-col overflow-hidden bg-[#0a0e17]/95 backdrop-blur-md",
-        "min-h-[100dvh] max-h-[100dvh]",
+        "fixed z-50 flex min-h-0 flex-col overflow-hidden bg-[#0a0e17]/95 backdrop-blur-md",
+        vvFrame != null ? "inset-auto" : "inset-0 min-h-[100dvh] max-h-[100dvh]",
         "pt-[max(0.75rem,env(safe-area-inset-top))]",
         "pb-[max(0.75rem,env(safe-area-inset-bottom))]"
       )}
+      style={shellStyle}
       role="dialog"
       aria-modal="true"
       aria-labelledby="estimate-mobile-dialog-label"
@@ -111,24 +124,23 @@ export function EstimateDetailedMobileShell({
       </div>
 
       {phase === "intro" ? (
-        <>
-          <div className="flex shrink-0 justify-end px-3 pb-2">
-            <Button
-              type="button"
-              variant="ghost"
-              className="text-sm text-text-sub hover:text-white"
-              onClick={handleSkip}
-            >
-              スキップ
-            </Button>
-          </div>
+        <div className="relative flex min-h-0 flex-1 flex-col">
+          <Button
+            type="button"
+            variant="ghost"
+            className="absolute right-2 top-1 z-20 text-sm text-text-sub hover:text-white sm:right-3 sm:top-2"
+            onClick={handleSkip}
+          >
+            スキップ
+          </Button>
           <div
-            className="relative flex min-h-0 flex-1 flex-col items-center justify-center px-4 py-2"
+            className="flex min-h-0 flex-1 flex-col items-center justify-center px-4 py-2"
             aria-live="polite"
           >
             {/*
               iOS: top-50% + translate や 70vh はレイアウト用ビューポートとずれて下に沈む。
               flex 中央寄せ + dvh の max-height、AnimatePresence は wait で前後スライドの重なりを防ぐ。
+              スキップは absolute でレイアウトを消費しない（本文の縦位置が下に押されない）。
             */}
             <AnimatePresence mode="wait" initial={false}>
               <motion.div
@@ -163,11 +175,11 @@ export function EstimateDetailedMobileShell({
               </motion.div>
             </AnimatePresence>
           </div>
-        </>
+        </div>
       ) : (
         <div
           ref={wizardScrollRef}
-          className="flex min-h-0 flex-1 flex-col overflow-y-auto overflow-x-hidden overscroll-y-contain px-2"
+          className="flex min-h-0 flex-1 flex-col overflow-y-auto overflow-x-hidden overscroll-y-contain scroll-pt-3 px-2"
         >
           <EstimateDetailedHearingWizard
             form={form}
@@ -184,7 +196,7 @@ export function EstimateDetailedMobileShell({
       )}
 
       {phase === "wizard" && decodedCtx ? (
-        <EstimateDetailedRoughEstimateFab ctx={decodedCtx} />
+        <EstimateDetailedRoughEstimateFab ctx={decodedCtx} dockToParent />
       ) : null}
     </div>
   );
