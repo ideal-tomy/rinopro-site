@@ -1,5 +1,6 @@
 "use client";
 
+import { AssistantMarkdown } from "@/components/chat/assistant-markdown";
 import { cn } from "@/lib/utils";
 
 interface ChatBubbleProps {
@@ -25,7 +26,11 @@ export function ChatBubble({ role, content, className }: ChatBubbleProps) {
             : "bg-base-dark text-text border border-silver/20"
         )}
       >
-        <p className="whitespace-pre-wrap text-sm">{content}</p>
+        {role === "assistant" ? (
+          <AssistantMarkdown content={content} />
+        ) : (
+          <p className="whitespace-pre-wrap text-sm text-text">{content}</p>
+        )}
       </div>
     </div>
   );

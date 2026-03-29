@@ -23,7 +23,8 @@
 | 優先順（実装と同順） | 条件 | sessionId パターン | 主な UI / 状態 |
 |---------------------|------|-------------------|----------------|
 | 1 | `surface === "pick"` | `concierge-pick-{slug}` | FAB 直後・× 閉じ後。`slug = pathname` から算出（`/about` → `about`、トップ → `root`） |
-| 2 | `surface === "global"` | `concierge-home` | 「サイト全体のガイド」選択後（主にトップ）。`HomeConciergeFlow` |
+| 2 | `surface === "global"` かつ `pathname` が `/demo` または `/experience` で開始 | `concierge-global-demo-hub` | デモ・体験ハブ上で「サイト全体」を選んだ会話（トップの `concierge-home` と分離） |
+| 2a | `surface === "global"`（上記以外） | `concierge-home` | 「サイト全体のガイド」選択後（主にトップ）。`HomeConciergeFlow` |
 | 3 | `pathname === "/services"` かつカード | `concierge-services-card-development` / `concierge-services-card-consulting` | `entrySource` が `services-card-*` |
 | 4 | `pathname === "/services"`（上記以外） | `concierge-services-hub` | FAB→このページについて→開発/コンサル確定後の hub 会話 |
 | 4a | `pathname === "/flow"` | `concierge-path-flow` | 開発ページ直訪問。mode は `development` に固定され、2段階ウィザードが表示される（`showServiceCardStartFlow`） |

@@ -94,7 +94,7 @@ export function ChatPopup({
           />
           <motion.div
             className={cn(
-              "relative flex max-h-[85vh] w-full max-w-md flex-col overflow-hidden rounded-xl border border-silver/20 bg-base-dark shadow-2xl",
+              "relative flex max-h-[85vh] min-h-0 w-full max-w-md flex-col overflow-hidden rounded-xl border border-silver/20 bg-base-dark shadow-2xl",
               "focus-within:ring-2 focus-within:ring-accent focus-within:ring-offset-2 focus-within:ring-offset-base",
               className
             )}

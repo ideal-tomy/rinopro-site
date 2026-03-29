@@ -9,7 +9,8 @@
     "lint": "eslint",
     "seed:ai-demos": "tsx scripts/seed-ai-demos.ts",
     "verify:concierge": "tsx scripts/verify-concierge-combos.ts",
-    "verify:senior": "tsx scripts/verify-concierge-senior.ts"
+    "verify:senior": "tsx scripts/verify-concierge-senior.ts",
+    "verify:demo-infer": "tsx scripts/verify-demo-infer-answers.ts"
   },
   "dependencies": {
     "@ai-sdk/google": "^3.0.52",

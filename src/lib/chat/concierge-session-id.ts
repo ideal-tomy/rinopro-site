@@ -29,6 +29,9 @@ export function buildConciergeChatSessionId(args: {
     return `concierge-pick-${slug}`;
   }
   if (surface === "global") {
+    if (pathname.startsWith("/demo") || pathname.startsWith("/experience")) {
+      return "concierge-global-demo-hub";
+    }
     return "concierge-home";
   }
   if (pathname === "/services") {

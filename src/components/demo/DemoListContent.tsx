@@ -254,17 +254,23 @@ export function DemoListContent({ demos }: DemoListContentProps) {
     useConciergeChat();
   const appliedAnswers = demoListWizardSnapshot?.answers ?? null;
   const conciergePicks = demoListWizardSnapshot?.picks ?? [];
+  const picksSignature = useMemo(() => {
+    const p = demoListWizardSnapshot?.picks;
+    if (!p?.length) return "";
+    return p.map((pick) => pick.demo._id).join("|");
+  }, [demoListWizardSnapshot]);
   const [recommendPopupOpen, setRecommendPopupOpen] = useState(false);
   const lastPicksSignatureRef = useRef<string>("");
   const popupTimerRef = useRef<number | null>(null);
 
   useEffect(() => {
-    if (conciergePicks.length === 0) return;
-    const signature = conciergePicks
-      .map((pick) => pick.demo._id)
-      .join("|");
-    if (signature === lastPicksSignatureRef.current) return;
-    lastPicksSignatureRef.current = signature;
+    if (picksSignature === "") {
+      lastPicksSignatureRef.current = "";
+      setRecommendPopupOpen(false);
+      return;
+    }
+    if (picksSignature === lastPicksSignatureRef.current) return;
+    lastPicksSignatureRef.current = picksSignature;
     if (popupTimerRef.current !== null) {
       window.clearTimeout(popupTimerRef.current);
     }
@@ -273,15 +279,13 @@ export function DemoListContent({ demos }: DemoListContentProps) {
       setRecommendPopupOpen(true);
       popupTimerRef.current = null;
     }, 180);
-  }, [conciergePicks]);
-
-  useEffect(() => {
     return () => {
       if (popupTimerRef.current !== null) {
         window.clearTimeout(popupTimerRef.current);
+        popupTimerRef.current = null;
       }
     };
-  }, []);
+  }, [picksSignature]);
 
   const categoryOrder = [
     "report",

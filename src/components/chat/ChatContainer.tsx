@@ -22,6 +22,7 @@ import { DefaultChatTransport } from "ai";
 import { AnimatePresence, motion } from "framer-motion";
 import { MessageCircle } from "lucide-react";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
+import { cn } from "@/lib/utils";
 import { emitConciergeKpi } from "@/lib/chat/concierge-analytics";
 import { getConciergeCtaDelayMs } from "@/lib/chat/concierge-cta-delay";
 import { getUIMessageText } from "@/lib/chat/uimessage-text";
@@ -38,6 +39,9 @@ import { ConciergeEmptyPanel } from "./ConciergeEmptyPanel";
 import { ConciergeEntryPicker } from "./ConciergeEntryPicker";
 import type { ConciergeEntryChoice } from "./ConciergeEntryPicker";
 import { DemoListConciergeFlow } from "./DemoListConciergeFlow";
+import { ConciergeDemoRecommendOverlay } from "./ConciergeDemoRecommendOverlay";
+import type { ConciergePick } from "@/lib/demo/intelligent-concierge";
+import { shouldAttemptDemoRecommendFromText } from "@/lib/demo/infer-concierge-answers-from-text";
 import { ServiceCardConciergeStartFlow } from "./ServiceCardConciergeStartFlow";
 import { useChatSession } from "@/hooks/use-chat-session";
 import { Button } from "@/components/ui/button";
@@ -62,6 +66,11 @@ import {
   CONCIERGE_CHAT_SESSION_INITIAL,
   type ConciergeChatSurface,
 } from "@/lib/chat/concierge-session-id";
+import {
+  isDemoHubForConciergePolicy,
+  useResolvedConciergePath,
+} from "@/lib/chat/concierge-demo-hub-policy";
+import { formatConciergeChatErrorMessage } from "@/lib/chat/concierge-chat-error-message";
 
 type ConciergeSurface = ConciergeChatSurface;
 
@@ -85,6 +94,7 @@ const POPUP_COPY: Record<
 
 export function ChatContainer() {
   const pathname = usePathname();
+  const resolvedPath = useResolvedConciergePath();
   const {
     open,
     setOpen,
@@ -103,8 +113,19 @@ export function ChatContainer() {
     openRef.current = open;
   }, [open]);
 
+  /** /demo・/experience のフリーチャット送信後、ルール推定で最大3件（LLMなし） */
+  const [demoFreeformPicks, setDemoFreeformPicks] = useState<
+    ConciergePick[] | null
+  >(null);
+  const demoRecommendReqSeq = useRef(0);
+
+  /** recommend-from-text 取得中は遅延CTAタイマーを掛けない（レース防止） */
+  const [demoRecommendFromTextInFlight, setDemoRecommendFromTextInFlight] =
+    useState(false);
+
   const dismissConciergeForSiteLink = useCallback(() => {
     suppressNextChatAutoOpen();
+    setDemoFreeformPicks(null);
     setOpen(false);
   }, [setOpen]);
 
@@ -219,13 +240,25 @@ export function ChatContainer() {
       name: "answer_complete",
       messageId: last.id,
       textLength: text.length,
-      pathname,
+      pathname: resolvedPath,
       mode,
     });
-  }, [isLoading, messages, pathname, mode]);
+  }, [isLoading, messages, resolvedPath, mode]);
+
+  /** demo / experience では遅延CTAを使わない。おすすめAPI待ち中も禁止（レース防止）。 */
+  const useDelayedConciergeCta = useMemo(() => {
+    if (!resolvedPath) return false;
+    if (isDemoHubForConciergePolicy(resolvedPath)) return false;
+    if (demoRecommendFromTextInFlight) return false;
+    return true;
+  }, [resolvedPath, demoRecommendFromTextInFlight]);
 
   /** 本文を先に読ませ、次の一歩CTAは遅延表示 */
   useEffect(() => {
+    if (!useDelayedConciergeCta || demoRecommendFromTextInFlight) {
+      setShowDelayedCta(false);
+      return;
+    }
     if (!open || messages.length === 0) {
       setShowDelayedCta(false);
       return;
@@ -248,14 +281,23 @@ export function ChatContainer() {
       setShowDelayedCta(true);
       emitConciergeKpi({
         name: "cta_visible",
-        pathname,
+        pathname: resolvedPath,
         mode,
         delayMs,
         textLength: len,
       });
     }, delayMs);
     return () => clearTimeout(timer);
-  }, [open, messages, isLoading, prefersReducedMotion, pathname, mode]);
+  }, [
+    useDelayedConciergeCta,
+    demoRecommendFromTextInFlight,
+    open,
+    messages,
+    isLoading,
+    prefersReducedMotion,
+    resolvedPath,
+    mode,
+  ]);
 
   /**
    * sessionStorage の pick と React 状態を同期。
@@ -348,11 +390,42 @@ export function ChatContainer() {
       emitConciergeKpi({
         name: "followup_message",
         turn: userTurns + 1,
-        pathname,
+        pathname: resolvedPath,
         mode,
       });
     }
     sendMessage({ text });
+
+    const attemptRecommend =
+      isDemoHubForConciergePolicy(resolvedPath) &&
+      shouldAttemptDemoRecommendFromText(text);
+    if (attemptRecommend) {
+      setDemoRecommendFromTextInFlight(true);
+      setDemoFreeformPicks(null);
+      const seq = ++demoRecommendReqSeq.current;
+      void fetch("/api/demos/recommend-from-text", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text }),
+      })
+        .then((r) => r.json())
+        .then((data: { picks?: unknown }) => {
+          if (seq !== demoRecommendReqSeq.current) return;
+          if (!Array.isArray(data.picks) || data.picks.length === 0) {
+            setDemoFreeformPicks(null);
+            return;
+          }
+          setDemoFreeformPicks(data.picks as ConciergePick[]);
+        })
+        .catch(() => {
+          if (seq !== demoRecommendReqSeq.current) return;
+          setDemoFreeformPicks(null);
+        })
+        .finally(() => {
+          if (seq !== demoRecommendReqSeq.current) return;
+          setDemoRecommendFromTextInFlight(false);
+        });
+    }
   };
 
   const handleServicesPick = useCallback(
@@ -487,10 +560,19 @@ export function ChatContainer() {
         setEntrySource("fab");
         setServiceCardStartDone(false);
         setHomeFooterPhase("wizard");
+        setDemoFreeformPicks(null);
+        setDemoRecommendFromTextInFlight(false);
       }
     },
     [setOpen, setEntrySource]
   );
+
+  useEffect(() => {
+    if (!isDemoHubForConciergePolicy(resolvedPath)) {
+      setDemoFreeformPicks(null);
+      setDemoRecommendFromTextInFlight(false);
+    }
+  }, [resolvedPath]);
 
   const isHomePage = pathname === "/";
   const showGlobalHomeFlow =
@@ -582,9 +664,15 @@ export function ChatContainer() {
         onDismissForNavigation={dismissConciergeForSiteLink}
         onWizardComplete={(answers, picks) => {
           setDemoListWizardSnapshot({ answers, picks });
-          setOpen(false);
-          setConciergeSurface("pick");
-          setEntrySource("fab");
+          /**
+           * /demo/list: モーダルを閉じて一覧上の提案ポップアップへ（従来どおり）。
+           * /demo ハブ: モーダル内オーバーレイを見せるため閉じない（閉じると Flow がアンマウントしてカードが消える）。
+           */
+          if (pathname === "/demo/list") {
+            setOpen(false);
+            setConciergeSurface("pick");
+            setEntrySource("fab");
+          }
         }}
         onWizardReset={() => setDemoListWizardSnapshot(null)}
       />
@@ -682,8 +770,157 @@ export function ChatContainer() {
             : undefined
         }
       >
-        <div className="flex flex-1 flex-col overflow-hidden">
-          {mainContent}
+        <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
+          <div className="relative flex min-h-0 flex-1 flex-col overflow-hidden">
+            <div
+              className={cn(
+                "relative flex min-h-0 flex-1 flex-col overflow-hidden",
+                demoFreeformPicks &&
+                  demoFreeformPicks.length > 0 &&
+                  "min-h-[min(48vh,520px)]"
+              )}
+            >
+              <div className="min-h-0 flex-1 overflow-hidden">{mainContent}</div>
+              <AnimatePresence>
+                {useDelayedConciergeCta &&
+                  messages.length > 0 &&
+                  showDelayedCta &&
+                  !(demoFreeformPicks && demoFreeformPicks.length > 0) &&
+                  !demoRecommendFromTextInFlight && (
+                    <motion.div
+                      key="concierge-delayed-cta"
+                      initial={
+                        prefersReducedMotion ? false : { opacity: 0, y: 14 }
+                      }
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={prefersReducedMotion ? undefined : { opacity: 0, y: 8 }}
+                      transition={{
+                        duration: prefersReducedMotion ? 0 : 0.35,
+                        ease: [0.22, 0.99, 0.35, 1],
+                      }}
+                      className="pointer-events-auto shrink-0 border-t border-silver/15 bg-base/30 pb-[env(safe-area-inset-bottom)] shadow-[0_-8px_24px_rgba(0,0,0,0.25)]"
+                    >
+                      {shouldShowDemoPrompt &&
+                        mode === "default" &&
+                        !showEntryPicker && (
+                          <div className="border-b border-silver/20 bg-base/50 px-4 py-3">
+                            <p className="text-sm text-text-sub">{demoPrompt}</p>
+                          </div>
+                        )}
+
+                      {isDevOrConsultMode && (
+                        <div className="px-4 py-3">
+                          <div className="grid grid-cols-2 gap-2">
+                            <ConciergeCtaLink
+                              href="/estimate-detailed"
+                              variant="primary"
+                              onClick={() => {
+                                emitConciergeKpi({
+                                  name: "cta_click",
+                                  href: "/estimate-detailed",
+                                  ctaKind: "estimate_detailed",
+                                  pathname: resolvedPath,
+                                  mode,
+                                });
+                                dismissConciergeForSiteLink();
+                              }}
+                            >
+                              {mode === "consulting"
+                                ? "相談・見積もり"
+                                : "概算見積もり"}
+                            </ConciergeCtaLink>
+                            <ConciergeCtaLink
+                              href="/contact"
+                              variant="secondary"
+                              onClick={() => {
+                                emitConciergeKpi({
+                                  name: "cta_click",
+                                  href: "/contact",
+                                  ctaKind: "contact",
+                                  pathname: resolvedPath,
+                                  mode,
+                                });
+                                dismissConciergeForSiteLink();
+                              }}
+                            >
+                              お問い合わせ
+                            </ConciergeCtaLink>
+                          </div>
+                        </div>
+                      )}
+
+                      {!isDevOrConsultMode &&
+                        mode === "default" &&
+                        !showEntryPicker && (
+                          <div className="px-4 py-2.5">
+                            <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs leading-relaxed">
+                              <Link
+                                href="/demo/list"
+                                className="text-accent underline-offset-2 hover:underline"
+                                onClick={() => {
+                                  emitConciergeKpi({
+                                    name: "cta_click",
+                                    href: "/demo/list",
+                                    ctaKind: "demo_list",
+                                    pathname: resolvedPath,
+                                    mode,
+                                  });
+                                  dismissConciergeForSiteLink();
+                                }}
+                              >
+                                demo一覧
+                              </Link>
+                              <Link
+                                href="/estimate-detailed"
+                                className="text-accent underline-offset-2 hover:underline"
+                                onClick={() => {
+                                  emitConciergeKpi({
+                                    name: "cta_click",
+                                    href: "/estimate-detailed",
+                                    ctaKind: "estimate_detailed",
+                                    pathname: resolvedPath,
+                                    mode,
+                                  });
+                                  dismissConciergeForSiteLink();
+                                }}
+                              >
+                                詳細見積もり
+                              </Link>
+                              <Link
+                                href="/contact"
+                                className="text-accent underline-offset-2 hover:underline"
+                                onClick={() => {
+                                  emitConciergeKpi({
+                                    name: "cta_click",
+                                    href: "/contact",
+                                    ctaKind: "contact",
+                                    pathname: resolvedPath,
+                                    mode,
+                                  });
+                                  dismissConciergeForSiteLink();
+                                }}
+                              >
+                                お問い合わせ
+                              </Link>
+                            </div>
+                          </div>
+                        )}
+                    </motion.div>
+                  )}
+              </AnimatePresence>
+              {demoFreeformPicks && demoFreeformPicks.length > 0 ? (
+                <ConciergeDemoRecommendOverlay
+                  picks={demoFreeformPicks}
+                  resetFlowLabel="おすすめを閉じる"
+                  onResetFlow={() => setDemoFreeformPicks(null)}
+                  onDismissForNavigation={() => {
+                    setDemoFreeformPicks(null);
+                    dismissConciergeForSiteLink();
+                  }}
+                />
+              ) : null}
+            </div>
+          </div>
 
           {messages.length > 0 &&
             isServiceWizardPage &&
@@ -699,131 +936,11 @@ export function ChatContainer() {
               </div>
             )}
 
-          <AnimatePresence>
-            {messages.length > 0 && showDelayedCta && (
-              <motion.div
-                key="concierge-delayed-cta"
-                initial={
-                  prefersReducedMotion ? false : { opacity: 0, y: 14 }
-                }
-                animate={{ opacity: 1, y: 0 }}
-                exit={prefersReducedMotion ? undefined : { opacity: 0, y: 8 }}
-                transition={{
-                  duration: prefersReducedMotion ? 0 : 0.35,
-                  ease: [0.22, 0.99, 0.35, 1],
-                }}
-                className="pointer-events-auto shrink-0 border-t border-silver/15 bg-base/30 pb-[env(safe-area-inset-bottom)] shadow-[0_-8px_24px_rgba(0,0,0,0.25)]"
-              >
-                {shouldShowDemoPrompt &&
-                  mode === "default" &&
-                  !showEntryPicker && (
-                    <div className="border-b border-silver/20 bg-base/50 px-4 py-3">
-                      <p className="text-sm text-text-sub">{demoPrompt}</p>
-                    </div>
-                  )}
-
-                {isDevOrConsultMode && (
-                  <div className="px-4 py-3">
-                    <div className="grid grid-cols-2 gap-2">
-                      <ConciergeCtaLink
-                        href="/estimate-detailed"
-                        variant="primary"
-                        onClick={() => {
-                          emitConciergeKpi({
-                            name: "cta_click",
-                            href: "/estimate-detailed",
-                            ctaKind: "estimate_detailed",
-                            pathname,
-                            mode,
-                          });
-                          dismissConciergeForSiteLink();
-                        }}
-                      >
-                        {mode === "consulting" ? "相談・見積もり" : "概算見積もり"}
-                      </ConciergeCtaLink>
-                      <ConciergeCtaLink
-                        href="/contact"
-                        variant="secondary"
-                        onClick={() => {
-                          emitConciergeKpi({
-                            name: "cta_click",
-                            href: "/contact",
-                            ctaKind: "contact",
-                            pathname,
-                            mode,
-                          });
-                          dismissConciergeForSiteLink();
-                        }}
-                      >
-                        お問い合わせ
-                      </ConciergeCtaLink>
-                    </div>
-                  </div>
-                )}
-
-                {!isDevOrConsultMode &&
-                  mode === "default" &&
-                  !showEntryPicker && (
-                    <div className="px-4 py-2.5">
-                      <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs leading-relaxed">
-                        <Link
-                          href="/demo/list"
-                          className="text-accent underline-offset-2 hover:underline"
-                          onClick={() => {
-                            emitConciergeKpi({
-                              name: "cta_click",
-                              href: "/demo/list",
-                              ctaKind: "demo_list",
-                              pathname,
-                              mode,
-                            });
-                            dismissConciergeForSiteLink();
-                          }}
-                        >
-                          demo一覧
-                        </Link>
-                        <Link
-                          href="/estimate-detailed"
-                          className="text-accent underline-offset-2 hover:underline"
-                          onClick={() => {
-                            emitConciergeKpi({
-                              name: "cta_click",
-                              href: "/estimate-detailed",
-                              ctaKind: "estimate_detailed",
-                              pathname,
-                              mode,
-                            });
-                            dismissConciergeForSiteLink();
-                          }}
-                        >
-                          詳細見積もり
-                        </Link>
-                        <Link
-                          href="/contact"
-                          className="text-accent underline-offset-2 hover:underline"
-                          onClick={() => {
-                            emitConciergeKpi({
-                              name: "cta_click",
-                              href: "/contact",
-                              ctaKind: "contact",
-                              pathname,
-                              mode,
-                            });
-                            dismissConciergeForSiteLink();
-                          }}
-                        >
-                          お問い合わせ
-                        </Link>
-                      </div>
-                    </div>
-                  )}
-              </motion.div>
-            )}
-          </AnimatePresence>
-
           {error && (
             <div className="border-t border-destructive/40 bg-destructive/10 px-4 py-3 text-sm text-destructive">
-              <p className="mb-2">{error.message}</p>
+              <p className="mb-2">
+                {formatConciergeChatErrorMessage(error.message)}
+              </p>
               <button
                 type="button"
                 className="underline underline-offset-2"

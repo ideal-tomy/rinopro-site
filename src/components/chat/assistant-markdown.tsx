@@ -1,0 +1,107 @@
+"use client";
+
+import Link from "next/link";
+import ReactMarkdown from "react-markdown";
+import type { Components } from "react-markdown";
+import { cn } from "@/lib/utils";
+
+/**
+ * コンシェルジュが返す `[表示名](/path)` をクリック可能にする。
+ * 同一オリジン相当のパス（先頭 `/`）のみリンク化。それ以外はテキストのまま。
+ */
+function isSafeInternalPath(href: string | undefined): href is string {
+  if (!href || typeof href !== "string") return false;
+  const t = href.trim();
+  if (!t.startsWith("/")) return false;
+  if (t.startsWith("//")) return false;
+  if (t.includes("://")) return false;
+  return true;
+}
+
+const assistantMarkdownComponents: Components = {
+  a({ href, children }) {
+    if (!isSafeInternalPath(href)) {
+      return <span className="text-text/90">{children}</span>;
+    }
+    return (
+      <Link
+        href={href}
+        className="font-medium text-accent underline underline-offset-2 hover:text-accent/90"
+      >
+        {children}
+      </Link>
+    );
+  },
+  p({ children }) {
+    return <p className="mb-2 text-sm leading-relaxed text-text last:mb-0">{children}</p>;
+  },
+  strong({ children }) {
+    return <strong className="font-semibold text-white/95">{children}</strong>;
+  },
+  em({ children }) {
+    return <em className="italic text-text">{children}</em>;
+  },
+  ul({ children }) {
+    return <ul className="mb-2 list-disc pl-4 text-sm leading-relaxed last:mb-0">{children}</ul>;
+  },
+  ol({ children }) {
+    return <ol className="mb-2 list-decimal pl-4 text-sm leading-relaxed last:mb-0">{children}</ol>;
+  },
+  li({ children }) {
+    return <li className="mb-0.5">{children}</li>;
+  },
+  code({ className, children, ...props }) {
+    const isBlock = Boolean(className?.includes("language-"));
+    if (isBlock) {
+      return (
+        <code
+          className={cn("block font-mono text-[13px] text-text", className)}
+          {...props}
+        >
+          {children}
+        </code>
+      );
+    }
+    return (
+      <code
+        className="rounded bg-base/80 px-1 py-0.5 font-mono text-[13px] text-accent/95"
+        {...props}
+      >
+        {children}
+      </code>
+    );
+  },
+  pre({ children }) {
+    return (
+      <pre className="mb-2 overflow-x-auto rounded-md border border-silver/20 bg-base/80 p-2 last:mb-0">
+        {children}
+      </pre>
+    );
+  },
+  h1: ({ children }) => (
+    <p className="mb-1 text-sm font-semibold text-white/95">{children}</p>
+  ),
+  h2: ({ children }) => (
+    <p className="mb-1 text-sm font-semibold text-white/95">{children}</p>
+  ),
+  h3: ({ children }) => (
+    <p className="mb-1 text-sm font-semibold text-white/95">{children}</p>
+  ),
+  blockquote({ children }) {
+    return (
+      <blockquote className="mb-2 border-l-2 border-accent/40 pl-3 text-sm text-text/90 last:mb-0">
+        {children}
+      </blockquote>
+    );
+  },
+  hr: () => <hr className="my-2 border-silver/20" />,
+  img: () => null,
+};
+
+export function AssistantMarkdown({ content }: { content: string }) {
+  return (
+    <div className="assistant-md text-sm text-text">
+      <ReactMarkdown components={assistantMarkdownComponents}>{content}</ReactMarkdown>
+    </div>
+  );
+}
