@@ -754,7 +754,7 @@ function SelectOptionButtons({
 }) {
   return (
     <div
-      className="flex max-h-[min(48vh,400px)] flex-col gap-2 overflow-y-auto overscroll-contain pr-0.5"
+      className="grid max-h-[min(40vh,320px)] grid-cols-2 gap-2 overflow-y-auto overscroll-contain"
       role="listbox"
       aria-label="選択肢"
     >
@@ -767,7 +767,7 @@ function SelectOptionButtons({
           id={`${idPrefix}-opt-${o.value}`}
           onClick={() => onPick(o.value)}
           className={cn(
-            "min-h-12 w-full rounded-lg border px-3 py-2.5 text-left text-[15px] leading-snug text-white/95 transition-colors",
+            "flex min-h-[2.75rem] items-center rounded-lg border px-2 py-1.5 text-left text-[12px] leading-snug text-white/95 transition-colors",
             value === o.value
               ? "border-accent bg-accent/20 ring-1 ring-accent/30"
               : "border-silver/30 bg-base-dark hover:border-accent/45 hover:bg-base-dark/90"
