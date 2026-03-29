@@ -8,6 +8,7 @@ import {
   type ReactNode,
   type SetStateAction,
 } from "react";
+import { flushSync } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -60,6 +61,25 @@ export type EstimateDetailedHearingWizardProps = {
 
 const easeSpeak = [0.22, 1, 0.36, 1] as const;
 
+const SELECT_ONLY_STEPS: ReadonlySet<StepId> = new Set([
+  "industry",
+  "teamSize",
+  "timeline",
+  "integration",
+  "usageSurface",
+  "dataSensitivity",
+  "audienceScope",
+  "currentWorkflow",
+  "updateFrequency",
+  "designExpectation",
+  "loginModel",
+  "budgetBand",
+]);
+
+function isSelectOnlyStep(id: StepId): boolean {
+  return SELECT_ONLY_STEPS.has(id);
+}
+
 export function EstimateDetailedHearingWizard({
   form,
   setForm,
@@ -100,6 +120,22 @@ export function EstimateDetailedHearingWizard({
     setStepIndex((i) => Math.max(0, i - 1));
   }, [isExiting, isFirst]);
 
+  const handleSelectPick = useCallback(
+    (patch: Partial<FormState>) => {
+      if (isExiting) return;
+      flushSync(() => {
+        setForm((f) => ({ ...f, ...patch }));
+      });
+      if (isFs) {
+        setStepIndex((i) => Math.min(i + 1, TOTAL_STEPS - 1));
+      }
+    },
+    [isExiting, isFs, setForm]
+  );
+
+  const showFsPrimaryButton =
+    isFs && (isReview || !isSelectOnlyStep(stepId));
+
   const motionProps = prefersReducedMotion
     ? {
         initial: false,
@@ -119,7 +155,7 @@ export function EstimateDetailedHearingWizard({
       id="estimate-hearing"
       className={cn(
         "space-y-5 rounded-xl border border-silver/25 bg-base-dark/50 p-5 md:p-8",
-        isFs && "space-y-3 border-0 bg-transparent p-0"
+        isFs && "space-y-3 border-0 bg-transparent p-0 pb-24"
       )}
     >
       <div
@@ -179,20 +215,29 @@ export function EstimateDetailedHearingWizard({
               <div className="shrink-0">
               {stepId === "industry" ? (
                 <StepBlock title={copy.fieldIndustry} hint={copy.fieldIndustryHint}>
-                  <select
-                    id="ed-industry"
-                    className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
-                    value={form.industry}
-                    onChange={(e) =>
-                      setForm((f) => ({ ...f, industry: e.target.value }))
-                    }
-                  >
-                    {copy.industryOptions.map((o) => (
-                      <option key={o.value} value={o.value}>
-                        {o.label}
-                      </option>
-                    ))}
-                  </select>
+                  {isFs ? (
+                    <SelectOptionButtons
+                      options={copy.industryOptions}
+                      value={form.industry}
+                      onPick={(v) => handleSelectPick({ industry: v })}
+                      idPrefix="ed-industry"
+                    />
+                  ) : (
+                    <select
+                      id="ed-industry"
+                      className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
+                      value={form.industry}
+                      onChange={(e) =>
+                        setForm((f) => ({ ...f, industry: e.target.value }))
+                      }
+                    >
+                      {copy.industryOptions.map((o) => (
+                        <option key={o.value} value={o.value}>
+                          {o.label}
+                        </option>
+                      ))}
+                    </select>
+                  )}
                 </StepBlock>
               ) : null}
 
@@ -228,77 +273,113 @@ export function EstimateDetailedHearingWizard({
 
               {stepId === "teamSize" ? (
                 <StepBlock title={copy.fieldTeam}>
-                  <select
-                    id="ed-team"
-                    className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
-                    value={form.teamSize}
-                    onChange={(e) =>
-                      setForm((f) => ({ ...f, teamSize: e.target.value }))
-                    }
-                  >
-                    {copy.teamOptions.map((o) => (
-                      <option key={o.value} value={o.value}>
-                        {o.label}
-                      </option>
-                    ))}
-                  </select>
+                  {isFs ? (
+                    <SelectOptionButtons
+                      options={copy.teamOptions}
+                      value={form.teamSize}
+                      onPick={(v) => handleSelectPick({ teamSize: v })}
+                      idPrefix="ed-team"
+                    />
+                  ) : (
+                    <select
+                      id="ed-team"
+                      className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
+                      value={form.teamSize}
+                      onChange={(e) =>
+                        setForm((f) => ({ ...f, teamSize: e.target.value }))
+                      }
+                    >
+                      {copy.teamOptions.map((o) => (
+                        <option key={o.value} value={o.value}>
+                          {o.label}
+                        </option>
+                      ))}
+                    </select>
+                  )}
                 </StepBlock>
               ) : null}
 
               {stepId === "timeline" ? (
                 <StepBlock title={copy.fieldTimeline}>
-                  <select
-                    id="ed-time"
-                    className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
-                    value={form.timeline}
-                    onChange={(e) =>
-                      setForm((f) => ({ ...f, timeline: e.target.value }))
-                    }
-                  >
-                    {copy.timelineOptions.map((o) => (
-                      <option key={o.value} value={o.value}>
-                        {o.label}
-                      </option>
-                    ))}
-                  </select>
+                  {isFs ? (
+                    <SelectOptionButtons
+                      options={copy.timelineOptions}
+                      value={form.timeline}
+                      onPick={(v) => handleSelectPick({ timeline: v })}
+                      idPrefix="ed-time"
+                    />
+                  ) : (
+                    <select
+                      id="ed-time"
+                      className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
+                      value={form.timeline}
+                      onChange={(e) =>
+                        setForm((f) => ({ ...f, timeline: e.target.value }))
+                      }
+                    >
+                      {copy.timelineOptions.map((o) => (
+                        <option key={o.value} value={o.value}>
+                          {o.label}
+                        </option>
+                      ))}
+                    </select>
+                  )}
                 </StepBlock>
               ) : null}
 
               {stepId === "integration" ? (
                 <StepBlock title={copy.fieldIntegration} hint={copy.fieldIntegrationHint}>
-                  <select
-                    id="ed-int"
-                    className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
-                    value={form.integration}
-                    onChange={(e) =>
-                      setForm((f) => ({ ...f, integration: e.target.value }))
-                    }
-                  >
-                    {copy.integrationOptions.map((o) => (
-                      <option key={o.value} value={o.value}>
-                        {o.label}
-                      </option>
-                    ))}
-                  </select>
+                  {isFs ? (
+                    <SelectOptionButtons
+                      options={copy.integrationOptions}
+                      value={form.integration}
+                      onPick={(v) => handleSelectPick({ integration: v })}
+                      idPrefix="ed-int"
+                    />
+                  ) : (
+                    <select
+                      id="ed-int"
+                      className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
+                      value={form.integration}
+                      onChange={(e) =>
+                        setForm((f) => ({ ...f, integration: e.target.value }))
+                      }
+                    >
+                      {copy.integrationOptions.map((o) => (
+                        <option key={o.value} value={o.value}>
+                          {o.label}
+                        </option>
+                      ))}
+                    </select>
+                  )}
                 </StepBlock>
               ) : null}
 
               {stepId === "usageSurface" ? (
                 <StepBlock title={copy.fieldUsageSurface} hint={copy.fieldUsageSurfaceHint}>
-                  <select
-                    id="ed-usage"
-                    className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
-                    value={form.usageSurface}
-                    onChange={(e) =>
-                      setForm((f) => ({ ...f, usageSurface: e.target.value }))
-                    }
-                  >
-                    {copy.usageSurfaceOptions.map((o) => (
-                      <option key={o.value} value={o.value}>
-                        {o.label}
-                      </option>
-                    ))}
-                  </select>
+                  {isFs ? (
+                    <SelectOptionButtons
+                      options={copy.usageSurfaceOptions}
+                      value={form.usageSurface}
+                      onPick={(v) => handleSelectPick({ usageSurface: v })}
+                      idPrefix="ed-usage"
+                    />
+                  ) : (
+                    <select
+                      id="ed-usage"
+                      className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
+                      value={form.usageSurface}
+                      onChange={(e) =>
+                        setForm((f) => ({ ...f, usageSurface: e.target.value }))
+                      }
+                    >
+                      {copy.usageSurfaceOptions.map((o) => (
+                        <option key={o.value} value={o.value}>
+                          {o.label}
+                        </option>
+                      ))}
+                    </select>
+                  )}
                 </StepBlock>
               ) : null}
 
@@ -308,134 +389,197 @@ export function EstimateDetailedHearingWizard({
                   title={copy.fieldDataSensitivity}
                   hint={`${copy.sectionCostDriversSub} ${copy.fieldDataSensitivityHint}`}
                 >
-                  <select
-                    id="ed-data-sens"
-                    className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
-                    value={form.dataSensitivity}
-                    onChange={(e) =>
-                      setForm((f) => ({ ...f, dataSensitivity: e.target.value }))
-                    }
-                  >
-                    {copy.dataSensitivityOptions.map((o) => (
-                      <option key={o.value} value={o.value}>
-                        {o.label}
-                      </option>
-                    ))}
-                  </select>
+                  {isFs ? (
+                    <SelectOptionButtons
+                      options={copy.dataSensitivityOptions}
+                      value={form.dataSensitivity}
+                      onPick={(v) => handleSelectPick({ dataSensitivity: v })}
+                      idPrefix="ed-data-sens"
+                    />
+                  ) : (
+                    <select
+                      id="ed-data-sens"
+                      className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
+                      value={form.dataSensitivity}
+                      onChange={(e) =>
+                        setForm((f) => ({ ...f, dataSensitivity: e.target.value }))
+                      }
+                    >
+                      {copy.dataSensitivityOptions.map((o) => (
+                        <option key={o.value} value={o.value}>
+                          {o.label}
+                        </option>
+                      ))}
+                    </select>
+                  )}
                 </StepBlock>
               ) : null}
 
               {stepId === "audienceScope" ? (
                 <StepBlock title={copy.fieldAudienceScope} hint={copy.fieldAudienceScopeHint}>
-                  <select
-                    id="ed-audience"
-                    className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
-                    value={form.audienceScope}
-                    onChange={(e) =>
-                      setForm((f) => ({ ...f, audienceScope: e.target.value }))
-                    }
-                  >
-                    {copy.audienceScopeOptions.map((o) => (
-                      <option key={o.value} value={o.value}>
-                        {o.label}
-                      </option>
-                    ))}
-                  </select>
+                  {isFs ? (
+                    <SelectOptionButtons
+                      options={copy.audienceScopeOptions}
+                      value={form.audienceScope}
+                      onPick={(v) => handleSelectPick({ audienceScope: v })}
+                      idPrefix="ed-audience"
+                    />
+                  ) : (
+                    <select
+                      id="ed-audience"
+                      className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
+                      value={form.audienceScope}
+                      onChange={(e) =>
+                        setForm((f) => ({ ...f, audienceScope: e.target.value }))
+                      }
+                    >
+                      {copy.audienceScopeOptions.map((o) => (
+                        <option key={o.value} value={o.value}>
+                          {o.label}
+                        </option>
+                      ))}
+                    </select>
+                  )}
                 </StepBlock>
               ) : null}
 
               {stepId === "currentWorkflow" ? (
                 <StepBlock title={copy.fieldCurrentWorkflow} hint={copy.fieldCurrentWorkflowHint}>
-                  <select
-                    id="ed-workflow"
-                    className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
-                    value={form.currentWorkflow}
-                    onChange={(e) =>
-                      setForm((f) => ({ ...f, currentWorkflow: e.target.value }))
-                    }
-                  >
-                    {copy.currentWorkflowOptions.map((o) => (
-                      <option key={o.value} value={o.value}>
-                        {o.label}
-                      </option>
-                    ))}
-                  </select>
+                  {isFs ? (
+                    <SelectOptionButtons
+                      options={copy.currentWorkflowOptions}
+                      value={form.currentWorkflow}
+                      onPick={(v) => handleSelectPick({ currentWorkflow: v })}
+                      idPrefix="ed-workflow"
+                    />
+                  ) : (
+                    <select
+                      id="ed-workflow"
+                      className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
+                      value={form.currentWorkflow}
+                      onChange={(e) =>
+                        setForm((f) => ({ ...f, currentWorkflow: e.target.value }))
+                      }
+                    >
+                      {copy.currentWorkflowOptions.map((o) => (
+                        <option key={o.value} value={o.value}>
+                          {o.label}
+                        </option>
+                      ))}
+                    </select>
+                  )}
                 </StepBlock>
               ) : null}
 
               {stepId === "updateFrequency" ? (
                 <StepBlock title={copy.fieldUpdateFrequency} hint={copy.fieldUpdateFrequencyHint}>
-                  <select
-                    id="ed-update-freq"
-                    className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
-                    value={form.updateFrequency}
-                    onChange={(e) =>
-                      setForm((f) => ({ ...f, updateFrequency: e.target.value }))
-                    }
-                  >
-                    {copy.updateFrequencyOptions.map((o) => (
-                      <option key={o.value} value={o.value}>
-                        {o.label}
-                      </option>
-                    ))}
-                  </select>
+                  {isFs ? (
+                    <SelectOptionButtons
+                      options={copy.updateFrequencyOptions}
+                      value={form.updateFrequency}
+                      onPick={(v) => handleSelectPick({ updateFrequency: v })}
+                      idPrefix="ed-update-freq"
+                    />
+                  ) : (
+                    <select
+                      id="ed-update-freq"
+                      className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
+                      value={form.updateFrequency}
+                      onChange={(e) =>
+                        setForm((f) => ({ ...f, updateFrequency: e.target.value }))
+                      }
+                    >
+                      {copy.updateFrequencyOptions.map((o) => (
+                        <option key={o.value} value={o.value}>
+                          {o.label}
+                        </option>
+                      ))}
+                    </select>
+                  )}
                 </StepBlock>
               ) : null}
 
               {stepId === "designExpectation" ? (
                 <StepBlock title={copy.fieldDesignExpectation} hint={copy.fieldDesignExpectationHint}>
-                  <select
-                    id="ed-design"
-                    className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
-                    value={form.designExpectation}
-                    onChange={(e) =>
-                      setForm((f) => ({ ...f, designExpectation: e.target.value }))
-                    }
-                  >
-                    {copy.designExpectationOptions.map((o) => (
-                      <option key={o.value} value={o.value}>
-                        {o.label}
-                      </option>
-                    ))}
-                  </select>
+                  {isFs ? (
+                    <SelectOptionButtons
+                      options={copy.designExpectationOptions}
+                      value={form.designExpectation}
+                      onPick={(v) => handleSelectPick({ designExpectation: v })}
+                      idPrefix="ed-design"
+                    />
+                  ) : (
+                    <select
+                      id="ed-design"
+                      className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
+                      value={form.designExpectation}
+                      onChange={(e) =>
+                        setForm((f) => ({ ...f, designExpectation: e.target.value }))
+                      }
+                    >
+                      {copy.designExpectationOptions.map((o) => (
+                        <option key={o.value} value={o.value}>
+                          {o.label}
+                        </option>
+                      ))}
+                    </select>
+                  )}
                 </StepBlock>
               ) : null}
 
               {stepId === "loginModel" ? (
                 <StepBlock title={copy.fieldLoginModel} hint={copy.fieldLoginModelHint}>
-                  <select
-                    id="ed-login"
-                    className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
-                    value={form.loginModel}
-                    onChange={(e) =>
-                      setForm((f) => ({ ...f, loginModel: e.target.value }))
-                    }
-                  >
-                    {copy.loginModelOptions.map((o) => (
-                      <option key={o.value} value={o.value}>
-                        {o.label}
-                      </option>
-                    ))}
-                  </select>
+                  {isFs ? (
+                    <SelectOptionButtons
+                      options={copy.loginModelOptions}
+                      value={form.loginModel}
+                      onPick={(v) => handleSelectPick({ loginModel: v })}
+                      idPrefix="ed-login"
+                    />
+                  ) : (
+                    <select
+                      id="ed-login"
+                      className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
+                      value={form.loginModel}
+                      onChange={(e) =>
+                        setForm((f) => ({ ...f, loginModel: e.target.value }))
+                      }
+                    >
+                      {copy.loginModelOptions.map((o) => (
+                        <option key={o.value} value={o.value}>
+                          {o.label}
+                        </option>
+                      ))}
+                    </select>
+                  )}
                 </StepBlock>
               ) : null}
 
               {stepId === "budgetBand" ? (
                 <StepBlock title={copy.fieldBudgetBand}>
-                  <select
-                    id="ed-band"
-                    className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
-                    value={form.budgetBand}
-                    onChange={(e) =>
-                      setForm((f) => ({ ...f, budgetBand: e.target.value }))
-                    }
-                  >
-                    {copy.budgetBandOptions.map((o) => (
-                      <option key={o.value} value={o.value}>
-                        {o.label}
-                      </option>
-                    ))}
-                  </select>
+                  {isFs ? (
+                    <SelectOptionButtons
+                      options={copy.budgetBandOptions}
+                      value={form.budgetBand}
+                      onPick={(v) => handleSelectPick({ budgetBand: v })}
+                      idPrefix="ed-band"
+                    />
+                  ) : (
+                    <select
+                      id="ed-band"
+                      className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
+                      value={form.budgetBand}
+                      onChange={(e) =>
+                        setForm((f) => ({ ...f, budgetBand: e.target.value }))
+                      }
+                    >
+                      {copy.budgetBandOptions.map((o) => (
+                        <option key={o.value} value={o.value}>
+                          {o.label}
+                        </option>
+                      ))}
+                    </select>
+                  )}
                 </StepBlock>
               ) : null}
 
@@ -507,39 +651,78 @@ export function EstimateDetailedHearingWizard({
         </div>
       </div>
 
-      <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
-        <div className="flex flex-wrap gap-2">
-          <Button
-            type="button"
-            variant="outline"
-            className="min-h-11 border-silver/35 bg-transparent text-text hover:bg-white/5"
-            disabled={isFirst || isExiting}
-            onClick={goBack}
-          >
-            戻る
-          </Button>
-          <Button
-            type="button"
-            className="min-h-11 min-w-[8rem]"
-            disabled={
-              isExiting || (!isReview && !canAdvance) || (isReview && !canSubmitGlobal)
-            }
-            onClick={goNext}
-            aria-describedby={
-              stepId === "summary" && !canAdvance && !isExiting
-                ? "estimate-wizard-summary-hint"
-                : isReview && !canSubmitGlobal && !isExiting
-                  ? "estimate-wizard-submit-hint"
-                  : undefined
-            }
-          >
-            {isReview ? copy.btnGenerate : "次へ"}
-          </Button>
+      {isFs ? (
+        <div className="flex flex-col gap-2">
+          {showFsPrimaryButton ? (
+            <Button
+              type="button"
+              className="min-h-11 w-full"
+              disabled={
+                isExiting || (!isReview && !canAdvance) || (isReview && !canSubmitGlobal)
+              }
+              onClick={goNext}
+              aria-describedby={
+                stepId === "summary" && !canAdvance && !isExiting
+                  ? "estimate-wizard-summary-hint"
+                  : isReview && !canSubmitGlobal && !isExiting
+                    ? "estimate-wizard-submit-hint"
+                    : undefined
+              }
+            >
+              {isReview ? copy.btnGenerate : "次へ"}
+            </Button>
+          ) : null}
+          <div className="flex items-center justify-between gap-3">
+            <p className="text-xs text-text-sub tabular-nums">
+              {stepIndex + 1} / {TOTAL_STEPS}
+            </p>
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              className="h-8 min-h-8 shrink-0 px-2 text-xs text-text-sub hover:text-white"
+              disabled={isFirst || isExiting}
+              onClick={goBack}
+            >
+              戻る
+            </Button>
+          </div>
         </div>
-        <p className="text-xs text-text-sub tabular-nums sm:text-right">
-          {stepIndex + 1} / {TOTAL_STEPS}
-        </p>
-      </div>
+      ) : (
+        <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
+          <div className="flex flex-wrap gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              className="min-h-11 border-silver/35 bg-transparent text-text hover:bg-white/5"
+              disabled={isFirst || isExiting}
+              onClick={goBack}
+            >
+              戻る
+            </Button>
+            <Button
+              type="button"
+              className="min-h-11 min-w-[8rem]"
+              disabled={
+                isExiting || (!isReview && !canAdvance) || (isReview && !canSubmitGlobal)
+              }
+              onClick={goNext}
+              aria-describedby={
+                stepId === "summary" && !canAdvance && !isExiting
+                  ? "estimate-wizard-summary-hint"
+                  : isReview && !canSubmitGlobal && !isExiting
+                    ? "estimate-wizard-submit-hint"
+                    : undefined
+              }
+            >
+              {isReview ? copy.btnGenerate : "次へ"}
+            </Button>
+          </div>
+          <p className="text-xs text-text-sub tabular-nums sm:text-right">
+            {stepIndex + 1} / {TOTAL_STEPS}
+          </p>
+        </div>
+      )}
 
       {stepId === "summary" && !canAdvance && !isExiting ? (
         <p id="estimate-wizard-summary-hint" className="text-xs text-text-sub">
@@ -555,6 +738,45 @@ export function EstimateDetailedHearingWizard({
         <p className="text-xs text-text-sub">次の画面に移動しています…</p>
       ) : null}
     </section>
+  );
+}
+
+function SelectOptionButtons({
+  options,
+  value,
+  onPick,
+  idPrefix,
+}: {
+  options: readonly { value: string; label: string }[];
+  value: string;
+  onPick: (v: string) => void;
+  idPrefix: string;
+}) {
+  return (
+    <div
+      className="flex max-h-[min(48vh,400px)] flex-col gap-2 overflow-y-auto overscroll-contain pr-0.5"
+      role="listbox"
+      aria-label="選択肢"
+    >
+      {options.map((o) => (
+        <button
+          key={o.value}
+          type="button"
+          role="option"
+          aria-selected={value === o.value}
+          id={`${idPrefix}-opt-${o.value}`}
+          onClick={() => onPick(o.value)}
+          className={cn(
+            "min-h-12 w-full rounded-lg border px-3 py-2.5 text-left text-[15px] leading-snug text-white/95 transition-colors",
+            value === o.value
+              ? "border-accent bg-accent/20 ring-1 ring-accent/30"
+              : "border-silver/30 bg-base-dark hover:border-accent/45 hover:bg-base-dark/90"
+          )}
+        >
+          {o.label}
+        </button>
+      ))}
+    </div>
   );
 }
 
