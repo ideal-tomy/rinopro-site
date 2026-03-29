@@ -43,6 +43,7 @@ export function EstimateDetailedMobileShell({
   onSubmit,
   canSubmitGlobal,
 }: Props) {
+  const wizardScrollRef = useRef<HTMLDivElement>(null);
   const skipIntroOnMount = useRef(readEstimateDetailedIntroDone());
   const [phase, setPhase] = useState<"intro" | "wizard">(() =>
     skipIntroOnMount.current ? "wizard" : "intro"
@@ -96,7 +97,8 @@ export function EstimateDetailedMobileShell({
   return (
     <div
       className={cn(
-        "fixed inset-0 z-50 flex flex-col bg-[#0a0e17]/95 backdrop-blur-md",
+        "fixed inset-0 z-50 flex min-h-0 flex-col overflow-hidden bg-[#0a0e17]/95 backdrop-blur-md",
+        "min-h-[100dvh] max-h-[100dvh]",
         "pt-[max(0.75rem,env(safe-area-inset-top))]",
         "pb-[max(0.75rem,env(safe-area-inset-bottom))]"
       )}
@@ -121,17 +123,21 @@ export function EstimateDetailedMobileShell({
             </Button>
           </div>
           <div
-            className="relative flex min-h-0 flex-1 flex-col items-center justify-center px-4"
+            className="relative flex min-h-0 flex-1 flex-col items-center justify-center px-4 py-2"
             aria-live="polite"
           >
-            <AnimatePresence mode="sync" initial={false}>
+            {/*
+              iOS: top-50% + translate や 70vh はレイアウト用ビューポートとずれて下に沈む。
+              flex 中央寄せ + dvh の max-height、AnimatePresence は wait で前後スライドの重なりを防ぐ。
+            */}
+            <AnimatePresence mode="wait" initial={false}>
               <motion.div
                 key={introIndex}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: fadeDuration, ease: easeSpeak }}
-                className="absolute inset-x-4 top-1/2 max-h-[70vh] -translate-y-1/2 overflow-y-auto text-center"
+                className="w-full max-w-lg overflow-y-auto text-center [max-height:min(75dvh,calc(100dvh-9rem))]"
               >
                 {introIndex === 0 ? (
                   <h1 className="text-[22px] font-bold leading-snug text-white">
@@ -159,7 +165,10 @@ export function EstimateDetailedMobileShell({
           </div>
         </>
       ) : (
-        <div className="flex min-h-0 flex-1 flex-col overflow-y-auto overflow-x-hidden px-2">
+        <div
+          ref={wizardScrollRef}
+          className="flex min-h-0 flex-1 flex-col overflow-y-auto overflow-x-hidden overscroll-y-contain px-2"
+        >
           <EstimateDetailedHearingWizard
             form={form}
             setForm={setForm}
@@ -169,6 +178,7 @@ export function EstimateDetailedMobileShell({
             canSubmitGlobal={canSubmitGlobal}
             layoutVariant="fullscreen"
             hideSectionHeading
+            scrollContainerRef={wizardScrollRef}
           />
         </div>
       )}

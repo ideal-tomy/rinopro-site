@@ -166,7 +166,10 @@ export function EstimateDetailedFormContent() {
 
   if (viewportNarrow === null) {
     return (
-      <div className="min-h-[50vh] w-full" aria-busy="true">
+      <div
+        className="min-h-[50dvh] w-full md:min-h-[50vh]"
+        aria-busy="true"
+      >
         <span className="sr-only">読み込み中</span>
       </div>
     );

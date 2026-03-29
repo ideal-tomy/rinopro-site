@@ -2,10 +2,12 @@
 
 import {
   useCallback,
+  useLayoutEffect,
   useMemo,
   useState,
   type Dispatch,
   type ReactNode,
+  type RefObject,
   type SetStateAction,
 } from "react";
 import { flushSync } from "react-dom";
@@ -57,6 +59,8 @@ export type EstimateDetailedHearingWizardProps = {
   layoutVariant?: "default" | "fullscreen";
   /** オープニングで見出しを出したため、セクション見出し行を隠す（バッジのみ等） */
   hideSectionHeading?: boolean;
+  /** モバイル全画面時、ステップ変更で先頭へスクロールする親（overflow-y-auto） */
+  scrollContainerRef?: RefObject<HTMLElement | null>;
 };
 
 const easeSpeak = [0.22, 1, 0.36, 1] as const;
@@ -89,9 +93,15 @@ export function EstimateDetailedHearingWizard({
   canSubmitGlobal,
   layoutVariant = "default",
   hideSectionHeading = false,
+  scrollContainerRef,
 }: EstimateDetailedHearingWizardProps) {
   const [stepIndex, setStepIndex] = useState(0);
   const isFs = layoutVariant === "fullscreen";
+
+  useLayoutEffect(() => {
+    if (!isFs || !scrollContainerRef?.current) return;
+    scrollContainerRef.current.scrollTop = 0;
+  }, [isFs, stepIndex, scrollContainerRef]);
 
   const stepId = STEP_IDS[stepIndex] ?? "industry";
   const isFirst = stepIndex === 0;
