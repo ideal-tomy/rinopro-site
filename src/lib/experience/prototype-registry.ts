@@ -89,6 +89,16 @@ export const EXPERIENCE_PROTOTYPES: ExperiencePrototypeMeta[] = [
     inputHint: "各行のボタンで状態を更新して操作感を確認してください。",
   },
   {
+    slug: "legal-professional-mini-sfa-demo",
+    title: "士業向けミニSFA（相談〜受任の見える化）",
+    tier: "track3",
+    demoSlug: "legal-professional-mini-sfa-demo",
+    shortDescription:
+      "顧客・相談パイプラインの画面イメージと、MVP定義に基づく概算レンジ（含む／含まない付き）を同一画面で確認できます。",
+    inputHint:
+      "タブで顧客一覧と商談ボードを切り替え、下部のスコープ表で制作イメージの目安を確認してください。",
+  },
+  {
     slug: "ops-report-metrics-demo",
     title: "数値メモから週次レポート草案",
     tier: "track3",

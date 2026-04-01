@@ -396,8 +396,48 @@ const existingDemos = [
   },
 ];
 
-/** 全デモ（既存 + 次の20本） */
-const demos = [...existingDemos, ...nextMockDemos];
+/** 体験ページ主役のツールdemo（チャットは補助。slug は prototype-registry と一致） */
+const experienceForwardToolDemos = [
+  {
+    _type: "aiDemo" as const,
+    title: "士業向けミニSFA（相談〜受任の見える化）",
+    slug: { _type: "slug" as const, current: "legal-professional-mini-sfa-demo" },
+    industry: "legal",
+    inputType: "text_only",
+    inputPlaceholder: "このデモの主な体験は画面です。短文でも入力できます。",
+    runMode: "mock_preview",
+    writingTone: "legal",
+    mockOutputPrimary: `## 体験の案内
+
+**メインの体験は専用画面です。** 次のパスを開いてください。
+
+- [/experience/legal-professional-mini-sfa-demo](/experience/legal-professional-mini-sfa-demo)
+
+顧客一覧・相談ボード・MVP定義と概算レンジ（含む／含まない）を同一画面で確認できます。`,
+    mockOutputSecondary: `## 補足
+
+金額・スコープの文言はデモ用の例示です。正式見積は別途ヒアリング後にご提示します。`,
+    systemPrompt: `あなたは士業向け業務ツールの案内役です。ユーザーの短文に対し、丁寧に要約し、必ず体験URL /experience/legal-professional-mini-sfa-demo への誘導を1回含めてください。断定価格は避け、例示であることを添えてください。`,
+    outputStructure: `案内と補足の2セクションで出力すること。`,
+    sampleData: [
+      "このSFAデモの画面を見たい",
+      "概算レンジの前提を短く教えて",
+    ],
+    ctaTitle: "画面付きのMVP制作イメージを一緒に整理します。",
+    ctaButtonText: "詳細見積のヒアリングへ",
+    description:
+      "士業事務所向けミニSFAの画面イメージと、MVPに基づく概算レンジ（含む／含まない）を並べた体験デモ。",
+    industryTags: ["士業"],
+    functionTags: ["顧客管理", "帳票生成"],
+    moduleTags: ["UI", "MVP"],
+    oneLiner: "相談パイプラインと概算レンジを一画面でイメージ",
+    listedOnCatalog: true,
+    primaryPortfolioTrack: "experience",
+  },
+];
+
+/** 全デモ（既存 + 次の20本 + 体験先行の追加分） */
+const demos = [...existingDemos, ...nextMockDemos, ...experienceForwardToolDemos];
 
 const OLD_DEMO_IDS = [
   "aiDemo-construction-voice-demo",

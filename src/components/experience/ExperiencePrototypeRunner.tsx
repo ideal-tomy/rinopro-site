@@ -13,6 +13,7 @@ import { WorkflowApprovalLiteExperience } from "@/components/experience/prototyp
 import { DocumentShellPresetExperience } from "@/components/experience/prototypes/DocumentShellPresetExperience";
 import { OpsReportMetricsExperience } from "@/components/experience/prototypes/OpsReportMetricsExperience";
 import { LiveSyncTranslationExperience } from "@/components/experience/prototypes/LiveSyncTranslationExperience";
+import { ProfessionalMiniSfaExperience } from "@/components/experience/prototypes/ProfessionalMiniSfaExperience";
 import { getDocumentShellPreset } from "@/lib/experience/document-shell-presets";
 
 interface ExperiencePrototypeRunnerProps {
@@ -86,6 +87,12 @@ export function ExperiencePrototypeRunner({
   if (meta.slug === "workflow-approval-lite-demo") {
     return (
       <WorkflowApprovalLiteExperience meta={meta} className={className} />
+    );
+  }
+
+  if (meta.slug === "legal-professional-mini-sfa-demo") {
+    return (
+      <ProfessionalMiniSfaExperience meta={meta} className={className} />
     );
   }
 

@@ -160,3 +160,4 @@
 | タイトル（要約） | slug | 備考 |
 |---|---|---|
 | 飲食店オペレーション・ダッシュボード（シナリオ再生） | `restaurant-ops-dashboard-demo` | 画面体験。ツールdemo本文は未投入可。重複テーマ確認時は本行を参照 |
+| 士業向けミニSFA（相談ボード＋概算レンジ例示） | `legal-professional-mini-sfa-demo` | 画面体験＋含む／含まない。`scripts/seed-ai-demos.ts` の `experienceForwardToolDemos` で Sanity 投入可 |
