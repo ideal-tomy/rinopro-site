@@ -6,13 +6,17 @@ import { cn } from "@/lib/utils";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
 const choiceGlassBase =
-  "group relative w-full text-left transition-[transform,box-shadow,border-color,background-color] duration-200 ease-out " +
+  "group relative w-full min-h-[44px] text-left transition-[transform,box-shadow,border-color,background-color] duration-200 ease-out " +
   "rounded-2xl border border-white/15 bg-white/[0.06] backdrop-blur-[20px] " +
   "px-4 py-3 shadow-sm " +
   "hover:border-white/25 hover:shadow-[0_0_24px_rgba(0,242,255,0.14)] " +
   "active:scale-[0.98] " +
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-base " +
   "disabled:pointer-events-none disabled:opacity-50";
+
+/** 業種第1層2列向け：パディングと文字を詰める（`text-base` は使わない） */
+const choiceGlassCompact =
+  "min-h-[44px] px-3 py-2.5 sm:px-3 sm:py-2.5";
 
 const choiceSelected =
   "border-accent/45 bg-accent/[0.12] shadow-[0_0_20px_rgba(0,242,255,0.18)]";
@@ -26,6 +30,8 @@ export interface ConciergeChoiceButtonProps
   icon?: React.ReactNode;
   /** Brief pressed / selected highlight (Speak-like instant feedback) */
   selected?: boolean;
+  /** 狭い2列グリッド向けの小さめタイポ・余白 */
+  labelDensity?: "default" | "compact";
 }
 
 export function ConciergeChoiceButton({
@@ -34,43 +40,47 @@ export function ConciergeChoiceButton({
   description,
   icon,
   selected = false,
+  labelDensity = "default",
   className,
   type = "button",
   ...props
 }: ConciergeChoiceButtonProps) {
   const reduceMotion = useReducedMotion();
   const prefix = `${String(order).padStart(2, "0")}`;
+  const compact = labelDensity === "compact";
+
+  const prefixCls = compact
+    ? "pt-0.5 text-[10px] font-semibold tabular-nums tracking-wide text-accent/85 sm:text-[11px]"
+    : "pt-0.5 text-[10px] font-semibold tabular-nums tracking-wide text-accent/85 sm:text-[16px]";
+
+  const labelCls = compact
+    ? "text-[10px] font-semibold leading-tight tracking-wide text-text/95 sm:text-[11px]"
+    : "text-[10px] font-semibold leading-relaxed tracking-wide text-text/95 sm:text-[16px]";
 
   return (
     <button
       type={type}
       className={cn(
         choiceGlassBase,
+        compact && choiceGlassCompact,
         selected && choiceSelected,
         reduceMotion && "active:scale-100",
         className
       )}
       {...props}
     >
-      <span className="flex w-full items-start gap-3">
-        <span
-          className="shrink-0 pt-0.5 text-[10px] font-semibold tabular-nums tracking-wide text-accent/85 sm:text-[16px]"
-          aria-hidden
-        >
+      <span className={cn("flex w-full items-start", compact ? "gap-2" : "gap-3")}>
+        <span className={cn("shrink-0", prefixCls)} aria-hidden>
           {prefix}
         </span>
         <span className="min-w-0 flex-1">
           {icon ? (
             <span className="flex items-start gap-2">
               <span className="mt-0.5 shrink-0 text-accent">{icon}</span>
-              <span className="text-[10px] font-semibold leading-relaxed tracking-wide text-text/95 sm:text-[16px]">
-                {label}
-              </span>
+              <span className={labelCls}>{label}</span>
             </span>
           ) : (
-            <span className="block text-[10px] font-semibold leading-relaxed tracking-wide text-text/95 sm:text-[16px]">
-              {label}
-            </span>
+            <span className={cn("block", labelCls)}>{label}</span>
           )}
           {description ? (
             <span className="mt-1 block text-[10px] font-normal leading-relaxed tracking-wide text-text/95 sm:text-xs">

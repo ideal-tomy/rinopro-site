@@ -279,6 +279,18 @@ export const EXPERIENCE_PROTOTYPES: ExperiencePrototypeMeta[] = [
 
 const PROTOTYPE_SLUGS = new Set(EXPERIENCE_PROTOTYPES.map((p) => p.slug));
 
+/**
+ * aiDemo.slug が体験レジストリ（`/experience/{slug}` または対応する `demoSlug`）と結びつくかの判定用。
+ * レポート・タイブレーク用。公開可否の唯一の根拠にはしない（`listedOnCatalog` を正とする）。
+ */
+const DEMO_SLUGS_LINKED_TO_EXPERIENCE_REGISTRY = new Set<string>(
+  EXPERIENCE_PROTOTYPES.flatMap((p) => [p.slug, p.demoSlug])
+);
+
+export function getDemoSlugsLinkedToExperienceRegistry(): ReadonlySet<string> {
+  return DEMO_SLUGS_LINKED_TO_EXPERIENCE_REGISTRY;
+}
+
 /** トップ・/demo で最上段に置く注力プロトタイプ（順序固定） */
 export const FEATURED_EXPERIENCE_SLUGS = [
   "internal-knowledge-share-bot",

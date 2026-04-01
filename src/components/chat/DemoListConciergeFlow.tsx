@@ -145,7 +145,6 @@ export function DemoListConciergeFlow({
       <div className="flex max-h-[min(44vh,300px)] min-h-0 flex-col overflow-hidden px-4 py-3 md:max-h-[min(50vh,360px)]">
         {step === 0 && (
           <ConciergeIndustryStep
-            variant="grid2"
             disabled={flowDisabled || catalogLoading}
             trailingSlot={
               <ConciergeChoiceButton

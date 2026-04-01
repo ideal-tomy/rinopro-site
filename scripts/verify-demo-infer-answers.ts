@@ -2,6 +2,7 @@
  * フリーテキスト→4軸推定のスモーク（LLMなし）。
  * npx tsx scripts/verify-demo-infer-answers.ts
  */
+import { config } from "dotenv";
 import {
   inferConciergeAnswersFromText,
   shouldAttemptDemoRecommendFromText,
@@ -16,6 +17,8 @@ const samples = [
 ];
 
 async function main() {
+  config({ path: ".env.local" });
+
   for (const s of samples) {
     const attempt = shouldAttemptDemoRecommendFromText(s);
     const answers = inferConciergeAnswersFromText(s);

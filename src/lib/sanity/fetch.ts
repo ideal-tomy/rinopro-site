@@ -1,6 +1,7 @@
 import { sanityFetch } from "./client";
 import {
   aiDemoBySlugQuery,
+  aiDemosAllQuery,
   aiDemosQuery,
   caseStudiesQuery,
   demoItemBySlugQuery,
@@ -47,7 +48,19 @@ export async function fetchAiDemos(): Promise<AiDemo[]> {
   }
 }
 
-/** デモ一覧（aiDemo 優先、demoItem をフォールバックでマージ） */
+/** 全 aiDemo（listedOnCatalog 問わず）。社内レポート用 */
+export async function fetchAllAiDemos(): Promise<AiDemo[]> {
+  try {
+    return await sanityFetch<AiDemo[]>(aiDemosAllQuery);
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * デモ一覧（aiDemo 優先、demoItem を slug 非重複でマージ）。
+ * demoItem に listedOnCatalog が無いため、legacy が残っていると一覧に載り得る。必要なら Studio で整理する。
+ */
 export async function fetchDemosForDisplay(): Promise<(AiDemo | DemoItem)[]> {
   const [aiDemos, demoItems] = await Promise.all([
     fetchAiDemos(),

@@ -2,6 +2,7 @@
  * Intelligent Concierge: 選択回答からデモを決定論的にスコアし、最大3件を返す。
  */
 
+import { getDemoSlugsLinkedToExperienceRegistry } from "@/lib/experience/prototype-registry";
 import { getCategoryId } from "@/lib/demo/demo-taxonomy";
 import type {
   AiDemo,
@@ -46,6 +47,9 @@ const SCORE_ISSUE_INFER = 2;
 const SCORE_DEPTH = 2;
 const SCORE_TAG_AUX = 1;
 
+/** 同点時は体験レジストリに紐づく slug を優先（辞書順の前に並べる） */
+const EXPERIENCE_LINKED_SLUGS = getDemoSlugsLinkedToExperienceRegistry();
+
 const WIDE_SCORE_GAP = 2;
 const WIDE_MIN_TIE_GROUP = 6;
 
@@ -73,6 +77,25 @@ export const CONCIERGE_DOMAIN_DETAIL_OPTIONS: Partial<
     readonly { id: string; label: string }[]
   >
 > = {
+  construction: [
+    { id: "civil_infra", label: "土木・インフラ" },
+    { id: "building", label: "建築・工務" },
+    { id: "equipment", label: "設備・メンテ" },
+    { id: "real_estate", label: "不動産・開発" },
+  ],
+  legal: [
+    { id: "attorney", label: "弁護士" },
+    { id: "tax_accounting", label: "税理・会計" },
+    { id: "labor_social", label: "社労士・労務" },
+    { id: "admin_scrivener", label: "行政書士" },
+    { id: "other_prof", label: "その他士業" },
+  ],
+  manufacturing: [
+    { id: "mass_assembly", label: "量産・組立" },
+    { id: "job_shop", label: "受託・多品種" },
+    { id: "process_materials", label: "プロセス・素材・部品" },
+    { id: "food_plant", label: "食品工場" },
+  ],
   staffing: [
     { id: "dispatch", label: "派遣・就労マッチング" },
     { id: "support", label: "登録支援・紹介事業" },
@@ -89,6 +112,12 @@ export const CONCIERGE_DOMAIN_DETAIL_OPTIONS: Partial<
     { id: "retail", label: "小売・店舗" },
     { id: "medical", label: "医療・介護" },
     { id: "other_svc", label: "その他サービス" },
+  ],
+  distribution: [
+    { id: "warehouse", label: "倉庫・DC" },
+    { id: "three_pl", label: "3PL・物流委託" },
+    { id: "last_mile", label: "ラストワン・配送" },
+    { id: "import_export", label: "輸出入・通関" },
   ],
 };
 
@@ -393,6 +422,9 @@ function buildReason(parts: string[]): string {
 
 function sortScored(a: ScoredDemo, b: ScoredDemo): number {
   if (b.score !== a.score) return b.score - a.score;
+  const aExp = EXPERIENCE_LINKED_SLUGS.has(a.slug) ? 1 : 0;
+  const bExp = EXPERIENCE_LINKED_SLUGS.has(b.slug) ? 1 : 0;
+  if (bExp !== aExp) return bExp - aExp;
   return a.slug.localeCompare(b.slug, "en");
 }
 
@@ -437,26 +469,35 @@ function pickBalancedDeskOnsite(sorted: ScoredDemo[], max: number): ScoredDemo[]
   return picked.slice(0, max);
 }
 
-function fallbackBySlug(
-  demos: (AiDemo | DemoItem)[],
-  exclude: Set<string>,
-  need: number
-): (AiDemo | DemoItem)[] {
-  const sorted = [...demos].sort((a, b) => demoSlug(a).localeCompare(demoSlug(b), "en"));
-  const out: (AiDemo | DemoItem)[] = [];
-  for (const d of sorted) {
-    if (out.length >= need) break;
-    const sl = demoSlug(d);
-    if (!exclude.has(sl)) {
-      out.push(d);
-      exclude.add(sl);
+/**
+ * 不足分を埋める。まずスコア1以上、それでも足りなければスコア0（並びは sortScored 済み＝体験紐づき優先）。
+ * 無理に3件にそろえない（辞書順だけの穴埋めはしない）。
+ */
+function padRecommendedFromScored(
+  scored: ScoredDemo[],
+  chosen: ScoredDemo[],
+  max: number
+): ScoredDemo[] {
+  const exclude = new Set(chosen.map((c) => c.slug));
+  const out = [...chosen];
+
+  const pushNext = (predicate: (s: ScoredDemo) => boolean) => {
+    for (const s of scored) {
+      if (out.length >= max) break;
+      if (exclude.has(s.slug) || !predicate(s)) continue;
+      exclude.add(s.slug);
+      out.push(s);
     }
-  }
-  return out;
+  };
+
+  pushNext((s) => s.score >= 1);
+  if (out.length < max) pushNext((s) => s.score === 0);
+
+  return out.slice(0, max);
 }
 
 /**
- * 回答に基づき最大3件を返す。スコア0でもフォールバックで埋める。
+ * 回答に基づき最大3件を返す。関連が薄いデモを辞書順だけで埋めない。
  */
 export function pickRecommendedDemos(
   demos: (AiDemo | DemoItem)[],
@@ -475,19 +516,7 @@ export function pickRecommendedDemos(
     chosen = scored.slice(0, max);
   }
 
-  const exclude = new Set(chosen.map((c) => c.slug));
-  while (chosen.length < max) {
-    const pad = fallbackBySlug(demos, exclude, 1);
-    if (pad.length === 0) break;
-    const demo = pad[0];
-    chosen.push({
-      demo,
-      score: 0,
-      slug: demoSlug(demo),
-      workStyle: resolveWorkStyle(demo),
-      reasonParts: [],
-    });
-  }
+  chosen = padRecommendedFromScored(scored, chosen, max);
 
   return chosen.map((c) => ({
     demo: c.demo,

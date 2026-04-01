@@ -52,4 +52,5 @@
 ## 7. 第 2 層マスタ
 
 - `CONCIERGE_DOMAIN_DETAIL_OPTIONS`: `domainId` ごとの `{ id, label }[]`（任意ステップ用）
-- `CONCIERGE_DOMAIN_DETAIL_LABELS`: `Record<domainId, Record<detailId, string>>`
+- `CONCIERGE_DOMAIN_DETAIL_LABELS`: `Record<domainId, Record<detailId, string>>`（コード内では `DOMAIN_DETAIL_LABELS` として `CONCIERGE_DOMAIN_DETAIL_OPTIONS` から生成）
+- 全 `domainId` の人間可読一覧: [industry-second-layer-matrix.md](industry-second-layer-matrix.md)（`other` は第2層なし）

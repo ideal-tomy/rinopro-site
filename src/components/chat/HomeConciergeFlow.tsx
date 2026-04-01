@@ -626,7 +626,6 @@ export function HomeConciergeFlow({
         >
           {current.kind === "industry_gate" && (
             <ConciergeIndustryStep
-              variant="stack"
               disabled={disabled}
               onBack={pop}
               onConfirm={handleIndustryConfirm}

@@ -1,13 +1,17 @@
 import type { MetadataRoute } from "next";
 import { EXPERIENCE_PROTOTYPES } from "@/lib/experience/prototype-registry";
-import { fetchDemoItems } from "@/lib/sanity/fetch";
+import { fetchDemosForDisplay } from "@/lib/sanity/fetch";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://rinopro.example.com";
 
+function demoSlugForSitemap(d: { slug?: string | { current?: string } }): string | undefined {
+  return typeof d.slug === "object" ? d.slug?.current : d.slug;
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const demos = await fetchDemoItems();
+  const demos = await fetchDemosForDisplay();
   const demoEntries: MetadataRoute.Sitemap = demos.flatMap((d) => {
-    const slug = typeof d.slug === "object" ? d.slug?.current : d.slug;
+    const slug = demoSlugForSitemap(d);
     if (!slug) return [];
     return [{ url: `${BASE_URL}/demo/${slug}`, lastModified: new Date(), changeFrequency: "weekly" as const, priority: 0.8 }];
   });

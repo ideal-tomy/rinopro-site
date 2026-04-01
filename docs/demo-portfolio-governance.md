@@ -19,6 +19,8 @@
 
 `listedOnCatalog: false` は主に **`/demo/list` のカタログとコンシェルジュ候補**から除外する用途。`/demo` ハブの Featured・タイプ別・目的別はコード固定のため、個別slugのカタログ非表示とは役割が異なる。
 
+**社内向けの全件一覧**（listedOnCatalog ・体験レジストリ照会の補助列）: `npm run report:demo-catalog`（CSV は `npm run report:demo-catalog -- --csv`）。**体験レジストリに無い slug を一括でカタログ外にする補助**（実行前に dry-run で確認）: `npm run patch:demo-catalog-hide-chat-only -- --dry-run` / `--apply`（要 `SANITY_API_TOKEN`）。公開可否の正は引き続き CMS の `listedOnCatalog` とする。
+
 ## 関連ドキュメント
 
 | ドキュメント | 用途 |

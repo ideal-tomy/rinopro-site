@@ -11,10 +11,7 @@ import {
 } from "@/lib/demo/intelligent-concierge";
 import { cn } from "@/lib/utils";
 
-export type ConciergeIndustryStepVariant = "grid2" | "stack";
-
 type ConciergeIndustryStepProps = {
-  variant?: ConciergeIndustryStepVariant;
   disabled?: boolean;
   onBack?: () => void;
   onConfirm: (bundle: ConciergeIndustryBundle) => void;
@@ -24,7 +21,6 @@ type ConciergeIndustryStepProps = {
 };
 
 export function ConciergeIndustryStep({
-  variant = "grid2",
   disabled = false,
   onBack,
   onConfirm,
@@ -75,26 +71,20 @@ export function ConciergeIndustryStep({
           事業領域に近いものを選んでください
         </h3>
 
-        <div
-          className={cn(
-            variant === "grid2"
-              ? "grid grid-cols-2 gap-2"
-              : "flex flex-col gap-2"
-          )}
-        >
+        <div className="grid grid-cols-2 gap-2">
           {CONCIERGE_DOMAIN_OPTIONS.map((opt, idx) => (
             <ConciergeChoiceButton
               key={opt.id}
               type="button"
               order={idx + 1}
               label={opt.label}
+              labelDensity="compact"
               disabled={disabled}
               selected={domain === opt.id}
               onClick={() => {
                 setDomain(opt.id);
                 setDetailId(null);
               }}
-              className={variant === "grid2" ? undefined : "w-full"}
             />
           ))}
         </div>

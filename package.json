@@ -10,7 +10,9 @@
     "seed:ai-demos": "tsx scripts/seed-ai-demos.ts",
     "verify:concierge": "tsx scripts/verify-concierge-combos.ts",
     "verify:senior": "tsx scripts/verify-concierge-senior.ts",
-    "verify:demo-infer": "tsx scripts/verify-demo-infer-answers.ts"
+    "verify:demo-infer": "tsx scripts/verify-demo-infer-answers.ts",
+    "report:demo-catalog": "tsx scripts/report-demo-catalog-status.ts",
+    "patch:demo-catalog-hide-chat-only": "tsx scripts/patch-listed-on-catalog-hide-without-experience.ts"
   },
   "dependencies": {
     "@ai-sdk/google": "^3.0.52",

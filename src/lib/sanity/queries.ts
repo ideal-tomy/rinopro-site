@@ -33,6 +33,18 @@ export const demoItemsQuery = `*[_type == "demoItem"] | order(coalesce(featuredR
   embedTitle
 }`;
 
+/** 全 aiDemo（社内レポート・一括パッチ用）。listedOnCatalog はフィルタしない */
+export const aiDemosAllQuery = `*[_type == "aiDemo"] | order(_createdAt desc) {
+  _id,
+  _type,
+  title,
+  "slug": slug.current,
+  industry,
+  runMode,
+  primaryPortfolioTrack,
+  listedOnCatalog
+}`;
+
 export const aiDemosQuery = `*[_type == "aiDemo" && coalesce(listedOnCatalog, true) == true] | order(_createdAt desc) {
   _id,
   _type,
