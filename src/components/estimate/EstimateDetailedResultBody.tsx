@@ -53,6 +53,10 @@ export function EstimateDetailedResultBody({
   answers: Record<string, string>;
 }) {
   const qaPairs = getOrderedAnswerPairs(answers);
+  const scopeIn = result.scopeIn ?? [];
+  const scopeOut = result.scopeOut ?? [];
+  const openQuestions = result.openQuestions ?? [];
+  const regulatoryNotes = result.regulatoryNotes ?? [];
 
   return (
     <div className="space-y-6">
@@ -62,6 +66,27 @@ export function EstimateDetailedResultBody({
           {result.plainCustomerSummary}
         </p>
       </div>
+
+      {scopeIn.length > 0 ? (
+        <ResultAccordion title={copy.scopeInTitle}>
+          <BulletList items={scopeIn} className="!text-white/85" />
+        </ResultAccordion>
+      ) : null}
+      {scopeOut.length > 0 ? (
+        <ResultAccordion title={copy.scopeOutTitle}>
+          <BulletList items={scopeOut} className="!text-white/85" />
+        </ResultAccordion>
+      ) : null}
+      {openQuestions.length > 0 ? (
+        <ResultAccordion title={copy.openQuestionsTitle}>
+          <BulletList items={openQuestions} className="!text-white/85" />
+        </ResultAccordion>
+      ) : null}
+      {regulatoryNotes.length > 0 ? (
+        <ResultAccordion title={copy.regulatoryNotesTitle}>
+          <BulletList items={regulatoryNotes} className="!text-white/85" />
+        </ResultAccordion>
+      ) : null}
 
       <ResultAccordion title={copy.requirementDefinitionAccordionTitle}>
         <EstimateRequirementDocMarkdown source={result.requirementDefinitionDocument} />

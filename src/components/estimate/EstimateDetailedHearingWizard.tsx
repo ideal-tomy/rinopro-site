@@ -16,6 +16,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { estimateDetailedCopy } from "@/lib/content/site-copy";
+import { buildEstimateDetailedAnswersRecord } from "@/lib/estimate/build-estimate-detailed-answers";
+import { getOrderedAnswerPairs } from "@/lib/estimate/estimate-detailed-answer-order";
 import type { EstimateFormDraft } from "@/lib/estimate/estimate-detailed-session";
 import { ESTIMATE_DETAILED_HEARING_EXAMPLES } from "@/components/estimate/estimate-detailed-hearing-examples";
 import type { EstimateQuestionId } from "@/lib/estimate-core/question-model";
@@ -84,6 +86,11 @@ export function EstimateDetailedHearingWizard({
   const totalSteps = visibleSteps.length;
   const [stepIndex, setStepIndex] = useState(0);
   const isFs = layoutVariant === "fullscreen";
+
+  const reviewAnswerPairs = useMemo(() => {
+    const rec = buildEstimateDetailedAnswersRecord(form);
+    return getOrderedAnswerPairs(rec);
+  }, [form]);
 
   useLayoutEffect(() => {
     if (!isFs || !scrollContainerRef?.current) return;
@@ -630,26 +637,20 @@ export function EstimateDetailedHearingWizard({
                   <p className="text-sm font-medium text-white/90">
                     入力内容の要約です。このまま整理を開始できます。
                   </p>
-                  <ul className="space-y-2 text-sm text-text-sub">
-                    <li>
-                      <span className="text-text">やりたいこと:</span>{" "}
-                      {form.summary.trim() || "—"}
-                    </li>
-                    <li>
-                      <span className="text-text">業種:</span>{" "}
-                      {copy.industryOptions.find((o) => o.value === form.industry)?.label ??
-                        form.industry}
-                    </li>
-                    <li>
-                      <span className="text-text">人数:</span>{" "}
-                      {copy.teamOptions.find((o) => o.value === form.teamSize)?.label ??
-                        form.teamSize}
-                      {" · "}
-                      <span className="text-text">希望時期:</span>{" "}
-                      {copy.timelineOptions.find((o) => o.value === form.timeline)?.label ??
-                        form.timeline}
-                    </li>
-                  </ul>
+                  {reviewAnswerPairs.length === 0 ? (
+                    <p className="text-sm text-text-sub">（回答がありません）</p>
+                  ) : (
+                    <dl className="max-h-[min(50vh,22rem)] space-y-3 overflow-y-auto text-sm text-text-sub md:max-h-[min(55vh,28rem)]">
+                      {reviewAnswerPairs.map(({ question, answer }) => (
+                        <div key={question} className="border-b border-silver/10 pb-3 last:border-b-0">
+                          <dt className="text-[15px] font-semibold text-text">{question}</dt>
+                          <dd className="mt-1 whitespace-pre-wrap text-[15px] leading-relaxed text-white/85">
+                            {answer}
+                          </dd>
+                        </div>
+                      ))}
+                    </dl>
+                  )}
                   <p className="text-xs text-text-sub">
                     直す場合は「戻る」で該当の質問まで戻れます。
                   </p>

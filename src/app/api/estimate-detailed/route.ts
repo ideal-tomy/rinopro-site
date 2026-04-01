@@ -9,6 +9,15 @@ import {
   estimateRangeWidthMan,
   isNarrowRangeEligible,
 } from "@/lib/estimate-domain/default/narrow-eligibility";
+import {
+  applyIndustryRiskToEstimateRange,
+  INDUSTRY_RISK_ASSUMPTION_LINE,
+  profileFromEstimateAnswers,
+} from "@/lib/estimate/estimate-industry-risk-adjustment";
+import {
+  buildPricingAnswerLines,
+  pickBudgetContextLines,
+} from "@/lib/estimate/estimate-pricing-input";
 import { estimateDetailedAiOutputSchema } from "@/lib/estimate/estimate-snapshot";
 import { rateLimit } from "@/lib/rate-limit";
 
@@ -46,21 +55,20 @@ export async function POST(req: Request) {
   const answers = body.answers ?? {};
   const prior = (body.priorContext ?? "").trim();
 
-  const answerLines = Object.entries(answers)
-    .filter(([, v]) => v && String(v).trim())
-    .map(([k, v]) => `- ${k}: ${String(v).trim()}`);
-
-  if (answerLines.length === 0) {
+  const pricingLines = buildPricingAnswerLines(answers);
+  if (pricingLines.length === 0) {
     return new Response(JSON.stringify({ error: "answers required" }), {
       status: 400,
       headers: { "Content-Type": "application/json" },
     });
   }
 
+  const budgetContextLines = pickBudgetContextLines(answers);
   const narrowBandTarget = isNarrowRangeEligible(answers);
   const userContent = buildEstimateDetailedUserPrompt({
-    answerLines,
+    answerLines: pricingLines,
     priorContext: prior || undefined,
+    budgetContextLines: budgetContextLines.length > 0 ? budgetContextLines : undefined,
     narrowBandTarget,
   });
 
@@ -93,6 +101,26 @@ export async function POST(req: Request) {
         final = retryObject;
       } catch (retryErr) {
         console.warn("[api/estimate-detailed] narrow retry skipped", retryErr);
+      }
+    }
+
+    const riskProfile = profileFromEstimateAnswers(answers);
+    if (riskProfile.regulated) {
+      const adj = applyIndustryRiskToEstimateRange(
+        final.estimateLoMan,
+        final.estimateHiMan,
+        riskProfile
+      );
+      final.estimateLoMan = adj.loMan;
+      final.estimateHiMan = adj.hiMan;
+      const hasIndustryNote = final.assumptions.some((a) =>
+        a.includes("士業・医療・福祉など")
+      );
+      if (!hasIndustryNote) {
+        final.assumptions = [INDUSTRY_RISK_ASSUMPTION_LINE, ...final.assumptions].slice(
+          0,
+          10
+        );
       }
     }
 

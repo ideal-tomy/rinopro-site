@@ -477,6 +477,15 @@ export const estimateDetailedCopy = {
   selectedAnswersAccordionTitle: "選択した内容",
   /** 結果ページ：確認事項とリスクの統合 */
   followUpMergedTitle: "詳しく確認が必要なこと",
+  scopeInTitle: "スコープ（含む想定）",
+  scopeOutTitle: "スコープ（含まない想定）",
+  openQuestionsTitle: "まだ決まっていない点",
+  regulatoryNotesTitle: "規制・セキュリティまわりの注意",
+  /** 金額ページ：レンジの要因 */
+  estimateDriversTitle: "この目安に効いていること",
+  estimateDriverEffectUp: "全体を押し上げる要因",
+  estimateDriverEffectDown: "抑えめに見ている要因",
+  estimateDriverEffectWide: "幅が広がる要因",
   sectionRange: "金額の目安",
   processingTitle: "いま、内容を整理しています",
   processingSub:

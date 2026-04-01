@@ -78,10 +78,16 @@ export function EstimateDetailedAmountContent() {
     return <p className="text-center text-sm text-text-sub">移動中…</p>;
   }
 
-  const { estimateLoMan, estimateHiMan } = flow.ai;
+  const { estimateLoMan, estimateHiMan, estimateDrivers = [] } = flow.ai;
   const backHref = "/estimate-detailed/result";
   const budgetBand = resolveBudgetBandFromFlow(flow);
   const budgetVsEstimate = compareEstimateToBudgetBand(estimateHiMan, budgetBand);
+
+  function driverEffectLabel(effect: "up" | "down" | "wide"): string {
+    if (effect === "up") return copy.estimateDriverEffectUp;
+    if (effect === "down") return copy.estimateDriverEffectDown;
+    return copy.estimateDriverEffectWide;
+  }
 
   return (
     <div className="space-y-10">
@@ -118,6 +124,23 @@ export function EstimateDetailedAmountContent() {
           </p>
         ) : null}
       </section>
+
+      {estimateDrivers.length > 0 ? (
+        <section
+          className="mx-auto max-w-xl rounded-xl border border-accent/30 bg-accent/[0.06] p-4 md:p-5"
+          aria-label={copy.estimateDriversTitle}
+        >
+          <p className="text-sm font-semibold text-white">{copy.estimateDriversTitle}</p>
+          <ul className="mt-3 space-y-3 text-left text-[15px] leading-relaxed text-white/90 md:text-[16px]">
+            {estimateDrivers.map((d, i) => (
+              <li key={`${i}-${d.factor.slice(0, 24)}`} className="flex flex-col gap-0.5 border-b border-silver/10 pb-3 last:border-b-0 last:pb-0">
+                <span className="text-white/95">{d.factor}</span>
+                <span className="text-xs text-accent/90 md:text-sm">{driverEffectLabel(d.effect)}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
 
       <div className="rounded-xl border border-silver/20 bg-base-dark/40 p-4 md:p-5">
         <p className="text-sm font-semibold text-white">{copy.overviewTitleRecap}</p>

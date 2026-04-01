@@ -1,5 +1,9 @@
 export * from "./concierge-flow-definitions";
 import {
+  applyIndustryRiskToEstimateRange,
+  regulatedHintFromConciergePath,
+} from "@/lib/estimate/estimate-industry-risk-adjustment";
+import {
   CONCIERGE_NEXT_STEPS_HEADING,
   CONCIERGE_RESULT_DISCLAIMER,
   SHORTCUT_PANELS,
@@ -319,7 +323,15 @@ export function buildEstimateBlockA(path: FlowSelection[]): string {
   const base = BUILD_BASE_MAN[buildId] ?? BUILD_BASE_MAN.build_other;
   const mult = TEAM_MULT[teamId] ?? 1;
   const add = INT_ADD_MAN[intId] ?? INT_ADD_MAN.int_unknown;
-  const [lo, hi] = scaleRange(base, mult, add);
+  let [lo, hi] = scaleRange(base, mult, add);
+  if (regulatedHintFromConciergePath(path)) {
+    const adj = applyIndustryRiskToEstimateRange(lo, hi, {
+      regulated: true,
+      largeOrg: scope?.optionId === "scope_l_required",
+    });
+    lo = adj.loMan;
+    hi = adj.hiMan;
+  }
 
   const premise = [
     "**前提条件**",
@@ -359,7 +371,15 @@ export function buildEstimateBlockB(path: FlowSelection[]): string {
   const mult = TEAM_MULT[teamId] ?? 1;
   const challengeBoost: [number, number] =
     challengeId === "ch_other" ? [20, 80] : [10, 40];
-  const [lo, hi] = scaleRange(base, mult, challengeBoost);
+  let [lo, hi] = scaleRange(base, mult, challengeBoost);
+  if (regulatedHintFromConciergePath(path)) {
+    const adj = applyIndustryRiskToEstimateRange(lo, hi, {
+      regulated: true,
+      largeOrg: bScope?.optionId?.startsWith("bs_l_") ?? false,
+    });
+    lo = adj.loMan;
+    hi = adj.hiMan;
+  }
 
   const premise = [
     "**前提条件**",

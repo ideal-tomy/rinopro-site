@@ -13,14 +13,31 @@ export const estimateDetailedFollowUpItemSchema = z.object({
   description: z.string(),
 });
 
+export const estimateDriverEffectSchema = z.enum(["up", "down", "wide"]);
+
+export const estimateDetailedEstimateDriverSchema = z.object({
+  factor: z.string().max(280),
+  effect: estimateDriverEffectSchema,
+});
+
 export const estimateDetailedAiOutputSchema = z.object({
   requirementTitle: z.string(),
   /** 見積・社内共有用の要件定義書本文（Markdown） */
   requirementDefinitionDocument: z.string().max(12000),
+  /** 今回のスコープに含める想定（箇条書きレベル） */
+  scopeIn: z.array(z.string().max(400)).max(12).default([]),
+  /** 今回含めない想定 */
+  scopeOut: z.array(z.string().max(400)).max(12).default([]),
+  /** まだ決まっていない点（followUpItems より短文でもよい） */
+  openQuestions: z.array(z.string().max(320)).max(10).default([]),
+  /** 規制・個人情報・記録まわりの注意（該当時） */
+  regulatoryNotes: z.array(z.string().max(400)).max(6).default([]),
   /** 金額レンジに効く前提。短文の箇条書きのみ（1行程度） */
   assumptions: z.array(z.string()).min(1).max(10),
   /** 確認したいことと「曖昧だとずれやすい点」を統合 */
   followUpItems: z.array(estimateDetailedFollowUpItemSchema).max(12),
+  /** レンジの主な要因（表示用） */
+  estimateDrivers: z.array(estimateDetailedEstimateDriverSchema).max(8).default([]),
   /** お客様向けの概略（専門用語は避ける） */
   plainCustomerSummary: z.string().max(1100),
   estimateLoMan: z.number().int().min(0),
@@ -52,6 +69,38 @@ export function formatRequirementDocMarkdown(
   lines.push("## 概略", output.plainCustomerSummary, "");
 
   lines.push("## 要件定義（本格）", output.requirementDefinitionDocument.trim(), "");
+
+  const scopeIn = output.scopeIn ?? [];
+  const scopeOut = output.scopeOut ?? [];
+  const openQuestions = output.openQuestions ?? [];
+  const regulatoryNotes = output.regulatoryNotes ?? [];
+  const estimateDrivers = output.estimateDrivers ?? [];
+
+  if (scopeIn.length > 0) {
+    lines.push("## スコープ（含む）", ...scopeIn.map((s) => `- ${s}`), "");
+  }
+  if (scopeOut.length > 0) {
+    lines.push("## スコープ（含まない）", ...scopeOut.map((s) => `- ${s}`), "");
+  }
+  if (openQuestions.length > 0) {
+    lines.push("## 未確定の点", ...openQuestions.map((s) => `- ${s}`), "");
+  }
+  if (regulatoryNotes.length > 0) {
+    lines.push(
+      "## 規制・セキュリティまわりの注意",
+      ...regulatoryNotes.map((s) => `- ${s}`),
+      ""
+    );
+  }
+  if (estimateDrivers.length > 0) {
+    lines.push(
+      "## 金額レンジの主な要因",
+      ...estimateDrivers.map(
+        (d) => `- **${d.factor}**（${d.effect === "up" ? "上限寄与" : d.effect === "down" ? "下限寄与" : "幅拡大"}）`
+      ),
+      ""
+    );
+  }
 
   lines.push("## 選択した内容");
   const pairs = getOrderedAnswerPairs(answers);

@@ -17,7 +17,18 @@
 | ウィザード | 先頭から **業種**を含む全ステップ |
 | answers「業種」 | `industryOptions` のラベル（`industryDisplayLine` 未使用時） |
 
-## 事業メモサンプル 1〜3（未整備時のプレースホルダ）
+## ゴールデン例（士業・大規模・連携強め）
+
+| 観点 | 期待 |
+|------|------|
+| answers「業種」 | `士業` / `医療` / `福祉` / `コンサル・事務所` を含む表示行（handoff または選択ラベル） |
+| 狭帯（幅100万目標） | **適用されない**（`isNarrowRangeEligible` が規制業種・PII・外部公開で false） |
+| API 後処理 | [`estimate-industry-risk-adjustment.ts`](../src/lib/estimate/estimate-industry-risk-adjustment.ts) により AI 出力レンジに下限・倍率が乗り、`assumptions` 先頭に士業向け一文が付く場合がある |
+| 出力スキーマ | `scopeIn` / `scopeOut` / `openQuestions` / `regulatoryNotes` / `estimateDrivers` が埋まる（空配列可だが士業では `regulatoryNotes` 推奨） |
+| 金額ページ | `estimateDrivers` があるとき「この目安に効いていること」を表示 |
+| 希望予算 | `ご予算のイメージ`・`予算の補足` は **価格推定プロンプトに含めない**（[`estimate-pricing-input.ts`](../src/lib/estimate/estimate-pricing-input.ts)）。要約でのみ言及可 |
+
+## 事業メモサンプル 1〜3（追加の回帰用）
 
 | No | 入力ソース | 期待する結果ページの要素 |
 |----|------------|-------------------------|
