@@ -51,7 +51,7 @@
 ```
 docs/
   要件定義.md                    … A の一部（サイト全体コンセプト＋チャットは要約のみ）
-  concierge-spec-index.md        … C（新規）※本計画の実行で追加
+  concierge-spec-index.md        … C（索引・フェーズ1で整備済み）
   top-chat-branching-design.md   … B（トップ分岐の操作設計・既存）
   分岐別解答マップ.md             … B（文言・出力順・UI導線・コード参照・既存）
   concierge-chat-scopes.md       … B（sessionId 契約・既存）
@@ -115,23 +115,23 @@ docs/
 
 ### フェーズ 1: 索引の新設（小）
 
-- [ ] `docs/concierge-spec-index.md` を追加  
+- [x] `docs/concierge-spec-index.md` を追加（既存を整備）  
   - 読む順序（例: 要件定義 §3 → 本索引 → top-chat-branching → 分岐別解答マップ → scopes → senior）  
   - **変更時の同期ルール**（例: `buildConciergeChatSessionId` を変えたら scopes 表を同 PR で更新）
 
 ### フェーズ 2: `要件定義.md` §3 の差し替え（中）
 
-- [ ] §3 を「目的＋索引 URL＋受け入れ条件」に差し替え  
-- [ ] 旧 §3.2〜3.5 のうち**まだ有効な思想**だけ1〜2文に要約（2ラリー誘導などは「方針」として残すか、シニア・ウィザード仕様に吸収するか決める）
+- [x] §3 を「目的＋索引 URL＋受け入れ条件」に差し替え  
+- [x] 旧 §3.2〜3.5 のうち**まだ有効な思想**だけ1〜2文に要約（2ラリー誘導などは「方針」として §3.3 に残す）
 
 ### フェーズ 3: 実装仕様ドキュメントの整合（中〜大）
 
-- [ ] `分岐別解答マップ.md` 先頭に「本書は `要件定義` のチャット詳細。トップ分岐の操作仕様は `top-chat-branching-design.md`」を追記  
-- [ ] `concierge-senior-mode.md` に「トップ default は通常シニア対象外＝プロダクト要件で変更する場合は § と `isSeniorEligibleContext` を同時に直す」と1段落追加（既に近い内容があれば統合）
+- [x] `分岐別解答マップ.md` 先頭に「本書は `要件定義` のチャット詳細。トップ分岐の操作仕様は `top-chat-branching-design.md`」を追記  
+- [x] `concierge-senior-mode.md` に「トップ default は通常シニア対象外＝プロダクト要件で変更する場合は § と `isSeniorEligibleContext` を同時に直す」と1段落追加（既に近い内容があれば統合）
 
 ### フェーズ 4: ルール・エージェントへの反映（小）
 
-- [ ] `.cursor/rules/project-rules.mdc` の「実装前チェック」に **「チャット挙動を変える場合は `concierge-spec-index` 経由で関連 doc を更新」** を1行追加（任意）
+- [x] `.cursor/rules/project-rules.mdc` の「実装前チェック」に **「チャット挙動を変える場合は `concierge-spec-index` 経由で関連 doc を更新」** を1行追加
 
 ### フェーズ 5: 実装バックログ（ドキュメント外だが計画に含める）
 
@@ -151,6 +151,18 @@ docs/
 
 - フェーズ 1〜2 が完了したら、本ファイル末尾に **実施日と完了チェック**を追記するか、内容を `concierge-spec-index.md` の「履歴」に1段落移す。
 - **単一の正本**は `concierge-spec-index.md`（入口）とする。
+
+### 7.1 フェーズ 0〜4 実施記録（2026-04-02）
+
+| フェーズ | 内容 | 状態 |
+|----------|------|------|
+| 0 | 受け入れ条件（Must）を計画書 §3.2 ドラフトどおり `要件定義.md` §3.2 に採用（運用ベースライン） | 完了 |
+| 1 | `concierge-spec-index.md` の読む順序・同期表を現行構造に合わせて更新 | 完了 |
+| 2 | `要件定義.md` §3 を「目的＋受け入れ条件＋索引」に差し替え | 完了 |
+| 3 | `分岐別解答マップ.md` 先頭に位置づけ、`concierge-senior-mode.md` にトップ default と要件の関係を追記 | 完了 |
+| 4 | `.cursor/rules/project-rules.mdc` の実装前チェックに索引経由の更新を1行追加 | 完了 |
+
+フェーズ 5（実装バックログ）は本記録の対象外。Must を満たすコード変更は別 Issue / PR で追う。
 
 ---
 

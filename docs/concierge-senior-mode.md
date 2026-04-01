@@ -25,6 +25,8 @@
 
 `default` + `top` / `other` では、上記文脈に入らないため通常シニアにならない。
 
+**プロダクト要件との関係**: [`要件定義.md`](./要件定義.md) §3 の受け入れ条件で「トップ default でもシニア相当の応答厚みを必須」とする場合は、本書の発火条件・[`src/lib/ai/concierge-senior.ts`](../src/lib/ai/concierge-senior.ts) の `isSeniorEligibleContext` / `inferSeniorEngagement` を**同じ PR で**整合させること。
+
 ## クライアント信号 `conciergeSignals`
 
 | フィールド | 意味 |

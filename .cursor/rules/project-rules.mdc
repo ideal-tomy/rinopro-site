@@ -55,6 +55,7 @@ alwaysApply: true
 ### 3.1 実装前
 
 - [ ] `docs/要件定義.md` の該当セクションを確認
+- [ ] チャット挙動を変える場合は `docs/concierge-spec-index.md` を経由し、索引の同期表に沿って関連ドキュメントを更新する
 - [ ] `docs/技術要件.md` のスタック・公式ドキュメントを参照
 - [ ] 環境変数は `.env.example` に記載し、本物は `.env.local`（gitignore 済み）
 
