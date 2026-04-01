@@ -1,28 +1,46 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { Kanban, LayoutDashboard, Users } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import type { ExperiencePrototypeMeta } from "@/lib/experience/prototype-registry";
 import {
+  DEAL_STAGE_LABEL,
+  activeDeals,
+  dealsDueThisWeek,
+  overdueDeals,
+  stageCounts,
+} from "@/lib/experience/professional-mini-sfa/dashboard-helpers";
+import { DEMO_TODAY } from "@/lib/experience/professional-mini-sfa/demo-today";
+import {
   DISCLAIMER_LINES,
   ESTIMATE_RANGE_LABEL,
-  EXCLUDES,
   INCLUDES,
   MVP_ONE_LINER,
   MVP_SCOPE_BULLETS,
   ONBOARDING_DAY_RATE_LABEL,
+  OPTION_FEATURE_EXAMPLES,
+  OPTION_PRICING_EXAMPLES,
+  OPTION_SECTION_FOOTNOTE,
+  OPTION_SECTION_TITLE,
+  SECURITY_RANGE_SUBLINE,
 } from "@/lib/experience/professional-mini-sfa/estimate-anchors";
 import { MOCK_CONTACTS } from "@/lib/experience/professional-mini-sfa/mock-contacts";
 import {
-  DEAL_STAGE_LABEL,
   DEAL_STAGE_ORDER,
   INITIAL_DEALS,
 } from "@/lib/experience/professional-mini-sfa/mock-deals";
 import type { DealCard, DealStageId } from "@/lib/experience/professional-mini-sfa/types";
 import { cn } from "@/lib/utils";
 
-type TabId = "contacts" | "board";
+type TabId = "dashboard" | "board" | "contacts";
+
+const NAV: { id: TabId; label: string; icon: typeof LayoutDashboard }[] = [
+  { id: "dashboard", label: "ダッシュボード", icon: LayoutDashboard },
+  { id: "board", label: "商談ボード", icon: Kanban },
+  { id: "contacts", label: "顧客・案件一覧", icon: Users },
+];
 
 interface ProfessionalMiniSfaExperienceProps {
   meta: ExperiencePrototypeMeta;
@@ -33,202 +51,413 @@ export function ProfessionalMiniSfaExperience({
   meta: _meta,
   className,
 }: ProfessionalMiniSfaExperienceProps) {
-  const [tab, setTab] = useState<TabId>("board");
+  const [tab, setTab] = useState<TabId>("dashboard");
   const [deals, setDeals] = useState<DealCard[]>(INITIAL_DEALS);
   const [selectedDealId, setSelectedDealId] = useState<string>(INITIAL_DEALS[0]?.id ?? "");
+  const [mobileBoardStage, setMobileBoardStage] = useState<DealStageId>(DEAL_STAGE_ORDER[0]);
 
   const selectedDeal = useMemo(
     () => deals.find((d) => d.id === selectedDealId) ?? deals[0],
     [deals, selectedDealId]
   );
 
+  const stats = useMemo(() => {
+    const active = activeDeals(deals);
+    const week = dealsDueThisWeek(deals);
+    const overdue = overdueDeals(deals);
+    const sc = stageCounts(deals);
+    return {
+      activeCount: active.length,
+      weekCount: week.length,
+      overdueCount: overdue.length,
+      firstMeetingCount: sc.first_meeting,
+      weekRows: week,
+      overdueRows: overdue,
+    };
+  }, [deals]);
+
   const setStage = (id: string, stage: DealStageId) => {
     setDeals((prev) => prev.map((d) => (d.id === id ? { ...d, stage } : d)));
   };
 
+  const goToDeal = (id: string) => {
+    setSelectedDealId(id);
+    setTab("board");
+  };
+
+  useEffect(() => {
+    if (tab !== "board") return;
+    const d = deals.find((x) => x.id === selectedDealId);
+    if (d) setMobileBoardStage(d.stage);
+  }, [tab, selectedDealId, deals]);
+
   return (
-    <div className={cn("space-y-8", className)}>
-      <p className="text-sm text-text-sub md:text-[16px]">
-        士業事務所での「相談の流れ」と「次にやること」を、軽量なSFAイメージでまとめたデモです。操作はブラウザ内のモックのみで、データは保存されません。
-      </p>
-
-      <div
-        className="flex flex-wrap gap-2 border-b border-silver/20 pb-3"
-        role="tablist"
-        aria-label="表示切替"
-      >
-        <button
-          type="button"
-          role="tab"
-          aria-selected={tab === "board"}
-          onClick={() => setTab("board")}
-          className={cn(
-            "rounded-lg px-4 py-2 text-sm font-medium transition md:text-[16px]",
-            tab === "board"
-              ? "bg-accent/15 text-accent ring-1 ring-accent/40"
-              : "text-text-sub hover:bg-silver/10 hover:text-text"
-          )}
-        >
-          商談ボード
-        </button>
-        <button
-          type="button"
-          role="tab"
-          aria-selected={tab === "contacts"}
-          onClick={() => setTab("contacts")}
-          className={cn(
-            "rounded-lg px-4 py-2 text-sm font-medium transition md:text-[16px]",
-            tab === "contacts"
-              ? "bg-accent/15 text-accent ring-1 ring-accent/40"
-              : "text-text-sub hover:bg-silver/10 hover:text-text"
-          )}
-        >
-          顧客・案件一覧
-        </button>
-      </div>
-
-      {tab === "contacts" && (
-        <div className="overflow-x-auto rounded-xl border border-silver/20">
-          <table className="w-full min-w-[640px] text-left text-sm text-text md:text-[16px]">
-            <thead className="border-b border-silver/20 bg-base-dark/90 text-text-sub">
-              <tr>
-                <th className="px-3 py-2 font-medium">組織名</th>
-                <th className="px-3 py-2 font-medium">担当者</th>
-                <th className="px-3 py-2 font-medium">紹介元</th>
-                <th className="px-3 py-2 font-medium">案件種別</th>
-                <th className="px-3 py-2 font-medium">最終接触日</th>
-              </tr>
-            </thead>
-            <tbody>
-              {MOCK_CONTACTS.map((c) => (
-                <tr
-                  key={c.id}
-                  className="border-b border-silver/15 last:border-0 hover:bg-silver/5"
-                >
-                  <td className="px-3 py-2 text-white/95">{c.organization}</td>
-                  <td className="px-3 py-2">{c.contactName}</td>
-                  <td className="px-3 py-2">{c.referrer}</td>
-                  <td className="px-3 py-2">{c.matterType}</td>
-                  <td className="px-3 py-2 text-text-sub">{c.lastTouch}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+    <div className={cn("space-y-5 md:space-y-8", className)}>
+      <div>
+        <div className="mb-2 flex flex-wrap items-center gap-2">
+          <span className="inline-flex items-center rounded-full border border-accent/45 bg-accent/10 px-2.5 py-0.5 text-[11px] font-medium text-accent md:text-xs">
+            操作デモ（ブラウザ内モック）
+          </span>
+          <span className="text-[11px] text-text-sub md:text-xs">変更は保存されません</span>
         </div>
-      )}
+        <div
+          className={cn(
+            "w-full rounded-2xl border-2 border-accent/35 bg-base-dark/90 p-3 ring-1 ring-white/10 md:p-5",
+            "shadow-[inset_0_1px_0_0_rgba(255,255,255,0.04)]"
+          )}
+        >
+          <p className="text-xs leading-relaxed text-text-sub md:text-[16px]">
+            士業事務所での「朝いちの俯瞰」と「相談の流れ」を、軽量なSFAイメージでまとめたデモです。左のメニューで画面を切り替えられます。
+          </p>
 
-      {tab === "board" && (
-        <div className="space-y-4">
-          <div className="flex gap-3 overflow-x-auto pb-2 md:grid md:grid-cols-5 md:overflow-visible">
-            {DEAL_STAGE_ORDER.map((stage) => {
-              const columnDeals = deals.filter((d) => d.stage === stage);
-              return (
-                <div
-                  key={stage}
-                  className="flex w-[min(100%,280px)] shrink-0 flex-col rounded-xl border border-silver/25 bg-base-dark/60 md:w-auto"
+          <div className="mt-4 flex flex-col gap-4 md:mt-5 md:gap-6 lg:flex-row lg:items-start">
+            <nav
+              className="flex shrink-0 flex-row gap-1.5 overflow-x-auto pb-1 md:gap-2 lg:w-52 lg:flex-col lg:overflow-visible lg:pb-0"
+              aria-label="デモ内メニュー"
+            >
+              <p className="hidden text-xs font-medium text-text-sub lg:mb-1 lg:block">
+                ミニSFA（デモ）
+              </p>
+              {NAV.map(({ id, label, icon: Icon }) => (
+                <button
+                  key={id}
+                  type="button"
+                  onClick={() => setTab(id)}
+                  className={cn(
+                    "flex items-center gap-2 rounded-lg px-2.5 py-2 text-left text-xs transition md:px-3 md:py-2.5 md:text-[15px]",
+                    tab === id
+                      ? "bg-accent/15 text-accent ring-1 ring-accent/40"
+                      : "border border-transparent text-text-sub hover:bg-silver/10 hover:text-text"
+                  )}
                 >
-                  <div className="border-b border-silver/20 px-3 py-2">
-                    <p className="text-xs font-semibold text-accent md:text-sm">
-                      {DEAL_STAGE_LABEL[stage]}
-                    </p>
-                    <p className="text-[11px] text-text-sub">{columnDeals.length} 件</p>
-                  </div>
-                  <ul className="flex max-h-[min(420px,55vh)] flex-col gap-2 overflow-y-auto p-2">
-                    {columnDeals.map((d) => (
+                  <Icon className="size-4 shrink-0 opacity-80" aria-hidden />
+                  {label}
+                </button>
+              ))}
+            </nav>
+
+            <div className="min-w-0 flex-1 space-y-4 md:space-y-6">
+          {tab === "dashboard" && (
+            <div className="space-y-4 md:space-y-6">
+              <div>
+                <h2 className="text-xs font-semibold text-white md:text-[16px]">
+                  ダッシュボード
+                </h2>
+                <p className="mt-1 text-[11px] text-text-sub md:text-sm">
+                  デモ上の「今日」は {DEMO_TODAY}
+                  。カンバンでステージを変えると、ここの数値も連動します。
+                </p>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2 md:grid-cols-4 md:gap-3">
+                <div className="rounded-xl border border-silver/25 bg-base-dark/70 p-2.5 md:p-4">
+                  <p className="text-[10px] text-text-sub md:text-xs">アクティブ相談</p>
+                  <p className="mt-0.5 text-xl font-semibold text-white tabular-nums md:mt-1 md:text-2xl">
+                    {stats.activeCount}
+                  </p>
+                  <p className="mt-0.5 text-[10px] text-text-sub md:mt-1 md:text-[11px]">見送り除く</p>
+                </div>
+                <div className="rounded-xl border border-silver/25 bg-base-dark/70 p-2.5 md:p-4">
+                  <p className="text-[10px] text-text-sub md:text-xs">今週のフォロー</p>
+                  <p className="mt-0.5 text-xl font-semibold text-accent tabular-nums md:mt-1 md:text-2xl">
+                    {stats.weekCount}
+                  </p>
+                  <p className="mt-0.5 text-[10px] text-text-sub md:mt-1 md:text-[11px]">7日以内・未クローズ</p>
+                </div>
+                <div className="rounded-xl border border-amber-500/25 bg-amber-500/5 p-2.5 md:p-4">
+                  <p className="text-[10px] text-amber-200/80 md:text-xs">期限超過</p>
+                  <p className="mt-0.5 text-xl font-semibold text-amber-200 tabular-nums md:mt-1 md:text-2xl">
+                    {stats.overdueCount}
+                  </p>
+                  <p className="mt-0.5 text-[10px] text-text-sub md:mt-1 md:text-[11px]">未クローズのみ</p>
+                </div>
+                <div className="rounded-xl border border-silver/25 bg-base-dark/70 p-2.5 md:p-4">
+                  <p className="text-[10px] text-text-sub md:text-xs">初回面談ステージ</p>
+                  <p className="mt-0.5 text-xl font-semibold text-white tabular-nums md:mt-1 md:text-2xl">
+                    {stats.firstMeetingCount}
+                  </p>
+                  <p className="mt-0.5 text-[10px] text-text-sub md:mt-1 md:text-[11px]">パイプライン入口</p>
+                </div>
+              </div>
+
+              <div className="grid gap-4 md:gap-6 lg:grid-cols-2">
+                <div className="rounded-xl border border-silver/20 bg-base-dark/50 p-3 md:p-4">
+                  <h3 className="text-xs font-semibold text-text md:text-[16px]">
+                    今週のフォロー一覧
+                  </h3>
+                  <ul className="mt-2 space-y-1.5 md:mt-3 md:space-y-2">
+                    {stats.weekRows.length === 0 ? (
+                      <li className="text-xs text-text-sub md:text-sm">該当なし</li>
+                    ) : (
+                      stats.weekRows.map((d) => (
+                        <li key={d.id}>
+                          <button
+                            type="button"
+                            onClick={() => goToDeal(d.id)}
+                            className="w-full rounded-lg border border-silver/20 bg-base/60 px-2.5 py-1.5 text-left text-xs transition hover:border-accent/40 md:px-3 md:py-2 md:text-[15px]"
+                          >
+                            <span className="font-medium text-white/95">{d.title}</span>
+                            <span className="mt-0.5 block text-xs text-text-sub">
+                              {d.organization} ・ 次 {d.nextActionDate} ・{" "}
+                              {DEAL_STAGE_LABEL[d.stage]}
+                            </span>
+                          </button>
+                        </li>
+                      ))
+                    )}
+                  </ul>
+                </div>
+                <div className="rounded-xl border border-amber-500/20 bg-base-dark/50 p-3 md:p-4">
+                  <h3 className="text-xs font-semibold text-amber-100/90 md:text-[16px]">
+                    期限超過（未クローズ）
+                  </h3>
+                  <ul className="mt-2 space-y-1.5 md:mt-3 md:space-y-2">
+                    {stats.overdueRows.length === 0 ? (
+                      <li className="text-xs text-text-sub md:text-sm">該当なし</li>
+                    ) : (
+                      stats.overdueRows.map((d) => (
+                        <li key={d.id}>
+                          <button
+                            type="button"
+                            onClick={() => goToDeal(d.id)}
+                            className="w-full rounded-lg border border-amber-500/25 bg-base/60 px-2.5 py-1.5 text-left text-xs transition hover:border-amber-400/50 md:px-3 md:py-2 md:text-[15px]"
+                          >
+                            <span className="font-medium text-white/95">{d.title}</span>
+                            <span className="mt-0.5 block text-xs text-text-sub">
+                              期限 {d.nextActionDate} ・ {d.organization}
+                            </span>
+                          </button>
+                        </li>
+                      ))
+                    )}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {tab === "board" && (
+            <div className="space-y-3 md:space-y-4">
+              <div className="md:hidden">
+                <p className="mb-2 text-[11px] text-text-sub">
+                  ステージを選んで一覧表示（スマホ向け）
+                </p>
+                <div className="flex flex-wrap gap-1.5">
+                  {DEAL_STAGE_ORDER.map((stage) => {
+                    const columnDeals = deals.filter((d) => d.stage === stage);
+                    const active = mobileBoardStage === stage;
+                    return (
+                      <button
+                        key={stage}
+                        type="button"
+                        onClick={() => setMobileBoardStage(stage)}
+                        className={cn(
+                          "rounded-full border px-2.5 py-1 text-[11px] font-medium transition",
+                          active
+                            ? "border-accent/50 bg-accent/15 text-accent ring-1 ring-accent/25"
+                            : "border-silver/30 text-text-sub hover:border-silver/50"
+                        )}
+                      >
+                        {DEAL_STAGE_LABEL[stage]}（{columnDeals.length}）
+                      </button>
+                    );
+                  })}
+                </div>
+                <ul className="mt-2 max-h-[min(240px,36vh)] space-y-1 overflow-y-auto overscroll-y-contain [-webkit-overflow-scrolling:touch]">
+                  {deals
+                    .filter((d) => d.stage === mobileBoardStage)
+                    .map((d) => (
                       <li key={d.id}>
                         <button
                           type="button"
                           onClick={() => setSelectedDealId(d.id)}
                           className={cn(
-                            "w-full rounded-lg border p-3 text-left text-sm transition md:text-[15px]",
+                            "w-full rounded-lg border px-2 py-1.5 text-left transition",
                             selectedDealId === d.id
                               ? "border-accent/50 bg-accent/10 ring-1 ring-accent/30"
                               : "border-silver/25 bg-base/80 hover:border-silver/45"
                           )}
                         >
-                          <span className="block font-medium text-white/95">{d.title}</span>
-                          <span className="mt-1 block text-xs text-text-sub md:text-sm">
-                            {d.organization}
+                          <span className="line-clamp-1 text-xs font-medium text-white/95">
+                            {d.title}
                           </span>
-                          <span className="mt-2 block text-xs text-text md:text-[13px]">
-                            次: {d.nextActionDate}
+                          <span className="mt-0.5 line-clamp-1 text-[10px] text-text-sub">
+                            {d.organization} ・ 次 {d.nextActionDate}
                           </span>
                         </button>
                       </li>
                     ))}
-                  </ul>
-                </div>
-              );
-            })}
-          </div>
-
-          {selectedDeal ? (
-            <div className="rounded-xl border border-silver/25 bg-base-dark/80 p-4 md:p-5">
-              <h3 className="text-sm font-semibold text-white md:text-[16px]">
-                選択中の相談
-              </h3>
-              <p className="mt-1 text-lg font-medium text-accent">{selectedDeal.title}</p>
-              <p className="mt-2 text-sm text-text md:text-[16px]">{selectedDeal.organization}</p>
-              <p className="mt-3 text-sm text-text md:text-[16px]">
-                <span className="text-text-sub">次アクション: </span>
-                {selectedDeal.nextAction}（{selectedDeal.nextActionDate}）
-              </p>
-              <p className="mt-2 text-sm text-text-sub md:text-[15px]">{selectedDeal.note}</p>
-              <div className="mt-4">
-                <p className="mb-2 text-xs font-medium text-text-sub md:text-sm">
-                  ステージを変更（デモ）
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {DEAL_STAGE_ORDER.map((st) => (
-                    <Button
-                      key={st}
-                      type="button"
-                      variant={selectedDeal.stage === st ? "default" : "outline"}
-                      size="sm"
-                      className="text-xs md:text-sm"
-                      onClick={() => setStage(selectedDeal.id, st)}
-                    >
-                      {DEAL_STAGE_LABEL[st]}
-                    </Button>
-                  ))}
-                </div>
+                </ul>
               </div>
+
+              <div
+                className={cn(
+                  "hidden gap-2 pb-2 md:flex md:overflow-x-auto md:overscroll-x-contain md:[scrollbar-width:thin]",
+                  "xl:grid xl:grid-cols-5 xl:gap-3 xl:overflow-visible xl:pb-0"
+                )}
+              >
+                {DEAL_STAGE_ORDER.map((stage) => {
+                  const columnDeals = deals.filter((d) => d.stage === stage);
+                  return (
+                    <div
+                      key={stage}
+                      className={cn(
+                        "flex min-h-0 w-60 shrink-0 flex-col rounded-xl border border-silver/25 bg-base-dark/60",
+                        "xl:w-auto xl:min-w-0 xl:max-w-none xl:shrink"
+                      )}
+                    >
+                      <div className="shrink-0 border-b border-silver/20 px-2.5 py-1.5 md:px-3 md:py-2">
+                        <p className="text-xs font-semibold text-accent md:text-sm">
+                          {DEAL_STAGE_LABEL[stage]}
+                        </p>
+                        <p className="text-[10px] text-text-sub md:text-[11px]">
+                          {columnDeals.length} 件
+                        </p>
+                      </div>
+                      <ul className="flex min-h-0 max-h-[min(380px,50vh)] flex-col gap-1.5 overflow-y-auto overscroll-y-contain p-1.5 md:gap-2 md:p-2 xl:max-h-[min(440px,52vh)]">
+                        {columnDeals.map((d) => (
+                          <li key={d.id} className="min-w-0">
+                            <button
+                              type="button"
+                              onClick={() => setSelectedDealId(d.id)}
+                              className={cn(
+                                "w-full min-w-0 rounded-lg border p-2 text-left text-xs transition md:p-2.5 md:text-[15px]",
+                                selectedDealId === d.id
+                                  ? "border-accent/50 bg-accent/10 ring-1 ring-accent/30"
+                                  : "border-silver/25 bg-base/80 hover:border-silver/45"
+                              )}
+                            >
+                              <span className="line-clamp-2 font-medium leading-snug text-white/95">
+                                {d.title}
+                              </span>
+                              <span className="mt-1 line-clamp-1 text-[11px] text-text-sub md:text-xs">
+                                {d.organization}
+                              </span>
+                              <span className="mt-1 block text-[10px] tabular-nums text-text-sub md:text-[11px]">
+                                次 {d.nextActionDate}
+                              </span>
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {selectedDeal ? (
+                <div className="rounded-xl border border-silver/25 bg-base-dark/80 p-3 md:p-5">
+                  <h3 className="text-xs font-semibold text-white md:text-[16px]">
+                    選択中の相談
+                  </h3>
+                  <p className="mt-1 text-[15px] font-medium text-accent md:text-lg">{selectedDeal.title}</p>
+                  <p className="mt-1.5 text-xs text-text md:mt-2 md:text-[16px]">{selectedDeal.organization}</p>
+                  <p className="mt-2 text-xs text-text md:mt-3 md:text-[16px]">
+                    <span className="text-text-sub">次アクション: </span>
+                    {selectedDeal.nextAction}（{selectedDeal.nextActionDate}）
+                  </p>
+                  <p className="mt-1.5 text-xs text-text-sub md:mt-2 md:text-[15px]">{selectedDeal.note}</p>
+                  <div className="mt-4">
+                    <p className="mb-2 text-xs font-medium text-text-sub md:text-sm">
+                      ステージを変更（デモ）
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {DEAL_STAGE_ORDER.map((st) => (
+                        <Button
+                          key={st}
+                          type="button"
+                          variant={selectedDeal.stage === st ? "default" : "outline"}
+                          size="sm"
+                          className="text-xs md:text-sm"
+                          onClick={() => setStage(selectedDeal.id, st)}
+                        >
+                          {DEAL_STAGE_LABEL[st]}
+                        </Button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ) : null}
             </div>
-          ) : null}
+          )}
+
+          {tab === "contacts" && (
+            <div className="overflow-x-auto rounded-xl border border-silver/20">
+              <table className="w-full min-w-[640px] text-left text-xs text-text md:text-[16px]">
+                <thead className="border-b border-silver/20 bg-base-dark/90 text-text-sub">
+                  <tr>
+                    <th className="px-2 py-1.5 font-medium md:px-3 md:py-2">組織名</th>
+                    <th className="px-2 py-1.5 font-medium md:px-3 md:py-2">担当者</th>
+                    <th className="px-2 py-1.5 font-medium md:px-3 md:py-2">紹介元</th>
+                    <th className="px-2 py-1.5 font-medium md:px-3 md:py-2">案件種別</th>
+                    <th className="px-2 py-1.5 font-medium md:px-3 md:py-2">最終接触日</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {MOCK_CONTACTS.map((c) => (
+                    <tr
+                      key={c.id}
+                      className="border-b border-silver/15 last:border-0 hover:bg-silver/5"
+                    >
+                      <td className="px-2 py-1.5 text-white/95 md:px-3 md:py-2">{c.organization}</td>
+                      <td className="px-2 py-1.5 md:px-3 md:py-2">{c.contactName}</td>
+                      <td className="px-2 py-1.5 md:px-3 md:py-2">{c.referrer}</td>
+                      <td className="px-2 py-1.5 md:px-3 md:py-2">{c.matterType}</td>
+                      <td className="px-2 py-1.5 text-text-sub md:px-3 md:py-2">{c.lastTouch}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+            </div>
+          </div>
         </div>
-      )}
+      </div>
+
+      <div
+        className="border-t border-dashed border-silver/35 pt-4 md:pt-6"
+        role="separator"
+        aria-label="操作デモと制作条件・概算説明の区切り"
+      >
+        <p className="text-center text-[11px] leading-snug text-text-sub md:text-xs">
+          以下は<strong className="font-medium text-text/90">制作条件・概算レンジ</strong>
+          の説明です（上の枠は操作デモのみ）
+        </p>
+      </div>
 
       <section
-        className="space-y-5 rounded-xl border border-silver/30 bg-silver/5 p-4 md:p-6"
+        className="space-y-3 rounded-xl border border-silver/30 bg-silver/5 p-3 md:space-y-5 md:p-6"
         aria-labelledby="mvp-estimate-heading"
       >
         <h2
           id="mvp-estimate-heading"
-          className="text-base font-semibold text-white md:text-lg"
+          className="text-sm font-semibold text-white md:text-lg"
         >
           制作イメージと概算レンジ（例示）
         </h2>
-        <p className="text-sm text-text md:text-[16px]">{MVP_ONE_LINER}</p>
+        <p className="text-xs text-text md:text-[16px]">{MVP_ONE_LINER}</p>
         <div>
-          <p className="text-xs font-medium uppercase tracking-wide text-text-sub md:text-sm">
+          <p className="text-[10px] font-medium uppercase tracking-wide text-text-sub md:text-sm">
             MVP の範囲（目安）
           </p>
-          <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-text md:text-[16px]">
+          <ul className="mt-1.5 list-inside list-disc space-y-0.5 text-xs text-text md:mt-2 md:space-y-1 md:text-[16px]">
             {MVP_SCOPE_BULLETS.map((line) => (
               <li key={line}>{line}</li>
             ))}
           </ul>
         </div>
-        <div className="rounded-lg border border-accent/25 bg-accent/5 px-4 py-3">
-          <p className="text-sm font-semibold text-accent md:text-[16px]">
+        <div className="rounded-lg border border-accent/25 bg-accent/5 px-3 py-2.5 md:px-4 md:py-3">
+          <p className="text-xs font-semibold text-accent md:text-[16px]">
             概算レンジ: {ESTIMATE_RANGE_LABEL}
           </p>
-          <p className="mt-2 text-xs text-text-sub md:text-sm">{ONBOARDING_DAY_RATE_LABEL}</p>
+          <p className="mt-1.5 text-[11px] text-text md:mt-2 md:text-sm">{SECURITY_RANGE_SUBLINE}</p>
+          <p className="mt-1.5 text-[11px] text-text-sub md:mt-2 md:text-sm">{ONBOARDING_DAY_RATE_LABEL}</p>
         </div>
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid gap-4 md:grid-cols-2 md:gap-6">
           <div>
-            <p className="text-xs font-semibold text-emerald-400/90 md:text-sm">含む（例）</p>
-            <ul className="mt-2 space-y-1.5 text-sm text-text md:text-[15px]">
+            <p className="text-[11px] font-semibold text-emerald-400/90 md:text-sm">含む（例）</p>
+            <ul className="mt-1.5 space-y-1 text-xs text-text md:mt-2 md:space-y-1.5 md:text-[15px]">
               {INCLUDES.map((line) => (
                 <li key={line} className="flex gap-2">
                   <span className="shrink-0 text-emerald-400/80" aria-hidden>
@@ -240,27 +469,58 @@ export function ProfessionalMiniSfaExperience({
             </ul>
           </div>
           <div>
-            <p className="text-xs font-semibold text-amber-400/90 md:text-sm">
-              含まない（別途・例）
+            <p className="text-[11px] font-semibold text-accent/90 md:text-sm">
+              {OPTION_SECTION_TITLE}
             </p>
-            <ul className="mt-2 space-y-1.5 text-sm text-text md:text-[15px]">
-              {EXCLUDES.map((line) => (
+            <ul className="mt-1.5 space-y-1 text-xs text-text md:mt-2 md:space-y-1.5 md:text-[15px]">
+              {OPTION_FEATURE_EXAMPLES.map((line) => (
                 <li key={line} className="flex gap-2">
-                  <span className="shrink-0 text-amber-400/70" aria-hidden>
-                    ×
+                  <span className="shrink-0 text-accent/70" aria-hidden>
+                    +
                   </span>
                   <span>{line}</span>
                 </li>
               ))}
             </ul>
+            <p className="mt-2 text-[11px] text-text-sub md:mt-3 md:text-sm">{OPTION_SECTION_FOOTNOTE}</p>
           </div>
         </div>
-        <div className="space-y-2 border-t border-silver/20 pt-4 text-xs text-text-sub md:text-sm">
+
+        <div>
+          <p className="text-[11px] font-semibold text-text-sub md:text-sm">
+            オプション費用感（税別・例示）
+          </p>
+          <div className="mt-1.5 overflow-x-auto rounded-lg border border-silver/25 md:mt-2">
+            <table className="w-full min-w-[480px] text-left text-xs text-text md:text-[15px]">
+              <thead className="border-b border-silver/20 bg-base-dark/80 text-text-sub">
+                <tr>
+                  <th className="px-2 py-1.5 font-medium md:px-3 md:py-2">項目</th>
+                  <th className="px-2 py-1.5 font-medium md:px-3 md:py-2">費用感の目安</th>
+                </tr>
+              </thead>
+              <tbody>
+                {OPTION_PRICING_EXAMPLES.map((row) => (
+                  <tr key={row.title} className="border-b border-silver/15 last:border-0">
+                    <td className="px-2 py-1.5 text-white/90 md:px-3 md:py-2">{row.title}</td>
+                    <td className="px-2 py-1.5 tabular-nums text-accent/95 md:px-3 md:py-2">
+                      {row.rangeHint}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="mt-1.5 text-[11px] text-text-sub md:mt-2 md:text-xs">
+            オプションは20万円台から積み上がる想定の例です。範囲が広い項目はヒアリング後にレンジを狭めます。
+          </p>
+        </div>
+
+        <div className="space-y-1.5 border-t border-silver/20 pt-3 text-[11px] text-text-sub md:space-y-2 md:pt-4 md:text-sm">
           {DISCLAIMER_LINES.map((line) => (
             <p key={line}>{line}</p>
           ))}
         </div>
-        <p className="text-sm text-text-sub md:text-[16px]">
+        <p className="text-xs text-text-sub md:text-[16px]">
           ご自身の案件の整理・概算レンジの切り出しは{" "}
           <Link
             href="/estimate-detailed"

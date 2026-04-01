@@ -94,9 +94,9 @@ export const EXPERIENCE_PROTOTYPES: ExperiencePrototypeMeta[] = [
     tier: "track3",
     demoSlug: "legal-professional-mini-sfa-demo",
     shortDescription:
-      "顧客・相談パイプラインの画面イメージと、MVP定義に基づく概算レンジ（含む／含まない付き）を同一画面で確認できます。",
+      "ダッシュボード・顧客一覧・商談ボードの画面イメージと、MVP＋セキュリティベースライン込みの概算レンジ・オプション表を同一画面で確認できます。",
     inputHint:
-      "タブで顧客一覧と商談ボードを切り替え、下部のスコープ表で制作イメージの目安を確認してください。",
+      "左メニューでダッシュボード／商談ボード／顧客一覧を切り替え、下部で概算レンジとオプション費用感を確認してください。",
   },
   {
     slug: "ops-report-metrics-demo",

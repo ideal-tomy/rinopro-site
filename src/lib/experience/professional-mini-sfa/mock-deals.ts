@@ -62,4 +62,13 @@ export const INITIAL_DEALS: DealCard[] = [
     stage: "closed_lost",
     note: "予算凍結のため今期は見送り。来年再提案。",
   },
+  {
+    id: "d6",
+    title: "顧問先の定期面談フォロー",
+    organization: "有限会社テックサンプル",
+    nextAction: "議事メモの共有と次回日程の確定",
+    nextActionDate: "2026-03-27",
+    stage: "proposal",
+    note: "先方の変更案への返信待ち。ダッシュの「期限超過」表示用のサンプル。",
+  },
 ];

@@ -31,11 +31,14 @@ export default async function ExperiencePrototypePage({ params }: Props) {
   if (!meta) notFound();
 
   const tierLabel = meta.tier === "track3" ? "③ プロダクト寄り" : "② 画面体験";
+  const compactHero = slug === "legal-professional-mini-sfa-demo";
 
   return (
     <PageShell>
       <div className="container mx-auto max-w-6xl px-4 py-8 md:py-14 md:px-6">
-        <nav className="mb-6 text-sm text-text-sub">
+        <nav
+          className={compactHero ? "mb-4 text-xs text-text-sub md:mb-6 md:text-sm" : "mb-6 text-sm text-text-sub"}
+        >
           <Link href="/demo" className="text-accent underline-offset-2 hover:underline">
             体験・demoハブ
           </Link>
@@ -50,10 +53,22 @@ export default async function ExperiencePrototypePage({ params }: Props) {
             プロトタイプ（モック結果）
           </span>
         </div>
-        <h1 className="mb-3 text-2xl font-bold text-accent md:text-3xl">
+        <h1
+          className={
+            compactHero
+              ? "mb-2 text-xl font-bold text-accent md:mb-3 md:text-3xl"
+              : "mb-3 text-2xl font-bold text-accent md:text-3xl"
+          }
+        >
           {meta.title}
         </h1>
-        <p className="mb-8 max-w-2xl text-sm text-text-sub md:text-base">
+        <p
+          className={
+            compactHero
+              ? "mb-5 max-w-2xl text-xs leading-relaxed text-text-sub md:mb-8 md:text-sm"
+              : "mb-8 max-w-2xl text-sm text-text-sub md:text-[16px]"
+          }
+        >
           {meta.shortDescription}
         </p>
         <Suspense
