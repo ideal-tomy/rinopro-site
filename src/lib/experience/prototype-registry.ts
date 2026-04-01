@@ -317,7 +317,7 @@ export const DEMO_HUB_TYPE_SECTION_SLUGS = [
   "workflow-approval-lite-demo",
   "legal-memory-secretary",
   "webinar-invite-email-draft",
-  "presentation-outline",
+  "legal-professional-mini-sfa-demo",
 ] as const;
 
 export type FeaturedExperienceSlug =
