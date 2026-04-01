@@ -6,6 +6,8 @@ export const ESTIMATE_DETAILED_FLOW_KEY = "rinopro_estimate_detailed_flow_v1";
 /** 質問フォームの下書き（セッションに保持し「質問に戻る」で復元する） */
 export const estimateFormDraftSchema = z.object({
   industry: z.string(),
+  /** コンシェルジュ handoff 等で確定した「業種」表示行（設定時は answers の業種に優先） */
+  industryDisplayLine: z.string().optional(),
   summary: z.string(),
   pain: z.string(),
   teamSize: z.string(),

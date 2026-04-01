@@ -1,6 +1,11 @@
 import type { EstimateSnapshot } from "@/lib/estimate/estimate-snapshot";
 import { estimateSnapshotSchema } from "@/lib/estimate/estimate-snapshot";
 import type { ConciergeTrack, FlowSelection } from "@/lib/chat/concierge-flow";
+import type { ConciergeDomainId } from "@/lib/demo/intelligent-concierge";
+import {
+  CONCIERGE_DOMAIN_OPTIONS,
+  getConciergeDomainDetailLabel,
+} from "@/lib/demo/intelligent-concierge";
 
 const HANDOFF_V1 = 1 as const;
 const HANDOFF_V2 = 2 as const;
@@ -41,12 +46,25 @@ export type ChatHandoffPayload =
   | ChatHandoffPayloadV2
   | ChatHandoffPayloadV2Legacy;
 
+const CONCIERGE_DOMAIN_IDS = new Set<ConciergeDomainId>(
+  CONCIERGE_DOMAIN_OPTIONS.map((o) => o.id)
+);
+
+/** トップ／一覧コンシェルジュから詳細見積へ渡す業種（任意） */
+export interface ConciergeIndustryBundle {
+  domainId: ConciergeDomainId;
+  domainDetailId?: string | null;
+  note?: string | null;
+}
+
 /** 詳細見積もりページの入口：コンシェルジュからのコンテキスト */
 export interface ConciergeEstimateContextPayload {
   v: typeof CTX_V1;
   track: ConciergeTrack;
   path: FlowSelection[];
   detailBlock: string;
+  /** 後方互換: 未設定の旧 URL は従来どおり */
+  industryBundle?: ConciergeIndustryBundle;
 }
 
 function utf8ToBase64Url(str: string): string {
@@ -142,18 +160,53 @@ export function encodeConciergeEstimateContext(
   return utf8ToBase64Url(JSON.stringify(payload));
 }
 
+function parseIndustryBundle(
+  raw: unknown
+): ConciergeIndustryBundle | undefined {
+  if (raw == null || typeof raw !== "object") return undefined;
+  const o = raw as Record<string, unknown>;
+  const domainId = o.domainId;
+  if (
+    typeof domainId !== "string" ||
+    !CONCIERGE_DOMAIN_IDS.has(domainId as ConciergeDomainId)
+  ) {
+    return undefined;
+  }
+  const domainDetailId =
+    o.domainDetailId == null
+      ? undefined
+      : typeof o.domainDetailId === "string"
+        ? o.domainDetailId
+        : undefined;
+  const note =
+    o.note == null ? undefined : typeof o.note === "string" ? o.note : undefined;
+  return {
+    domainId: domainId as ConciergeDomainId,
+    domainDetailId,
+    note,
+  };
+}
+
 export function decodeConciergeEstimateContext(
   raw: string
 ): ConciergeEstimateContextPayload | null {
   try {
-    const parsed = JSON.parse(base64UrlToUtf8(raw)) as ConciergeEstimateContextPayload;
+    const parsed = JSON.parse(base64UrlToUtf8(raw)) as Record<string, unknown>;
     if (
       parsed?.v === CTX_V1 &&
       parsed.track &&
       Array.isArray(parsed.path) &&
       typeof parsed.detailBlock === "string"
     ) {
-      return parsed;
+      const industryBundle = parseIndustryBundle(parsed.industryBundle);
+      const out: ConciergeEstimateContextPayload = {
+        v: CTX_V1,
+        track: parsed.track as ConciergeTrack,
+        path: parsed.path as FlowSelection[],
+        detailBlock: parsed.detailBlock as string,
+      };
+      if (industryBundle) out.industryBundle = industryBundle;
+      return out;
     }
     return null;
   } catch {
@@ -169,6 +222,22 @@ const TRACK_LABELS: Record<ConciergeTrack, string> = {
   E: "依頼方法",
 };
 
+function industryBundleSummaryLine(bundle: ConciergeIndustryBundle): string {
+  const domLabel =
+    CONCIERGE_DOMAIN_OPTIONS.find((o) => o.id === bundle.domainId)?.label ??
+    bundle.domainId;
+  const parts = [domLabel];
+  const d = getConciergeDomainDetailLabel(
+    bundle.domainId,
+    bundle.domainDetailId
+  );
+  if (d) parts.push(d);
+  let line = parts.join(" — ");
+  const note = bundle.note?.trim();
+  if (note) line += `（補足: ${note}）`;
+  return line;
+}
+
 /** 概算見積（コンシェルジュ）からの文脈を、画面上で見せやすい形にする */
 export function summarizeConciergeEstimateContextForDisplay(
   ctx: ConciergeEstimateContextPayload
@@ -177,14 +246,21 @@ export function summarizeConciergeEstimateContextForDisplay(
   steps: { title: string; answerLine: string }[];
   freeNotes: string;
 } {
+  const pathSteps = ctx.path.map((p) => ({
+    title: p.stepTitle,
+    answerLine: p.freeform?.trim()
+      ? `${p.label}（追記: ${p.freeform.trim()}）`
+      : p.label,
+  }));
+  if (ctx.industryBundle) {
+    pathSteps.unshift({
+      title: "事業領域",
+      answerLine: industryBundleSummaryLine(ctx.industryBundle),
+    });
+  }
   return {
     trackLabel: TRACK_LABELS[ctx.track],
-    steps: ctx.path.map((p) => ({
-      title: p.stepTitle,
-      answerLine: p.freeform?.trim()
-        ? `${p.label}（追記: ${p.freeform.trim()}）`
-        : p.label,
-    })),
+    steps: pathSteps,
     freeNotes: ctx.detailBlock.trim(),
   };
 }
@@ -277,14 +353,17 @@ export function buildHandoffPayloadV1(
 export function buildEstimateContextPayload(
   track: ConciergeTrack,
   path: FlowSelection[],
-  detailBlock: string
+  detailBlock: string,
+  industryBundle?: ConciergeIndustryBundle | null
 ): ConciergeEstimateContextPayload {
-  return {
+  const out: ConciergeEstimateContextPayload = {
     v: CTX_V1,
     track,
     path,
     detailBlock,
   };
+  if (industryBundle) out.industryBundle = industryBundle;
+  return out;
 }
 
 export function buildHandoffPayloadV2FromDetailed(

@@ -45,6 +45,8 @@ import {
   buildEstimateDetailedEntryUrl,
   buildHandoffPayloadV1,
 } from "@/lib/chat/estimate-handoff";
+import type { ConciergeIndustryBundle } from "@/lib/chat/estimate-handoff";
+import { ConciergeIndustryStep } from "@/components/chat/ConciergeIndustryStep";
 import {
   experienceHref,
   getDemoSlugForAbTrack,
@@ -65,13 +67,23 @@ export type HomeConciergeFooterPhase =
 const DONE_STEP_MS_TO_CTA = 3000;
 const DONE_STEP_MS_CTA_TO_INPUT = 3000;
 
+type IndustryPending =
+  | { kind: "cde" }
+  | { kind: "track"; track: ConciergeTrack };
+
 type FlowFrame =
   | { kind: "root" }
+  | {
+      kind: "industry_gate";
+      rootPath: FlowSelection[];
+      pending: IndustryPending;
+    }
   | {
       kind: "question";
       track: ConciergePhase;
       step: FlowStepDef;
       path: FlowSelection[];
+      industryBundle?: ConciergeIndustryBundle;
     }
   | {
       kind: "freeform";
@@ -79,6 +91,7 @@ type FlowFrame =
       step: FlowStepDef;
       path: FlowSelection[];
       choice: FlowChoice;
+      industryBundle?: ConciergeIndustryBundle;
     }
   | {
       kind: "done";
@@ -86,7 +99,23 @@ type FlowFrame =
       path: FlowSelection[];
       body: string;
       shortcut?: ShortcutPanel;
+      industryBundle?: ConciergeIndustryBundle;
     };
+
+function attachIndustry(
+  next: FlowFrame,
+  bundle?: ConciergeIndustryBundle
+): FlowFrame {
+  if (!bundle) return next;
+  if (
+    next.kind === "question" ||
+    next.kind === "freeform" ||
+    next.kind === "done"
+  ) {
+    return { ...next, industryBundle: bundle };
+  }
+  return next;
+}
 
 function buildNextFrameAfterAnswer(
   phase: ConciergePhase,
@@ -131,6 +160,47 @@ function buildNextFrameAfterAnswer(
   const shortcut = SHORTCUT_PANELS[t];
   const body = buildCdeSummaryBlock(t, path);
   return { kind: "done", track: t, path, body, shortcut };
+}
+
+function commitIndustryGateFrame(
+  bundle: ConciergeIndustryBundle,
+  gate: Extract<FlowFrame, { kind: "industry_gate" }>
+): FlowFrame {
+  const { rootPath, pending } = gate;
+  if (pending.kind === "cde") {
+    return {
+      kind: "question",
+      track: "CDE",
+      step: CDE_PICK_STEP,
+      path: rootPath,
+      industryBundle: bundle,
+    };
+  }
+  if (pending.track === "A") {
+    return {
+      kind: "question",
+      track: "A",
+      step: A_STEP_BUILD,
+      path: rootPath,
+      industryBundle: bundle,
+    };
+  }
+  if (pending.track === "B") {
+    return {
+      kind: "question",
+      track: "B",
+      step: B_STEP_SUPPORT,
+      path: rootPath,
+      industryBundle: bundle,
+    };
+  }
+  return {
+    kind: "question",
+    track: "E",
+    step: E_STEP2,
+    path: rootPath,
+    industryBundle: bundle,
+  };
 }
 
 const ROOT_TITLE = "知りたいこと";
@@ -323,27 +393,47 @@ export function HomeConciergeFlow({
       const path = [rootSelection(choice)];
       if (choice.id === "root_cde") {
         push({
-          kind: "question",
-          track: "CDE",
-          step: CDE_PICK_STEP,
-          path,
+          kind: "industry_gate",
+          rootPath: path,
+          pending: { kind: "cde" },
         });
         return;
       }
       const track = trackFromRootId(choice.id);
       if (!track) return;
       if (track === "A") {
-        push({ kind: "question", track: "A", step: A_STEP_BUILD, path });
+        push({
+          kind: "industry_gate",
+          rootPath: path,
+          pending: { kind: "track", track: "A" },
+        });
         return;
       }
       if (track === "B") {
-        push({ kind: "question", track: "B", step: B_STEP_SUPPORT, path });
+        push({
+          kind: "industry_gate",
+          rootPath: path,
+          pending: { kind: "track", track: "B" },
+        });
         return;
       }
-      push({ kind: "question", track: "E", step: E_STEP2, path });
+      push({
+        kind: "industry_gate",
+        rootPath: path,
+        pending: { kind: "track", track: "E" },
+      });
     },
     [push]
   );
+
+  const handleIndustryConfirm = useCallback((bundle: ConciergeIndustryBundle) => {
+    setFrames((prev) => {
+      const top = prev[prev.length - 1];
+      if (top.kind !== "industry_gate") return prev;
+      const next = commitIndustryGateFrame(bundle, top);
+      return [...prev.slice(0, -1), next];
+    });
+  }, []);
 
   const handleChoicePick = useCallback(
     (
@@ -360,6 +450,7 @@ export function HomeConciergeFlow({
           step: frame.step,
           path: frame.path,
           choice,
+          industryBundle: frame.industryBundle,
         });
         return;
       }
@@ -371,10 +462,10 @@ export function HomeConciergeFlow({
         stepTitle: stepTitleFor(frame.step),
       };
       const path = [...frame.path, sel];
-      const next = buildNextFrameAfterAnswer(
-        frame.track,
-        frame.step.stepKey,
-        path
+      const bundle = frame.industryBundle;
+      const next = attachIndustry(
+        buildNextFrameAfterAnswer(frame.track, frame.step.stepKey, path),
+        bundle
       );
       setFrames((prev) => [...prev.slice(0, -1), next]);
     },
@@ -395,10 +486,9 @@ export function HomeConciergeFlow({
       };
       const path = [...top.path, sel];
       const withoutFree = prev.slice(0, -1);
-      const next = buildNextFrameAfterAnswer(
-        top.track,
-        top.step.stepKey,
-        path
+      const next = attachIndustry(
+        buildNextFrameAfterAnswer(top.track, top.step.stepKey, path),
+        top.industryBundle
       );
       return [...withoutFree.slice(0, -1), next];
     });
@@ -409,7 +499,8 @@ export function HomeConciergeFlow({
     const ctx = buildEstimateContextPayload(
       current.track,
       current.path,
-      current.body
+      current.body,
+      current.industryBundle ?? null
     );
     dismissConciergeForNavigation();
     router.push(buildEstimateDetailedEntryUrl(ctx));
@@ -447,6 +538,10 @@ export function HomeConciergeFlow({
 
   const frameKey = useMemo(() => {
     if (current.kind === "root") return "root";
+    if (current.kind === "industry_gate")
+      return `ig-${current.pending.kind}-${
+        current.pending.kind === "track" ? current.pending.track : "cde"
+      }`;
     if (current.kind === "question")
       return `q-${current.track}-${current.step.stepKey}`;
     if (current.kind === "freeform")
@@ -529,6 +624,15 @@ export function HomeConciergeFlow({
             doneFrame && "overflow-hidden"
           )}
         >
+          {current.kind === "industry_gate" && (
+            <ConciergeIndustryStep
+              variant="stack"
+              disabled={disabled}
+              onBack={pop}
+              onConfirm={handleIndustryConfirm}
+            />
+          )}
+
           {current.kind === "root" && (
             <div className="space-y-4">
               <h3 className="text-center text-[14px] font-semibold leading-relaxed tracking-wide text-text/95 sm:text-[16px]">

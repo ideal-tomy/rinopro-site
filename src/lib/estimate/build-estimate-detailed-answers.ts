@@ -17,8 +17,12 @@ export function buildEstimateDetailedAnswersRecord(f: EstimateFormDraft): Record
   const budgetNote = f.budgetFeel.trim();
   const constraints = f.constraints.trim();
 
+  const industryAnswer =
+    f.industryDisplayLine?.trim() ||
+    optionLabel(copy.industryOptions, f.industry);
+
   const getters: Record<string, string | undefined> = {
-    業種: optionLabel(copy.industryOptions, f.industry),
+    業種: industryAnswer,
     "いまいちばんやりたいこと・課題": f.summary.trim() || undefined,
     "会社やチームの人数のイメージ": optionLabel(copy.teamOptions, f.teamSize),
     "いつ頃までに、という希望": optionLabel(copy.timelineOptions, f.timeline),

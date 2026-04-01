@@ -12,6 +12,8 @@
 トップの選択式フローから **詳細見積もり**へ渡す文脈は、チャット session とは別経路（[`src/lib/chat/estimate-handoff.ts`](../src/lib/chat/estimate-handoff.ts) のペイロード／URL／sessionStorage）で行う。  
 会話スコープをページ単位に分離しても、見積の引き継ぎはこの仕組みで維持できる。
 
+`ConciergeEstimateContextPayload`（`?ctx=`）には任意で **`industryBundle`**（第1層 domainId・任意の第2層・補足1行）を載せられる。詳細見積側では **業種ステップをスキップ**し、`answers` の「業種」に反映する。契約の単一ソースは [`docs/industry-estimate-handoff-contract.md`](industry-estimate-handoff-contract.md)。
+
 ## `/demo/list` とグローバルコンシェルジュ
 
 - **ウィザード本体**は [`ChatContainer`](../src/components/chat/ChatContainer.tsx) 内の `DemoListConciergeFlow` のみ（一覧ページに埋め込んだ二重モーダルは廃止）。

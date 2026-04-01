@@ -4,6 +4,7 @@ import {
   useCallback,
   useLayoutEffect,
   useMemo,
+  useRef,
   useState,
   type Dispatch,
   type ReactNode,
@@ -61,6 +62,8 @@ export type EstimateDetailedHearingWizardProps = {
   hideSectionHeading?: boolean;
   /** モバイル全画面時、ステップ変更で先頭へスクロールする親（overflow-y-auto） */
   scrollContainerRef?: RefObject<HTMLElement | null>;
+  /** コンシェルジュ handoff で業種が確定済みのとき industry ステップを飛ばす */
+  skipIndustryStep?: boolean;
 };
 
 const easeSpeak = [0.22, 1, 0.36, 1] as const;
@@ -94,9 +97,21 @@ export function EstimateDetailedHearingWizard({
   layoutVariant = "default",
   hideSectionHeading = false,
   scrollContainerRef,
+  skipIndustryStep = false,
 }: EstimateDetailedHearingWizardProps) {
   const [stepIndex, setStepIndex] = useState(0);
   const isFs = layoutVariant === "fullscreen";
+  const skipIndustryAppliedRef = useRef(false);
+
+  useLayoutEffect(() => {
+    if (!skipIndustryStep) {
+      skipIndustryAppliedRef.current = false;
+      return;
+    }
+    if (skipIndustryAppliedRef.current) return;
+    skipIndustryAppliedRef.current = true;
+    setStepIndex(1);
+  }, [skipIndustryStep]);
 
   useLayoutEffect(() => {
     if (!isFs || !scrollContainerRef?.current) return;
@@ -104,7 +119,8 @@ export function EstimateDetailedHearingWizard({
   }, [isFs, stepIndex, scrollContainerRef]);
 
   const stepId = STEP_IDS[stepIndex] ?? "industry";
-  const isFirst = stepIndex === 0;
+  const minStepIndex = skipIndustryStep ? 1 : 0;
+  const isFirst = stepIndex <= minStepIndex;
   const isReview = stepId === "review";
 
   const remainingIncludingCurrent = Math.max(0, TOTAL_STEPS - stepIndex);
@@ -127,8 +143,8 @@ export function EstimateDetailedHearingWizard({
 
   const goBack = useCallback(() => {
     if (isFirst || isExiting) return;
-    setStepIndex((i) => Math.max(0, i - 1));
-  }, [isExiting, isFirst]);
+    setStepIndex((i) => Math.max(minStepIndex, i - 1));
+  }, [isExiting, isFirst, minStepIndex]);
 
   const handleSelectPick = useCallback(
     (patch: Partial<FormState>) => {

@@ -18,10 +18,17 @@ export type ConciergeDomainId =
   | "manufacturing"
   | "services"
   | "distribution"
+  | "staffing"
+  | "food_service"
+  | "food_wholesale"
   | "other";
 
 export type ConciergeAnswers = {
   domain: ConciergeDomainId;
+  /** 第 2 層（任意） */
+  domainDetailId?: string | null;
+  /** 自由記述 1 行（任意） */
+  domainNote?: string | null;
   audienceRole: AiDemoAudienceRole;
   issue: AiDemoIssueTag;
   automationDepth: AiDemoAutomationDepth;
@@ -42,7 +49,7 @@ const SCORE_TAG_AUX = 1;
 const WIDE_SCORE_GAP = 2;
 const WIDE_MIN_TIE_GROUP = 6;
 
-/** Step UI: 事業領域 */
+/** Step UI: 事業領域（第 1 層） */
 export const CONCIERGE_DOMAIN_OPTIONS: ReadonlyArray<{
   id: ConciergeDomainId;
   label: string;
@@ -51,10 +58,56 @@ export const CONCIERGE_DOMAIN_OPTIONS: ReadonlyArray<{
   { id: "construction", label: "建設・インフラ" },
   { id: "legal", label: "士業・専門サービス" },
   { id: "manufacturing", label: "製造・メーカー" },
-  { id: "services", label: "サービス・小売・医療・飲食など" },
+  { id: "staffing", label: "人材・派遣・登録支援" },
+  { id: "food_service", label: "飲食・外食" },
+  { id: "food_wholesale", label: "食品・卸・商社" },
+  { id: "services", label: "サービス・小売・医療など" },
   { id: "distribution", label: "流通・物流" },
   { id: "other", label: "特定せずに進む" },
 ];
+
+/** 第 2 層（任意・折りたたみ）。キー未設定ドメインは詳細なし */
+export const CONCIERGE_DOMAIN_DETAIL_OPTIONS: Partial<
+  Record<
+    ConciergeDomainId,
+    readonly { id: string; label: string }[]
+  >
+> = {
+  staffing: [
+    { id: "dispatch", label: "派遣・就労マッチング" },
+    { id: "support", label: "登録支援・紹介事業" },
+  ],
+  food_service: [
+    { id: "store", label: "店舗・キッチンオペ" },
+    { id: "hq", label: "本部・多店舗管理" },
+  ],
+  food_wholesale: [
+    { id: "trade", label: "卸・営業・受発注" },
+    { id: "fresh", label: "鮮度・在庫・ロス管理" },
+  ],
+  services: [
+    { id: "retail", label: "小売・店舗" },
+    { id: "medical", label: "医療・介護" },
+    { id: "other_svc", label: "その他サービス" },
+  ],
+};
+
+const DOMAIN_DETAIL_LABELS: Partial<Record<ConciergeDomainId, Record<string, string>>> =
+  Object.fromEntries(
+    Object.entries(CONCIERGE_DOMAIN_DETAIL_OPTIONS).map(([dom, opts]) => [
+      dom,
+      Object.fromEntries((opts ?? []).map((o) => [o.id, o.label])),
+    ])
+  ) as Partial<Record<ConciergeDomainId, Record<string, string>>>;
+
+/** 表示用ラベル（industryDisplayLine 用） */
+export function getConciergeDomainDetailLabel(
+  domainId: ConciergeDomainId,
+  detailId: string | null | undefined
+): string | undefined {
+  if (!detailId) return undefined;
+  return DOMAIN_DETAIL_LABELS[domainId]?.[detailId];
+}
 
 /** Step UI: 役割・視点 */
 export const CONCIERGE_ROLE_OPTIONS: ReadonlyArray<{
@@ -117,6 +170,7 @@ function industryTagSet(demo: AiDemo | DemoItem): Set<string> {
 function domainScore(demo: AiDemo | DemoItem, domain: ConciergeDomainId): number {
   const tags = industryTagSet(demo);
   const ai = demo as AiDemo;
+  const blob = `${demo.title} ${demo.description ?? ""} ${demo.oneLiner ?? ""}`;
   switch (domain) {
     case "construction":
       if (ai.industry === "construction" || tags.has("建設")) return SCORE_DOMAIN;
@@ -126,6 +180,21 @@ function domainScore(demo: AiDemo | DemoItem, domain: ConciergeDomainId): number
       return 0;
     case "manufacturing":
       if (ai.industry === "manufacturing" || tags.has("製造")) return SCORE_DOMAIN;
+      return 0;
+    case "staffing":
+      if (tags.has("人材") || /派遣|登録支援|外国人材/.test(blob)) return SCORE_DOMAIN;
+      return 0;
+    case "food_service":
+      if (tags.has("飲食") || /外食|レストラン|仕込み|店舗/.test(blob)) return SCORE_DOMAIN;
+      return 0;
+    case "food_wholesale":
+      if (
+        tags.has("物流") ||
+        tags.has("卸") ||
+        /商社|食品卸|鮮度|倉庫/.test(blob)
+      ) {
+        return SCORE_DOMAIN;
+      }
       return 0;
     case "services": {
       for (const t of tags) {

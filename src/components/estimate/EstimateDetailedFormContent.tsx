@@ -17,6 +17,8 @@ import {
 } from "@/lib/estimate/estimate-detailed-session";
 import { estimateDetailedCopy } from "@/lib/content/site-copy";
 import { clearEstimateDetailedIntroDone } from "@/lib/estimate/estimate-detailed-intro-storage";
+import { applyConciergeIndustryBundleToFormDraft } from "@/lib/estimate/apply-concierge-industry-to-form";
+import { ESTIMATE_PHILOSOPHY_PREFILL_INDUSTRY_NOTE } from "@/lib/estimate/estimate-output-philosophy";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { cn } from "@/lib/utils";
 
@@ -121,6 +123,12 @@ export function EstimateDetailedFormContent() {
         if (decoded) {
           setDecodedCtx(decoded);
           setPriorBlock([`トラック: ${decoded.track}`, decoded.detailBlock].join("\n\n"));
+          if (decoded.industryBundle) {
+            setForm((prev) => ({
+              ...prev,
+              ...applyConciergeIndustryBundleToFormDraft(decoded.industryBundle!),
+            }));
+          }
         } else {
           setDecodedCtx(null);
           setPriorBlock("");
@@ -157,10 +165,20 @@ export function EstimateDetailedFormContent() {
     if (resetFlag === "1") return;
     formHydratedRef.current = true;
     const flow = readEstimateDetailedFlow();
+    // セッションに下書きがあれば優先（続きから）。なければ ctx の industryBundle のみマージ。
     if (flow?.formDraft) {
       setForm({ ...initialForm, ...flow.formDraft });
+      return;
     }
-  }, [resetFlag]);
+    if (!ctxFromUrl) return;
+    const decoded = decodeConciergeEstimateContext(ctxFromUrl);
+    if (decoded?.industryBundle) {
+      setForm({
+        ...initialForm,
+        ...applyConciergeIndustryBundleToFormDraft(decoded.industryBundle),
+      });
+    }
+  }, [resetFlag, ctxFromUrl]);
 
   const canSubmit = useMemo(() => form.summary.trim().length >= 8, [form.summary]);
 
@@ -176,6 +194,8 @@ export function EstimateDetailedFormContent() {
   }
 
   const isNarrow = viewportNarrow;
+
+  const skipIndustryStep = Boolean(decodedCtx?.industryBundle);
 
   const goProcessing = () => {
     if (!canSubmit || isExiting) return;
@@ -231,6 +251,7 @@ export function EstimateDetailedFormContent() {
           isExiting={isExiting}
           onSubmit={goProcessing}
           canSubmitGlobal={canSubmit}
+          skipIndustryStep={skipIndustryStep}
         />
       ) : (
         <>
@@ -240,6 +261,11 @@ export function EstimateDetailedFormContent() {
             <p className="max-w-2xl text-sm leading-relaxed text-white/85 md:text-[16px]">
               {copy.intro}
             </p>
+            {decodedCtx?.industryBundle ? (
+              <p className="max-w-2xl text-xs leading-relaxed text-text-sub md:text-sm">
+                {ESTIMATE_PHILOSOPHY_PREFILL_INDUSTRY_NOTE}
+              </p>
+            ) : null}
           </header>
 
           <section
@@ -258,6 +284,7 @@ export function EstimateDetailedFormContent() {
             isExiting={isExiting}
             onSubmit={goProcessing}
             canSubmitGlobal={canSubmit}
+            skipIndustryStep={skipIndustryStep}
           />
 
           {decodedCtx ? (

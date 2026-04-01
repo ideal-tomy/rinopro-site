@@ -35,6 +35,7 @@ type Props = {
   isExiting: boolean;
   onSubmit: () => void;
   canSubmitGlobal: boolean;
+  skipIndustryStep?: boolean;
 };
 
 export function EstimateDetailedMobileShell({
@@ -45,6 +46,7 @@ export function EstimateDetailedMobileShell({
   isExiting,
   onSubmit,
   canSubmitGlobal,
+  skipIndustryStep = false,
 }: Props) {
   const wizardScrollRef = useRef<HTMLDivElement>(null);
   const [portalTarget] = useState<HTMLElement | null>(() =>
@@ -220,6 +222,7 @@ export function EstimateDetailedMobileShell({
             layoutVariant="fullscreen"
             hideSectionHeading
             scrollContainerRef={wizardScrollRef}
+            skipIndustryStep={skipIndustryStep}
           />
         </div>
       )}

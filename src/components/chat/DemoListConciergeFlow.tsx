@@ -7,6 +7,7 @@ import {
 } from "@/components/chat/ConciergeChoiceButton";
 import { ConciergeDemoRecommendOverlay } from "@/components/chat/ConciergeDemoRecommendOverlay";
 import { cn } from "@/lib/utils";
+import { ConciergeIndustryStep } from "@/components/chat/ConciergeIndustryStep";
 import {
   CONCIERGE_DEPTH_OPTIONS,
   CONCIERGE_DOMAIN_OPTIONS,
@@ -14,7 +15,6 @@ import {
   CONCIERGE_ROLE_OPTIONS,
   pickRecommendedDemos,
   type ConciergeAnswers,
-  type ConciergeDomainId,
   type ConciergePick,
 } from "@/lib/demo/intelligent-concierge";
 import { getDemoCatalogCached } from "@/lib/demo/demo-catalog-client";
@@ -91,11 +91,6 @@ export function DemoListConciergeFlow({
 
   const catalogLoading = demos === null;
 
-  const pickDomain = (id: ConciergeDomainId) => {
-    setAnswers((prev) => ({ ...prev, domain: id }));
-    setStep(1);
-  };
-
   const pickRole = (id: AiDemoAudienceRole) => {
     setAnswers((prev) => ({ ...prev, audienceRole: id }));
     setStep(2);
@@ -147,37 +142,30 @@ export function DemoListConciergeFlow({
         )}
       </div>
 
-      <div className="max-h-[min(44vh,300px)] overflow-y-auto px-4 py-3 md:max-h-[min(50vh,360px)]">
+      <div className="flex max-h-[min(44vh,300px)] min-h-0 flex-col overflow-hidden px-4 py-3 md:max-h-[min(50vh,360px)]">
         {step === 0 && (
-          <div className="grid grid-cols-2 gap-2">
-            {catalogLoading ? (
-              <>
-                {CONCIERGE_DOMAIN_OPTIONS.map((opt) => (
-                  <ChoiceSkeleton key={opt.id} />
-                ))}
-              </>
-            ) : (
-              CONCIERGE_DOMAIN_OPTIONS.map((opt, idx) => (
-                <ConciergeChoiceButton
-                  key={opt.id}
-                  type="button"
-                  order={idx + 1}
-                  label={opt.label}
-                  disabled={flowDisabled}
-                  selected={answers.domain === opt.id}
-                  onClick={() => pickDomain(opt.id)}
-                />
-              ))
-            )}
-            <ConciergeChoiceButton
-              type="button"
-              order={CONCIERGE_DOMAIN_OPTIONS.length + 1}
-              label="自由記述で相談する"
-              disabled={disabled}
-              className="col-span-2"
-              onClick={onUseFreeform}
-            />
-          </div>
+          <ConciergeIndustryStep
+            variant="grid2"
+            disabled={flowDisabled || catalogLoading}
+            trailingSlot={
+              <ConciergeChoiceButton
+                type="button"
+                order={CONCIERGE_DOMAIN_OPTIONS.length + 1}
+                label="自由記述で相談する"
+                disabled={disabled}
+                className="w-full"
+                onClick={onUseFreeform}
+              />
+            }
+            onConfirm={(bundle) => {
+              setAnswers({
+                domain: bundle.domainId,
+                domainDetailId: bundle.domainDetailId ?? undefined,
+                domainNote: bundle.note?.trim() || undefined,
+              });
+              setStep(1);
+            }}
+          />
         )}
 
         {step === 1 && (
