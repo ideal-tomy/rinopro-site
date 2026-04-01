@@ -191,6 +191,10 @@ export function EstimateDetailedFormContent() {
   }, [resetFlag, ctxFromUrl]);
 
   const canSubmit = useMemo(() => form.summary.trim().length >= 8, [form.summary]);
+  const prefilledQuestionIds = useMemo(
+    () => (decodedCtx?.industryBundle ? (["industry"] as const) : []),
+    [decodedCtx?.industryBundle]
+  );
 
   if (viewportNarrow === null) {
     return (
@@ -204,11 +208,6 @@ export function EstimateDetailedFormContent() {
   }
 
   const isNarrow = viewportNarrow;
-
-  const prefilledQuestionIds = useMemo(
-    () => (decodedCtx?.industryBundle ? (["industry"] as const) : []),
-    [decodedCtx?.industryBundle]
-  );
 
   const goProcessing = () => {
     if (!canSubmit || isExiting) return;
