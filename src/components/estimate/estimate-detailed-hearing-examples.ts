@@ -75,6 +75,7 @@ export const ESTIMATE_DETAILED_HEARING_EXAMPLES: Record<
   ],
   budgetBand: [
     "正確な予算でなくて構いません。だいたいの幅で十分です。",
+    "希望の帯は、あとで「目安の金額と比べたとき」の参考に使います（計算を希望に合わせて曲げることはしません）。",
     "まず相談したいだけなら「相談して決めたい」「未定／わからない」でも先に進めます。",
   ],
   budgetFeel: [

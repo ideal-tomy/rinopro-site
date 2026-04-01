@@ -21,6 +21,7 @@ import { getOrderedAnswerPairs } from "@/lib/estimate/estimate-detailed-answer-o
 import type { EstimateFormDraft } from "@/lib/estimate/estimate-detailed-session";
 import { ESTIMATE_DETAILED_HEARING_EXAMPLES } from "@/components/estimate/estimate-detailed-hearing-examples";
 import type { EstimateQuestionId } from "@/lib/estimate-core/question-model";
+import { shouldShowEstimateWizardStepForForm } from "@/lib/estimate/estimate-wizard-step-visibility";
 import { shouldAskEstimateQuestion } from "@/lib/estimate-core/question-model";
 import {
   ESTIMATE_WIZARD_STEP_DEFINITIONS,
@@ -75,13 +76,21 @@ export function EstimateDetailedHearingWizard({
     () =>
       ESTIMATE_WIZARD_STEP_DEFINITIONS.filter((step) => {
         if (!step.questionId) return true;
-        return shouldAskEstimateQuestion({
+        if (
+          !shouldAskEstimateQuestion({
+            questionId: step.questionId,
+            prefilledQuestionIds,
+            answeredQuestionIds,
+          })
+        ) {
+          return false;
+        }
+        return shouldShowEstimateWizardStepForForm({
           questionId: step.questionId,
-          prefilledQuestionIds,
-          answeredQuestionIds,
+          form,
         });
       }),
-    [prefilledQuestionIds, answeredQuestionIds]
+    [prefilledQuestionIds, answeredQuestionIds, form]
   );
   const totalSteps = visibleSteps.length;
   const [stepIndex, setStepIndex] = useState(0);
@@ -220,7 +229,11 @@ export function EstimateDetailedHearingWizard({
             >
               <div className="shrink-0">
               {stepId === "industry" ? (
-                <StepBlock title={copy.fieldIndustry} hint={copy.fieldIndustryHint}>
+                <StepBlock
+                  title={copy.fieldIndustry}
+                  hint={copy.fieldIndustryHint}
+                  whyMatters={copy.fieldIndustryWhyMatters}
+                >
                   {isFs ? (
                     <SelectOptionButtons
                       options={copy.industryOptions}
@@ -248,7 +261,11 @@ export function EstimateDetailedHearingWizard({
               ) : null}
 
               {stepId === "summary" ? (
-                <StepBlock title={copy.fieldSummary} hint={copy.fieldSummaryHint}>
+                <StepBlock
+                  title={copy.fieldSummary}
+                  hint={copy.fieldSummaryHint}
+                  whyMatters={copy.fieldSummaryWhyMatters}
+                >
                   <Textarea
                     id="ed-summary"
                     rows={4}
@@ -267,7 +284,11 @@ export function EstimateDetailedHearingWizard({
               ) : null}
 
               {stepId === "pain" ? (
-                <StepBlock title={copy.fieldPain} hint={copy.fieldPainHint}>
+                <StepBlock
+                  title={copy.fieldPain}
+                  hint={copy.fieldPainHint}
+                  whyMatters={copy.fieldPainWhyMatters}
+                >
                   <Textarea
                     id="ed-pain"
                     rows={3}
@@ -284,7 +305,7 @@ export function EstimateDetailedHearingWizard({
               ) : null}
 
               {stepId === "teamSize" ? (
-                <StepBlock title={copy.fieldTeam}>
+                <StepBlock title={copy.fieldTeam} whyMatters={copy.fieldTeamWhyMatters}>
                   {isFs ? (
                     <SelectOptionButtons
                       options={copy.teamOptions}
@@ -312,7 +333,7 @@ export function EstimateDetailedHearingWizard({
               ) : null}
 
               {stepId === "timeline" ? (
-                <StepBlock title={copy.fieldTimeline}>
+                <StepBlock title={copy.fieldTimeline} whyMatters={copy.fieldTimelineWhyMatters}>
                   {isFs ? (
                     <SelectOptionButtons
                       options={copy.timelineOptions}
@@ -340,7 +361,11 @@ export function EstimateDetailedHearingWizard({
               ) : null}
 
               {stepId === "integration" ? (
-                <StepBlock title={copy.fieldIntegration} hint={copy.fieldIntegrationHint}>
+                <StepBlock
+                  title={copy.fieldIntegration}
+                  hint={copy.fieldIntegrationHint}
+                  whyMatters={copy.fieldIntegrationWhyMatters}
+                >
                   {isFs ? (
                     <SelectOptionButtons
                       options={copy.integrationOptions}
@@ -368,7 +393,11 @@ export function EstimateDetailedHearingWizard({
               ) : null}
 
               {stepId === "usageSurface" ? (
-                <StepBlock title={copy.fieldUsageSurface} hint={copy.fieldUsageSurfaceHint}>
+                <StepBlock
+                  title={copy.fieldUsageSurface}
+                  hint={copy.fieldUsageSurfaceHint}
+                  whyMatters={copy.fieldUsageSurfaceWhyMatters}
+                >
                   {isFs ? (
                     <SelectOptionButtons
                       options={copy.usageSurfaceOptions}
@@ -400,6 +429,7 @@ export function EstimateDetailedHearingWizard({
                   kicker={copy.sectionCostDrivers}
                   title={copy.fieldDataSensitivity}
                   hint={`${copy.sectionCostDriversSub} ${copy.fieldDataSensitivityHint}`}
+                  whyMatters={copy.fieldDataSensitivityWhyMatters}
                 >
                   {isFs ? (
                     <SelectOptionButtons
@@ -428,7 +458,11 @@ export function EstimateDetailedHearingWizard({
               ) : null}
 
               {stepId === "audienceScope" ? (
-                <StepBlock title={copy.fieldAudienceScope} hint={copy.fieldAudienceScopeHint}>
+                <StepBlock
+                  title={copy.fieldAudienceScope}
+                  hint={copy.fieldAudienceScopeHint}
+                  whyMatters={copy.fieldAudienceScopeWhyMatters}
+                >
                   {isFs ? (
                     <SelectOptionButtons
                       options={copy.audienceScopeOptions}
@@ -484,7 +518,11 @@ export function EstimateDetailedHearingWizard({
               ) : null}
 
               {stepId === "updateFrequency" ? (
-                <StepBlock title={copy.fieldUpdateFrequency} hint={copy.fieldUpdateFrequencyHint}>
+                <StepBlock
+                  title={copy.fieldUpdateFrequency}
+                  hint={copy.fieldUpdateFrequencyHint}
+                  whyMatters={copy.fieldUpdateFrequencyWhyMatters}
+                >
                   {isFs ? (
                     <SelectOptionButtons
                       options={copy.updateFrequencyOptions}
@@ -512,7 +550,11 @@ export function EstimateDetailedHearingWizard({
               ) : null}
 
               {stepId === "designExpectation" ? (
-                <StepBlock title={copy.fieldDesignExpectation} hint={copy.fieldDesignExpectationHint}>
+                <StepBlock
+                  title={copy.fieldDesignExpectation}
+                  hint={copy.fieldDesignExpectationHint}
+                  whyMatters={copy.fieldDesignExpectationWhyMatters}
+                >
                   {isFs ? (
                     <SelectOptionButtons
                       options={copy.designExpectationOptions}
@@ -540,7 +582,11 @@ export function EstimateDetailedHearingWizard({
               ) : null}
 
               {stepId === "loginModel" ? (
-                <StepBlock title={copy.fieldLoginModel} hint={copy.fieldLoginModelHint}>
+                <StepBlock
+                  title={copy.fieldLoginModel}
+                  hint={copy.fieldLoginModelHint}
+                  whyMatters={copy.fieldLoginModelWhyMatters}
+                >
                   {isFs ? (
                     <SelectOptionButtons
                       options={copy.loginModelOptions}
@@ -568,7 +614,7 @@ export function EstimateDetailedHearingWizard({
               ) : null}
 
               {stepId === "budgetBand" ? (
-                <StepBlock title={copy.fieldBudgetBand}>
+                <StepBlock title={copy.fieldBudgetBand} whyMatters={copy.fieldBudgetBandWhyMatters}>
                   {isFs ? (
                     <SelectOptionButtons
                       options={copy.budgetBandOptions}
@@ -596,7 +642,7 @@ export function EstimateDetailedHearingWizard({
               ) : null}
 
               {stepId === "budgetFeel" ? (
-                <StepBlock title={copy.fieldBudgetNote}>
+                <StepBlock title={copy.fieldBudgetNote} whyMatters={copy.fieldBudgetNoteWhyMatters}>
                   <Input
                     id="ed-budget"
                     value={form.budgetFeel}
@@ -614,7 +660,11 @@ export function EstimateDetailedHearingWizard({
               ) : null}
 
               {stepId === "constraints" ? (
-                <StepBlock title={copy.fieldConstraints} hint={copy.fieldConstraintsHint}>
+                <StepBlock
+                  title={copy.fieldConstraints}
+                  hint={copy.fieldConstraintsHint}
+                  whyMatters={copy.fieldConstraintsWhyMatters}
+                >
                   <Textarea
                     id="ed-constraints"
                     rows={3}
@@ -830,11 +880,14 @@ function StepBlock({
   kicker,
   title,
   hint,
+  whyMatters,
   children,
 }: {
   kicker?: string;
   title: string;
   hint?: string;
+  /** 見積のどこに効くか（低リテラシー向けの一行） */
+  whyMatters?: string;
   children: ReactNode;
 }) {
   return (
@@ -845,6 +898,9 @@ function StepBlock({
         </p>
       ) : null}
       <p className="text-sm font-medium text-text">{title}</p>
+      {whyMatters ? (
+        <p className="text-[11px] leading-relaxed text-accent/90">{whyMatters}</p>
+      ) : null}
       {hint ? <p className="text-xs text-text-sub">{hint}</p> : null}
       {children}
     </div>

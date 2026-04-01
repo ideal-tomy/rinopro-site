@@ -32,6 +32,8 @@ type Props = {
   form: EstimateFormDraft;
   setForm: Dispatch<SetStateAction<EstimateFormDraft>>;
   decodedCtx: ConciergeEstimateContextPayload | null;
+  /** チャット path から人数・つなぎをフォームへ反映したとき */
+  showPathPrefillNotice?: boolean;
   prefersReducedMotion: boolean;
   isExiting: boolean;
   onSubmit: () => void;
@@ -44,6 +46,7 @@ export function EstimateDetailedMobileShell({
   form,
   setForm,
   decodedCtx,
+  showPathPrefillNotice = false,
   prefersReducedMotion,
   isExiting,
   onSubmit,
@@ -215,6 +218,11 @@ export function EstimateDetailedMobileShell({
           className="flex min-h-0 flex-1 flex-col overflow-y-auto overflow-x-hidden overscroll-y-contain scroll-pt-3 px-2"
           onFocusCapture={alignStepOnFieldFocus}
         >
+          {showPathPrefillNotice ? (
+            <p className="mb-2 rounded-lg border border-accent/25 bg-accent/10 px-3 py-2 text-[13px] leading-relaxed text-white/90">
+              {copy.pathPrefillFromChatNotice}
+            </p>
+          ) : null}
           <EstimateDetailedHearingWizard
             form={form}
             setForm={setForm}

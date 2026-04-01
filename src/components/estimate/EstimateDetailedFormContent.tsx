@@ -17,6 +17,7 @@ import {
 } from "@/lib/estimate/estimate-detailed-session";
 import { estimateDetailedCopy } from "@/lib/content/site-copy";
 import { clearEstimateDetailedIntroDone } from "@/lib/estimate/estimate-detailed-intro-storage";
+import { prefillEstimateDraftFromConciergePath } from "@/lib/estimate/concierge-path-to-estimate-draft";
 import { applyConciergeIndustryBundleToFormDraft } from "@/lib/estimate-domain/default/industry-adapter";
 import { ESTIMATE_PHILOSOPHY_PREFILL_INDUSTRY_NOTE } from "@/lib/estimate/estimate-output-philosophy";
 import {
@@ -130,12 +131,21 @@ export function EstimateDetailedFormContent() {
         if (decoded) {
           setDecodedCtx(decoded);
           setPriorBlock([`トラック: ${decoded.track}`, decoded.detailBlock].join("\n\n"));
-          if (decoded.industryBundle) {
-            setForm((prev) => ({
-              ...prev,
-              ...applyConciergeIndustryBundleToFormDraft(decoded.industryBundle!),
-            }));
-          }
+          const pathPrefill = prefillEstimateDraftFromConciergePath(
+            decoded.track,
+            decoded.path
+          );
+          setForm((prev) => {
+            let next = { ...prev };
+            if (decoded.industryBundle) {
+              next = {
+                ...next,
+                ...applyConciergeIndustryBundleToFormDraft(decoded.industryBundle),
+              };
+            }
+            next = { ...next, ...pathPrefill.draftPatch };
+            return next;
+          });
         } else {
           setDecodedCtx(null);
           setPriorBlock("");
@@ -182,19 +192,36 @@ export function EstimateDetailedFormContent() {
     }
     if (!ctxFromUrl) return;
     const decoded = decodeConciergeEstimateContext(ctxFromUrl);
-    if (decoded?.industryBundle) {
-      setForm({
-        ...initialForm,
-        ...applyConciergeIndustryBundleToFormDraft(decoded.industryBundle),
-      });
+    if (!decoded) return;
+    const pathPrefill = prefillEstimateDraftFromConciergePath(
+      decoded.track,
+      decoded.path
+    );
+    let f: FormState = { ...initialForm };
+    if (decoded.industryBundle) {
+      f = { ...f, ...applyConciergeIndustryBundleToFormDraft(decoded.industryBundle) };
     }
+    f = { ...f, ...pathPrefill.draftPatch };
+    setForm(f);
   }, [resetFlag, ctxFromUrl]);
 
   const canSubmit = useMemo(() => form.summary.trim().length >= 8, [form.summary]);
-  const prefilledQuestionIds = useMemo(
-    () => (decodedCtx?.industryBundle ? (["industry"] as const) : []),
-    [decodedCtx?.industryBundle]
-  );
+
+  const pathPrefillMeta = useMemo(() => {
+    if (!decodedCtx?.path?.length) return null;
+    return prefillEstimateDraftFromConciergePath(decodedCtx.track, decodedCtx.path);
+  }, [decodedCtx]);
+
+  const prefilledQuestionIds = useMemo(() => {
+    const ids: EstimateQuestionId[] = [];
+    if (decodedCtx?.industryBundle) ids.push("industry");
+    if (pathPrefillMeta?.prefilledQuestionIds.length) {
+      for (const id of pathPrefillMeta.prefilledQuestionIds) {
+        if (!ids.includes(id)) ids.push(id);
+      }
+    }
+    return ids;
+  }, [decodedCtx?.industryBundle, pathPrefillMeta]);
 
   if (viewportNarrow === null) {
     return (
@@ -259,6 +286,7 @@ export function EstimateDetailedFormContent() {
           form={form}
           setForm={setForm}
           decodedCtx={decodedCtx}
+          showPathPrefillNotice={Boolean(pathPrefillMeta?.hadPathMapping)}
           prefersReducedMotion={prefersReducedMotion}
           isExiting={isExiting}
           onSubmit={goProcessing}
@@ -277,6 +305,11 @@ export function EstimateDetailedFormContent() {
             {decodedCtx?.industryBundle ? (
               <p className="max-w-2xl text-xs leading-relaxed text-text-sub md:text-sm">
                 {ESTIMATE_PHILOSOPHY_PREFILL_INDUSTRY_NOTE}
+              </p>
+            ) : null}
+            {pathPrefillMeta?.hadPathMapping ? (
+              <p className="max-w-2xl text-xs leading-relaxed text-text-sub md:text-sm">
+                {copy.pathPrefillFromChatNotice}
               </p>
             ) : null}
           </header>

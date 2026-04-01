@@ -10,6 +10,21 @@
 | フォーム | `industry` / `industryDisplayLine` が事前設定される |
 | answers「業種」 | `industryDisplayLine` の全文（第1層・第2層・補足を含む） |
 
+## コンシェルジュ handoff あり（`ctx` + トラック A 完了・`path` に `A_SCOPE`）
+
+| 観点 | 期待 |
+|------|------|
+| ウィザード | **業種**（bundle あり時）に加え、チャットで取れた **`teamSize` / `integration`** は再質問しない（`prefilledQuestionIds`） |
+| フォーム | `path` から `prefillEstimateDraftFromConciergePath` で `teamSize`・`integration` がマージされる（`A_SCOPE_TO_TEAM_INT` と概算と同一） |
+| UI | `hadPathMapping` のとき「チャットで選んだ内容をフォームに反映しました」系の注意が出る（デスクトップヘッダー／モバイルシェル） |
+
+## コンシェルジュ handoff あり（`ctx` + トラック B・`path` に `B_SCOPE`）
+
+| 観点 | 期待 |
+|------|------|
+| ウィザード | **`teamSize`** のみチャット由来でスキップ可能（`integration` は path からは埋めない） |
+| フォーム | `B_SCOPE_TO_TEAM_CH` に基づく `teamSize` のみマージ |
+
 ## 直接訪問（`ctx` なし）
 
 | 観点 | 期待 |
@@ -41,4 +56,5 @@
 ## P1 以降（ウィザード束ね・分岐）
 
 - 条件分岐で省略するステップは **「answers に既に意味があるキー」**を増やさないこと（0401 §1.1）。
+- `shouldShowEstimateWizardStepForForm` で行を隠す場合も、**answers のキー集合は変えない**（未表示のまま `unknown` の可能性あり。0401 の方針と整合するなら別途 `build-estimate-detailed-answers` で注記する）。
 - 変更時は `ESTIMATE_DETAILED_ANSWER_KEY_ORDER` と `build-estimate-detailed-answers` を同じ PR で更新する。

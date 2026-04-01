@@ -43,11 +43,24 @@
 - `industryBundle` 付きで遷移した場合: **業種ステップをスキップ**（`skipIndustryStep`）。`form` は上記で事前入力済み。
 - 直接 `/estimate-detailed`（ctx なし）: 従来どおり業種から開始。
 
+### 5.1 `path` → フォーム・質問スキップ（`prefillEstimateDraftFromConciergePath`）
+
+- 実装: [`src/lib/estimate/concierge-path-to-estimate-draft.ts`](../src/lib/estimate/concierge-path-to-estimate-draft.ts)
+- **トラック A**: `path` 内の `A_SCOPE` の `optionId` を、概算と同じ [`A_SCOPE_TO_TEAM_INT`](../src/lib/chat/concierge-flow.ts) で解釈し、`EstimateFormDraft` の `teamSize` / `integration` に反映する。マッピングできたキーは `prefilledQuestionIds` に含め、ウィザードで **人数・つなぎ** を再質問しない。
+- **トラック B**: `B_SCOPE` の `optionId` を [`B_SCOPE_TO_TEAM_CH`](../src/lib/chat/concierge-flow.ts) で **人数（`teamSize`）のみ**反映。連携イメージ（`integration`）は path からは埋めない。
+- **適用タイミング**: `reset=1` 直後の ctx 再適用、および **初回ハイドレート**（`sessionStorage` に `formDraft` がないとき）。**下書き復元時は URL の path をマージしない**（続きからの回答と矛盾させない）。
+
+### 5.2 条件付きでウィザード行を出さない（`shouldShowEstimateWizardStepForForm`）
+
+- 実装: [`src/lib/estimate/estimate-wizard-step-visibility.ts`](../src/lib/estimate/estimate-wizard-step-visibility.ts)
+- `integration === "standalone"` のとき **`updateFrequency`** 行を出さない。
+- `dataSensitivity === "no"` かつ（`audienceScope === "internal_only"` または `usageSurface === "internal_only"`）のとき **`loginModel`** 行を出さない。
+
 ## 6. セッション優先順位（`EstimateDetailedFormContent`）
 
-1. `reset=1` 後は URL の `ctx` のみ再適用（既存動線）
-2. それ以外の初回: `sessionStorage` の `formDraft` があれば復元（**ctx の industry は上書きしない**）
-3. `formDraft` がなく `ctx.industryBundle` がある場合のみ bundle を適用
+1. `reset=1` 後は URL の `ctx` のみ再適用（既存動線）。このとき **industryBundle** と **path 由来の `teamSize` / `integration`** をマージする。
+2. それ以外の初回: `sessionStorage` の `formDraft` があれば復元（**ctx の industry は上書きしない**）。この場合 **§5.1 の path マージは行わない**。
+3. `formDraft` がなく `ctx.industryBundle` がある場合のみ bundle を適用（§2〜4）。path は §5.1 のとおり同時にマージされる。
 
 ## 7. 第 2 層マスタ
 

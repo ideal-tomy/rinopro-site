@@ -239,8 +239,8 @@ const SUPPORT_BASE_MAN: Record<string, [number, number]> = {
   b_other: [90, 320],
 };
 
-/** A_SCOPE（旧 A2+A4 統合）→ 概算用の team / int 近似 */
-const A_SCOPE_TO_TEAM_INT: Record<string, { team: string; int: string }> = {
+/** A_SCOPE（旧 A2+A4 統合）→ 概算用の team / int 近似（詳細見積フォームのプリフィルと共有） */
+export const A_SCOPE_TO_TEAM_INT: Record<string, { team: string; int: string }> = {
   scope_s_standalone: { team: "team_1_10", int: "int_standalone" },
   scope_m_flex: { team: "team_11_50", int: "int_maybe" },
   scope_l_required: { team: "team_201_plus", int: "int_required" },
@@ -248,8 +248,8 @@ const A_SCOPE_TO_TEAM_INT: Record<string, { team: string; int: string }> = {
   scope_other: { team: "team_unknown", int: "int_unknown" },
 };
 
-/** B_SCOPE（旧 B3+B4 統合）→ 概算用の team / challenge */
-const B_SCOPE_TO_TEAM_CH: Record<string, { team: string; challenge: string }> = {
+/** B_SCOPE（旧 B3+B4 統合）→ 概算用の team / challenge（詳細見積の人数プリフィルと共有） */
+export const B_SCOPE_TO_TEAM_CH: Record<string, { team: string; challenge: string }> = {
   bs_m_work: { team: "team_11_50", challenge: "ch_workload" },
   bs_m_silo: { team: "team_11_50", challenge: "ch_silo" },
   bs_m_quality: { team: "team_11_50", challenge: "ch_quality" },
