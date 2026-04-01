@@ -194,13 +194,23 @@
 
 ---
 
-## 次のアクション（提案）
+## 実施状況（2026-04-02 リファクタ実行計画に基づく）
 
-1. **短期**: `ChatContainer` から **副作用の塊（useEffect 群）**をフックに切り出し、**`mainContent` 分岐**を純粋な view model に近づける。
-2. **中期**: `estimate-handoff` の **decode をバージョン別ファイル化**＋テスト。
-3. **長期**: 体験プロトタイプの**共通シェル／フック化**（重複削減）。
+**完了（短期の中心）**
 
-変更時は `docs/concierge-spec-index.md` の同期表と、`docs/requirements-docs-refactor-plan.md` で整理した**プロダクト受け入れ条件**と突合すること。
+- `ChatContainer`: [`use-concierge-chat-transport.ts`](../src/hooks/use-concierge-chat-transport.ts)、[`use-concierge-container-effects.ts`](../src/hooks/use-concierge-container-effects.ts) へ副作用・transport を抽出。
+- `mainContent` 相当: [`concierge-panel-derived-state.ts`](../src/lib/chat/concierge-panel-derived-state.ts) で分岐とレイアウト用フラグを純粋関数化。
+- `concierge-flow`: 定数・型を [`concierge-flow-definitions.ts`](../src/lib/chat/concierge-flow-definitions.ts) に分離（[`concierge-flow.ts`](../src/lib/chat/concierge-flow.ts) は生成ロジック＋再 export）。
+- `HomeConciergeFlow`: 型を [`home-concierge-flow-types.ts`](../src/components/chat/home-concierge-flow-types.ts) に分離。
+- 回帰用: [`docs/refactor-regression-checklist.md`](./refactor-regression-checklist.md)、Git タグ `refactor/chat-baseline-2026-04-02`、`npm run verify:concierge-panel`（[`scripts/verify-concierge-panel-derived.ts`](../scripts/verify-concierge-panel-derived.ts)）。
+
+**未着手・次段**
+
+- `estimate-handoff` の decode をバージョン別モジュール化＋専用 verify / テスト。
+- `intelligent-concierge` のスコアリングとドメイン定義のファイル分割。
+- 体験プロトタイプの共通シェル化（長期）。
+
+変更時は `docs/concierge-spec-index.md` の同期表と、`docs/requirements-docs-refactor-plan.md` の受け入れ条件と突合すること。
 
 ---
 

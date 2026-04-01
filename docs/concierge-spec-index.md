@@ -26,7 +26,7 @@
 
 ## 実装の主要エントリ（コード）
 
-- UI 分岐・モーダル幅・表面: `src/components/chat/ChatContainer.tsx`  
+- UI 分岐・モーダル幅・表面: `src/components/chat/ChatContainer.tsx`（分岐の純粋算出は `src/lib/chat/concierge-panel-derived-state.ts`、副作用は `src/hooks/use-concierge-container-effects.ts` 等）  
 - トップ分岐ロジック: `src/lib/chat/concierge-flow.ts`  
 - 吹き出し表示: `src/components/chat/ChatBubble.tsx`（ユーザーはプレーン、アシスタントは `assistant-markdown.tsx` で Markdown・内部パスリンク可）  
 - チャット API: `src/app/api/chat/route.ts`

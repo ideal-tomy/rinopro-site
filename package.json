@@ -11,6 +11,7 @@
     "verify:concierge": "tsx scripts/verify-concierge-combos.ts",
     "verify:senior": "tsx scripts/verify-concierge-senior.ts",
     "verify:demo-infer": "tsx scripts/verify-demo-infer-answers.ts",
+    "verify:concierge-panel": "tsx scripts/verify-concierge-panel-derived.ts",
     "report:demo-catalog": "tsx scripts/report-demo-catalog-status.ts",
     "patch:demo-catalog-hide-chat-only": "tsx scripts/patch-listed-on-catalog-hide-without-experience.ts"
   },

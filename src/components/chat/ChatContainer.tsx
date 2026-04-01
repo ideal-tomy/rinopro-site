@@ -9,7 +9,6 @@
 import {
   useCallback,
   useEffect,
-  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -18,7 +17,6 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useChat } from "@ai-sdk/react";
-import { DefaultChatTransport } from "ai";
 import { AnimatePresence, motion } from "framer-motion";
 import { MessageCircle } from "lucide-react";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
@@ -44,6 +42,18 @@ import type { ConciergePick } from "@/lib/demo/intelligent-concierge";
 import { shouldAttemptDemoRecommendFromText } from "@/lib/demo/infer-concierge-answers-from-text";
 import { ServiceCardConciergeStartFlow } from "./ServiceCardConciergeStartFlow";
 import { useChatSession } from "@/hooks/use-chat-session";
+import { useConciergeChatTransport } from "@/hooks/use-concierge-chat-transport";
+import {
+  useClearDemoRecommendStateOnPath,
+  useCloseConciergeWhenDemoAfterAutoList,
+  useConciergeChatAutoOpen,
+  useConciergeNavigateFromChatListener,
+  useConciergePathnameModeSync,
+  useConciergeServicesIntroSync,
+  useDemoListPageOpenSequence,
+  usePrefetchDemoCatalogWhenChatOpen,
+  useServiceCardDirectSync,
+} from "@/hooks/use-concierge-container-effects";
 import { Button } from "@/components/ui/button";
 import { ConciergeCtaLink } from "@/components/chat/ConciergeChoiceButton";
 import {
@@ -51,10 +61,7 @@ import {
   type ConciergeMode,
 } from "@/components/chat/concierge-chat-context";
 import {
-  chatAutoOpenStorageKey,
   clearServicesFlowPick,
-  consumeSuppressChatAutoOnce,
-  shouldAttemptChatAutoOpen,
   writeServicesFlowPick,
   readServicesFlowPick,
   suppressNextChatAutoOpen,
@@ -70,9 +77,9 @@ import {
   isDemoHubForConciergePolicy,
   useResolvedConciergePath,
 } from "@/lib/chat/concierge-demo-hub-policy";
+import { getConciergePanelDerivedState } from "@/lib/chat/concierge-panel-derived-state";
 import { formatConciergeChatErrorMessage } from "@/lib/chat/concierge-chat-error-message";
 import { prefetchDemoCatalog } from "@/lib/demo/demo-catalog-client";
-import { CONCIERGE_NAVIGATE_FROM_CHAT } from "@/lib/chat/concierge-navigate-from-chat";
 
 type ConciergeSurface = ConciergeChatSurface;
 
@@ -107,8 +114,6 @@ export function ChatContainer() {
     setDemoListWizardSnapshot,
     demoListPageOpenSeq,
   } = useConciergeChat();
-
-  const lastDemoListOpenSeqHandled = useRef(0);
 
   const openRef = useRef(open);
   useEffect(() => {
@@ -164,48 +169,10 @@ export function ChatContainer() {
   /** 次の /api/chat 送信にだけ載せるシグナル（postPreset は1回でクリア） */
   const conciergeSignalsRef = useRef<Partial<ConciergeSignals>>({});
 
-  const transport = useMemo(
-    () =>
-      new DefaultChatTransport({
-        api: "/api/chat",
-        prepareSendMessagesRequest: ({ body, messages: reqMessages }) => {
-          const base =
-            body && typeof body === "object" && !Array.isArray(body)
-              ? { ...(body as Record<string, unknown>) }
-              : {};
-          const fromCaseStudy =
-            typeof window !== "undefined" &&
-            new URLSearchParams(window.location.search).get("concierge_from") ===
-              "case_study";
-
-          const signals: ConciergeSignals = {};
-          if (conciergeSignalsRef.current.postPreset) {
-            signals.postPreset = true;
-            if (conciergeSignalsRef.current.presetLabel) {
-              signals.presetLabel = conciergeSignalsRef.current.presetLabel;
-            }
-          }
-          if (fromCaseStudy) signals.fromCaseStudy = true;
-
-          if (conciergeSignalsRef.current.postPreset) {
-            delete conciergeSignalsRef.current.postPreset;
-            delete conciergeSignalsRef.current.presetLabel;
-          }
-
-          const hasSignals = Object.keys(signals).length > 0;
-
-          return {
-            body: {
-              ...base,
-              mode,
-              pathname,
-              messages: reqMessages,
-              ...(hasSignals ? { conciergeSignals: signals } : {}),
-            },
-          };
-        },
-      }),
-    [mode, pathname]
+  const transport = useConciergeChatTransport(
+    mode,
+    pathname,
+    conciergeSignalsRef
   );
 
   const { messages, sendMessage, setMessages, status, error, clearError } =
@@ -301,90 +268,29 @@ export function ChatContainer() {
     mode,
   ]);
 
-  /**
-   * sessionStorage の pick と React 状態を同期。
-   * /flow・/consulting の専用ページでは mode が既に決まっているため常に complete 扱いにする。
-   */
-  useLayoutEffect(() => {
-    if (pathname === "/services") {
-      setServicesIntroComplete(readServicesFlowPick() !== null);
-    } else if (
-      (pathname === "/flow" && mode === "development") ||
-      (pathname === "/consulting" && mode === "consulting")
-    ) {
-      setServicesIntroComplete(true);
-    } else {
-      setServicesIntroComplete(false);
-    }
-  }, [pathname, mode, open, entrySource]);
-
-  /** `/demo/list` の「コンシェルジュを開く」と同一経路（page 表面の DemoListConciergeFlow） */
-  useEffect(() => {
-    if (pathname !== "/demo/list") return;
-    if (demoListPageOpenSeq === 0) return;
-    if (demoListPageOpenSeq === lastDemoListOpenSeqHandled.current) return;
-    lastDemoListOpenSeqHandled.current = demoListPageOpenSeq;
-    setEntrySource("fab");
-    setConciergeSurface("page");
-    setOpen(true);
-  }, [demoListPageOpenSeq, pathname, setEntrySource, setOpen]);
-
-  /** `/demo/list` の自動オープン直後に `/demo` へ遷移したとき、モーダルが開いたまま残らないようにする */
-  useEffect(() => {
-    if (pathname !== "/demo") return;
-    if (entrySource !== "auto") return;
-    setOpen(false);
-  }, [pathname, entrySource, setOpen]);
-
-  useEffect(() => {
-    if (pathname === "/flow" || pathname === "/services/development") {
-      setMode("development");
-    } else if (
-      pathname === "/consulting" ||
-      pathname === "/services/consulting"
-    ) {
-      setMode("consulting");
-    } else if (pathname === "/services") {
-      const picked = readServicesFlowPick();
-      if (picked) setMode(picked);
-      else setMode("default");
-    } else {
-      setMode("default");
-    }
-  }, [pathname, setMode]);
-
-  useEffect(() => {
-    if (!shouldAttemptChatAutoOpen(pathname)) return;
-    const key = chatAutoOpenStorageKey(pathname);
-    if (!key) return;
-    if (consumeSuppressChatAutoOnce()) return;
-    if (typeof window === "undefined") return;
-    try {
-      if (sessionStorage.getItem(key) === "1") return;
-    } catch {
-      return;
-    }
-    const timer = setTimeout(() => {
-      try {
-        sessionStorage.setItem(key, "1");
-      } catch {
-        /* ignore */
-      }
-      // 既にユーザーが FAB 等で開いている場合は表面を上書きしない
-      if (openRef.current) return;
-      /**
-       * /demo/list・/services は「そのページにいる＝文脈が決まっている」ため、
-       * 自動オープンでは入口の 2 択（このページ / サイト全体）を挟まず page に入る。
-       * `/` は pick のまま（ホームの分岐フロー）。
-       */
-      if (pathname === "/demo/list" || pathname === "/services") {
-        setEntrySource("auto");
-        setConciergeSurface("page");
-      }
-      setOpen(true);
-    }, 400);
-    return () => clearTimeout(timer);
-  }, [pathname, setOpen, setEntrySource]);
+  useConciergeServicesIntroSync(
+    pathname,
+    mode,
+    open,
+    entrySource,
+    setServicesIntroComplete
+  );
+  useDemoListPageOpenSequence(
+    pathname,
+    demoListPageOpenSeq,
+    setEntrySource,
+    setConciergeSurface,
+    setOpen
+  );
+  useCloseConciergeWhenDemoAfterAutoList(pathname, entrySource, setOpen);
+  useConciergePathnameModeSync(pathname, setMode);
+  useConciergeChatAutoOpen(
+    pathname,
+    setOpen,
+    setEntrySource,
+    setConciergeSurface,
+    openRef
+  );
 
   const handleSend = (text: string) => {
     const userTurns = messages.filter((m) => m.role === "user").length;
@@ -468,24 +374,14 @@ export function ChatContainer() {
 
   const [serviceCardStartDone, setServiceCardStartDone] = useState(false);
 
-  /** サービスカード経路は常に page 表面（閉じると pick に戻るため、カード再開で入口ピッカーと混線しないようにする） */
-  useEffect(() => {
-    if (open && isServiceCardDirect) {
-      setConciergeSurface("page");
-    }
-  }, [open, isServiceCardDirect]);
-
-  useEffect(() => {
-    if (pathname !== "/services" && isServiceCardDirect) {
-      setEntrySource("fab");
-    }
-  }, [pathname, isServiceCardDirect, setEntrySource]);
-
-  useEffect(() => {
-    if (pathname !== "/services") {
-      setServiceCardStartDone(false);
-    }
-  }, [pathname]);
+  useServiceCardDirectSync(
+    open,
+    isServiceCardDirect,
+    pathname,
+    setConciergeSurface,
+    setEntrySource,
+    setServiceCardStartDone
+  );
 
   const handleServiceCardPreset = useCallback(
     (label: string) => {
@@ -615,171 +511,143 @@ export function ChatContainer() {
     [setOpen, resetConciergeModalChrome]
   );
 
-  useEffect(() => {
-    const onNavigateFromChat = () => {
-      suppressNextChatAutoOpen();
-      setOpen(false);
-      resetConciergeModalChrome();
-    };
-    window.addEventListener(CONCIERGE_NAVIGATE_FROM_CHAT, onNavigateFromChat);
-    return () =>
-      window.removeEventListener(CONCIERGE_NAVIGATE_FROM_CHAT, onNavigateFromChat);
-  }, [setOpen, resetConciergeModalChrome]);
+  useConciergeNavigateFromChatListener(setOpen, resetConciergeModalChrome);
+  useClearDemoRecommendStateOnPath(
+    resolvedPath,
+    setDemoFreeformPicks,
+    setDemoRecommendFromTextInFlight
+  );
+  usePrefetchDemoCatalogWhenChatOpen(open, pathname);
 
-  useEffect(() => {
-    if (!isDemoHubForConciergePolicy(resolvedPath)) {
-      setDemoFreeformPicks(null);
-      setDemoRecommendFromTextInFlight(false);
-    }
-  }, [resolvedPath]);
+  const panel = useMemo(
+    () =>
+      getConciergePanelDerivedState({
+        pathname,
+        messagesLength: messages.length,
+        conciergeSurface,
+        mode,
+        servicesIntroComplete,
+        serviceCardStartDone,
+        isServiceCardDirect,
+        entrySource,
+      }),
+    [
+      pathname,
+      messages.length,
+      conciergeSurface,
+      mode,
+      servicesIntroComplete,
+      serviceCardStartDone,
+      isServiceCardDirect,
+      entrySource,
+    ]
+  );
 
-  useEffect(() => {
-    if (!open) return;
-    if (pathname !== "/demo" && pathname !== "/demo/list") return;
-    prefetchDemoCatalog();
-  }, [open, pathname]);
-
-  const isHomePage = pathname === "/";
-  const showGlobalHomeFlow =
-    messages.length === 0 &&
-    (conciergeSurface === "global" || (isHomePage && conciergeSurface === "pick"));
-
-  const showEntryPicker =
-    messages.length === 0 &&
-    conciergeSurface === "pick" &&
-    !isHomePage &&
-    !isServiceCardDirect;
-
-  /** /services で FAB 経路の入口ピッカー中は、カード用レーンに引っ張られない中立タイトル */
-  const neutralServicesFabEntry =
-    pathname === "/services" &&
-    showEntryPicker &&
-    entrySource === "fab";
-  const popupMeta = neutralServicesFabEntry ? POPUP_COPY.default : POPUP_COPY[mode];
-  const showDemoRouteFlow =
-    messages.length === 0 &&
-    conciergeSurface === "page" &&
-    (pathname === "/demo/list" || pathname === "/demo");
-  /**
-   * プリセット「はじめに」UI。
-   * /services カード経路・/flow・/consulting の専用ページでも表示する。
-   * FAB→このページについて→開発/コンサル は page 表面。
-   * サービスカードから開き直すと閉じる処理で surface が pick に戻るため、カード経路は pick でも表示する。
-   */
-  const isServiceWizardPage =
-    pathname === "/services" ||
-    pathname === "/flow" ||
-    pathname === "/consulting";
-  const showServiceCardStartFlow =
-    isServiceWizardPage &&
-    servicesIntroComplete &&
-    (mode === "development" || mode === "consulting") &&
-    !serviceCardStartDone &&
-    messages.length === 0 &&
-    (conciergeSurface === "page" || isServiceCardDirect);
+  const popupMeta = panel.neutralServicesFabEntry
+    ? POPUP_COPY.default
+    : POPUP_COPY[mode];
 
   let mainContent: ReactNode;
-  if (messages.length > 0) {
-    mainContent = (
-      <ChatMessages messages={messages} isLoading={isLoading} />
-    );
-  } else if (showEntryPicker) {
-    mainContent = (
-      <ConciergeEntryPicker
-        disabled={isLoading}
-        onChoose={handleEntryChoice}
-      />
-    );
-  } else if (showGlobalHomeFlow) {
-    mainContent = (
-      <HomeConciergeFlow
-        disabled={isLoading}
-        onInjectDraft={(draft) =>
-          setDraftInjection({ id: Date.now(), text: draft })
-        }
-        onFooterPhaseChange={setHomeFooterPhase}
-      />
-    );
-  } else if (
-    pathname === "/services" &&
-    conciergeSurface === "page" &&
-    !servicesIntroComplete
-  ) {
-    mainContent = (
-      <ServicesConciergeFlow
-        disabled={isLoading}
-        onPickService={handleServicesPick}
-      />
-    );
-  } else if (showServiceCardStartFlow) {
-    mainContent = (
-      <ServiceCardConciergeStartFlow
-        variant={mode === "consulting" ? "consulting" : "development"}
-        disabled={isLoading}
-        onChoosePreset={handleServiceCardPreset}
-        onChooseFreeform={handleServiceCardFreeform}
-        resetKey={serviceCardResetKey}
-      />
-    );
-  } else if (showDemoRouteFlow) {
-    mainContent = (
-      <DemoListConciergeFlow
-        disabled={isLoading}
-        onUseFreeform={handleDemoRouteFreeform}
-        onDismissForNavigation={dismissConciergeForSiteLink}
-        onWizardComplete={(answers, picks) => {
-          setDemoListWizardSnapshot({ answers, picks });
-          /**
-           * /demo/list: モーダルを閉じて一覧上の提案ポップアップへ（従来どおり）。
-           * /demo ハブ: モーダル内オーバーレイを見せるため閉じない（閉じると Flow がアンマウントしてカードが消える）。
-           */
-          if (pathname === "/demo/list") {
-            setOpen(false);
-            setConciergeSurface("pick");
-            setEntrySource("fab");
+  switch (panel.mainBranch.kind) {
+    case "messages":
+      mainContent = (
+        <ChatMessages messages={messages} isLoading={isLoading} />
+      );
+      break;
+    case "entryPicker":
+      mainContent = (
+        <ConciergeEntryPicker
+          disabled={isLoading}
+          onChoose={handleEntryChoice}
+        />
+      );
+      break;
+    case "homeFlow":
+      mainContent = (
+        <HomeConciergeFlow
+          disabled={isLoading}
+          onInjectDraft={(draft) =>
+            setDraftInjection({ id: Date.now(), text: draft })
           }
-        }}
-        onWizardReset={() => setDemoListWizardSnapshot(null)}
-      />
-    );
-  } else {
-    mainContent = (
-      <ConciergeEmptyPanel pathname={pathname}>
-        {pathname === "/services" &&
-          servicesIntroComplete &&
-          (mode === "development" || mode === "consulting") && (
-            <div className="border-b border-silver/15 px-4 py-3">
-              <p className="text-xs font-medium text-text/70">
-                {mode === "development" ? "開発" : "コンサルティング"}
-              </p>
-            </div>
-          )}
-      </ConciergeEmptyPanel>
-    );
+          onFooterPhaseChange={setHomeFooterPhase}
+        />
+      );
+      break;
+    case "servicesIntro":
+      mainContent = (
+        <ServicesConciergeFlow
+          disabled={isLoading}
+          onPickService={handleServicesPick}
+        />
+      );
+      break;
+    case "serviceCardStart":
+      mainContent = (
+        <ServiceCardConciergeStartFlow
+          variant={mode === "consulting" ? "consulting" : "development"}
+          disabled={isLoading}
+          onChoosePreset={handleServiceCardPreset}
+          onChooseFreeform={handleServiceCardFreeform}
+          resetKey={serviceCardResetKey}
+        />
+      );
+      break;
+    case "demoRouteFlow":
+      mainContent = (
+        <DemoListConciergeFlow
+          disabled={isLoading}
+          onUseFreeform={handleDemoRouteFreeform}
+          onDismissForNavigation={dismissConciergeForSiteLink}
+          onWizardComplete={(answers, picks) => {
+            setDemoListWizardSnapshot({ answers, picks });
+            if (pathname === "/demo/list") {
+              setOpen(false);
+              setConciergeSurface("pick");
+              setEntrySource("fab");
+            }
+          }}
+          onWizardReset={() => setDemoListWizardSnapshot(null)}
+        />
+      );
+      break;
+    default:
+      mainContent = (
+        <ConciergeEmptyPanel pathname={pathname}>
+          {pathname === "/services" &&
+            servicesIntroComplete &&
+            (mode === "development" || mode === "consulting") && (
+              <div className="border-b border-silver/15 px-4 py-3">
+                <p className="text-xs font-medium text-text/70">
+                  {mode === "development" ? "開発" : "コンサルティング"}
+                </p>
+              </div>
+            )}
+        </ConciergeEmptyPanel>
+      );
   }
 
   const hideChatForHomeDoneTiming =
-    showGlobalHomeFlow &&
+    panel.showGlobalHomeFlow &&
     messages.length === 0 &&
     (homeFooterPhase === "done_result" || homeFooterPhase === "done_cta");
 
   const showChatInput =
-    !showEntryPicker &&
-    !showServiceCardStartFlow &&
+    !panel.showEntryPicker &&
+    !panel.showServiceCardStartFlow &&
     !hideChatForHomeDoneTiming;
 
   const animateHomeDoneInput =
-    showGlobalHomeFlow &&
+    panel.showGlobalHomeFlow &&
     messages.length === 0 &&
     homeFooterPhase === "done_input";
   /** トップの分岐フローと同じ広ポップアップを、ホームで会話が始まったあとも維持する（messages>0 で showGlobalHomeFlow が false になるため別条件が必要） */
   const wideHomeLayout =
-    showGlobalHomeFlow ||
-    (isHomePage &&
+    panel.showGlobalHomeFlow ||
+    (panel.isHomePage &&
       messages.length > 0 &&
       (conciergeSurface === "global" || conciergeSurface === "pick"));
   const showHomeGlobalWizardResetBar =
-    isHomePage &&
+    panel.isHomePage &&
     mode === "default" &&
     messages.length > 0 &&
     (conciergeSurface === "global" || conciergeSurface === "pick");
@@ -788,7 +656,7 @@ export function ChatContainer() {
     conciergeSurface === "page" &&
     (pathname === "/demo/list" || pathname === "/demo");
   const onServicesDevOrConsult =
-    isServiceWizardPage &&
+    panel.isServiceWizardPage &&
     (mode === "development" || mode === "consulting");
   const isDevOrConsultMode =
     mode === "development" || mode === "consulting";
@@ -880,7 +748,7 @@ export function ChatContainer() {
                     >
                       {shouldShowDemoPrompt &&
                         mode === "default" &&
-                        !showEntryPicker && (
+                        !panel.showEntryPicker && (
                           <div className="border-b border-silver/20 bg-base/50 px-4 py-3">
                             <p className="text-sm text-text-sub">{demoPrompt}</p>
                           </div>
@@ -929,7 +797,7 @@ export function ChatContainer() {
 
                       {!isDevOrConsultMode &&
                         mode === "default" &&
-                        !showEntryPicker && (
+                        !panel.showEntryPicker && (
                           <div className="px-4 py-2.5">
                             <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs leading-relaxed">
                               <Link
@@ -1027,7 +895,7 @@ export function ChatContainer() {
           )}
 
           {messages.length > 0 &&
-            isServiceWizardPage &&
+            panel.isServiceWizardPage &&
             onServicesDevOrConsult && (
               <div className="border-b border-silver/15 bg-base/40 px-4 py-2">
                 <button

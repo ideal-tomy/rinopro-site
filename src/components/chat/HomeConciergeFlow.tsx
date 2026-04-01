@@ -37,8 +37,6 @@ import {
   buildEstimateBlockB,
 } from "@/lib/chat/concierge-flow";
 
-/** ホームウィザードの遷移用（C/D/E 確定前の中間フェーズ） */
-type ConciergePhase = ConciergeTrack | "CDE";
 import {
   buildContactHandoffUrl,
   buildEstimateContextPayload,
@@ -56,51 +54,17 @@ import { suppressNextChatAutoOpen } from "@/lib/chat/chat-auto-open";
 import { emitConciergeKpi } from "@/lib/chat/concierge-analytics";
 import { useConciergeChat } from "@/components/chat/concierge-chat-context";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
+import type {
+  ConciergePhase,
+  FlowFrame,
+  HomeConciergeFooterPhase,
+  IndustryPending,
+} from "@/components/chat/home-concierge-flow-types";
 
-/** ホーム分岐フローのフッター（結果→CTA→入力）と ChatContainer の入力欄表示を同期 */
-export type HomeConciergeFooterPhase =
-  | "wizard"
-  | "done_result"
-  | "done_cta"
-  | "done_input";
+export type { HomeConciergeFooterPhase };
 
 const DONE_STEP_MS_TO_CTA = 3000;
 const DONE_STEP_MS_CTA_TO_INPUT = 3000;
-
-type IndustryPending =
-  | { kind: "cde" }
-  | { kind: "track"; track: ConciergeTrack };
-
-type FlowFrame =
-  | { kind: "root" }
-  | {
-      kind: "industry_gate";
-      rootPath: FlowSelection[];
-      pending: IndustryPending;
-    }
-  | {
-      kind: "question";
-      track: ConciergePhase;
-      step: FlowStepDef;
-      path: FlowSelection[];
-      industryBundle?: ConciergeIndustryBundle;
-    }
-  | {
-      kind: "freeform";
-      track: ConciergePhase;
-      step: FlowStepDef;
-      path: FlowSelection[];
-      choice: FlowChoice;
-      industryBundle?: ConciergeIndustryBundle;
-    }
-  | {
-      kind: "done";
-      track: ConciergeTrack;
-      path: FlowSelection[];
-      body: string;
-      shortcut?: ShortcutPanel;
-      industryBundle?: ConciergeIndustryBundle;
-    };
 
 function attachIndustry(
   next: FlowFrame,
