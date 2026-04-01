@@ -8,6 +8,7 @@ import { EstimateDetailedRoughEstimateFab } from "@/components/estimate/Estimate
 import { estimateDetailedCopy } from "@/lib/content/site-copy";
 import type { EstimateFormDraft } from "@/lib/estimate/estimate-detailed-session";
 import type { ConciergeEstimateContextPayload } from "@/lib/chat/estimate-handoff";
+import type { EstimateQuestionId } from "@/lib/estimate-core/question-model";
 import {
   readEstimateDetailedIntroDone,
   writeEstimateDetailedIntroDone,
@@ -35,7 +36,8 @@ type Props = {
   isExiting: boolean;
   onSubmit: () => void;
   canSubmitGlobal: boolean;
-  skipIndustryStep?: boolean;
+  prefilledQuestionIds?: Iterable<EstimateQuestionId>;
+  answeredQuestionIds?: Iterable<EstimateQuestionId>;
 };
 
 export function EstimateDetailedMobileShell({
@@ -46,7 +48,8 @@ export function EstimateDetailedMobileShell({
   isExiting,
   onSubmit,
   canSubmitGlobal,
-  skipIndustryStep = false,
+  prefilledQuestionIds,
+  answeredQuestionIds,
 }: Props) {
   const wizardScrollRef = useRef<HTMLDivElement>(null);
   const [portalTarget] = useState<HTMLElement | null>(() =>
@@ -222,7 +225,8 @@ export function EstimateDetailedMobileShell({
             layoutVariant="fullscreen"
             hideSectionHeading
             scrollContainerRef={wizardScrollRef}
-            skipIndustryStep={skipIndustryStep}
+          prefilledQuestionIds={prefilledQuestionIds}
+          answeredQuestionIds={answeredQuestionIds}
           />
         </div>
       )}

@@ -4,7 +4,6 @@ import {
   useCallback,
   useLayoutEffect,
   useMemo,
-  useRef,
   useState,
   type Dispatch,
   type ReactNode,
@@ -19,33 +18,17 @@ import { Textarea } from "@/components/ui/textarea";
 import { estimateDetailedCopy } from "@/lib/content/site-copy";
 import type { EstimateFormDraft } from "@/lib/estimate/estimate-detailed-session";
 import { ESTIMATE_DETAILED_HEARING_EXAMPLES } from "@/components/estimate/estimate-detailed-hearing-examples";
+import type { EstimateQuestionId } from "@/lib/estimate-core/question-model";
+import { shouldAskEstimateQuestion } from "@/lib/estimate-core/question-model";
+import {
+  ESTIMATE_WIZARD_STEP_DEFINITIONS,
+  type EstimateWizardStepId,
+} from "@/lib/estimate-core/wizard-steps";
 import { cn } from "@/lib/utils";
 
 const copy = estimateDetailedCopy;
 
-const STEP_IDS = [
-  "industry",
-  "summary",
-  "pain",
-  "teamSize",
-  "timeline",
-  "integration",
-  "usageSurface",
-  "dataSensitivity",
-  "audienceScope",
-  "currentWorkflow",
-  "updateFrequency",
-  "designExpectation",
-  "loginModel",
-  "budgetBand",
-  "budgetFeel",
-  "constraints",
-  "review",
-] as const;
-
-type StepId = (typeof STEP_IDS)[number];
-
-const TOTAL_STEPS = STEP_IDS.length;
+type StepId = EstimateWizardStepId;
 
 type FormState = EstimateFormDraft;
 
@@ -62,29 +45,15 @@ export type EstimateDetailedHearingWizardProps = {
   hideSectionHeading?: boolean;
   /** モバイル全画面時、ステップ変更で先頭へスクロールする親（overflow-y-auto） */
   scrollContainerRef?: RefObject<HTMLElement | null>;
-  /** コンシェルジュ handoff で業種が確定済みのとき industry ステップを飛ばす */
-  skipIndustryStep?: boolean;
+  /** handoff 済み/回答済みで再質問しない質問ID */
+  prefilledQuestionIds?: Iterable<EstimateQuestionId>;
+  answeredQuestionIds?: Iterable<EstimateQuestionId>;
 };
 
 const easeSpeak = [0.22, 1, 0.36, 1] as const;
 
-const SELECT_ONLY_STEPS: ReadonlySet<StepId> = new Set([
-  "industry",
-  "teamSize",
-  "timeline",
-  "integration",
-  "usageSurface",
-  "dataSensitivity",
-  "audienceScope",
-  "currentWorkflow",
-  "updateFrequency",
-  "designExpectation",
-  "loginModel",
-  "budgetBand",
-]);
-
-function isSelectOnlyStep(id: StepId): boolean {
-  return SELECT_ONLY_STEPS.has(id);
+function isSelectOnlyStep(id: StepId, visibleSteps: readonly { id: StepId; selectOnly?: boolean }[]): boolean {
+  return Boolean(visibleSteps.find((s) => s.id === id)?.selectOnly);
 }
 
 export function EstimateDetailedHearingWizard({
@@ -97,33 +66,36 @@ export function EstimateDetailedHearingWizard({
   layoutVariant = "default",
   hideSectionHeading = false,
   scrollContainerRef,
-  skipIndustryStep = false,
+  prefilledQuestionIds,
+  answeredQuestionIds,
 }: EstimateDetailedHearingWizardProps) {
+  const visibleSteps = useMemo(
+    () =>
+      ESTIMATE_WIZARD_STEP_DEFINITIONS.filter((step) => {
+        if (!step.questionId) return true;
+        return shouldAskEstimateQuestion({
+          questionId: step.questionId,
+          prefilledQuestionIds,
+          answeredQuestionIds,
+        });
+      }),
+    [prefilledQuestionIds, answeredQuestionIds]
+  );
+  const totalSteps = visibleSteps.length;
   const [stepIndex, setStepIndex] = useState(0);
   const isFs = layoutVariant === "fullscreen";
-  const skipIndustryAppliedRef = useRef(false);
-
-  useLayoutEffect(() => {
-    if (!skipIndustryStep) {
-      skipIndustryAppliedRef.current = false;
-      return;
-    }
-    if (skipIndustryAppliedRef.current) return;
-    skipIndustryAppliedRef.current = true;
-    setStepIndex(1);
-  }, [skipIndustryStep]);
 
   useLayoutEffect(() => {
     if (!isFs || !scrollContainerRef?.current) return;
     scrollContainerRef.current.scrollTop = 0;
   }, [isFs, stepIndex, scrollContainerRef]);
 
-  const stepId = STEP_IDS[stepIndex] ?? "industry";
-  const minStepIndex = skipIndustryStep ? 1 : 0;
-  const isFirst = stepIndex <= minStepIndex;
+  const stepId = visibleSteps[stepIndex]?.id ?? "review";
+  const minStepIndex = 0;
+  const isFirst = stepIndex <= 0;
   const isReview = stepId === "review";
 
-  const remainingIncludingCurrent = Math.max(0, TOTAL_STEPS - stepIndex);
+  const remainingIncludingCurrent = Math.max(0, totalSteps - stepIndex);
 
   const canAdvance = useMemo(() => {
     if (stepId === "summary") {
@@ -138,8 +110,8 @@ export function EstimateDetailedHearingWizard({
       if (canSubmitGlobal) onSubmit();
       return;
     }
-    setStepIndex((i) => Math.min(i + 1, TOTAL_STEPS - 1));
-  }, [canAdvance, canSubmitGlobal, isExiting, isReview, onSubmit]);
+    setStepIndex((i) => Math.min(i + 1, totalSteps - 1));
+  }, [canAdvance, canSubmitGlobal, isExiting, isReview, onSubmit, totalSteps]);
 
   const goBack = useCallback(() => {
     if (isFirst || isExiting) return;
@@ -153,14 +125,14 @@ export function EstimateDetailedHearingWizard({
         setForm((f) => ({ ...f, ...patch }));
       });
       if (isFs) {
-        setStepIndex((i) => Math.min(i + 1, TOTAL_STEPS - 1));
+        setStepIndex((i) => Math.min(i + 1, totalSteps - 1));
       }
     },
-    [isExiting, isFs, setForm]
+    [isExiting, isFs, setForm, totalSteps]
   );
 
   const showFsPrimaryButton =
-    isFs && (isReview || !isSelectOnlyStep(stepId));
+    isFs && (isReview || !isSelectOnlyStep(stepId, visibleSteps));
 
   const motionProps = prefersReducedMotion
     ? {
@@ -713,7 +685,7 @@ export function EstimateDetailedHearingWizard({
           ) : null}
           <div className="flex items-center justify-between gap-3">
             <p className="text-xs text-text-sub tabular-nums">
-              {stepIndex + 1} / {TOTAL_STEPS}
+              {stepIndex + 1} / {totalSteps}
             </p>
             <Button
               type="button"
@@ -758,7 +730,7 @@ export function EstimateDetailedHearingWizard({
             </Button>
           </div>
           <p className="text-xs text-text-sub tabular-nums sm:text-right">
-            {stepIndex + 1} / {TOTAL_STEPS}
+            {stepIndex + 1} / {totalSteps}
           </p>
         </div>
       )}

@@ -1,5 +1,9 @@
 import type { EstimateSnapshot } from "@/lib/estimate/estimate-snapshot";
 import { estimateSnapshotSchema } from "@/lib/estimate/estimate-snapshot";
+import {
+  decodeHandoffPayload,
+  encodeHandoffPayload,
+} from "@/lib/estimate-core/handoff-codec";
 import type { ConciergeTrack, FlowSelection } from "@/lib/chat/concierge-flow";
 import type { ConciergeDomainId } from "@/lib/demo/intelligent-concierge";
 import {
@@ -67,35 +71,8 @@ export interface ConciergeEstimateContextPayload {
   industryBundle?: ConciergeIndustryBundle;
 }
 
-function utf8ToBase64Url(str: string): string {
-  const bytes = new TextEncoder().encode(str);
-  let bin = "";
-  for (const b of bytes) {
-    bin += String.fromCharCode(b);
-  }
-  if (typeof btoa !== "function") {
-    throw new Error("btoa is not available");
-  }
-  return btoa(bin).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
-}
-
-function base64UrlToUtf8(b64url: string): string {
-  const padded = b64url.replace(/-/g, "+").replace(/_/g, "/");
-  const padLen = (4 - (padded.length % 4)) % 4;
-  const b64 = padded + "=".repeat(padLen);
-  if (typeof atob !== "function") {
-    throw new Error("atob is not available");
-  }
-  const bin = atob(b64);
-  const bytes = new Uint8Array(bin.length);
-  for (let i = 0; i < bin.length; i++) {
-    bytes[i] = bin.charCodeAt(i);
-  }
-  return new TextDecoder().decode(bytes);
-}
-
 export function encodeChatHandoff(payload: ChatHandoffPayload): string {
-  return utf8ToBase64Url(JSON.stringify(payload));
+  return encodeHandoffPayload(payload);
 }
 
 function isV2Legacy(
@@ -112,7 +89,8 @@ function isV2Legacy(
 
 export function decodeChatHandoff(raw: string): ChatHandoffPayload | null {
   try {
-    const parsed = JSON.parse(base64UrlToUtf8(raw)) as Record<string, unknown>;
+    const parsed = decodeHandoffPayload(raw);
+    if (!parsed) return null;
     if (parsed.v === HANDOFF_V2 && parsed.source === "estimate_detailed") {
       if (parsed.snapshot != null) {
         const checked = estimateSnapshotSchema.safeParse(parsed.snapshot);
@@ -157,7 +135,7 @@ export function decodeChatHandoff(raw: string): ChatHandoffPayload | null {
 export function encodeConciergeEstimateContext(
   payload: ConciergeEstimateContextPayload
 ): string {
-  return utf8ToBase64Url(JSON.stringify(payload));
+  return encodeHandoffPayload(payload);
 }
 
 function parseIndustryBundle(
@@ -191,7 +169,8 @@ export function decodeConciergeEstimateContext(
   raw: string
 ): ConciergeEstimateContextPayload | null {
   try {
-    const parsed = JSON.parse(base64UrlToUtf8(raw)) as Record<string, unknown>;
+    const parsed = decodeHandoffPayload(raw);
+    if (!parsed) return null;
     if (
       parsed?.v === CTX_V1 &&
       parsed.track &&

@@ -17,8 +17,12 @@ import {
 } from "@/lib/estimate/estimate-detailed-session";
 import { estimateDetailedCopy } from "@/lib/content/site-copy";
 import { clearEstimateDetailedIntroDone } from "@/lib/estimate/estimate-detailed-intro-storage";
-import { applyConciergeIndustryBundleToFormDraft } from "@/lib/estimate/apply-concierge-industry-to-form";
+import { applyConciergeIndustryBundleToFormDraft } from "@/lib/estimate-domain/default/industry-adapter";
 import { ESTIMATE_PHILOSOPHY_PREFILL_INDUSTRY_NOTE } from "@/lib/estimate/estimate-output-philosophy";
+import {
+  buildAnsweredQuestionIdSet,
+  type EstimateQuestionId,
+} from "@/lib/estimate-core/question-model";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { cn } from "@/lib/utils";
 
@@ -67,6 +71,9 @@ export function EstimateDetailedFormContent() {
   const [form, setForm] = useState<FormState>(initialForm);
   const [isExiting, setIsExiting] = useState(false);
   const [formInstanceKey, setFormInstanceKey] = useState(0);
+  const [answeredQuestionIds, setAnsweredQuestionIds] = useState<
+    Set<EstimateQuestionId>
+  >(new Set());
   const exitTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   /** reset=1 の処理を、router 参照の再実行で何度も走らせない */
   const resetStripHandledRef = useRef(false);
@@ -168,6 +175,9 @@ export function EstimateDetailedFormContent() {
     // セッションに下書きがあれば優先（続きから）。なければ ctx の industryBundle のみマージ。
     if (flow?.formDraft) {
       setForm({ ...initialForm, ...flow.formDraft });
+      if (flow.answers) {
+        setAnsweredQuestionIds(buildAnsweredQuestionIdSet(flow.answers));
+      }
       return;
     }
     if (!ctxFromUrl) return;
@@ -195,7 +205,10 @@ export function EstimateDetailedFormContent() {
 
   const isNarrow = viewportNarrow;
 
-  const skipIndustryStep = Boolean(decodedCtx?.industryBundle);
+  const prefilledQuestionIds = useMemo(
+    () => (decodedCtx?.industryBundle ? (["industry"] as const) : []),
+    [decodedCtx?.industryBundle]
+  );
 
   const goProcessing = () => {
     if (!canSubmit || isExiting) return;
@@ -251,7 +264,8 @@ export function EstimateDetailedFormContent() {
           isExiting={isExiting}
           onSubmit={goProcessing}
           canSubmitGlobal={canSubmit}
-          skipIndustryStep={skipIndustryStep}
+          prefilledQuestionIds={prefilledQuestionIds}
+          answeredQuestionIds={answeredQuestionIds}
         />
       ) : (
         <>
@@ -284,7 +298,8 @@ export function EstimateDetailedFormContent() {
             isExiting={isExiting}
             onSubmit={goProcessing}
             canSubmitGlobal={canSubmit}
-            skipIndustryStep={skipIndustryStep}
+            prefilledQuestionIds={prefilledQuestionIds}
+            answeredQuestionIds={answeredQuestionIds}
           />
 
           {decodedCtx ? (

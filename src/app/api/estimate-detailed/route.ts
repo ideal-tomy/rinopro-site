@@ -3,12 +3,12 @@ import {
   ESTIMATE_DETAILED_SYSTEM_PROMPT,
   buildEstimateDetailedNarrowRetryPrompt,
   buildEstimateDetailedUserPrompt,
-} from "@/lib/ai/estimate-prompts";
+} from "@/lib/estimate-domain/default/prompts";
 import { defaultGeminiModel } from "@/lib/ai/gemini-model";
 import {
   estimateRangeWidthMan,
   isNarrowRangeEligible,
-} from "@/lib/estimate/estimate-detailed-narrow-eligibility";
+} from "@/lib/estimate-domain/default/narrow-eligibility";
 import { estimateDetailedAiOutputSchema } from "@/lib/estimate/estimate-snapshot";
 import { rateLimit } from "@/lib/rate-limit";
 

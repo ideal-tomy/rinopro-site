@@ -1,19 +1,12 @@
 import type { EstimateDetailedAiOutput } from "@/lib/estimate/estimate-snapshot";
+import {
+  ESTIMATE_QUESTION_ORDER,
+  answerLabelFromQuestionId,
+} from "@/lib/estimate-core/question-model";
 
 /** プロンプトと isNarrowRangeEligible で同じキーを参照するための一覧 */
 export const ESTIMATE_COST_DRIVER_ANSWER_KEYS = [
-  "業種",
-  "いまいちばんやりたいこと・課題",
-  "会社やチームの人数のイメージ",
-  "いつ頃までに、という希望",
-  "今お使いのツールや、他のシステムとのつなぎ",
-  "主な使い方・載せる場所",
-  "扱う情報に個人情報は含まれますか",
-  "誰が使う・見るか（社内・外部）",
-  "いまの情報の扱い方（中心）",
-  "情報の更新の頻度",
-  "見た目・デザインの期待",
-  "ログインの使い方",
+  ...ESTIMATE_QUESTION_ORDER.slice(0, 12).map(answerLabelFromQuestionId),
 ] as const;
 
 export const ESTIMATE_DETAILED_SYSTEM_PROMPT = `あなたは rinopro の「見積もり前の内容整理」を手伝うアシスタントです。
