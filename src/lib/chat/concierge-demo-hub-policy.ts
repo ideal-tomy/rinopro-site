@@ -12,6 +12,18 @@ export function isDemoHubForConciergePolicy(p: string): boolean {
   return p.startsWith("/demo") || p.startsWith("/experience");
 }
 
+/**
+ * `DemoListConciergeFlow`（事業領域ステップ等）を出すパス。
+ * デモ・体験ハブおよびその下層（`/demo/*`・`/experience/*`）を含む。
+ */
+export function isDemoExperienceWizardPath(pathname: string): boolean {
+  if (!pathname) return false;
+  if (pathname === "/demo" || pathname.startsWith("/demo/")) return true;
+  if (pathname === "/experience" || pathname.startsWith("/experience/"))
+    return true;
+  return false;
+}
+
 function subscribeToPopstate(onChange: () => void): () => void {
   if (typeof window === "undefined") return () => {};
   window.addEventListener("popstate", onChange);

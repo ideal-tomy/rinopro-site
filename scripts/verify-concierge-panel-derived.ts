@@ -33,4 +33,18 @@ const servicesPicker = getConciergePanelDerivedState({
 });
 assert.equal(servicesPicker.mainBranch.kind, "entryPicker");
 
+const demoSlugWizard = getConciergePanelDerivedState({
+  ...base,
+  pathname: "/demo/example-slug",
+  conciergeSurface: "page",
+});
+assert.equal(demoSlugWizard.mainBranch.kind, "demoRouteFlow");
+
+const experienceSlugWizard = getConciergePanelDerivedState({
+  ...base,
+  pathname: "/experience/internal-knowledge-share-bot",
+  conciergeSurface: "page",
+});
+assert.equal(experienceSlugWizard.mainBranch.kind, "demoRouteFlow");
+
 console.log("verify-concierge-panel-derived: ok");

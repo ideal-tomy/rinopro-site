@@ -75,6 +75,7 @@ import {
 } from "@/lib/chat/concierge-session-id";
 import {
   isDemoHubForConciergePolicy,
+  isDemoExperienceWizardPath,
   useResolvedConciergePath,
 } from "@/lib/chat/concierge-demo-hub-policy";
 import { getConciergePanelDerivedState } from "@/lib/chat/concierge-panel-derived-state";
@@ -654,7 +655,7 @@ export function ChatContainer() {
   const showDemoWizardResetBar =
     messages.length > 0 &&
     conciergeSurface === "page" &&
-    (pathname === "/demo/list" || pathname === "/demo");
+    isDemoExperienceWizardPath(pathname);
   const onServicesDevOrConsult =
     panel.isServiceWizardPage &&
     (mode === "development" || mode === "consulting");
@@ -687,7 +688,7 @@ export function ChatContainer() {
               clearServicesFlowPick();
               setMode("default");
             }
-            if (pathname === "/demo/list" || pathname === "/demo") {
+            if (isDemoExperienceWizardPath(pathname)) {
               setConciergeSurface("page");
             } else {
               setConciergeSurface("pick");

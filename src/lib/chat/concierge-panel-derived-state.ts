@@ -1,4 +1,5 @@
 import type { ConciergeMode } from "@/components/chat/concierge-chat-context";
+import { isDemoExperienceWizardPath } from "@/lib/chat/concierge-demo-hub-policy";
 import type { ConciergeChatSurface } from "@/lib/chat/concierge-session-id";
 
 export type ConciergeMainPanelBranch =
@@ -64,7 +65,7 @@ export function getConciergePanelDerivedState(
   const showDemoRouteFlow =
     messagesLength === 0 &&
     conciergeSurface === "page" &&
-    (pathname === "/demo/list" || pathname === "/demo");
+    isDemoExperienceWizardPath(pathname);
   const isServiceWizardPage =
     pathname === "/services" ||
     pathname === "/flow" ||

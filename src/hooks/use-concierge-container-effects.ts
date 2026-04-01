@@ -9,7 +9,10 @@ import {
   suppressNextChatAutoOpen,
 } from "@/lib/chat/chat-auto-open";
 import type { ConciergeMode } from "@/components/chat/concierge-chat-context";
-import { isDemoHubForConciergePolicy } from "@/lib/chat/concierge-demo-hub-policy";
+import {
+  isDemoHubForConciergePolicy,
+  isDemoExperienceWizardPath,
+} from "@/lib/chat/concierge-demo-hub-policy";
 import { CONCIERGE_NAVIGATE_FROM_CHAT } from "@/lib/chat/concierge-navigate-from-chat";
 import { prefetchDemoCatalog } from "@/lib/demo/demo-catalog-client";
 import type { ConciergeChatSurface } from "@/lib/chat/concierge-session-id";
@@ -172,7 +175,7 @@ export function useClearDemoRecommendStateOnPath(
 export function usePrefetchDemoCatalogWhenChatOpen(open: boolean, pathname: string) {
   useEffect(() => {
     if (!open) return;
-    if (pathname !== "/demo" && pathname !== "/demo/list") return;
+    if (!isDemoExperienceWizardPath(pathname)) return;
     prefetchDemoCatalog();
   }, [open, pathname]);
 }
