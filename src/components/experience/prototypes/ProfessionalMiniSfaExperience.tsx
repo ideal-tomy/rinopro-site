@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Kanban, LayoutDashboard, Users } from "lucide-react";
+import { ChevronDown, Kanban, LayoutDashboard, Users } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import type { ExperiencePrototypeMeta } from "@/lib/experience/prototype-registry";
@@ -55,6 +55,8 @@ export function ProfessionalMiniSfaExperience({
   const [deals, setDeals] = useState<DealCard[]>(INITIAL_DEALS);
   const [selectedDealId, setSelectedDealId] = useState<string>(INITIAL_DEALS[0]?.id ?? "");
   const [mobileBoardStage, setMobileBoardStage] = useState<DealStageId>(DEAL_STAGE_ORDER[0]);
+  const [mobileDealDetailOpen, setMobileDealDetailOpen] = useState(false);
+  const [mobileWeekFollowOpen, setMobileWeekFollowOpen] = useState(false);
 
   const selectedDeal = useMemo(
     () => deals.find((d) => d.id === selectedDealId) ?? deals[0],
@@ -91,6 +93,18 @@ export function ProfessionalMiniSfaExperience({
     if (d) setMobileBoardStage(d.stage);
   }, [tab, selectedDealId, deals]);
 
+  useEffect(() => {
+    if (tab !== "board") setMobileDealDetailOpen(false);
+  }, [tab]);
+
+  useEffect(() => {
+    if (tab !== "dashboard") setMobileWeekFollowOpen(false);
+  }, [tab]);
+
+  const selectDealOnMobileBoard = (id: string) => {
+    setSelectedDealId(id);
+  };
+
   return (
     <div className={cn("space-y-5 md:space-y-8", className)}>
       <div>
@@ -107,36 +121,57 @@ export function ProfessionalMiniSfaExperience({
           )}
         >
           <p className="text-xs leading-relaxed text-text-sub md:text-[16px]">
-            士業事務所での「朝いちの俯瞰」と「相談の流れ」を、軽量なSFAイメージでまとめたデモです。左のメニューで画面を切り替えられます。
+            士業事務所での「朝いちの俯瞰」と「相談の流れ」を、軽量なSFAイメージでまとめたデモです。
+            <span className="lg:hidden">下のタブをタップして画面を切り替えられます。</span>
+            <span className="hidden lg:inline">左のメニューで画面を切り替えられます。</span>
           </p>
 
           <div className="mt-4 flex flex-col gap-4 md:mt-5 md:gap-6 lg:flex-row lg:items-start">
             <nav
-              className="flex shrink-0 flex-row gap-1.5 overflow-x-auto pb-1 md:gap-2 lg:w-52 lg:flex-col lg:overflow-visible lg:pb-0"
-              aria-label="デモ内メニュー"
+              role="tablist"
+              aria-label="デモ内の表示画面"
+              className={cn(
+                "flex shrink-0 flex-col gap-1 rounded-xl border border-silver/30 bg-silver/10 p-1",
+                "lg:w-52 lg:rounded-lg lg:border-0 lg:bg-transparent lg:p-0"
+              )}
             >
+              <p className="px-1 pb-0.5 text-[10px] font-medium uppercase tracking-wide text-text-sub lg:hidden">
+                表示する画面
+              </p>
               <p className="hidden text-xs font-medium text-text-sub lg:mb-1 lg:block">
                 ミニSFA（デモ）
               </p>
-              {NAV.map(({ id, label, icon: Icon }) => (
-                <button
-                  key={id}
-                  type="button"
-                  onClick={() => setTab(id)}
-                  className={cn(
-                    "flex items-center gap-2 rounded-lg px-2.5 py-2 text-left text-xs transition md:px-3 md:py-2.5 md:text-[15px]",
-                    tab === id
-                      ? "bg-accent/15 text-accent ring-1 ring-accent/40"
-                      : "border border-transparent text-text-sub hover:bg-silver/10 hover:text-text"
-                  )}
-                >
-                  <Icon className="size-4 shrink-0 opacity-80" aria-hidden />
-                  {label}
-                </button>
-              ))}
+              <div className="grid grid-cols-3 gap-1 lg:flex lg:flex-col lg:gap-1">
+                {NAV.map(({ id, label, icon: Icon }) => (
+                  <button
+                    key={id}
+                    type="button"
+                    role="tab"
+                    aria-selected={tab === id}
+                    id={`mini-sfa-tab-${id}`}
+                    onClick={() => setTab(id)}
+                    className={cn(
+                      "flex flex-col items-center justify-center gap-1 rounded-lg py-2.5 text-center transition",
+                      "lg:flex-row lg:justify-start lg:gap-2 lg:px-3 lg:py-2.5 lg:text-left",
+                      tab === id
+                        ? "bg-accent/20 font-semibold text-accent lg:bg-accent/15"
+                        : "text-text-sub hover:bg-silver/10 hover:text-text"
+                    )}
+                  >
+                    <Icon className="size-4 shrink-0 opacity-90" aria-hidden />
+                    <span className="line-clamp-2 w-full px-0.5 text-[10px] leading-tight lg:line-clamp-none lg:w-auto lg:px-0 lg:text-[15px]">
+                      {label}
+                    </span>
+                  </button>
+                ))}
+              </div>
             </nav>
 
-            <div className="min-w-0 flex-1 space-y-4 md:space-y-6">
+            <div
+              className="min-w-0 flex-1 space-y-4 md:space-y-6"
+              role="tabpanel"
+              aria-labelledby={`mini-sfa-tab-${tab}`}
+            >
           {tab === "dashboard" && (
             <div className="space-y-4 md:space-y-6">
               <div>
@@ -181,31 +216,93 @@ export function ProfessionalMiniSfaExperience({
               </div>
 
               <div className="grid gap-4 md:gap-6 lg:grid-cols-2">
-                <div className="rounded-xl border border-silver/20 bg-base-dark/50 p-3 md:p-4">
-                  <h3 className="text-xs font-semibold text-text md:text-[16px]">
-                    今週のフォロー一覧
-                  </h3>
-                  <ul className="mt-2 space-y-1.5 md:mt-3 md:space-y-2">
-                    {stats.weekRows.length === 0 ? (
-                      <li className="text-xs text-text-sub md:text-sm">該当なし</li>
-                    ) : (
-                      stats.weekRows.map((d) => (
-                        <li key={d.id}>
-                          <button
-                            type="button"
-                            onClick={() => goToDeal(d.id)}
-                            className="w-full rounded-lg border border-silver/20 bg-base/60 px-2.5 py-1.5 text-left text-xs transition hover:border-accent/40 md:px-3 md:py-2 md:text-[15px]"
-                          >
-                            <span className="font-medium text-white/95">{d.title}</span>
-                            <span className="mt-0.5 block text-xs text-text-sub">
-                              {d.organization} ・ 次 {d.nextActionDate} ・{" "}
-                              {DEAL_STAGE_LABEL[d.stage]}
-                            </span>
-                          </button>
-                        </li>
-                      ))
-                    )}
-                  </ul>
+                <div className="overflow-hidden rounded-xl border border-silver/20 bg-base-dark/50">
+                  <div className="md:hidden">
+                    <button
+                      type="button"
+                      id="mini-sfa-week-follow-trigger"
+                      aria-expanded={mobileWeekFollowOpen}
+                      aria-controls="mini-sfa-week-follow-panel"
+                      onClick={() => setMobileWeekFollowOpen((o) => !o)}
+                      className="flex w-full items-center gap-3 border-b border-silver/25 bg-accent/10 px-3 py-3.5 text-left transition hover:bg-accent/15 active:bg-accent/20"
+                    >
+                      <span className="min-w-0 flex-1">
+                        <span className="block text-sm font-semibold text-white">
+                          今週のフォロー一覧
+                        </span>
+                        <span className="mt-1 block text-[11px] font-medium text-accent">
+                          タップして開く · 今週フォロー分の一覧
+                        </span>
+                        <span className="mt-0.5 block text-[10px] text-text-sub">
+                          {stats.weekRows.length} 件
+                        </span>
+                      </span>
+                      <ChevronDown
+                        className={cn(
+                          "size-5 shrink-0 text-accent transition-transform duration-200",
+                          mobileWeekFollowOpen && "rotate-180"
+                        )}
+                        aria-hidden
+                      />
+                    </button>
+                    <div
+                      id="mini-sfa-week-follow-panel"
+                      role="region"
+                      aria-labelledby="mini-sfa-week-follow-trigger"
+                      className={cn(
+                        "border-b border-silver/20 px-2 pb-2 pt-2",
+                        !mobileWeekFollowOpen && "hidden"
+                      )}
+                    >
+                      <ul className="space-y-1.5">
+                        {stats.weekRows.length === 0 ? (
+                          <li className="px-1 text-xs text-text-sub">該当なし</li>
+                        ) : (
+                          stats.weekRows.map((d) => (
+                            <li key={d.id}>
+                              <button
+                                type="button"
+                                onClick={() => goToDeal(d.id)}
+                                className="w-full rounded-lg border border-silver/20 bg-base/60 px-2.5 py-1.5 text-left text-xs transition hover:border-accent/40"
+                              >
+                                <span className="font-medium text-white/95">{d.title}</span>
+                                <span className="mt-0.5 block text-xs text-text-sub">
+                                  {d.organization} ・ 次 {d.nextActionDate} ・{" "}
+                                  {DEAL_STAGE_LABEL[d.stage]}
+                                </span>
+                              </button>
+                            </li>
+                          ))
+                        )}
+                      </ul>
+                    </div>
+                  </div>
+                  <div className="hidden md:block md:p-4">
+                    <h3 className="text-xs font-semibold text-text md:text-[16px]">
+                      今週のフォロー一覧
+                    </h3>
+                    <ul className="mt-2 space-y-1.5 md:mt-3 md:space-y-2">
+                      {stats.weekRows.length === 0 ? (
+                        <li className="text-xs text-text-sub md:text-sm">該当なし</li>
+                      ) : (
+                        stats.weekRows.map((d) => (
+                          <li key={d.id}>
+                            <button
+                              type="button"
+                              onClick={() => goToDeal(d.id)}
+                              className="w-full rounded-lg border border-silver/20 bg-base/60 px-2.5 py-1.5 text-left text-xs transition hover:border-accent/40 md:px-3 md:py-2 md:text-[15px]"
+                            >
+                              <span className="font-medium text-white/95">{d.title}</span>
+                              <span className="mt-0.5 block text-xs text-text-sub">
+                                {d.organization} ・ 次 {d.nextActionDate} ・{" "}
+                                {DEAL_STAGE_LABEL[d.stage]}
+                              </span>
+                            </button>
+                          </li>
+                        ))
+                      )}
+                    </ul>
+                  </div>
                 </div>
                 <div className="rounded-xl border border-amber-500/20 bg-base-dark/50 p-3 md:p-4">
                   <h3 className="text-xs font-semibold text-amber-100/90 md:text-[16px]">
@@ -254,7 +351,7 @@ export function ProfessionalMiniSfaExperience({
                         className={cn(
                           "rounded-full border px-2.5 py-1 text-[11px] font-medium transition",
                           active
-                            ? "border-accent/50 bg-accent/15 text-accent ring-1 ring-accent/25"
+                            ? "border-accent/45 bg-accent/15 font-semibold text-accent"
                             : "border-silver/30 text-text-sub hover:border-silver/50"
                         )}
                       >
@@ -270,11 +367,11 @@ export function ProfessionalMiniSfaExperience({
                       <li key={d.id}>
                         <button
                           type="button"
-                          onClick={() => setSelectedDealId(d.id)}
+                          onClick={() => selectDealOnMobileBoard(d.id)}
                           className={cn(
                             "w-full rounded-lg border px-2 py-1.5 text-left transition",
                             selectedDealId === d.id
-                              ? "border-accent/50 bg-accent/10 ring-1 ring-accent/30"
+                              ? "border-accent/50 bg-accent/15 font-medium text-white/95"
                               : "border-silver/25 bg-base/80 hover:border-silver/45"
                           )}
                         >
@@ -323,7 +420,7 @@ export function ProfessionalMiniSfaExperience({
                               className={cn(
                                 "w-full min-w-0 rounded-lg border p-2 text-left text-xs transition md:p-2.5 md:text-[15px]",
                                 selectedDealId === d.id
-                                  ? "border-accent/50 bg-accent/10 ring-1 ring-accent/30"
+                                  ? "border-accent/50 bg-accent/10 font-medium"
                                   : "border-silver/25 bg-base/80 hover:border-silver/45"
                               )}
                             >
@@ -346,37 +443,101 @@ export function ProfessionalMiniSfaExperience({
               </div>
 
               {selectedDeal ? (
-                <div className="rounded-xl border border-silver/25 bg-base-dark/80 p-3 md:p-5">
-                  <h3 className="text-xs font-semibold text-white md:text-[16px]">
-                    選択中の相談
-                  </h3>
-                  <p className="mt-1 text-[15px] font-medium text-accent md:text-lg">{selectedDeal.title}</p>
-                  <p className="mt-1.5 text-xs text-text md:mt-2 md:text-[16px]">{selectedDeal.organization}</p>
-                  <p className="mt-2 text-xs text-text md:mt-3 md:text-[16px]">
-                    <span className="text-text-sub">次アクション: </span>
-                    {selectedDeal.nextAction}（{selectedDeal.nextActionDate}）
-                  </p>
-                  <p className="mt-1.5 text-xs text-text-sub md:mt-2 md:text-[15px]">{selectedDeal.note}</p>
-                  <div className="mt-4">
-                    <p className="mb-2 text-xs font-medium text-text-sub md:text-sm">
-                      ステージを変更（デモ）
-                    </p>
-                    <div className="flex flex-wrap gap-2">
-                      {DEAL_STAGE_ORDER.map((st) => (
-                        <Button
-                          key={st}
-                          type="button"
-                          variant={selectedDeal.stage === st ? "default" : "outline"}
-                          size="sm"
-                          className="text-xs md:text-sm"
-                          onClick={() => setStage(selectedDeal.id, st)}
-                        >
-                          {DEAL_STAGE_LABEL[st]}
-                        </Button>
-                      ))}
+                <>
+                  <div className="mt-3 overflow-hidden rounded-xl border border-silver/25 bg-base-dark/80 md:hidden">
+                    <button
+                      type="button"
+                      id="mini-sfa-deal-detail-trigger"
+                      aria-expanded={mobileDealDetailOpen}
+                      aria-controls="mini-sfa-deal-detail-panel"
+                      onClick={() => setMobileDealDetailOpen((o) => !o)}
+                      className="flex w-full items-center gap-3 border-b border-silver/25 bg-accent/10 px-3 py-3.5 text-left transition hover:bg-accent/15 active:bg-accent/20"
+                    >
+                      <span className="min-w-0 flex-1">
+                        <span className="block text-sm font-semibold text-white">選択中の相談</span>
+                        <span className="mt-1 block text-[11px] font-medium text-accent">
+                          タップして開く · 詳細とステージ変更
+                        </span>
+                        <span className="mt-0.5 line-clamp-1 text-xs text-text-sub">
+                          {selectedDeal.title}
+                        </span>
+                      </span>
+                      <ChevronDown
+                        className={cn(
+                          "size-5 shrink-0 text-accent transition-transform duration-200",
+                          mobileDealDetailOpen && "rotate-180"
+                        )}
+                        aria-hidden
+                      />
+                    </button>
+                    <div
+                      id="mini-sfa-deal-detail-panel"
+                      role="region"
+                      aria-labelledby="mini-sfa-deal-detail-trigger"
+                      className={cn(
+                        "border-t border-silver/20 px-3 pb-3 pt-2",
+                        !mobileDealDetailOpen && "hidden"
+                      )}
+                    >
+                      <p className="text-[15px] font-medium text-accent">{selectedDeal.title}</p>
+                      <p className="mt-1 text-xs text-text">{selectedDeal.organization}</p>
+                      <p className="mt-2 text-xs text-text">
+                        <span className="text-text-sub">次アクション: </span>
+                        {selectedDeal.nextAction}（{selectedDeal.nextActionDate}）
+                      </p>
+                      <p className="mt-1.5 text-xs text-text-sub">{selectedDeal.note}</p>
+                      <div className="mt-3">
+                        <p className="mb-1.5 text-[11px] font-medium text-text-sub">
+                          ステージを変更（デモ）
+                        </p>
+                        <div className="flex flex-wrap gap-1.5">
+                          {DEAL_STAGE_ORDER.map((st) => (
+                            <Button
+                              key={st}
+                              type="button"
+                              variant={selectedDeal.stage === st ? "default" : "outline"}
+                              size="sm"
+                              className="text-xs"
+                              onClick={() => setStage(selectedDeal.id, st)}
+                            >
+                              {DEAL_STAGE_LABEL[st]}
+                            </Button>
+                          ))}
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
+
+                  <div className="hidden rounded-xl border border-silver/25 bg-base-dark/80 p-3 md:block md:p-5">
+                    <h3 className="text-xs font-semibold text-white md:text-[16px]">選択中の相談</h3>
+                    <p className="mt-1 text-[15px] font-medium text-accent md:text-lg">{selectedDeal.title}</p>
+                    <p className="mt-1.5 text-xs text-text md:mt-2 md:text-[16px]">{selectedDeal.organization}</p>
+                    <p className="mt-2 text-xs text-text md:mt-3 md:text-[16px]">
+                      <span className="text-text-sub">次アクション: </span>
+                      {selectedDeal.nextAction}（{selectedDeal.nextActionDate}）
+                    </p>
+                    <p className="mt-1.5 text-xs text-text-sub md:mt-2 md:text-[15px]">{selectedDeal.note}</p>
+                    <div className="mt-4">
+                      <p className="mb-2 text-xs font-medium text-text-sub md:text-sm">
+                        ステージを変更（デモ）
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        {DEAL_STAGE_ORDER.map((st) => (
+                          <Button
+                            key={st}
+                            type="button"
+                            variant={selectedDeal.stage === st ? "default" : "outline"}
+                            size="sm"
+                            className="text-xs md:text-sm"
+                            onClick={() => setStage(selectedDeal.id, st)}
+                          >
+                            {DEAL_STAGE_LABEL[st]}
+                          </Button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </>
               ) : null}
             </div>
           )}
