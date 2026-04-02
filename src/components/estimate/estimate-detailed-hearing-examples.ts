@@ -8,6 +8,7 @@ export const ESTIMATE_DETAILED_HEARING_EXAMPLES: Record<
   | "teamSize"
   | "timeline"
   | "integration"
+  | "hostingContext"
   | "usageSurface"
   | "dataSensitivity"
   | "audienceScope"
@@ -45,6 +46,10 @@ export const ESTIMATE_DETAILED_HEARING_EXAMPLES: Record<
   integration: [
     "いま使っているツール名が決まっていなくても、「つなぐ必要がある／単体でよい」など素直なイメージで選べます。",
     "メールやスプレッドシート中心でも、「できればつなぎたい」はよくある選択です。",
+  ],
+  hostingContext: [
+    "社外からもURLで触る想定なら「インターネット経由」、社内ツールだけなら「社内ネットワークだけ」が近いことが多いです。",
+    "セキュリティやネットワークの細部は、ここでは決め切れなくて大丈夫です。近いものを選ぶだけで十分です。",
   ],
   usageSurface: [
     "複数チャネルなら「複数（例: WebとLINEの両方）」が近いことが多いです。",

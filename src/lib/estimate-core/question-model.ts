@@ -4,6 +4,8 @@ export const ESTIMATE_QUESTION_LABELS = {
   teamSize: "会社やチームの人数のイメージ",
   timeline: "いつ頃までに、という希望",
   integration: "今お使いのツールや、他のシステムとのつなぎ",
+  /** インフラ・到達範囲のたたき台（「使用環境」という語は UI では使わない） */
+  hostingContext: "データやシステムの置き場所のイメージ",
   usageSurface: "主な使い方・載せる場所",
   dataSensitivity: "扱う情報に個人情報は含まれますか",
   audienceScope: "誰が使う・見るか（社内・外部）",
@@ -26,6 +28,7 @@ export const ESTIMATE_QUESTION_ORDER: readonly EstimateQuestionId[] = [
   "teamSize",
   "timeline",
   "integration",
+  "hostingContext",
   "usageSurface",
   "dataSensitivity",
   "audienceScope",

@@ -507,6 +507,8 @@ export const estimateDetailedCopy = {
     "連携やセキュリティは、後から詳しく決めても大丈夫です。",
     "不明な点は「未定」のままでも、たたき台は作れます。",
   ],
+  processingRetryHint:
+    "通信が一時的に不安定なことがあります。自動で再試行しています…",
   processingError: "整理に失敗しました。質問ページからやり直してください。",
   processingBackToForm: "質問ページに戻る",
   amountPageKicker: "金額の目安",
@@ -533,6 +535,11 @@ export const estimateDetailedCopy = {
   fieldIntegration: "今お使いのツールや、他のシステムとのつなぎ",
   fieldIntegrationHint: "「つながなくてよい」でも構いません",
   fieldIntegrationWhyMatters: "つなぐ数や深さが、工数とリスクに直結します。",
+  fieldHostingContext: "データやシステムの置き場所のイメージ",
+  fieldHostingContextHint:
+    "「クラウドかオンプレか」ではなく、社内だけか・インターネット越しに使うか、で費用の幅が変わりやすい、という意味です。月額の利用料とは別に、開発や運用の工数も変わります。",
+  fieldHostingContextWhyMatters:
+    "社内閉域やVPNなどが絡むと、接続・権限・ログの扱いで工数が増えやすいです。ここで近いものを選ぶと、目安の幅を現実に寄せやすくなります。",
   fieldUsageSurface: "主な使い方・載せる場所",
   fieldUsageSurfaceHint:
     "近いものを選ぶと、画面づくりや連携の手間を踏まえた目安に絞りやすくなります。未定でも大丈夫です。",
@@ -615,6 +622,21 @@ export const estimateDetailedCopy = {
     { value: "nice", label: "できればつなぎたい" },
     { value: "standalone", label: "まずは単体でよい" },
     { value: "unknown", label: "わからない／未定" },
+  ],
+  hostingContextOptions: [
+    {
+      value: "internet",
+      label: "主にインターネット経由で使う想定（一般的なクラウドやURLでアクセス）",
+    },
+    {
+      value: "internal_network",
+      label: "主に社内ネットワークだけ（社内PC・社内Wi‑Fiからなど）",
+    },
+    {
+      value: "closed_requirements",
+      label: "社内ルールで閉じた環境が必要そう（VPN・専用線などはまだ決めていない）",
+    },
+    { value: "unknown", label: "まだ分からない／相談したい" },
   ],
   usageSurfaceOptions: [
     { value: "line", label: "LINEの友だち・LINE連携で使う" },

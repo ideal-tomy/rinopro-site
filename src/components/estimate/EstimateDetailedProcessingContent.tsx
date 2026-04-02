@@ -15,7 +15,7 @@ import {
   readEstimateDetailedFlow,
   writeEstimateDetailedFlow,
 } from "@/lib/estimate/estimate-detailed-session";
-import { estimateDetailedAiOutputSchema } from "@/lib/estimate/estimate-snapshot";
+import { fetchEstimateDetailedWithRetry } from "@/lib/estimate/fetch-estimate-detailed-with-retry";
 
 const copy = estimateDetailedCopy;
 const MIN_MS = 4500;
@@ -81,6 +81,7 @@ export function EstimateDetailedProcessingContent() {
   const [tipIndex, setTipIndex] = useState(0);
   const [progressIndex, setProgressIndex] = useState(0);
   const [failed, setFailed] = useState(false);
+  const [showRetryHint, setShowRetryHint] = useState(false);
 
   const videoUrl =
     typeof process.env.NEXT_PUBLIC_ESTIMATE_WAIT_VIDEO_URL === "string"
@@ -125,29 +126,14 @@ export function EstimateDetailedProcessingContent() {
 
     const run = async () => {
       try {
-        const res = await fetch("/api/estimate-detailed", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            answers: flow.answers,
-            priorContext: flow.priorContext || undefined,
-          }),
+        const ai = await fetchEstimateDetailedWithRetry({
+          answers: flow.answers,
+          priorContext: flow.priorContext || undefined,
+          onRetry: () => setShowRetryHint(true),
         });
-        const raw = await res.json();
-        if (!res.ok) {
-          throw new Error(
-            typeof raw === "object" && raw && "error" in raw
-              ? String((raw as { error?: string }).error)
-              : "failed"
-          );
-        }
-        const parsed = estimateDetailedAiOutputSchema.safeParse(raw);
-        if (!parsed.success) {
-          throw new Error("invalid response");
-        }
         writeEstimateDetailedFlow({
           ...flow,
-          ai: parsed.data,
+          ai,
         });
         const elapsed = Date.now() - startedAt.current;
         await new Promise((r) => setTimeout(r, Math.max(0, MIN_MS - elapsed)));
@@ -186,6 +172,11 @@ export function EstimateDetailedProcessingContent() {
     >
       <header className="space-y-2 text-center">
         <p className="text-sm font-medium text-accent">{copy.processingProgressLabel}</p>
+        {showRetryHint ? (
+          <p className="text-xs text-text-sub" role="status">
+            {copy.processingRetryHint}
+          </p>
+        ) : null}
         <h1 className="text-xl font-bold text-text md:text-2xl">{copy.processingTitle}</h1>
         <p className="text-sm leading-relaxed text-text-sub">{copy.processingSub}</p>
       </header>

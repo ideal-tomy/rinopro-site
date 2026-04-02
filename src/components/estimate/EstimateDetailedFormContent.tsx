@@ -39,6 +39,7 @@ const initialForm: FormState = {
   teamSize: "11-50",
   timeline: "3m",
   integration: "nice",
+  hostingContext: "unknown",
   usageSurface: "unknown",
   dataSensitivity: "unknown",
   audienceScope: "unknown",

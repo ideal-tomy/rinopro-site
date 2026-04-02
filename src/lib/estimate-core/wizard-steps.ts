@@ -17,6 +17,7 @@ export const ESTIMATE_WIZARD_STEP_DEFINITIONS: readonly EstimateWizardStepDefini
   { id: "teamSize", questionId: "teamSize", selectOnly: true },
   { id: "timeline", questionId: "timeline", selectOnly: true },
   { id: "integration", questionId: "integration", selectOnly: true },
+  { id: "hostingContext", questionId: "hostingContext", selectOnly: true },
   { id: "usageSurface", questionId: "usageSurface", selectOnly: true },
   { id: "dataSensitivity", questionId: "dataSensitivity", selectOnly: true },
   { id: "audienceScope", questionId: "audienceScope", selectOnly: true },

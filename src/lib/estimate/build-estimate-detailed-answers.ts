@@ -31,6 +31,10 @@ export function buildEstimateDetailedAnswersRecord(f: EstimateFormDraft): Record
       copy.integrationOptions,
       f.integration
     ),
+    [answerLabelFromQuestionId("hostingContext")]: optionLabel(
+      copy.hostingContextOptions,
+      f.hostingContext
+    ),
     [answerLabelFromQuestionId("usageSurface")]: optionLabel(copy.usageSurfaceOptions, f.usageSurface),
     [answerLabelFromQuestionId("dataSensitivity")]: optionLabel(
       copy.dataSensitivityOptions,

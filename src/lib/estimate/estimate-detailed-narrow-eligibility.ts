@@ -60,6 +60,7 @@ export function isNarrowRangeEligible(answers: Record<string, string>): boolean 
 
   const keys: (keyof typeof answers | string)[] = [
     "今お使いのツールや、他のシステムとのつなぎ",
+    "データやシステムの置き場所のイメージ",
     "主な使い方・載せる場所",
     "扱う情報に個人情報は含まれますか",
     "誰が使う・見るか（社内・外部）",

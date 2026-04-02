@@ -392,6 +392,39 @@ export function EstimateDetailedHearingWizard({
                 </StepBlock>
               ) : null}
 
+              {stepId === "hostingContext" ? (
+                <StepBlock
+                  kicker={copy.sectionCostDrivers}
+                  title={copy.fieldHostingContext}
+                  hint={`${copy.sectionCostDriversSub} ${copy.fieldHostingContextHint}`}
+                  whyMatters={copy.fieldHostingContextWhyMatters}
+                >
+                  {isFs ? (
+                    <SelectOptionButtons
+                      options={copy.hostingContextOptions}
+                      value={form.hostingContext}
+                      onPick={(v) => handleSelectPick({ hostingContext: v })}
+                      idPrefix="ed-hosting"
+                    />
+                  ) : (
+                    <select
+                      id="ed-hosting"
+                      className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
+                      value={form.hostingContext}
+                      onChange={(e) =>
+                        setForm((f) => ({ ...f, hostingContext: e.target.value }))
+                      }
+                    >
+                      {copy.hostingContextOptions.map((o) => (
+                        <option key={o.value} value={o.value}>
+                          {o.label}
+                        </option>
+                      ))}
+                    </select>
+                  )}
+                </StepBlock>
+              ) : null}
+
               {stepId === "usageSurface" ? (
                 <StepBlock
                   title={copy.fieldUsageSurface}

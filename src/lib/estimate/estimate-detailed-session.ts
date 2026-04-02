@@ -13,6 +13,8 @@ export const estimateFormDraftSchema = z.object({
   teamSize: z.string(),
   timeline: z.string(),
   integration: z.string(),
+  /** データ・システムの到達範囲のイメージ（インターネット／社内のみ等） */
+  hostingContext: z.string().default("unknown"),
   /** 載せる場所・利用チャネル（レンジ絞り込み用） */
   usageSurface: z.string().default("unknown"),
   dataSensitivity: z.string().default("unknown"),
