@@ -2,6 +2,8 @@
  * コンシェルジュの軽量KPI（カスタムイベント）。
  * 外部アナリティクス未接続時も window で捕捉可能（GTM 等で後から購読可）。
  */
+import { recordVisitorJourneyKpi } from "@/lib/journey/visitor-journey-storage";
+
 export type ConciergeKpiEventName =
   | "answer_complete"
   | "cta_visible"
@@ -30,6 +32,7 @@ export function emitConciergeKpi(detail: ConciergeKpiDetail): void {
   } catch {
     /* ignore */
   }
+  recordVisitorJourneyKpi(detail);
   if (process.env.NODE_ENV === "development") {
     // eslint-disable-next-line no-console
     console.debug("[concierge-kpi]", detail);

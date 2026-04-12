@@ -9,6 +9,7 @@ import {
 import { servicesCopy } from "@/lib/content/site-copy";
 import { useConciergeChat } from "@/components/chat/concierge-chat-context";
 import { writeServicesFlowPick } from "@/lib/chat/chat-auto-open";
+import { recordVisitorEntryIntent } from "@/lib/journey/visitor-journey-storage";
 
 export function ServicesPageContent() {
   const { openConcierge } = useConciergeChat();
@@ -31,6 +32,7 @@ export function ServicesPageContent() {
             className="flex flex-1 flex-col px-6 py-6 text-left"
             onClick={() => {
               writeServicesFlowPick("development");
+              recordVisitorEntryIntent("consult");
               openConcierge("development", "services-card-development", {
                 entryIntent: "consult",
               });
@@ -62,6 +64,7 @@ export function ServicesPageContent() {
             className="flex flex-1 flex-col px-6 py-6 text-left"
             onClick={() => {
               writeServicesFlowPick("consulting");
+              recordVisitorEntryIntent("consult");
               openConcierge("consulting", "services-card-consulting", {
                 entryIntent: "consult",
               });

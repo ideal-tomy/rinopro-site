@@ -10,6 +10,15 @@
 | フォーム | `industry` / `industryDisplayLine` が事前設定される |
 | answers「業種」 | `industryDisplayLine` の全文（第1層・第2層・補足を含む） |
 
+## 匿名 visitor summary あり（`ctx` なしでも可）
+
+| 観点 | 期待 |
+|------|------|
+| 冒頭 UI | 「サイト内で整理できている内容を引き継いでいます」ブロックが出る |
+| prefill | `lastFreeformSummary` があれば `summary` 初期値、`estimateSignals` があれば `teamSize` / `timeline` / `integration` などを初期反映 |
+| skip | visitor summary 由来で確度が高い質問は `prefilledQuestionIds` に入り、ウィザードで再質問を減らす |
+| priorContext | processing API に渡す `priorContext` へ、`interestBias` / `journeyDepth` / `viewedDemoSlugs` などの短い summary が含まれる |
+
 ## コンシェルジュ handoff あり（`ctx` + トラック A 完了・`path` に `A_SCOPE`）
 
 | 観点 | 期待 |

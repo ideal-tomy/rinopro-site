@@ -38,6 +38,7 @@ export function EstimateDetailedResumeQuestionsButton({
         writeEstimateDetailedFlow({
           ...flow,
           ai: null,
+          inquiryPreparation: null,
         });
         router.push(buildEstimateDetailedResumeHref(flow.ctxQuery));
       }}

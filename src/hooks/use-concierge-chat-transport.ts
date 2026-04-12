@@ -4,6 +4,7 @@ import { useMemo, type MutableRefObject } from "react";
 import { DefaultChatTransport } from "ai";
 import type { ConciergeSignals } from "@/lib/ai/concierge-senior";
 import type { ConciergeMode } from "@/components/chat/concierge-chat-context";
+import { recordVisitorEntryIntent } from "@/lib/journey/visitor-journey-storage";
 
 /**
  * /api/chat 用 transport。postPreset 等は ref 経由で1回限り付与。
@@ -32,6 +33,7 @@ export function useConciergeChatTransport(
           const signals: ConciergeSignals = {};
           if (pendingSignals?.entryIntent) {
             signals.entryIntent = pendingSignals.entryIntent;
+            recordVisitorEntryIntent(pendingSignals.entryIntent);
           }
           if (conciergeSignalsRef.current.postPreset) {
             signals.postPreset = true;

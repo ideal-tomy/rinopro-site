@@ -1,12 +1,29 @@
 import type { EstimateSnapshot } from "@/lib/estimate/estimate-snapshot";
 import { buildAnswersSummaryLines } from "@/lib/estimate/estimate-snapshot";
+import type { VisitorJourneySummary } from "@/lib/journey/visitor-journey";
+import {
+  inquiryDesiredReplyLabel,
+  inquiryIntentLabel,
+  inquiryReadinessLabel,
+  type InquiryBrief,
+  type InquiryDesiredReply,
+  type InquiryIntent,
+} from "@/lib/inquiry/inquiry-brief";
 import { ESTIMATE_PHILOSOPHY_UI_PARAGRAPH } from "@/lib/estimate/estimate-output-philosophy";
 
 export interface ContactMailContext {
   name: string;
   email: string;
-  message: string;
   triedExperience?: string;
+  inquiryBrief?: InquiryBrief | null;
+  inquiryIntent: InquiryIntent;
+  desiredReply: InquiryDesiredReply;
+  problemStatement: string;
+  targetSummary: string;
+  decisionTimeline: string;
+  constraintsSummary?: string;
+  additionalNote?: string;
+  visitorJourney?: VisitorJourneySummary | null;
   estimateSnapshot?: EstimateSnapshot | null;
 }
 
@@ -35,6 +52,75 @@ function estimateBlock(snapshot: EstimateSnapshot): string {
   ].join("\n");
 }
 
+function structuredOverviewBlock(ctx: ContactMailContext): string {
+  return [
+    "■ 問い合わせの要点",
+    `今回いちばん知りたいこと: ${inquiryIntentLabel(ctx.inquiryIntent)}`,
+    `今回ほしい返答: ${inquiryDesiredReplyLabel(ctx.desiredReply)}`,
+    "",
+    "【困っていること・変えたいこと】",
+    ctx.problemStatement,
+    "",
+    "【対象業務・利用者】",
+    ctx.targetSummary,
+    "",
+    "【判断したい時期】",
+    ctx.decisionTimeline,
+    "",
+    "【制約・前提】",
+    ctx.constraintsSummary?.trim() || "（大きな制約は未記入）",
+  ].join("\n");
+}
+
+function inquiryBriefBlock(brief: InquiryBrief): string {
+  return [
+    "■ 問い合わせブリーフ（自動整理）",
+    `状態: ${inquiryReadinessLabel(brief.readiness)}`,
+    `意図: ${brief.inquiryIntentLabel}`,
+    `求める返答: ${brief.desiredReplyLabel}`,
+    "",
+    "【課題の要約】",
+    brief.problemSummary,
+    "",
+    "【今回の返信でまず答えるべきこと】",
+    brief.requestedReplySummary,
+    "",
+    "【今回の相談範囲】",
+    brief.scopeSummary,
+    "",
+    "【制約・前提】",
+    brief.constraintsSummary,
+    "",
+    "【初回返信で触れるべき論点】",
+    brief.replyFocus.length > 0
+      ? brief.replyFocus.map((item) => `・${item}`).join("\n")
+      : "（なし）",
+    "",
+    "【まだ確認が必要な点】",
+    brief.unresolvedPoints.length > 0
+      ? brief.unresolvedPoints.map((item) => `・${item}`).join("\n")
+      : "（なし）",
+  ].join("\n");
+}
+
+function visitorJourneyBlock(summary: VisitorJourneySummary): string {
+  return [
+    "■ サイト内ジャーニー要約",
+    `要約: ${summary.journeySummary}`,
+    `関心傾向: ${summary.interestBias}`,
+    `到達状況: ${summary.journeyDepth}`,
+    summary.latestEntryIntent ? `直近意図: ${summary.latestEntryIntent}` : null,
+    summary.viewedDemoSlugs.length > 0
+      ? `見た demo: ${summary.viewedDemoSlugs.join(", ")}`
+      : null,
+    summary.lastFreeformSummary
+      ? `自由記述メモ: ${summary.lastFreeformSummary}`
+      : null,
+  ]
+    .filter(Boolean)
+    .join("\n");
+}
+
 /** 管理者・社内向け：先頭に判断しやすい要約 */
 export function buildAdminContactEmail(ctx: ContactMailContext): {
   subject: string;
@@ -56,16 +142,24 @@ export function buildAdminContactEmail(ctx: ContactMailContext): {
     .filter(Boolean)
     .join("\n");
 
-  const subject = hasEstimate
-    ? `[rinopro][見積メモ同封] ${ctx.name} 様よりお問い合わせ`
-    : `[rinopro] ${ctx.name} 様よりお問い合わせ`;
+  const subject =
+    hasEstimate || ctx.inquiryBrief
+      ? `[rinopro][整理済み相談] ${ctx.name} 様よりお問い合わせ`
+      : `[rinopro] ${ctx.name} 様よりお問い合わせ`;
 
   const textBody = [
     "▼ ひと目用",
     headline,
     "",
-    "▼ 本文（お客様のメッセージ）",
-    ctx.message,
+    structuredOverviewBlock(ctx),
+    "",
+    ctx.visitorJourney ? visitorJourneyBlock(ctx.visitorJourney) : null,
+    "",
+    ctx.inquiryBrief ? inquiryBriefBlock(ctx.inquiryBrief) : null,
+    "",
+    ctx.additionalNote?.trim()
+      ? ["▼ 最後の補足", ctx.additionalNote.trim()].join("\n")
+      : null,
     "",
     hasEstimate && snap ? estimateBlock(snap) : null,
     "",
@@ -89,9 +183,25 @@ export function buildCustomerContactEmail(ctx: ContactMailContext): {
     "",
     "このたびはお問い合わせありがとうございます。内容を確認のうえ、2営業日以内にご返信いたします。",
     "",
-    "▼ 送信いただいた内容（抜粋）",
-    ctx.message.slice(0, 1200) + (ctx.message.length > 1200 ? "\n…（以下省略）" : ""),
+    "▼ 送信内容の要点",
+    `今回いちばん知りたいこと: ${inquiryIntentLabel(ctx.inquiryIntent)}`,
+    `今回ほしい返答: ${inquiryDesiredReplyLabel(ctx.desiredReply)}`,
+    "",
+    "困っていること・変えたいこと:",
+    ctx.problemStatement,
+    "",
+    "対象業務・利用者:",
+    ctx.targetSummary,
+    "",
+    "判断したい時期:",
+    ctx.decisionTimeline,
   ];
+  if (ctx.additionalNote?.trim()) {
+    lines.push("", "補足:", ctx.additionalNote.trim());
+  }
+  if (ctx.visitorJourney) {
+    lines.push("", "▼ サイト内で引き継いだ内容", ctx.visitorJourney.journeySummary);
+  }
   if (ctx.estimateSnapshot) {
     const { ai } = ctx.estimateSnapshot;
     lines.push(

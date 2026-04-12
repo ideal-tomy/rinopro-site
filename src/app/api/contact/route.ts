@@ -23,20 +23,50 @@ export async function POST(req: Request) {
       );
     }
 
-    const { name, email, message, triedExperience, estimateSnapshot } = result.data;
+    const {
+      name,
+      email,
+      triedExperience,
+      visitorJourney,
+      estimateSnapshot,
+      inquiryBrief,
+      inquiryIntent,
+      desiredReply,
+      problemStatement,
+      targetSummary,
+      decisionTimeline,
+      constraintsSummary,
+      additionalNote,
+    } = result.data;
 
     const adminMail = buildAdminContactEmail({
       name,
       email,
-      message,
       triedExperience,
+      visitorJourney: visitorJourney ?? estimateSnapshot?.visitorJourney ?? null,
+      inquiryBrief: inquiryBrief ?? null,
+      inquiryIntent,
+      desiredReply,
+      problemStatement,
+      targetSummary,
+      decisionTimeline,
+      constraintsSummary,
+      additionalNote,
       estimateSnapshot: estimateSnapshot ?? null,
     });
     const customerMail = buildCustomerContactEmail({
       name,
       email,
-      message,
       triedExperience,
+      visitorJourney: visitorJourney ?? estimateSnapshot?.visitorJourney ?? null,
+      inquiryBrief: inquiryBrief ?? null,
+      inquiryIntent,
+      desiredReply,
+      problemStatement,
+      targetSummary,
+      decisionTimeline,
+      constraintsSummary,
+      additionalNote,
       estimateSnapshot: estimateSnapshot ?? null,
     });
 
@@ -44,9 +74,13 @@ export async function POST(req: Request) {
     console.info("[Contact] inbound", {
       name,
       email,
-      messageLength: message.length,
+      inquiryIntent,
+      desiredReply,
+      problemLength: problemStatement.length,
       triedExperience: triedExperience ?? null,
+      hasVisitorJourney: Boolean(visitorJourney ?? estimateSnapshot?.visitorJourney),
       hasEstimateSnapshot: Boolean(estimateSnapshot),
+      hasInquiryBrief: Boolean(inquiryBrief),
     });
     console.info("[Contact] admin mail draft\n--- subject:", adminMail.subject, "\n", adminMail.textBody);
     console.info(

@@ -6,7 +6,7 @@ import { ContactPageContent } from "@/components/contact/ContactPageContent";
 export const metadata: Metadata = {
   title: "問い合わせ | rinopro",
   description:
-    "課題整理の相談窓口。売り込みではなく、現場の課題を一緒に棚卸しする場。初回は要件整理が中心です。",
+    "整理した課題と要件のたたき台を送る相談窓口。初回返信で具体的に返せるよう、必要な情報をそろえて送るためのページです。",
 };
 
 export default function ContactPage() {

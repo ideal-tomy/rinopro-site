@@ -26,6 +26,14 @@ import {
 } from "@/lib/estimate-core/question-model";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { cn } from "@/lib/utils";
+import type { VisitorJourneySummary } from "@/lib/journey/visitor-journey";
+import { visitorJourneySummaryToPriorContext } from "@/lib/journey/visitor-journey";
+import { buildEstimateDraftFromVisitorJourney } from "@/lib/journey/visitor-journey-estimate-prefill";
+import {
+  readVisitorJourneySummary,
+  recordVisitorEstimateDraft,
+  recordVisitorIndustryBundle,
+} from "@/lib/journey/visitor-journey-storage";
 
 const copy = estimateDetailedCopy;
 const FADE_OUT_MS = 1000;
@@ -52,6 +60,17 @@ const initialForm: FormState = {
   constraints: "",
 };
 
+function buildPriorBlockWithJourney(
+  decoded: ConciergeEstimateContextPayload | null,
+  journeySummary: VisitorJourneySummary | null
+): string {
+  const blocks = [
+    journeySummary ? visitorJourneySummaryToPriorContext(journeySummary) : "",
+    decoded ? [`トラック: ${decoded.track}`, decoded.detailBlock].join("\n\n") : "",
+  ].filter(Boolean);
+  return blocks.join("\n\n");
+}
+
 export function EstimateDetailedFormContent() {
   const router = useRouter();
   const routerRef = useRef(router);
@@ -70,6 +89,8 @@ export function EstimateDetailedFormContent() {
   }, []);
   const [decodedCtx, setDecodedCtx] = useState<ConciergeEstimateContextPayload | null>(null);
   const [priorBlock, setPriorBlock] = useState<string>("");
+  const [visitorJourneySummary, setVisitorJourneySummary] =
+    useState<VisitorJourneySummary | null>(null);
   const [form, setForm] = useState<FormState>(initialForm);
   const [isExiting, setIsExiting] = useState(false);
   const [formInstanceKey, setFormInstanceKey] = useState(0);
@@ -92,6 +113,13 @@ export function EstimateDetailedFormContent() {
   useEffect(() => {
     setIsExiting(false);
   }, []);
+
+  useEffect(() => {
+    if (decodedCtx?.industryBundle) {
+      recordVisitorIndustryBundle(decodedCtx.industryBundle);
+    }
+    setVisitorJourneySummary(decodedCtx?.visitorJourney ?? readVisitorJourneySummary());
+  }, [decodedCtx]);
 
   useEffect(() => {
     const onPageShow = (e: PageTransitionEvent) => {
@@ -130,14 +158,17 @@ export function EstimateDetailedFormContent() {
       if (ctxFromUrl) {
         const decoded = decodeConciergeEstimateContext(ctxFromUrl);
         if (decoded) {
+          const journeySummary = decoded.visitorJourney ?? readVisitorJourneySummary();
           setDecodedCtx(decoded);
-          setPriorBlock([`トラック: ${decoded.track}`, decoded.detailBlock].join("\n\n"));
+          setVisitorJourneySummary(journeySummary);
+          setPriorBlock(buildPriorBlockWithJourney(decoded, journeySummary));
           const pathPrefill = prefillEstimateDraftFromConciergePath(
             decoded.track,
             decoded.path
           );
+          const journeyPrefill = buildEstimateDraftFromVisitorJourney(journeySummary);
           setForm((prev) => {
-            let next = { ...prev };
+            let next = { ...prev, ...journeyPrefill.draftPatch };
             if (decoded.industryBundle) {
               next = {
                 ...next,
@@ -149,11 +180,19 @@ export function EstimateDetailedFormContent() {
           });
         } else {
           setDecodedCtx(null);
-          setPriorBlock("");
+          const journeySummary = readVisitorJourneySummary();
+          setVisitorJourneySummary(journeySummary);
+          setPriorBlock(
+            journeySummary ? visitorJourneySummaryToPriorContext(journeySummary) : ""
+          );
         }
       } else {
         setDecodedCtx(null);
-        setPriorBlock("");
+        const journeySummary = readVisitorJourneySummary();
+        setVisitorJourneySummary(journeySummary);
+        setPriorBlock(
+          journeySummary ? visitorJourneySummaryToPriorContext(journeySummary) : ""
+        );
       }
 
       const next = new URLSearchParams();
@@ -168,12 +207,18 @@ export function EstimateDetailedFormContent() {
     if (ctxFromUrl) {
       const decoded = decodeConciergeEstimateContext(ctxFromUrl);
       if (decoded) {
+        const journeySummary = decoded.visitorJourney ?? readVisitorJourneySummary();
         setDecodedCtx(decoded);
-        setPriorBlock([`トラック: ${decoded.track}`, decoded.detailBlock].join("\n\n"));
+        setVisitorJourneySummary(journeySummary);
+        setPriorBlock(buildPriorBlockWithJourney(decoded, journeySummary));
       }
     } else {
       setDecodedCtx(null);
-      setPriorBlock("");
+      const journeySummary = readVisitorJourneySummary();
+      setVisitorJourneySummary(journeySummary);
+      setPriorBlock(
+        journeySummary ? visitorJourneySummaryToPriorContext(journeySummary) : ""
+      );
     }
     // router は Next の再レンダーで参照が変わり得るため依存に含めない（reset 連打でフォームが消える不具合の原因になる）
   }, [resetFlag, ctxFromUrl]);
@@ -189,16 +234,27 @@ export function EstimateDetailedFormContent() {
       if (flow.answers) {
         setAnsweredQuestionIds(buildAnsweredQuestionIdSet(flow.answers));
       }
+      if (flow.visitorJourney) {
+        setVisitorJourneySummary(flow.visitorJourney);
+      }
       return;
     }
-    if (!ctxFromUrl) return;
+    const journeySummary = readVisitorJourneySummary();
+    setVisitorJourneySummary((current) => current ?? journeySummary);
+    let f: FormState = {
+      ...initialForm,
+      ...buildEstimateDraftFromVisitorJourney(journeySummary).draftPatch,
+    };
+    if (!ctxFromUrl) {
+      setForm(f);
+      return;
+    }
     const decoded = decodeConciergeEstimateContext(ctxFromUrl);
-    if (!decoded) return;
-    const pathPrefill = prefillEstimateDraftFromConciergePath(
-      decoded.track,
-      decoded.path
-    );
-    let f: FormState = { ...initialForm };
+    if (!decoded) {
+      setForm(f);
+      return;
+    }
+    const pathPrefill = prefillEstimateDraftFromConciergePath(decoded.track, decoded.path);
     if (decoded.industryBundle) {
       f = { ...f, ...applyConciergeIndustryBundleToFormDraft(decoded.industryBundle) };
     }
@@ -215,6 +271,12 @@ export function EstimateDetailedFormContent() {
 
   const prefilledQuestionIds = useMemo(() => {
     const ids: EstimateQuestionId[] = [];
+    const journeyPrefill = buildEstimateDraftFromVisitorJourney(visitorJourneySummary);
+    if (journeyPrefill.prefilledQuestionIds.length) {
+      for (const id of journeyPrefill.prefilledQuestionIds) {
+        if (!ids.includes(id)) ids.push(id);
+      }
+    }
     if (decodedCtx?.industryBundle) ids.push("industry");
     if (pathPrefillMeta?.prefilledQuestionIds.length) {
       for (const id of pathPrefillMeta.prefilledQuestionIds) {
@@ -222,7 +284,12 @@ export function EstimateDetailedFormContent() {
       }
     }
     return ids;
-  }, [decodedCtx?.industryBundle, pathPrefillMeta]);
+  }, [decodedCtx?.industryBundle, pathPrefillMeta, visitorJourneySummary]);
+
+  const journeyConfirmLines = useMemo(
+    () => buildEstimateDraftFromVisitorJourney(visitorJourneySummary).confirmLines,
+    [visitorJourneySummary]
+  );
 
   if (viewportNarrow === null) {
     return (
@@ -243,6 +310,7 @@ export function EstimateDetailedFormContent() {
     const commit = () => {
       exitTimerRef.current = null;
       const answers = buildEstimateDetailedAnswersRecord(form);
+      recordVisitorEstimateDraft(form);
       resetEstimateProcessingLock();
       writeEstimateDetailedFlow({
         v: 1,
@@ -250,6 +318,8 @@ export function EstimateDetailedFormContent() {
         priorContext: priorBlock,
         answers,
         ai: null,
+        visitorJourney: visitorJourneySummary,
+        inquiryPreparation: null,
         formDraft: form,
       });
       routerRef.current.push("/estimate-detailed/processing");
@@ -282,19 +352,38 @@ export function EstimateDetailedFormContent() {
       )}
     >
       {isNarrow ? (
-        <EstimateDetailedMobileShell
-          key={formInstanceKey}
-          form={form}
-          setForm={setForm}
-          decodedCtx={decodedCtx}
-          showPathPrefillNotice={Boolean(pathPrefillMeta?.hadPathMapping)}
-          prefersReducedMotion={prefersReducedMotion}
-          isExiting={isExiting}
-          onSubmit={goProcessing}
-          canSubmitGlobal={canSubmit}
-          prefilledQuestionIds={prefilledQuestionIds}
-          answeredQuestionIds={answeredQuestionIds}
-        />
+        <div className="space-y-6">
+          {visitorJourneySummary || journeyConfirmLines.length > 0 ? (
+            <section className="rounded-xl border border-accent/25 bg-accent/[0.06] p-4">
+              <p className="text-sm font-semibold text-white">
+                サイト内で整理できている内容を引き継いでいます
+              </p>
+              {journeyConfirmLines.length > 0 ? (
+                <ul className="mt-3 space-y-1.5 text-sm leading-relaxed text-white/90">
+                  {journeyConfirmLines.map((line) => (
+                    <li key={line} className="flex gap-2">
+                      <span className="text-accent/80">・</span>
+                      <span>{line}</span>
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+            </section>
+          ) : null}
+          <EstimateDetailedMobileShell
+            key={formInstanceKey}
+            form={form}
+            setForm={setForm}
+            decodedCtx={decodedCtx}
+            showPathPrefillNotice={Boolean(pathPrefillMeta?.hadPathMapping)}
+            prefersReducedMotion={prefersReducedMotion}
+            isExiting={isExiting}
+            onSubmit={goProcessing}
+            canSubmitGlobal={canSubmit}
+            prefilledQuestionIds={prefilledQuestionIds}
+            answeredQuestionIds={answeredQuestionIds}
+          />
+        </div>
       ) : (
         <>
           <header className="space-y-3">
@@ -314,6 +403,32 @@ export function EstimateDetailedFormContent() {
               </p>
             ) : null}
           </header>
+
+          {visitorJourneySummary || journeyConfirmLines.length > 0 ? (
+            <section className="rounded-xl border border-accent/25 bg-accent/[0.06] p-4 md:p-5">
+              <p className="text-sm font-semibold text-white">
+                サイト内で整理できている内容を引き継いでいます
+              </p>
+              <p className="mt-2 text-sm leading-relaxed text-white/75">
+                分かっている内容は初期値に反映しています。必要ならこのあと変更できます。
+              </p>
+              {journeyConfirmLines.length > 0 ? (
+                <ul className="mt-3 space-y-1.5 text-sm leading-relaxed text-white/90">
+                  {journeyConfirmLines.map((line) => (
+                    <li key={line} className="flex gap-2">
+                      <span className="text-accent/80">・</span>
+                      <span>{line}</span>
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+              {visitorJourneySummary ? (
+                <p className="mt-3 text-xs leading-relaxed text-white/60">
+                  {visitorJourneySummary.journeySummary}
+                </p>
+              ) : null}
+            </section>
+          ) : null}
 
           <section
             className="rounded-xl border border-accent/40 bg-base-dark/30 p-4 md:p-5"

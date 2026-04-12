@@ -1,5 +1,7 @@
 import { z } from "zod";
 import { getOrderedAnswerPairs } from "@/lib/estimate/estimate-detailed-answer-order";
+import { estimateInquiryPreparationSchema } from "@/lib/inquiry/inquiry-brief";
+import { visitorJourneySummarySchema } from "@/lib/journey/visitor-journey";
 import {
   ESTIMATE_PHILOSOPHY_MARKDOWN_HEADING,
   ESTIMATE_PHILOSOPHY_UI_PARAGRAPH,
@@ -54,6 +56,8 @@ export const estimateSnapshotSchema = z.object({
   /** フォームの質問キー → 表示用の答え文言 */
   answers: z.record(z.string(), z.string()),
   ai: estimateDetailedAiOutputSchema,
+  visitorJourney: visitorJourneySummarySchema.optional(),
+  inquiryPreparation: estimateInquiryPreparationSchema.optional(),
   /** 社内共有・メール用のMarkdown（ai から組み立てた本文） */
   requirementDocMarkdown: z.string().max(20000),
 });

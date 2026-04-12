@@ -12,7 +12,13 @@
 トップの選択式フローから **詳細見積もり**へ渡す文脈は、チャット session とは別経路（[`src/lib/chat/estimate-handoff.ts`](../src/lib/chat/estimate-handoff.ts) のペイロード／URL／sessionStorage）で行う。  
 会話スコープをページ単位に分離しても、見積の引き継ぎはこの仕組みで維持できる。
 
-`ConciergeEstimateContextPayload`（`?ctx=`）には任意で **`industryBundle`**（第1層 domainId・任意の第2層・補足1行）を載せられる。詳細見積側では **業種ステップをスキップ**し、`answers` の「業種」に反映する。契約の単一ソースは [`docs/industry-estimate-handoff-contract.md`](industry-estimate-handoff-contract.md)。
+`ConciergeEstimateContextPayload`（`?ctx=`）には任意で **`industryBundle`**（第1層 domainId・任意の第2層・補足1行）と **`visitorJourney`**（匿名 visitor profile 由来の圧縮 summary）を載せられる。詳細見積側では **業種ステップをスキップ**しつつ、直近の freeform・興味の偏り・既知の規模感などを prefill / confirm に使う。契約の単一ソースは [`docs/industry-estimate-handoff-contract.md`](industry-estimate-handoff-contract.md)。
+
+## 匿名 visitor profile
+
+- チャット sessionId と匿名 visitor ID は別物。会話履歴をそのまま跨がせるのではなく、`localStorage` に保持した **facts / summary** を estimate / contact に引き継ぐ。
+- 保存するのは `interestBias` / `journeyDepth` / `industryBundle` / `viewedDemoSlugs` / `lastFreeformSummary` / `estimateSignals` などの軽量項目のみで、会話の生ログは保持しない。
+- `sessionStorage` はタブ内の一時 handoff と進行中フロー、`localStorage` は数日〜数週間の匿名 profile、本当に必要な入口文脈だけを `?ctx=` / `handoff=` に載せる。
 
 ## 自動オープン方針
 
@@ -35,6 +41,7 @@
 - **次の一歩は1つだけ強く出す** のが基本。必要な場合でも補助導線は最小限にする。
 - 明示入口が持つ初期意図は `conciergeSignals.entryIntent` で `/api/chat` に渡せる。現状はトップの「相談から始める」と `demo/list` の条件相談導線などで利用する。
 - ホームの固定フローは UI ボタンで複数の選択肢を見せられるが、本文側の「次の一歩」は1本に絞る。
+- freeform 送信・CTA クリック・estimate 到達などのイベントは匿名 visitor profile にも反映し、次の estimate / contact で再質問を減らす。
 
 ## スコープ表
 

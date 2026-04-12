@@ -5,6 +5,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ConciergeChatProvider } from "@/components/chat/concierge-chat-context";
 import { ChatContainer } from "@/components/chat/ChatContainer";
+import { VisitorJourneyTracker } from "@/components/journey/VisitorJourneyTracker";
 import "./globals.css";
 
 const geist = Geist({
@@ -52,6 +53,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-[var(--color-base)] text-[var(--color-text)]">
         <ConciergeChatProvider>
+          <VisitorJourneyTracker />
           <Header />
           {children}
           <Footer />

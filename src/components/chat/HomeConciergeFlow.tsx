@@ -52,6 +52,10 @@ import {
 } from "@/lib/chat/concierge-routing";
 import { suppressNextChatAutoOpen } from "@/lib/chat/chat-auto-open";
 import { emitConciergeKpi } from "@/lib/chat/concierge-analytics";
+import {
+  readVisitorJourneySummary,
+  recordVisitorIndustryBundle,
+} from "@/lib/journey/visitor-journey-storage";
 import { useConciergeChat } from "@/components/chat/concierge-chat-context";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import type {
@@ -460,11 +464,15 @@ export function HomeConciergeFlow({
 
   const handleDetailedEstimate = () => {
     if (current.kind !== "done") return;
+    if (current.industryBundle) {
+      recordVisitorIndustryBundle(current.industryBundle);
+    }
     const ctx = buildEstimateContextPayload(
       current.track,
       current.path,
       current.body,
-      current.industryBundle ?? null
+      current.industryBundle ?? null,
+      readVisitorJourneySummary()
     );
     dismissConciergeForNavigation();
     router.push(buildEstimateDetailedEntryUrl(ctx));
@@ -472,10 +480,14 @@ export function HomeConciergeFlow({
 
   const handleContactSimple = () => {
     if (current.kind !== "done") return;
+    if (current.industryBundle) {
+      recordVisitorIndustryBundle(current.industryBundle);
+    }
     const payload = buildHandoffPayloadV1(
       current.track,
       current.path,
-      current.body
+      current.body,
+      readVisitorJourneySummary()
     );
     dismissConciergeForNavigation();
     router.push(buildContactHandoffUrl(payload));

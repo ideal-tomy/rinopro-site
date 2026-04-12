@@ -1,5 +1,7 @@
 import { z } from "zod";
 import { estimateDetailedAiOutputSchema } from "@/lib/estimate/estimate-snapshot";
+import { estimateInquiryPreparationSchema } from "@/lib/inquiry/inquiry-brief";
+import { visitorJourneySummarySchema } from "@/lib/journey/visitor-journey";
 
 export const ESTIMATE_DETAILED_FLOW_KEY = "rinopro_estimate_detailed_flow_v1";
 
@@ -37,6 +39,8 @@ const estimateDetailedFlowSchema = z.object({
   priorContext: z.string(),
   answers: z.record(z.string(), z.string()),
   ai: estimateDetailedAiOutputSchema.nullable(),
+  visitorJourney: visitorJourneySummarySchema.nullable().optional(),
+  inquiryPreparation: estimateInquiryPreparationSchema.nullable().optional(),
   formDraft: estimateFormDraftSchema.optional(),
 });
 

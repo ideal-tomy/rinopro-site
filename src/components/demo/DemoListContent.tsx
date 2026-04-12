@@ -34,6 +34,7 @@ import type {
 } from "@/lib/sanity/types";
 import { DemoListRecommendationPopup } from "@/components/demo/DemoListRecommendationPopup";
 import { PageSectionDivider } from "@/components/layout/PageSectionDivider";
+import { recordVisitorEntryIntent } from "@/lib/journey/visitor-journey-storage";
 
 function getSlug(demo: AiDemo | DemoItem): string | undefined {
   return typeof demo.slug === "object" ? demo.slug?.current : demo.slug;
@@ -339,9 +340,10 @@ export function DemoListContent({ demos }: DemoListContentProps) {
           </div>
           <button
             type="button"
-            onClick={() =>
-              requestOpenDemoListPageConcierge({ entryIntent: "compare" })
-            }
+            onClick={() => {
+              recordVisitorEntryIntent("compare");
+              requestOpenDemoListPageConcierge({ entryIntent: "compare" });
+            }}
             className="rounded-md border border-silver/30 px-3 py-1 text-xs text-text-sub transition-colors hover:border-accent/50 hover:text-accent"
           >
             {appliedAnswers ? "条件を選び直す" : "条件から相談する"}

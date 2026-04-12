@@ -493,7 +493,7 @@ export const estimateDetailedCopy = {
   kicker: "詳しい見積もりの目安",
   title: "いくつか質問に答えると、内容の整理と金額の目安が出ます",
   intro:
-    "専門知識は不要です。わからない項目は「未定」で大丈夫です。出てくる金額はあくまで目安で、正式なお見積もりではありません。",
+    "専門知識は不要です。わからない項目は「未定」で大丈夫です。サイト内で整理できている内容は引き継ぎつつ、出てくる金額はあくまで目安として表示します。",
   requirementDefinitionNote:
     "開発に必要な内容の整理（仮）",
   disclaimerTitle: "ご利用前に",
@@ -504,7 +504,7 @@ export const estimateDetailedCopy = {
     "すでに伺っている内容です。あなたの回答とあわせて整理に使います。",
   /** コンシェルジュ path から人数・つなぎをフォームに反映したとき */
   pathPrefillFromChatNotice:
-    "チャットで選んだ規模とつなぎのイメージを、下の質問の一部に反映済みです。「戻る」で戻れば変えられます。",
+    "チャットで選んだ規模とつなぎのイメージを、下の質問の一部に反映済みです。サイト内で整理済みの内容は冒頭に表示し、必要ならこのあと変えられます。",
   roughTrackLabel: "ご用件の方向",
   roughStepsHeading: "チャットでの選択",
   roughNotesHeading: "概算のメモ・補足",
@@ -621,6 +621,34 @@ export const estimateDetailedCopy = {
   btnEditAnswers: "質問に戻って直す",
   btnBackToQuestionsShort: "質問に戻る",
   btnContact: "この内容で問い合わせる",
+  inquiryPrepTitle: "問い合わせ前の確認",
+  inquiryPrepIntro:
+    "ここでは、サイト内で整理済みの内容を土台にして、最初の返信を具体的にするために不足点だけを補います。長いヒアリングではなく、必要な確認だけに絞ります。",
+  inquiryPrepIntentLabel: "今回の相談でいちばん知りたいこと",
+  inquiryPrepDesiredReplyLabel: "今回の返信でほしい内容",
+  inquiryPrepPrimaryHint:
+    "まずは、今回どんな返答を求めているかを選んで問い合わせ用の整理を作ります。",
+  inquiryPrepFollowUpHint:
+    "追加で確認したい点だけを並べています。埋めると、送信時点でかなり具体的な問い合わせになります。",
+  inquiryPrepGenerateCta: "不足点を整理する",
+  inquiryPrepRefreshCta: "この回答で問い合わせ内容を更新する",
+  inquiryPrepLoading: "整理しています…",
+  inquiryPrepFollowUpTitle: "追加で確認したいこと",
+  inquiryPrepRequiredMark: "（必須）",
+  inquiryPrepAnswerPlaceholder: "わかる範囲で大丈夫です",
+  inquiryPrepMissingHint: "残り {count} 問の必須回答があります。",
+  inquiryPrepBriefTitle: "送信される相談内容の要点",
+  inquiryPrepProblemTitle: "課題の要約",
+  inquiryPrepReplySummaryTitle: "今回の返信で答えてほしいこと",
+  inquiryPrepTargetTitle: "対象業務・想定利用者",
+  inquiryPrepTimelineTitle: "判断したい時期",
+  inquiryPrepScopeTitle: "今回の相談範囲",
+  inquiryPrepConstraintsTitle: "制約・前提",
+  inquiryPrepReplyFocusTitle: "初回返信でまず触れるべき論点",
+  inquiryPrepUnresolvedTitle: "まだ確認が必要な点",
+  inquiryPrepContactGate:
+    "問い合わせの前に、上の確認を一度実行してください。送信時点でこちらが返しやすい状態まで整理します。",
+  inquiryPrepError: "問い合わせ前整理に失敗しました。時間を置いて再度お試しください。",
   rangeDisclaimer: "最終的な開発費用は、お話を伺ったうえでお出しします。",
   /** 結果・金額ページの要約ブロック見出し */
   overviewTitle: "概略",
@@ -738,11 +766,11 @@ export const estimateDetailedCopy = {
 export const contactCopy = {
   title: "課題整理の相談窓口",
   purpose:
-    "売り込みではなく、現場の課題を一緒に棚卸しする場。初回は要件整理が中心です。",
+    "売り込みではなく、サイト内で整理した内容をこちらへ渡す最終確認の場です。初回返信で具体的に返せるよう、必要な情報をそろえて送ります。",
   /** 問い合わせページ：詳細見積フローへ（説明は出さずボタンのみ） */
   estimateShortcutCta: "詳しい見積もりの目安へ進む",
   estimateShortcutHint:
-    "先に料金感を見たい場合は、短い質問に答えるだけで内容の整理と目安を確認できます。",
+    "先に料金感や要件のたたき台を作ると、問い合わせ時点でかなり具体的な状態まで整理できます。",
   form: {
     nameLabel: "お名前",
     namePlaceholder: "山田 太郎",
@@ -753,17 +781,34 @@ export const contactCopy = {
       "例: demoページの〇〇、モックdemoの△△ など。未入力でも構いません。",
     additionalRequestLabel: "追加で伝えたいこと（任意）",
     additionalRequestPlaceholder:
-      "例: 社内で共有したい／電話でも相談したい など",
+      "例: 社内共有の事情、連絡方法の希望、前提として伝えておきたいこと など",
     attachEstimateLabel: "見積もりのメモ（自動）も一緒に送る",
     attachEstimateHint:
-      "オフにすると、下のメッセージ欄の文章だけ送られます（社内用に短くしたい場合など）。",
+      "オフにすると、問い合わせブリーフと追加補足だけ送ります。",
     estimateSummaryTitle: "同封される見積もりメモ（確認用）",
-    messageLabel: "お問い合わせ内容",
-    messagePlaceholder:
-      "業務内容、困りごと、検討中の時期など、わかる範囲でお書きください。",
-    messageHintFromEstimate:
-      "上の「追加で伝えたいこと」に書いた内容と、下の自動メモがあわせて送信されます。",
-    overviewRevealLabel: "概略を開く",
+    inquirySummaryTitle: "送信される相談内容の要点",
+    inquirySummaryHint:
+      "ここに出ている内容をもとに、初回返信では要点を絞ってお返しします。",
+    directGuideTitle: "まだ詳細見積を使っていない場合",
+    directGuideBody:
+      "このフォームだけでも送れますが、自由文だけでは送れません。サイト内で整理できた文脈も使いながら、課題・求める返答・対象業務が分かる状態まで整えてから送ります。",
+    intentLabel: "今回の相談でいちばん知りたいこと",
+    desiredReplyLabel: "今回の返信でほしい内容",
+    directProblemLabel: "いま困っていること・変えたいこと",
+    directProblemPlaceholder:
+      "例: 問い合わせ対応に毎日2時間かかっており、一次受付を自動化したい",
+    directTargetLabel: "誰のどの業務の話か",
+    directTargetPlaceholder:
+      "例: 営業事務2名が行う問い合わせ一次対応。将来的には店舗側でも確認したい",
+    directTimelineLabel: "いつ頃までに判断したいか",
+    directTimelinePlaceholder:
+      "例: 今期中に方向性を決めたい / まず来月までに概算を知りたい",
+    directConstraintsLabel: "制約や前提（任意）",
+    directConstraintsPlaceholder:
+      "例: 個人情報あり、既存のSalesforceと連携したい、社内だけで使いたい など",
+    additionalNoteLabel: "最後に補足したいこと（任意）",
+    additionalNoteHint:
+      "連絡手段の希望や、社内事情など補足があればここに書いてください。",
     submit: "送信する",
     submitting: "送信中...",
     success: "送信しました。2営業日以内にご返信します。",

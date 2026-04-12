@@ -9,6 +9,9 @@
   - `domainId`: `ConciergeDomainId`（`intelligent-concierge.ts`）
   - `domainDetailId?`: 第 2 層 ID（未選択は省略）
   - `note?`: 自由記述 1 行（未入力は省略）
+- 任意: `visitorJourney?: VisitorJourneySummary`
+  - 生ログは載せず、`interestBias` / `journeyDepth` / `viewedDemoSlugs` / `lastFreeformSummary` などの圧縮済み要約だけを持つ
+  - URL handoff では「この見積開始で必要な summary のみ」を載せ、重い履歴は localStorage / sessionStorage 側に残す
 
 デコードは後方互換: `industryBundle` なしの古い URL は従来どおり。
 
@@ -58,9 +61,10 @@
 
 ## 6. セッション優先順位（`EstimateDetailedFormContent`）
 
-1. `reset=1` 後は URL の `ctx` のみ再適用（既存動線）。このとき **industryBundle** と **path 由来の `teamSize` / `integration`** をマージする。
-2. それ以外の初回: `sessionStorage` の `formDraft` があれば復元（**ctx の industry は上書きしない**）。この場合 **§5.1 の path マージは行わない**。
-3. `formDraft` がなく `ctx.industryBundle` がある場合のみ bundle を適用（§2〜4）。path は §5.1 のとおり同時にマージされる。
+1. `reset=1` 後は URL の `ctx` を再適用しつつ、`visitorJourney` があれば **冒頭の confirm 用 summary** として表示する。
+2. それ以外の初回: `sessionStorage` の `formDraft` があれば復元（**ctx の industry は上書きしない**）。`visitorJourney` が保存されていれば同時に復元する。
+3. `formDraft` がない場合は、まず localStorage の匿名 visitor profile 由来の summary から `industry` / `summary` / `teamSize` / `timeline` / `integration` などを prefill する。
+4. その上で `ctx.industryBundle` と path 由来の `teamSize` / `integration` を上書きマージする。明示 handoff の方が visitor profile より優先される。
 
 ## 7. 第 2 層マスタ
 

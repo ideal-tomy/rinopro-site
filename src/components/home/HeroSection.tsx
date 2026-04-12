@@ -23,6 +23,7 @@ import { FEATURED_SHOWCASE_VIDEO_BY_SLUG } from "@/lib/experience/featured-showc
 import type { FeaturedExperienceSlug } from "@/lib/experience/prototype-registry";
 import type { AiDemo, DemoItem } from "@/lib/sanity/types";
 import { useConciergeChat } from "@/components/chat/concierge-chat-context";
+import { recordVisitorEntryIntent } from "@/lib/journey/visitor-journey-storage";
 
 interface HeroSectionProps {
   demos: (AiDemo | DemoItem)[];
@@ -95,9 +96,10 @@ export function HeroSection({ demos }: HeroSectionProps) {
             </p>
             <Button
               className="mt-5 w-full"
-              onClick={() =>
-                openConcierge("default", "fab", { entryIntent: "consult" })
-              }
+              onClick={() => {
+                recordVisitorEntryIntent("consult");
+                openConcierge("default", "fab", { entryIntent: "consult" });
+              }}
             >
               {homeQuickStartCopy.consult.ctaLabel}
             </Button>

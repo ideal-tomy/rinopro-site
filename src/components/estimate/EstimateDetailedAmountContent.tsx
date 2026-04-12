@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { useConciergeChat } from "@/components/chat/concierge-chat-context";
+import { EstimateDetailedInquiryPreparation } from "@/components/estimate/EstimateDetailedInquiryPreparation";
 import { suppressNextChatAutoOpen } from "@/lib/chat/chat-auto-open";
 import {
   buildContactHandoffNavigation,
@@ -19,6 +20,7 @@ import {
 } from "@/lib/estimate/estimate-snapshot";
 import {
   readEstimateDetailedFlow,
+  writeEstimateDetailedFlow,
   type EstimateDetailedFlowState,
 } from "@/lib/estimate/estimate-detailed-session";
 import {
@@ -27,8 +29,25 @@ import {
 } from "@/lib/estimate/estimate-detailed-budget";
 import { EstimateDetailedPhilosophyFootnote } from "@/components/estimate/EstimateDetailedPhilosophyFootnote";
 import { EstimateDetailedResumeQuestionsButton } from "@/components/estimate/EstimateDetailedResumeQuestionsButton";
+import type { EstimateInquiryPreparation } from "@/lib/inquiry/inquiry-brief";
+import { recordVisitorEstimateAnswers } from "@/lib/journey/visitor-journey-storage";
 
 const copy = estimateDetailedCopy;
+
+function buildSnapshotFromFlow(flow: EstimateDetailedFlowState): EstimateSnapshot | null {
+  if (!flow.ai) return null;
+  return {
+    schemaVersion: ESTIMATE_SNAPSHOT_SCHEMA_VERSION,
+    source: "estimate_detailed",
+    createdAt: new Date().toISOString(),
+    priorContext: flow.priorContext || undefined,
+    answers: flow.answers,
+    ai: flow.ai,
+    visitorJourney: flow.visitorJourney ?? undefined,
+    inquiryPreparation: flow.inquiryPreparation ?? undefined,
+    requirementDocMarkdown: formatRequirementDocMarkdown(flow.ai, flow.answers),
+  };
+}
 
 export function EstimateDetailedAmountContent() {
   const router = useRouter();
@@ -52,18 +71,24 @@ export function EstimateDetailedAmountContent() {
     setConciergeOpen(false);
   }, [setConciergeOpen]);
 
+  useEffect(() => {
+    if (!flow?.answers) return;
+    recordVisitorEstimateAnswers(flow.answers);
+  }, [flow?.answers]);
+
+  const snapshot = flow ? buildSnapshotFromFlow(flow) : null;
+  const inquiryBrief = flow?.inquiryPreparation?.brief ?? null;
+  const unresolvedRequiredCount =
+    flow?.inquiryPreparation?.followUpQuestions.filter((question) => {
+      if (!question.required) return false;
+      return !flow.inquiryPreparation?.followUpAnswers[question.id]?.trim();
+    }).length ?? 0;
+  const contactReady =
+    Boolean(inquiryBrief) &&
+    (inquiryBrief.readiness === "ready" || unresolvedRequiredCount === 0);
+
   const goContact = useCallback(() => {
-    if (!flow?.ai) return;
-    const requirementDocMarkdown = formatRequirementDocMarkdown(flow.ai, flow.answers);
-    const snapshot: EstimateSnapshot = {
-      schemaVersion: ESTIMATE_SNAPSHOT_SCHEMA_VERSION,
-      source: "estimate_detailed",
-      createdAt: new Date().toISOString(),
-      priorContext: flow.priorContext || undefined,
-      answers: flow.answers,
-      ai: flow.ai,
-      requirementDocMarkdown,
-    };
+    if (!snapshot) return;
     const payload = buildHandoffPayloadV2FromDetailed(snapshot);
     const { href, storeInSession } = buildContactHandoffNavigation(payload);
     if (storeInSession) {
@@ -72,7 +97,20 @@ export function EstimateDetailedAmountContent() {
     suppressNextChatAutoOpen();
     setConciergeOpen(false);
     router.push(href);
-  }, [flow, router, setConciergeOpen]);
+  }, [router, setConciergeOpen, snapshot]);
+
+  const handlePreparationChange = useCallback(
+    (next: EstimateInquiryPreparation) => {
+      if (!flow?.ai) return;
+      const updatedFlow: EstimateDetailedFlowState = {
+        ...flow,
+        inquiryPreparation: next,
+      };
+      setFlow(updatedFlow);
+      writeEstimateDetailedFlow(updatedFlow);
+    },
+    [flow]
+  );
 
   if (!flow?.ai) {
     return <p className="text-center text-sm text-text-sub">移動中…</p>;
@@ -151,8 +189,21 @@ export function EstimateDetailedAmountContent() {
 
       <EstimateDetailedPhilosophyFootnote />
 
+      {snapshot ? (
+        <EstimateDetailedInquiryPreparation
+          snapshot={snapshot}
+          initialPreparation={flow.inquiryPreparation ?? null}
+          onPreparationChange={handlePreparationChange}
+        />
+      ) : null}
+
       <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:justify-center">
-        <Button type="button" className="min-h-12 w-full px-8 text-[16px] sm:w-auto" onClick={goContact}>
+        <Button
+          type="button"
+          className="min-h-12 w-full px-8 text-[16px] sm:w-auto"
+          onClick={goContact}
+          disabled={!contactReady}
+        >
           {copy.btnContact}
         </Button>
         <EstimateDetailedResumeQuestionsButton className="min-h-12 w-full sm:w-auto">
@@ -162,6 +213,11 @@ export function EstimateDetailedAmountContent() {
           <Link href={backHref}>{copy.backToResult}</Link>
         </Button>
       </div>
+      {!contactReady ? (
+        <p className="text-center text-sm leading-relaxed text-white/70">
+          {copy.inquiryPrepContactGate}
+        </p>
+      ) : null}
     </div>
   );
 }

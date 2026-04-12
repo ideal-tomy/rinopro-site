@@ -8,6 +8,7 @@ type Status = "idle" | "submitting" | "success" | "error";
 export function useContactForm() {
   const [status, setStatus] = useState<Status>("idle");
   const [errors, setErrors] = useState<Partial<Record<keyof ContactFormData, string>>>({});
+  const [submitError, setSubmitError] = useState("");
 
   const submit = useCallback(async (data: ContactFormData): Promise<boolean> => {
     const result = contactSchema.safeParse(data);
@@ -18,10 +19,12 @@ export function useContactForm() {
         if (path) fieldErrors[path] = e.message;
       });
       setErrors(fieldErrors);
+      setSubmitError("");
       return false;
     }
 
     setErrors({});
+    setSubmitError("");
     setStatus("submitting");
 
     try {
@@ -36,10 +39,10 @@ export function useContactForm() {
       return true;
     } catch {
       setStatus("error");
-      setErrors({ message: "送信に失敗しました。しばらくしてから再度お試しください。" });
+      setSubmitError("送信に失敗しました。しばらくしてから再度お試しください。");
       return false;
     }
   }, []);
 
-  return { status, errors, submit };
+  return { status, errors, submit, submitError };
 }

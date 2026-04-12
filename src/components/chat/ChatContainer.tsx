@@ -81,6 +81,7 @@ import {
 import { getConciergePanelDerivedState } from "@/lib/chat/concierge-panel-derived-state";
 import { formatConciergeChatErrorMessage } from "@/lib/chat/concierge-chat-error-message";
 import { prefetchDemoCatalog } from "@/lib/demo/demo-catalog-client";
+import { recordVisitorFreeform } from "@/lib/journey/visitor-journey-storage";
 
 type ConciergeSurface = ConciergeChatSurface;
 
@@ -300,6 +301,7 @@ export function ChatContainer() {
 
   const handleSend = (text: string) => {
     const userTurns = messages.filter((m) => m.role === "user").length;
+    recordVisitorFreeform(text);
     if (userTurns >= 1) {
       emitConciergeKpi({
         name: "followup_message",

@@ -10,6 +10,8 @@ import {
   CONCIERGE_DOMAIN_OPTIONS,
   getConciergeDomainDetailLabel,
 } from "@/lib/demo/intelligent-concierge";
+import type { VisitorJourneySummary } from "@/lib/journey/visitor-journey";
+import { visitorJourneySummarySchema } from "@/lib/journey/visitor-journey";
 
 const HANDOFF_V1 = 1 as const;
 const HANDOFF_V2 = 2 as const;
@@ -26,6 +28,7 @@ export interface ChatHandoffPayloadV1 {
   trackLabel: string;
   path: FlowSelection[];
   detailBlock: string;
+  visitorJourney?: VisitorJourneySummary;
 }
 
 /** 問い合わせフォームへ：詳細見積もりページ完了時（現在形式） */
@@ -69,6 +72,7 @@ export interface ConciergeEstimateContextPayload {
   detailBlock: string;
   /** 後方互換: 未設定の旧 URL は従来どおり */
   industryBundle?: ConciergeIndustryBundle;
+  visitorJourney?: VisitorJourneySummary;
 }
 
 export function encodeChatHandoff(payload: ChatHandoffPayload): string {
@@ -165,6 +169,11 @@ function parseIndustryBundle(
   };
 }
 
+function parseVisitorJourneySummary(raw: unknown): VisitorJourneySummary | undefined {
+  const checked = visitorJourneySummarySchema.safeParse(raw);
+  return checked.success ? checked.data : undefined;
+}
+
 export function decodeConciergeEstimateContext(
   raw: string
 ): ConciergeEstimateContextPayload | null {
@@ -178,6 +187,7 @@ export function decodeConciergeEstimateContext(
       typeof parsed.detailBlock === "string"
     ) {
       const industryBundle = parseIndustryBundle(parsed.industryBundle);
+      const visitorJourney = parseVisitorJourneySummary(parsed.visitorJourney);
       const out: ConciergeEstimateContextPayload = {
         v: CTX_V1,
         track: parsed.track as ConciergeTrack,
@@ -185,6 +195,7 @@ export function decodeConciergeEstimateContext(
         detailBlock: parsed.detailBlock as string,
       };
       if (industryBundle) out.industryBundle = industryBundle;
+      if (visitorJourney) out.visitorJourney = visitorJourney;
       return out;
     }
     return null;
@@ -318,7 +329,8 @@ export function buildEstimateDetailedEntryUrl(
 export function buildHandoffPayloadV1(
   track: ConciergeTrack,
   path: FlowSelection[],
-  detailBlock: string
+  detailBlock: string,
+  visitorJourney?: VisitorJourneySummary | null
 ): ChatHandoffPayloadV1 {
   return {
     v: HANDOFF_V1,
@@ -326,6 +338,7 @@ export function buildHandoffPayloadV1(
     trackLabel: TRACK_LABELS[track],
     path,
     detailBlock,
+    ...(visitorJourney ? { visitorJourney } : {}),
   };
 }
 
@@ -333,7 +346,8 @@ export function buildEstimateContextPayload(
   track: ConciergeTrack,
   path: FlowSelection[],
   detailBlock: string,
-  industryBundle?: ConciergeIndustryBundle | null
+  industryBundle?: ConciergeIndustryBundle | null,
+  visitorJourney?: VisitorJourneySummary | null
 ): ConciergeEstimateContextPayload {
   const out: ConciergeEstimateContextPayload = {
     v: CTX_V1,
@@ -342,6 +356,7 @@ export function buildEstimateContextPayload(
     detailBlock,
   };
   if (industryBundle) out.industryBundle = industryBundle;
+  if (visitorJourney) out.visitorJourney = visitorJourney;
   return out;
 }
 
@@ -401,6 +416,10 @@ export function buildContactMessageDraft(payload: ChatHandoffPayload): string {
       "",
       `ご用件: ${payload.trackLabel}（トラック ${payload.track}）`,
       "",
+      payload.visitorJourney
+        ? `サイト内の文脈: ${payload.visitorJourney.journeySummary}`
+        : "",
+      payload.visitorJourney ? "" : null,
       payload.detailBlock,
       "",
       "---",
