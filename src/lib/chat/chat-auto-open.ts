@@ -9,12 +9,12 @@
  * 遷移前に `ConciergeChatProvider` の `setOpen(false)` が必要。
  */
 
-export const CHAT_AUTO_OPEN_STORAGE_PREFIX = "rinopro:autoChatOpen:" as const;
+export const CHAT_AUTO_OPEN_STORAGE_PREFIX = "axeon:autoChatOpen:" as const;
 
-export const SUPPRESS_CHAT_AUTO_ONCE_KEY = "rinopro:suppressChatAutoOnce" as const;
+export const SUPPRESS_CHAT_AUTO_ONCE_KEY = "axeon:suppressChatAutoOnce" as const;
 
 /** /services で開発/コンサルを選んだ状態（同一タブセッション） */
-export const SERVICES_FLOW_PICK_KEY = "rinopro:services-flow-picked" as const;
+export const SERVICES_FLOW_PICK_KEY = "axeon:services-flow-picked" as const;
 
 export type ServicesFlowPick = "development" | "consulting";
 

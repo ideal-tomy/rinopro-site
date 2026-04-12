@@ -4,7 +4,7 @@ import { PageShell } from "@/components/layout/PageShell";
 import { EstimateDetailedFormContent } from "@/components/estimate/EstimateDetailedFormContent";
 
 export const metadata: Metadata = {
-  title: "詳細見積もり（初期検討） | rinopro",
+  title: "詳細見積もり（初期検討） | Axeon",
   description:
     "追加ヒアリングに基づき、仮要件定義と概算レンジをAIが整理します。確定見積もりではありません。",
 };

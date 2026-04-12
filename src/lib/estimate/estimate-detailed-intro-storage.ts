@@ -1,5 +1,5 @@
 /** 詳細見積モバイル・オープニング（①〜③）を既に見終えたか */
-export const ESTIMATE_DETAILED_INTRO_DONE_KEY = "rinopro_estimate_detailed_intro_done";
+export const ESTIMATE_DETAILED_INTRO_DONE_KEY = "axeon_estimate_detailed_intro_done";
 
 export function readEstimateDetailedIntroDone(): boolean {
   if (typeof window === "undefined") return false;

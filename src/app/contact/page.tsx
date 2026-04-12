@@ -4,7 +4,7 @@ import { PageShell } from "@/components/layout/PageShell";
 import { ContactPageContent } from "@/components/contact/ContactPageContent";
 
 export const metadata: Metadata = {
-  title: "問い合わせ | rinopro",
+  title: "問い合わせ | Axeon",
   description:
     "整理した課題と要件のたたき台を送る相談窓口。初回返信で具体的に返せるよう、必要な情報をそろえて送るためのページです。",
 };

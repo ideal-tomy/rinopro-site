@@ -19,7 +19,7 @@ const CTX_V1 = 1 as const;
 
 /** URLが長くなりすぎる場合に sessionStorage へ退避するときの query 値 */
 export const CONTACT_HANDOFF_SESSION_QUERY = "session";
-export const CONTACT_HANDOFF_STORAGE_KEY = "rinopro_contact_handoff_payload_v1";
+export const CONTACT_HANDOFF_STORAGE_KEY = "axeon_contact_handoff_payload_v1";
 
 /** 問い合わせフォームへ：コンシェルジュ完了時 */
 export interface ChatHandoffPayloadV1 {

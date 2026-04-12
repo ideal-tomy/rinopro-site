@@ -14,8 +14,8 @@ import {
   type VisitorJourneySummary,
 } from "@/lib/journey/visitor-journey";
 
-const VISITOR_JOURNEY_STORAGE_KEY = "rinopro:visitor-journey:v1";
-const VISITOR_JOURNEY_SESSION_KEY = "rinopro:visitor-journey:session";
+const VISITOR_JOURNEY_STORAGE_KEY = "axeon:visitor-journey:v1";
+const VISITOR_JOURNEY_SESSION_KEY = "axeon:visitor-journey:session";
 
 function canUseStorage(): boolean {
   return typeof window !== "undefined";

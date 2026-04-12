@@ -26,7 +26,7 @@ export function Header() {
     <header className="sticky top-0 z-40 w-full border-b border-silver/20 bg-base/95 backdrop-blur supports-[backdrop-filter]:bg-base/80">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 md:px-6">
         <Link href="/" className="font-bold text-accent">
-          rinopro
+          Axeon
         </Link>
 
         <nav className="hidden md:flex md:items-center md:gap-6">

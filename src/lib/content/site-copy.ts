@@ -37,7 +37,7 @@ export const homeQuickStartCopy = {
 export const homeDevelopmentSectionCopy = {
   sectionTitle: "開発について",
   lead: "現状整理から本実装まで、段階的な検証で判断を積み重ねる。",
-  body: "「作ります」だけではなく、どのような品質管理と工程で構築されるかを開示します。以下は、rinopro の開発ライフサイクルにおける標準的な進め方です。",
+  body: "「作ります」だけではなく、どのような品質管理と工程で構築されるかを開示します。以下は、Axeon の開発ライフサイクルにおける標準的な進め方です。",
   ctaLabel: "開発の流れ",
   ctaHref: "/flow",
 } as const;
@@ -207,7 +207,7 @@ export const flowDetailPageCopyByTrack: Record<
     lifecycleLabel: "開発の全体像",
     lifecycleSub: "何を決めて、何を渡すか",
     intro:
-      "「作ります」で終わらせず、どの順番で整理し、どこで確認しながら進めるかを先に共有します。以下は rinopro の標準的な進め方です。費用は案件ごとに異なるため、**選択式の見積もり**で要件を整理したうえで目安をご案内します。",
+      "「作ります」で終わらせず、どの順番で整理し、どこで確認しながら進めるかを先に共有します。以下は Axeon の標準的な進め方です。費用は案件ごとに異なるため、**選択式の見積もり**で要件を整理したうえで目安をご案内します。",
     steps: [
       {
         step: "01",

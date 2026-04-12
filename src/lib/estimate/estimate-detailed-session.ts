@@ -3,7 +3,7 @@ import { estimateDetailedAiOutputSchema } from "@/lib/estimate/estimate-snapshot
 import { estimateInquiryPreparationSchema } from "@/lib/inquiry/inquiry-brief";
 import { visitorJourneySummarySchema } from "@/lib/journey/visitor-journey";
 
-export const ESTIMATE_DETAILED_FLOW_KEY = "rinopro_estimate_detailed_flow_v1";
+export const ESTIMATE_DETAILED_FLOW_KEY = "axeon_estimate_detailed_flow_v1";
 
 /** 質問フォームの下書き（セッションに保持し「質問に戻る」で復元する） */
 export const estimateFormDraftSchema = z.object({

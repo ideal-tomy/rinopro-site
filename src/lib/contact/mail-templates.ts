@@ -144,8 +144,8 @@ export function buildAdminContactEmail(ctx: ContactMailContext): {
 
   const subject =
     hasEstimate || ctx.inquiryBrief
-      ? `[rinopro][整理済み相談] ${ctx.name} 様よりお問い合わせ`
-      : `[rinopro] ${ctx.name} 様よりお問い合わせ`;
+      ? `[Axeon][整理済み相談] ${ctx.name} 様よりお問い合わせ`
+      : `[Axeon] ${ctx.name} 様よりお問い合わせ`;
 
   const textBody = [
     "▼ ひと目用",
@@ -177,7 +177,7 @@ export function buildCustomerContactEmail(ctx: ContactMailContext): {
   subject: string;
   textBody: string;
 } {
-  const subject = "【rinopro】お問い合わせを受け付けました";
+  const subject = "【Axeon】お問い合わせを受け付けました";
   const lines = [
     `${ctx.name} 様`,
     "",

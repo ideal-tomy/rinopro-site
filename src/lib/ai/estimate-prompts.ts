@@ -10,7 +10,7 @@ export const ESTIMATE_COST_DRIVER_ANSWER_KEYS = [
   ...ESTIMATE_QUESTION_ORDER.slice(0, 13).map(answerLabelFromQuestionId),
 ] as const;
 
-export const ESTIMATE_DETAILED_SYSTEM_PROMPT = `あなたは rinopro の「見積もり前の内容整理」を手伝うアシスタントです。
+export const ESTIMATE_DETAILED_SYSTEM_PROMPT = `あなたは Axeon の「見積もり前の内容整理」を手伝うアシスタントです。
 
 【読み手】
 - ITに詳しくない方がメインです。専門用語は使わないか、使う場合はかっこで一言だけ説明してください。

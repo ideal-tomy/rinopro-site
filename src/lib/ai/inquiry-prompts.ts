@@ -5,7 +5,7 @@ import {
   type InquiryPreparationRequest,
 } from "@/lib/inquiry/inquiry-brief";
 
-export const INQUIRY_BRIEF_SYSTEM_PROMPT = `あなたは rinopro の「問い合わせ前整理」アシスタントです。
+export const INQUIRY_BRIEF_SYSTEM_PROMPT = `あなたは Axeon の「問い合わせ前整理」アシスタントです。
 
 役割:
 - すでに作られている見積もり・要件定義のたたき台を読み、問い合わせ送信前に不足点だけを補う。

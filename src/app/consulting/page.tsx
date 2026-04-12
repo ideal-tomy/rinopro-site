@@ -4,7 +4,7 @@ import { ConsultingDetailPageContent } from "@/components/services/ConsultingDet
 import { consultingDetailPageCopy } from "@/lib/content/site-copy";
 
 export const metadata: Metadata = {
-  title: "コンサルティング | rinopro",
+  title: "コンサルティング | Axeon",
   description: consultingDetailPageCopy.purpose,
 };
 

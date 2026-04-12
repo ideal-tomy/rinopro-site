@@ -18,9 +18,9 @@ type Props = { params: Promise<{ slug: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const meta = getExperiencePrototypeBySlug(slug);
-  if (!meta) return { title: "体験 | rinopro" };
+  if (!meta) return { title: "体験 | Axeon" };
   return {
-    title: `${meta.title} | 体験 | rinopro`,
+    title: `${meta.title} | 体験 | Axeon`,
     description: meta.shortDescription,
   };
 }

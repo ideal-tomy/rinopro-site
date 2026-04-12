@@ -3,7 +3,7 @@ import { PageShell } from "@/components/layout/PageShell";
 import { EstimateDetailedAmountContent } from "@/components/estimate/EstimateDetailedAmountContent";
 
 export const metadata: Metadata = {
-  title: "金額の目安 | 詳細見積もり | rinopro",
+  title: "金額の目安 | 詳細見積もり | Axeon",
   robots: { index: false, follow: false },
 };
 
