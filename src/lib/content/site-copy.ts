@@ -786,6 +786,7 @@ export const contactCopy = {
     attachEstimateHint:
       "オフにすると、問い合わせブリーフと追加補足だけ送ります。",
     estimateSummaryTitle: "同封される見積もりメモ（確認用）",
+    overviewRevealLabel: "整理内容の概要を表示",
     inquirySummaryTitle: "送信される相談内容の要点",
     inquirySummaryHint:
       "ここに出ている内容をもとに、初回返信では要点を絞ってお返しします。",

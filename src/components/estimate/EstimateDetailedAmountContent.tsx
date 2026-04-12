@@ -84,7 +84,7 @@ export function EstimateDetailedAmountContent() {
       return !flow.inquiryPreparation?.followUpAnswers[question.id]?.trim();
     }).length ?? 0;
   const contactReady =
-    Boolean(inquiryBrief) &&
+    inquiryBrief != null &&
     (inquiryBrief.readiness === "ready" || unresolvedRequiredCount === 0);
 
   const goContact = useCallback(() => {

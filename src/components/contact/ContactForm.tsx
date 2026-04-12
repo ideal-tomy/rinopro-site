@@ -69,6 +69,10 @@ function applyPayloadToForm(
     return;
   }
   setters.setEstimateSnapshot(null);
+  if (payload.v !== 1) {
+    setters.setVisitorJourney(null);
+    return;
+  }
   setters.setVisitorJourney(payload.visitorJourney ?? null);
   setters.setProblemStatement(payload.detailBlock.trim());
   setters.setTargetSummary("対象業務・利用者は要確認");
