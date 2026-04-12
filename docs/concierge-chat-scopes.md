@@ -14,12 +14,27 @@
 
 `ConciergeEstimateContextPayload`（`?ctx=`）には任意で **`industryBundle`**（第1層 domainId・任意の第2層・補足1行）を載せられる。詳細見積側では **業種ステップをスキップ**し、`answers` の「業種」に反映する。契約の単一ソースは [`docs/industry-estimate-handoff-contract.md`](industry-estimate-handoff-contract.md)。
 
+## 自動オープン方針
+
+- 現在は **ページ到達だけでは自動オープンしない**。トップ・`/services`・`/demo/list` を含め、常設の FAB やページ内ボタンからの **明示操作** を主導線とする。
+- トップは [`HeroSection`](../src/components/home/HeroSection.tsx) の「相談から始める」と右下 FAB を優先する。
+- `/services` はカード内の **「チャットで相談する」** を優先し、`/demo/list` は一覧探索を主にしつつ **「条件から相談する」** を補助導線とする。
+- 将来、自動オープンを再導入する場合は **ページ起点ではなく行動起点**（一定スクロール、迷い行動、URL パラメータ、明示ボタンなど）のポリシーとして設計する。
+
 ## `/demo/list` とグローバルコンシェルジュ
 
 - **ウィザード本体**は [`ChatContainer`](../src/components/chat/ChatContainer.tsx) 内の `DemoListConciergeFlow` のみ（一覧ページに埋め込んだ二重モーダルは廃止）。
 - **一覧上の条件チップ・「あなた向けの提案」**は [`ConciergeChatProvider`](../src/components/chat/concierge-chat-context.tsx) の `demoListWizardSnapshot` と同期する（ウィザード完了時に `setDemoListWizardSnapshot`、リセット時に `null`）。
 - **「コンシェルジュを開く」**は `requestOpenDemoListPageConcierge()` でシーケンスを進め、`ChatContainer` が `conciergeSurface === "page"` でポップアップを開く（自動オープン・FAB→このページについてと同じ表面）。
 - モーダル内の **「選択式ガイドに戻る」** / **「demoの条件選択に戻る」** は `chatSessionId` を変えず `messages` を空にするだけ（同一 session スコープ内でのやり直し）。
+
+## 返答ルールの優先順位
+
+- 返答はまず **現在ページの文脈** を優先する。
+- そのうえでユーザー意図を `知りたい` / `比較したい` / `相談したい` / `料金感を知りたい` に寄せて解釈する。
+- **次の一歩は1つだけ強く出す** のが基本。必要な場合でも補助導線は最小限にする。
+- 明示入口が持つ初期意図は `conciergeSignals.entryIntent` で `/api/chat` に渡せる。現状はトップの「相談から始める」と `demo/list` の条件相談導線などで利用する。
+- ホームの固定フローは UI ボタンで複数の選択肢を見せられるが、本文側の「次の一歩」は1本に絞る。
 
 ## スコープ表
 

@@ -1,4 +1,5 @@
 import { streamText, convertToModelMessages, type UIMessage } from "ai";
+import { inferConciergeIntent } from "@/lib/ai/concierge-intent";
 import { rateLimit } from "@/lib/rate-limit";
 import { defaultGeminiModel } from "@/lib/ai/gemini-model";
 import {
@@ -57,6 +58,12 @@ export async function POST(req: Request) {
   }
 
   const pageContext = parseConciergePageContext(pathnameForContext);
+  const intent = inferConciergeIntent({
+    messages,
+    mode,
+    pageContext,
+    signaledIntent: conciergeSignals?.entryIntent ?? null,
+  });
   const senior = inferSeniorEngagement({
     messages,
     mode,
@@ -71,6 +78,7 @@ export async function POST(req: Request) {
 
   const system = buildConciergeSystem(mode, {
     pageContext,
+    intent,
     ...(demoCatalog !== undefined ? { demoCatalog } : {}),
     senior,
     seniorDemoCatalog,

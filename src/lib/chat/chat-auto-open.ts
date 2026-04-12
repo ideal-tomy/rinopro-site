@@ -2,8 +2,8 @@
  * チャットのセッション初回自動オープン（sessionStorage）と、
  * チャット内ナビゲーション直後の1回だけ自動オープンを抑止するフラグ。
  *
- * 対象は {@link AUTO_OPEN_PATHS} のみ（例: `/` `/demo/list` `/services`）。
- * `/experience/…` や `/demo/[slug]` ではそもそも自動オープンは走らない。
+ * 自動オープンはページごとのポリシーに従う。現状はすべて明示操作優先で、
+ * `/experience/…` や `/demo/[slug]` を含めページ到達だけでは自動オープンしない。
  * コンシェルジュ本文内リンクは `concierge-navigate-from-chat` イベント経由でモーダルを閉じる際に {@link suppressNextChatAutoOpen} も実行し、遷移先の初回自動オープンを抑止する。
  * コンシェルジュが開いたまま別ページへ遷移したときにモーダルが残る場合は、
  * 遷移前に `ConciergeChatProvider` の `setOpen(false)` が必要。
@@ -18,15 +18,44 @@ export const SERVICES_FLOW_PICK_KEY = "rinopro:services-flow-picked" as const;
 
 export type ServicesFlowPick = "development" | "consulting";
 
-const AUTO_OPEN_PATHS = new Set<string>(["/", "/demo/list", "/services"]);
+export type ConciergeAutoOpenPolicy = {
+  enabled: boolean;
+  reason: string;
+};
+
+const AUTO_OPEN_POLICIES: Record<string, ConciergeAutoOpenPolicy> = {
+  "/": {
+    enabled: false,
+    reason: "トップは明示的な選択導線を優先する",
+  },
+  "/demo/list": {
+    enabled: false,
+    reason: "一覧は自力探索と明示的な相談導線を優先する",
+  },
+  "/services": {
+    enabled: false,
+    reason: "サービスカードからの明示的な相談導線を優先する",
+  },
+};
+
+export function getConciergeAutoOpenPolicy(
+  pathname: string
+): ConciergeAutoOpenPolicy {
+  return (
+    AUTO_OPEN_POLICIES[pathname] ?? {
+      enabled: false,
+      reason: "ページ到達だけでは自動オープンしない",
+    }
+  );
+}
 
 export function chatAutoOpenStorageKey(pathname: string): string | null {
-  if (!AUTO_OPEN_PATHS.has(pathname)) return null;
+  if (!getConciergeAutoOpenPolicy(pathname).enabled) return null;
   return `${CHAT_AUTO_OPEN_STORAGE_PREFIX}${pathname}`;
 }
 
 export function shouldAttemptChatAutoOpen(pathname: string): boolean {
-  return AUTO_OPEN_PATHS.has(pathname);
+  return getConciergeAutoOpenPolicy(pathname).enabled;
 }
 
 /** 次に該当ページへ入ったときの自動オープンを1回スキップする（消費型） */

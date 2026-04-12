@@ -25,6 +25,9 @@ export function ContactPageContent() {
           <Button asChild className="min-h-11 w-full sm:w-auto">
             <Link href="/estimate-detailed">{contactCopy.estimateShortcutCta}</Link>
           </Button>
+          <p className="mt-3 text-sm leading-relaxed text-text-sub">
+            {contactCopy.estimateShortcutHint}
+          </p>
         </div>
       </ScrollSequenceItem>
       <ScrollSequenceItem thresholds={[0.5, 0.7]}>

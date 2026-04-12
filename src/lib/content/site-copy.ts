@@ -10,6 +10,29 @@ export const topCopy = {
     "日報作成、写真整理、顧客対応……。現場に潜む『定型作業』をAIが担います。人にしかできない業務に集中できる環境を、実装から定着まで創り上げます。",
 } as const;
 
+export const homeQuickStartCopy = {
+  title: "おすすめの進み方",
+  intro:
+    "気になる入口からどうぞ。途中で別の進み方に切り替えても問題ありません。",
+  consult: {
+    title: "相談から始める",
+    body: "AIコンシェルジュが、目的や悩みを短く整理します。",
+    ctaLabel: "相談してみる",
+  },
+  experience: {
+    title: "体験から始める",
+    body: "厳選した体験を見ながら、できそうなことをつかめます。",
+    ctaLabel: "体験ハブを見る",
+    ctaHref: "/demo",
+  },
+  estimate: {
+    title: "料金感から始める",
+    body: "2〜3分の質問で、内容の整理と金額の目安を確認できます。",
+    ctaLabel: "目安を見てみる",
+    ctaHref: "/estimate-detailed",
+  },
+} as const;
+
 /** トップページ「開発について」セクション */
 export const homeDevelopmentSectionCopy = {
   sectionTitle: "開発について",
@@ -28,10 +51,24 @@ export const homeConsultingSectionCopy = {
   ctaHref: "/consulting",
 } as const;
 
+export const demoHubCopy = {
+  title: "体験ハブ",
+  intro:
+    "ここでは、まず触って雰囲気をつかみやすい体験をまとめています。気になるテーマが見つかったら、一覧ページで広く比較できます。",
+  guide: "まずは注目体験から入り、近いタイプや目的を見つけたあと、必要に応じて一覧で比較するのがおすすめです。",
+  featuredTitle: "まずはここから",
+  featuredBody:
+    "短時間で操作感や画面の雰囲気をつかみやすい体験を並べています。",
+  catalogTitle: "一覧で広く比較する",
+  catalogBody:
+    "このページは厳選した入口です。業種や用途を横断して探したい場合は、一覧ページでまとめて比べられます。",
+} as const;
+
 // --- サービス ---
 export const servicesCopy = {
   title: "サービス",
-  purpose: "開発とコンサルティング。プロセスを透明にし、判断の根拠を共有する。",
+  purpose:
+    "まず読んで把握することも、すぐ相談することもできます。開発とコンサルティングの進め方を、見える形で共有します。",
   cta: "相談する",
   development: {
     title: "開発",
@@ -100,22 +137,22 @@ export const consultingDetailPageCopy = {
   sections: [
     {
       kicker: "セクション1：業務診断",
-      heading: "現場の解像度を、知性の深度へ。",
-      body: "私たちのコンサルティングは、現場の観察から始まります。単なるヒアリングに留まらず、業務フローの中に埋もれた「非構造化データ」と「暗黙知」を可視化。DXの失敗要因となる「現場の抵抗」や「慣習の壁」を事前に特定し、AIが真に機能する余地を精密に診断します。",
+      heading: "いまの業務を一緒に整理する",
+      body: "まずは、どこで時間がかかっているか、誰が困っているかを整理します。ヒアリングだけで終わらせず、業務の流れ・扱う情報・現場の負荷を見ながら、AIやシステム化が効く場所を見つけます。",
     },
     {
       kicker: "セクション2：優先順位設計",
-      heading: "投資対効果を、数学的に設計する。",
-      body: "すべての業務をAI化する必要はありません。私たちは、実装の「容易性」と「事業インパクト」の二軸で全タスクを評価。最短2週間で成果が出る「クイックウィン」を定義し、中長期的なスケーラビリティを見据えた戦略的なロードマップを策定します。",
+      heading: "何から始めるかを決める",
+      body: "全部を一度に変えるのではなく、効果が出やすく、現場の負担が少ないものから順に決めます。短期間で試せる案と、あとで広げる案を分けて、無理のない進め方を作ります。",
     },
     {
       kicker: "セクション3：PoC設計・定着支援",
-      heading: "ツールではなく、変革（Change）を定着させる。",
-      body: "優れたAIも、現場に受け入れられなければ価値はゼロです。実機デモを用いた現場検証（PoC）を繰り返し、UI/UXの微調整からプロンプトの最適化までをアジャイルに実行。システムが自律的に運用され、文化として定着するまで伴走します。",
+      heading: "小さく試して、使える形に整える",
+      body: "試作やデモを見ながら、画面の分かりやすさや使い勝手を調整します。導入して終わりではなく、現場で続けられる形になるまで、運用面も含めて一緒に整えます。",
     },
   ],
   reassurance:
-    "スコープと成功条件は文書で共有し、合意した範囲内で反復します。検証結果を踏まえ、次フェーズを冷静に決められます。",
+    "進める範囲と確認ポイントは文書で共有し、合意した範囲で進めます。試した結果を見てから、次に広げるかどうかを落ち着いて決められます。",
   cta: consultingCopy.cta,
 } as const;
 
@@ -167,61 +204,61 @@ export const flowDetailPageCopyByTrack: Record<
     tabLabel: "共通の進め方",
     title: "開発の進め方（共通）",
     purpose: developmentFlowCopy.purpose,
-    lifecycleLabel: "Engineering Lifecycle",
-    lifecycleSub: "技術的裏付け",
+    lifecycleLabel: "開発の全体像",
+    lifecycleSub: "何を決めて、何を渡すか",
     intro:
-      "「作ります」だけではなく、どのような品質管理と工程で構築されるかを開示します。以下は、rinopro の開発ライフサイクルにおける標準的な進め方です。費用は案件ごとに異なるため、**選択式の見積もり**で要件を整理したうえで目安をご案内します。",
+      "「作ります」で終わらせず、どの順番で整理し、どこで確認しながら進めるかを先に共有します。以下は rinopro の標準的な進め方です。費用は案件ごとに異なるため、**選択式の見積もり**で要件を整理したうえで目安をご案内します。",
     steps: [
       {
         step: "01",
         labelJa: "現状整理",
         labelEn: "Discovery",
-        body: "業務プロセスのマッピングを行い、情報のボトルネックを特定。",
+        body: "今の業務の流れを整理し、どこで時間や手間がかかっているかを見つけます。",
         deliverables: [
           "業務フロー図",
-          "課題抽出レポート",
-          "AI適応定義書",
+          "課題整理メモ",
+          "AI活用の整理",
         ],
       },
       {
         step: "02",
         labelJa: "要件化",
         labelEn: "Structuring",
-        body: "AIが扱う「入力データ」と「期待される出力」のプロトコルを定義。独自のプロンプト・エンジニアリングにより、回答の精度と一貫性を保証するためのロジックを設計します。",
+        body: "何を入力して、何が返ってくると役立つかを決めます。答えの基準や、つなぐ先もここで整理します。",
         deliverables: [
-          "プロンプト構成案",
-          "データ連携仕様書",
-          "KPI設計書",
+          "入力と出力の整理",
+          "連携方法の整理",
+          "確認したい指標",
         ],
       },
       {
         step: "03",
         labelJa: "試作・現場検証",
         labelEn: "Validation",
-        body: "Gemini 3 Flash等の軽量・高速モデルを用いたラピッド・プロトタイピング。実際の現場環境でのストレス操作を行い、実務に耐えうるレスポンス速度と精度を磨き上げます。",
+        body: "小さく試せる画面や動きを先に作り、実際の使い勝手を見ながら直します。ここで速さや分かりやすさも確認します。",
         deliverables: [
-          "プロトタイプ実機",
+          "試作画面",
           "フィードバックログ",
-          "精度検証報告書",
+          "確認結果のメモ",
         ],
       },
       {
         step: "04",
         labelJa: "本実装",
         labelEn: "Integration",
-        body: "セキュリティ、スケーラビリティ、メンテナンス性を考慮した本番環境への実装。Vercel等のモダンなインフラを活用し、ダウンタイムを最小限に抑えたデプロイメントを実現します。",
+        body: "本番で使える形に整え、権限・運用・改善方法まで含めて引き渡します。公開後に直しやすい構成にしておきます。",
         deliverables: [
           "本番システム",
           "運用マニュアル",
-          "管理者向けダッシュボード",
+          "管理者向けの手順",
         ],
       },
     ],
     reassurance:
       "各マイルストーンで受入基準をすり合わせ、仕様の自然増殖を抑えます。運用開始後の改善サイクルも設計に含めます。",
-    architectureTitle: "Architecture Logic",
+    architectureTitle: "技術面で大切にしていること",
     architectureBody:
-      "私たちは、大規模言語モデル（LLM）のポテンシャルを最大限に引き出すため、**「軽量モデル（Flash等）の最適化」と「コンテキスト設計」**に特化しています。これにより、高額な演算リソースに依存せず、圧倒的な高速レスポンスと運用コストの最適化を両立。ITリテラシーに依存しない、直感的なUXを技術で支えています。",
+      "高価な仕組みを積み上げるより、**速く・分かりやすく・続けやすいこと**を優先します。応答速度、運用コスト、直しやすさのバランスを取り、ITに詳しくない人でも扱いやすい体験を実装で支えます。",
     cta: "見積もりで要件を整理する",
     ctaHref: "/estimate-detailed",
   },
@@ -230,7 +267,7 @@ export const flowDetailPageCopyByTrack: Record<
     title: "Webサイト制作の進め方",
     purpose:
       "ブランド体験と運用性を両立し、公開後の改善まで見据えて構築します。",
-    lifecycleLabel: "Web Delivery",
+    lifecycleLabel: "Web制作の流れ",
     lifecycleSub: "導線と運用",
     intro:
       "コーポレート、LP、採用など、サイトの役割と導線を先に定め、更新・計測まで含めた設計で進めます。費用はページ構成や連携範囲で変わるため、**選択式の見積もり**で整理したうえで目安をご確認ください。",
@@ -283,7 +320,7 @@ export const flowDetailPageCopyByTrack: Record<
     ],
     reassurance:
       "公開前に受入基準をすり合わせ、リリース後の更新・計測の見直しも前提に置きます。",
-    architectureTitle: "Experience & Performance",
+    architectureTitle: "体験と表示速度",
     architectureBody:
       "**表示速度・検索・読みやすさ**を設計段階から組み込み、モダンなフロント基盤で保守しやすい構成にします。ブランドのトーンと運用負荷のバランスを、実装で支えます。",
     cta: "見積もりで要件を整理する",
@@ -294,7 +331,7 @@ export const flowDetailPageCopyByTrack: Record<
     title: "アプリ開発の進め方",
     purpose:
       "利用シーンから逆算し、継続利用される操作体験と運用を設計します。",
-    lifecycleLabel: "Product Engineering",
+    lifecycleLabel: "アプリ開発の流れ",
     lifecycleSub: "体験と運用",
     intro:
       "Webアプリやスマホ向けの利用想定から、認証・通知・データ連携までを一つの体験として設計します。費用は機能範囲と連携先に左右されるため、**選択式の見積もり**で要件を選び、目安をご確認ください。",
@@ -346,7 +383,7 @@ export const flowDetailPageCopyByTrack: Record<
     ],
     reassurance:
       "権限とデータの境界を早い段階で固定し、仕様の自然増殖を抑えます。",
-    architectureTitle: "Reliability & Security",
+    architectureTitle: "安定性と安全性",
     architectureBody:
       "**認証・権限・監査**を設計に組み込み、運用で追いやすいログとリリース手順を用意します。利用者の負荷を下げる操作設計を優先します。",
     cta: "見積もりで要件を整理する",
@@ -357,7 +394,7 @@ export const flowDetailPageCopyByTrack: Record<
     title: "業務ダッシュボード開発の進め方",
     purpose:
       "意思決定に必要な数字とアクションを、一画面で判断できる状態を作ります。",
-    lifecycleLabel: "Operations Intelligence",
+    lifecycleLabel: "ダッシュボード開発の流れ",
     lifecycleSub: "指標と権限",
     intro:
       "KPI・権限・データの更新頻度を揃え、現場の判断が遅れないダッシュボードを目指します。費用は指標・データソースの数に依存するため、**選択式の見積もり**で範囲を選び、目安をご確認ください。",
@@ -409,7 +446,7 @@ export const flowDetailPageCopyByTrack: Record<
     ],
     reassurance:
       "指標の定義とデータの鮮度を合意し、運用でブレない見え方を維持します。",
-    architectureTitle: "Data & Governance",
+    architectureTitle: "データと権限設計",
     architectureBody:
       "**データの出所と更新頻度**を明確にし、権限に応じた表示と監査に耐える構成を設計します。現場の意思決定が止まらないUIを優先します。",
     cta: "見積もりで要件を整理する",
@@ -423,8 +460,9 @@ export const flowDetailPageCopy: FlowDetailPageTrackCopy =
 
 // --- 会社紹介 ---
 export const aboutCopy = {
-  title: "代表の戦略的知見と、パートナーの技術的資産。",
-  purpose: "現場課題を構造化し、実装まで落とす。過剰提案せず、検証を優先する。",
+  title: "現場の困りごとを整理し、実装まで進めるチームです。",
+  purpose:
+    "業務の流れを一緒に整理し、小さく試しながら形にします。必要以上に広げず、合意した範囲で進めます。",
   values: {
     title: "価値観",
     items: [
@@ -703,6 +741,8 @@ export const contactCopy = {
     "売り込みではなく、現場の課題を一緒に棚卸しする場。初回は要件整理が中心です。",
   /** 問い合わせページ：詳細見積フローへ（説明は出さずボタンのみ） */
   estimateShortcutCta: "詳しい見積もりの目安へ進む",
+  estimateShortcutHint:
+    "先に料金感を見たい場合は、短い質問に答えるだけで内容の整理と目安を確認できます。",
   form: {
     nameLabel: "お名前",
     namePlaceholder: "山田 太郎",
@@ -736,4 +776,10 @@ export const contactCopy = {
       "初回の相談は、費用発生のご案内はありません。",
     ],
   },
+} as const;
+
+export const footerCopy = {
+  tagline: "ビジネスを再設計する",
+  subline:
+    "AIコンシェルジュと業務改善の体験を、相談から実装までつなげます。",
 } as const;

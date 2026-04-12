@@ -64,6 +64,14 @@ export function PurposePickSection({
         >
           目的から選ぶ
         </h2>
+        <p
+          className={cn(
+            "mb-6 text-sm leading-relaxed text-text-sub md:mb-8 md:text-[1rem]",
+            headingAlign === "center" && "text-center"
+          )}
+        >
+          カードを押すと、近い体験候補が開きます。もっと広く探したい場合は一覧ページへ進めます。
+        </p>
 
         <div className="hidden md:grid md:grid-cols-4 md:justify-items-center md:gap-x-10 md:gap-y-10 lg:gap-x-12">
           {DEMO_HUB_PURPOSE_GROUPS.map((group) => (
@@ -122,6 +130,9 @@ export function PurposePickSection({
                   {openGroup.description}
                 </SheetDescription>
               </SheetHeader>
+              <p className="mt-4 text-xs leading-relaxed text-text-sub/85 md:text-sm">
+                この目的に近い体験だけをまとめています。より広く比べたい場合は、一覧ページで絞り込みもできます。
+              </p>
               <ul className="mt-8 grid gap-6 sm:grid-cols-3 sm:gap-8">
                 {openGroup.experienceSlugs.map((slug) => {
                   const meta = getExperiencePrototypeBySlug(slug);
@@ -156,11 +167,11 @@ export function PurposePickSection({
                     onClick={() => setOpenPurposeId(null)}
                   >
                     <LayoutGrid className="mr-2 h-4 w-4" aria-hidden />
-                    その他のdemo（一覧で絞り込み）
+                    一覧でさらに比較する
                   </Link>
                 </Button>
                 <p className="mt-2 text-center text-xs text-text-sub">
-                  モック一覧が開き、選択式の案内が表示されます。
+                  一覧ページでは、業種や用途をまたいで広く探せます。
                 </p>
               </div>
             </>

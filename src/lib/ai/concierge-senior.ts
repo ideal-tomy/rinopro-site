@@ -6,6 +6,7 @@
 import type { UIMessage } from "ai";
 import type { AiDemo, DemoItem } from "@/lib/sanity/types";
 import { getUIMessageText } from "@/lib/chat/uimessage-text";
+import type { ConciergeIntent } from "@/lib/ai/concierge-intent";
 import {
   CONSULTING_PRESET_LABELS,
   CON_STEP1_DEFS,
@@ -22,6 +23,8 @@ export type ConciergeSignals = {
   presetLabel?: string;
   /** URL クエリ `concierge_from=case_study` 等で明示した事例・高関与流入 */
   fromCaseStudy?: boolean;
+  /** 明示導線が持つ初期意図（学習 / 比較 / 相談 / 見積） */
+  entryIntent?: ConciergeIntent;
 };
 
 const FREE_FORM_LABEL = "自由記述で相談する";
@@ -99,6 +102,14 @@ export function parseConciergeSignals(raw: unknown): ConciergeSignals | undefine
     out.presetLabel = o.presetLabel;
   }
   if (o.fromCaseStudy === true) out.fromCaseStudy = true;
+  if (
+    o.entryIntent === "learn" ||
+    o.entryIntent === "compare" ||
+    o.entryIntent === "consult" ||
+    o.entryIntent === "estimate"
+  ) {
+    out.entryIntent = o.entryIntent;
+  }
   return Object.keys(out).length ? out : undefined;
 }
 

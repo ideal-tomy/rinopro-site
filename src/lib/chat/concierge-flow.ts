@@ -157,18 +157,19 @@ export function buildEmpathyLineE(path: FlowSelection[]): string {
   return line;
 }
 
-/** 次の行動は最大2つ（メモ・引き継ぎ用。画面上のタップ導線は HomeConciergeFlow のカード） */
+/** 次の行動は1つだけ強く示す（メモ・引き継ぎ用。画面上のタップ導線は HomeConciergeFlow のカード） */
 export function buildNextActionLines(
-  _track: ConciergeTrack,
+  track: ConciergeTrack,
   _path: FlowSelection[]
 ): string {
-  void _track;
   void _path;
-  return [
-    CONCIERGE_NEXT_STEPS_HEADING,
-    "- まずは**体験demo**で操作感を掴む（`/demo/list` またはおすすめの体験ページ）",
-    "- **詳細見積もり**で要件のたたき台をつくる（`/estimate-detailed`）",
-  ].join("\n");
+  const line =
+    track === "A" || track === "B"
+      ? "- **詳細見積もり**で、要件のたたき台と目安を整理する（`/estimate-detailed`）"
+      : track === "E"
+        ? "- **お問い合わせ**で、現状整理から相談を始める（`/contact`）"
+        : "- **demo一覧**で、近い体験を比較しながら確認する（`/demo/list`）";
+  return [CONCIERGE_NEXT_STEPS_HEADING, line].join("\n");
 }
 
 /** 必須セクションの有無（ホーム固定結果・組み合わせ検証用） */

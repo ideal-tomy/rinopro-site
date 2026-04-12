@@ -20,7 +20,7 @@ export function DemoListConciergeUrlSync() {
     }
     if (handledRef.current) return;
     handledRef.current = true;
-    requestOpenDemoListPageConcierge();
+    requestOpenDemoListPageConcierge({ entryIntent: "compare" });
     router.replace("/demo/list", { scroll: false });
   }, [searchParams, requestOpenDemoListPageConcierge, router]);
 

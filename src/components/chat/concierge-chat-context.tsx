@@ -8,6 +8,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import type { ConciergeSignals } from "@/lib/ai/concierge-senior";
 import type {
   ConciergeAnswers,
   ConciergePick,
@@ -33,14 +34,19 @@ type ConciergeChatContextValue = {
   setMode: (value: ConciergeMode) => void;
   entrySource: ConciergeEntrySource;
   setEntrySource: (value: ConciergeEntrySource) => void;
+  pendingSignals: Partial<ConciergeSignals> | null;
+  setPendingSignals: (value: Partial<ConciergeSignals> | null) => void;
   openConcierge: (
     nextMode: ConciergeMode,
-    source?: ConciergeEntrySource
+    source?: ConciergeEntrySource,
+    signals?: Partial<ConciergeSignals>
   ) => void;
   demoListWizardSnapshot: DemoListWizardSnapshot | null;
   setDemoListWizardSnapshot: (value: DemoListWizardSnapshot | null) => void;
   demoListPageOpenSeq: number;
-  requestOpenDemoListPageConcierge: () => void;
+  requestOpenDemoListPageConcierge: (
+    signals?: Partial<ConciergeSignals>
+  ) => void;
 };
 
 const ConciergeChatContext = createContext<ConciergeChatContextValue | null>(
@@ -51,20 +57,28 @@ export function ConciergeChatProvider({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState<ConciergeMode>("default");
   const [entrySource, setEntrySource] = useState<ConciergeEntrySource>("fab");
+  const [pendingSignals, setPendingSignals] =
+    useState<Partial<ConciergeSignals> | null>(null);
   const [demoListWizardSnapshot, setDemoListWizardSnapshot] =
     useState<DemoListWizardSnapshot | null>(null);
   const [demoListPageOpenSeq, setDemoListPageOpenSeq] = useState(0);
 
   const openConcierge = useCallback(
-    (nextMode: ConciergeMode, source: ConciergeEntrySource = "fab") => {
+    (
+      nextMode: ConciergeMode,
+      source: ConciergeEntrySource = "fab",
+      signals?: Partial<ConciergeSignals>
+    ) => {
       setEntrySource(source);
+      setPendingSignals(signals ?? null);
       setMode(nextMode);
       setOpen(true);
     },
     []
   );
 
-  const requestOpenDemoListPageConcierge = useCallback(() => {
+  const requestOpenDemoListPageConcierge = useCallback((signals?: Partial<ConciergeSignals>) => {
+    setPendingSignals(signals ?? null);
     setDemoListPageOpenSeq((n) => n + 1);
   }, []);
 
@@ -76,6 +90,8 @@ export function ConciergeChatProvider({ children }: { children: ReactNode }) {
       setMode,
       entrySource,
       setEntrySource,
+      pendingSignals,
+      setPendingSignals,
       openConcierge,
       demoListWizardSnapshot,
       setDemoListWizardSnapshot,
@@ -86,6 +102,7 @@ export function ConciergeChatProvider({ children }: { children: ReactNode }) {
       open,
       mode,
       entrySource,
+      pendingSignals,
       openConcierge,
       demoListWizardSnapshot,
       demoListPageOpenSeq,

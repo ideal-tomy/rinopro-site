@@ -235,7 +235,7 @@ export function FlowTimelinePageContent() {
                     </p>
                     <div>
                       <p className="mb-3 text-[0.65rem] font-medium uppercase tracking-[0.2em] text-text/55">
-                        Deliverables
+                        成果物
                       </p>
                       <ul className="flex flex-wrap gap-2">
                         {step.deliverables.map((tag) => (
@@ -271,7 +271,7 @@ export function FlowTimelinePageContent() {
                   </p>
                   <div className="w-full max-w-2xl">
                     <p className="mb-4 text-center text-[0.65rem] font-medium uppercase tracking-[0.2em] text-text/55">
-                      Deliverables
+                      成果物
                     </p>
                     <ul className="flex flex-wrap justify-center gap-2">
                       {step.deliverables.map((tag) => (

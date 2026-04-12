@@ -11,6 +11,7 @@ import {
 } from "@/lib/motion/variants";
 import {
   topCopy,
+  homeQuickStartCopy,
   homeDevelopmentSectionCopy,
   homeConsultingSectionCopy,
 } from "@/lib/content/site-copy";
@@ -21,12 +22,15 @@ import { getFeaturedExperiencePrototypes } from "@/lib/experience/prototype-regi
 import { FEATURED_SHOWCASE_VIDEO_BY_SLUG } from "@/lib/experience/featured-showcase-media";
 import type { FeaturedExperienceSlug } from "@/lib/experience/prototype-registry";
 import type { AiDemo, DemoItem } from "@/lib/sanity/types";
+import { useConciergeChat } from "@/components/chat/concierge-chat-context";
 
 interface HeroSectionProps {
   demos: (AiDemo | DemoItem)[];
 }
 
 export function HeroSection({ demos }: HeroSectionProps) {
+  const { openConcierge } = useConciergeChat();
+
   return (
     <>
       <ParticleBackground />
@@ -50,6 +54,89 @@ export function HeroSection({ demos }: HeroSectionProps) {
         >
           {topCopy.subline}
         </motion.p>
+      </motion.section>
+
+      <motion.section
+        className="container mx-auto max-w-6xl px-4 pb-16 md:px-6 md:pb-20"
+        aria-labelledby="home-quick-start-heading"
+        variants={heroStaggerContainer}
+        initial="hidden"
+        animate="visible"
+      >
+        <motion.div
+          variants={heroStaggerItem}
+          custom={[0.24, 0.34] as [number, number]}
+          className="mx-auto max-w-3xl text-center"
+        >
+          <p className="text-xs font-medium uppercase tracking-[0.28em] text-accent/80">
+            はじめに
+          </p>
+          <h2
+            id="home-quick-start-heading"
+            className="mt-3 text-xl font-semibold text-accent md:text-2xl"
+          >
+            {homeQuickStartCopy.title}
+          </h2>
+          <p className="mt-4 text-sm leading-relaxed text-text-sub md:text-[1rem]">
+            {homeQuickStartCopy.intro}
+          </p>
+        </motion.div>
+        <div className="mt-8 grid gap-4 md:mt-10 md:grid-cols-3">
+          <motion.div
+            variants={heroStaggerItem}
+            custom={[0.3, 0.4] as [number, number]}
+            className="flex h-full flex-col rounded-2xl border border-silver/20 bg-base-dark/60 p-5"
+          >
+            <h3 className="text-[1rem] font-semibold text-text">
+              {homeQuickStartCopy.consult.title}
+            </h3>
+            <p className="mt-3 flex-1 text-sm leading-relaxed text-text-sub">
+              {homeQuickStartCopy.consult.body}
+            </p>
+            <Button
+              className="mt-5 w-full"
+              onClick={() =>
+                openConcierge("default", "fab", { entryIntent: "consult" })
+              }
+            >
+              {homeQuickStartCopy.consult.ctaLabel}
+            </Button>
+          </motion.div>
+          <motion.div
+            variants={heroStaggerItem}
+            custom={[0.36, 0.46] as [number, number]}
+            className="flex h-full flex-col rounded-2xl border border-silver/20 bg-base-dark/60 p-5"
+          >
+            <h3 className="text-[1rem] font-semibold text-text">
+              {homeQuickStartCopy.experience.title}
+            </h3>
+            <p className="mt-3 flex-1 text-sm leading-relaxed text-text-sub">
+              {homeQuickStartCopy.experience.body}
+            </p>
+            <Button asChild className="mt-5 w-full" variant="outline">
+              <Link href={homeQuickStartCopy.experience.ctaHref}>
+                {homeQuickStartCopy.experience.ctaLabel}
+              </Link>
+            </Button>
+          </motion.div>
+          <motion.div
+            variants={heroStaggerItem}
+            custom={[0.42, 0.52] as [number, number]}
+            className="flex h-full flex-col rounded-2xl border border-silver/20 bg-base-dark/60 p-5"
+          >
+            <h3 className="text-[1rem] font-semibold text-text">
+              {homeQuickStartCopy.estimate.title}
+            </h3>
+            <p className="mt-3 flex-1 text-sm leading-relaxed text-text-sub">
+              {homeQuickStartCopy.estimate.body}
+            </p>
+            <Button asChild className="mt-5 w-full" variant="outline">
+              <Link href={homeQuickStartCopy.estimate.ctaHref}>
+                {homeQuickStartCopy.estimate.ctaLabel}
+              </Link>
+            </Button>
+          </motion.div>
+        </div>
       </motion.section>
 
       <div className="py-10 md:py-14">

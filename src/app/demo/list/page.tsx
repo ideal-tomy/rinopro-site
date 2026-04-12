@@ -8,9 +8,9 @@ import { DemoListContent } from "@/components/demo/DemoListContent";
 import { DemoListConciergeUrlSync } from "@/components/demo/DemoListConciergeUrlSync";
 
 export const metadata: Metadata = {
-  title: "モックdemo一覧（カタログ） | rinopro",
+  title: "demo一覧・比較 | rinopro",
   description:
-    "問い合わせ文→返信案や入力試し込みなど、ツールdemoをカタログ形式で一覧できます。",
+    "業種や用途を横断して demo を比較できる一覧ページです。迷う場合はコンシェルジュで絞り込めます。",
 };
 
 export default async function DemoListPage() {
@@ -21,16 +21,16 @@ export default async function DemoListPage() {
       <div className="container mx-auto max-w-5xl px-4 py-12 md:px-6">
         <header className="mb-8 text-center">
           <h1 className="text-2xl font-bold text-accent md:text-3xl">
-            モックdemo一覧（カタログ）
+            demo一覧・比較
           </h1>
           <p className="mx-auto mt-3 max-w-2xl text-sm text-text-sub md:text-[1rem]">
-            チャット型・入力試し込みのモックdemoを一覧から選べます。気になるものから触って、業務への当てはめをイメージしてください。
+            ここでは業種や用途を横断して比べられます。まずはカテゴリから見て、迷う場合だけコンシェルジュで絞り込んでください。
           </p>
           <Link
             href="/demo"
             className="mt-5 inline-block text-sm text-text-sub transition-colors hover:text-accent"
           >
-            ← 体験・demoハブに戻る
+            ← 体験ハブに戻る
           </Link>
         </header>
 

@@ -4,6 +4,7 @@ import { useEffect, useLayoutEffect, useRef, type MutableRefObject } from "react
 import {
   chatAutoOpenStorageKey,
   consumeSuppressChatAutoOnce,
+  getConciergeAutoOpenPolicy,
   readServicesFlowPick,
   shouldAttemptChatAutoOpen,
   suppressNextChatAutoOpen,
@@ -113,6 +114,8 @@ export function useConciergeChatAutoOpen(
   openRef: MutableRefObject<boolean>
 ) {
   useEffect(() => {
+    const policy = getConciergeAutoOpenPolicy(pathname);
+    if (!policy.enabled) return;
     if (!shouldAttemptChatAutoOpen(pathname)) return;
     const key = chatAutoOpenStorageKey(pathname);
     if (!key) return;

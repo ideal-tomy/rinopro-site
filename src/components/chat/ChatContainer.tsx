@@ -112,6 +112,8 @@ export function ChatContainer() {
     setMode,
     entrySource,
     setEntrySource,
+    pendingSignals,
+    setPendingSignals,
     setDemoListWizardSnapshot,
     demoListPageOpenSeq,
   } = useConciergeChat();
@@ -134,8 +136,9 @@ export function ChatContainer() {
   const dismissConciergeForSiteLink = useCallback(() => {
     suppressNextChatAutoOpen();
     setDemoFreeformPicks(null);
+    setPendingSignals(null);
     setOpen(false);
-  }, [setOpen]);
+  }, [setOpen, setPendingSignals]);
 
   const [draftInjection, setDraftInjection] = useState<{
     id: number;
@@ -173,7 +176,9 @@ export function ChatContainer() {
   const transport = useConciergeChatTransport(
     mode,
     pathname,
-    conciergeSignalsRef
+    conciergeSignalsRef,
+    pendingSignals,
+    () => setPendingSignals(null)
   );
 
   const { messages, sendMessage, setMessages, status, error, clearError } =
@@ -496,11 +501,12 @@ export function ChatContainer() {
     conciergeSignalsRef.current = {};
     setConciergeSurface("pick");
     setEntrySource("fab");
+    setPendingSignals(null);
     setServiceCardStartDone(false);
     setHomeFooterPhase("wizard");
     setDemoFreeformPicks(null);
     setDemoRecommendFromTextInFlight(false);
-  }, [setEntrySource]);
+  }, [setEntrySource, setPendingSignals]);
 
   const handlePopupOpenChange = useCallback(
     (next: boolean) => {
@@ -683,6 +689,7 @@ export function ChatContainer() {
           onFocus={maybePrefetchDemoCatalog}
           onClick={() => {
             setEntrySource("fab");
+            setPendingSignals(null);
             setServiceCardStartDone(false);
             if (pathname === "/services") {
               clearServicesFlowPick();
@@ -699,7 +706,7 @@ export function ChatContainer() {
         >
           <MessageCircle className="h-6 w-6 shrink-0 text-accent" aria-hidden />
           <span className="max-w-[4.75rem] text-center text-[0.62rem] font-semibold leading-snug tracking-tight text-text sm:max-w-none sm:text-sm sm:font-medium sm:tracking-normal">
-            相談・ガイド
+            AIに相談
           </span>
         </Button>
       </div>

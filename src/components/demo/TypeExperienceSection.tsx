@@ -41,7 +41,6 @@ interface TypeExperienceSectionProps {
   pcLayout?: "grid" | "carousel";
 }
 
-const CAROUSEL_HOLD_MS = 5000;
 const CAROUSEL_TRANSITION_MS = 2000;
 
 /** 3パネル（先頭3件・後半3件・先頭の複製）で常に右→左へ流し、ループ時のみ瞬時にリセット */
@@ -71,52 +70,11 @@ export function TypeExperienceSection({
 }: TypeExperienceSectionProps) {
   const [carouselSlide, setCarouselSlide] = useState(0);
   const [carouselInstant, setCarouselInstant] = useState(false);
-  const [autoKey, setAutoKey] = useState(0);
   const reducedMotion = usePrefersReducedMotion();
 
   const showCarousel =
     pcLayout === "carousel" && !reducedMotion;
   const showCarouselAsGrid = pcLayout === "carousel" && reducedMotion;
-
-  useEffect(() => {
-    if (!showCarousel) return;
-    let cancelled = false;
-    const sleep = (ms: number) =>
-      new Promise<void>((r) => setTimeout(r, ms));
-    const instantResetTo = (index: number) => {
-      setCarouselInstant(true);
-      setCarouselSlide(index);
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          setCarouselInstant(false);
-        });
-      });
-    };
-    const run = async () => {
-      while (!cancelled) {
-        await sleep(CAROUSEL_HOLD_MS);
-        if (cancelled) break;
-        setCarouselInstant(false);
-        setCarouselSlide(1);
-        await sleep(CAROUSEL_TRANSITION_MS);
-        if (cancelled) break;
-        await sleep(CAROUSEL_HOLD_MS);
-        if (cancelled) break;
-        setCarouselInstant(false);
-        setCarouselSlide(2);
-        await sleep(CAROUSEL_TRANSITION_MS);
-        if (cancelled) break;
-        instantResetTo(0);
-        await sleep(0);
-      }
-    };
-    run();
-    return () => {
-      cancelled = true;
-    };
-  }, [showCarousel, autoKey]);
-
-  const restartCarouselAuto = () => setAutoKey((k) => k + 1);
 
   /** 論理スライド: 先頭3件 vs 後半3件（パネル2はパネル0と同じ見た目） */
   const carouselLogicalIndex = carouselSlide === 1 ? 1 : 0;
@@ -131,7 +89,6 @@ export function TypeExperienceSection({
           setCarouselInstant(false);
         });
       });
-      restartCarouselAuto();
       return;
     }
     if (carouselSlide === 1) return;
@@ -147,7 +104,6 @@ export function TypeExperienceSection({
         });
       });
     }
-    restartCarouselAuto();
   };
 
   const goNext = () => {
@@ -159,12 +115,10 @@ export function TypeExperienceSection({
           setCarouselInstant(false);
         });
       });
-      restartCarouselAuto();
       return;
     }
     setCarouselInstant(false);
     setCarouselSlide((s) => Math.min(s + 1, 2) as 0 | 1 | 2);
-    restartCarouselAuto();
   };
 
   /** 常に左方向の「次」と同じ並びへ進む（先頭3件の手前は後半3件＝瞬時ジャンプ） */
@@ -177,7 +131,6 @@ export function TypeExperienceSection({
           setCarouselInstant(false);
         });
       });
-      restartCarouselAuto();
       return;
     }
     setCarouselInstant(true);
@@ -187,7 +140,6 @@ export function TypeExperienceSection({
         setCarouselInstant(false);
       });
     });
-    restartCarouselAuto();
   };
 
   return (
@@ -201,6 +153,14 @@ export function TypeExperienceSection({
       >
         タイプ別に体験する
       </h2>
+      <p
+        className={cn(
+          "mb-6 text-sm leading-relaxed text-text-sub md:mb-8 md:text-[1rem]",
+          headingAlign === "center" && "text-center"
+        )}
+      >
+        1つずつページを開いて体験できます。PC では左右のボタンで切り替えながらご覧ください。
+      </p>
 
       {showCarousel ? (
         <div
@@ -209,6 +169,9 @@ export function TypeExperienceSection({
           aria-roledescription="カルーセル"
           aria-label="タイプ別体験（3件ずつ表示）"
         >
+          <p className="mb-4 text-center text-xs text-text-sub/85">
+            自動では切り替わりません。気になる列だけゆっくり比較できます。
+          </p>
           <div className="overflow-hidden">
             <div
               className="flex w-[300%] will-change-transform"

@@ -13,6 +13,7 @@ import {
 } from "@/lib/experience/prototype-registry";
 import { FEATURED_SHOWCASE_VIDEO_BY_SLUG } from "@/lib/experience/featured-showcase-media";
 import type { AiDemo, DemoItem } from "@/lib/sanity/types";
+import { demoHubCopy } from "@/lib/content/site-copy";
 
 interface DemoPageContentProps {
   demos: (AiDemo | DemoItem)[];
@@ -28,10 +29,13 @@ export function DemoPageContent({ demos }: DemoPageContentProps) {
       <div className="container mx-auto max-w-6xl px-4 py-10 md:px-6 md:py-14">
         <header className="mb-10 text-center">
           <h1 className="text-2xl font-bold text-accent md:text-3xl">
-            体験・ツールdemo
+            {demoHubCopy.title}
           </h1>
           <p className="mx-auto mt-3 max-w-2xl text-sm text-text-sub md:text-[1rem]">
-            情報提供を、読みやすい画面と操作感で体験できるよう並べています。
+            {demoHubCopy.intro}
+          </p>
+          <p className="mx-auto mt-3 max-w-2xl text-xs leading-relaxed text-text-sub/90 md:text-sm">
+            {demoHubCopy.guide}
           </p>
         </header>
 
@@ -45,6 +49,14 @@ export function DemoPageContent({ demos }: DemoPageContentProps) {
           className="scroll-mt-24 pb-16 md:pb-20"
           aria-label="注目のインタラクティブ体験"
         >
+          <div className="mx-auto mb-6 max-w-2xl text-center">
+            <h2 className="text-lg font-semibold text-accent md:text-xl">
+              {demoHubCopy.featuredTitle}
+            </h2>
+            <p className="mt-2 text-sm text-text-sub md:text-[1rem]">
+              {demoHubCopy.featuredBody}
+            </p>
+          </div>
           <div className="mx-auto grid max-w-2xl grid-cols-1 gap-6">
             {featuredOrdered.map((p) => (
               <FeaturedExperienceVideoCard
@@ -92,10 +104,10 @@ export function DemoPageContent({ demos }: DemoPageContentProps) {
                   id="catalog-cta-heading"
                   className="text-lg font-semibold text-accent md:text-xl"
                 >
-                  モックdemo一覧で網羅探索
+                  {demoHubCopy.catalogTitle}
                 </h2>
                 <p className="mt-2 text-sm text-text-sub md:text-[1rem]">
-                  業種・用途タグで100本超のシナリオを横断できます。コンシェルジュで条件を絞り、比較の起点にも使えます。
+                  {demoHubCopy.catalogBody}
                 </p>
               </div>
               <Link

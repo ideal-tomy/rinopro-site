@@ -4,9 +4,9 @@ import { DemoPageContent } from "@/components/demo/DemoPageContent";
 import { fetchDemosForDisplay } from "@/lib/sanity/fetch";
 
 export const metadata: Metadata = {
-  title: "体験・ツールdemo | rinopro",
+  title: "体験ハブ | rinopro",
   description:
-    "プロトタイプのインタラクティブ体験と、モックdemo一覧への導線をまとめたハブです。",
+    "まずは厳選した体験から触れ、必要に応じて demo 一覧で比較できる体験ハブです。",
 };
 
 export default async function DemoPage() {

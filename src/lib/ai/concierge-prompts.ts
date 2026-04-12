@@ -1,4 +1,5 @@
 import { consultingCopy, developmentFlowCopy } from "@/lib/content/site-copy";
+import type { ConciergeIntent } from "@/lib/ai/concierge-intent";
 import type { AiDemo, DemoItem } from "@/lib/sanity/types";
 import {
   OUTPUT_SHAPE_SENIOR,
@@ -15,6 +16,8 @@ export type BuildConciergeSystemOptions = {
   demoCatalog?: string;
   /** ページのパスから推定した文脈（平易語・CTAの優先度） */
   pageContext?: ConciergePageContext;
+  /** ユーザーが今このチャットでやりたいこと */
+  intent?: ConciergeIntent;
   /** 高関与ユーザー向けシステム追記・出力型の切替 */
   senior?: boolean;
   /** シニア時のみ。要約デモカタログ（buildSeniorDemoCatalog） */
@@ -58,6 +61,31 @@ function buildPageContextHints(ctx: ConciergePageContext): string {
   }
 }
 
+function buildIntentHints(intent: ConciergeIntent): string {
+  switch (intent) {
+    case "learn":
+      return `意図（知りたい）:
+- まず答えを短く言い切る。全体説明を広げすぎない。
+- 「何ができるか」「どこを見ると分かるか」を平易に示す。
+- 次の一歩は、理解を深めやすいものを **1つだけ** 出す。`;
+    case "compare":
+      return `意図（比較したい）:
+- 違いは **最大3軸** まで。候補を増やしすぎない。
+- 「どちらが良いか」ではなく「どちらが今の状況に近いか」で答える。
+- 最後は、比較確認に向くページや導線を **1つだけ** 出す。`;
+    case "consult":
+      return `意図（相談したい）:
+- すぐ答えを断定しすぎず、まず状況整理を助ける。
+- 必要なら確認質問は **1つだけ**。質問責めにしない。
+- 提案より先に「何を決めれば進むか」を示す。`;
+    case "estimate":
+      return `意図（料金感を知りたい）:
+- 金額や期間は断定しない。幅が動く要因を2〜3点に絞る。
+- 「何が決まると目安が寄るか」を短く添える。
+- 次の一歩は \`/estimate-detailed\` を最優先に **1つだけ** 出す。`;
+  }
+}
+
 /** 打ち切り対策: 型を固定すると最後まで書き切りやすい */
 const OUTPUT_SHAPE = `出力の型（必ずこの順・この粒度で書く。途中で止めない）:
 1) **受容** … 先頭に1文だけ（ユーザーの不安・迷いをそのまま受け止める。「〜は自然な疑問です。」「〜は多くの方が感じるポイントです。」のように、否定せず共感する）
@@ -77,7 +105,7 @@ const BASE_RULES = `共通ルール:
 - 費用・目安・結論を含む場合は、**先に結論の一行**を書き、そのあとに根拠・前提条件を続ける（列挙より前に）。
 - **不安・迷いは否定せず受容する**（「〜は当然の疑問です。」「〜を感じるのは正しい視点です。」等）。冒頭1文で必ず受け止める。
 - **言語化を助ける**：ユーザーが言葉にできていない場合は、「〜ということでしょうか？」「〜が決まると次に進めます。」のように整理を手伝う。
-- **次の行動の提示は最大1〜2個**。サイト内パスは \`/demo/list\`・\`/estimate-detailed\`・\`/contact\` のみ（捏造しない）。パスを出すときは **必ず Markdown リンク** \`[短い表示名](パス)\` にし、\`]\` と \`(\` の間に**空白を入れない**（入ると UI でリンクにならず文字のままになる）。リンク行を **バッククォートで囲まない**（コード扱いでタップできない）。タップで開けるようにする（パス文字列の羅列だけにしない）。
+- **次の行動の提示は原則1個**。本当に必要な場合のみ補助で2個まで。サイト内パスは \`/demo/list\`・\`/estimate-detailed\`・\`/contact\` のみ（捏造しない）。パスを出すときは **必ず Markdown リンク** \`[短い表示名](パス)\` にし、\`]\` と \`(\` の間に**空白を入れない**（入ると UI でリンクにならず文字のままになる）。リンク行を **バッククォートで囲まない**（コード扱いでタップできない）。タップで開けるようにする（パス文字列の羅列だけにしない）。
 - ユーザーの選択・状況の列挙は**参考扱い**（主役は受容・言語化支援・判断軸）。
 - **本文全体は8〜12行程度**を目安に冗長にしない。`;
 
@@ -188,6 +216,7 @@ export function buildConciergeSystem(
   let pageContextBlock = buildPageContextHints(
     options?.pageContext ?? "other"
   );
+  const intentBlock = buildIntentHints(options?.intent ?? "learn");
   if (senior) {
     pageContextBlock +=
       "\n- シニアモード: 本文のリンクは**納得・参考用**。主な次の一手はチャットUI下部のボタン帯が担う。";
@@ -210,6 +239,8 @@ ${DEVELOPMENT_CROSS_TOPIC}
 
 ${pageContextBlock}
 
+${intentBlock}
+
 ${SITE_ROUTE_CTA}
 ${seniorBlocks}
 ${outputShape}
@@ -230,6 +261,8 @@ ${CONSULTING_CROSS_TOPIC}
 
 ${pageContextBlock}
 
+${intentBlock}
+
 ${SITE_ROUTE_CTA}
 ${seniorBlocks}
 ${outputShape}
@@ -243,6 +276,8 @@ ${BASE_RULES}`;
 ${catalogBlock}
 
 ${pageContextBlock}
+
+${intentBlock}
 
 ${SITE_ROUTE_CTA}
 ${seniorBlocks}

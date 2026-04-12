@@ -126,7 +126,7 @@ export function MockStylePurposeCard({
           </p>
         </div>
         <span className="mt-4 inline-flex h-9 w-full items-center justify-center rounded-lg border border-silver/25 bg-base-dark/50 text-[13px] font-medium text-text-sub transition-colors group-hover:border-accent/45 group-hover:text-accent md:h-10 md:text-sm">
-          おすすめを見る
+          候補を開く
         </span>
       </div>
     </button>

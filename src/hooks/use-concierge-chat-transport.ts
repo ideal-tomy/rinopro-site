@@ -11,7 +11,9 @@ import type { ConciergeMode } from "@/components/chat/concierge-chat-context";
 export function useConciergeChatTransport(
   mode: ConciergeMode,
   pathname: string,
-  conciergeSignalsRef: MutableRefObject<Partial<ConciergeSignals>>
+  conciergeSignalsRef: MutableRefObject<Partial<ConciergeSignals>>,
+  pendingSignals: Partial<ConciergeSignals> | null,
+  clearPendingSignals: () => void
 ) {
   return useMemo(
     () =>
@@ -28,6 +30,9 @@ export function useConciergeChatTransport(
               "case_study";
 
           const signals: ConciergeSignals = {};
+          if (pendingSignals?.entryIntent) {
+            signals.entryIntent = pendingSignals.entryIntent;
+          }
           if (conciergeSignalsRef.current.postPreset) {
             signals.postPreset = true;
             if (conciergeSignalsRef.current.presetLabel) {
@@ -39,6 +44,9 @@ export function useConciergeChatTransport(
           if (conciergeSignalsRef.current.postPreset) {
             delete conciergeSignalsRef.current.postPreset;
             delete conciergeSignalsRef.current.presetLabel;
+          }
+          if (pendingSignals) {
+            clearPendingSignals();
           }
 
           const hasSignals = Object.keys(signals).length > 0;
@@ -55,6 +63,6 @@ export function useConciergeChatTransport(
         },
       }),
     // ref は安定参照のため deps に含めない（元の ChatContainer と同一）
-    [mode, pathname]
+    [mode, pathname, pendingSignals, clearPendingSignals]
   );
 }

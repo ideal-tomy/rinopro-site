@@ -327,17 +327,24 @@ export function DemoListContent({ demos }: DemoListContentProps) {
     <div className="space-y-10 pb-8 md:space-y-12">
       <section className="rounded-xl border border-silver/20 bg-base-dark/70 p-4 md:p-5">
         <div className="mb-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-sm text-text-sub">
-            {appliedAnswers
-              ? "直近のコンシェルジュ条件を表示しています"
-              : "コンシェルジュで条件を選ぶと、最適なデモを最大3件提示します"}
-          </p>
+          <div className="space-y-1">
+            <p className="text-sm text-text-sub">
+              まずは下のカテゴリから、そのまま気になる demo を見ていけます。
+            </p>
+            <p className="text-xs leading-relaxed text-text-sub/85">
+              {appliedAnswers
+                ? "直近の条件は、比較の補助として表示しています。条件なしでも一覧はそのまま見られます。"
+                : "迷う場合だけ、コンシェルジュで条件を選ぶと近い demo を絞り込めます。"}
+            </p>
+          </div>
           <button
             type="button"
-            onClick={() => requestOpenDemoListPageConcierge()}
+            onClick={() =>
+              requestOpenDemoListPageConcierge({ entryIntent: "compare" })
+            }
             className="rounded-md border border-silver/30 px-3 py-1 text-xs text-text-sub transition-colors hover:border-accent/50 hover:text-accent"
           >
-            {appliedAnswers ? "条件を選び直す" : "コンシェルジュを開く"}
+            {appliedAnswers ? "条件を選び直す" : "条件から相談する"}
           </button>
         </div>
         <div className="flex flex-wrap gap-2">

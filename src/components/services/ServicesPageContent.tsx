@@ -21,6 +21,9 @@ export function ServicesPageContent() {
       <p className="mb-8 max-w-2xl text-text-sub">
         {servicesCopy.purpose}
       </p>
+      <p className="mb-8 max-w-2xl text-sm leading-relaxed text-text-sub/85">
+        読みながら確認したい場合は詳細ページへ、迷いがある場合は各カードの「チャットで相談する」から入れます。
+      </p>
       <StaggerGrid cols="2">
         <Card className="flex flex-col overflow-hidden border-silver/20 p-0 transition-colors hover:border-accent/50">
           <button
@@ -28,7 +31,9 @@ export function ServicesPageContent() {
             className="flex flex-1 flex-col px-6 py-6 text-left"
             onClick={() => {
               writeServicesFlowPick("development");
-              openConcierge("development", "services-card-development");
+              openConcierge("development", "services-card-development", {
+                entryIntent: "consult",
+              });
             }}
           >
             <h2 className="mb-2 font-semibold text-text">
@@ -57,7 +62,9 @@ export function ServicesPageContent() {
             className="flex flex-1 flex-col px-6 py-6 text-left"
             onClick={() => {
               writeServicesFlowPick("consulting");
-              openConcierge("consulting", "services-card-consulting");
+              openConcierge("consulting", "services-card-consulting", {
+                entryIntent: "consult",
+              });
             }}
           >
             <h2 className="mb-2 font-semibold text-text">
