@@ -153,14 +153,6 @@ export function TypeExperienceSection({
       >
         タイプ別に体験する
       </h2>
-      <p
-        className={cn(
-          "mb-6 text-sm leading-relaxed text-text-sub md:mb-8 md:text-[1rem]",
-          headingAlign === "center" && "text-center"
-        )}
-      >
-        1つずつページを開いて体験できます。PC では左右のボタンで切り替えながらご覧ください。
-      </p>
 
       {showCarousel ? (
         <div
@@ -169,9 +161,6 @@ export function TypeExperienceSection({
           aria-roledescription="カルーセル"
           aria-label="タイプ別体験（3件ずつ表示）"
         >
-          <p className="mb-4 text-center text-xs text-text-sub/85">
-            自動では切り替わりません。気になる列だけゆっくり比較できます。
-          </p>
           <div className="overflow-hidden">
             <div
               className="flex w-[300%] will-change-transform"

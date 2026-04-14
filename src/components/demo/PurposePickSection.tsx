@@ -64,14 +64,6 @@ export function PurposePickSection({
         >
           目的から選ぶ
         </h2>
-        <p
-          className={cn(
-            "mb-6 text-sm leading-relaxed text-text-sub md:mb-8 md:text-[1rem]",
-            headingAlign === "center" && "text-center"
-          )}
-        >
-          カードを押すと、近い体験候補が開きます。もっと広く探したい場合は一覧ページへ進めます。
-        </p>
 
         <div className="hidden md:grid md:grid-cols-4 md:justify-items-center md:gap-x-10 md:gap-y-10 lg:gap-x-12">
           {DEMO_HUB_PURPOSE_GROUPS.map((group) => (

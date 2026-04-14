@@ -59,33 +59,15 @@ export function HeroSection({ demos }: HeroSectionProps) {
 
       <motion.section
         className="container mx-auto max-w-6xl px-4 pb-16 md:px-6 md:pb-20"
-        aria-labelledby="home-quick-start-heading"
+        aria-label="相談・体験・料金の入口"
         variants={heroStaggerContainer}
         initial="hidden"
         animate="visible"
       >
-        <motion.div
-          variants={heroStaggerItem}
-          custom={[0.24, 0.34] as [number, number]}
-          className="mx-auto max-w-3xl text-center"
-        >
-          <p className="text-xs font-medium uppercase tracking-[0.28em] text-accent/80">
-            はじめに
-          </p>
-          <h2
-            id="home-quick-start-heading"
-            className="mt-3 text-xl font-semibold text-accent md:text-2xl"
-          >
-            {homeQuickStartCopy.title}
-          </h2>
-          <p className="mt-4 text-sm leading-relaxed text-text-sub md:text-[1rem]">
-            {homeQuickStartCopy.intro}
-          </p>
-        </motion.div>
-        <div className="mt-8 grid gap-4 md:mt-10 md:grid-cols-3">
+        <div className="grid gap-4 md:grid-cols-3">
           <motion.div
             variants={heroStaggerItem}
-            custom={[0.3, 0.4] as [number, number]}
+            custom={[0.24, 0.34] as [number, number]}
             className="flex h-full flex-col rounded-2xl border border-silver/20 bg-base-dark/60 p-5"
           >
             <h3 className="text-[1rem] font-semibold text-text">
@@ -106,7 +88,7 @@ export function HeroSection({ demos }: HeroSectionProps) {
           </motion.div>
           <motion.div
             variants={heroStaggerItem}
-            custom={[0.36, 0.46] as [number, number]}
+            custom={[0.3, 0.4] as [number, number]}
             className="flex h-full flex-col rounded-2xl border border-silver/20 bg-base-dark/60 p-5"
           >
             <h3 className="text-[1rem] font-semibold text-text">
@@ -123,7 +105,7 @@ export function HeroSection({ demos }: HeroSectionProps) {
           </motion.div>
           <motion.div
             variants={heroStaggerItem}
-            custom={[0.42, 0.52] as [number, number]}
+            custom={[0.36, 0.46] as [number, number]}
             className="flex h-full flex-col rounded-2xl border border-silver/20 bg-base-dark/60 p-5"
           >
             <h3 className="text-[1rem] font-semibold text-text">

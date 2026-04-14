@@ -10,6 +10,7 @@ export const topCopy = {
     "日報作成、写真整理、顧客対応……。現場に潜む『定型作業』をAIが担います。人にしかできない業務に集中できる環境を、実装から定着まで創り上げます。",
 } as const;
 
+/** トップページ：相談・体験・料金の3カード（見出しリードは非表示のため未使用フィールドあり） */
 export const homeQuickStartCopy = {
   title: "おすすめの進み方",
   intro:
@@ -36,8 +37,8 @@ export const homeQuickStartCopy = {
 /** トップページ「開発について」セクション */
 export const homeDevelopmentSectionCopy = {
   sectionTitle: "開発について",
-  lead: "現状整理から本実装まで、段階的な検証で判断を積み重ねる。",
-  body: "「作ります」だけではなく、どのような品質管理と工程で構築されるかを開示します。以下は、Axeon の開発ライフサイクルにおける標準的な進め方です。",
+  lead: "「とりあえず作る」を卒業。ビジネスを成長させるための開発を行います。",
+  body: "現状の課題整理から本実装まで、一段ずつの検証でリスクを最小限に。Axeonは、構築プロセスそのものを品質として捉え、納得感のあるシステム開発を行います。",
   ctaLabel: "開発の流れ",
   ctaHref: "/flow",
 } as const;
@@ -45,8 +46,8 @@ export const homeDevelopmentSectionCopy = {
 /** トップページ「コンサルティングについて」セクション */
 export const homeConsultingSectionCopy = {
   sectionTitle: "コンサルティングについて",
-  lead: "業務診断から定着支援まで。検証可能な範囲で、過剰提案しない。",
-  body: "チャットを開かずに、コンサルティングの進め方と判断の軸をここで把握いただけます。",
+  lead: "診断から定着まで、現場に並走し続ける。",
+  body: "課題のあぶり出しから、運用まで。私たちは、必要以上の提案でコストを膨らませることはしません。IT活用やDX化を組織的に行うために必要な全てを担います。",
   ctaLabel: "コンサルティングを見る",
   ctaHref: "/consulting",
 } as const;
