@@ -1,2 +1,1 @@
-/** デモ上の「今日」（日付比較・今週・期限超過の表示用。実日付とは無関係） */
-export const DEMO_TODAY = "2026-04-02";
+export { DEMO_TODAY } from "./constants";

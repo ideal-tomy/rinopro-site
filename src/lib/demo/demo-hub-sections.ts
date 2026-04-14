@@ -19,9 +19,9 @@ export const DEMO_HUB_PURPOSE_GROUPS: readonly DemoHubPurposeGroup[] = [
     title: "問い合わせ・顧客対応",
     description: "一次返信・分類・留守電の言い換えなど、対外向けの流れを試せます。",
     experienceSlugs: [
+      "legal-professional-mini-sfa-demo",
       "inquiry-intake-triage-demo",
       "service-claim-reply-assist",
-      "voicemail-followup-reply-draft",
     ],
   },
   {
