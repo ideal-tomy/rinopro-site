@@ -39,7 +39,7 @@ export function VoiceToggle({
       }
       aria-pressed={isListening}
       className={cn(
-        supported && isListening && "text-accent ring-2 ring-accent/45 ring-offset-2 ring-offset-base animate-pulse",
+        supported && isListening && "text-action ring-2 ring-action/45 ring-offset-2 ring-offset-base animate-pulse",
         !supported && "opacity-50",
         className
       )}

@@ -65,7 +65,7 @@ export function EstimateDetailedRoughEstimateFab({
             id={labelId}
             role="region"
             aria-label={copy.roughEstimateTitle}
-            className="max-h-[min(70vh,520px)] w-[min(calc(100vw-2rem),380px)] overflow-y-auto rounded-xl border border-accent/35 bg-base-dark/95 p-4 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.85)] backdrop-blur-md"
+            className="max-h-[min(70vh,520px)] w-[min(calc(100vw-2rem),380px)] overflow-y-auto rounded-xl border border-action/35 bg-base-dark/95 p-4 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.85)] backdrop-blur-md"
           >
             <p className="text-[16px] font-semibold text-white">{copy.roughEstimateTitle}</p>
             <EstimateDetailedRoughEstimateBody ctx={ctx} className="mt-3" />
@@ -87,7 +87,7 @@ export function EstimateDetailedRoughEstimateFab({
           aria-expanded={open}
           aria-controls={open ? labelId : undefined}
           aria-label={open ? `${copy.roughEstimateTitle}を閉じる` : `${copy.roughEstimateTitle}を表示`}
-          className="h-14 w-14 min-h-14 min-w-14 shrink-0 rounded-full border border-accent/40 bg-accent/15 text-accent shadow-lg hover:bg-accent/25 [&_svg]:size-6"
+          className="h-14 w-14 min-h-14 min-w-14 shrink-0 rounded-full border border-action/40 bg-action/15 text-action shadow-lg hover:bg-action/25 [&_svg]:size-6"
           onClick={toggle}
         >
           <MessageSquareText aria-hidden />

@@ -864,8 +864,8 @@ function SelectOptionButtons({
           className={cn(
             "flex min-h-[2.75rem] items-center rounded-lg border px-2 py-1.5 text-left text-[12px] leading-snug text-white/95 transition-colors",
             value === o.value
-              ? "border-accent bg-accent/20 ring-1 ring-accent/30"
-              : "border-silver/30 bg-base-dark hover:border-accent/45 hover:bg-base-dark/90"
+              ? "border-action bg-action/20 ring-1 ring-action/30"
+              : "border-silver/30 bg-base-dark hover:border-action/45 hover:bg-base-dark/90"
           )}
         >
           {o.label}

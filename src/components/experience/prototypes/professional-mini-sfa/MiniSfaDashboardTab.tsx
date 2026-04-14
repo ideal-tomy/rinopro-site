@@ -132,13 +132,13 @@ export function MiniSfaDashboardTab({
               aria-expanded={mobileWeekFollowOpen}
               aria-controls="mini-sfa-week-follow-panel"
               onClick={() => setMobileWeekFollowOpen(!mobileWeekFollowOpen)}
-              className="flex w-full items-center gap-3 border-b border-silver/25 bg-accent/10 px-3 py-3.5 text-left transition hover:bg-accent/15 active:bg-accent/20"
+              className="flex w-full items-center gap-3 border-b border-silver/25 bg-action/10 px-3 py-3.5 text-left transition hover:bg-action/15 active:bg-action/20"
             >
               <span className="min-w-0 flex-1">
                 <span className="block text-sm font-semibold text-white">
                   今週のフォロー一覧
                 </span>
-                <span className="mt-1 block text-[11px] font-medium text-accent">
+                <span className="mt-1 block text-[11px] font-medium text-action">
                   タップして開く
                 </span>
                 <span className="mt-0.5 block text-[10px] text-text-sub">
@@ -147,7 +147,7 @@ export function MiniSfaDashboardTab({
               </span>
               <ChevronDown
                 className={cn(
-                  "size-5 shrink-0 text-accent transition-transform duration-200",
+                  "size-5 shrink-0 text-action transition-transform duration-200",
                   mobileWeekFollowOpen && "rotate-180"
                 )}
                 aria-hidden

@@ -149,7 +149,7 @@ export function MiniSfaDealDetail({
             }
             className={`rounded-full border px-3 py-1 text-[11px] transition md:text-xs ${
               deal.conflictCheckStatus === status
-                ? "border-accent/45 bg-accent/15 text-accent"
+                ? "border-action/45 bg-action/15 text-action"
                 : "border-silver/30 text-text-sub hover:border-silver/50 hover:text-text"
             }`}
           >

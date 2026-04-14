@@ -167,8 +167,8 @@ export function FlowTimelinePageContent() {
                   className={cn(
                     "shrink-0 snap-start rounded-full border px-3.5 py-2 text-[0.65rem] font-medium uppercase tracking-[0.18em] transition-colors md:px-4 md:text-xs",
                     selected
-                      ? "border-accent/70 bg-accent/15 text-accent shadow-[0_0_16px_-4px_rgba(0,242,255,0.35)]"
-                      : "border-silver/25 bg-base-dark/40 text-text/80 hover:border-accent/35 hover:text-text"
+                      ? "border-action/70 bg-action/15 text-action shadow-[0_0_16px_-4px_rgba(0,103,192,0.35)]"
+                      : "border-silver/25 bg-base-dark/40 text-text/80 hover:border-action/35 hover:text-text"
                   )}
                   onClick={() => setActiveTrack(key)}
                 >

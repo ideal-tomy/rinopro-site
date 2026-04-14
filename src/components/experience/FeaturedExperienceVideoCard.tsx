@@ -147,7 +147,7 @@ export function FeaturedExperienceVideoCard({
             asChild
             variant="outline"
             size="lg"
-            className="mt-4 w-full min-h-12 border-silver/25 px-4 text-[15px] font-medium text-text-sub hover:border-accent/45 hover:bg-accent/10 hover:text-accent sm:min-h-[3.25rem] sm:text-[1.05rem] md:min-h-14"
+            className="mt-4 w-full min-h-12 border-silver/25 px-4 text-[15px] font-medium text-text-sub hover:border-action/45 hover:bg-action/10 hover:text-action sm:min-h-[3.25rem] sm:text-[1.05rem] md:min-h-14"
           >
             <Link href={`/experience/${meta.slug}`}>体験を開く</Link>
           </Button>

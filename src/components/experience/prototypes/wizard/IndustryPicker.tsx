@@ -48,7 +48,7 @@ export function IndustryPicker({
               duration: reduce ? 0 : 0.35,
               ease: [0.4, 0, 0.2, 1],
             }}
-            className="flex flex-col items-center gap-1.5 rounded-xl border border-silver/30 bg-silver/5 px-2 py-3 text-center transition hover:border-accent/50 hover:bg-accent/10 md:py-4"
+            className="flex flex-col items-center gap-1.5 rounded-xl border border-silver/30 bg-silver/5 px-2 py-3 text-center transition hover:border-action/50 hover:bg-action/10 md:py-4"
             onClick={() => onSelect(item.id)}
           >
             <span className="text-2xl" aria-hidden>

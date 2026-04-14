@@ -224,7 +224,7 @@ export function TypeExperienceSection({
               type="button"
               variant="outline"
               size="icon"
-              className="h-10 w-10 shrink-0 rounded-full border-silver/30 text-text hover:border-accent/45 hover:bg-accent/10 hover:text-accent"
+              className="h-10 w-10 shrink-0 rounded-full border-silver/30 text-text hover:border-action/45 hover:bg-action/10 hover:text-action"
               aria-label="前の3件を表示"
               onClick={goPrev}
             >
@@ -244,7 +244,7 @@ export function TypeExperienceSection({
                   className={cn(
                     "h-2 rounded-full transition-[width,background-color] duration-300",
                     carouselLogicalIndex === i
-                      ? "w-8 bg-accent"
+                      ? "w-8 bg-action"
                       : "w-2 bg-silver/35 hover:bg-silver/50"
                   )}
                   onClick={() => goToLogicalSlide(i)}
@@ -255,7 +255,7 @@ export function TypeExperienceSection({
               type="button"
               variant="outline"
               size="icon"
-              className="h-10 w-10 shrink-0 rounded-full border-silver/30 text-text hover:border-accent/45 hover:bg-accent/10 hover:text-accent"
+              className="h-10 w-10 shrink-0 rounded-full border-silver/30 text-text hover:border-action/45 hover:bg-action/10 hover:text-action"
               aria-label="次の3件を表示"
               onClick={goNext}
             >

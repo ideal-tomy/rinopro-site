@@ -50,7 +50,7 @@ export function MiniSfaBoardTab({
                 className={cn(
                   "rounded-full border px-2.5 py-1 text-[11px] font-medium transition",
                   active
-                    ? "border-accent/45 bg-accent/15 font-semibold text-accent"
+                    ? "border-action/45 bg-action/15 font-semibold text-action"
                     : "border-silver/30 text-text-sub hover:border-silver/50"
                 )}
               >
@@ -70,7 +70,7 @@ export function MiniSfaBoardTab({
                   className={cn(
                     "w-full rounded-lg border px-2 py-1.5 text-left transition",
                     selectedDealId === deal.id
-                      ? "border-accent/50 bg-accent/15 font-medium text-white/95"
+                      ? "border-action/50 bg-action/15 font-medium text-white/95"
                       : "border-silver/25 bg-base/80 hover:border-silver/45"
                   )}
                 >
@@ -124,7 +124,7 @@ export function MiniSfaBoardTab({
                         className={cn(
                           "w-full min-w-0 rounded-lg border p-2 text-left text-xs transition md:p-2.5 md:text-[15px]",
                           selectedDealId === deal.id
-                            ? "border-accent/50 bg-accent/10 font-medium"
+                            ? "border-action/50 bg-action/10 font-medium"
                             : "border-silver/25 bg-base/80 hover:border-silver/45"
                         )}
                       >
@@ -156,11 +156,11 @@ export function MiniSfaBoardTab({
               aria-expanded={mobileDealDetailOpen}
               aria-controls="mini-sfa-deal-detail-panel"
               onClick={() => setMobileDealDetailOpen(!mobileDealDetailOpen)}
-              className="flex w-full items-center gap-3 border-b border-silver/25 bg-accent/10 px-3 py-3.5 text-left transition hover:bg-accent/15 active:bg-accent/20"
+              className="flex w-full items-center gap-3 border-b border-silver/25 bg-action/10 px-3 py-3.5 text-left transition hover:bg-action/15 active:bg-action/20"
             >
               <span className="min-w-0 flex-1">
                 <span className="block text-sm font-semibold text-white">選択中の相談</span>
-                <span className="mt-1 block text-[11px] font-medium text-accent">
+                <span className="mt-1 block text-[11px] font-medium text-action">
                   タップして詳細とステージ変更を表示
                 </span>
                 <span className="mt-0.5 line-clamp-1 text-xs text-text-sub">
@@ -169,7 +169,7 @@ export function MiniSfaBoardTab({
               </span>
               <ChevronDown
                 className={cn(
-                  "size-5 shrink-0 text-accent transition-transform duration-200",
+                  "size-5 shrink-0 text-action transition-transform duration-200",
                   mobileDealDetailOpen && "rotate-180"
                 )}
                 aria-hidden

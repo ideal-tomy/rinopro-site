@@ -9,9 +9,9 @@ const choiceGlassBase =
   "group relative w-full min-h-[44px] text-left transition-[transform,box-shadow,border-color,background-color] duration-200 ease-out " +
   "rounded-2xl border border-white/15 bg-white/[0.06] backdrop-blur-[20px] " +
   "px-4 py-3 shadow-sm " +
-  "hover:border-white/25 hover:shadow-[0_0_24px_rgba(0,242,255,0.14)] " +
+  "hover:border-white/25 hover:shadow-[0_0_24px_rgba(0,103,192,0.14)] " +
   "active:scale-[0.98] " +
-  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-base " +
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action focus-visible:ring-offset-2 focus-visible:ring-offset-base " +
   "disabled:pointer-events-none disabled:opacity-50";
 
 /** 業種第1層2列向け：パディングと文字を詰める（`text-base` は使わない） */
@@ -19,7 +19,7 @@ const choiceGlassCompact =
   "min-h-[44px] px-3 py-2.5 sm:px-3 sm:py-2.5";
 
 const choiceSelected =
-  "border-accent/45 bg-accent/[0.12] shadow-[0_0_20px_rgba(0,242,255,0.18)]";
+  "border-action/45 bg-action/[0.12] shadow-[0_0_20px_rgba(0,103,192,0.18)]";
 
 export interface ConciergeChoiceButtonProps
   extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "children"> {
@@ -50,8 +50,8 @@ export function ConciergeChoiceButton({
   const compact = labelDensity === "compact";
 
   const prefixCls = compact
-    ? "pt-0.5 text-[10px] font-semibold tabular-nums tracking-wide text-accent/85 sm:text-[11px]"
-    : "pt-0.5 text-[10px] font-semibold tabular-nums tracking-wide text-accent/85 sm:text-[16px]";
+    ? "pt-0.5 text-[10px] font-semibold tabular-nums tracking-wide text-action/85 sm:text-[11px]"
+    : "pt-0.5 text-[10px] font-semibold tabular-nums tracking-wide text-action/85 sm:text-[16px]";
 
   const labelCls = compact
     ? "text-[10px] font-semibold leading-tight tracking-wide text-text/95 sm:text-[11px]"
@@ -76,7 +76,7 @@ export function ConciergeChoiceButton({
         <span className="min-w-0 flex-1">
           {icon ? (
             <span className="flex items-start gap-2">
-              <span className="mt-0.5 shrink-0 text-accent">{icon}</span>
+              <span className="mt-0.5 shrink-0 text-action">{icon}</span>
               <span className={labelCls}>{label}</span>
             </span>
           ) : (
@@ -94,21 +94,21 @@ export function ConciergeChoiceButton({
 }
 
 const ctaPrimary =
-  "w-full rounded-2xl border border-accent/50 bg-accent/25 px-4 py-3 font-semibold leading-relaxed tracking-wide " +
-  "text-white shadow-[0_0_20px_rgba(0,242,255,0.2)] backdrop-blur-[20px] " +
+  "w-full rounded-2xl border border-action/50 bg-action/25 px-4 py-3 font-semibold leading-relaxed tracking-wide " +
+  "text-white shadow-[0_0_20px_rgba(0,103,192,0.2)] backdrop-blur-[20px] " +
   "transition-[transform,box-shadow,border-color,background-color,color] duration-200 ease-out " +
-  "hover:border-accent/70 hover:bg-accent/35 hover:text-white hover:shadow-[0_0_28px_rgba(0,242,255,0.28)] " +
+  "hover:border-action/70 hover:bg-action/35 hover:text-white hover:shadow-[0_0_28px_rgba(0,103,192,0.28)] " +
   "active:scale-[0.98] " +
-  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-base " +
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action focus-visible:ring-offset-2 focus-visible:ring-offset-base " +
   "disabled:pointer-events-none disabled:opacity-50";
 
 const ctaSecondary =
   "w-full rounded-2xl border border-white/15 bg-white/[0.06] px-4 py-3 font-semibold leading-relaxed tracking-wide text-text/95 " +
   "shadow-sm backdrop-blur-[20px] " +
   "transition-[transform,box-shadow,border-color,background-color] duration-200 ease-out " +
-  "hover:border-white/25 hover:shadow-[0_0_24px_rgba(0,242,255,0.14)] " +
+  "hover:border-white/25 hover:shadow-[0_0_24px_rgba(0,103,192,0.14)] " +
   "active:scale-[0.98] " +
-  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-base " +
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action focus-visible:ring-offset-2 focus-visible:ring-offset-base " +
   "disabled:pointer-events-none disabled:opacity-50";
 
 const ctaGhost =
@@ -116,7 +116,7 @@ const ctaGhost =
   "transition-[transform,background-color,color] duration-200 ease-out " +
   "hover:bg-white/[0.04] hover:text-text/90 " +
   "active:scale-[0.99] " +
-  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-base " +
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action focus-visible:ring-offset-2 focus-visible:ring-offset-base " +
   "disabled:pointer-events-none disabled:opacity-50";
 
 export type ConciergeCtaVariant = "primary" | "secondary" | "ghost";

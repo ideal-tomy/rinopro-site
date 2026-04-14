@@ -9,12 +9,12 @@ import { cn } from "@/lib/utils";
 import { EASE_OUT_BACK } from "@/lib/motion/variants";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0e17] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0e17] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
         default:
-          "bg-accent text-white hover:bg-accent/90 hover:text-white",
+          "bg-action text-white hover:bg-action/90 hover:text-white",
         outline:
           "border border-silver/30 bg-transparent hover:bg-silver/10",
         ghost: "hover:bg-silver/10",

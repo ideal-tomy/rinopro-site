@@ -159,7 +159,7 @@ export function PurposePickSection({
               <div className="mt-8 border-t border-silver/15 pt-6">
                 <Button
                   variant="outline"
-                  className="w-full border-accent/40 text-accent hover:bg-accent/10"
+                  className="w-full border-action/40 text-action hover:bg-action/10"
                   asChild
                 >
                   <Link

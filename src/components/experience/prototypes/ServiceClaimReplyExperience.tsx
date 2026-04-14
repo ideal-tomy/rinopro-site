@@ -170,10 +170,10 @@ export function ServiceClaimReplyExperience({
                         aria-controls={`tone-panel-${i}`}
                         onClick={() => setSelectedVariantIndex(i)}
                         className={cn(
-                          "min-h-11 rounded-lg border px-3 py-2.5 text-left text-sm font-semibold outline-none transition focus-visible:ring-2 focus-visible:ring-accent md:min-h-12 md:text-[1rem]",
+                          "min-h-11 rounded-lg border px-3 py-2.5 text-left text-sm font-semibold outline-none transition focus-visible:ring-2 focus-visible:ring-action md:min-h-12 md:text-[1rem]",
                           selected
-                            ? "border-accent bg-accent/15 text-accent ring-2 ring-accent/35"
-                            : "border-silver/30 bg-silver/5 text-text-sub hover:border-accent/40 hover:text-text"
+                            ? "border-action bg-action/15 text-action ring-2 ring-action/35"
+                            : "border-silver/30 bg-silver/5 text-text-sub hover:border-action/40 hover:text-text"
                         )}
                       >
                         {v.label}

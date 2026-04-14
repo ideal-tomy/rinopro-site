@@ -9,6 +9,8 @@
   --color-base: #0a0e17;
   --color-base-dark: #0d1220;
   --color-accent: #00f2ff;
+  /* プライマリ CTA・塗りボタン */
+  --color-action: #0067c0;
   --color-silver: #c0c8d0;
   --color-text: #e8ecf0;
   --color-text-sub: #a0a8b0;
@@ -51,6 +53,7 @@
   --color-base: #0a0e17;
   --color-base-dark: #0d1220;
   --color-accent: #00f2ff;
+  --color-action: #0067c0;
   --color-silver: #c0c8d0;
   --color-text: #e8ecf0;
   --color-text-sub: #a0a8b0;

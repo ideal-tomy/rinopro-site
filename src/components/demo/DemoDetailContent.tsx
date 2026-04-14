@@ -128,7 +128,7 @@ export function DemoDetailContent({ demo }: DemoDetailContentProps) {
           <p className="mb-2 text-text-sub">
             画面操作の体験版（プロトタイプ）があります。
           </p>
-          <Button asChild variant="outline" size="sm" className="border-accent/50">
+          <Button asChild variant="outline" size="sm" className="border-action/50">
             <a
               href={experienceHref}
               {...(experienceIsExternal

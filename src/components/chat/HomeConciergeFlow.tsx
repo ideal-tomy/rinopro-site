@@ -248,7 +248,7 @@ function ConciergeNextStepsCard({
         href={demoHref}
         className={cn(
           "flex min-h-[3.2rem] items-center justify-center rounded-xl border border-white/18 bg-white/[0.07] px-3 py-3 text-center text-[12px] font-semibold leading-snug text-white shadow-[0_6px_20px_rgba(0,0,0,0.18)] transition-[transform,background-color,border-color,box-shadow] sm:text-[14px]",
-          "hover:-translate-y-0.5 hover:border-accent/55 hover:bg-accent/18 hover:shadow-[0_10px_26px_rgba(0,242,255,0.18)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
+          "hover:-translate-y-0.5 hover:border-action/55 hover:bg-action/18 hover:shadow-[0_10px_26px_rgba(0,103,192,0.18)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-action",
           disabled && "pointer-events-none opacity-50"
         )}
         onClick={(e) => {
@@ -263,8 +263,8 @@ function ConciergeNextStepsCard({
         type="button"
         disabled={disabled}
         className={cn(
-          "flex min-h-[3.2rem] w-full items-center justify-center rounded-xl border border-accent/45 bg-accent/22 px-3 py-3 text-center text-[12px] font-semibold leading-snug text-white shadow-[0_8px_22px_rgba(0,242,255,0.16)] transition-[transform,background-color,border-color,box-shadow] sm:text-[14px]",
-          "hover:-translate-y-0.5 hover:border-accent/75 hover:bg-accent/35 hover:shadow-[0_12px_28px_rgba(0,242,255,0.24)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
+          "flex min-h-[3.2rem] w-full items-center justify-center rounded-xl border border-action/45 bg-action/22 px-3 py-3 text-center text-[12px] font-semibold leading-snug text-white shadow-[0_8px_22px_rgba(0,103,192,0.16)] transition-[transform,background-color,border-color,box-shadow] sm:text-[14px]",
+          "hover:-translate-y-0.5 hover:border-action/75 hover:bg-action/35 hover:shadow-[0_12px_28px_rgba(0,103,192,0.24)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-action",
           disabled && "opacity-50"
         )}
         onClick={() => {
@@ -1001,7 +1001,7 @@ function DoneStep({
                         className={cn(
                           ctaBase,
                           item.variant === "primary"
-                            ? "border-accent/50 bg-accent/25 text-white shadow-[0_0_18px_rgba(0,242,255,0.18)] hover:border-accent/70 hover:bg-accent/35"
+                            ? "border-action/50 bg-action/25 text-white shadow-[0_0_18px_rgba(0,103,192,0.18)] hover:border-action/70 hover:bg-action/35"
                             : "border-white/15 bg-white/[0.06] text-text/95 hover:border-white/25"
                         )}
                       >

@@ -86,10 +86,10 @@ const PhoneFramedPhoto = forwardRef<HTMLDivElement, PhoneFramedPhotoProps>(
                 aria-label={`ピン${i + 1} ${p.label}`}
                 className={cn(
                   "absolute flex h-7 w-7 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 border-base-dark text-xs font-bold text-base-dark motion-safe:transition motion-safe:duration-150",
-                  "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
+                  "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-action",
                   selectedPinId === p.id
-                    ? "z-10 scale-110 bg-accent"
-                    : "z-[1] bg-accent/85 hover:bg-accent"
+                    ? "z-10 scale-110 bg-action"
+                    : "z-[1] bg-action/85 hover:bg-action"
                 )}
                 style={{ left: `${p.xPct}%`, top: `${p.yPct}%` }}
                 onClick={(ev) => {
@@ -351,8 +351,8 @@ export function PropertyExteriorPhotoExperience({
                   className={cn(
                     "rounded-full border px-2.5 py-1 text-xs motion-safe:transition",
                     selectedPin.label === preset
-                      ? "border-accent bg-accent/15 text-accent"
-                      : "border-silver/30 text-text-sub hover:border-accent/40"
+                      ? "border-action bg-action/15 text-action"
+                      : "border-silver/30 text-text-sub hover:border-action/40"
                   )}
                 >
                   {preset}
@@ -401,7 +401,7 @@ export function PropertyExteriorPhotoExperience({
                 setText(s);
                 setResult(null);
               }}
-              className="rounded-full border border-silver/30 bg-silver/5 px-3 py-1 text-xs text-text-sub transition hover:border-accent/40 hover:text-text md:text-sm"
+              className="rounded-full border border-silver/30 bg-silver/5 px-3 py-1 text-xs text-text-sub transition hover:border-action/40 hover:text-text md:text-sm"
             >
               {s}
             </button>
