@@ -10,6 +10,10 @@ import {
   type FlowTrackKey,
   flowDetailPageCopyByTrack,
 } from "@/lib/content/site-copy";
+import {
+  serviceReading,
+  serviceShellInset,
+} from "@/lib/ui/service-reading-styles";
 import { cn } from "@/lib/utils";
 
 const EASE_MIST = [0.22, 1, 0.36, 1] as const;
@@ -85,17 +89,6 @@ function TimelineNode({
   );
 }
 
-function StepWatermarkMobile({ n }: { n: string }) {
-  return (
-    <span
-      className="pointer-events-none absolute left-1/2 top-[15%] -translate-x-1/2 select-none text-[6rem] font-semibold tabular-nums leading-none text-text/[0.05]"
-      aria-hidden
-    >
-      {n}
-    </span>
-  );
-}
-
 function StepWatermarkDesktop({ n }: { n: string }) {
   return (
     <span
@@ -133,10 +126,27 @@ export function FlowTimelinePageContent({
       className={cn(
         "mx-auto max-w-3xl md:px-10 lg:max-w-5xl",
         embedded
-          ? "px-0 py-6 md:px-6 md:py-10 lg:py-12"
+          ? cn(serviceShellInset.embeddedX, serviceShellInset.embeddedY)
           : "px-6 py-24 md:py-32 lg:py-40"
       )}
     >
+      {embedded && (
+        <motion.header
+          className="mx-auto mb-8 max-w-3xl text-center md:mb-10"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-40px" }}
+          variants={v}
+        >
+          <p className="mb-4 text-[0.65rem] font-medium uppercase tracking-[0.35em] text-accent/80">
+            Development
+          </p>
+          <h2 className="mb-0 text-3xl font-semibold tracking-tight text-accent sm:text-4xl md:text-5xl lg:text-[3.25rem] lg:leading-tight">
+            開発について
+          </h2>
+        </motion.header>
+      )}
+
       {!embedded && (
         <motion.header
           className="mx-auto mb-12 max-w-3xl text-center md:mb-16"
@@ -208,20 +218,20 @@ export function FlowTimelinePageContent({
         id={flowPanelId}
         role="tabpanel"
         aria-labelledby={tabId(activeTrack)}
-        className="mx-auto mb-20 max-w-2xl md:mb-24"
+        className="mx-auto mb-12 max-w-2xl md:mb-24"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-60px" }}
         variants={v}
       >
-        <p className="text-center text-sm leading-[2] text-text/85 md:text-[1rem] md:leading-[2.05]">
+        <p className={cn("text-center", serviceReading.bodyCenter)}>
           <EmphasisText text={activeCopy.intro} />
         </p>
       </motion.div>
 
       <div className="relative mx-auto max-w-2xl md:max-w-3xl">
         <div
-          className="absolute bottom-0 left-8 top-0 w-px bg-gradient-to-b from-transparent via-accent/40 to-transparent md:left-1/2 md:-translate-x-1/2"
+          className="absolute bottom-0 left-8 top-0 hidden w-px bg-gradient-to-b from-transparent via-accent/40 to-transparent md:left-1/2 md:block md:-translate-x-1/2"
           aria-hidden
         />
 
@@ -229,46 +239,51 @@ export function FlowTimelinePageContent({
           {steps.map((step, i) => (
             <motion.li
               key={`${activeTrack}-${step.step}`}
-              className="relative pb-24 last:pb-12 md:pb-32 md:last:pb-16"
+              className="relative pb-20 last:pb-10 md:pb-32 md:last:pb-16"
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: "-50px" }}
               variants={v}
               transition={{ delay: reduce ? 0 : 0.1 + i * 0.08 }}
             >
-              {/* スマホ：左ガイド＋右本文（現状維持） */}
-              <div className="relative pl-24 md:hidden">
-                <div className="absolute left-8 top-0 z-[1] -translate-x-1/2">
+              {/* スマホ: 縦積み1カラム（読み幅優先。旧左ガイドは撤去） */}
+              <div className="relative mx-auto w-full md:hidden">
+                <span
+                  className="pointer-events-none absolute left-1/2 top-[4%] -translate-x-1/2 select-none text-[4.25rem] font-semibold tabular-nums leading-none text-text/[0.045]"
+                  aria-hidden
+                >
+                  {step.step}
+                </span>
+                <div className="relative z-[1] flex flex-col items-center pt-1 text-center">
                   <TimelineNode label={step.step} reduceMotion={!!reduce} />
-                </div>
-                <div className="relative min-w-0 pt-1">
-                  <StepWatermarkMobile n={step.step} />
-                  <div className="relative z-[1]">
-                    <p className="mb-2 text-[0.65rem] font-medium uppercase tracking-[0.28em] text-accent/75">
-                      Step {step.step}
+                  <p className="mb-1.5 mt-5 text-[0.65rem] font-medium uppercase tracking-[0.28em] text-accent/75">
+                    Step {step.step}
+                  </p>
+                  <h2 className="mb-1.5 max-w-[22rem] text-[1.125rem] font-semibold leading-snug tracking-[0.06em] text-text">
+                    {step.labelJa}
+                  </h2>
+                  <p className="mb-6 w-full max-w-[22rem] text-[0.8125rem] font-medium tracking-[0.18em] text-accent/95">
+                    {step.labelEn}
+                  </p>
+                  <p
+                    className={cn(
+                      "mb-8 w-full max-w-prose text-left",
+                      serviceReading.body
+                    )}
+                  >
+                    {step.body}
+                  </p>
+                  <div className="w-full max-w-prose text-left">
+                    <p className="mb-3 text-[0.65rem] font-medium uppercase tracking-[0.2em] text-text/55">
+                      成果物
                     </p>
-                    <h2 className="mb-6 text-lg font-semibold leading-snug text-text">
-                      <span className="tracking-[0.12em]">{step.labelJa}</span>
-                      <span className="mx-2 text-text/40">·</span>
-                      <span className="text-[1rem] font-medium tracking-[0.22em] text-accent/95">
-                        {step.labelEn}
-                      </span>
-                    </h2>
-                    <p className="mb-8 text-sm leading-[2.05] text-text/90">
-                      {step.body}
-                    </p>
-                    <div>
-                      <p className="mb-3 text-[0.65rem] font-medium uppercase tracking-[0.2em] text-text/55">
-                        成果物
-                      </p>
-                      <ul className="flex flex-wrap gap-2">
-                        {step.deliverables.map((tag) => (
-                          <li key={tag} className="list-none">
-                            <span className={tagClass}>{tag}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                    <ul className="flex flex-wrap gap-2">
+                      {step.deliverables.map((tag) => (
+                        <li key={tag} className="list-none">
+                          <span className={tagClass}>{tag}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 </div>
               </div>
@@ -290,7 +305,7 @@ export function FlowTimelinePageContent({
                       {step.labelEn}
                     </span>
                   </h2>
-                  <p className="mb-10 max-w-2xl text-center text-[0.9375rem] leading-[2.1] text-text/90">
+                  <p className="mb-10 max-w-2xl text-center text-[1rem] leading-[2.05] text-text/90">
                     {step.body}
                   </p>
                   <div className="w-full max-w-2xl">
@@ -319,13 +334,16 @@ export function FlowTimelinePageContent({
         viewport={{ once: true, margin: "-60px" }}
         variants={v}
       >
-        <p className="text-sm leading-[2] text-text/85 md:text-[1rem] md:leading-[2.05]">
+        <p className={cn("text-center", serviceReading.bodyCenter)}>
           {activeCopy.reassurance}
         </p>
       </motion.div>
 
       <motion.section
-        className="relative mx-auto mt-16 max-w-2xl overflow-hidden rounded-2xl border border-silver/20 bg-base-dark/35 px-8 py-10 text-center backdrop-blur-sm md:mt-20 md:px-12 md:py-12"
+        className={cn(
+          "relative mx-auto mt-16 max-w-2xl overflow-hidden rounded-2xl border border-silver/20 bg-base-dark/35 text-center backdrop-blur-sm md:mt-20 md:px-12 md:py-12",
+          embedded ? "px-5 py-9 md:py-12" : "px-8 py-10"
+        )}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-40px" }}
@@ -334,7 +352,7 @@ export function FlowTimelinePageContent({
         <h3 className="text-[0.65rem] font-medium uppercase tracking-[0.35em] text-accent/85">
           {activeCopy.architectureTitle}
         </h3>
-        <p className="mt-5 text-left text-sm leading-[2.05] text-text/90 md:text-[0.9375rem] md:leading-[2.1]">
+        <p className={cn("mt-5 text-left", serviceReading.body)}>
           <EmphasisText text={activeCopy.architectureBody} />
         </p>
       </motion.section>

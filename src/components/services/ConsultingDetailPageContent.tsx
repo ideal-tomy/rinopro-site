@@ -5,6 +5,10 @@ import { motion, useReducedMotion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ServiceCrossLinks } from "@/components/layout/CrossServiceNav";
 import { consultingDetailPageCopy } from "@/lib/content/site-copy";
+import {
+  serviceReading,
+  serviceShellInset,
+} from "@/lib/ui/service-reading-styles";
 import { cn } from "@/lib/utils";
 
 const EASE_MIST = [0.22, 1, 0.36, 1] as const;
@@ -57,12 +61,15 @@ export function ConsultingDetailPageContent({
       className={cn(
         "mx-auto max-w-6xl md:px-10",
         embedded
-          ? "px-0 py-6 md:px-6 md:py-10 lg:py-12"
+          ? cn(serviceShellInset.embeddedX, serviceShellInset.embeddedY)
           : "px-6 py-24 md:py-32 lg:py-40"
       )}
     >
       <motion.header
-        className="mx-auto mb-12 max-w-3xl text-center md:mb-16"
+        className={cn(
+          "mx-auto max-w-3xl text-center",
+          embedded ? "mb-10 md:mb-14" : "mb-12 md:mb-16"
+        )}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-80px" }}
@@ -72,7 +79,7 @@ export function ConsultingDetailPageContent({
           Consulting
         </p>
         {embedded ? (
-          <h2 className="mb-6 text-4xl font-semibold tracking-tight text-accent md:text-5xl lg:text-[3.25rem] lg:leading-tight">
+          <h2 className="mb-5 text-3xl font-semibold tracking-tight text-accent sm:text-4xl md:mb-6 md:text-5xl lg:text-[3.25rem] lg:leading-tight">
             {consultingDetailPageCopy.title}
           </h2>
         ) : (
@@ -80,13 +87,28 @@ export function ConsultingDetailPageContent({
             {consultingDetailPageCopy.title}
           </h1>
         )}
-        <p className="mx-auto max-w-2xl text-lg leading-relaxed text-text/90 md:text-xl">
+        <p
+          className={cn(
+            "mx-auto max-w-2xl leading-relaxed text-text/90",
+            embedded
+              ? "text-[1rem] md:text-xl"
+              : "text-lg md:text-xl"
+          )}
+        >
           {consultingDetailPageCopy.purpose}
         </p>
       </motion.header>
 
       <motion.p
-        className="mx-auto mb-20 max-w-xl text-center text-sm leading-relaxed text-text md:mb-24 md:text-[1rem]"
+        className={cn(
+          "mx-auto text-center",
+          embedded
+            ? "mb-14 max-w-prose md:mb-20"
+            : "mb-20 max-w-xl md:mb-24",
+          embedded
+            ? serviceReading.leadMuted
+            : "text-sm leading-relaxed text-text md:text-[1rem]"
+        )}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-60px" }}
@@ -96,11 +118,19 @@ export function ConsultingDetailPageContent({
         {consultingDetailPageCopy.intro}
       </motion.p>
 
-      <div className="mx-auto flex max-w-4xl flex-col gap-20 md:gap-28 lg:gap-32">
+      <div
+        className={cn(
+          "mx-auto flex max-w-4xl flex-col",
+          embedded ? "gap-14 md:gap-24 lg:gap-28" : "gap-20 md:gap-28 lg:gap-32"
+        )}
+      >
         {sections.map((section, i) => (
           <motion.article
             key={section.kicker}
-            className="relative overflow-hidden rounded-2xl border border-accent/30 bg-base-dark/45 px-8 py-12 text-text shadow-[0_0_0_1px_rgba(0,242,255,0.08),0_0_48px_-16px_rgba(0,242,255,0.22),inset_0_1px_0_0_rgba(0,242,255,0.06)] backdrop-blur-sm transition-[border-color,box-shadow] duration-500 md:px-12 md:py-14"
+            className={cn(
+              "relative overflow-hidden rounded-2xl border border-accent/30 bg-base-dark/45 text-text shadow-[0_0_0_1px_rgba(0,242,255,0.08),0_0_48px_-16px_rgba(0,242,255,0.22),inset_0_1px_0_0_rgba(0,242,255,0.06)] backdrop-blur-sm transition-[border-color,box-shadow] duration-500 md:px-12 md:py-14",
+              embedded ? "px-5 py-10" : "px-8 py-12"
+            )}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-50px" }}
@@ -112,10 +142,15 @@ export function ConsultingDetailPageContent({
               <p className="mb-4 text-xs font-medium tracking-[0.2em] text-accent/90 md:text-[0.7rem]">
                 {section.kicker}
               </p>
-              <h2 className="mb-8 text-xl font-semibold leading-snug tracking-[0.18em] text-text md:text-2xl md:tracking-[0.22em]">
+              <h2
+                className={cn(
+                  "font-semibold leading-snug tracking-[0.18em] text-text md:text-2xl md:tracking-[0.22em]",
+                  embedded ? "mb-6 text-lg md:mb-8" : "mb-8 text-xl"
+                )}
+              >
                 {section.heading}
               </h2>
-              <p className="text-left text-sm leading-[2.05] text-text md:text-[1rem] md:leading-[2.1]">
+              <p className={cn("text-left", serviceReading.body)}>
                 {section.body}
               </p>
             </div>
@@ -124,14 +159,17 @@ export function ConsultingDetailPageContent({
       </div>
 
       <motion.footer
-        className="mx-auto mt-24 flex max-w-2xl flex-col items-center gap-10 text-center md:mt-32"
+        className={cn(
+          "mx-auto flex max-w-2xl flex-col items-center gap-10 text-center",
+          embedded ? "mt-16 md:mt-24" : "mt-24 md:mt-32"
+        )}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-60px" }}
         variants={v}
         transition={{ delay: reduce ? 0 : 0.06 }}
       >
-        <p className="text-sm leading-[1.95] text-text md:text-[1rem] md:leading-[2]">
+        <p className={cn(serviceReading.bodyCenter)}>
           {consultingDetailPageCopy.reassurance}
         </p>
         <Button

@@ -16,6 +16,8 @@ interface PageSectionWithScrollProps {
   children: React.ReactNode;
   cta?: { href: string; label: string };
   className?: string;
+  /** ページ見出し h1 に付与（例: `text-center`） */
+  headingClassName?: string;
 }
 
 export function PageSectionWithScroll({
@@ -23,6 +25,7 @@ export function PageSectionWithScroll({
   children,
   cta,
   className,
+  headingClassName,
 }: PageSectionWithScrollProps) {
   return (
     <ScrollSequence
@@ -32,7 +35,12 @@ export function PageSectionWithScroll({
       )}
     >
       <ScrollSequenceItem thresholds={[0.1, 0.2]}>
-        <h1 className="mb-4 text-2xl font-bold text-accent md:text-3xl">
+        <h1
+          className={cn(
+            "mb-4 text-2xl font-bold text-accent md:text-3xl",
+            headingClassName
+          )}
+        >
           {title}
         </h1>
       </ScrollSequenceItem>

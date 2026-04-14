@@ -25,16 +25,24 @@ export function ServicesPageContent() {
     useState<ServiceDetailTab>("development");
 
   return (
-    <PageSectionWithScroll title={servicesCopy.title}>
-      <p className="mb-8 max-w-2xl text-text-sub">{servicesCopy.purpose}</p>
-      <p className="mb-8 max-w-2xl text-sm leading-relaxed text-text-sub/85">
-        下のカードのあとに進め方の本文が続きます。迷いがある場合は各カードの「チャットで相談する」から入れます。
-      </p>
-      <StaggerGrid cols="2" itemClassNameByIndex={{ 2: "sm:col-span-2" }}>
+    <PageSectionWithScroll
+      title={servicesCopy.title}
+      headingClassName="text-center"
+    >
+      <div className="mx-auto mb-10 flex max-w-xl flex-col items-center text-center md:mb-12">
+        <p className="text-[0.9375rem] leading-relaxed text-text-sub md:text-[1rem]">
+          AIコンシェルジュへの相談は、『チャットで相談する』から。
+        </p>
+      </div>
+      <StaggerGrid
+        cols="2"
+        itemClassNameByIndex={{ 2: "sm:col-span-2" }}
+        className="mx-auto w-full max-w-4xl"
+      >
         <Card className="flex flex-col overflow-hidden border-silver/20 p-0 transition-colors hover:border-accent/50">
           <button
             type="button"
-            className="flex flex-1 flex-col px-6 py-6 text-left"
+            className="flex flex-1 flex-col items-center px-6 py-6 text-center"
             onClick={() => {
               writeServicesFlowPick("development");
               recordVisitorEntryIntent("consult");
@@ -58,7 +66,7 @@ export function ServicesPageContent() {
         <Card className="flex flex-col overflow-hidden border-silver/20 p-0 transition-colors hover:border-accent/50">
           <button
             type="button"
-            className="flex flex-1 flex-col px-6 py-6 text-left"
+            className="flex flex-1 flex-col items-center px-6 py-6 text-center"
             onClick={() => {
               writeServicesFlowPick("consulting");
               recordVisitorEntryIntent("consult");
@@ -79,13 +87,11 @@ export function ServicesPageContent() {
           </button>
         </Card>
 
-        <div
-          className="scroll-mt-24 rounded-2xl border border-silver/20 bg-base-dark/25 p-4 backdrop-blur-sm md:p-6"
-        >
+        <div className="scroll-mt-24 rounded-2xl border border-silver/20 bg-base-dark/25 p-5 backdrop-blur-sm sm:p-6 md:p-6">
             <nav
               role="tablist"
               aria-label="サービス詳細の切り替え"
-              className="no-scrollbar mb-6 flex snap-x snap-mandatory gap-2 overflow-x-auto pb-1 md:flex-wrap md:justify-center md:overflow-visible"
+              className="no-scrollbar mb-5 flex snap-x snap-mandatory gap-2.5 overflow-x-auto pb-1 md:mb-6 md:flex-wrap md:justify-center md:gap-2 md:overflow-visible"
             >
               <button
                 type="button"
