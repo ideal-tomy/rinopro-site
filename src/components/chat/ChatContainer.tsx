@@ -609,7 +609,7 @@ export function ChatContainer() {
           onDismissForNavigation={dismissConciergeForSiteLink}
           onWizardComplete={(answers, picks) => {
             setDemoListWizardSnapshot({ answers, picks });
-            if (pathname === "/demo/list") {
+            if (pathname === "/demo/list" || pathname === "/demo") {
               setOpen(false);
               setConciergeSurface("pick");
               setEntrySource("fab");

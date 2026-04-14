@@ -349,26 +349,22 @@ export function DemoListContent({ demos }: DemoListContentProps) {
             {appliedAnswers ? "条件を選び直す" : "条件から相談する"}
           </button>
         </div>
-        <div className="flex flex-wrap gap-2">
-          {appliedAnswers ? (
-            <>
-              <span className="rounded-full border border-accent/40 bg-accent/10 px-2.5 py-1 text-xs text-accent">
-                領域: {labelForDomain(appliedAnswers.domain)}
-              </span>
-              <span className="rounded-full border border-accent/40 bg-accent/10 px-2.5 py-1 text-xs text-accent">
-                立場: {labelForRole(appliedAnswers.audienceRole)}
-              </span>
-              <span className="rounded-full border border-accent/40 bg-accent/10 px-2.5 py-1 text-xs text-accent">
-                課題: {labelForIssue(appliedAnswers.issue)}
-              </span>
-              <span className="rounded-full border border-accent/40 bg-accent/10 px-2.5 py-1 text-xs text-accent">
-                進め方: {labelForDepth(appliedAnswers.automationDepth)}
-              </span>
-            </>
-          ) : (
-            <span className="text-xs text-text-sub">条件は未設定です</span>
-          )}
-        </div>
+        {appliedAnswers ? (
+          <div className="flex flex-wrap gap-2">
+            <span className="rounded-full border border-accent/40 bg-accent/10 px-2.5 py-1 text-xs text-accent">
+              領域: {labelForDomain(appliedAnswers.domain)}
+            </span>
+            <span className="rounded-full border border-accent/40 bg-accent/10 px-2.5 py-1 text-xs text-accent">
+              立場: {labelForRole(appliedAnswers.audienceRole)}
+            </span>
+            <span className="rounded-full border border-accent/40 bg-accent/10 px-2.5 py-1 text-xs text-accent">
+              課題: {labelForIssue(appliedAnswers.issue)}
+            </span>
+            <span className="rounded-full border border-accent/40 bg-accent/10 px-2.5 py-1 text-xs text-accent">
+              進め方: {labelForDepth(appliedAnswers.automationDepth)}
+            </span>
+          </div>
+        ) : null}
       </section>
 
       <div className="py-8 md:py-10">

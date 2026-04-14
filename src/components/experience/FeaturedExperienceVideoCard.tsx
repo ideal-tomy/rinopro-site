@@ -7,9 +7,6 @@ import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { Button } from "@/components/ui/button";
 import type { ExperiencePrototypeMeta } from "@/lib/experience/prototype-registry";
 
-const INTERNAL_EXPERIENCE_PATH = "/experience/internal-knowledge-share-bot";
-const RESTAURANT_EXPERIENCE_PATH = "/experience/restaurant-ops-dashboard-demo";
-
 type Props = {
   meta: ExperiencePrototypeMeta;
   videoSrc: string;
@@ -33,11 +30,8 @@ export function FeaturedExperienceVideoCard({
   const showVideo =
     !prefersReducedMotion && !videoFailed && Boolean(videoSrc);
 
-  const isInternal = meta.slug === "internal-knowledge-share-bot";
-  const isRestaurant = meta.slug === "restaurant-ops-dashboard-demo";
-
   const ctaButtonClass =
-    "w-full min-h-12 px-4 text-[15px] font-semibold leading-snug sm:min-h-[3.25rem] sm:flex-1 sm:text-[1.05rem] md:min-h-14 md:text-[1.125rem]";
+    "w-full min-h-12 px-4 text-[15px] font-semibold leading-snug sm:min-h-[3.25rem] sm:text-[1.05rem] md:min-h-14 md:text-[1.125rem]";
 
   if (variant === "hub") {
     return (
@@ -78,28 +72,9 @@ export function FeaturedExperienceVideoCard({
             {meta.shortDescription}
           </p>
 
-          <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-stretch">
-            <Button
-              asChild
-              variant={isInternal ? "default" : "outline"}
-              size="lg"
-              className={ctaButtonClass}
-            >
-              <Link href={INTERNAL_EXPERIENCE_PATH}>
-                体験ページへ（社内ボット）
-              </Link>
-            </Button>
-            <Button
-              asChild
-              variant={isRestaurant ? "default" : "outline"}
-              size="lg"
-              className={ctaButtonClass}
-            >
-              <Link href={RESTAURANT_EXPERIENCE_PATH}>
-                閲覧ページへ（飲食店ダッシュボード）
-              </Link>
-            </Button>
-          </div>
+          <Button asChild variant="default" size="lg" className={cn("mt-4", ctaButtonClass)}>
+            <Link href={`/experience/${meta.slug}`}>体験を開く</Link>
+          </Button>
         </div>
       </article>
     );

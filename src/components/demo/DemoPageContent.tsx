@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { LayoutGrid } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { PageSectionDivider } from "@/components/layout/PageSectionDivider";
 import { FeaturedExperienceVideoCard } from "@/components/experience/FeaturedExperienceVideoCard";
 import { TypeExperienceSection } from "@/components/demo/TypeExperienceSection";
@@ -14,12 +15,15 @@ import {
 import { FEATURED_SHOWCASE_VIDEO_BY_SLUG } from "@/lib/experience/featured-showcase-media";
 import type { AiDemo, DemoItem } from "@/lib/sanity/types";
 import { demoHubCopy } from "@/lib/content/site-copy";
+import { useConciergeChat } from "@/components/chat/concierge-chat-context";
+import { recordVisitorEntryIntent } from "@/lib/journey/visitor-journey-storage";
 
 interface DemoPageContentProps {
   demos: (AiDemo | DemoItem)[];
 }
 
 export function DemoPageContent({ demos }: DemoPageContentProps) {
+  const { requestOpenDemoListPageConcierge } = useConciergeChat();
   const featured = getFeaturedExperiencePrototypes();
   /** 飲食ダッシュボード → 社内ナレッジの順（レジストリの逆順） */
   const featuredOrdered = [...featured].reverse();
@@ -34,9 +38,22 @@ export function DemoPageContent({ demos }: DemoPageContentProps) {
           <p className="mx-auto mt-3 max-w-2xl text-sm text-text-sub md:text-[1rem]">
             {demoHubCopy.intro}
           </p>
-          <p className="mx-auto mt-3 max-w-2xl text-xs leading-relaxed text-text-sub/90 md:text-sm">
+          <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-text-sub md:text-[1rem]">
             {demoHubCopy.guide}
           </p>
+          <div className="mx-auto mt-8 flex max-w-2xl justify-center">
+            <Button
+              type="button"
+              variant="default"
+              size="lg"
+              onClick={() => {
+                recordVisitorEntryIntent("compare");
+                requestOpenDemoListPageConcierge({ entryIntent: "compare" });
+              }}
+            >
+              {demoHubCopy.conciergeCtaLabel}
+            </Button>
+          </div>
         </header>
 
         <div className="py-10 md:py-14">

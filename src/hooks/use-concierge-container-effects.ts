@@ -43,7 +43,7 @@ export function useConciergeServicesIntroSync(
   }, [pathname, mode, open, entrySource, setServicesIntroComplete]);
 }
 
-/** `/demo/list` の「コンシェルジュを開く」シーケンス */
+/** `/demo`・`/demo/list` の「条件から相談する」と同じコンシェルジュ起動シーケンス */
 export function useDemoListPageOpenSequence(
   pathname: string,
   demoListPageOpenSeq: number,
@@ -53,7 +53,8 @@ export function useDemoListPageOpenSequence(
 ) {
   const lastHandled = useRef(0);
   useEffect(() => {
-    if (pathname !== "/demo/list") return;
+    const host = pathname === "/demo/list" || pathname === "/demo";
+    if (!host) return;
     if (demoListPageOpenSeq === 0) return;
     if (demoListPageOpenSeq === lastHandled.current) return;
     lastHandled.current = demoListPageOpenSeq;
