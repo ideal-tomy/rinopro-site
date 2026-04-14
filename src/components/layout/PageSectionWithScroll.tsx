@@ -53,6 +53,8 @@ interface StaggerGridProps {
   className?: string;
   cols?: "2" | "3";
   layout?: "grid" | "list";
+  /** 各子をラップする motion.div に付与（例: 2カラムグリッドで3番目を全幅に `sm:col-span-2`） */
+  itemClassNameByIndex?: Record<number, string>;
 }
 
 export function StaggerGrid({
@@ -60,6 +62,7 @@ export function StaggerGrid({
   className,
   cols = "3",
   layout = "grid",
+  itemClassNameByIndex,
 }: StaggerGridProps) {
   const items = React.Children.toArray(children);
   const start = 0.2;
@@ -86,6 +89,7 @@ export function StaggerGrid({
         return (
           <motion.div
             key={i}
+            className={cn(itemClassNameByIndex?.[i])}
             variants={heroStaggerItem}
             custom={[s, e] as [number, number]}
           >

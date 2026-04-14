@@ -5,6 +5,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ServiceCrossLinks } from "@/components/layout/CrossServiceNav";
 import { consultingDetailPageCopy } from "@/lib/content/site-copy";
+import { cn } from "@/lib/utils";
 
 const EASE_MIST = [0.22, 1, 0.36, 1] as const;
 
@@ -39,13 +40,27 @@ function SectionWatermark({ n }: { n: string }) {
   );
 }
 
-export function ConsultingDetailPageContent() {
+export type ConsultingDetailPageContentProps = {
+  /** `/services` 埋め込み時: 余白・見出し階層・クロスリンクを調整 */
+  embedded?: boolean;
+};
+
+export function ConsultingDetailPageContent({
+  embedded = false,
+}: ConsultingDetailPageContentProps) {
   const reduce = useReducedMotion();
   const v = mistVariants(!!reduce);
   const { sections } = consultingDetailPageCopy;
 
   return (
-    <div className="mx-auto max-w-6xl px-6 py-24 md:px-10 md:py-32 lg:py-40">
+    <div
+      className={cn(
+        "mx-auto max-w-6xl md:px-10",
+        embedded
+          ? "px-0 py-6 md:px-6 md:py-10 lg:py-12"
+          : "px-6 py-24 md:py-32 lg:py-40"
+      )}
+    >
       <motion.header
         className="mx-auto mb-12 max-w-3xl text-center md:mb-16"
         initial="hidden"
@@ -56,9 +71,15 @@ export function ConsultingDetailPageContent() {
         <p className="mb-4 text-[0.65rem] font-medium uppercase tracking-[0.35em] text-accent/80">
           Consulting
         </p>
-        <h1 className="mb-6 text-4xl font-semibold tracking-tight text-accent md:text-5xl lg:text-[3.25rem] lg:leading-tight">
-          {consultingDetailPageCopy.title}
-        </h1>
+        {embedded ? (
+          <h2 className="mb-6 text-4xl font-semibold tracking-tight text-accent md:text-5xl lg:text-[3.25rem] lg:leading-tight">
+            {consultingDetailPageCopy.title}
+          </h2>
+        ) : (
+          <h1 className="mb-6 text-4xl font-semibold tracking-tight text-accent md:text-5xl lg:text-[3.25rem] lg:leading-tight">
+            {consultingDetailPageCopy.title}
+          </h1>
+        )}
         <p className="mx-auto max-w-2xl text-lg leading-relaxed text-text/90 md:text-xl">
           {consultingDetailPageCopy.purpose}
         </p>
@@ -122,7 +143,7 @@ export function ConsultingDetailPageContent() {
         </Button>
       </motion.footer>
 
-      <ServiceCrossLinks current="consulting" />
+      {!embedded && <ServiceCrossLinks current="consulting" />}
     </div>
   );
 }

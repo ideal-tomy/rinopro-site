@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useId, useState } from "react";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -110,40 +110,64 @@ function StepWatermarkDesktop({ n }: { n: string }) {
 const tagClass =
   "inline-block rounded-md border border-silver/30 bg-base-dark/50 px-2.5 py-1.5 text-[0.65rem] leading-tight text-text/85 md:px-3 md:text-xs";
 
-export function FlowTimelinePageContent() {
+export type FlowTimelinePageContentProps = {
+  /** `/services` 埋め込み時: 余白・見出し階層・sticky・クロスリンクを調整 */
+  embedded?: boolean;
+};
+
+export function FlowTimelinePageContent({
+  embedded = false,
+}: FlowTimelinePageContentProps) {
   const reduce = useReducedMotion();
   const v = mistVariants(!!reduce);
   const [activeTrack, setActiveTrack] = useState<FlowTrackKey>("common");
   const activeCopy = flowDetailPageCopyByTrack[activeTrack];
   const { steps } = activeCopy;
-  const flowPanelId = "flow-track-panel";
+  const idSuffix = useId().replace(/:/g, "");
+  const flowPanelId = embedded ? `flow-track-panel-${idSuffix}` : "flow-track-panel";
+  const tabId = (key: FlowTrackKey) =>
+    embedded ? `flow-tab-${key}-${idSuffix}` : `flow-tab-${key}`;
 
   return (
-    <div className="mx-auto max-w-3xl px-6 py-24 md:px-10 md:py-32 lg:max-w-5xl lg:py-40">
-      <motion.header
-        className="mx-auto mb-12 max-w-3xl text-center md:mb-16"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-80px" }}
-        variants={v}
-      >
-        <p className="mb-3 text-[0.65rem] font-medium uppercase tracking-[0.35em] text-accent/80">
-          {activeCopy.lifecycleLabel}
-        </p>
-        <p className="mb-6 text-xs tracking-[0.25em] text-text/75">
-          {activeCopy.lifecycleSub}
-        </p>
-        <h1 className="mb-6 text-4xl font-semibold tracking-tight text-accent md:text-5xl lg:text-[3.25rem] lg:leading-tight">
-          {activeCopy.title}
-        </h1>
-        <p className="mx-auto max-w-2xl text-lg leading-relaxed text-text/85 md:text-xl">
-          {activeCopy.purpose}
-        </p>
-      </motion.header>
+    <div
+      className={cn(
+        "mx-auto max-w-3xl md:px-10 lg:max-w-5xl",
+        embedded
+          ? "px-0 py-6 md:px-6 md:py-10 lg:py-12"
+          : "px-6 py-24 md:py-32 lg:py-40"
+      )}
+    >
+      {!embedded && (
+        <motion.header
+          className="mx-auto mb-12 max-w-3xl text-center md:mb-16"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-80px" }}
+          variants={v}
+        >
+          <p className="mb-3 text-[0.65rem] font-medium uppercase tracking-[0.35em] text-accent/80">
+            {activeCopy.lifecycleLabel}
+          </p>
+          <p className="mb-6 text-xs tracking-[0.25em] text-text/75">
+            {activeCopy.lifecycleSub}
+          </p>
+          <h1 className="mb-6 text-4xl font-semibold tracking-tight text-accent md:text-5xl lg:text-[3.25rem] lg:leading-tight">
+            {activeCopy.title}
+          </h1>
+          <p className="mx-auto max-w-2xl text-lg leading-relaxed text-text/85 md:text-xl">
+            {activeCopy.purpose}
+          </p>
+        </motion.header>
+      )}
 
-      {/* サイトヘッダー h-16 の直下に張り付く（Global Header と z-index を調整） */}
+      {/* 単体ページ: ヘッダー直下に sticky。埋め込み時は二重 sticky を避け通常フロー */}
       <nav
-        className="sticky top-16 z-30 -mx-6 mb-10 border-b border-silver/15 bg-base-dark/90 py-3 backdrop-blur-md supports-[backdrop-filter]:bg-base-dark/75 md:-mx-10 md:mb-12"
+        className={cn(
+          "border-b border-silver/15 bg-base-dark/90 py-3 backdrop-blur-md supports-[backdrop-filter]:bg-base-dark/75",
+          embedded
+            ? "relative z-20 -mx-0 mb-8 md:-mx-2 md:mb-10"
+            : "sticky top-16 z-30 -mx-6 mb-10 md:-mx-10 md:mb-12"
+        )}
         aria-label="開発の進め方の種類"
       >
         <div className="mx-auto max-w-2xl px-0">
@@ -160,7 +184,7 @@ export function FlowTimelinePageContent() {
                   key={key}
                   type="button"
                   role="tab"
-                  id={`flow-tab-${key}`}
+                  id={tabId(key)}
                   aria-selected={selected}
                   aria-controls={flowPanelId}
                   tabIndex={selected ? 0 : -1}
@@ -183,7 +207,7 @@ export function FlowTimelinePageContent() {
       <motion.div
         id={flowPanelId}
         role="tabpanel"
-        aria-labelledby={`flow-tab-${activeTrack}`}
+        aria-labelledby={tabId(activeTrack)}
         className="mx-auto mb-20 max-w-2xl md:mb-24"
         initial="hidden"
         whileInView="visible"
@@ -337,7 +361,7 @@ export function FlowTimelinePageContent() {
         </Link>
       </motion.div>
 
-      <ServiceCrossLinks current="flow" />
+      {!embedded && <ServiceCrossLinks current="flow" />}
     </div>
   );
 }

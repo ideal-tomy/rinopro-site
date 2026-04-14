@@ -134,9 +134,9 @@ export const consultingCopy = {
 /** /consulting 詳細ページ（チャット以外で流れを確認する向け） */
 export const consultingDetailPageCopy = {
   title: consultingCopy.title,
-  purpose: consultingCopy.purpose,
+  purpose: "業務診断から定着支援まで。",
   intro:
-    "チャットを開かずに、コンサルティングの進め方と判断の軸をここで把握いただけます。",
+    "IT活用やDX化を組織的に行うために必要な全てを企画・設計・提案まで",
   sections: [
     {
       kicker: "セクション1：業務診断",

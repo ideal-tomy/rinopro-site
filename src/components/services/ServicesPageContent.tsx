@@ -1,6 +1,7 @@
 "use client";
 
-import Link from "next/link";
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import {
   PageSectionWithScroll,
@@ -10,22 +11,26 @@ import { servicesCopy } from "@/lib/content/site-copy";
 import { useConciergeChat } from "@/components/chat/concierge-chat-context";
 import { writeServicesFlowPick } from "@/lib/chat/chat-auto-open";
 import { recordVisitorEntryIntent } from "@/lib/journey/visitor-journey-storage";
+import { FlowTimelinePageContent } from "@/components/services/FlowTimelinePageContent";
+import { ConsultingDetailPageContent } from "@/components/services/ConsultingDetailPageContent";
+import { cn } from "@/lib/utils";
+
+type ServiceDetailTab = "development" | "consulting";
+
+const DETAIL_PANEL_ID = "services-detail-panel";
 
 export function ServicesPageContent() {
   const { openConcierge } = useConciergeChat();
+  const [activeDetail, setActiveDetail] =
+    useState<ServiceDetailTab>("development");
 
   return (
-    <PageSectionWithScroll
-      title={servicesCopy.title}
-      cta={{ href: "/contact", label: servicesCopy.cta }}
-    >
-      <p className="mb-8 max-w-2xl text-text-sub">
-        {servicesCopy.purpose}
-      </p>
+    <PageSectionWithScroll title={servicesCopy.title}>
+      <p className="mb-8 max-w-2xl text-text-sub">{servicesCopy.purpose}</p>
       <p className="mb-8 max-w-2xl text-sm leading-relaxed text-text-sub/85">
-        読みながら確認したい場合は詳細ページへ、迷いがある場合は各カードの「チャットで相談する」から入れます。
+        下のカードのあとに進め方の本文が続きます。迷いがある場合は各カードの「チャットで相談する」から入れます。
       </p>
-      <StaggerGrid cols="2">
+      <StaggerGrid cols="2" itemClassNameByIndex={{ 2: "sm:col-span-2" }}>
         <Card className="flex flex-col overflow-hidden border-silver/20 p-0 transition-colors hover:border-accent/50">
           <button
             type="button"
@@ -48,14 +53,6 @@ export function ServicesPageContent() {
               チャットで相談する
             </span>
           </button>
-          <div className="border-t border-silver/20 px-6 py-3">
-            <Link
-              href={servicesCopy.development.href}
-              className="text-sm text-text-sub underline-offset-4 hover:text-accent hover:underline"
-            >
-              開発の流れの詳細を見る
-            </Link>
-          </div>
         </Card>
 
         <Card className="flex flex-col overflow-hidden border-silver/20 p-0 transition-colors hover:border-accent/50">
@@ -80,15 +77,87 @@ export function ServicesPageContent() {
               チャットで相談する
             </span>
           </button>
-          <div className="border-t border-silver/20 px-6 py-3">
-            <Link
-              href={servicesCopy.consulting.href}
-              className="text-sm text-text-sub underline-offset-4 hover:text-accent hover:underline"
-            >
-              コンサル内容の詳細を見る
-            </Link>
-          </div>
         </Card>
+
+        <div
+          className="scroll-mt-24 rounded-2xl border border-silver/20 bg-base-dark/25 p-4 backdrop-blur-sm md:p-6"
+        >
+            <nav
+              role="tablist"
+              aria-label="サービス詳細の切り替え"
+              className="no-scrollbar mb-6 flex snap-x snap-mandatory gap-2 overflow-x-auto pb-1 md:flex-wrap md:justify-center md:overflow-visible"
+            >
+              <button
+                type="button"
+                id="services-tab-development"
+                role="tab"
+                aria-selected={activeDetail === "development"}
+                aria-controls={DETAIL_PANEL_ID}
+                tabIndex={activeDetail === "development" ? 0 : -1}
+                className={cn(
+                  "shrink-0 snap-start rounded-full border px-4 py-2 text-xs font-medium tracking-wide transition-colors md:text-[0.8125rem]",
+                  activeDetail === "development"
+                    ? "border-action/70 bg-action/15 text-action shadow-[0_0_16px_-4px_rgba(0,103,192,0.35)]"
+                    : "border-silver/25 bg-base-dark/40 text-text/80 hover:border-action/35 hover:text-text"
+                )}
+                onClick={() => setActiveDetail("development")}
+              >
+                開発の流れ
+              </button>
+              <button
+                type="button"
+                id="services-tab-consulting"
+                role="tab"
+                aria-selected={activeDetail === "consulting"}
+                aria-controls={DETAIL_PANEL_ID}
+                tabIndex={activeDetail === "consulting" ? 0 : -1}
+                className={cn(
+                  "shrink-0 snap-start rounded-full border px-4 py-2 text-xs font-medium tracking-wide transition-colors md:text-[0.8125rem]",
+                  activeDetail === "consulting"
+                    ? "border-action/70 bg-action/15 text-action shadow-[0_0_16px_-4px_rgba(0,103,192,0.35)]"
+                    : "border-silver/25 bg-base-dark/40 text-text/80 hover:border-action/35 hover:text-text"
+                )}
+                onClick={() => setActiveDetail("consulting")}
+              >
+                コンサルティング
+              </button>
+            </nav>
+
+            <div
+              id={DETAIL_PANEL_ID}
+              role="tabpanel"
+              aria-labelledby={
+                activeDetail === "development"
+                  ? "services-tab-development"
+                  : "services-tab-consulting"
+              }
+              className="overflow-hidden rounded-xl border border-silver/15 bg-base-dark/20"
+            >
+              <AnimatePresence mode="wait" initial={false}>
+                {activeDetail === "development" ? (
+                  <motion.div
+                    key="development"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <FlowTimelinePageContent embedded />
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="consulting"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <ConsultingDetailPageContent embedded />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+        </div>
       </StaggerGrid>
     </PageSectionWithScroll>
   );
