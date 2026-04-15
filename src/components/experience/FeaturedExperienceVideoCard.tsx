@@ -39,6 +39,11 @@ export function FeaturedExperienceVideoCard({
     });
   }, [videoFailed]);
 
+  const showVideo =
+    inViewport &&
+    !videoFailed &&
+    Boolean(videoSrc);
+
   useEffect(() => {
     if (!showVideo) return;
     ensureVideoPlayback();
@@ -88,11 +93,6 @@ export function FeaturedExperienceVideoCard({
     observer.observe(node);
     return () => observer.disconnect();
   }, []);
-
-  const showVideo =
-    inViewport &&
-    !videoFailed &&
-    Boolean(videoSrc);
 
   const ctaButtonClass =
     "w-full min-h-12 px-4 text-[15px] font-semibold leading-snug sm:min-h-[3.25rem] sm:text-[1.05rem] md:min-h-14 md:text-[1.125rem]";
