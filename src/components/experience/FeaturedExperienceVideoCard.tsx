@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type MouseEvent } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import type { ExperiencePrototypeMeta } from "@/lib/experience/prototype-registry";
@@ -25,16 +25,29 @@ export function FeaturedExperienceVideoCard({
   variant = "default",
 }: Props) {
   const [videoFailed, setVideoFailed] = useState(false);
+  const [playbackBlocked, setPlaybackBlocked] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   const ensureVideoPlayback = useCallback(() => {
     const video = videoRef.current;
     if (!video) return;
     if (videoFailed) return;
-    if (!video.paused) return;
-    void video.play().catch(() => {
-      // Autoplay can fail transiently on some devices; retry hooks below will re-attempt.
-    });
+    if (!video.paused && !video.ended) {
+      setPlaybackBlocked(false);
+      return;
+    }
+    const playPromise = video.play();
+    if (playPromise && typeof playPromise.then === "function") {
+      void playPromise
+        .then(() => {
+          setPlaybackBlocked(false);
+        })
+        .catch(() => {
+          setPlaybackBlocked(true);
+        });
+    } else {
+      setPlaybackBlocked(false);
+    }
   }, [videoFailed]);
 
   const showVideo =
@@ -47,7 +60,19 @@ export function FeaturedExperienceVideoCard({
     const timer = globalThis.setTimeout(() => {
       ensureVideoPlayback();
     }, 200);
-    return () => globalThis.clearTimeout(timer);
+    // Some desktop browsers defer autoplay sporadically; retry briefly.
+    let attempts = 0;
+    const interval = globalThis.setInterval(() => {
+      attempts += 1;
+      ensureVideoPlayback();
+      if (attempts >= 12) {
+        globalThis.clearInterval(interval);
+      }
+    }, 500);
+    return () => {
+      globalThis.clearTimeout(timer);
+      globalThis.clearInterval(interval);
+    };
   }, [showVideo, ensureVideoPlayback]);
 
   useEffect(() => {
@@ -60,6 +85,17 @@ export function FeaturedExperienceVideoCard({
     document.addEventListener("visibilitychange", resumeOnVisible);
     return () => document.removeEventListener("visibilitychange", resumeOnVisible);
   }, [showVideo, ensureVideoPlayback]);
+
+  const handleManualPlay = useCallback(
+    (event?: MouseEvent<HTMLButtonElement>) => {
+      if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      ensureVideoPlayback();
+    },
+    [ensureVideoPlayback]
+  );
 
   useEffect(() => {
     if (!showVideo) return;
@@ -102,10 +138,23 @@ export function FeaturedExperienceVideoCard({
               playsInline
               loop
               autoPlay
-              preload="metadata"
+              preload="auto"
               aria-label={`${meta.title}のプレビュー動画`}
+              onPlay={() => setPlaybackBlocked(false)}
               onError={() => setVideoFailed(true)}
             />
+          ) : null}
+          {showVideo && playbackBlocked ? (
+            <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+              <button
+                type="button"
+                className="rounded-full border border-silver/35 bg-base-dark/85 px-4 py-2 text-sm font-medium text-text transition-colors hover:border-accent/50 hover:text-accent"
+                onClick={handleManualPlay}
+                aria-label={`${meta.title}の動画を再生`}
+              >
+                タップして再生
+              </button>
+            </div>
           ) : null}
         </div>
 
@@ -150,10 +199,23 @@ export function FeaturedExperienceVideoCard({
               playsInline
               loop
               autoPlay
-              preload="metadata"
+              preload="auto"
               aria-label={`${meta.title}のプレビュー動画`}
+              onPlay={() => setPlaybackBlocked(false)}
               onError={() => setVideoFailed(true)}
             />
+          ) : null}
+          {showVideo && playbackBlocked ? (
+            <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+              <button
+                type="button"
+                className="rounded-full border border-silver/35 bg-base-dark/85 px-4 py-2 text-sm font-medium text-text transition-colors hover:border-accent/50 hover:text-accent"
+                onClick={handleManualPlay}
+                aria-label={`${meta.title}の動画を再生`}
+              >
+                タップして再生
+              </button>
+            </div>
           ) : null}
         </div>
 
@@ -196,19 +258,32 @@ export function FeaturedExperienceVideoCard({
               playsInline
               loop
               autoPlay
-              preload="metadata"
+              preload="auto"
               aria-hidden
+              onPlay={() => setPlaybackBlocked(false)}
               onError={() => setVideoFailed(true)}
             />
           ) : null}
+          {showVideo && playbackBlocked ? (
+            <div className="absolute inset-0 z-[2] flex items-center justify-center bg-black/40">
+              <button
+                type="button"
+                className="rounded-full border border-silver/35 bg-base-dark/85 px-4 py-2 text-sm font-medium text-text transition-colors hover:border-accent/50 hover:text-accent"
+                onClick={handleManualPlay}
+                aria-label={`${meta.title}の動画を再生`}
+              >
+                タップして再生
+              </button>
+            </div>
+          ) : null}
           <div
             className={cn(
-              "pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/25",
+              "pointer-events-none absolute inset-0 z-[1] bg-gradient-to-t from-black/80 via-black/40 to-black/25",
               !showVideo && "from-black/55 via-black/35 to-black/20"
             )}
             aria-hidden
           />
-          <div className="absolute inset-x-0 bottom-0 p-4 md:p-5">
+          <div className="absolute inset-x-0 bottom-0 z-[3] p-4 md:p-5">
             <h3 className="text-[1rem] font-semibold leading-snug text-text md:text-lg">
               {meta.title}
             </h3>
