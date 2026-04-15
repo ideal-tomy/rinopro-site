@@ -243,3 +243,20 @@
 | 2026-04-03 | ゴールパイプライン・定性/計算分離。`summary`＝型必須＋任意補足、`pain`＝選択式。決定事項チェックリスト追加 |
 | 2026-04-04 | §1.1 コピー方針。§12 再構成（12.1 数値は一般的たたき台でコード管理／本書に固定値なし、12.2 採用予定、12.3 実装チェック）。§5・§6・§9・Tier 表を採用案に整合 |
 | 2026-04-04 | `hostingContext`（データやシステムの置き場所のイメージ）を `integration` 直後に追加。狭帯・プロンプト・コストドライバー列を更新 |
+| 2026-04-15 | §14 問い合わせページ統合（同一ウィザード・`inquiryBrief` ゲート・合成スナップショット） |
+
+---
+
+## 14. 問い合わせページとの統合（実装メモ）
+
+`/contact` では、詳細見積ウィザードと**同一の質問ID・ステップ順**（`ESTIMATE_WIZARD_STEP_DEFINITIONS` / `shouldShowEstimateWizardStepForForm`）でヒアリングし、直流入でも送信前に `inquiryBrief` を必須とする。
+
+| 内容 | 主なファイル |
+|------|----------------|
+| 質問の単一ソース | `src/lib/estimate-core/question-model.ts`・`wizard-steps.ts` |
+| 直流入ヒアリング | `src/components/contact/ContactIntakeHearingBlock.tsx`（`EstimateDetailedHearingWizard` を再利用） |
+| 見積回答の復元・ロック | `src/lib/contact/contact-intake-context.ts`・`parse-estimate-answers-to-form-draft.ts` |
+| 問い合わせのみのスナップショット（`inquiry-brief` 用） | `src/lib/contact/build-contact-synthetic-snapshot.ts` |
+| 送信ゲート | `EstimateDetailedAmountContent` と同様に `readiness` または必須フォローアップ完了 |
+
+詳細見積フロー本体（`EstimateDetailedFormContent` / `EstimateDetailedAmountContent`）は変更しない。問い合わせ側が同じウィザードと API を読むだけに留める。

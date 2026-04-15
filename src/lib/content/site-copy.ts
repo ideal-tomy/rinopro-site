@@ -770,15 +770,16 @@ export const contactCopy = {
   /** 問い合わせページ：詳細見積フローへ（説明は出さずボタンのみ） */
   estimateShortcutCta: "詳しい見積もりの目安へ進む",
   estimateShortcutHint:
-    "先に料金感や要件のたたき台を作ると、問い合わせ時点でかなり具体的な状態まで整理できます。",
+    "問い合わせは最終確認に寄せています。先に料金感や要件のたたき台を作ると、初回返信で具体的に返せる状態まで整理できます。",
   form: {
     nameLabel: "お名前",
     namePlaceholder: "山田 太郎",
     emailLabel: "メールアドレス",
     emailPlaceholder: "example@example.com",
-    triedExperienceLabel: "触れた体験・デモ（任意）",
-    triedExperiencePlaceholder:
-      "例: demoページの〇〇、モックdemoの△△ など。未入力でも構いません。",
+    triedExperienceLabel: "最も近かった体験・デモ",
+    triedExperiencePlaceholder: "選択してください",
+    triedExperienceOtherPlaceholder:
+      "体験名が一覧にない場合だけ、ここに入力してください",
     additionalRequestLabel: "追加で伝えたいこと（任意）",
     additionalRequestPlaceholder:
       "例: 社内共有の事情、連絡方法の希望、前提として伝えておきたいこと など",
@@ -790,9 +791,14 @@ export const contactCopy = {
     inquirySummaryTitle: "送信される相談内容の要点",
     inquirySummaryHint:
       "ここに出ている内容をもとに、初回返信では要点を絞ってお返しします。",
-    directGuideTitle: "まだ詳細見積を使っていない場合",
+    directGuideTitle: "このページは最終確認用です",
     directGuideBody:
-      "このフォームだけでも送れますが、自由文だけでは送れません。サイト内で整理できた文脈も使いながら、課題・求める返答・対象業務が分かる状態まで整えてから送ります。",
+      "問い合わせ前の質問整理は「詳しい見積もりの目安へ進む」から行ってください。ここでは、整理済みの内容を確認して連絡先と補足を送る形にしています。",
+    contactIntakeAnsweredSummaryTitle: "見積で伺った内容（再掲）",
+    contactIntakeAnsweredSummaryHint:
+      "不足がある場合だけ、下の質問に追加で答えてください。",
+    contactSyntheticEstimateHint:
+      "問い合わせページのヒアリングのみのため、金額レンジは含まれていません。",
     intentLabel: "今回の相談でいちばん知りたいこと",
     desiredReplyLabel: "今回の返信でほしい内容",
     directProblemLabel: "いま困っていること・変えたいこと",

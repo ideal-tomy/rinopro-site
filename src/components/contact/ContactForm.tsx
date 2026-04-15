@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -24,6 +24,11 @@ import {
 } from "@/lib/inquiry/inquiry-brief";
 import type { VisitorJourneySummary } from "@/lib/journey/visitor-journey";
 import { readVisitorJourneySummary } from "@/lib/journey/visitor-journey-storage";
+import {
+  DEMO_HUB_TYPE_SECTION_SLUGS,
+  FEATURED_EXPERIENCE_SLUGS,
+  getExperiencePrototypeBySlug,
+} from "@/lib/experience/prototype-registry";
 
 function applyPayloadToForm(
   payload: ChatHandoffPayload,
@@ -81,13 +86,44 @@ function applyPayloadToForm(
   setters.setAdditionalNote(buildContactMessageDraft(payload));
 }
 
+type ExperienceOption = {
+  value: string;
+  label: string;
+};
+
+const OTHER_EXPERIENCE_VALUE = "__other";
+const NONE_EXPERIENCE_VALUE = "__none";
+
+function buildExperienceOptions(): ExperienceOption[] {
+  const seen = new Set<string>();
+  const orderedSlugs = [
+    ...FEATURED_EXPERIENCE_SLUGS,
+    ...DEMO_HUB_TYPE_SECTION_SLUGS,
+  ];
+
+  const base = orderedSlugs.flatMap((slug) => {
+    const meta = getExperiencePrototypeBySlug(slug);
+    if (!meta || seen.has(meta.title)) return [];
+    seen.add(meta.title);
+    return [{ value: meta.title, label: meta.title }];
+  });
+
+  return [
+    ...base,
+    { value: OTHER_EXPERIENCE_VALUE, label: "その他" },
+    { value: NONE_EXPERIENCE_VALUE, label: "特に体験していない" },
+  ];
+}
+
 export function ContactForm() {
   const searchParams = useSearchParams();
   const handoffApplied = useRef(false);
   const visitorSummaryApplied = useRef(false);
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [triedExperience, setTriedExperience] = useState("");
+  const [closestExperience, setClosestExperience] = useState("");
+  const [closestExperienceOther, setClosestExperienceOther] = useState("");
   const [inquiryIntent, setInquiryIntent] = useState<InquiryIntent>("estimate");
   const [desiredReply, setDesiredReply] =
     useState<InquiryDesiredReply>("rough_estimate");
@@ -96,12 +132,44 @@ export function ContactForm() {
   const [decisionTimeline, setDecisionTimeline] = useState("");
   const [constraintsSummary, setConstraintsSummary] = useState("");
   const [additionalNote, setAdditionalNote] = useState("");
-  const [visitorJourney, setVisitorJourney] = useState<VisitorJourneySummary | null>(null);
-  const [estimateSnapshot, setEstimateSnapshot] = useState<EstimateSnapshot | null>(null);
+  const [visitorJourney, setVisitorJourney] =
+    useState<VisitorJourneySummary | null>(null);
+  const [estimateSnapshot, setEstimateSnapshot] =
+    useState<EstimateSnapshot | null>(null);
   const [attachEstimate, setAttachEstimate] = useState(true);
+  const [hasPreparedContext, setHasPreparedContext] = useState(false);
+
   const { status, errors, submit, submitError } = useContactForm();
   const form = contactCopy.form;
-  const inquiryBrief = estimateSnapshot?.inquiryPreparation?.brief ?? null;
+
+  const effectiveBrief = estimateSnapshot?.inquiryPreparation?.brief ?? null;
+  const experienceOptions = useMemo(() => buildExperienceOptions(), []);
+  const resolvedTriedExperience = useMemo(() => {
+    if (closestExperience === OTHER_EXPERIENCE_VALUE) {
+      return closestExperienceOther.trim();
+    }
+    if (closestExperience === NONE_EXPERIENCE_VALUE) {
+      return "特に体験していない";
+    }
+    return closestExperience;
+  }, [closestExperience, closestExperienceOther]);
+
+  useEffect(() => {
+    if (!effectiveBrief) return;
+    setProblemStatement(effectiveBrief.problemSummary);
+    setTargetSummary(effectiveBrief.targetSummary);
+    setDecisionTimeline(effectiveBrief.timelineSummary);
+    setConstraintsSummary(effectiveBrief.constraintsSummary);
+    setInquiryIntent(effectiveBrief.inquiryIntent);
+    setDesiredReply(effectiveBrief.desiredReply);
+    setHasPreparedContext(true);
+  }, [effectiveBrief]);
+
+  useEffect(() => {
+    if (estimateSnapshot?.ai) {
+      setHasPreparedContext(true);
+    }
+  }, [estimateSnapshot]);
 
   useEffect(() => {
     if (handoffApplied.current) return;
@@ -111,6 +179,7 @@ export function ContactForm() {
       const payload = consumeHandoffPayloadFromSession();
       if (!payload) return;
       handoffApplied.current = true;
+      setHasPreparedContext(true);
       applyPayloadToForm(payload, {
         setAdditionalNote,
         setEstimateSnapshot,
@@ -129,6 +198,7 @@ export function ContactForm() {
     const payload = decodeChatHandoff(raw);
     if (!payload) return;
     handoffApplied.current = true;
+    setHasPreparedContext(true);
     applyPayloadToForm(payload, {
       setAdditionalNote,
       setEstimateSnapshot,
@@ -176,17 +246,26 @@ export function ContactForm() {
     }
   }, [constraintsSummary, decisionTimeline, problemStatement, targetSummary]);
 
+  const canSendPreparedInquiry =
+    hasPreparedContext &&
+    problemStatement.trim().length > 0 &&
+    targetSummary.trim().length > 0 &&
+    decisionTimeline.trim().length > 0;
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const trimmedExp = triedExperience.trim();
+    if (!canSendPreparedInquiry) return;
+
     const trimmedConstraints = constraintsSummary.trim();
     const trimmedNote = additionalNote.trim();
+    const brief = estimateSnapshot?.inquiryPreparation?.brief ?? undefined;
 
     const success = await submit({
       name,
       email,
+      triedExperience: resolvedTriedExperience,
       visitorJourney: visitorJourney ?? undefined,
-      inquiryBrief: inquiryBrief ?? undefined,
+      inquiryBrief: brief,
       inquiryIntent,
       desiredReply,
       problemStatement,
@@ -194,13 +273,13 @@ export function ContactForm() {
       decisionTimeline,
       ...(trimmedConstraints ? { constraintsSummary: trimmedConstraints } : {}),
       ...(trimmedNote ? { additionalNote: trimmedNote } : {}),
-      ...(trimmedExp ? { triedExperience: trimmedExp } : {}),
       ...(attachEstimate && estimateSnapshot ? { estimateSnapshot } : {}),
     });
     if (success) {
       setName("");
       setEmail("");
-      setTriedExperience("");
+      setClosestExperience("");
+      setClosestExperienceOther("");
       setInquiryIntent("estimate");
       setDesiredReply("rough_estimate");
       setProblemStatement("");
@@ -211,62 +290,24 @@ export function ContactForm() {
       setVisitorJourney(null);
       setEstimateSnapshot(null);
       setAttachEstimate(true);
+      setHasPreparedContext(false);
     }
   };
 
+  if (!hasPreparedContext) {
+    return (
+      <div className="rounded-xl border border-silver/20 bg-base-dark/30 p-4">
+        <p className="text-sm font-medium text-text">{form.directGuideTitle}</p>
+        <p className="mt-2 text-sm leading-relaxed text-text-sub">
+          {form.directGuideBody}
+        </p>
+      </div>
+    );
+  }
+
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <div>
-        <label htmlFor="name" className="mb-2 block text-sm font-medium text-text">
-          {form.nameLabel}
-        </label>
-        <Input
-          id="name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder={form.namePlaceholder}
-          className={cn("min-h-11", errors.name && "border-red-500")}
-          autoComplete="name"
-        />
-        {errors.name && <p className="mt-1 text-sm text-red-500">{errors.name}</p>}
-      </div>
-      <div>
-        <label htmlFor="email" className="mb-2 block text-sm font-medium text-text">
-          {form.emailLabel}
-        </label>
-        <Input
-          id="email"
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder={form.emailPlaceholder}
-          className={cn("min-h-11", errors.email && "border-red-500")}
-          autoComplete="email"
-        />
-        {errors.email && <p className="mt-1 text-sm text-red-500">{errors.email}</p>}
-      </div>
-      <div>
-        <label
-          htmlFor="triedExperience"
-          className="mb-2 block text-sm font-medium text-text"
-        >
-          {form.triedExperienceLabel}
-        </label>
-        <Input
-          id="triedExperience"
-          value={triedExperience}
-          onChange={(e) => setTriedExperience(e.target.value)}
-          placeholder={form.triedExperiencePlaceholder}
-          className={cn("min-h-11", errors.triedExperience && "border-red-500")}
-          maxLength={200}
-          autoComplete="off"
-        />
-        {errors.triedExperience && (
-          <p className="mt-1 text-sm text-red-500">{errors.triedExperience}</p>
-        )}
-      </div>
-
-      {inquiryBrief ? (
+      {effectiveBrief ? (
         <div className="space-y-3 rounded-xl border border-accent/25 bg-accent/5 p-4">
           <p className="text-sm font-medium text-text">{form.inquirySummaryTitle}</p>
           <p className="text-sm leading-relaxed text-text-sub">
@@ -277,230 +318,92 @@ export function ContactForm() {
               <dt className="text-xs uppercase tracking-wide text-text-sub">
                 {form.intentLabel}
               </dt>
-              <dd className="mt-1">{inquiryBrief.inquiryIntentLabel}</dd>
+              <dd className="mt-1">{effectiveBrief.inquiryIntentLabel}</dd>
             </div>
             <div>
               <dt className="text-xs uppercase tracking-wide text-text-sub">
                 {form.desiredReplyLabel}
               </dt>
-              <dd className="mt-1">{inquiryBrief.desiredReplyLabel}</dd>
+              <dd className="mt-1">{effectiveBrief.desiredReplyLabel}</dd>
             </div>
             <div className="md:col-span-2">
               <dt className="text-xs uppercase tracking-wide text-text-sub">
                 {form.directProblemLabel}
               </dt>
-              <dd className="mt-1 whitespace-pre-wrap">{inquiryBrief.problemSummary}</dd>
+              <dd className="mt-1 whitespace-pre-wrap">{effectiveBrief.problemSummary}</dd>
             </div>
             <div>
               <dt className="text-xs uppercase tracking-wide text-text-sub">
                 {form.directTargetLabel}
               </dt>
-              <dd className="mt-1 whitespace-pre-wrap">{inquiryBrief.targetSummary}</dd>
+              <dd className="mt-1 whitespace-pre-wrap">{effectiveBrief.targetSummary}</dd>
             </div>
             <div>
               <dt className="text-xs uppercase tracking-wide text-text-sub">
                 {form.directTimelineLabel}
               </dt>
-              <dd className="mt-1 whitespace-pre-wrap">{inquiryBrief.timelineSummary}</dd>
+              <dd className="mt-1 whitespace-pre-wrap">{effectiveBrief.timelineSummary}</dd>
             </div>
             <div className="md:col-span-2">
               <dt className="text-xs uppercase tracking-wide text-text-sub">
                 {form.directConstraintsLabel}
               </dt>
               <dd className="mt-1 whitespace-pre-wrap">
-                {inquiryBrief.constraintsSummary}
+                {effectiveBrief.constraintsSummary}
               </dd>
             </div>
-            {inquiryBrief.journeySummary ? (
-              <div className="md:col-span-2">
-                <dt className="text-xs uppercase tracking-wide text-text-sub">
-                  サイト内で引き継いだ文脈
-                </dt>
-                <dd className="mt-1 whitespace-pre-wrap">
-                  {inquiryBrief.journeySummary}
-                </dd>
-              </div>
-            ) : null}
           </dl>
         </div>
       ) : (
-        <div className="space-y-4 rounded-xl border border-silver/20 bg-base-dark/30 p-4">
-          <p className="text-sm font-medium text-text">{form.directGuideTitle}</p>
-          <p className="text-sm leading-relaxed text-text-sub">{form.directGuideBody}</p>
-
-          <div>
-            <label
-              htmlFor="inquiryIntent"
-              className="mb-2 block text-sm font-medium text-text"
-            >
-              {form.intentLabel}
-            </label>
-            <select
-              id="inquiryIntent"
-              value={inquiryIntent}
-              onChange={(e) => setInquiryIntent(e.target.value as InquiryIntent)}
-              className={cn(
-                "flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm",
-                errors.inquiryIntent && "border-red-500"
-              )}
-            >
-              {Object.entries(INQUIRY_INTENT_LABELS).map(([value, label]) => (
-                <option key={value} value={value}>
-                  {label}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div>
-            <label
-              htmlFor="desiredReply"
-              className="mb-2 block text-sm font-medium text-text"
-            >
-              {form.desiredReplyLabel}
-            </label>
-            <select
-              id="desiredReply"
-              value={desiredReply}
-              onChange={(e) =>
-                setDesiredReply(e.target.value as InquiryDesiredReply)
-              }
-              className={cn(
-                "flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm",
-                errors.desiredReply && "border-red-500"
-              )}
-            >
-              {Object.entries(INQUIRY_DESIRED_REPLY_LABELS).map(([value, label]) => (
-                <option key={value} value={value}>
-                  {label}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div>
-            <label
-              htmlFor="problemStatement"
-              className="mb-2 block text-sm font-medium text-text"
-            >
-              {form.directProblemLabel}
-            </label>
-            <Textarea
-              id="problemStatement"
-              value={problemStatement}
-              onChange={(e) => setProblemStatement(e.target.value)}
-              placeholder={form.directProblemPlaceholder}
-              rows={4}
-              className={cn(
-                "min-h-[100px] resize-y",
-                errors.problemStatement && "border-red-500"
-              )}
-            />
-            {errors.problemStatement ? (
-              <p className="mt-1 text-sm text-red-500">{errors.problemStatement}</p>
-            ) : null}
-          </div>
-
-          <div>
-            <label
-              htmlFor="targetSummary"
-              className="mb-2 block text-sm font-medium text-text"
-            >
-              {form.directTargetLabel}
-            </label>
-            <Textarea
-              id="targetSummary"
-              value={targetSummary}
-              onChange={(e) => setTargetSummary(e.target.value)}
-              placeholder={form.directTargetPlaceholder}
-              rows={3}
-              className={cn(
-                "min-h-[88px] resize-y",
-                errors.targetSummary && "border-red-500"
-              )}
-            />
-            {errors.targetSummary ? (
-              <p className="mt-1 text-sm text-red-500">{errors.targetSummary}</p>
-            ) : null}
-          </div>
-
-          <div>
-            <label
-              htmlFor="decisionTimeline"
-              className="mb-2 block text-sm font-medium text-text"
-            >
-              {form.directTimelineLabel}
-            </label>
-            <Input
-              id="decisionTimeline"
-              value={decisionTimeline}
-              onChange={(e) => setDecisionTimeline(e.target.value)}
-              placeholder={form.directTimelinePlaceholder}
-              className={cn(
-                "min-h-11",
-                errors.decisionTimeline && "border-red-500"
-              )}
-            />
-            {errors.decisionTimeline ? (
-              <p className="mt-1 text-sm text-red-500">{errors.decisionTimeline}</p>
-            ) : null}
-          </div>
-
-          <div>
-            <label
-              htmlFor="constraintsSummary"
-              className="mb-2 block text-sm font-medium text-text"
-            >
-              {form.directConstraintsLabel}
-            </label>
-            <Textarea
-              id="constraintsSummary"
-              value={constraintsSummary}
-              onChange={(e) => setConstraintsSummary(e.target.value)}
-              placeholder={form.directConstraintsPlaceholder}
-              rows={3}
-              className={cn(
-                "min-h-[88px] resize-y",
-                errors.constraintsSummary && "border-red-500"
-              )}
-            />
-            {errors.constraintsSummary ? (
-              <p className="mt-1 text-sm text-red-500">{errors.constraintsSummary}</p>
-            ) : null}
-          </div>
-        </div>
-      )}
-
-      {visitorJourney ? (
-        <div className="space-y-3 rounded-xl border border-silver/20 bg-base-dark/30 p-4">
-          <p className="text-sm font-medium text-text">
-            サイト内で整理できている内容
-          </p>
+        <div className="space-y-3 rounded-xl border border-accent/25 bg-accent/5 p-4">
+          <p className="text-sm font-medium text-text">{form.inquirySummaryTitle}</p>
           <p className="text-sm leading-relaxed text-text-sub">
-            この内容も合わせて送信されます。ずれていれば上の入力欄をそのまま修正してください。
+            {form.inquirySummaryHint}
           </p>
           <dl className="grid gap-3 text-sm text-text md:grid-cols-2">
             <div>
               <dt className="text-xs uppercase tracking-wide text-text-sub">
-                関心傾向
+                {form.intentLabel}
               </dt>
-              <dd className="mt-1">{visitorJourney.interestBias}</dd>
+              <dd className="mt-1">{INQUIRY_INTENT_LABELS[inquiryIntent]}</dd>
             </div>
             <div>
               <dt className="text-xs uppercase tracking-wide text-text-sub">
-                到達状況
+                {form.desiredReplyLabel}
               </dt>
-              <dd className="mt-1">{visitorJourney.journeyDepth}</dd>
+              <dd className="mt-1">
+                {INQUIRY_DESIRED_REPLY_LABELS[desiredReply]}
+              </dd>
             </div>
             <div className="md:col-span-2">
               <dt className="text-xs uppercase tracking-wide text-text-sub">
-                要約
+                {form.directProblemLabel}
               </dt>
-              <dd className="mt-1 whitespace-pre-wrap">{visitorJourney.journeySummary}</dd>
+              <dd className="mt-1 whitespace-pre-wrap">{problemStatement}</dd>
             </div>
+            <div>
+              <dt className="text-xs uppercase tracking-wide text-text-sub">
+                {form.directTargetLabel}
+              </dt>
+              <dd className="mt-1 whitespace-pre-wrap">{targetSummary}</dd>
+            </div>
+            <div>
+              <dt className="text-xs uppercase tracking-wide text-text-sub">
+                {form.directTimelineLabel}
+              </dt>
+              <dd className="mt-1 whitespace-pre-wrap">{decisionTimeline}</dd>
+            </div>
+            {constraintsSummary.trim() ? (
+              <div className="md:col-span-2">
+                <dt className="text-xs uppercase tracking-wide text-text-sub">
+                  {form.directConstraintsLabel}
+                </dt>
+                <dd className="mt-1 whitespace-pre-wrap">{constraintsSummary}</dd>
+              </div>
+            ) : null}
           </dl>
         </div>
-      ) : null}
+      )}
 
       {estimateSnapshot ? (
         <div className="space-y-3 rounded-xl border border-accent/25 bg-accent/5 p-4">
@@ -533,6 +436,75 @@ export function ContactForm() {
       ) : null}
 
       <div>
+        <label htmlFor="name" className="mb-2 block text-sm font-medium text-text">
+          {form.nameLabel}
+        </label>
+        <Input
+          id="name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder={form.namePlaceholder}
+          className={cn("min-h-11", errors.name && "border-red-500")}
+          autoComplete="name"
+        />
+        {errors.name ? <p className="mt-1 text-sm text-red-500">{errors.name}</p> : null}
+      </div>
+
+      <div>
+        <label htmlFor="email" className="mb-2 block text-sm font-medium text-text">
+          {form.emailLabel}
+        </label>
+        <Input
+          id="email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder={form.emailPlaceholder}
+          className={cn("min-h-11", errors.email && "border-red-500")}
+          autoComplete="email"
+        />
+        {errors.email ? <p className="mt-1 text-sm text-red-500">{errors.email}</p> : null}
+      </div>
+
+      <div>
+        <label
+          htmlFor="closestExperience"
+          className="mb-2 block text-sm font-medium text-text"
+        >
+          {form.triedExperienceLabel}
+        </label>
+        <select
+          id="closestExperience"
+          value={closestExperience}
+          onChange={(e) => setClosestExperience(e.target.value)}
+          className={cn(
+            "flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm",
+            errors.triedExperience && "border-red-500"
+          )}
+        >
+          <option value="">{form.triedExperiencePlaceholder}</option>
+          {experienceOptions.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+        {closestExperience === OTHER_EXPERIENCE_VALUE ? (
+          <Input
+            value={closestExperienceOther}
+            onChange={(e) => setClosestExperienceOther(e.target.value)}
+            placeholder={form.triedExperienceOtherPlaceholder}
+            className="mt-3 min-h-11"
+            maxLength={200}
+            autoComplete="off"
+          />
+        ) : null}
+        {errors.triedExperience ? (
+          <p className="mt-1 text-sm text-red-500">{errors.triedExperience}</p>
+        ) : null}
+      </div>
+
+      <div>
         <label
           htmlFor="additionalNote"
           className="mb-2 block text-sm font-medium text-text"
@@ -555,13 +527,19 @@ export function ContactForm() {
           <p className="mt-1 text-sm text-red-500">{errors.additionalNote}</p>
         ) : null}
       </div>
-      {status === "success" && <p className="text-sm text-accent">{form.success}</p>}
-      {status === "error" && submitError && (
+
+      {status === "success" ? <p className="text-sm text-accent">{form.success}</p> : null}
+      {status === "error" && submitError ? (
         <p className="text-sm text-red-500" role="alert">
           {submitError}
         </p>
-      )}
-      <Button type="submit" className="min-h-11 w-full sm:w-auto" disabled={status === "submitting"}>
+      ) : null}
+
+      <Button
+        type="submit"
+        className="min-h-11 w-full sm:w-auto"
+        disabled={status === "submitting" || !canSendPreparedInquiry}
+      >
         {status === "submitting" ? form.submitting : form.submit}
       </Button>
     </form>

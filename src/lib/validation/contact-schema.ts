@@ -12,8 +12,8 @@ export const contactSchema = z.object({
   email: z.string().email("正しいメールアドレスを入力してください"),
   triedExperience: z
     .string()
-    .max(200, "触れた体験名は200文字以内で入力してください")
-    .optional(),
+    .min(1, "最も近かった体験・デモを選択してください")
+    .max(200, "最も近かった体験・デモは200文字以内で入力してください"),
   visitorJourney: visitorJourneySummarySchema.optional(),
   /** 見積ページからの場合に同封（任意） */
   estimateSnapshot: estimateSnapshotSchema.optional(),

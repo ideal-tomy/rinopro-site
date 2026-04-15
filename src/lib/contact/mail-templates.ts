@@ -10,6 +10,7 @@ import {
   type InquiryIntent,
 } from "@/lib/inquiry/inquiry-brief";
 import { ESTIMATE_PHILOSOPHY_UI_PARAGRAPH } from "@/lib/estimate/estimate-output-philosophy";
+import { isContactSyntheticEstimateSnapshot } from "@/lib/contact/build-contact-synthetic-snapshot";
 
 export interface ContactMailContext {
   name: string;
@@ -29,10 +30,13 @@ export interface ContactMailContext {
 
 function estimateBlock(snapshot: EstimateSnapshot): string {
   const { ai } = snapshot;
-  const range = `約${ai.estimateLoMan}万円〜${ai.estimateHiMan}万円程度（目安）`;
+  const synthetic = isContactSyntheticEstimateSnapshot(snapshot);
+  const range = synthetic
+    ? "（問い合わせページのヒアリングのみ。金額レンジは未算出）"
+    : `約${ai.estimateLoMan}万円〜${ai.estimateHiMan}万円程度（目安）`;
   const answers = buildAnswersSummaryLines(snapshot.answers);
   return [
-    "■ 見積もりメモ（自動・目安）",
+    synthetic ? "■ 問い合わせヒアリング（同封データ）" : "■ 見積もりメモ（自動・目安）",
     `タイトル: ${ai.requirementTitle}`,
     `金額の目安: ${range}`,
     "",
@@ -52,7 +56,7 @@ function estimateBlock(snapshot: EstimateSnapshot): string {
   ].join("\n");
 }
 
-function structuredOverviewBlock(ctx: ContactMailContext): string {
+function structuredOverviewBlockFull(ctx: ContactMailContext): string {
   return [
     "■ 問い合わせの要点",
     `今回いちばん知りたいこと: ${inquiryIntentLabel(ctx.inquiryIntent)}`,
@@ -70,6 +74,20 @@ function structuredOverviewBlock(ctx: ContactMailContext): string {
     "【制約・前提】",
     ctx.constraintsSummary?.trim() || "（大きな制約は未記入）",
   ].join("\n");
+}
+
+/** ブリーフがあるときは重複を避け、フォーム欄は短く示す */
+function structuredOverviewBlock(ctx: ContactMailContext): string {
+  if (ctx.inquiryBrief) {
+    return [
+      "■ 問い合わせ（フォーム欄・短要約）",
+      `今回いちばん知りたいこと: ${inquiryIntentLabel(ctx.inquiryIntent)}`,
+      `今回ほしい返答: ${inquiryDesiredReplyLabel(ctx.desiredReply)}`,
+      "",
+      "詳細な整理内容は、次の「問い合わせブリーフ」を参照してください。",
+    ].join("\n");
+  }
+  return structuredOverviewBlockFull(ctx);
 }
 
 function inquiryBriefBlock(brief: InquiryBrief): string {
@@ -129,14 +147,14 @@ export function buildAdminContactEmail(ctx: ContactMailContext): {
   const hasEstimate = Boolean(ctx.estimateSnapshot);
   const snap = ctx.estimateSnapshot;
   const rangeLine =
-    snap != null
+    snap != null && !isContactSyntheticEstimateSnapshot(snap)
       ? `金額の目安: 約${snap.ai.estimateLoMan}万円〜${snap.ai.estimateHiMan}万円（税別・目安）`
       : null;
 
   const headline = [
     `お名前: ${ctx.name}`,
     `メール: ${ctx.email}`,
-    ctx.triedExperience ? `触れた体験: ${ctx.triedExperience}` : null,
+    ctx.triedExperience ? `最も近かった体験・デモ: ${ctx.triedExperience}` : null,
     rangeLine,
   ]
     .filter(Boolean)
@@ -202,7 +220,7 @@ export function buildCustomerContactEmail(ctx: ContactMailContext): {
   if (ctx.visitorJourney) {
     lines.push("", "▼ サイト内で引き継いだ内容", ctx.visitorJourney.journeySummary);
   }
-  if (ctx.estimateSnapshot) {
+  if (ctx.estimateSnapshot && !isContactSyntheticEstimateSnapshot(ctx.estimateSnapshot)) {
     const { ai } = ctx.estimateSnapshot;
     lines.push(
       "",

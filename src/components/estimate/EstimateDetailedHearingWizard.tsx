@@ -20,7 +20,10 @@ import { buildEstimateDetailedAnswersRecord } from "@/lib/estimate/build-estimat
 import { getOrderedAnswerPairs } from "@/lib/estimate/estimate-detailed-answer-order";
 import type { EstimateFormDraft } from "@/lib/estimate/estimate-detailed-session";
 import { ESTIMATE_DETAILED_HEARING_EXAMPLES } from "@/components/estimate/estimate-detailed-hearing-examples";
-import type { EstimateQuestionId } from "@/lib/estimate-core/question-model";
+import {
+  questionIdFromAnswerLabel,
+  type EstimateQuestionId,
+} from "@/lib/estimate-core/question-model";
 import { shouldShowEstimateWizardStepForForm } from "@/lib/estimate/estimate-wizard-step-visibility";
 import { shouldAskEstimateQuestion } from "@/lib/estimate-core/question-model";
 import {
@@ -94,11 +97,17 @@ export function EstimateDetailedHearingWizard({
   );
   const totalSteps = visibleSteps.length;
   const [stepIndex, setStepIndex] = useState(0);
+  const [editingQuestionId, setEditingQuestionId] =
+    useState<EstimateQuestionId | null>(null);
   const isFs = layoutVariant === "fullscreen";
 
   const reviewAnswerPairs = useMemo(() => {
     const rec = buildEstimateDetailedAnswersRecord(form);
-    return getOrderedAnswerPairs(rec);
+    return getOrderedAnswerPairs(rec).map(({ question, answer }) => ({
+      question,
+      answer,
+      questionId: questionIdFromAnswerLabel(question),
+    }));
   }, [form]);
 
   useLayoutEffect(() => {
@@ -107,9 +116,16 @@ export function EstimateDetailedHearingWizard({
   }, [isFs, stepIndex, scrollContainerRef]);
 
   const stepId = visibleSteps[stepIndex]?.id ?? "review";
+  const reviewIndex = Math.max(
+    0,
+    visibleSteps.findIndex((step) => step.id === "review")
+  );
+  const currentQuestionId = visibleSteps[stepIndex]?.questionId ?? null;
   const minStepIndex = 0;
   const isFirst = stepIndex <= 0;
   const isReview = stepId === "review";
+  const isEditingQuestion =
+    editingQuestionId !== null && !isReview && currentQuestionId === editingQuestionId;
 
   const remainingIncludingCurrent = Math.max(0, totalSteps - stepIndex);
 
@@ -126,13 +142,33 @@ export function EstimateDetailedHearingWizard({
       if (canSubmitGlobal) onSubmit();
       return;
     }
+    if (isEditingQuestion) {
+      setStepIndex(reviewIndex);
+      setEditingQuestionId(null);
+      return;
+    }
     setStepIndex((i) => Math.min(i + 1, totalSteps - 1));
-  }, [canAdvance, canSubmitGlobal, isExiting, isReview, onSubmit, totalSteps]);
+  }, [
+    canAdvance,
+    canSubmitGlobal,
+    isEditingQuestion,
+    isExiting,
+    isReview,
+    onSubmit,
+    reviewIndex,
+    totalSteps,
+  ]);
 
   const goBack = useCallback(() => {
-    if (isFirst || isExiting) return;
+    if (isExiting) return;
+    if (isEditingQuestion) {
+      setStepIndex(reviewIndex);
+      setEditingQuestionId(null);
+      return;
+    }
+    if (isFirst) return;
     setStepIndex((i) => Math.max(minStepIndex, i - 1));
-  }, [isExiting, isFirst, minStepIndex]);
+  }, [isEditingQuestion, isExiting, isFirst, minStepIndex, reviewIndex]);
 
   const handleSelectPick = useCallback(
     (patch: Partial<FormState>) => {
@@ -140,11 +176,37 @@ export function EstimateDetailedHearingWizard({
       flushSync(() => {
         setForm((f) => ({ ...f, ...patch }));
       });
+      if (editingQuestionId && currentQuestionId === editingQuestionId) {
+        setStepIndex(reviewIndex);
+        setEditingQuestionId(null);
+        return;
+      }
       if (isFs) {
         setStepIndex((i) => Math.min(i + 1, totalSteps - 1));
       }
     },
-    [isExiting, isFs, setForm, totalSteps]
+    [
+      currentQuestionId,
+      editingQuestionId,
+      isExiting,
+      isFs,
+      reviewIndex,
+      setForm,
+      totalSteps,
+    ]
+  );
+
+  const jumpToQuestion = useCallback(
+    (questionId: EstimateQuestionId) => {
+      if (isExiting) return;
+      const targetIndex = visibleSteps.findIndex(
+        (step) => step.questionId === questionId
+      );
+      if (targetIndex < 0) return;
+      setEditingQuestionId(questionId);
+      setStepIndex(targetIndex);
+    },
+    [isExiting, visibleSteps]
   );
 
   const showFsPrimaryButton =
@@ -724,18 +786,28 @@ export function EstimateDetailedHearingWizard({
                     <p className="text-sm text-text-sub">（回答がありません）</p>
                   ) : (
                     <dl className="max-h-[min(50vh,22rem)] space-y-3 overflow-y-auto text-sm text-text-sub md:max-h-[min(55vh,28rem)]">
-                      {reviewAnswerPairs.map(({ question, answer }) => (
+                      {reviewAnswerPairs.map(({ question, answer, questionId }) => (
                         <div key={question} className="border-b border-silver/10 pb-3 last:border-b-0">
                           <dt className="text-[15px] font-semibold text-text">{question}</dt>
                           <dd className="mt-1 whitespace-pre-wrap text-[15px] leading-relaxed text-white/85">
                             {answer}
                           </dd>
+                          {questionId ? (
+                            <Button
+                              type="button"
+                              size="sm"
+                              className="mt-3 h-8 bg-amber-500 px-3 text-xs font-semibold text-white hover:bg-amber-400"
+                              onClick={() => jumpToQuestion(questionId)}
+                            >
+                              修正
+                            </Button>
+                          ) : null}
                         </div>
                       ))}
                     </dl>
                   )}
                   <p className="text-xs text-text-sub">
-                    直す場合は「戻る」で該当の質問まで戻れます。
+                    必要な項目だけ「修正」から戻し、反映後はこの一覧に戻れます。
                   </p>
                 </div>
               ) : null}
@@ -764,7 +836,11 @@ export function EstimateDetailedHearingWizard({
                     : undefined
               }
             >
-              {isReview ? copy.btnGenerate : "次へ"}
+              {isReview
+                ? copy.btnGenerate
+                : isEditingQuestion
+                  ? "修正を反映して戻る"
+                  : "次へ"}
             </Button>
           ) : null}
           <div className="flex items-center justify-between gap-3">
@@ -776,10 +852,10 @@ export function EstimateDetailedHearingWizard({
               variant="ghost"
               size="sm"
               className="h-8 min-h-8 shrink-0 px-2 text-xs text-text-sub hover:text-white"
-              disabled={isFirst || isExiting}
+              disabled={(!isEditingQuestion && isFirst) || isExiting}
               onClick={goBack}
             >
-              戻る
+              {isEditingQuestion ? "一覧に戻る" : "戻る"}
             </Button>
           </div>
         </div>
@@ -790,10 +866,10 @@ export function EstimateDetailedHearingWizard({
               type="button"
               variant="outline"
               className="min-h-11 border-silver/35 bg-transparent text-text hover:bg-white/5"
-              disabled={isFirst || isExiting}
+              disabled={(!isEditingQuestion && isFirst) || isExiting}
               onClick={goBack}
             >
-              戻る
+              {isEditingQuestion ? "一覧に戻る" : "戻る"}
             </Button>
             <Button
               type="button"
@@ -810,7 +886,11 @@ export function EstimateDetailedHearingWizard({
                     : undefined
               }
             >
-              {isReview ? copy.btnGenerate : "次へ"}
+              {isReview
+                ? copy.btnGenerate
+                : isEditingQuestion
+                  ? "修正を反映して戻る"
+                  : "次へ"}
             </Button>
           </div>
           <p className="text-xs text-text-sub tabular-nums sm:text-right">

@@ -82,3 +82,9 @@
 | トップコンシェルジュ概算 | `FlowSelection[]` のラベル・自由記述を連結したテキスト | `regulatedHintFromConciergePath` が true のとき、従来の `scaleRange` 結果に **同じ** `applyIndustryRiskToEstimateRange` を適用（A トラックは `scope_l_required` で largeOrg、B トラックは `bs_l_*` で largeOrg） |
 
 狭帯（幅100万円以内目標）は、規制っぽい業種・個人情報「含む/一部」・外部利用が明示されている場合、[`isNarrowRangeBlockedByRisk`](../src/lib/estimate/estimate-detailed-narrow-eligibility.ts) で無効化する。
+
+## 9. 問い合わせページ（`/contact`）との関係
+
+- 詳細見積からの `ChatHandoffPayloadV2`（`estimateSnapshot` 同封）は従来どおり。`inquiryPreparation.brief` がある場合は問い合わせ側でそのまま送信ゲートを満たす。
+- **直問い合わせ**では、同一の見積質問ウィザードで回答したうえで、内部で `EstimateSnapshot` 互換の**合成スナップショット**を組み立て、`POST /api/inquiry-brief` に渡して `inquiryBrief` を生成する（詳細見積APIは呼ばない）。
+- 匿名 `visitorJourney` 由来の prefill は、見積フォームと同様に `buildEstimateDraftFromVisitorJourney` で `EstimateFormDraft` にマージする（**スナップショットの answers に含まれる質問だけ**をウィザードで再質問しない）。
