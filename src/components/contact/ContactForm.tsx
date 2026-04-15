@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { ArrowUpToLine } from "lucide-react";
 import { useContactForm } from "@/hooks/use-contact-form";
 import { contactCopy } from "@/lib/content/site-copy";
 import { cn } from "@/lib/utils";
@@ -296,11 +297,21 @@ export function ContactForm() {
 
   if (!hasPreparedContext) {
     return (
-      <div className="rounded-xl border border-silver/20 bg-base-dark/30 p-4">
-        <p className="text-sm font-medium text-text">{form.directGuideTitle}</p>
-        <p className="mt-2 text-sm leading-relaxed text-text-sub">
-          {form.directGuideBody}
-        </p>
+      <div className="rounded-xl border border-accent/20 bg-base-dark/40 p-5 md:p-6">
+        <div className="flex gap-3">
+          <span
+            className="mt-0.5 inline-flex size-9 shrink-0 items-center justify-center rounded-lg border border-accent/25 bg-accent/10 text-accent"
+            aria-hidden
+          >
+            <ArrowUpToLine className="size-5" strokeWidth={2} />
+          </span>
+          <div className="min-w-0">
+            <p className="text-[16px] font-semibold text-white">{form.directGuideTitle}</p>
+            <p className="mt-2 text-sm leading-relaxed text-white/80">
+              {form.directGuideBody}
+            </p>
+          </div>
+        </div>
       </div>
     );
   }
