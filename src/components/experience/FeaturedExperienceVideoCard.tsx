@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
-import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { Button } from "@/components/ui/button";
 import type { ExperiencePrototypeMeta } from "@/lib/experience/prototype-registry";
 
@@ -26,17 +25,8 @@ export function FeaturedExperienceVideoCard({
   variant = "default",
 }: Props) {
   const [videoFailed, setVideoFailed] = useState(false);
-  const [allowInlineVideo, setAllowInlineVideo] = useState(false);
   const [inViewport, setInViewport] = useState(false);
-  const prefersReducedMotion = useReducedMotion();
   const cardRef = useRef<HTMLElement | null>(null);
-  useEffect(() => {
-    const mq = window.matchMedia("(min-width: 768px)");
-    const apply = () => setAllowInlineVideo(mq.matches);
-    apply();
-    mq.addEventListener("change", apply);
-    return () => mq.removeEventListener("change", apply);
-  }, []);
 
   useEffect(() => {
     const node = cardRef.current;
@@ -57,8 +47,6 @@ export function FeaturedExperienceVideoCard({
 
   const showVideo =
     inViewport &&
-    allowInlineVideo &&
-    !prefersReducedMotion &&
     !videoFailed &&
     Boolean(videoSrc);
 
