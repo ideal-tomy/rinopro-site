@@ -25,8 +25,6 @@ export function FeaturedExperienceVideoCard({
   variant = "default",
 }: Props) {
   const [videoFailed, setVideoFailed] = useState(false);
-  const [inViewport, setInViewport] = useState(false);
-  const cardRef = useRef<HTMLElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   const ensureVideoPlayback = useCallback(() => {
@@ -40,7 +38,6 @@ export function FeaturedExperienceVideoCard({
   }, [videoFailed]);
 
   const showVideo =
-    inViewport &&
     !videoFailed &&
     Boolean(videoSrc);
 
@@ -77,30 +74,12 @@ export function FeaturedExperienceVideoCard({
     };
   }, [showVideo, ensureVideoPlayback]);
 
-  useEffect(() => {
-    const node = cardRef.current;
-    if (!node) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((entry) => entry.isIntersecting)) {
-          setInViewport(true);
-          observer.disconnect();
-        }
-      },
-      { root: null, rootMargin: "180px 0px", threshold: 0.01 }
-    );
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, []);
-
   const ctaButtonClass =
     "w-full min-h-12 px-4 text-[15px] font-semibold leading-snug sm:min-h-[3.25rem] sm:text-[1.05rem] md:min-h-14 md:text-[1.125rem]";
 
   if (variant === "hub") {
     return (
       <article
-        ref={cardRef}
         className={cn(
           "overflow-hidden rounded-xl border border-silver/25 bg-base-dark/50 transition-[border-color,box-shadow] duration-300 hover:border-accent/40",
           className
@@ -149,7 +128,6 @@ export function FeaturedExperienceVideoCard({
   if (variant === "split") {
     return (
       <article
-        ref={cardRef}
         className={cn(
           "overflow-hidden rounded-xl border border-silver/25 bg-base-dark/50 transition-[border-color,box-shadow] duration-300 hover:border-accent/40",
           className
@@ -200,7 +178,7 @@ export function FeaturedExperienceVideoCard({
   }
 
   return (
-    <article ref={cardRef}>
+    <article>
       <Link
         href={`/experience/${meta.slug}`}
         className={cn(
