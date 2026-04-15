@@ -3,7 +3,6 @@
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useState } from "react";
-import { Menu } from "lucide-react";
 
 const MobileNav = dynamic(
   () => import("./MobileNav").then((mod) => mod.MobileNav),
@@ -56,7 +55,20 @@ export function Header() {
           onClick={handleOpenMobileNav}
           aria-label="メニューを開く"
         >
-          <Menu className="h-5 w-5" />
+          <svg
+            aria-hidden
+            viewBox="0 0 24 24"
+            className="h-5 w-5"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M4 6h16" />
+            <path d="M4 12h16" />
+            <path d="M4 18h16" />
+          </svg>
         </button>
       </div>
 

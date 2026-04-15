@@ -11,13 +11,16 @@ import "./globals.css";
 const geist = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
-  weight: ["400", "600", "700"],
+  weight: ["400", "700"],
+  display: "swap",
 });
 
 const notoSansJP = Noto_Sans_JP({
   variable: "--font-noto-sans-jp",
   subsets: ["latin"],
-  weight: ["400", "700"],
+  weight: ["400"],
+  display: "swap",
+  preload: false,
 });
 
 /** モバイルの仮想キーボード時のリサイズ方針（fixed オーバーレイと整合しやすくする） */

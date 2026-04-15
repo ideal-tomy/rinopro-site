@@ -1,6 +1,5 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-@import "shadcn/tailwind.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -59,7 +58,14 @@
   --color-text-sub: #a0a8b0;
   --color-background: var(--color-base);
   --color-foreground: var(--color-text);
-  --font-sans: var(--font-geist-sans), var(--font-noto-sans-jp), sans-serif;
+  --font-sans:
+    var(--font-geist-sans),
+    "Hiragino Kaku Gothic ProN",
+    "Yu Gothic UI",
+    "Meiryo",
+    sans-serif;
+  --font-jp: var(--font-noto-sans-jp), "Hiragino Kaku Gothic ProN", "Meiryo",
+    sans-serif;
   --font-mono: var(--font-geist-mono), monospace;
   --font-heading: var(--font-sans);
   --color-sidebar-ring: var(--sidebar-ring);
