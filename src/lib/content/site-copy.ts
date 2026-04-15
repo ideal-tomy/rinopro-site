@@ -462,7 +462,7 @@ export const flowDetailPageCopy: FlowDetailPageTrackCopy =
 export const aboutCopy = {
   title: "現場の困りごとを整理し、実装まで進めるチームです。",
   purpose:
-    "業務の流れを一緒に整理し、小さく試しながら形にします。必要以上に広げず、合意した範囲で進めます。",
+    "東京都目黒区に拠点を置くスタートアップ企業です。業務の流れを一緒に整理し、小さく試しながら形にします。",
   values: {
     title: "価値観",
     items: [

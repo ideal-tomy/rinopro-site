@@ -77,21 +77,16 @@ export function PurposePickSection({
           ))}
         </div>
 
-        <div className="md:hidden">
-          <div
-            className="no-scrollbar flex snap-x snap-mandatory gap-5 overflow-x-auto pb-2"
-            aria-label="目的別の一覧（横スクロール）"
-          >
-            {DEMO_HUB_PURPOSE_GROUPS.map((group) => (
-              <MockStylePurposeCard
-                key={group.id}
-                variant="rail"
-                title={group.title}
-                oneLiner={group.description}
-                onClick={() => setOpenPurposeId(group.id)}
-              />
-            ))}
-          </div>
+        <div className="grid grid-cols-1 gap-4 md:hidden">
+          {DEMO_HUB_PURPOSE_GROUPS.map((group) => (
+            <MockStylePurposeCard
+              key={group.id}
+              variant="grid"
+              title={group.title}
+              oneLiner={group.description}
+              onClick={() => setOpenPurposeId(group.id)}
+            />
+          ))}
         </div>
       </section>
 

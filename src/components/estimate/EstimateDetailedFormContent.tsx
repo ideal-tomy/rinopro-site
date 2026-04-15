@@ -291,6 +291,20 @@ export function EstimateDetailedFormContent() {
     [visitorJourneySummary]
   );
 
+  useEffect(() => {
+    const answers = buildEstimateDetailedAnswersRecord(form);
+    writeEstimateDetailedFlow({
+      v: 1,
+      ctxQuery,
+      priorContext: priorBlock,
+      answers,
+      ai: null,
+      visitorJourney: visitorJourneySummary,
+      inquiryPreparation: null,
+      formDraft: form,
+    });
+  }, [ctxQuery, form, priorBlock, visitorJourneySummary]);
+
   if (viewportNarrow === null) {
     return (
       <div
@@ -353,22 +367,10 @@ export function EstimateDetailedFormContent() {
     >
       {isNarrow ? (
         <div className="space-y-6">
-          {visitorJourneySummary || journeyConfirmLines.length > 0 ? (
-            <section className="rounded-xl border border-accent/25 bg-accent/[0.06] p-4">
-              <p className="text-sm font-semibold text-white">
-                サイト内で整理できている内容を引き継いでいます
-              </p>
-              {journeyConfirmLines.length > 0 ? (
-                <ul className="mt-3 space-y-1.5 text-sm leading-relaxed text-white/90">
-                  {journeyConfirmLines.map((line) => (
-                    <li key={line} className="flex gap-2">
-                      <span className="text-accent/80">・</span>
-                      <span>{line}</span>
-                    </li>
-                  ))}
-                </ul>
-              ) : null}
-            </section>
+          {journeyConfirmLines.length > 0 ? (
+            <p className="px-1 text-[13px] leading-relaxed text-text-sub">
+              既に整理できている内容は、質問の初期値として反映しています。
+            </p>
           ) : null}
           <EstimateDetailedMobileShell
             key={formInstanceKey}

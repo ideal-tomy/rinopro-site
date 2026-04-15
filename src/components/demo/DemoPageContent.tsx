@@ -127,13 +127,12 @@ export function DemoPageContent({ demos }: DemoPageContentProps) {
                   {demoHubCopy.catalogBody}
                 </p>
               </div>
-              <Link
-                href="/demo/list"
-                className="inline-flex shrink-0 items-center justify-center gap-2 rounded-lg border border-action/40 bg-action/10 px-5 py-3 text-sm font-medium text-action transition-colors hover:border-action/60 hover:bg-action/15"
-              >
-                <LayoutGrid className="h-5 w-5" aria-hidden />
-                一覧を開く
-              </Link>
+              <Button asChild size="lg" variant="outline" className="shrink-0">
+                <Link href="/demo/list">
+                  <LayoutGrid className="h-5 w-5" aria-hidden />
+                  一覧を開く
+                </Link>
+              </Button>
             </div>
           </Card>
         </section>

@@ -276,6 +276,9 @@ export function TypeExperienceSection({
       )}
 
       <div className="md:hidden">
+        <p className="mb-3 text-[13px] text-text-sub/80">
+          左右にスワイプして比較できます
+        </p>
         <div
           className="no-scrollbar flex snap-x snap-mandatory gap-5 overflow-x-auto pb-2"
           aria-label="タイプ別体験の一覧（横スクロール）"

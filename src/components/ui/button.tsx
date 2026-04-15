@@ -18,6 +18,7 @@ const buttonVariants = cva(
         outline:
           "border border-silver/30 bg-transparent hover:bg-silver/10",
         ghost: "hover:bg-silver/10",
+        text: "bg-transparent px-0 text-text-sub hover:bg-transparent hover:text-accent",
       },
       size: {
         default: "h-11 px-5 py-2",

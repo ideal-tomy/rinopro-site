@@ -36,7 +36,7 @@ export function HeroSection({ demos }: HeroSectionProps) {
     <>
       <ParticleBackground />
       <motion.section
-        className="flex flex-1 flex-col items-center justify-center gap-8 px-8 py-16 md:py-24"
+        className="container mx-auto flex max-w-6xl flex-1 flex-col items-center justify-center gap-8 px-4 py-16 md:px-6 md:py-24"
         variants={heroStaggerContainer}
         initial="hidden"
         animate="visible"
@@ -97,7 +97,7 @@ export function HeroSection({ demos }: HeroSectionProps) {
             <p className="mt-3 flex-1 text-sm leading-relaxed text-text-sub">
               {homeQuickStartCopy.experience.body}
             </p>
-            <Button asChild className="mt-5 w-full" variant="outline">
+            <Button asChild className="mt-5 w-full">
               <Link href={homeQuickStartCopy.experience.ctaHref}>
                 {homeQuickStartCopy.experience.ctaLabel}
               </Link>
@@ -114,7 +114,7 @@ export function HeroSection({ demos }: HeroSectionProps) {
             <p className="mt-3 flex-1 text-sm leading-relaxed text-text-sub">
               {homeQuickStartCopy.estimate.body}
             </p>
-            <Button asChild className="mt-5 w-full" variant="outline">
+            <Button asChild className="mt-5 w-full">
               <Link href={homeQuickStartCopy.estimate.ctaHref}>
                 {homeQuickStartCopy.estimate.ctaLabel}
               </Link>

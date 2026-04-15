@@ -21,7 +21,7 @@ const Card = React.forwardRef<
       whileHover={
         prefersReducedMotion
           ? undefined
-          : { scale: 1.02, borderColor: "rgba(0,242,255,0.5)" }
+          : { borderColor: "rgba(0,242,255,0.5)" }
       }
       transition={{ ease: EASE_OUT_BACK, duration: 0.25 }}
     >

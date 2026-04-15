@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { Button } from "@/components/ui/button";
@@ -26,9 +26,17 @@ export function FeaturedExperienceVideoCard({
   variant = "default",
 }: Props) {
   const [videoFailed, setVideoFailed] = useState(false);
+  const [allowInlineVideo, setAllowInlineVideo] = useState(false);
   const prefersReducedMotion = useReducedMotion();
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+    const apply = () => setAllowInlineVideo(mq.matches);
+    apply();
+    mq.addEventListener("change", apply);
+    return () => mq.removeEventListener("change", apply);
+  }, []);
   const showVideo =
-    !prefersReducedMotion && !videoFailed && Boolean(videoSrc);
+    allowInlineVideo && !prefersReducedMotion && !videoFailed && Boolean(videoSrc);
 
   const ctaButtonClass =
     "w-full min-h-12 px-4 text-[15px] font-semibold leading-snug sm:min-h-[3.25rem] sm:text-[1.05rem] md:min-h-14 md:text-[1.125rem]";

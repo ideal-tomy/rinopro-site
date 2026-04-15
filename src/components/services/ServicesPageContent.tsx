@@ -87,11 +87,11 @@ export function ServicesPageContent() {
           </button>
         </Card>
 
-        <div className="scroll-mt-24 rounded-2xl border border-silver/20 bg-base-dark/25 p-5 backdrop-blur-sm sm:p-6 md:p-6">
+        <div className="scroll-mt-24 rounded-2xl bg-base-dark/25 p-5 sm:p-6 md:p-6">
             <nav
               role="tablist"
               aria-label="サービス詳細の切り替え"
-              className="no-scrollbar mb-5 flex snap-x snap-mandatory gap-2.5 overflow-x-auto pb-1 md:mb-6 md:flex-wrap md:justify-center md:gap-2 md:overflow-visible"
+              className="mb-5 flex flex-wrap gap-2 md:mb-6 md:justify-center"
             >
               <button
                 type="button"
@@ -101,7 +101,7 @@ export function ServicesPageContent() {
                 aria-controls={DETAIL_PANEL_ID}
                 tabIndex={activeDetail === "development" ? 0 : -1}
                 className={cn(
-                  "shrink-0 snap-start rounded-full border px-4 py-2 text-xs font-medium tracking-wide transition-colors md:text-[0.8125rem]",
+                  "min-h-10 flex-1 rounded-lg border px-4 py-2 text-xs font-medium tracking-wide transition-colors sm:flex-none md:text-[0.8125rem]",
                   activeDetail === "development"
                     ? "border-action/70 bg-action/15 text-action shadow-[0_0_16px_-4px_rgba(0,103,192,0.35)]"
                     : "border-silver/25 bg-base-dark/40 text-text/80 hover:border-action/35 hover:text-text"
@@ -118,7 +118,7 @@ export function ServicesPageContent() {
                 aria-controls={DETAIL_PANEL_ID}
                 tabIndex={activeDetail === "consulting" ? 0 : -1}
                 className={cn(
-                  "shrink-0 snap-start rounded-full border px-4 py-2 text-xs font-medium tracking-wide transition-colors md:text-[0.8125rem]",
+                  "min-h-10 flex-1 rounded-lg border px-4 py-2 text-xs font-medium tracking-wide transition-colors sm:flex-none md:text-[0.8125rem]",
                   activeDetail === "consulting"
                     ? "border-action/70 bg-action/15 text-action shadow-[0_0_16px_-4px_rgba(0,103,192,0.35)]"
                     : "border-silver/25 bg-base-dark/40 text-text/80 hover:border-action/35 hover:text-text"
@@ -137,7 +137,7 @@ export function ServicesPageContent() {
                   ? "services-tab-development"
                   : "services-tab-consulting"
               }
-              className="overflow-hidden rounded-xl border border-silver/15 bg-base-dark/20"
+              className="overflow-hidden rounded-xl bg-base-dark/20"
             >
               <AnimatePresence mode="wait" initial={false}>
                 {activeDetail === "development" ? (

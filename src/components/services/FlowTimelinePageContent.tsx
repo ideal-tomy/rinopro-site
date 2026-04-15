@@ -176,7 +176,7 @@ export function FlowTimelinePageContent({
           "border-b border-silver/15 bg-base-dark/90 py-3 backdrop-blur-md supports-[backdrop-filter]:bg-base-dark/75",
           embedded
             ? "relative z-20 -mx-0 mb-8 md:-mx-2 md:mb-10"
-            : "sticky top-16 z-30 -mx-6 mb-10 md:-mx-10 md:mb-12"
+            : "relative -mx-6 mb-10 z-30 md:sticky md:top-16 md:-mx-10 md:mb-12"
         )}
         aria-label="開発の進め方の種類"
       >
@@ -254,7 +254,7 @@ export function FlowTimelinePageContent({
                 >
                   {step.step}
                 </span>
-                <div className="relative z-[1] flex flex-col items-center pt-1 text-center">
+                <div className="relative z-[1] flex flex-col items-start pt-1 text-left">
                   <TimelineNode label={step.step} reduceMotion={!!reduce} />
                   <p className="mb-1.5 mt-5 text-[0.65rem] font-medium uppercase tracking-[0.28em] text-accent/75">
                     Step {step.step}
@@ -364,17 +364,10 @@ export function FlowTimelinePageContent({
         viewport={{ once: true, margin: "-40px" }}
         variants={v}
       >
-        <Button
-          asChild
-          size="lg"
-          className="rounded-full px-10 shadow-[0_0_24px_-4px_rgba(0,242,255,0.45)]"
-        >
+        <Button asChild size="lg">
           <Link href={activeCopy.ctaHref}>{activeCopy.cta}</Link>
         </Button>
-        <Link
-          href="/contact"
-          className="text-[0.65rem] font-medium uppercase tracking-[0.22em] text-text/55 transition-colors hover:text-accent/90"
-        >
+        <Link href="/contact" className="text-[0.75rem] font-medium text-text-sub transition-colors hover:text-accent/90">
           お問い合わせはこちら
         </Link>
       </motion.div>

@@ -1,12 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { TeamMember } from "./TeamMember";
 import {
   PageSectionWithScroll,
-  StaggerGrid,
 } from "@/components/layout/PageSectionWithScroll";
-import { SkeletonShimmer } from "@/components/ui/skeleton";
 import { heroStaggerContainer, heroStaggerItem } from "@/lib/motion/variants";
 import { aboutCopy } from "@/lib/content/site-copy";
 import type { TeamMember as TeamMemberType } from "@/lib/sanity/types";
@@ -38,6 +35,7 @@ function TrustSection({
 }
 
 export function AboutPageContent({ members }: AboutPageContentProps) {
+  void members;
   return (
     <PageSectionWithScroll
       title={aboutCopy.title}
@@ -72,20 +70,6 @@ export function AboutPageContent({ members }: AboutPageContentProps) {
         </motion.div>
       </motion.div>
 
-      <h2 className="mb-6 font-semibold text-text">メンバー</h2>
-      {members.length > 0 ? (
-        <StaggerGrid cols="2">
-          {members.map((member) => (
-            <TeamMember key={member._id} member={member} />
-          ))}
-        </StaggerGrid>
-      ) : (
-        <div className="mb-12 grid gap-6 sm:grid-cols-2">
-          {[1, 2].map((i) => (
-            <SkeletonShimmer key={i} className="h-48 rounded-xl" />
-          ))}
-        </div>
-      )}
     </PageSectionWithScroll>
   );
 }

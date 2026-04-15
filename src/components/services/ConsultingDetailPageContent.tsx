@@ -145,11 +145,7 @@ export function ConsultingDetailPageContent({
         <p className={cn(serviceReading.bodyCenter)}>
           {consultingDetailPageCopy.reassurance}
         </p>
-        <Button
-          asChild
-          size="lg"
-          className="rounded-full px-10 shadow-[0_0_24px_-4px_rgba(0,242,255,0.45)]"
-        >
+        <Button asChild size="lg">
           <Link href="/contact">{consultingDetailPageCopy.cta}</Link>
         </Button>
       </motion.footer>

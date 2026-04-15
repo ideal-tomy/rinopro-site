@@ -1,11 +1,11 @@
 "use client";
 
-import { useRef, useMemo } from "react";
+import { useRef, useMemo, useEffect, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
-const PARTICLE_COUNT_DESKTOP = 600;
-const PARTICLE_COUNT_MOBILE = 250;
+const PARTICLE_COUNT_DESKTOP = 420;
+const PARTICLE_COUNT_MOBILE = 120;
 
 function Particles() {
   const count =
@@ -54,11 +54,20 @@ function Particles() {
 const SCENE_BACKGROUND = "#0a0e17";
 
 export function ParticleField() {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px)");
+    const apply = () => setIsMobile(mq.matches);
+    apply();
+    mq.addEventListener("change", apply);
+    return () => mq.removeEventListener("change", apply);
+  }, []);
+
   return (
     <Canvas
       camera={{ position: [0, 0, 5], fov: 75 }}
-      dpr={[1, 2]}
-      gl={{ alpha: false, antialias: true }}
+      dpr={isMobile ? [1, 1.2] : [1, 1.8]}
+      gl={{ alpha: false, antialias: !isMobile }}
       className="block size-full touch-none"
     >
       <color attach="background" args={[SCENE_BACKGROUND]} />

@@ -30,7 +30,7 @@ export function PageSectionWithScroll({
   return (
     <ScrollSequence
       className={cn(
-        "container mx-auto max-w-7xl px-4 py-24 md:px-6",
+        "container mx-auto max-w-6xl px-4 py-20 md:px-6 md:py-24",
         className
       )}
     >
@@ -46,8 +46,8 @@ export function PageSectionWithScroll({
       </ScrollSequenceItem>
       <div className="mb-12">{children}</div>
       {cta && (
-        <ScrollSequenceItem thresholds={[0.8, 1.0]} withScale>
-          <Button asChild>
+        <ScrollSequenceItem thresholds={[0.55, 0.8]}>
+          <Button asChild size="lg">
             <Link href={cta.href}>{cta.label}</Link>
           </Button>
         </ScrollSequenceItem>

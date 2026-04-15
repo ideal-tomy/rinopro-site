@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { EstimateDetailedHearingWizard } from "@/components/estimate/EstimateDetailedHearingWizard";
@@ -22,7 +23,7 @@ import type { Dispatch, SetStateAction } from "react";
 const copy = estimateDetailedCopy;
 
 const FADE_SEC = 2;
-const HOLD_SEC = 3;
+const HOLD_SEC = 1.2;
 const SLIDE_MS_NORMAL = (FADE_SEC + HOLD_SEC) * 1000;
 const SLIDE_MS_REDUCE = 400;
 
@@ -54,6 +55,7 @@ export function EstimateDetailedMobileShell({
   prefilledQuestionIds,
   answeredQuestionIds,
 }: Props) {
+  const router = useRouter();
   const wizardScrollRef = useRef<HTMLDivElement>(null);
   const [portalTarget] = useState<HTMLElement | null>(() =>
     typeof document !== "undefined" ? document.body : null
@@ -78,6 +80,13 @@ export function EstimateDetailedMobileShell({
   const handleSkip = useCallback(() => {
     finishIntro();
   }, [finishIntro]);
+
+  const leaveEstimate = useCallback(
+    (href: string) => {
+      router.push(href);
+    },
+    [router]
+  );
 
   useEffect(() => {
     const prev = document.body.style.overflow;
@@ -210,6 +219,13 @@ export function EstimateDetailedMobileShell({
                 ) : null}
               </motion.div>
             </AnimatePresence>
+            <Button
+              type="button"
+              className="mt-5 min-h-11 px-5"
+              onClick={handleSkip}
+            >
+              今すぐ質問を開始する
+            </Button>
           </div>
         </div>
       ) : (
@@ -218,6 +234,32 @@ export function EstimateDetailedMobileShell({
           className="flex min-h-0 flex-1 flex-col overflow-y-auto overflow-x-hidden overscroll-y-contain scroll-pt-3 px-2"
           onFocusCapture={alignStepOnFieldFocus}
         >
+          <div className="sticky top-0 z-20 mb-2 flex flex-wrap gap-2 border-b border-silver/15 bg-[#0a0e17]/90 px-1 py-2 backdrop-blur-sm">
+            <Button
+              type="button"
+              size="sm"
+              variant="outline"
+              onClick={() => leaveEstimate("/")}
+            >
+              閉じる
+            </Button>
+            <Button
+              type="button"
+              size="sm"
+              variant="outline"
+              onClick={() => leaveEstimate("/contact")}
+            >
+              あとで続ける
+            </Button>
+            <Button
+              type="button"
+              size="sm"
+              variant="text"
+              onClick={() => leaveEstimate("/demo/list")}
+            >
+              一覧へ戻る
+            </Button>
+          </div>
           {showPathPrefillNotice ? (
             <p className="mb-2 rounded-lg border border-accent/25 bg-accent/10 px-3 py-2 text-[13px] leading-relaxed text-white/90">
               {copy.pathPrefillFromChatNotice}
