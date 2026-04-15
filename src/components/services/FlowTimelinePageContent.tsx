@@ -30,7 +30,7 @@ function mistVariants(reduce: boolean) {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 1.1, ease: EASE_MIST },
+      transition: { duration: 0.85, ease: EASE_MIST },
     },
   };
 }
@@ -82,7 +82,7 @@ function TimelineNode({
           }}
         />
       )}
-      <span className="relative z-[1] flex h-12 w-12 items-center justify-center rounded-full border-2 border-accent/85 bg-base-dark/90 text-xs font-semibold tabular-nums text-accent shadow-[0_0_20px_-4px_rgba(0,242,255,0.5)] backdrop-blur-sm">
+      <span className="relative z-[1] flex h-12 w-12 items-center justify-center rounded-full border-2 border-accent/85 bg-base-dark/90 text-xs font-semibold tabular-nums text-accent shadow-[0_0_20px_-4px_rgba(0,242,255,0.5)] md:backdrop-blur-sm">
         {label}
       </span>
     </div>
@@ -173,7 +173,7 @@ export function FlowTimelinePageContent({
       {/* 単体ページ: ヘッダー直下に sticky。埋め込み時は二重 sticky を避け通常フロー */}
       <nav
         className={cn(
-          "border-b border-silver/15 bg-base-dark/90 py-3 backdrop-blur-md supports-[backdrop-filter]:bg-base-dark/75",
+          "border-b border-silver/15 bg-base-dark/90 py-3 md:backdrop-blur-md supports-[backdrop-filter]:bg-base-dark/75",
           embedded
             ? "relative z-20 -mx-0 mb-8 md:-mx-2 md:mb-10"
             : "relative -mx-6 mb-10 z-30 md:sticky md:top-16 md:-mx-10 md:mb-12"
@@ -341,7 +341,7 @@ export function FlowTimelinePageContent({
 
       <motion.section
         className={cn(
-          "relative mx-auto mt-16 max-w-2xl overflow-hidden rounded-2xl border border-silver/20 bg-base-dark/35 text-center backdrop-blur-sm md:mt-20 md:px-12 md:py-12",
+          "relative mx-auto mt-16 max-w-2xl overflow-hidden rounded-2xl border border-silver/20 bg-base-dark/35 text-center md:backdrop-blur-sm md:mt-20 md:px-12 md:py-12",
           embedded ? "px-5 py-9 md:py-12" : "px-8 py-10"
         )}
         initial="hidden"

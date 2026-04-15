@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import { LayoutGrid } from "lucide-react";
 import { Card } from "@/components/ui/card";
@@ -15,15 +13,13 @@ import {
 import { FEATURED_SHOWCASE_VIDEO_BY_SLUG } from "@/lib/experience/featured-showcase-media";
 import type { AiDemo, DemoItem } from "@/lib/sanity/types";
 import { demoHubCopy } from "@/lib/content/site-copy";
-import { useConciergeChat } from "@/components/chat/concierge-chat-context";
-import { recordVisitorEntryIntent } from "@/lib/journey/visitor-journey-storage";
+import { DemoConciergeCtaButton } from "@/components/demo/DemoConciergeCtaButton";
 
 interface DemoPageContentProps {
   demos: (AiDemo | DemoItem)[];
 }
 
 export function DemoPageContent({ demos }: DemoPageContentProps) {
-  const { requestOpenDemoListPageConcierge } = useConciergeChat();
   const featured = getFeaturedExperiencePrototypes();
   /** 飲食ダッシュボード → 社内ナレッジの順（レジストリの逆順） */
   const featuredOrdered = [...featured].reverse();
@@ -42,17 +38,7 @@ export function DemoPageContent({ demos }: DemoPageContentProps) {
             {demoHubCopy.guide}
           </p>
           <div className="mx-auto mt-8 flex max-w-2xl justify-center">
-            <Button
-              type="button"
-              variant="default"
-              size="lg"
-              onClick={() => {
-                recordVisitorEntryIntent("compare");
-                requestOpenDemoListPageConcierge({ entryIntent: "compare" });
-              }}
-            >
-              {demoHubCopy.conciergeCtaLabel}
-            </Button>
+            <DemoConciergeCtaButton label={demoHubCopy.conciergeCtaLabel} />
           </div>
         </header>
 

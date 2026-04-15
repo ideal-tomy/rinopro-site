@@ -5,9 +5,10 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
 const PARTICLE_COUNT_DESKTOP = 420;
-const PARTICLE_COUNT_MOBILE = 120;
+const PARTICLE_COUNT_MOBILE = 72;
 
 function Particles() {
+  const [isTabVisible, setIsTabVisible] = useState(true);
   const count =
     typeof window !== "undefined" && window.innerWidth < 768
       ? PARTICLE_COUNT_MOBILE
@@ -24,8 +25,17 @@ function Particles() {
     return [pos];
   }, [count]);
 
+  useEffect(() => {
+    const updateVisibility = () => {
+      setIsTabVisible(document.visibilityState === "visible");
+    };
+    updateVisibility();
+    document.addEventListener("visibilitychange", updateVisibility);
+    return () => document.removeEventListener("visibilitychange", updateVisibility);
+  }, []);
+
   useFrame((state) => {
-    if (points.current) {
+    if (points.current && isTabVisible) {
       points.current.rotation.y = state.clock.elapsedTime * 0.02;
     }
   });
@@ -66,7 +76,7 @@ export function ParticleField() {
   return (
     <Canvas
       camera={{ position: [0, 0, 5], fov: 75 }}
-      dpr={isMobile ? [1, 1.2] : [1, 1.8]}
+      dpr={isMobile ? [1, 1] : [1, 1.8]}
       gl={{ alpha: false, antialias: !isMobile }}
       className="block size-full touch-none"
     >

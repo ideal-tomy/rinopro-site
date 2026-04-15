@@ -28,7 +28,7 @@ function mistVariants(reduce: boolean) {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 1.05, ease: EASE_MIST },
+      transition: { duration: 0.82, ease: EASE_MIST },
     },
   };
 }
@@ -99,7 +99,7 @@ export function ConsultingDetailPageContent({
           <motion.article
             key={section.kicker}
             className={cn(
-              "relative overflow-hidden rounded-2xl text-text backdrop-blur-sm transition-[background-color,border-color] duration-500 md:px-12 md:py-14",
+              "relative overflow-hidden rounded-2xl text-text md:backdrop-blur-sm transition-[background-color,border-color] duration-500 md:px-12 md:py-14",
               embedded
                 ? "border-0 bg-transparent px-5 py-8 shadow-none md:px-8"
                 : "border border-silver/15 bg-base-dark/40 px-8 py-12 shadow-none"

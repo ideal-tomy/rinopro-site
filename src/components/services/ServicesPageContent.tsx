@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import dynamic from "next/dynamic";
 import { AnimatePresence, motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import {
@@ -12,8 +13,22 @@ import { useConciergeChat } from "@/components/chat/concierge-chat-context";
 import { writeServicesFlowPick } from "@/lib/chat/chat-auto-open";
 import { recordVisitorEntryIntent } from "@/lib/journey/visitor-journey-storage";
 import { FlowTimelinePageContent } from "@/components/services/FlowTimelinePageContent";
-import { ConsultingDetailPageContent } from "@/components/services/ConsultingDetailPageContent";
 import { cn } from "@/lib/utils";
+
+const ConsultingDetailPageContent = dynamic(
+  () =>
+    import("@/components/services/ConsultingDetailPageContent").then(
+      (mod) => mod.ConsultingDetailPageContent
+    ),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="px-4 py-10 text-center text-sm text-text-sub">
+        内容を読み込み中...
+      </div>
+    ),
+  }
+);
 
 type ServiceDetailTab = "development" | "consulting";
 

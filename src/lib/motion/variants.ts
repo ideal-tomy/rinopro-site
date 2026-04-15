@@ -47,12 +47,13 @@ export const heroStaggerItem: Variants = {
   hidden: { opacity: 0, y: 20 },
   visible: (custom: [number, number]) => {
     const [start, end] = custom;
+    const timingScale = 2.2;
     return {
       opacity: 1,
       y: 0,
       transition: {
-        duration: (end - start) * 3,
-        delay: start * 3,
+        duration: (end - start) * timingScale,
+        delay: start * timingScale,
         ease: EASE_SMOOTH,
       },
     };
@@ -63,13 +64,14 @@ export const heroStaggerItemWithScale: Variants = {
   hidden: { opacity: 0, y: 20, scale: 0.94 },
   visible: (custom: [number, number]) => {
     const [start, end] = custom;
+    const timingScale = 2.2;
     return {
       opacity: 1,
       y: 0,
       scale: 1,
       transition: {
-        duration: (end - start) * 3,
-        delay: start * 3,
+        duration: (end - start) * timingScale,
+        delay: start * timingScale,
         ease: EASE_OUT_BACK,
       },
     };

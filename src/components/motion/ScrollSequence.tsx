@@ -3,6 +3,8 @@
 import { createContext, useContext, useRef } from "react";
 import type { MotionValue } from "framer-motion";
 import { motion, useScroll, useTransform } from "framer-motion";
+import { useMediaQuery } from "@/hooks/use-media-query";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { cn } from "@/lib/utils";
 
 /**
@@ -15,14 +17,20 @@ interface ScrollSequenceProps {
   className?: string;
   /** スクロール範囲: [0] = progress 0 の位置, [1] = progress 1 の位置 */
   offset?: [string, string];
+  /** モバイルでは1要素ごとの追従アニメを抑える */
+  compactOnMobile?: boolean;
 }
 
 export function ScrollSequence({
   children,
   className,
   offset = ["start 0.85", "start 0.3"],
+  compactOnMobile = true,
 }: ScrollSequenceProps) {
   const ref = useRef<HTMLDivElement>(null);
+  const isMobile = useMediaQuery("(max-width: 767px)");
+  const prefersReducedMotion = useReducedMotion();
+  const compact = prefersReducedMotion || (compactOnMobile && isMobile);
   const { scrollYProgress } = useScroll({
     target: ref,
     // @ts-expect-error framer-motion offset type is strict
@@ -31,7 +39,7 @@ export function ScrollSequence({
 
   return (
     <motion.div ref={ref} className={cn(className)}>
-      <ScrollSequenceContext.Provider value={{ scrollYProgress }}>
+      <ScrollSequenceContext.Provider value={{ scrollYProgress, compact }}>
         {children}
       </ScrollSequenceContext.Provider>
     </motion.div>
@@ -40,6 +48,7 @@ export function ScrollSequence({
 
 const ScrollSequenceContext = createContext<{
   scrollYProgress: MotionValue<number>;
+  compact: boolean;
 } | null>(null);
 
 interface ScrollSequenceItemProps {
@@ -62,7 +71,11 @@ export function ScrollSequenceItem({
     return <div className={cn(className)}>{children}</div>;
   }
 
-  const { scrollYProgress } = ctx;
+  const { scrollYProgress, compact } = ctx;
+  if (compact) {
+    return <div className={cn(className)}>{children}</div>;
+  }
+
   const [start, end] = thresholds;
 
   const opacity = useTransform(scrollYProgress, [start, end], [0, 1]);

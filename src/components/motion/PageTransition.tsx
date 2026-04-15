@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 import {
-  DURATION_PAGE_OUT,
   DURATION_PAGE_IN,
 } from "@/lib/motion/config";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
@@ -18,15 +17,14 @@ export function PageTransition({ children, className }: PageTransitionProps) {
   const pathname = usePathname();
   const prefersReducedMotion = useReducedMotion();
 
-  const durationOut = prefersReducedMotion ? 0 : DURATION_PAGE_OUT / 1000;
   const durationIn = prefersReducedMotion ? 0 : DURATION_PAGE_IN / 1000;
 
   return (
     <motion.div
       key={pathname}
-      initial={{ opacity: 0, filter: "blur(10px)" }}
-      animate={{ opacity: 1, filter: "blur(0px)" }}
-      exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, filter: "blur(4px)" }}
+      initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: -6 }}
       transition={{
         duration: durationIn,
         ease: [0.4, 0, 0.2, 1],

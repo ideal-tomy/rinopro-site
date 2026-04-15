@@ -4,7 +4,7 @@ import { Noto_Sans_JP } from "next/font/google";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ConciergeChatProvider } from "@/components/chat/concierge-chat-context";
-import { ChatContainer } from "@/components/chat/ChatContainer";
+import { ChatContainerLazy } from "@/components/chat/ChatContainerLazy";
 import { VisitorJourneyTracker } from "@/components/journey/VisitorJourneyTracker";
 import "./globals.css";
 
@@ -57,7 +57,7 @@ export default function RootLayout({
           <Header />
           {children}
           <Footer />
-          <ChatContainer />
+          <ChatContainerLazy />
         </ConciergeChatProvider>
       </body>
     </html>
