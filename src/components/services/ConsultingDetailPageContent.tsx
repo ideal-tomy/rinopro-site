@@ -68,7 +68,7 @@ export function ConsultingDetailPageContent({
       <motion.header
         className={cn(
           "mx-auto max-w-3xl text-center",
-          embedded ? "mb-10 md:mb-14" : "mb-12 md:mb-16"
+          embedded ? "mb-10 md:mb-12" : "mb-12 md:mb-20"
         )}
         initial="hidden"
         whileInView="visible"
@@ -79,44 +79,15 @@ export function ConsultingDetailPageContent({
           Consulting
         </p>
         {embedded ? (
-          <h2 className="mb-5 text-3xl font-semibold tracking-tight text-accent sm:text-4xl md:mb-6 md:text-5xl lg:text-[3.25rem] lg:leading-tight">
+          <h2 className="text-3xl font-semibold tracking-tight text-accent sm:text-4xl md:text-5xl lg:text-[3.25rem] lg:leading-tight">
             {consultingDetailPageCopy.title}
           </h2>
         ) : (
-          <h1 className="mb-6 text-4xl font-semibold tracking-tight text-accent md:text-5xl lg:text-[3.25rem] lg:leading-tight">
+          <h1 className="text-4xl font-semibold tracking-tight text-accent md:text-5xl lg:text-[3.25rem] lg:leading-tight">
             {consultingDetailPageCopy.title}
           </h1>
         )}
-        <p
-          className={cn(
-            "mx-auto max-w-2xl leading-relaxed text-text/90",
-            embedded
-              ? "text-[1rem] md:text-xl"
-              : "text-lg md:text-xl"
-          )}
-        >
-          {consultingDetailPageCopy.purpose}
-        </p>
       </motion.header>
-
-      <motion.p
-        className={cn(
-          "mx-auto text-center",
-          embedded
-            ? "mb-14 max-w-prose md:mb-20"
-            : "mb-20 max-w-xl md:mb-24",
-          embedded
-            ? serviceReading.leadMuted
-            : "text-sm leading-relaxed text-text md:text-[1rem]"
-        )}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-60px" }}
-        variants={v}
-        transition={{ delay: reduce ? 0 : 0.06 }}
-      >
-        {consultingDetailPageCopy.intro}
-      </motion.p>
 
       <div
         className={cn(
@@ -128,8 +99,10 @@ export function ConsultingDetailPageContent({
           <motion.article
             key={section.kicker}
             className={cn(
-              "relative overflow-hidden rounded-2xl border border-accent/30 bg-base-dark/45 text-text shadow-[0_0_0_1px_rgba(0,242,255,0.08),0_0_48px_-16px_rgba(0,242,255,0.22),inset_0_1px_0_0_rgba(0,242,255,0.06)] backdrop-blur-sm transition-[border-color,box-shadow] duration-500 md:px-12 md:py-14",
-              embedded ? "px-5 py-10" : "px-8 py-12"
+              "relative overflow-hidden rounded-2xl text-text backdrop-blur-sm transition-[background-color,border-color] duration-500 md:px-12 md:py-14",
+              embedded
+                ? "border-0 bg-transparent px-5 py-8 shadow-none md:px-8"
+                : "border border-silver/15 bg-base-dark/40 px-8 py-12 shadow-none"
             )}
             initial="hidden"
             whileInView="visible"
