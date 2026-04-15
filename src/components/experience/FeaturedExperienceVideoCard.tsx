@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import type { ExperiencePrototypeMeta } from "@/lib/experience/prototype-registry";
@@ -27,6 +27,50 @@ export function FeaturedExperienceVideoCard({
   const [videoFailed, setVideoFailed] = useState(false);
   const [inViewport, setInViewport] = useState(false);
   const cardRef = useRef<HTMLElement | null>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  const ensureVideoPlayback = useCallback(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (videoFailed) return;
+    if (!video.paused) return;
+    void video.play().catch(() => {
+      // Autoplay can fail transiently on some devices; retry hooks below will re-attempt.
+    });
+  }, [videoFailed]);
+
+  useEffect(() => {
+    if (!showVideo) return;
+    ensureVideoPlayback();
+    const timer = globalThis.setTimeout(() => {
+      ensureVideoPlayback();
+    }, 200);
+    return () => globalThis.clearTimeout(timer);
+  }, [showVideo, ensureVideoPlayback]);
+
+  useEffect(() => {
+    if (!showVideo) return;
+    const resumeOnVisible = () => {
+      if (document.visibilityState === "visible") {
+        ensureVideoPlayback();
+      }
+    };
+    document.addEventListener("visibilitychange", resumeOnVisible);
+    return () => document.removeEventListener("visibilitychange", resumeOnVisible);
+  }, [showVideo, ensureVideoPlayback]);
+
+  useEffect(() => {
+    if (!showVideo) return;
+    const video = videoRef.current;
+    if (!video) return;
+    const onReady = () => ensureVideoPlayback();
+    video.addEventListener("loadeddata", onReady);
+    video.addEventListener("canplay", onReady);
+    return () => {
+      video.removeEventListener("loadeddata", onReady);
+      video.removeEventListener("canplay", onReady);
+    };
+  }, [showVideo, ensureVideoPlayback]);
 
   useEffect(() => {
     const node = cardRef.current;
@@ -72,6 +116,7 @@ export function FeaturedExperienceVideoCard({
         >
           {showVideo ? (
             <video
+              ref={videoRef}
               className="h-full w-full object-cover"
               src={videoSrc}
               muted
@@ -120,6 +165,7 @@ export function FeaturedExperienceVideoCard({
         >
           {showVideo ? (
             <video
+              ref={videoRef}
               className="h-full w-full object-cover"
               src={videoSrc}
               muted
@@ -165,6 +211,7 @@ export function FeaturedExperienceVideoCard({
         <div className="relative aspect-video w-full overflow-hidden bg-gradient-to-br from-base-dark via-base-dark/90 to-base-dark/70">
           {showVideo ? (
             <video
+              ref={videoRef}
               className="h-full w-full object-cover opacity-85 transition-opacity duration-300 group-hover:opacity-95"
               src={videoSrc}
               muted
