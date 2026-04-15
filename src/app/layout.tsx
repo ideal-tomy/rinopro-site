@@ -17,7 +17,7 @@ const geist = Geist({
 const notoSansJP = Noto_Sans_JP({
   variable: "--font-noto-sans-jp",
   subsets: ["latin"],
-  weight: ["300", "700"],
+  weight: ["400", "700"],
 });
 
 /** モバイルの仮想キーボード時のリサイズ方針（fixed オーバーレイと整合しやすくする） */

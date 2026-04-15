@@ -15,10 +15,35 @@ const ParticleField = dynamic(
 export function ParticleBackground() {
   const prefersReducedMotion = useReducedMotion();
   const [mounted, setMounted] = useState(false);
+  const [canStartParticle, setCanStartParticle] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    if (!mounted || prefersReducedMotion) return;
+
+    const windowWithIdle = window as Window & {
+      requestIdleCallback?: (callback: IdleRequestCallback) => number;
+      cancelIdleCallback?: (handle: number) => void;
+    };
+
+    if (typeof windowWithIdle.requestIdleCallback === "function") {
+      const handle = windowWithIdle.requestIdleCallback(
+        () => setCanStartParticle(true),
+        { timeout: 1200 }
+      );
+      return () => {
+        if (typeof windowWithIdle.cancelIdleCallback === "function") {
+          windowWithIdle.cancelIdleCallback(handle);
+        }
+      };
+    }
+
+    const timer = globalThis.setTimeout(() => setCanStartParticle(true), 700);
+    return () => globalThis.clearTimeout(timer);
+  }, [mounted, prefersReducedMotion]);
 
   if (!mounted || prefersReducedMotion) {
     return null;
@@ -29,9 +54,11 @@ export function ParticleBackground() {
       className="pointer-events-none fixed inset-0 -z-10 bg-base"
       aria-hidden="true"
     >
-      <Suspense fallback={null}>
-        <ParticleField />
-      </Suspense>
+      {canStartParticle ? (
+        <Suspense fallback={null}>
+          <ParticleField />
+        </Suspense>
+      ) : null}
     </div>
   );
 }
