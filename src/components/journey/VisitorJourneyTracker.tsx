@@ -14,17 +14,26 @@ export function VisitorJourneyTracker() {
     lastTrackedRef.current = pathname;
 
     // 初回描画の競合を避けるため、記録処理はアイドル時に遅延させる。
-    if ("requestIdleCallback" in window) {
-      const handle = window.requestIdleCallback(() => {
+    const idleCapableWindow = window as Window & {
+      requestIdleCallback?: (callback: IdleRequestCallback) => number;
+      cancelIdleCallback?: (handle: number) => void;
+    };
+
+    if (typeof idleCapableWindow.requestIdleCallback === "function") {
+      const handle = idleCapableWindow.requestIdleCallback(() => {
         recordVisitorPageVisit(pathname);
       });
-      return () => window.cancelIdleCallback(handle);
+      return () => {
+        if (typeof idleCapableWindow.cancelIdleCallback === "function") {
+          idleCapableWindow.cancelIdleCallback(handle);
+        }
+      };
     }
 
-    const timer = window.setTimeout(() => {
+    const timer = globalThis.setTimeout(() => {
       recordVisitorPageVisit(pathname);
     }, 32);
-    return () => window.clearTimeout(timer);
+    return () => globalThis.clearTimeout(timer);
   }, [pathname]);
 
   return null;
