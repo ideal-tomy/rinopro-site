@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
 import {
@@ -9,6 +9,7 @@ import {
 } from "@/components/chat/concierge-chat-context";
 import { clearServicesFlowPick } from "@/lib/chat/chat-auto-open";
 import { isDemoExperienceWizardPath } from "@/lib/chat/concierge-demo-hub-policy";
+import { resolveLauncherOpenState } from "@/lib/chat/concierge-entry-policy";
 
 const ChatContainer = dynamic(
   () => import("./ChatContainer").then((mod) => mod.ChatContainer),
@@ -30,9 +31,10 @@ function ChatLauncherFab({ onWarmup }: { onWarmup: () => void }) {
 
   const openConciergeFromFab = () => {
     onWarmup();
-    setEntrySource("fab");
+    const next = resolveLauncherOpenState(pathname);
+    setEntrySource(next.entrySource);
     setPendingSignals(null);
-    if (pathname === "/services") {
+    if (next.resetServicesMode) {
       clearServicesFlowPick();
       setMode("default" as ConciergeMode);
     }
@@ -77,15 +79,12 @@ function ChatLauncherFab({ onWarmup }: { onWarmup: () => void }) {
 
 export function ChatContainerLazy() {
   const { open } = useConciergeChat();
-  const [shouldLoadContainer, setShouldLoadContainer] = useState(false);
-
-  useEffect(() => {
-    if (open) setShouldLoadContainer(true);
-  }, [open]);
+  const [warmedUp, setWarmedUp] = useState(false);
+  const shouldLoadContainer = warmedUp || open;
 
   return (
     <>
-      <ChatLauncherFab onWarmup={() => setShouldLoadContainer(true)} />
+      <ChatLauncherFab onWarmup={() => setWarmedUp(true)} />
       {shouldLoadContainer ? <ChatContainer showLauncher={false} /> : null}
     </>
   );

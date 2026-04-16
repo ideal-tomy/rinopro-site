@@ -24,7 +24,8 @@ export function buildEstimateDetailedAnswersRecord(f: EstimateFormDraft): Record
 
   const getters: Record<string, string | undefined> = {
     [answerLabelFromQuestionId("industry")]: industryAnswer,
-    [answerLabelFromQuestionId("summary")]: f.summary.trim() || undefined,
+    [answerLabelFromQuestionId("productArchetype")]: f.productArchetype.trim() || undefined,
+    [answerLabelFromQuestionId("problemSummary")]: f.problemSummary.trim() || undefined,
     [answerLabelFromQuestionId("teamSize")]: optionLabel(copy.teamOptions, f.teamSize),
     [answerLabelFromQuestionId("timeline")]: optionLabel(copy.timelineOptions, f.timeline),
     [answerLabelFromQuestionId("integration")]: optionLabel(

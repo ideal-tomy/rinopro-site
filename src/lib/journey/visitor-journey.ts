@@ -1,4 +1,15 @@
 import { z } from "zod";
+import {
+  FACT_OWNER_MAP,
+  type CanonicalFactKey,
+  type CandidateFactKey,
+  type FactCollectionState,
+  type FactEnvelope,
+  hasMeaningfulFactValue,
+} from "@/lib/facts/canonical-facts";
+import { extractFreeformFactEnvelopes } from "@/lib/freeform/extract-freeform-facts";
+import { freeformInputSourceSchema } from "@/lib/freeform/freeform-input";
+import { summarizeFreeformMemo } from "@/lib/freeform/freeform-memo";
 import type { InquiryIntent } from "@/lib/inquiry/inquiry-brief";
 
 export const VISITOR_JOURNEY_VERSION = 1 as const;
@@ -71,6 +82,9 @@ export const visitorJourneySummarySchema = z.object({
   viewedDemoSlugs: z.array(z.string().min(1).max(120)).max(8).default([]),
   recentPageKinds: z.array(visitorJourneyPageKindSchema).max(6).default([]),
   lastFreeformSummary: z.string().max(280).optional(),
+  lastFreeformSource: freeformInputSourceSchema.optional(),
+  lastFreeformRawText: z.string().max(700).optional(),
+  lastFreeformNormalizedText: z.string().max(700).optional(),
   estimateSignals: visitorJourneyEstimateSignalsSchema.optional(),
   journeySummary: z.string().max(600),
 });
@@ -90,12 +104,19 @@ export const visitorJourneyProfileSchema = z.object({
     .optional(),
   industryBundle: visitorJourneyIndustryBundleSchema.optional(),
   lastFreeformSummary: z.string().max(280).optional(),
+  lastFreeformSource: freeformInputSourceSchema.optional(),
+  lastFreeformRawText: z.string().max(700).optional(),
+  lastFreeformNormalizedText: z.string().max(700).optional(),
   estimateSignals: visitorJourneyEstimateSignalsSchema.optional(),
   estimateReachedCount: z.number().int().min(0).default(0),
   contactReachedCount: z.number().int().min(0).default(0),
 });
 
 export type VisitorJourneyProfile = z.infer<typeof visitorJourneyProfileSchema>;
+
+export type VisitorJourneyFactValueMap = Partial<
+  Record<CanonicalFactKey | CandidateFactKey, string>
+>;
 
 export function detectVisitorJourneyPageKind(
   pathname: string
@@ -113,9 +134,7 @@ export function detectVisitorJourneyPageKind(
 }
 
 export function summarizeFreeformText(text: string): string {
-  const trimmed = text.replace(/\s+/g, " ").trim();
-  if (trimmed.length <= 140) return trimmed;
-  return `${trimmed.slice(0, 137).trim()}…`;
+  return summarizeFreeformMemo(text);
 }
 
 function pushUnique<T>(current: T[], next: T, max: number): T[] {
@@ -186,7 +205,9 @@ export function buildVisitorJourneySummary(
       ? `demo: ${profile.viewedDemoSlugs.slice(0, 3).join(", ")}`
       : "";
   const freeformLabel = profile.lastFreeformSummary
-    ? `自由記述: ${profile.lastFreeformSummary}`
+    ? `自由記述: ${profile.lastFreeformSummary}${
+        profile.lastFreeformSource ? ` (${profile.lastFreeformSource})` : ""
+      }`
     : "";
   const parts = [
     `関心傾向: ${interestBias}`,
@@ -208,6 +229,15 @@ export function buildVisitorJourneySummary(
     recentPageKinds: profile.recentPageKinds.slice(0, 6),
     ...(profile.lastFreeformSummary
       ? { lastFreeformSummary: profile.lastFreeformSummary }
+      : {}),
+    ...(profile.lastFreeformSource
+      ? { lastFreeformSource: profile.lastFreeformSource }
+      : {}),
+    ...(profile.lastFreeformRawText
+      ? { lastFreeformRawText: profile.lastFreeformRawText }
+      : {}),
+    ...(profile.lastFreeformNormalizedText
+      ? { lastFreeformNormalizedText: profile.lastFreeformNormalizedText }
       : {}),
     ...(profile.estimateSignals
       ? { estimateSignals: profile.estimateSignals }
@@ -240,7 +270,11 @@ export function visitorJourneySummaryToPriorContext(
     lines.push(`- 見た demo: ${summary.viewedDemoSlugs.join(", ")}`);
   }
   if (summary.lastFreeformSummary) {
-    lines.push(`- 自由記述メモ: ${summary.lastFreeformSummary}`);
+    lines.push(
+      `- 自由記述メモ: ${summary.lastFreeformSummary}${
+        summary.lastFreeformSource ? ` (${summary.lastFreeformSource})` : ""
+      }`
+    );
   }
   return lines.join("\n");
 }
@@ -268,6 +302,92 @@ export function updateEstimateSignalsFromAnswers(
     next.audienceScope = answers["誰が使う・見るか（社内・外部）"];
   }
   return Object.keys(next).length > 0 ? next : undefined;
+}
+
+export function buildVisitorJourneyFactValues(
+  summary: VisitorJourneySummary | null | undefined
+): VisitorJourneyFactValueMap {
+  if (!summary) return {};
+
+  const values: VisitorJourneyFactValueMap = {};
+
+  if (summary.industryBundle) {
+    values.industryBundle = [
+      summary.industryBundle.domainId,
+      summary.industryBundle.domainDetailId ?? "",
+      summary.industryBundle.note ?? "",
+    ]
+      .filter(Boolean)
+      .join(" / ");
+  }
+  if (summary.lastFreeformSummary) {
+    values.freeformMemo = summary.lastFreeformSummary;
+  }
+  if (summary.estimateSignals?.teamSize) values.teamSize = summary.estimateSignals.teamSize;
+  if (summary.estimateSignals?.timeline) values.timeline = summary.estimateSignals.timeline;
+  if (summary.estimateSignals?.integration) {
+    values.integration = summary.estimateSignals.integration;
+  }
+  if (summary.estimateSignals?.usageSurface) {
+    values.usageSurface = summary.estimateSignals.usageSurface;
+  }
+  if (summary.estimateSignals?.audienceScope) {
+    values.audienceScope = summary.estimateSignals.audienceScope;
+  }
+
+  return values;
+}
+
+export function buildVisitorJourneyFactEnvelopes(
+  summary: VisitorJourneySummary | null | undefined
+): FactEnvelope[] {
+  const values = buildVisitorJourneyFactValues(summary);
+  const envelopes: FactEnvelope[] = [];
+
+  (Object.entries(values) as [CanonicalFactKey | CandidateFactKey, string][]).forEach(
+    ([key, value]) => {
+      if (!hasMeaningfulFactValue(value)) return;
+      const isCanonicalOwner = key in FACT_OWNER_MAP;
+      const isFreeformDerivedCanonical =
+        key === "problemSummary" && Boolean(summary?.lastFreeformSummary);
+      const isFreeformDerivedCandidate = key === "freeformMemo";
+      const state: FactCollectionState =
+        isFreeformDerivedCandidate
+          ? "candidate"
+          : isFreeformDerivedCanonical
+            ? "candidate"
+            : "approx";
+      envelopes.push({
+        key,
+        state,
+        owner: isCanonicalOwner
+          ? FACT_OWNER_MAP[key as CanonicalFactKey]
+          : "visitorJourney",
+        value,
+        source:
+          (isFreeformDerivedCanonical || isFreeformDerivedCandidate) &&
+          summary?.lastFreeformSource
+            ? `visitorJourney:${summary.lastFreeformSource}`
+            : "visitorJourney",
+      });
+    }
+  );
+
+  if (summary?.lastFreeformNormalizedText && summary.lastFreeformSource) {
+    const extracted = extractFreeformFactEnvelopes({
+      source: summary.lastFreeformSource,
+      rawText: summary.lastFreeformRawText ?? summary.lastFreeformNormalizedText,
+      normalizedText: summary.lastFreeformNormalizedText,
+    });
+    for (const envelope of extracted) {
+      const exists = envelopes.some(
+        (current) => current.key === envelope.key && current.value === envelope.value
+      );
+      if (!exists) envelopes.push(envelope);
+    }
+  }
+
+  return envelopes;
 }
 
 export function inferJourneyIntentFromInquiry(

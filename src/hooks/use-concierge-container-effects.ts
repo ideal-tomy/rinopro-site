@@ -1,6 +1,12 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, type MutableRefObject } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  type MutableRefObject,
+} from "react";
 import {
   chatAutoOpenStorageKey,
   consumeSuppressChatAutoOnce,
@@ -14,6 +20,7 @@ import {
   isDemoHubForConciergePolicy,
   isDemoExperienceWizardPath,
 } from "@/lib/chat/concierge-demo-hub-policy";
+import { resolveDemoListSequenceOpen } from "@/lib/chat/concierge-entry-policy";
 import { CONCIERGE_NAVIGATE_FROM_CHAT } from "@/lib/chat/concierge-navigate-from-chat";
 import { prefetchDemoCatalog } from "@/lib/demo/demo-catalog-client";
 import type { ConciergeChatSurface } from "@/lib/chat/concierge-session-id";
@@ -53,14 +60,16 @@ export function useDemoListPageOpenSequence(
 ) {
   const lastHandled = useRef(0);
   useEffect(() => {
-    const host = pathname === "/demo/list" || pathname === "/demo";
-    if (!host) return;
+    const next = resolveDemoListSequenceOpen(pathname);
+    if (!next) return;
     if (demoListPageOpenSeq === 0) return;
     if (demoListPageOpenSeq === lastHandled.current) return;
     lastHandled.current = demoListPageOpenSeq;
-    setEntrySource("fab");
-    setConciergeSurface("page");
-    setOpen(true);
+    setEntrySource(next.entrySource);
+    setConciergeSurface(next.surface);
+    if (next.shouldOpen) {
+      setOpen(true);
+    }
   }, [
     demoListPageOpenSeq,
     pathname,
@@ -159,6 +168,64 @@ export function useConciergeNavigateFromChatListener(
     return () =>
       window.removeEventListener(CONCIERGE_NAVIGATE_FROM_CHAT, onNavigateFromChat);
   }, [setOpen, resetConciergeModalChrome]);
+}
+
+type UseResetConciergeModalChromeArgs = {
+  setConciergeSurface: SetSurface;
+  setEntrySource: (v: "fab") => void;
+  setPendingSignals: (value: null) => void;
+  setServiceCardStartDone: SetBool;
+  setHomeFooterPhase: (value: "wizard") => void;
+  setDemoFreeformPicks: (value: null) => void;
+  setDemoRecommendFromTextInFlight: SetBool;
+  conciergeSignalsRef: MutableRefObject<Record<string, unknown>>;
+};
+
+/** モーダルを閉じるときの shell 状態リセットを 1 箇所に寄せる。 */
+export function useResetConciergeModalChrome({
+  setConciergeSurface,
+  setEntrySource,
+  setPendingSignals,
+  setServiceCardStartDone,
+  setHomeFooterPhase,
+  setDemoFreeformPicks,
+  setDemoRecommendFromTextInFlight,
+  conciergeSignalsRef,
+}: UseResetConciergeModalChromeArgs) {
+  return useCallback(() => {
+    conciergeSignalsRef.current = {};
+    setConciergeSurface("pick");
+    setEntrySource("fab");
+    setPendingSignals(null);
+    setServiceCardStartDone(false);
+    setHomeFooterPhase("wizard");
+    setDemoFreeformPicks(null);
+    setDemoRecommendFromTextInFlight(false);
+  }, [
+    conciergeSignalsRef,
+    setConciergeSurface,
+    setEntrySource,
+    setPendingSignals,
+    setServiceCardStartDone,
+    setHomeFooterPhase,
+    setDemoFreeformPicks,
+    setDemoRecommendFromTextInFlight,
+  ]);
+}
+
+export function useConciergePopupOpenChange(
+  setOpen: SetBool,
+  resetConciergeModalChrome: () => void
+) {
+  return useCallback(
+    (next: boolean) => {
+      setOpen(next);
+      if (!next) {
+        resetConciergeModalChrome();
+      }
+    },
+    [setOpen, resetConciergeModalChrome]
+  );
 }
 
 /** demo ハブ以外へ出たらおすすめピック状態をクリア */

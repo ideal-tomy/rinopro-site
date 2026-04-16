@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { ArrowUpToLine } from "lucide-react";
+import { ContactIntakeHearingBlock } from "@/components/contact/ContactIntakeHearingBlock";
 import { useContactForm } from "@/hooks/use-contact-form";
 import { contactCopy } from "@/lib/content/site-copy";
 import { cn } from "@/lib/utils";
@@ -20,16 +21,25 @@ import type { ChatHandoffPayload } from "@/lib/chat/estimate-handoff";
 import {
   INQUIRY_DESIRED_REPLY_LABELS,
   INQUIRY_INTENT_LABELS,
+  evaluateInquiryGate,
   type InquiryDesiredReply,
   type InquiryIntent,
 } from "@/lib/inquiry/inquiry-brief";
-import type { VisitorJourneySummary } from "@/lib/journey/visitor-journey";
+import { fetchInquiryBriefWithRetry } from "@/lib/inquiry/fetch-inquiry-brief";
+import {
+  buildVisitorJourneyFactEnvelopes,
+  type VisitorJourneySummary,
+} from "@/lib/journey/visitor-journey";
 import { readVisitorJourneySummary } from "@/lib/journey/visitor-journey-storage";
 import {
   DEMO_HUB_TYPE_SECTION_SLUGS,
   FEATURED_EXPERIENCE_SLUGS,
   getExperiencePrototypeBySlug,
 } from "@/lib/experience/prototype-registry";
+import { bootstrapContactIntakeForm, hasRealEstimateAiSnapshot } from "@/lib/contact/contact-intake-context";
+import { CONTACT_INTAKE_INITIAL_FORM } from "@/lib/contact/contact-intake-initial-form";
+import { buildContactSyntheticEstimateSnapshot } from "@/lib/contact/build-contact-synthetic-snapshot";
+import type { EstimateQuestionId } from "@/lib/estimate-core/question-model";
 
 function applyPayloadToForm(
   payload: ChatHandoffPayload,
@@ -138,7 +148,13 @@ export function ContactForm() {
   const [estimateSnapshot, setEstimateSnapshot] =
     useState<EstimateSnapshot | null>(null);
   const [attachEstimate, setAttachEstimate] = useState(true);
-  const [hasPreparedContext, setHasPreparedContext] = useState(false);
+  const [intakeForm, setIntakeForm] = useState(CONTACT_INTAKE_INITIAL_FORM);
+  const [answeredQuestionIds, setAnsweredQuestionIds] = useState<
+    ReadonlySet<EstimateQuestionId>
+  >(new Set());
+  const [intakeError, setIntakeError] = useState("");
+  const [intakeLoading, setIntakeLoading] = useState(false);
+  const [hasCompletedContactIntake, setHasCompletedContactIntake] = useState(false);
 
   const { status, errors, submit, submitError } = useContactForm();
   const form = contactCopy.form;
@@ -157,20 +173,16 @@ export function ContactForm() {
 
   useEffect(() => {
     if (!effectiveBrief) return;
-    setProblemStatement(effectiveBrief.problemSummary);
-    setTargetSummary(effectiveBrief.targetSummary);
-    setDecisionTimeline(effectiveBrief.timelineSummary);
-    setConstraintsSummary(effectiveBrief.constraintsSummary);
-    setInquiryIntent(effectiveBrief.inquiryIntent);
-    setDesiredReply(effectiveBrief.desiredReply);
-    setHasPreparedContext(true);
+    const frame = requestAnimationFrame(() => {
+      setProblemStatement(effectiveBrief.problemSummary);
+      setTargetSummary(effectiveBrief.targetSummary);
+      setDecisionTimeline(effectiveBrief.timelineSummary);
+      setConstraintsSummary(effectiveBrief.constraintsSummary);
+      setInquiryIntent(effectiveBrief.inquiryIntent);
+      setDesiredReply(effectiveBrief.desiredReply);
+    });
+    return () => cancelAnimationFrame(frame);
   }, [effectiveBrief]);
-
-  useEffect(() => {
-    if (estimateSnapshot?.ai) {
-      setHasPreparedContext(true);
-    }
-  }, [estimateSnapshot]);
 
   useEffect(() => {
     if (handoffApplied.current) return;
@@ -180,7 +192,27 @@ export function ContactForm() {
       const payload = consumeHandoffPayloadFromSession();
       if (!payload) return;
       handoffApplied.current = true;
-      setHasPreparedContext(true);
+      const frame = requestAnimationFrame(() => {
+        applyPayloadToForm(payload, {
+          setAdditionalNote,
+          setEstimateSnapshot,
+          setVisitorJourney,
+          setInquiryIntent,
+          setDesiredReply,
+          setProblemStatement,
+          setTargetSummary,
+          setDecisionTimeline,
+          setConstraintsSummary,
+        });
+      });
+      return () => cancelAnimationFrame(frame);
+    }
+
+    if (!raw) return;
+    const payload = decodeChatHandoff(raw);
+    if (!payload) return;
+    handoffApplied.current = true;
+    const frame = requestAnimationFrame(() => {
       applyPayloadToForm(payload, {
         setAdditionalNote,
         setEstimateSnapshot,
@@ -192,66 +224,141 @@ export function ContactForm() {
         setDecisionTimeline,
         setConstraintsSummary,
       });
-      return;
-    }
-
-    if (!raw) return;
-    const payload = decodeChatHandoff(raw);
-    if (!payload) return;
-    handoffApplied.current = true;
-    setHasPreparedContext(true);
-    applyPayloadToForm(payload, {
-      setAdditionalNote,
-      setEstimateSnapshot,
-      setVisitorJourney,
-      setInquiryIntent,
-      setDesiredReply,
-      setProblemStatement,
-      setTargetSummary,
-      setDecisionTimeline,
-      setConstraintsSummary,
     });
+    return () => cancelAnimationFrame(frame);
   }, [searchParams]);
+
+  useEffect(() => {
+    const boot = bootstrapContactIntakeForm({
+      estimateSnapshot,
+      visitorJourney,
+    });
+    setIntakeForm(boot.formDraft);
+    setAnsweredQuestionIds(boot.lockedQuestionIds);
+  }, [estimateSnapshot, visitorJourney]);
+
+  const hasRealEstimateContext = hasRealEstimateAiSnapshot(estimateSnapshot);
+  const hasPreparedContext = hasRealEstimateContext || hasCompletedContactIntake;
+
+  const inquiryGate = evaluateInquiryGate({
+    brief: effectiveBrief,
+    problemSummary: problemStatement,
+    targetSummary,
+    timelineSummary: decisionTimeline,
+    followUpQuestions: estimateSnapshot?.inquiryPreparation?.followUpQuestions,
+    followUpAnswers: estimateSnapshot?.inquiryPreparation?.followUpAnswers,
+    hasViewedEstimateOrEquivalent: hasRealEstimateContext || hasCompletedContactIntake,
+    hasReviewedGeneratedBrief: effectiveBrief != null,
+  });
+  const canSendPreparedInquiry = hasPreparedContext && inquiryGate.status === "sendable";
 
   useEffect(() => {
     if (handoffApplied.current) return;
     if (visitorSummaryApplied.current) return;
     const summary = readVisitorJourneySummary();
     if (!summary) return;
+    const factEnvelopes = buildVisitorJourneyFactEnvelopes(summary);
+    const getFactValue = (key: string) =>
+      factEnvelopes.find((envelope) => envelope.key === key)?.value;
     visitorSummaryApplied.current = true;
-    setVisitorJourney(summary);
-    if (summary.latestEntryIntent === "consult") {
-      setInquiryIntent("consulting");
-      setDesiredReply("consulting_plan");
-    } else if (summary.latestEntryIntent === "estimate") {
-      setInquiryIntent("estimate");
-      setDesiredReply("rough_estimate");
-    }
-    if (!problemStatement.trim()) {
-      setProblemStatement(summary.lastFreeformSummary ?? "何を相談したいか整理中");
-    }
-    if (!targetSummary.trim()) {
-      setTargetSummary(
-        summary.industryBundle
-          ? [summary.industryBundle.domainId, summary.industryBundle.domainDetailId ?? ""]
-              .filter(Boolean)
-              .join(" / ")
-          : "対象業務・利用者は要確認"
-      );
-    }
-    if (!decisionTimeline.trim()) {
-      setDecisionTimeline(summary.estimateSignals?.timeline ?? "時期は要確認");
-    }
-    if (!constraintsSummary.trim()) {
-      setConstraintsSummary("大きな制約は要確認");
-    }
+    const frame = requestAnimationFrame(() => {
+      setVisitorJourney(summary);
+      if (summary.latestEntryIntent === "consult") {
+        setInquiryIntent("consulting");
+        setDesiredReply("consulting_plan");
+      } else if (summary.latestEntryIntent === "estimate") {
+        setInquiryIntent("estimate");
+        setDesiredReply("rough_estimate");
+      }
+      if (!problemStatement.trim()) {
+        setProblemStatement(
+          getFactValue("problemSummary") ??
+            summary.lastFreeformNormalizedText ??
+            summary.lastFreeformSummary ??
+            "何を相談したいか整理中"
+        );
+      }
+      if (!targetSummary.trim()) {
+        setTargetSummary(
+          getFactValue("targetSummary") ??
+            (summary.industryBundle
+              ? [summary.industryBundle.domainId, summary.industryBundle.domainDetailId ?? ""]
+                  .filter(Boolean)
+                  .join(" / ")
+              : "対象業務・利用者は要確認")
+        );
+      }
+      if (!decisionTimeline.trim()) {
+        setDecisionTimeline(
+          getFactValue("timeline") ?? summary.estimateSignals?.timeline ?? "時期は要確認"
+        );
+      }
+      if (!constraintsSummary.trim()) {
+        const constraintHints = [
+          getFactValue("integration")
+            ? `連携候補: ${getFactValue("integration")}`
+            : "",
+          getFactValue("usageSurface")
+            ? `使い方候補: ${getFactValue("usageSurface")}`
+            : "",
+          getFactValue("dataSensitivity")
+            ? `情報種別候補: ${getFactValue("dataSensitivity")}`
+            : "",
+        ].filter(Boolean);
+        setConstraintsSummary(
+          constraintHints.length > 0
+            ? constraintHints.join(" / ")
+            : "大きな制約は要確認"
+        );
+      }
+    });
+    return () => cancelAnimationFrame(frame);
   }, [constraintsSummary, decisionTimeline, problemStatement, targetSummary]);
 
-  const canSendPreparedInquiry =
-    hasPreparedContext &&
-    problemStatement.trim().length > 0 &&
-    targetSummary.trim().length > 0 &&
-    decisionTimeline.trim().length > 0;
+  const handleCompleteContactIntake = async () => {
+    setIntakeLoading(true);
+    setIntakeError("");
+    try {
+      const syntheticSnapshot = buildContactSyntheticEstimateSnapshot({
+        form: intakeForm,
+        visitorJourney,
+      });
+      const result = await fetchInquiryBriefWithRetry({
+        snapshot: syntheticSnapshot,
+        preparation: {
+          inquiryIntent,
+          desiredReply,
+          followUpAnswers: {},
+        },
+      });
+      const nextSnapshot: EstimateSnapshot = {
+        ...syntheticSnapshot,
+        inquiryPreparation: {
+          inquiryIntent,
+          desiredReply,
+          followUpQuestions: result.followUpQuestions,
+          followUpAnswers: {},
+          brief: result.brief,
+        },
+      };
+      setEstimateSnapshot(nextSnapshot);
+      setProblemStatement(result.brief.problemSummary);
+      setTargetSummary(result.brief.targetSummary);
+      setDecisionTimeline(result.brief.timelineSummary);
+      setConstraintsSummary(result.brief.constraintsSummary);
+      setInquiryIntent(result.brief.inquiryIntent);
+      setDesiredReply(result.brief.desiredReply);
+      setHasCompletedContactIntake(true);
+    } catch (error) {
+      setIntakeError(
+        error instanceof Error
+          ? error.message
+          : "問い合わせ前整理に失敗しました。時間を置いて再度お試しください。"
+      );
+    } finally {
+      setIntakeLoading(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -291,27 +398,44 @@ export function ContactForm() {
       setVisitorJourney(null);
       setEstimateSnapshot(null);
       setAttachEstimate(true);
-      setHasPreparedContext(false);
+      setHasCompletedContactIntake(false);
+      setIntakeForm(CONTACT_INTAKE_INITIAL_FORM);
+      setAnsweredQuestionIds(new Set());
+      setIntakeError("");
     }
   };
 
   if (!hasPreparedContext) {
     return (
-      <div className="rounded-xl border border-accent/20 bg-base-dark/40 p-5 md:p-6">
-        <div className="flex gap-3">
-          <span
-            className="mt-0.5 inline-flex size-9 shrink-0 items-center justify-center rounded-lg border border-accent/25 bg-accent/10 text-accent"
-            aria-hidden
-          >
-            <ArrowUpToLine className="size-5" strokeWidth={2} />
-          </span>
-          <div className="min-w-0">
-            <p className="text-[16px] font-semibold text-white">{form.directGuideTitle}</p>
-            <p className="mt-2 text-sm leading-relaxed text-white/80">
-              {form.directGuideBody}
-            </p>
+      <div className="space-y-4">
+        <div className="rounded-xl border border-accent/20 bg-base-dark/40 p-5 md:p-6">
+          <div className="flex gap-3">
+            <span
+              className="mt-0.5 inline-flex size-9 shrink-0 items-center justify-center rounded-lg border border-accent/25 bg-accent/10 text-accent"
+              aria-hidden
+            >
+              <ArrowUpToLine className="size-5" strokeWidth={2} />
+            </span>
+            <div className="min-w-0">
+              <p className="text-[16px] font-semibold text-white">{form.directGuideTitle}</p>
+              <p className="mt-2 text-sm leading-relaxed text-white/80">
+                {form.directGuideBody}
+              </p>
+            </div>
           </div>
         </div>
+        <ContactIntakeHearingBlock
+          form={intakeForm}
+          setForm={setIntakeForm}
+          answeredQuestionIds={answeredQuestionIds}
+          onComplete={handleCompleteContactIntake}
+        />
+        {intakeLoading ? <p className="text-sm text-white/75">整理しています…</p> : null}
+        {intakeError ? (
+          <p className="text-sm text-red-400" role="alert">
+            {intakeError}
+          </p>
+        ) : null}
       </div>
     );
   }
@@ -543,6 +667,11 @@ export function ContactForm() {
       {status === "error" && submitError ? (
         <p className="text-sm text-red-500" role="alert">
           {submitError}
+        </p>
+      ) : null}
+      {inquiryGate.status !== "sendable" ? (
+        <p className="text-sm text-amber-200" role="status">
+          問い合わせ送信前の確認が未完了です。見積の確認内容と要点を見直してください。
         </p>
       ) : null}
 

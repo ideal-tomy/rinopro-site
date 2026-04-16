@@ -11,6 +11,7 @@ import {
 import { servicesCopy } from "@/lib/content/site-copy";
 import { useConciergeChat } from "@/components/chat/concierge-chat-context";
 import { writeServicesFlowPick } from "@/lib/chat/chat-auto-open";
+import { getConciergeEntryPreset } from "@/lib/chat/concierge-entry-policy";
 import { recordVisitorEntryIntent } from "@/lib/journey/visitor-journey-storage";
 import { FlowTimelinePageContent } from "@/components/services/FlowTimelinePageContent";
 import { cn } from "@/lib/utils";
@@ -38,6 +39,8 @@ export function ServicesPageContent() {
   const { openConcierge } = useConciergeChat();
   const [activeDetail, setActiveDetail] =
     useState<ServiceDetailTab>("development");
+  const developmentEntry = getConciergeEntryPreset("servicesDevelopmentCard");
+  const consultingEntry = getConciergeEntryPreset("servicesConsultingCard");
 
   return (
     <PageSectionWithScroll
@@ -61,9 +64,11 @@ export function ServicesPageContent() {
             onClick={() => {
               writeServicesFlowPick("development");
               recordVisitorEntryIntent("consult");
-              openConcierge("development", "services-card-development", {
-                entryIntent: "consult",
-              });
+              openConcierge(
+                developmentEntry.mode,
+                developmentEntry.entrySource,
+                developmentEntry.signals
+              );
             }}
           >
             <h2 className="mb-2 font-semibold text-text">
@@ -85,9 +90,11 @@ export function ServicesPageContent() {
             onClick={() => {
               writeServicesFlowPick("consulting");
               recordVisitorEntryIntent("consult");
-              openConcierge("consulting", "services-card-consulting", {
-                entryIntent: "consult",
-              });
+              openConcierge(
+                consultingEntry.mode,
+                consultingEntry.entrySource,
+                consultingEntry.signals
+              );
             }}
           >
             <h2 className="mb-2 font-semibold text-text">

@@ -4,6 +4,12 @@
 
 import { getDemoSlugsLinkedToExperienceRegistry } from "@/lib/experience/prototype-registry";
 import { getCategoryId } from "@/lib/demo/demo-taxonomy";
+import {
+  createFactEmission,
+  createQuestionChoice,
+  createQuestionStep,
+  type QuestionStepDefinition,
+} from "@/lib/chat/question-definition";
 import type {
   AiDemo,
   AiDemoAudienceRole,
@@ -39,6 +45,12 @@ export type ConciergePick = {
   demo: AiDemo | DemoItem;
   reason: string;
 };
+
+export type DemoConciergeQuestionId =
+  | "domain"
+  | "audienceRole"
+  | "issue"
+  | "automationDepth";
 
 const SCORE_DOMAIN = 4;
 const SCORE_ROLE = 3;
@@ -169,6 +181,73 @@ export const CONCIERGE_DEPTH_OPTIONS: ReadonlyArray<{
   { id: "semi_auto", label: "下書きまで任せ、人が仕上げたい" },
   { id: "centralized", label: "情報を束ねて見える化・検索したい" },
 ];
+
+export const DEMO_CONCIERGE_QUESTION_DEFS: Record<
+  DemoConciergeQuestionId,
+  QuestionStepDefinition
+> = {
+  domain: createQuestionStep(
+    "domain",
+    "Step 1",
+    "事業領域に近いものを選んでください",
+    CONCIERGE_DOMAIN_OPTIONS.map((option) =>
+      createQuestionChoice(
+        option.id,
+        option.label,
+        [
+          createFactEmission("industryBundle", "direct"),
+          createFactEmission("productCategory", "candidate"),
+        ],
+        { routingKey: option.id }
+      )
+    )
+  ),
+  audienceRole: createQuestionStep(
+    "audienceRole",
+    "Step 2",
+    "ご自身の立ち位置に近いものを選んでください",
+    CONCIERGE_ROLE_OPTIONS.map((option) =>
+      createQuestionChoice(
+        option.id,
+        option.label,
+        [createFactEmission("targetSummary", "candidate")],
+        { routingKey: option.id }
+      )
+    )
+  ),
+  issue: createQuestionStep(
+    "issue",
+    "Step 3",
+    "いま負荷が大きいと感じる領域はどれですか",
+    CONCIERGE_ISSUE_OPTIONS.map((option) =>
+      createQuestionChoice(
+        option.id,
+        option.label,
+        [
+          createFactEmission("currentPain", "direct"),
+          createFactEmission("productCategory", "candidate"),
+        ],
+        { routingKey: option.id }
+      )
+    )
+  ),
+  automationDepth: createQuestionStep(
+    "automationDepth",
+    "Step 4",
+    "望ましい進め方に近いものを選んでください",
+    CONCIERGE_DEPTH_OPTIONS.map((option) =>
+      createQuestionChoice(
+        option.id,
+        option.label,
+        [
+          createFactEmission("desiredReply", "candidate"),
+          createFactEmission("productArchetype", "candidate"),
+        ],
+        { routingKey: option.id }
+      )
+    )
+  ),
+};
 
 const SERVICES_INDUSTRY_TAGS = new Set([
   "サービス",

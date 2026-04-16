@@ -1,6 +1,8 @@
+import { FACT_OWNER_MAP, type CanonicalFactKey, type FactEnvelope } from "@/lib/facts/canonical-facts";
 import { estimateDetailedCopy } from "@/lib/content/site-copy";
 import type { EstimateFormDraft } from "@/lib/estimate/estimate-detailed-session";
 import {
+  estimateQuestionFacts,
   questionIdFromAnswerLabel,
   type EstimateQuestionId,
 } from "@/lib/estimate-core/question-model";
@@ -40,10 +42,15 @@ export function parseEstimateAnswersRecordToFormDraftPatch(
   const patch: Partial<EstimateFormDraft> = {};
 
   for (const [label, raw] of Object.entries(answers)) {
-    const id = questionIdFromAnswerLabel(label);
-    if (!id) continue;
     const value = String(raw ?? "").trim();
     if (!value) continue;
+    if (label === "いまいちばんやりたいこと・課題") {
+      patch.productArchetype = value;
+      patch.problemSummary = value;
+      continue;
+    }
+    const id = questionIdFromAnswerLabel(label);
+    if (!id) continue;
 
     switch (id) {
       case "industry": {
@@ -52,8 +59,11 @@ export function parseEstimateAnswersRecordToFormDraftPatch(
         patch.industryDisplayLine = ind.industryDisplayLine;
         break;
       }
-      case "summary":
-        patch.summary = value;
+      case "productArchetype":
+        patch.productArchetype = value;
+        break;
+      case "problemSummary":
+        patch.problemSummary = value;
         break;
       case "pain":
         patch.pain = value;
@@ -113,8 +123,62 @@ export function estimateQuestionIdsAnsweredInRecord(
   const out = new Set<EstimateQuestionId>();
   for (const [label, raw] of Object.entries(answers)) {
     if (!String(raw ?? "").trim()) continue;
+    if (label === "いまいちばんやりたいこと・課題") {
+      out.add("productArchetype");
+      out.add("problemSummary");
+      continue;
+    }
     const id = questionIdFromAnswerLabel(label);
     if (id) out.add(id);
   }
   return out;
+}
+
+export function buildEstimateAnswerFactEnvelopes(
+  answers: Record<string, string>
+): FactEnvelope[] {
+  const envelopes: FactEnvelope[] = [];
+
+  for (const [label, raw] of Object.entries(answers)) {
+    const value = String(raw ?? "").trim();
+    if (!value) continue;
+    if (label === "いまいちばんやりたいこと・課題") {
+      envelopes.push(
+        {
+          key: "productArchetype",
+          state: "candidate",
+          owner: FACT_OWNER_MAP.productArchetype,
+          value,
+          source: "estimateAnswers:legacySummary",
+        },
+        {
+          key: "problemSummary",
+          state: "candidate",
+          owner: FACT_OWNER_MAP.problemSummary,
+          value,
+          source: "estimateAnswers:legacySummary",
+        }
+      );
+      continue;
+    }
+    const id = questionIdFromAnswerLabel(label);
+    if (!id) continue;
+    for (const key of estimateQuestionFacts(id)) {
+      envelopes.push({
+        key,
+        state:
+          id === "productArchetype" || id === "problemSummary"
+            ? "candidate"
+            : "direct",
+        owner:
+          key in FACT_OWNER_MAP
+            ? FACT_OWNER_MAP[key as CanonicalFactKey]
+            : "estimateFormDraft",
+        value,
+        source: `estimateAnswers:${id}`,
+      });
+    }
+  }
+
+  return envelopes;
 }

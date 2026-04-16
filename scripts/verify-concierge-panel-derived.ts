@@ -10,6 +10,7 @@ const base = {
   messagesLength: 0,
   conciergeSurface: "pick" as const,
   mode: "default" as const,
+  homeFooterPhase: "wizard" as const,
   servicesIntroComplete: false,
   serviceCardStartDone: false,
   isServiceCardDirect: false,

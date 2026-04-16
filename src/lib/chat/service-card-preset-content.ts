@@ -4,6 +4,12 @@
  * 返信は【次の一歩】を含まない（行動誘導は下部 CTA ブロックに一本化）。
  */
 
+import {
+  createFactEmission,
+  createQuestionChoice,
+  type QuestionChoiceDefinition,
+} from "@/lib/chat/question-definition";
+
 export type ServicePresetVariant = "development" | "consulting";
 
 // ---------------------------------------------------------------------------
@@ -24,26 +30,42 @@ export const CON_STEP1_DEFS: ReadonlyArray<{ key: ConStep1Key; label: string }> 
   { key: "con_outcome", label: "成果・費用感を知りたい" },
 ] as const;
 
-// ---------------------------------------------------------------------------
-// Step 2 ラベルマップ（step1 key → 最終選択肢）
-// ---------------------------------------------------------------------------
-
-const DEV_STEP2_MAP: Record<DevStep1Key, readonly string[]> = {
-  dev_what: ["開発できるものを知りたい", "技術スタックを知りたい"],
-  dev_cost: ["開発コストの目安を知りたい", "期間の目安を知りたい", "必要な環境・準備を知りたい"],
-};
-
-const CON_STEP2_MAP: Record<ConStep1Key, readonly string[]> = {
-  con_support: ["具体的な支援内容を知りたい", "実績・進め方を知りたい"],
-  con_outcome: ["期待できる成果を知りたい", "費用感を知りたい"],
-};
-
 export function getStep2Labels(
   variant: ServicePresetVariant,
   step1Key: string
 ): readonly string[] {
-  if (variant === "development") return DEV_STEP2_MAP[step1Key as DevStep1Key] ?? [];
-  return CON_STEP2_MAP[step1Key as ConStep1Key] ?? [];
+  return getStep2Defs(variant, step1Key).map((def) => def.label);
+}
+
+export function getServiceStep1Defs(variant: ServicePresetVariant) {
+  return variant === "development"
+    ? DEV_STEP1_QUESTION_DEFS
+    : CON_STEP1_QUESTION_DEFS;
+}
+
+export function getStep2Defs(
+  variant: ServicePresetVariant,
+  step1Key: string
+): readonly QuestionChoiceDefinition[] {
+  if (variant === "development") {
+    return SERVICE_STEP2_DEFS.development[step1Key as DevStep1Key] ?? [];
+  }
+  return SERVICE_STEP2_DEFS.consulting[step1Key as ConStep1Key] ?? [];
+}
+
+export function getServicePresetDefinition(
+  variant: ServicePresetVariant,
+  optionId: string
+): QuestionChoiceDefinition | undefined {
+  const step1Def = getServiceStep1Defs(variant).find((def) => def.optionId === optionId);
+  if (step1Def) return step1Def;
+  return Object.values(
+    variant === "development"
+      ? SERVICE_STEP2_DEFS.development
+      : SERVICE_STEP2_DEFS.consulting
+  )
+    .flat()
+    .find((def) => def.optionId === optionId);
 }
 
 // ---------------------------------------------------------------------------
@@ -67,6 +89,83 @@ export const CONSULTING_PRESET_LABELS = [
 
 export type DevelopmentPresetLabel = (typeof DEVELOPMENT_PRESET_LABELS)[number];
 export type ConsultingPresetLabel = (typeof CONSULTING_PRESET_LABELS)[number];
+
+const DEV_STEP1_QUESTION_DEFS: ReadonlyArray<QuestionChoiceDefinition<DevStep1Key>> = [
+  createQuestionChoice("dev_what", "何を作れるか・技術を知りたい", [
+    createFactEmission("entryIntent", "candidate"),
+    createFactEmission("productCategory", "candidate"),
+  ]),
+  createQuestionChoice("dev_cost", "費用・期間・準備を知りたい", [
+    createFactEmission("entryIntent", "candidate"),
+    createFactEmission("desiredReply", "candidate"),
+  ]),
+] as const;
+
+const CON_STEP1_QUESTION_DEFS: ReadonlyArray<QuestionChoiceDefinition<ConStep1Key>> = [
+  createQuestionChoice("con_support", "支援内容・進め方を知りたい", [
+    createFactEmission("entryIntent", "candidate"),
+    createFactEmission("desiredReply", "candidate"),
+  ]),
+  createQuestionChoice("con_outcome", "成果・費用感を知りたい", [
+    createFactEmission("entryIntent", "candidate"),
+    createFactEmission("desiredReply", "candidate"),
+  ]),
+] as const;
+
+const SERVICE_STEP2_DEFS = {
+  development: {
+    dev_what: [
+      createQuestionChoice("開発できるものを知りたい", "開発できるものを知りたい", [
+        createFactEmission("productCategory", "candidate"),
+        createFactEmission("productArchetype", "candidate"),
+      ]),
+      createQuestionChoice("技術スタックを知りたい", "技術スタックを知りたい", [
+        createFactEmission("desiredReply", "candidate"),
+        createFactEmission("entryIntent", "candidate"),
+      ]),
+    ],
+    dev_cost: [
+      createQuestionChoice("開発コストの目安を知りたい", "開発コストの目安を知りたい", [
+        createFactEmission("desiredReply", "candidate"),
+        createFactEmission("entryIntent", "candidate"),
+      ]),
+      createQuestionChoice("期間の目安を知りたい", "期間の目安を知りたい", [
+        createFactEmission("timeline", "candidate"),
+        createFactEmission("desiredReply", "candidate"),
+      ]),
+      createQuestionChoice(
+        "必要な環境・準備を知りたい",
+        "必要な環境・準備を知りたい",
+        [
+          createFactEmission("constraints", "candidate"),
+          createFactEmission("desiredReply", "candidate"),
+        ]
+      ),
+    ],
+  },
+  consulting: {
+    con_support: [
+      createQuestionChoice("具体的な支援内容を知りたい", "具体的な支援内容を知りたい", [
+        createFactEmission("entryIntent", "candidate"),
+        createFactEmission("desiredReply", "candidate"),
+      ]),
+      createQuestionChoice("実績・進め方を知りたい", "実績・進め方を知りたい", [
+        createFactEmission("desiredReply", "candidate"),
+        createFactEmission("entryIntent", "candidate"),
+      ]),
+    ],
+    con_outcome: [
+      createQuestionChoice("期待できる成果を知りたい", "期待できる成果を知りたい", [
+        createFactEmission("desiredReply", "candidate"),
+        createFactEmission("currentPain", "candidate"),
+      ]),
+      createQuestionChoice("費用感を知りたい", "費用感を知りたい", [
+        createFactEmission("desiredReply", "candidate"),
+        createFactEmission("entryIntent", "candidate"),
+      ]),
+    ],
+  },
+} as const;
 
 // ---------------------------------------------------------------------------
 // 固定返信（受容→言語化→判断軸。行動誘導は CTA ブロックへ）

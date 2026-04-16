@@ -1,4 +1,8 @@
 import type { EstimateFormDraft } from "@/lib/estimate/estimate-detailed-session";
+import {
+  buildEstimateFormDraftFactValues,
+  hasMinimumEstimateFacts,
+} from "@/lib/estimate/estimate-detailed-session";
 import { shouldShowEstimateWizardStepForForm } from "@/lib/estimate/estimate-wizard-step-visibility";
 import { ESTIMATE_WIZARD_STEP_DEFINITIONS } from "@/lib/estimate-core/wizard-steps";
 import type { EstimateQuestionId } from "@/lib/estimate-core/question-model";
@@ -18,8 +22,10 @@ function formValueForQuestion(
   switch (questionId) {
     case "industry":
       return form.industry;
-    case "summary":
-      return form.summary;
+    case "productArchetype":
+      return form.productArchetype;
+    case "problemSummary":
+      return form.problemSummary;
     case "pain":
       return form.pain;
     case "teamSize":
@@ -58,10 +64,10 @@ function formValueForQuestion(
   }
 }
 
-/** 問い合わせ送信前に、ヒアリングが実務上そろったか（詳細見積の summary 8文字ルールに整合） */
+/** 問い合わせ送信前に、最低 facts セットがそろったかを確認する。 */
 export function isContactIntakeFormSatisfied(form: EstimateFormDraft): boolean {
-  if (form.summary.trim().length < 8) return false;
   if (form.industry === "unknown") return false;
+  if (!hasMinimumEstimateFacts(buildEstimateFormDraftFactValues(form))) return false;
 
   for (const step of ESTIMATE_WIZARD_STEP_DEFINITIONS) {
     const q = step.questionId;

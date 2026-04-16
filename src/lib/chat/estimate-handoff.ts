@@ -1,17 +1,30 @@
 import type { EstimateSnapshot } from "@/lib/estimate/estimate-snapshot";
+import {
+  FACT_LABELS,
+  type CanonicalFactKey,
+  type FactEnvelope,
+} from "@/lib/facts/canonical-facts";
 import { estimateSnapshotSchema } from "@/lib/estimate/estimate-snapshot";
 import {
   decodeHandoffPayload,
   encodeHandoffPayload,
 } from "@/lib/estimate-core/handoff-codec";
-import type { ConciergeTrack, FlowSelection } from "@/lib/chat/concierge-flow";
+import {
+  getTopFlowChoice,
+  getTopFlowStepDef,
+  type ConciergeTrack,
+  type FlowSelection,
+} from "@/lib/chat/concierge-flow";
 import type { ConciergeDomainId } from "@/lib/demo/intelligent-concierge";
 import {
   CONCIERGE_DOMAIN_OPTIONS,
   getConciergeDomainDetailLabel,
 } from "@/lib/demo/intelligent-concierge";
 import type { VisitorJourneySummary } from "@/lib/journey/visitor-journey";
-import { visitorJourneySummarySchema } from "@/lib/journey/visitor-journey";
+import {
+  buildVisitorJourneyFactEnvelopes,
+  visitorJourneySummarySchema,
+} from "@/lib/journey/visitor-journey";
 
 const HANDOFF_V1 = 1 as const;
 const HANDOFF_V2 = 2 as const;
@@ -237,10 +250,10 @@ export function summarizeConciergeEstimateContextForDisplay(
   freeNotes: string;
 } {
   const pathSteps = ctx.path.map((p) => ({
-    title: p.stepTitle,
+    title: getTopFlowStepDef(p.stepKey)?.question ?? p.stepTitle,
     answerLine: p.freeform?.trim()
-      ? `${p.label}（追記: ${p.freeform.trim()}）`
-      : p.label,
+      ? `${getTopFlowChoice(p.stepKey, p.optionId)?.label ?? p.label}（追記: ${p.freeform.trim()}）`
+      : (getTopFlowChoice(p.stepKey, p.optionId)?.label ?? p.label),
   }));
   if (ctx.industryBundle) {
     pathSteps.unshift({
@@ -358,6 +371,31 @@ export function buildEstimateContextPayload(
   if (industryBundle) out.industryBundle = industryBundle;
   if (visitorJourney) out.visitorJourney = visitorJourney;
   return out;
+}
+
+export function summarizeFactEnvelopesForDisplay(
+  envelopes: readonly FactEnvelope[]
+): string[] {
+  return envelopes
+    .filter((envelope) => envelope.key in FACT_LABELS)
+    .map((envelope) => {
+      const label = FACT_LABELS[envelope.key as CanonicalFactKey];
+      const suffix =
+        envelope.state === "approx"
+          ? "（近似）"
+          : envelope.state === "candidate"
+            ? "（要確認）"
+            : "";
+      return `${label}: ${envelope.value}${suffix}`;
+    });
+}
+
+export function summarizeVisitorJourneyFactsForDisplay(
+  visitorJourney: VisitorJourneySummary | null | undefined
+): string[] {
+  return summarizeFactEnvelopesForDisplay(
+    buildVisitorJourneyFactEnvelopes(visitorJourney)
+  );
 }
 
 export function buildHandoffPayloadV2FromDetailed(

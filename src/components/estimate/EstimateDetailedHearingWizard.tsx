@@ -130,11 +130,14 @@ export function EstimateDetailedHearingWizard({
   const remainingIncludingCurrent = Math.max(0, totalSteps - stepIndex);
 
   const canAdvance = useMemo(() => {
-    if (stepId === "summary") {
-      return form.summary.trim().length >= 8;
+    if (stepId === "productArchetype") {
+      return Boolean(form.productArchetype.trim());
+    }
+    if (stepId === "problemSummary") {
+      return Boolean(form.problemSummary.trim());
     }
     return true;
-  }, [form.summary, stepId]);
+  }, [form.problemSummary, form.productArchetype, stepId]);
 
   const goNext = useCallback(() => {
     if (!canAdvance || isExiting) return;
@@ -322,21 +325,44 @@ export function EstimateDetailedHearingWizard({
                 </StepBlock>
               ) : null}
 
-              {stepId === "summary" ? (
+              {stepId === "productArchetype" ? (
                 <StepBlock
-                  title={copy.fieldSummary}
-                  hint={copy.fieldSummaryHint}
-                  whyMatters={copy.fieldSummaryWhyMatters}
+                  title={copy.fieldProductArchetype}
+                  hint={copy.fieldProductArchetypeHint}
+                  whyMatters={copy.fieldProductArchetypeWhyMatters}
                 >
                   <Textarea
-                    id="ed-summary"
+                    id="ed-product-archetype"
                     rows={4}
-                    value={form.summary}
+                    value={form.productArchetype}
                     maxLength={600}
                     onChange={(e) =>
-                      setForm((f) => ({ ...f, summary: e.target.value }))
+                      setForm((f) => ({ ...f, productArchetype: e.target.value }))
                     }
-                    placeholder="例: 問い合わせメールの返信に毎日2時間かかっているので、楽にしたい"
+                    placeholder="例: 問い合わせの一次対応をまとめる社内Webツールを作りたい"
+                    className={cn(
+                      "min-h-[100px] resize-y text-[16px] md:text-sm",
+                      isFs && "scroll-mt-6"
+                    )}
+                  />
+                </StepBlock>
+              ) : null}
+
+              {stepId === "problemSummary" ? (
+                <StepBlock
+                  title={copy.fieldProblemSummary}
+                  hint={copy.fieldProblemSummaryHint}
+                  whyMatters={copy.fieldProblemSummaryWhyMatters}
+                >
+                  <Textarea
+                    id="ed-problem-summary"
+                    rows={4}
+                    value={form.problemSummary}
+                    maxLength={600}
+                    onChange={(e) =>
+                      setForm((f) => ({ ...f, problemSummary: e.target.value }))
+                    }
+                    placeholder="例: 問い合わせ返信に毎日2時間かかり、担当者ごとに内容もぶれている"
                     className={cn(
                       "min-h-[100px] resize-y text-[16px] md:text-sm",
                       isFs && "scroll-mt-6"
@@ -829,8 +855,10 @@ export function EstimateDetailedHearingWizard({
               }
               onClick={goNext}
               aria-describedby={
-                stepId === "summary" && !canAdvance && !isExiting
-                  ? "estimate-wizard-summary-hint"
+                (stepId === "productArchetype" || stepId === "problemSummary") &&
+                  !canAdvance &&
+                  !isExiting
+                  ? "estimate-wizard-required-hint"
                   : isReview && !canSubmitGlobal && !isExiting
                     ? "estimate-wizard-submit-hint"
                     : undefined
@@ -879,8 +907,10 @@ export function EstimateDetailedHearingWizard({
               }
               onClick={goNext}
               aria-describedby={
-                stepId === "summary" && !canAdvance && !isExiting
-                  ? "estimate-wizard-summary-hint"
+                (stepId === "productArchetype" || stepId === "problemSummary") &&
+                  !canAdvance &&
+                  !isExiting
+                  ? "estimate-wizard-required-hint"
                   : isReview && !canSubmitGlobal && !isExiting
                     ? "estimate-wizard-submit-hint"
                     : undefined
@@ -899,9 +929,11 @@ export function EstimateDetailedHearingWizard({
         </div>
       )}
 
-      {stepId === "summary" && !canAdvance && !isExiting ? (
-        <p id="estimate-wizard-summary-hint" className="text-xs text-text-sub">
-          {copy.btnGenerateDisabledHint}
+      {(stepId === "productArchetype" || stepId === "problemSummary") &&
+      !canAdvance &&
+      !isExiting ? (
+        <p id="estimate-wizard-required-hint" className="text-xs text-text-sub">
+          {copy.requiredStepHint}
         </p>
       ) : null}
       {isReview && !canSubmitGlobal && !isExiting ? (

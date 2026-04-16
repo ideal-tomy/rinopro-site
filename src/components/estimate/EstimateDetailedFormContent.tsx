@@ -11,9 +11,11 @@ import { resetEstimateProcessingLock } from "@/lib/estimate/estimate-detailed-pr
 import { buildEstimateDetailedAnswersRecord } from "@/lib/estimate/build-estimate-detailed-answers";
 import {
   clearEstimateDetailedFlow,
+  hasMinimumEstimateFacts,
   readEstimateDetailedFlow,
   writeEstimateDetailedFlow,
   type EstimateFormDraft,
+  buildEstimateFormDraftFactValues,
 } from "@/lib/estimate/estimate-detailed-session";
 import { estimateDetailedCopy } from "@/lib/content/site-copy";
 import { clearEstimateDetailedIntroDone } from "@/lib/estimate/estimate-detailed-intro-storage";
@@ -42,7 +44,8 @@ type FormState = EstimateFormDraft;
 
 const initialForm: FormState = {
   industry: "unknown",
-  summary: "",
+  productArchetype: "",
+  problemSummary: "",
   pain: "",
   teamSize: "11-50",
   timeline: "3m",
@@ -74,7 +77,6 @@ function buildPriorBlockWithJourney(
 export function EstimateDetailedFormContent() {
   const router = useRouter();
   const routerRef = useRef(router);
-  routerRef.current = router;
   const searchParams = useSearchParams();
   const prefersReducedMotion = useReducedMotion();
   /** ハイドレーション直後の幅誤判定でデスクトップが一瞬出るのを防ぐ */
@@ -107,18 +109,21 @@ export function EstimateDetailedFormContent() {
   const ctxQuery = ctxFromUrl;
 
   useEffect(() => {
-    resetEstimateProcessingLock();
-  }, []);
+    routerRef.current = router;
+  }, [router]);
 
   useEffect(() => {
-    setIsExiting(false);
+    resetEstimateProcessingLock();
   }, []);
 
   useEffect(() => {
     if (decodedCtx?.industryBundle) {
       recordVisitorIndustryBundle(decodedCtx.industryBundle);
     }
-    setVisitorJourneySummary(decodedCtx?.visitorJourney ?? readVisitorJourneySummary());
+    const frame = requestAnimationFrame(() => {
+      setVisitorJourneySummary(decodedCtx?.visitorJourney ?? readVisitorJourneySummary());
+    });
+    return () => cancelAnimationFrame(frame);
   }, [decodedCtx]);
 
   useEffect(() => {
@@ -151,10 +156,63 @@ export function EstimateDetailedFormContent() {
       resetEstimateProcessingLock();
       clearEstimateDetailedFlow();
       clearEstimateDetailedIntroDone();
-      setForm(initialForm);
-      setFormInstanceKey((k) => k + 1);
-      setIsExiting(false);
 
+      let nextDecodedCtx: ConciergeEstimateContextPayload | null = null;
+      let nextJourneySummary: VisitorJourneySummary | null = null;
+      let nextPriorBlock = "";
+      let nextForm = { ...initialForm };
+      if (ctxFromUrl) {
+        const decoded = decodeConciergeEstimateContext(ctxFromUrl);
+        if (decoded) {
+          const journeySummary = decoded.visitorJourney ?? readVisitorJourneySummary();
+          nextDecodedCtx = decoded;
+          nextJourneySummary = journeySummary;
+          nextPriorBlock = buildPriorBlockWithJourney(decoded, journeySummary);
+          const pathPrefill = prefillEstimateDraftFromConciergePath(
+            decoded.track,
+            decoded.path
+          );
+          const journeyPrefill = buildEstimateDraftFromVisitorJourney(journeySummary);
+          nextForm = { ...nextForm, ...journeyPrefill.draftPatch };
+          if (decoded.industryBundle) {
+            nextForm = {
+              ...nextForm,
+              ...applyConciergeIndustryBundleToFormDraft(decoded.industryBundle),
+            };
+          }
+          nextForm = { ...nextForm, ...pathPrefill.draftPatch };
+        } else {
+          const journeySummary = readVisitorJourneySummary();
+          nextJourneySummary = journeySummary;
+          nextPriorBlock = journeySummary
+            ? visitorJourneySummaryToPriorContext(journeySummary)
+            : "";
+        }
+      } else {
+        const journeySummary = readVisitorJourneySummary();
+        nextJourneySummary = journeySummary;
+        nextPriorBlock = journeySummary ? visitorJourneySummaryToPriorContext(journeySummary) : "";
+      }
+
+      const frame = requestAnimationFrame(() => {
+        setForm(nextForm);
+        setFormInstanceKey((k) => k + 1);
+        setIsExiting(false);
+        setDecodedCtx(nextDecodedCtx);
+        setVisitorJourneySummary(nextJourneySummary);
+        setPriorBlock(nextPriorBlock);
+      });
+
+      const next = new URLSearchParams();
+      if (ctxFromUrl) next.set("ctx", ctxFromUrl);
+      const qs = next.toString();
+      routerRef.current.replace(qs ? `/estimate-detailed?${qs}` : "/estimate-detailed");
+      return () => cancelAnimationFrame(frame);
+    }
+
+    resetStripHandledRef.current = false;
+
+    const frame = requestAnimationFrame(() => {
       if (ctxFromUrl) {
         const decoded = decodeConciergeEstimateContext(ctxFromUrl);
         if (decoded) {
@@ -162,65 +220,17 @@ export function EstimateDetailedFormContent() {
           setDecodedCtx(decoded);
           setVisitorJourneySummary(journeySummary);
           setPriorBlock(buildPriorBlockWithJourney(decoded, journeySummary));
-          const pathPrefill = prefillEstimateDraftFromConciergePath(
-            decoded.track,
-            decoded.path
-          );
-          const journeyPrefill = buildEstimateDraftFromVisitorJourney(journeySummary);
-          setForm((prev) => {
-            let next = { ...prev, ...journeyPrefill.draftPatch };
-            if (decoded.industryBundle) {
-              next = {
-                ...next,
-                ...applyConciergeIndustryBundleToFormDraft(decoded.industryBundle),
-              };
-            }
-            next = { ...next, ...pathPrefill.draftPatch };
-            return next;
-          });
-        } else {
-          setDecodedCtx(null);
-          const journeySummary = readVisitorJourneySummary();
-          setVisitorJourneySummary(journeySummary);
-          setPriorBlock(
-            journeySummary ? visitorJourneySummaryToPriorContext(journeySummary) : ""
-          );
+          return;
         }
-      } else {
-        setDecodedCtx(null);
-        const journeySummary = readVisitorJourneySummary();
-        setVisitorJourneySummary(journeySummary);
-        setPriorBlock(
-          journeySummary ? visitorJourneySummaryToPriorContext(journeySummary) : ""
-        );
       }
-
-      const next = new URLSearchParams();
-      if (ctxFromUrl) next.set("ctx", ctxFromUrl);
-      const qs = next.toString();
-      routerRef.current.replace(qs ? `/estimate-detailed?${qs}` : "/estimate-detailed");
-      return;
-    }
-
-    resetStripHandledRef.current = false;
-
-    if (ctxFromUrl) {
-      const decoded = decodeConciergeEstimateContext(ctxFromUrl);
-      if (decoded) {
-        const journeySummary = decoded.visitorJourney ?? readVisitorJourneySummary();
-        setDecodedCtx(decoded);
-        setVisitorJourneySummary(journeySummary);
-        setPriorBlock(buildPriorBlockWithJourney(decoded, journeySummary));
-      }
-    } else {
-      setDecodedCtx(null);
       const journeySummary = readVisitorJourneySummary();
+      setDecodedCtx(null);
       setVisitorJourneySummary(journeySummary);
-      setPriorBlock(
-        journeySummary ? visitorJourneySummaryToPriorContext(journeySummary) : ""
-      );
-    }
+      setPriorBlock(journeySummary ? visitorJourneySummaryToPriorContext(journeySummary) : "");
+    });
+
     // router は Next の再レンダーで参照が変わり得るため依存に含めない（reset 連打でフォームが消える不具合の原因になる）
+    return () => cancelAnimationFrame(frame);
   }, [resetFlag, ctxFromUrl]);
 
   useEffect(() => {
@@ -230,39 +240,43 @@ export function EstimateDetailedFormContent() {
     const flow = readEstimateDetailedFlow();
     // セッションに下書きがあれば優先（続きから）。なければ ctx の industryBundle のみマージ。
     if (flow?.formDraft) {
-      setForm({ ...initialForm, ...flow.formDraft });
-      if (flow.answers) {
-        setAnsweredQuestionIds(buildAnsweredQuestionIdSet(flow.answers));
-      }
-      if (flow.visitorJourney) {
-        setVisitorJourneySummary(flow.visitorJourney);
-      }
-      return;
+      const frame = requestAnimationFrame(() => {
+        setForm({ ...initialForm, ...flow.formDraft });
+        if (flow.answers) {
+          setAnsweredQuestionIds(buildAnsweredQuestionIdSet(flow.answers));
+        }
+        if (flow.visitorJourney) {
+          setVisitorJourneySummary(flow.visitorJourney);
+        }
+      });
+      return () => cancelAnimationFrame(frame);
     }
     const journeySummary = readVisitorJourneySummary();
-    setVisitorJourneySummary((current) => current ?? journeySummary);
     let f: FormState = {
       ...initialForm,
       ...buildEstimateDraftFromVisitorJourney(journeySummary).draftPatch,
     };
-    if (!ctxFromUrl) {
+    if (ctxFromUrl) {
+      const decoded = decodeConciergeEstimateContext(ctxFromUrl);
+      if (decoded) {
+        const pathPrefill = prefillEstimateDraftFromConciergePath(decoded.track, decoded.path);
+        if (decoded.industryBundle) {
+          f = { ...f, ...applyConciergeIndustryBundleToFormDraft(decoded.industryBundle) };
+        }
+        f = { ...f, ...pathPrefill.draftPatch };
+      }
+    }
+    const frame = requestAnimationFrame(() => {
+      setVisitorJourneySummary((current) => current ?? journeySummary);
       setForm(f);
-      return;
-    }
-    const decoded = decodeConciergeEstimateContext(ctxFromUrl);
-    if (!decoded) {
-      setForm(f);
-      return;
-    }
-    const pathPrefill = prefillEstimateDraftFromConciergePath(decoded.track, decoded.path);
-    if (decoded.industryBundle) {
-      f = { ...f, ...applyConciergeIndustryBundleToFormDraft(decoded.industryBundle) };
-    }
-    f = { ...f, ...pathPrefill.draftPatch };
-    setForm(f);
+    });
+    return () => cancelAnimationFrame(frame);
   }, [resetFlag, ctxFromUrl]);
 
-  const canSubmit = useMemo(() => form.summary.trim().length >= 8, [form.summary]);
+  const canSubmit = useMemo(
+    () => hasMinimumEstimateFacts(buildEstimateFormDraftFactValues(form)),
+    [form]
+  );
 
   const pathPrefillMeta = useMemo(() => {
     if (!decodedCtx?.path?.length) return null;

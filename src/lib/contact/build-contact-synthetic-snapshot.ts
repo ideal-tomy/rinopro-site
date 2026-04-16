@@ -18,7 +18,9 @@ function buildPlainSummaryFromContactForm(
   answers: Record<string, string>
 ): string {
   const lines = buildAnswersSummaryLines(answers);
-  const head = form.summary.trim();
+  const head = [form.productArchetype.trim(), form.problemSummary.trim()]
+    .filter(Boolean)
+    .join(" / ");
   const body = lines.trim();
   if (head && body) return `${head}\n\n${body}`;
   return head || body || "問い合わせフォームのヒアリング内容をもとに整理中です。";

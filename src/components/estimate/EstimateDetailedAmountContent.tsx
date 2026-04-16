@@ -29,7 +29,10 @@ import {
 } from "@/lib/estimate/estimate-detailed-budget";
 import { EstimateDetailedPhilosophyFootnote } from "@/components/estimate/EstimateDetailedPhilosophyFootnote";
 import { EstimateDetailedResumeQuestionsButton } from "@/components/estimate/EstimateDetailedResumeQuestionsButton";
-import type { EstimateInquiryPreparation } from "@/lib/inquiry/inquiry-brief";
+import {
+  evaluateInquiryGate,
+  type EstimateInquiryPreparation,
+} from "@/lib/inquiry/inquiry-brief";
 import { recordVisitorEstimateAnswers } from "@/lib/journey/visitor-journey-storage";
 
 const copy = estimateDetailedCopy;
@@ -77,15 +80,18 @@ export function EstimateDetailedAmountContent() {
   }, [flow?.answers]);
 
   const snapshot = flow ? buildSnapshotFromFlow(flow) : null;
-  const inquiryBrief = flow?.inquiryPreparation?.brief ?? null;
-  const unresolvedRequiredCount =
-    flow?.inquiryPreparation?.followUpQuestions.filter((question) => {
-      if (!question.required) return false;
-      return !flow.inquiryPreparation?.followUpAnswers[question.id]?.trim();
-    }).length ?? 0;
-  const contactReady =
-    inquiryBrief != null &&
-    (inquiryBrief.readiness === "ready" || unresolvedRequiredCount === 0);
+  const inquiryPreparation = flow?.inquiryPreparation ?? null;
+  const inquiryGate = evaluateInquiryGate({
+    brief: inquiryPreparation?.brief,
+    problemSummary: inquiryPreparation?.brief.problemSummary,
+    targetSummary: inquiryPreparation?.brief.targetSummary,
+    timelineSummary: inquiryPreparation?.brief.timelineSummary,
+    followUpQuestions: inquiryPreparation?.followUpQuestions,
+    followUpAnswers: inquiryPreparation?.followUpAnswers,
+    hasViewedEstimateOrEquivalent: true,
+    hasReviewedGeneratedBrief: inquiryPreparation?.brief != null,
+  });
+  const contactReady = inquiryGate.status === "sendable";
 
   const goContact = useCallback(() => {
     if (!snapshot) return;

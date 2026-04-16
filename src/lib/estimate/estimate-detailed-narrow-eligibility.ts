@@ -55,8 +55,9 @@ export function isNarrowRangeBlockedByRisk(answers: Record<string, string>): boo
 export function isNarrowRangeEligible(answers: Record<string, string>): boolean {
   if (isNarrowRangeBlockedByRisk(answers)) return false;
 
-  const summary = answers["いまいちばんやりたいこと・課題"]?.trim() ?? "";
-  if (summary.length < 8) return false;
+  const productArchetype = answers["何を作りたいですか"]?.trim() ?? "";
+  const problemSummary = answers["いま困っていること・変えたいこと"]?.trim() ?? "";
+  if (!productArchetype || !problemSummary) return false;
 
   const keys: (keyof typeof answers | string)[] = [
     "今お使いのツールや、他のシステムとのつなぎ",

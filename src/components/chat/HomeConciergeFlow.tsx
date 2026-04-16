@@ -22,7 +22,6 @@ import {
   B_STEP_SUPPORT,
   CDE_PICK_STEP,
   C_STEP2,
-  CTA_ADJUST_LABEL,
   D_STEP2,
   E_STEP2,
   ROOT_CHOICES,
@@ -31,7 +30,6 @@ import {
   type FlowChoice,
   type FlowSelection,
   type FlowStepDef,
-  type ShortcutPanel,
   buildCdeSummaryBlock,
   buildEstimateBlockA,
   buildEstimateBlockB,
@@ -46,10 +44,13 @@ import {
 import type { ConciergeIndustryBundle } from "@/lib/chat/estimate-handoff";
 import { ConciergeIndustryStep } from "@/components/chat/ConciergeIndustryStep";
 import {
-  experienceHref,
-  getDemoSlugForAbTrack,
-  getDemoSlugForCdeTrack,
-} from "@/lib/chat/concierge-routing";
+  buildHomeDoneFooterCtas,
+  resolveHomeDoneDemoCta,
+} from "@/lib/chat/concierge-cta-policy";
+import {
+  createPlainFreeformInput,
+  type FreeformInputEnvelope,
+} from "@/lib/freeform/freeform-input";
 import { suppressNextChatAutoOpen } from "@/lib/chat/chat-auto-open";
 import { emitConciergeKpi } from "@/lib/chat/concierge-analytics";
 import {
@@ -62,7 +63,6 @@ import type {
   ConciergePhase,
   FlowFrame,
   HomeConciergeFooterPhase,
-  IndustryPending,
 } from "@/components/chat/home-concierge-flow-types";
 
 export type { HomeConciergeFooterPhase };
@@ -223,19 +223,14 @@ function ConciergeNextStepsCard({
   onDetailedEstimate: () => void;
 }) {
   const router = useRouter();
-  const demoSlugResolved =
-    track === "A" || track === "B"
-      ? getDemoSlugForAbTrack(track, path)
-      : getDemoSlugForCdeTrack(track, path);
-  const demoHref = demoSlugResolved
-    ? experienceHref(demoSlugResolved)
-    : "/demo/list";
+  const demoCta = resolveHomeDoneDemoCta(track, path);
+  const demoHref = demoCta.href;
 
   const goDemo = () => {
     emitConciergeKpi({
       name: "cta_click",
       href: demoHref,
-      ctaKind: demoSlugResolved ? "experience_prototype" : "demo_list",
+      ctaKind: demoCta.ctaKind,
       mode: "default",
     });
     onDismissForNavigation();
@@ -440,17 +435,21 @@ export function HomeConciergeFlow({
     [push]
   );
 
-  const handleFreeformConfirm = (text: string) => {
+  const handleFreeformConfirm = (input: FreeformInputEnvelope) => {
     setFrames((prev) => {
       const top = prev[prev.length - 1];
       if (top.kind !== "freeform") return prev;
-      const trimmed = text.trim();
       const sel: FlowSelection = {
         stepKey: top.step.stepKey,
         optionId: top.choice.id,
         label: top.choice.label,
         stepTitle: stepTitleFor(top.step),
-        freeform: trimmed || "（詳細はチャットで補足予定）",
+        freeform: input.normalizedText || "（詳細はチャットで補足予定）",
+        freeformInput: {
+          source: input.source,
+          rawText: input.rawText,
+          normalizedText: input.normalizedText,
+        },
       };
       const path = [...top.path, sel];
       const withoutFree = prev.slice(0, -1);
@@ -702,7 +701,7 @@ function FreeformStep({
 }: {
   disabled: boolean;
   onBack: () => void;
-  onConfirm: (text: string) => void;
+  onConfirm: (input: FreeformInputEnvelope) => void;
   choiceLabel: string;
 }) {
   const [text, setText] = useState("");
@@ -735,7 +734,11 @@ function FreeformStep({
         type="button"
         variant="primary"
         disabled={disabled || !text.trim()}
-        onClick={() => onConfirm(text)}
+        onClick={() => {
+          const input = createPlainFreeformInput("wizard_other", text);
+          if (!input) return;
+          onConfirm(input);
+        }}
       >
         確定して次へ
       </ConciergeCtaButton>
@@ -808,11 +811,6 @@ function DoneStep({
   const prefsReduced = useReducedMotion();
   const [footerUi, setFooterUi] = useState<"result" | "cta" | "input">("result");
 
-  const demoSlugResolved =
-    track === "A" || track === "B"
-      ? getDemoSlugForAbTrack(track, path)
-      : getDemoSlugForCdeTrack(track, path);
-
   const displayBody = doneBodyForDisplay(track, body);
   const displayBodyForUi = stripNextStepsSectionForDisplay(displayBody);
   const isAb = track === "A" || track === "B";
@@ -821,7 +819,6 @@ function DoneStep({
 
   useEffect(() => {
     onFooterPhaseChange?.("done_result");
-    setFooterUi("result");
     const t1 = window.setTimeout(() => {
       setFooterUi("cta");
       onFooterPhaseChange?.("done_cta");
@@ -838,20 +835,20 @@ function DoneStep({
   }, [displayBody, onFooterPhaseChange]);
 
   const showNextStepsCard = displayBody.includes(NEXT_STEPS_HEADING);
+  const footerCtas = useMemo(
+    () => buildHomeDoneFooterCtas(track, path),
+    [track, path]
+  );
 
   const openDemo = () => {
     emitConciergeKpi({
       name: "cta_click",
-      href: demoSlugResolved ? experienceHref(demoSlugResolved) : "/demo/list",
-      ctaKind: demoSlugResolved ? "experience_prototype" : "demo_list",
+      href: footerCtas.demo.href,
+      ctaKind: footerCtas.demo.ctaKind,
       mode: "default",
     });
     onDismissForNavigation();
-    if (demoSlugResolved) {
-      router.push(experienceHref(demoSlugResolved));
-    } else {
-      router.push("/demo/list");
-    }
+    router.push(footerCtas.demo.href);
   };
 
   const ctaBase =
@@ -948,38 +945,29 @@ function DoneStep({
                   {(
                     [
                       {
-                        key: "demo",
-                        label: "参考demo",
+                        key: footerCtas.demo.key,
+                        label: footerCtas.demo.label,
                         variant: "secondary" as const,
                         onClick: openDemo,
                       },
-                      {
-                        key: "est",
-                        label: "自動見積もり",
-                        variant: "primary" as const,
+                      ...footerCtas.primaryButtons.map((item) => ({
+                        key: item.key,
+                        label: item.label,
+                        variant: item.variant,
                         onClick: () => {
                           emitConciergeKpi({
                             name: "cta_click",
-                            href: "/estimate-detailed",
-                            ctaKind: "estimate_detailed",
+                            href: item.href,
+                            ctaKind: item.ctaKind,
                             mode: "default",
                           });
-                          onDetailedEstimate();
-                        },
-                      },
-                      {
-                        key: "adj",
-                        label: CTA_ADJUST_LABEL,
-                        variant: "secondary" as const,
-                        onClick: () => {
-                          emitConciergeKpi({
-                            name: "cta_click",
-                            ctaKind: "concierge_adjust",
-                            mode: "default",
-                          });
+                          if (item.ctaKind === "estimate_detailed") {
+                            onDetailedEstimate();
+                            return;
+                          }
                           onAdjust();
                         },
-                      },
+                      })),
                     ] as const
                   ).map((item, idx) => (
                     <motion.div
@@ -1016,10 +1004,11 @@ function DoneStep({
                     disabled={disabled}
                     className="text-[10px] text-accent/90 underline-offset-2 hover:underline sm:text-xs"
                     onClick={() => {
+                      const contactCta = footerCtas.secondaryLinks[0];
                       emitConciergeKpi({
                         name: "cta_click",
-                        href: "/contact",
-                        ctaKind: "contact",
+                        href: contactCta.href,
+                        ctaKind: contactCta.ctaKind,
                         mode: "default",
                       });
                       onContactSimple();
@@ -1033,9 +1022,10 @@ function DoneStep({
                       disabled={disabled}
                       className="text-[10px] text-text-sub underline-offset-2 hover:text-text/90 hover:underline sm:text-xs"
                       onClick={() => {
+                        const freeformCta = footerCtas.secondaryLinks[1];
                         emitConciergeKpi({
                           name: "cta_click",
-                          ctaKind: "concierge_freeform",
+                          ctaKind: freeformCta.ctaKind,
                           mode: "default",
                         });
                         onPasteMemoToInput();

@@ -1,5 +1,14 @@
 import { z } from "zod";
 import {
+  FACT_OWNER_MAP,
+  INQUIRY_MINIMUM_FACTS,
+  type CanonicalFactKey,
+  type CandidateFactKey,
+  type FactEnvelope,
+  areRequiredFactsFilled,
+  hasMeaningfulFactValue,
+} from "@/lib/facts/canonical-facts";
+import {
   visitorJourneyDepthSchema,
   visitorJourneyInterestBiasSchema,
   visitorJourneySummarySchema,
@@ -131,4 +140,115 @@ export function inquiryDesiredReplyLabel(
 
 export function inquiryReadinessLabel(readiness: InquiryReadiness): string {
   return INQUIRY_READINESS_LABELS[readiness];
+}
+
+export type InquiryBriefFactValueMap = Partial<
+  Record<CanonicalFactKey | CandidateFactKey, string>
+>;
+
+export function buildInquiryBriefFactValues(
+  brief: InquiryBrief
+): InquiryBriefFactValueMap {
+  return {
+    problemSummary: brief.problemSummary,
+    targetSummary: brief.targetSummary,
+    inquiryIntent: brief.inquiryIntent,
+    desiredReply: brief.desiredReply,
+    decisionTimeline: brief.timelineSummary,
+  };
+}
+
+export function buildInquiryBriefFactEnvelopes(brief: InquiryBrief): FactEnvelope[] {
+  const values = buildInquiryBriefFactValues(brief);
+  const entries = Object.entries(values) as [CanonicalFactKey | CandidateFactKey, string][];
+
+  return entries
+    .filter(([, value]) => hasMeaningfulFactValue(value))
+    .map(([key, value]) => ({
+      key,
+      state: "direct" as const,
+      owner:
+        key in FACT_OWNER_MAP ? FACT_OWNER_MAP[key as CanonicalFactKey] : "inquiryBrief",
+      value,
+      source: "inquiryBrief",
+    }));
+}
+
+export function hasMinimumInquiryFacts(
+  values: Partial<Record<CanonicalFactKey, string | null | undefined>>
+): boolean {
+  return areRequiredFactsFilled(INQUIRY_MINIMUM_FACTS, values);
+}
+
+export type InquiryGateStatus = "sendable" | "needs_follow_up" | "blocked";
+
+export type InquiryGateRequirement =
+  | "problem_summary"
+  | "target_summary"
+  | "timeline_summary"
+  | "brief_confirmation"
+  | "estimate_confirmation"
+  | "required_follow_up"
+  | "readiness";
+
+export type InquiryGateEvaluation = {
+  status: InquiryGateStatus;
+  missingRequirements: InquiryGateRequirement[];
+  unresolvedRequiredCount: number;
+};
+
+export function countUnresolvedRequiredFollowUps(args: {
+  followUpQuestions?: readonly InquiryFollowUpQuestion[] | null;
+  followUpAnswers?: Readonly<Record<string, string>> | null;
+}): number {
+  const questions = args.followUpQuestions ?? [];
+  const answers = args.followUpAnswers ?? {};
+  return questions.filter((question) => {
+    if (!question.required) return false;
+    return !answers[question.id]?.trim();
+  }).length;
+}
+
+export function evaluateInquiryGate(args: {
+  brief?: InquiryBrief | null;
+  problemSummary?: string | null;
+  targetSummary?: string | null;
+  timelineSummary?: string | null;
+  followUpQuestions?: readonly InquiryFollowUpQuestion[] | null;
+  followUpAnswers?: Readonly<Record<string, string>> | null;
+  hasViewedEstimateOrEquivalent: boolean;
+  hasReviewedGeneratedBrief: boolean;
+}): InquiryGateEvaluation {
+  const missing = new Set<InquiryGateRequirement>();
+  const unresolvedRequiredCount = countUnresolvedRequiredFollowUps({
+    followUpQuestions: args.followUpQuestions,
+    followUpAnswers: args.followUpAnswers,
+  });
+
+  if (!args.problemSummary?.trim()) missing.add("problem_summary");
+  if (!args.targetSummary?.trim()) missing.add("target_summary");
+  if (!args.timelineSummary?.trim()) missing.add("timeline_summary");
+  if (!args.hasReviewedGeneratedBrief) missing.add("brief_confirmation");
+  if (!args.hasViewedEstimateOrEquivalent) missing.add("estimate_confirmation");
+  if (unresolvedRequiredCount > 0) missing.add("required_follow_up");
+  if (args.brief?.readiness === "not_ready") missing.add("readiness");
+
+  const missingRequirements = Array.from(missing);
+  const hasHardBlock =
+    missing.has("problem_summary") ||
+    missing.has("target_summary") ||
+    missing.has("timeline_summary") ||
+    missing.has("brief_confirmation") ||
+    missing.has("estimate_confirmation") ||
+    missing.has("readiness");
+
+  return {
+    status: hasHardBlock
+      ? "blocked"
+      : missing.has("required_follow_up")
+        ? "needs_follow_up"
+        : "sendable",
+    missingRequirements,
+    unresolvedRequiredCount,
+  };
 }

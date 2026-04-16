@@ -12,7 +12,8 @@ export type EstimateWizardStepDefinition = {
 
 export const ESTIMATE_WIZARD_STEP_DEFINITIONS: readonly EstimateWizardStepDefinition[] = [
   { id: "industry", questionId: "industry", selectOnly: true },
-  { id: "summary", questionId: "summary" },
+  { id: "productArchetype", questionId: "productArchetype" },
+  { id: "problemSummary", questionId: "problemSummary" },
   { id: "pain", questionId: "pain" },
   { id: "teamSize", questionId: "teamSize", selectOnly: true },
   { id: "timeline", questionId: "timeline", selectOnly: true },

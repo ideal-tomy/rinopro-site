@@ -1,6 +1,13 @@
+import type {
+  CanonicalFactKey,
+  CandidateFactKey,
+} from "@/lib/facts/canonical-facts";
+import type { QuestionFactEmission } from "@/lib/chat/question-definition";
+
 export const ESTIMATE_QUESTION_LABELS = {
   industry: "業種",
-  summary: "いまいちばんやりたいこと・課題",
+  productArchetype: "何を作りたいですか",
+  problemSummary: "いま困っていること・変えたいこと",
   teamSize: "会社やチームの人数のイメージ",
   timeline: "いつ頃までに、という希望",
   integration: "今お使いのツールや、他のシステムとのつなぎ",
@@ -22,9 +29,35 @@ export const ESTIMATE_QUESTION_LABELS = {
 export type EstimateQuestionId = keyof typeof ESTIMATE_QUESTION_LABELS;
 export type EstimateQuestionLabel = (typeof ESTIMATE_QUESTION_LABELS)[EstimateQuestionId];
 
+export const ESTIMATE_QUESTION_FACT_MAP: Record<
+  EstimateQuestionId,
+  readonly (CanonicalFactKey | CandidateFactKey)[]
+> = {
+  industry: ["industryBundle"],
+  productArchetype: ["productArchetype"],
+  problemSummary: ["problemSummary"],
+  teamSize: ["teamSize"],
+  timeline: ["timeline"],
+  integration: ["integration"],
+  hostingContext: [],
+  usageSurface: ["usageSurface"],
+  dataSensitivity: ["dataSensitivity"],
+  audienceScope: ["audienceScope"],
+  currentWorkflow: [],
+  updateFrequency: [],
+  designExpectation: [],
+  loginModel: [],
+  budgetBand: [],
+  pain: ["currentPain"],
+  budgetFeel: [],
+  constraints: [],
+};
+
 export const ESTIMATE_QUESTION_ORDER: readonly EstimateQuestionId[] = [
   "industry",
-  "summary",
+  "productArchetype",
+  "problemSummary",
+  "pain",
   "teamSize",
   "timeline",
   "integration",
@@ -37,7 +70,6 @@ export const ESTIMATE_QUESTION_ORDER: readonly EstimateQuestionId[] = [
   "designExpectation",
   "loginModel",
   "budgetBand",
-  "pain",
   "budgetFeel",
   "constraints",
 ] as const;
@@ -49,6 +81,10 @@ const LABEL_TO_ID = new Map<EstimateQuestionLabel, EstimateQuestionId>(
   ])
 );
 
+const LEGACY_LABEL_TO_ID = new Map<string, EstimateQuestionId>([
+  ["いまいちばんやりたいこと・課題", "problemSummary"],
+]);
+
 export function answerLabelFromQuestionId(id: EstimateQuestionId): EstimateQuestionLabel {
   return ESTIMATE_QUESTION_LABELS[id];
 }
@@ -56,7 +92,7 @@ export function answerLabelFromQuestionId(id: EstimateQuestionId): EstimateQuest
 export function questionIdFromAnswerLabel(
   label: string
 ): EstimateQuestionId | null {
-  return LABEL_TO_ID.get(label as EstimateQuestionLabel) ?? null;
+  return LABEL_TO_ID.get(label as EstimateQuestionLabel) ?? LEGACY_LABEL_TO_ID.get(label) ?? null;
 }
 
 export function buildAnsweredQuestionIdSet(
@@ -88,4 +124,24 @@ export function shouldAskEstimateQuestion(args: {
     }
   }
   return true;
+}
+
+export function estimateQuestionFacts(
+  questionId: EstimateQuestionId
+): readonly (CanonicalFactKey | CandidateFactKey)[] {
+  return ESTIMATE_QUESTION_FACT_MAP[questionId];
+}
+
+export function estimateQuestionEmitsFacts(
+  questionId: EstimateQuestionId
+): readonly QuestionFactEmission[] {
+  return ESTIMATE_QUESTION_FACT_MAP[questionId].map((factKey) => ({
+    factKey,
+    state:
+      questionId === "productArchetype" ||
+      questionId === "problemSummary" ||
+      questionId === "pain"
+        ? "candidate"
+        : "direct",
+  }));
 }

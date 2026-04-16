@@ -1,4 +1,5 @@
 import type { ConciergeMode } from "@/components/chat/concierge-chat-context";
+import type { HomeConciergeFooterPhase } from "@/components/chat/home-concierge-flow-types";
 import { isDemoExperienceWizardPath } from "@/lib/chat/concierge-demo-hub-policy";
 import type { ConciergeChatSurface } from "@/lib/chat/concierge-session-id";
 
@@ -16,6 +17,7 @@ export type ConciergePanelDerivedInput = {
   messagesLength: number;
   conciergeSurface: ConciergeChatSurface;
   mode: ConciergeMode;
+  homeFooterPhase: HomeConciergeFooterPhase;
   servicesIntroComplete: boolean;
   serviceCardStartDone: boolean;
   isServiceCardDirect: boolean;
@@ -30,6 +32,13 @@ export type ConciergePanelDerivedState = ConciergePanelDerivedInput & {
   showDemoRouteFlow: boolean;
   isServiceWizardPage: boolean;
   showServiceCardStartFlow: boolean;
+  hideChatForHomeDoneTiming: boolean;
+  showChatInput: boolean;
+  animateHomeDoneInput: boolean;
+  wideHomeLayout: boolean;
+  showHomeGlobalWizardResetBar: boolean;
+  showDemoWizardResetBar: boolean;
+  isDevOrConsultMode: boolean;
   mainBranch: ConciergeMainPanelBranch;
 };
 
@@ -44,6 +53,7 @@ export function getConciergePanelDerivedState(
     messagesLength,
     conciergeSurface,
     mode,
+    homeFooterPhase,
     servicesIntroComplete,
     serviceCardStartDone,
     isServiceCardDirect,
@@ -77,6 +87,32 @@ export function getConciergePanelDerivedState(
     !serviceCardStartDone &&
     messagesLength === 0 &&
     (conciergeSurface === "page" || isServiceCardDirect);
+  const hideChatForHomeDoneTiming =
+    showGlobalHomeFlow &&
+    messagesLength === 0 &&
+    (homeFooterPhase === "done_result" || homeFooterPhase === "done_cta");
+  const showChatInput =
+    !showEntryPicker && !showServiceCardStartFlow && !hideChatForHomeDoneTiming;
+  const animateHomeDoneInput =
+    showGlobalHomeFlow &&
+    messagesLength === 0 &&
+    homeFooterPhase === "done_input";
+  const wideHomeLayout =
+    showGlobalHomeFlow ||
+    (isHomePage &&
+      messagesLength > 0 &&
+      (conciergeSurface === "global" || conciergeSurface === "pick"));
+  const showHomeGlobalWizardResetBar =
+    isHomePage &&
+    mode === "default" &&
+    messagesLength > 0 &&
+    (conciergeSurface === "global" || conciergeSurface === "pick");
+  const showDemoWizardResetBar =
+    messagesLength > 0 &&
+    conciergeSurface === "page" &&
+    isDemoExperienceWizardPath(pathname);
+  const isDevOrConsultMode =
+    mode === "development" || mode === "consulting";
 
   let mainBranch: ConciergeMainPanelBranch;
   if (messagesLength > 0) {
@@ -108,6 +144,13 @@ export function getConciergePanelDerivedState(
     showDemoRouteFlow,
     isServiceWizardPage,
     showServiceCardStartFlow,
+    hideChatForHomeDoneTiming,
+    showChatInput,
+    animateHomeDoneInput,
+    wideHomeLayout,
+    showHomeGlobalWizardResetBar,
+    showDemoWizardResetBar,
+    isDevOrConsultMode,
     mainBranch,
   };
 }

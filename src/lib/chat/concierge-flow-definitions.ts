@@ -3,17 +3,23 @@
  * 概算テキスト生成は concierge-flow.ts。
  */
 
+import {
+  createFactEmission,
+  createQuestionChoice,
+  createQuestionStep,
+  findQuestionChoiceByOptionId,
+  type QuestionChoiceDefinition,
+  type QuestionStepDefinition,
+} from "@/lib/chat/question-definition";
+import type { FreeformInputEnvelope } from "@/lib/freeform/freeform-input";
+
 export type ConciergeTrack = "A" | "B" | "C" | "D" | "E";
 
-export interface FlowChoice {
+export interface FlowChoice extends QuestionChoiceDefinition {
   id: string;
-  label: string;
 }
 
-export interface FlowStepDef {
-  stepKey: string;
-  stepLabel: string;
-  question: string;
+export interface FlowStepDef extends QuestionStepDefinition {
   choices: FlowChoice[];
 }
 
@@ -25,127 +31,525 @@ export interface FlowSelection {
   /** サマリ行用の見出し（例: 想定ユーザー規模） */
   stepTitle: string;
   freeform?: string;
+  freeformInput?: Pick<
+    FreeformInputEnvelope,
+    "source" | "rawText" | "normalizedText"
+  >;
 }
 
-export const ROOT_CHOICES: FlowChoice[] = [
-  { id: "root_a", label: "開発コストの概算を知りたい" },
-  { id: "root_b", label: "コンサル・伴走の概算を知りたい" },
-  { id: "root_cde", label: "技術・ツール・進め方を知りたい" },
-  { id: "root_e", label: "まず相談・窓口の進め方を知りたい" },
-];
+function toFlowChoice(choice: QuestionChoiceDefinition): FlowChoice {
+  return {
+    ...choice,
+    id: choice.optionId,
+  };
+}
+
+function toFlowStep(step: QuestionStepDefinition): FlowStepDef {
+  return {
+    ...step,
+    choices: step.choices.map(toFlowChoice),
+  };
+}
+
+const ROOT_STEP = createQuestionStep(
+  "ROOT",
+  "Step 1",
+  "どの内容に近いですか？",
+  [
+    createQuestionChoice(
+      "root_a",
+      "開発コストの概算を知りたい",
+      [
+        createFactEmission("productCategory", "candidate"),
+        createFactEmission("entryIntent", "candidate"),
+      ],
+      { analyticsKey: "root_a", routingKey: "A" }
+    ),
+    createQuestionChoice(
+      "root_b",
+      "コンサル・伴走の概算を知りたい",
+      [
+        createFactEmission("productCategory", "candidate"),
+        createFactEmission("entryIntent", "candidate"),
+      ],
+      { analyticsKey: "root_b", routingKey: "B" }
+    ),
+    createQuestionChoice(
+      "root_cde",
+      "技術・ツール・進め方を知りたい",
+      [
+        createFactEmission("productCategory", "candidate"),
+        createFactEmission("entryIntent", "candidate"),
+      ],
+      { analyticsKey: "root_cde", routingKey: "CDE" }
+    ),
+    createQuestionChoice(
+      "root_e",
+      "まず相談・窓口の進め方を知りたい",
+      [
+        createFactEmission("entryIntent", "candidate"),
+        createFactEmission("inquiryIntent", "candidate"),
+      ],
+      { analyticsKey: "root_e", routingKey: "E" }
+    ),
+  ],
+  "CDE_PICK"
+);
+
+export const ROOT_CHOICES: FlowChoice[] = ROOT_STEP.choices.map(toFlowChoice);
 
 /** C/D/E を入口でまとめたあとの中間ステップ */
-export const CDE_PICK_STEP: FlowStepDef = {
-  stepKey: "CDE_PICK",
-  stepLabel: "Step 2",
-  question: "どの内容に近いですか？",
-  choices: [
-    { id: "cde_pick_c", label: "技術の方向性・スタック" },
-    { id: "cde_pick_d", label: "つくれるツールのイメージ" },
-    { id: "cde_pick_e", label: "依頼・相談の進め方" },
-  ],
-};
+export const CDE_PICK_STEP: FlowStepDef = toFlowStep(
+  createQuestionStep("CDE_PICK", "Step 2", "どの内容に近いですか？", [
+    createQuestionChoice(
+      "cde_pick_c",
+      "技術の方向性・スタック",
+      [createFactEmission("productCategory", "candidate")],
+      { routingKey: "C" }
+    ),
+    createQuestionChoice(
+      "cde_pick_d",
+      "つくれるツールのイメージ",
+      [
+        createFactEmission("productCategory", "candidate"),
+        createFactEmission("productArchetype", "candidate"),
+      ],
+      { routingKey: "D" }
+    ),
+    createQuestionChoice(
+      "cde_pick_e",
+      "依頼・相談の進め方",
+      [createFactEmission("entryIntent", "candidate")],
+      { routingKey: "E" }
+    ),
+  ])
+);
 
-export const A_STEP_BUILD: FlowStepDef = {
-  stepKey: "A3",
-  stepLabel: "Step 2",
-  question: "いま作りたいイメージに近いものは？",
-  choices: [
-    { id: "build_poc", label: "小さく試す（PoC / 1業務）" },
-    { id: "build_auto", label: "既存業務を自動化したい" },
-    { id: "build_chatbot", label: "社内チャットボットを作りたい" },
-    { id: "build_inquiry", label: "問い合わせ・受付を自動化したい" },
-    { id: "build_platform", label: "部門横断の業務基盤を作りたい" },
-    { id: "build_other", label: "その他（自由記述）" },
-  ],
-};
+export const A_STEP_BUILD: FlowStepDef = toFlowStep(
+  createQuestionStep("A3", "Step 2", "いま作りたいイメージに近いものは？", [
+    createQuestionChoice(
+      "build_poc",
+      "小さく試す（PoC / 1業務）",
+      [
+        createFactEmission("productCategory", "candidate"),
+        createFactEmission("productArchetype", "candidate"),
+        createFactEmission("desiredReply", "candidate"),
+      ]
+    ),
+    createQuestionChoice(
+      "build_auto",
+      "既存業務を自動化したい",
+      [
+        createFactEmission("productCategory", "candidate"),
+        createFactEmission("productArchetype", "candidate"),
+      ]
+    ),
+    createQuestionChoice(
+      "build_chatbot",
+      "社内チャットボットを作りたい",
+      [
+        createFactEmission("productCategory", "candidate"),
+        createFactEmission("productArchetype", "candidate"),
+      ]
+    ),
+    createQuestionChoice(
+      "build_inquiry",
+      "問い合わせ・受付を自動化したい",
+      [
+        createFactEmission("productCategory", "candidate"),
+        createFactEmission("productArchetype", "candidate"),
+      ]
+    ),
+    createQuestionChoice(
+      "build_platform",
+      "部門横断の業務基盤を作りたい",
+      [
+        createFactEmission("productCategory", "candidate"),
+        createFactEmission("productArchetype", "candidate"),
+      ]
+    ),
+    createQuestionChoice(
+      "build_other",
+      "その他（自由記述）",
+      [
+        createFactEmission("freeformMemo", "candidate"),
+        createFactEmission("productArchetype", "candidate"),
+      ],
+      { allowsFreeform: true }
+    ),
+  ])
+);
 
 /** 旧 A2+A4 を統合（規模と連携のイメージ） */
-export const A_STEP_SCOPE: FlowStepDef = {
-  stepKey: "A_SCOPE",
-  stepLabel: "Step 3",
-  question: "想定する規模と、既存システム連携のイメージは？",
-  choices: [
-    { id: "scope_s_standalone", label: "まずは小さく・単体でよい（〜50人前後）" },
-    { id: "scope_m_flex", label: "11〜200人・連携はできるとよい" },
-    { id: "scope_l_required", label: "大規模・連携は必須に近い" },
-    { id: "scope_unknown", label: "まだ未定 / 分からない" },
-    { id: "scope_other", label: "その他（自由記述）" },
-  ],
-};
+export const A_STEP_SCOPE: FlowStepDef = toFlowStep(
+  createQuestionStep(
+    "A_SCOPE",
+    "Step 3",
+    "想定する規模と、既存システム連携のイメージは？",
+    [
+      createQuestionChoice(
+        "scope_s_standalone",
+        "まずは小さく・単体でよい（〜50人前後）",
+        [
+          createFactEmission("teamSize", "approx"),
+          createFactEmission("integration", "approx"),
+          createFactEmission("desiredReply", "candidate"),
+        ]
+      ),
+      createQuestionChoice(
+        "scope_m_flex",
+        "11〜200人・連携はできるとよい",
+        [
+          createFactEmission("teamSize", "approx"),
+          createFactEmission("integration", "approx"),
+        ]
+      ),
+      createQuestionChoice(
+        "scope_l_required",
+        "大規模・連携は必須に近い",
+        [
+          createFactEmission("teamSize", "approx"),
+          createFactEmission("integration", "approx"),
+        ]
+      ),
+      createQuestionChoice(
+        "scope_unknown",
+        "まだ未定 / 分からない",
+        [
+          createFactEmission("teamSize", "candidate"),
+          createFactEmission("integration", "candidate"),
+        ]
+      ),
+      createQuestionChoice(
+        "scope_other",
+        "その他（自由記述）",
+        [
+          createFactEmission("freeformMemo", "candidate"),
+          createFactEmission("teamSize", "candidate"),
+          createFactEmission("integration", "candidate"),
+        ],
+        { allowsFreeform: true }
+      ),
+    ]
+  )
+);
 
-export const B_STEP_SUPPORT: FlowStepDef = {
-  stepKey: "B2",
-  stepLabel: "Step 2",
-  question: "どの支援に近いですか？",
-  choices: [
-    { id: "b_diag", label: "現状診断だけ頼みたい" },
-    { id: "b_req", label: "要件整理を伴走してほしい" },
-    { id: "b_plan", label: "導入計画を一緒に作りたい" },
-    { id: "b_adopt", label: "社内定着まで支援してほしい" },
-    { id: "b_devset", label: "開発とセットで依頼したい" },
-    { id: "b_other", label: "その他（自由記述）" },
-  ],
-};
+export const B_STEP_SUPPORT: FlowStepDef = toFlowStep(
+  createQuestionStep("B2", "Step 2", "どの支援に近いですか？", [
+    createQuestionChoice(
+      "b_diag",
+      "現状診断だけ頼みたい",
+      [
+        createFactEmission("entryIntent", "candidate"),
+        createFactEmission("desiredReply", "candidate"),
+      ]
+    ),
+    createQuestionChoice(
+      "b_req",
+      "要件整理を伴走してほしい",
+      [
+        createFactEmission("entryIntent", "candidate"),
+        createFactEmission("productCategory", "candidate"),
+      ]
+    ),
+    createQuestionChoice(
+      "b_plan",
+      "導入計画を一緒に作りたい",
+      [
+        createFactEmission("entryIntent", "candidate"),
+        createFactEmission("desiredReply", "candidate"),
+      ]
+    ),
+    createQuestionChoice(
+      "b_adopt",
+      "社内定着まで支援してほしい",
+      [
+        createFactEmission("entryIntent", "candidate"),
+        createFactEmission("desiredReply", "candidate"),
+      ]
+    ),
+    createQuestionChoice(
+      "b_devset",
+      "開発とセットで依頼したい",
+      [
+        createFactEmission("entryIntent", "candidate"),
+        createFactEmission("productCategory", "candidate"),
+      ]
+    ),
+    createQuestionChoice(
+      "b_other",
+      "その他（自由記述）",
+      [
+        createFactEmission("freeformMemo", "candidate"),
+        createFactEmission("entryIntent", "candidate"),
+      ],
+      { allowsFreeform: true }
+    ),
+  ])
+);
 
 /** 旧 B3+B4 を統合（規模と改善テーマ） */
-export const B_STEP_SCOPE: FlowStepDef = {
-  stepKey: "B_SCOPE",
-  stepLabel: "Step 3",
-  question: "想定する規模と、いちばん改善したいことに近いものは？",
-  choices: [
-    { id: "bs_m_work", label: "11〜50人・工数・手作業を減らしたい" },
-    { id: "bs_m_silo", label: "11〜50人・属人化・暗黙知を減らしたい" },
-    { id: "bs_m_quality", label: "11〜50人・品質や判断のブレを減らしたい" },
-    { id: "bs_m_speed", label: "11〜50人・スピード（リードタイム）を上げたい" },
-    { id: "bs_m_vis", label: "11〜50人・可視化・意思決定を早めたい" },
-    { id: "bs_l_silo", label: "51人以上・属人化・暗黙知を減らしたい" },
-    { id: "bs_unknown", label: "まだ未定 / 複数ある" },
-    { id: "bs_other", label: "その他（自由記述）" },
-  ],
+export const B_STEP_SCOPE: FlowStepDef = toFlowStep(
+  createQuestionStep(
+    "B_SCOPE",
+    "Step 3",
+    "想定する規模と、いちばん改善したいことに近いものは？",
+    [
+      createQuestionChoice(
+        "bs_m_work",
+        "11〜50人・工数・手作業を減らしたい",
+        [
+          createFactEmission("teamSize", "approx"),
+          createFactEmission("currentPain", "candidate"),
+        ]
+      ),
+      createQuestionChoice(
+        "bs_m_silo",
+        "11〜50人・属人化・暗黙知を減らしたい",
+        [
+          createFactEmission("teamSize", "approx"),
+          createFactEmission("currentPain", "candidate"),
+        ]
+      ),
+      createQuestionChoice(
+        "bs_m_quality",
+        "11〜50人・品質や判断のブレを減らしたい",
+        [
+          createFactEmission("teamSize", "approx"),
+          createFactEmission("currentPain", "candidate"),
+        ]
+      ),
+      createQuestionChoice(
+        "bs_m_speed",
+        "11〜50人・スピード（リードタイム）を上げたい",
+        [
+          createFactEmission("teamSize", "approx"),
+          createFactEmission("currentPain", "candidate"),
+        ]
+      ),
+      createQuestionChoice(
+        "bs_m_vis",
+        "11〜50人・可視化・意思決定を早めたい",
+        [
+          createFactEmission("teamSize", "approx"),
+          createFactEmission("currentPain", "candidate"),
+        ]
+      ),
+      createQuestionChoice(
+        "bs_l_silo",
+        "51人以上・属人化・暗黙知を減らしたい",
+        [
+          createFactEmission("teamSize", "approx"),
+          createFactEmission("currentPain", "candidate"),
+        ]
+      ),
+      createQuestionChoice(
+        "bs_unknown",
+        "まだ未定 / 複数ある",
+        [
+          createFactEmission("teamSize", "candidate"),
+          createFactEmission("currentPain", "candidate"),
+        ]
+      ),
+      createQuestionChoice(
+        "bs_other",
+        "その他（自由記述）",
+        [
+          createFactEmission("freeformMemo", "candidate"),
+          createFactEmission("teamSize", "candidate"),
+          createFactEmission("currentPain", "candidate"),
+        ],
+        { allowsFreeform: true }
+      ),
+    ]
+  )
+);
+
+export const C_STEP2: FlowStepDef = toFlowStep(
+  createQuestionStep("C2", "Step 2", "知りたい技術の方向性に近いものは？", [
+    createQuestionChoice(
+      "c_eff",
+      "業務効率化（手作業削減）",
+      [
+        createFactEmission("productCategory", "candidate"),
+        createFactEmission("currentPain", "candidate"),
+      ]
+    ),
+    createQuestionChoice(
+      "c_auto",
+      "業務自動化（定型処理）",
+      [
+        createFactEmission("productCategory", "candidate"),
+        createFactEmission("currentPain", "candidate"),
+      ]
+    ),
+    createQuestionChoice(
+      "c_kb",
+      "社内ナレッジ共有",
+      [
+        createFactEmission("productArchetype", "candidate"),
+        createFactEmission("currentPain", "candidate"),
+      ]
+    ),
+    createQuestionChoice(
+      "c_wf",
+      "ワークフロー構築",
+      [
+        createFactEmission("productArchetype", "candidate"),
+        createFactEmission("currentPain", "candidate"),
+      ]
+    ),
+    createQuestionChoice(
+      "c_text",
+      "テキスト自動生成",
+      [
+        createFactEmission("productArchetype", "candidate"),
+        createFactEmission("desiredReply", "candidate"),
+      ]
+    ),
+    createQuestionChoice(
+      "c_other",
+      "その他（自由記述）",
+      [
+        createFactEmission("freeformMemo", "candidate"),
+        createFactEmission("productArchetype", "candidate"),
+      ],
+      { allowsFreeform: true }
+    ),
+  ])
+);
+
+export const D_STEP2: FlowStepDef = toFlowStep(
+  createQuestionStep("D2", "Step 2", "イメージに近いツールの形は？", [
+    createQuestionChoice(
+      "d_dash",
+      "管理画面（ダッシュボード）",
+      [
+        createFactEmission("productArchetype", "candidate"),
+        createFactEmission("productCategory", "candidate"),
+      ]
+    ),
+    createQuestionChoice(
+      "d_chatui",
+      "社内向けチャットUI",
+      [
+        createFactEmission("productArchetype", "candidate"),
+        createFactEmission("productCategory", "candidate"),
+      ]
+    ),
+    createQuestionChoice(
+      "d_alert",
+      "自動通知・アラート",
+      [
+        createFactEmission("productArchetype", "candidate"),
+        createFactEmission("productCategory", "candidate"),
+      ]
+    ),
+    createQuestionChoice(
+      "d_integrate",
+      "データ連携（既存SaaS / API）",
+      [
+        createFactEmission("productArchetype", "candidate"),
+        createFactEmission("integration", "candidate"),
+      ]
+    ),
+    createQuestionChoice(
+      "d_report",
+      "レポート自動作成",
+      [
+        createFactEmission("productArchetype", "candidate"),
+        createFactEmission("desiredReply", "candidate"),
+      ]
+    ),
+    createQuestionChoice(
+      "d_other",
+      "その他（自由記述）",
+      [
+        createFactEmission("freeformMemo", "candidate"),
+        createFactEmission("productArchetype", "candidate"),
+      ],
+      { allowsFreeform: true }
+    ),
+  ])
+);
+
+export const E_STEP2: FlowStepDef = toFlowStep(
+  createQuestionStep("E2", "Step 2", "依頼の進め方に近いものは？", [
+    createQuestionChoice(
+      "e_talk",
+      "まず相談だけしたい",
+      [
+        createFactEmission("entryIntent", "candidate"),
+        createFactEmission("inquiryIntent", "candidate"),
+      ]
+    ),
+    createQuestionChoice(
+      "e_vague",
+      "要件が曖昧なまま相談したい",
+      [
+        createFactEmission("entryIntent", "candidate"),
+        createFactEmission("problemSummary", "candidate"),
+      ]
+    ),
+    createQuestionChoice(
+      "e_compare",
+      "相見積もり前提で相談したい",
+      [
+        createFactEmission("entryIntent", "candidate"),
+        createFactEmission("desiredReply", "candidate"),
+      ]
+    ),
+    createQuestionChoice(
+      "e_demo",
+      "まずデモを見て判断したい",
+      [
+        createFactEmission("entryIntent", "candidate"),
+        createFactEmission("productCategory", "candidate"),
+      ]
+    ),
+    createQuestionChoice(
+      "e_project",
+      "具体案件として進めたい",
+      [
+        createFactEmission("entryIntent", "candidate"),
+        createFactEmission("inquiryIntent", "candidate"),
+      ]
+    ),
+    createQuestionChoice(
+      "e_other",
+      "その他（自由記述）",
+      [
+        createFactEmission("freeformMemo", "candidate"),
+        createFactEmission("entryIntent", "candidate"),
+      ],
+      { allowsFreeform: true }
+    ),
+  ])
+);
+
+export const TOP_FLOW_STEP_DEFS: Record<string, FlowStepDef> = {
+  ROOT: toFlowStep(ROOT_STEP),
+  CDE_PICK: CDE_PICK_STEP,
+  A3: A_STEP_BUILD,
+  A_SCOPE: A_STEP_SCOPE,
+  B2: B_STEP_SUPPORT,
+  B_SCOPE: B_STEP_SCOPE,
+  C2: C_STEP2,
+  D2: D_STEP2,
+  E2: E_STEP2,
 };
 
-export const C_STEP2: FlowStepDef = {
-  stepKey: "C2",
-  stepLabel: "Step 2",
-  question: "知りたい技術の方向性に近いものは？",
-  choices: [
-    { id: "c_eff", label: "業務効率化（手作業削減）" },
-    { id: "c_auto", label: "業務自動化（定型処理）" },
-    { id: "c_kb", label: "社内ナレッジ共有" },
-    { id: "c_wf", label: "ワークフロー構築" },
-    { id: "c_text", label: "テキスト自動生成" },
-    { id: "c_other", label: "その他（自由記述）" },
-  ],
-};
+export function getTopFlowStepDef(stepKey: string): FlowStepDef | undefined {
+  return TOP_FLOW_STEP_DEFS[stepKey];
+}
 
-export const D_STEP2: FlowStepDef = {
-  stepKey: "D2",
-  stepLabel: "Step 2",
-  question: "イメージに近いツールの形は？",
-  choices: [
-    { id: "d_dash", label: "管理画面（ダッシュボード）" },
-    { id: "d_chatui", label: "社内向けチャットUI" },
-    { id: "d_alert", label: "自動通知・アラート" },
-    { id: "d_integrate", label: "データ連携（既存SaaS / API）" },
-    { id: "d_report", label: "レポート自動作成" },
-    { id: "d_other", label: "その他（自由記述）" },
-  ],
-};
-
-export const E_STEP2: FlowStepDef = {
-  stepKey: "E2",
-  stepLabel: "Step 2",
-  question: "依頼の進め方に近いものは？",
-  choices: [
-    { id: "e_talk", label: "まず相談だけしたい" },
-    { id: "e_vague", label: "要件が曖昧なまま相談したい" },
-    { id: "e_compare", label: "相見積もり前提で相談したい" },
-    { id: "e_demo", label: "まずデモを見て判断したい" },
-    { id: "e_project", label: "具体案件として進めたい" },
-    { id: "e_other", label: "その他（自由記述）" },
-  ],
-};
+export function getTopFlowChoice(
+  stepKey: string,
+  optionId: string
+): FlowChoice | undefined {
+  const step = getTopFlowStepDef(stepKey);
+  return step ? findQuestionChoiceByOptionId(step.choices, optionId) : undefined;
+}
 
 export const COMMON_FINISH_BODY =
   "ご入力ありがとうございます。いただいた内容をもとに、**初期検討用の「仮要件定義」と「概算見積もり（前提条件つき）」**を約30秒で作成できます。社内共有用のたたき台としてご活用ください。";

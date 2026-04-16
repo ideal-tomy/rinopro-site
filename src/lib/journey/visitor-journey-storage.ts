@@ -1,6 +1,7 @@
 import type { ConciergeKpiDetail } from "@/lib/chat/concierge-analytics";
 import type { ConciergeIntent } from "@/lib/ai/concierge-intent";
 import type { EstimateFormDraft } from "@/lib/estimate/estimate-detailed-session";
+import type { FreeformInputEnvelope } from "@/lib/freeform/freeform-input";
 import {
   buildVisitorJourneySummary,
   detectVisitorJourneyPageKind,
@@ -143,12 +144,26 @@ export function recordVisitorIndustryBundle(
   }));
 }
 
-export function recordVisitorFreeform(text: string): VisitorJourneyProfile {
-  const summary = summarizeFreeformText(text);
+export function recordVisitorFreeform(
+  input: string | FreeformInputEnvelope
+): VisitorJourneyProfile {
+  const normalizedText = typeof input === "string" ? input : input.normalizedText;
+  const summary = summarizeFreeformText(normalizedText);
   if (!summary) return ensureVisitorJourneyProfile();
   return updateVisitorJourneyProfile((current) => ({
     ...current,
     lastFreeformSummary: summary,
+    ...(typeof input === "string"
+      ? {
+          lastFreeformSource: undefined,
+          lastFreeformRawText: undefined,
+          lastFreeformNormalizedText: undefined,
+        }
+      : {
+          lastFreeformSource: input.source,
+          lastFreeformRawText: summarizeFreeformText(input.rawText),
+          lastFreeformNormalizedText: summarizeFreeformText(input.normalizedText),
+        }),
   }));
 }
 

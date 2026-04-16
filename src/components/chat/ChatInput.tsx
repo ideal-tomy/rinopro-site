@@ -3,12 +3,17 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {
+  createFreeformInputEnvelope,
+  createPlainFreeformInput,
+  type FreeformInputEnvelope,
+} from "@/lib/freeform/freeform-input";
 import { VoiceToggle } from "./VoiceToggle";
 import { cn } from "@/lib/utils";
 import { normalizeVoiceSearchQuery } from "@/lib/chat/voice-normalize-query";
 
 interface ChatInputProps {
-  onSend: (text: string) => void;
+  onSend: (input: FreeformInputEnvelope) => void;
   disabled?: boolean;
   placeholder?: string;
   className?: string;
@@ -28,32 +33,25 @@ export function ChatInput({
   inputId,
 }: ChatInputProps) {
   const [input, setInput] = useState("");
-  const [speechSupported, setSpeechSupported] = useState(false);
+  const [speechSupported] = useState(
+    () =>
+      typeof window !== "undefined" &&
+      !!(window.SpeechRecognition || window.webkitSpeechRecognition)
+  );
   const [isListening, setIsListening] = useState(false);
   const [voiceHint, setVoiceHint] = useState<string | null>(null);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const recognitionRef = useRef<SpeechRecognition | null>(null);
-  const pendingSendTimerRef = useRef<number | null>(null);
   const listeningRef = useRef(false);
-  const onSendRef = useRef(onSend);
-
-  useEffect(() => {
-    onSendRef.current = onSend;
-  }, [onSend]);
-
-  useEffect(() => {
-    setSpeechSupported(
-      typeof window !== "undefined" &&
-        !!(window.SpeechRecognition || window.webkitSpeechRecognition)
-    );
-  }, []);
+  const pendingEnvelopeRef = useRef<FreeformInputEnvelope | null>(null);
+  const voiceHintTimerRef = useRef<number | null>(null);
 
   useEffect(() => {
     return () => {
-      if (pendingSendTimerRef.current) {
-        clearTimeout(pendingSendTimerRef.current);
-        pendingSendTimerRef.current = null;
+      if (voiceHintTimerRef.current) {
+        clearTimeout(voiceHintTimerRef.current);
+        voiceHintTimerRef.current = null;
       }
       recognitionRef.current?.abort();
       recognitionRef.current = null;
@@ -62,16 +60,22 @@ export function ChatInput({
 
   useEffect(() => {
     if (draftInjection == null || draftInjection.text === "") return;
-    setInput((prev) => {
-      const t = prev.trim();
-      return t ? `${t}\n\n${draftInjection.text}` : draftInjection.text;
-    });
-    requestAnimationFrame(() => {
+    const frame = requestAnimationFrame(() => {
+      const currentValue = inputRef.current?.value ?? "";
+      const trimmed = currentValue.trim();
+      const nextValue = trimmed
+        ? `${currentValue}\n\n${draftInjection.text}`
+        : draftInjection.text;
+      pendingEnvelopeRef.current = trimmed
+        ? null
+        : createPlainFreeformInput("draft_injection", draftInjection.text);
+      setInput(nextValue);
       inputRef.current?.focus();
-      const len = inputRef.current?.value.length ?? 0;
+      const len = nextValue.length;
       inputRef.current?.setSelectionRange(len, len);
+      onDraftConsumed?.();
     });
-    onDraftConsumed?.();
+    return () => cancelAnimationFrame(frame);
   }, [draftInjection, onDraftConsumed]);
 
   const setupRecognition = useCallback(() => {
@@ -124,20 +128,35 @@ export function ChatInput({
       }
       const raw = fullRaw.trim();
       if (!raw) return;
+      const normalized = normalizeVoiceSearchQuery(raw) || raw;
+      const envelope = createFreeformInputEnvelope({
+        source: "voice",
+        rawText: raw,
+        normalizedText: normalized,
+      });
+      if (!envelope) return;
 
-      if (pendingSendTimerRef.current) {
-        clearTimeout(pendingSendTimerRef.current);
-        pendingSendTimerRef.current = null;
+      pendingEnvelopeRef.current = envelope;
+      setInput(envelope.normalizedText);
+      requestAnimationFrame(() => {
+        inputRef.current?.focus();
+        const len = inputRef.current?.value.length ?? 0;
+        inputRef.current?.setSelectionRange(len, len);
+      });
+
+      if (voiceHintTimerRef.current) {
+        clearTimeout(voiceHintTimerRef.current);
+        voiceHintTimerRef.current = null;
       }
-
-      pendingSendTimerRef.current = window.setTimeout(() => {
-        pendingSendTimerRef.current = null;
-        const normalized = normalizeVoiceSearchQuery(raw) || raw;
-        setVoiceHint(`検索語に整形: 「${normalized}」`);
-        onSendRef.current(normalized);
-        setInput("");
-        window.setTimeout(() => setVoiceHint(null), 2800);
-      }, 400);
+      setVoiceHint(
+        raw === normalized
+          ? "音声入力を反映しました。内容を確認して送信できます。"
+          : `音声入力を整えて反映: 「${normalized}」`
+      );
+      voiceHintTimerRef.current = window.setTimeout(() => {
+        setVoiceHint(null);
+        voiceHintTimerRef.current = null;
+      }, 2800);
     };
 
     recognitionRef.current = recognition;
@@ -146,9 +165,9 @@ export function ChatInput({
 
   const handleVoiceClick = useCallback(() => {
     setVoiceHint(null);
-    if (pendingSendTimerRef.current) {
-      clearTimeout(pendingSendTimerRef.current);
-      pendingSendTimerRef.current = null;
+    if (voiceHintTimerRef.current) {
+      clearTimeout(voiceHintTimerRef.current);
+      voiceHintTimerRef.current = null;
     }
 
     const r = setupRecognition();
@@ -180,7 +199,14 @@ export function ChatInput({
       e.preventDefault();
       const trimmed = input.trim();
       if (trimmed && !disabled) {
-        onSend(trimmed);
+        const pending = pendingEnvelopeRef.current;
+        const envelope =
+          pending && pending.normalizedText === trimmed
+            ? pending
+            : createPlainFreeformInput("typed", trimmed);
+        if (!envelope) return;
+        onSend(envelope);
+        pendingEnvelopeRef.current = null;
         setInput("");
       }
     },
@@ -204,7 +230,10 @@ export function ChatInput({
             ref={inputRef}
             id={inputId}
             value={input}
-            onChange={(e) => setInput(e.target.value)}
+            onChange={(e) => {
+              pendingEnvelopeRef.current = null;
+              setInput(e.target.value);
+            }}
             placeholder={placeholder}
             disabled={disabled}
             className="w-full"

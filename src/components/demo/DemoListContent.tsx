@@ -27,6 +27,7 @@ import {
   type ConciergeDomainId,
 } from "@/lib/demo/intelligent-concierge";
 import { useConciergeChat } from "@/components/chat/concierge-chat-context";
+import { getConciergeEntryPreset } from "@/lib/chat/concierge-entry-policy";
 import type {
   AiDemoAudienceRole,
   AiDemoAutomationDepth,
@@ -253,6 +254,7 @@ interface DemoListContentProps {
 export function DemoListContent({ demos }: DemoListContentProps) {
   const { demoListWizardSnapshot, requestOpenDemoListPageConcierge } =
     useConciergeChat();
+  const entry = getConciergeEntryPreset("demoListCompare");
   const appliedAnswers = demoListWizardSnapshot?.answers ?? null;
   const conciergePicks = demoListWizardSnapshot?.picks ?? [];
   const picksSignature = useMemo(() => {
@@ -266,8 +268,14 @@ export function DemoListContent({ demos }: DemoListContentProps) {
 
   useEffect(() => {
     if (picksSignature === "") {
+      if (popupTimerRef.current !== null) {
+        window.clearTimeout(popupTimerRef.current);
+      }
       lastPicksSignatureRef.current = "";
-      setRecommendPopupOpen(false);
+      popupTimerRef.current = window.setTimeout(() => {
+        setRecommendPopupOpen(false);
+        popupTimerRef.current = null;
+      }, 0);
       return;
     }
     if (picksSignature === lastPicksSignatureRef.current) return;
@@ -342,7 +350,7 @@ export function DemoListContent({ demos }: DemoListContentProps) {
             type="button"
             onClick={() => {
               recordVisitorEntryIntent("compare");
-              requestOpenDemoListPageConcierge({ entryIntent: "compare" });
+              requestOpenDemoListPageConcierge(entry.signals);
             }}
             className="rounded-md border border-silver/30 px-3 py-1 text-xs text-text-sub transition-colors hover:border-accent/50 hover:text-accent"
           >

@@ -560,9 +560,14 @@ export const estimateDetailedCopy = {
   fieldIndustry: "業種・仕事の種類",
   fieldIndustryHint: "いちばん近いものを選んでください",
   fieldIndustryWhyMatters: "業種によって、守るべき情報や運用の前提が変わることがあるための質問です。",
-  fieldSummary: "いま、いちばんやりたいこと（必須）",
-  fieldSummaryHint: "8文字以上で、やさしい言葉で大丈夫です",
-  fieldSummaryWhyMatters: "何を作るかの芯がずれると金額も変わるため、いちばん大事な一文を伺います。",
+  fieldProductArchetype: "何を作りたいですか（必須）",
+  fieldProductArchetypeHint: "名前が曖昧でも、近い言い方で大丈夫です",
+  fieldProductArchetypeWhyMatters:
+    "作るものの形が見えると、必要な画面や機能の方向を合わせやすくなります。",
+  fieldProblemSummary: "いま困っていること・変えたいこと（必須）",
+  fieldProblemSummaryHint: "やさしい言葉で、短くても大丈夫です",
+  fieldProblemSummaryWhyMatters:
+    "困りごとの芯が分かると、何を優先して解決するかと金額の前提をそろえやすくなります。",
   fieldPain: "うまくいっていないこと（任意）",
   fieldPainHint: "なくても進められます",
   fieldPainWhyMatters: "優先して直したい点が分かると、範囲の絞り込みに使います。",
@@ -614,7 +619,8 @@ export const estimateDetailedCopy = {
   btnGenerate: "この内容で整理する",
   /** 必須フィールド未充足時（ボタンがグレーのときの案内） */
   btnGenerateDisabledHint:
-    "一番上の「いま、いちばんやりたいこと（必須）」に、8文字以上入力するとこのボタンが押せます。",
+    "必須の質問がまだ埋まっていません。「何を作りたいですか」と「いま困っていること・変えたいこと」を入力すると進めます。",
+  requiredStepHint: "この質問は必須です。短い一文でも大丈夫です。",
   btnGenerating: "整理しています…",
   /** 結果ページの主ボタン（金額ページへ直行） */
   btnConfirmAndShowAmount: "内容を確認し金額を表示",
@@ -766,7 +772,7 @@ export const estimateDetailedCopy = {
 export const contactCopy = {
   title: "無料相談・お問い合わせ",
   purpose:
-    "まだ要件が固まっていなくても大丈夫です。2〜3分の質問に答えると、相談内容を整理した状態で送れます。",
+    "問い合わせ前に要点を整理し、初回返信を具体化しやすい状態で送るための窓口です。直流入でも同じ基準で確認します。",
   /** 問い合わせページ：短いヒアリング（詳細見積フロー）へ */
   estimateShortcutCta: "質問に答えて相談を始める",
   estimateShortcutHint:
@@ -814,10 +820,10 @@ export const contactCopy = {
     overviewRevealLabel: "整理内容の概要を表示",
     inquirySummaryTitle: "送信される相談内容の要点",
     inquirySummaryHint:
-      "ここに出ている内容をもとに、初回返信では要点を絞ってお返しします。",
+      "ここに出ている内容をもとに、初回返信では要点を絞ってお返しします。送信前に内容をご確認ください。",
     directGuideTitle: "まずは質問から始めましょう",
     directGuideBody:
-      "ページ上部のボタンから短いヒアリングを始めてください。終わると、この下に連絡先と送信フォームが表示されます。",
+      "このページ内の短いヒアリングで、送信前に必要な要点をそろえます。確認が完了すると、連絡先と送信フォームが表示されます。",
     contactIntakeAnsweredSummaryTitle: "見積で伺った内容（再掲）",
     contactIntakeAnsweredSummaryHint:
       "不足がある場合だけ、下の質問に追加で答えてください。",

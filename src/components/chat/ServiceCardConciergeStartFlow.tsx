@@ -5,6 +5,7 @@ import { ConciergeChoiceButton } from "@/components/chat/ConciergeChoiceButton";
 import {
   CON_STEP1_DEFS,
   DEV_STEP1_DEFS,
+  getServiceStep1Defs,
   getStep2Labels,
   type ServicePresetVariant,
 } from "@/lib/chat/service-card-preset-content";
@@ -34,10 +35,14 @@ export function ServiceCardConciergeStartFlow({
   }, [resetKey]);
 
   const step1Defs = variant === "development" ? DEV_STEP1_DEFS : CON_STEP1_DEFS;
+  const step1MeaningDefs = getServiceStep1Defs(variant);
 
   if (phase === "step2" && step1Key) {
     const step2Labels = getStep2Labels(variant, step1Key);
-    const step1Label = step1Defs.find((d) => d.key === step1Key)?.label ?? "";
+    const step1Label =
+      step1MeaningDefs.find((d) => d.optionId === step1Key)?.label ??
+      step1Defs.find((d) => d.key === step1Key)?.label ??
+      "";
 
     return (
       <div className="flex min-h-0 flex-1 flex-col overflow-y-auto">
