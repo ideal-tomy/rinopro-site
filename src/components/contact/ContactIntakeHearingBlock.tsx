@@ -25,7 +25,10 @@ export function ContactIntakeHearingBlock({
   onComplete,
 }: Props) {
   const prefersReducedMotion = useReducedMotion();
-  const canSubmitGlobal = useMemo(() => isContactIntakeFormSatisfied(form), [form]);
+  const canSubmitGlobal = useMemo(
+    () => isContactIntakeFormSatisfied(form, { answeredQuestionIds }),
+    [form, answeredQuestionIds]
+  );
 
   return (
     <div className="space-y-3 rounded-xl border border-accent/25 bg-accent/5 p-4 md:p-5">

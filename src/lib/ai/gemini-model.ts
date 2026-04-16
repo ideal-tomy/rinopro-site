@@ -4,3 +4,6 @@ import { google } from "@ai-sdk/google";
  * gemini-2.0-flash は新規 API 利用者向けに提供終了のため、2.5 Flash を使用する。
  */
 export const defaultGeminiModel = google("gemini-2.5-flash");
+
+/** 見積API用: 2.5 Flash 混雑時のフォールバック */
+export const estimateFallbackGeminiModel = google("gemini-2.5-flash-lite");

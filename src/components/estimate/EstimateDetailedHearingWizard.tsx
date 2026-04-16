@@ -13,7 +13,6 @@ import {
 import { flushSync } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { estimateDetailedCopy } from "@/lib/content/site-copy";
 import { buildEstimateDetailedAnswersRecord } from "@/lib/estimate/build-estimate-detailed-answers";
@@ -24,12 +23,12 @@ import {
   questionIdFromAnswerLabel,
   type EstimateQuestionId,
 } from "@/lib/estimate-core/question-model";
-import { shouldShowEstimateWizardStepForForm } from "@/lib/estimate/estimate-wizard-step-visibility";
-import { shouldAskEstimateQuestion } from "@/lib/estimate-core/question-model";
+import type { EstimateWizardStepId } from "@/lib/estimate-core/wizard-steps";
 import {
-  ESTIMATE_WIZARD_STEP_DEFINITIONS,
-  type EstimateWizardStepId,
-} from "@/lib/estimate-core/wizard-steps";
+  findFirstInvalidInWizardScope,
+  getVisibleEstimateWizardSteps,
+  validateEstimateWizardStep,
+} from "@/lib/estimate/estimate-step-validation";
 import { cn } from "@/lib/utils";
 
 const copy = estimateDetailedCopy;
@@ -37,6 +36,9 @@ const copy = estimateDetailedCopy;
 type StepId = EstimateWizardStepId;
 
 type FormState = EstimateFormDraft;
+type QuickSelectOption = { value: string; label: string };
+const QUICK_CUSTOM_VALUE = "__custom";
+const QUICK_SKIP_VALUE = "__skip";
 
 export type EstimateDetailedHearingWizardProps = {
   form: FormState;
@@ -75,25 +77,13 @@ export function EstimateDetailedHearingWizard({
   prefilledQuestionIds,
   answeredQuestionIds,
 }: EstimateDetailedHearingWizardProps) {
+  const wizardSessionScope = useMemo(
+    () => ({ prefilledQuestionIds, answeredQuestionIds }),
+    [prefilledQuestionIds, answeredQuestionIds]
+  );
   const visibleSteps = useMemo(
-    () =>
-      ESTIMATE_WIZARD_STEP_DEFINITIONS.filter((step) => {
-        if (!step.questionId) return true;
-        if (
-          !shouldAskEstimateQuestion({
-            questionId: step.questionId,
-            prefilledQuestionIds,
-            answeredQuestionIds,
-          })
-        ) {
-          return false;
-        }
-        return shouldShowEstimateWizardStepForForm({
-          questionId: step.questionId,
-          form,
-        });
-      }),
-    [prefilledQuestionIds, answeredQuestionIds, form]
+    () => getVisibleEstimateWizardSteps(form, wizardSessionScope),
+    [form, wizardSessionScope]
   );
   const totalSteps = visibleSteps.length;
   const [stepIndex, setStepIndex] = useState(0);
@@ -129,15 +119,18 @@ export function EstimateDetailedHearingWizard({
 
   const remainingIncludingCurrent = Math.max(0, totalSteps - stepIndex);
 
-  const canAdvance = useMemo(() => {
-    if (stepId === "productArchetype") {
-      return Boolean(form.productArchetype.trim());
-    }
-    if (stepId === "problemSummary") {
-      return Boolean(form.problemSummary.trim());
-    }
-    return true;
-  }, [form.problemSummary, form.productArchetype, stepId]);
+  const canAdvance = useMemo(
+    () => validateEstimateWizardStep(form, stepId).ok,
+    [form, stepId]
+  );
+  const stepInvalidReason = useMemo(() => {
+    const result = validateEstimateWizardStep(form, stepId);
+    return result.ok ? null : result.reason ?? copy.requiredStepHint;
+  }, [form, stepId]);
+  const reviewInvalidReason = useMemo(() => {
+    const result = findFirstInvalidInWizardScope(form, wizardSessionScope);
+    return result.ok ? null : result.reason ?? copy.btnGenerateDisabledHint;
+  }, [form, wizardSessionScope]);
 
   const goNext = useCallback(() => {
     if (!canAdvance || isExiting) return;
@@ -185,16 +178,20 @@ export function EstimateDetailedHearingWizard({
         return;
       }
       if (isFs) {
-        setStepIndex((i) => Math.min(i + 1, totalSteps - 1));
+        if (validateEstimateWizardStep({ ...form, ...patch }, stepId).ok) {
+          setStepIndex((i) => Math.min(i + 1, totalSteps - 1));
+        }
       }
     },
     [
       currentQuestionId,
       editingQuestionId,
+      form,
       isExiting,
       isFs,
       reviewIndex,
       setForm,
+      stepId,
       totalSteps,
     ]
   );
@@ -331,19 +328,18 @@ export function EstimateDetailedHearingWizard({
                   hint={copy.fieldProductArchetypeHint}
                   whyMatters={copy.fieldProductArchetypeWhyMatters}
                 >
-                  <Textarea
-                    id="ed-product-archetype"
-                    rows={4}
+                  <QuickSelectWithFreeText
+                    idPrefix="ed-product-archetype"
                     value={form.productArchetype}
-                    maxLength={600}
-                    onChange={(e) =>
-                      setForm((f) => ({ ...f, productArchetype: e.target.value }))
+                    options={copy.productArchetypeQuickOptions}
+                    onChange={(nextValue) =>
+                      setForm((f) => ({ ...f, productArchetype: nextValue }))
                     }
                     placeholder="例: 問い合わせの一次対応をまとめる社内Webツールを作りたい"
-                    className={cn(
-                      "min-h-[100px] resize-y text-[16px] md:text-sm",
-                      isFs && "scroll-mt-6"
-                    )}
+                    maxLength={600}
+                    rows={4}
+                    required
+                    isFs={isFs}
                   />
                 </StepBlock>
               ) : null}
@@ -354,19 +350,18 @@ export function EstimateDetailedHearingWizard({
                   hint={copy.fieldProblemSummaryHint}
                   whyMatters={copy.fieldProblemSummaryWhyMatters}
                 >
-                  <Textarea
-                    id="ed-problem-summary"
-                    rows={4}
+                  <QuickSelectWithFreeText
+                    idPrefix="ed-problem-summary"
                     value={form.problemSummary}
-                    maxLength={600}
-                    onChange={(e) =>
-                      setForm((f) => ({ ...f, problemSummary: e.target.value }))
+                    options={copy.problemSummaryQuickOptions}
+                    onChange={(nextValue) =>
+                      setForm((f) => ({ ...f, problemSummary: nextValue }))
                     }
                     placeholder="例: 問い合わせ返信に毎日2時間かかり、担当者ごとに内容もぶれている"
-                    className={cn(
-                      "min-h-[100px] resize-y text-[16px] md:text-sm",
-                      isFs && "scroll-mt-6"
-                    )}
+                    maxLength={600}
+                    rows={4}
+                    required
+                    isFs={isFs}
                   />
                 </StepBlock>
               ) : null}
@@ -377,17 +372,15 @@ export function EstimateDetailedHearingWizard({
                   hint={copy.fieldPainHint}
                   whyMatters={copy.fieldPainWhyMatters}
                 >
-                  <Textarea
-                    id="ed-pain"
-                    rows={3}
+                  <QuickSelectWithFreeText
+                    idPrefix="ed-pain"
                     value={form.pain}
-                    maxLength={400}
-                    onChange={(e) => setForm((f) => ({ ...f, pain: e.target.value }))}
+                    options={copy.painQuickOptions}
+                    onChange={(nextValue) => setForm((f) => ({ ...f, pain: nextValue }))}
                     placeholder="例: 担当者によって返信の質がバラバラになる"
-                    className={cn(
-                      "min-h-[80px] resize-y text-[16px] md:text-sm",
-                      isFs && "scroll-mt-6"
-                    )}
+                    maxLength={400}
+                    rows={3}
+                    isFs={isFs}
                   />
                 </StepBlock>
               ) : null}
@@ -764,18 +757,17 @@ export function EstimateDetailedHearingWizard({
 
               {stepId === "budgetFeel" ? (
                 <StepBlock title={copy.fieldBudgetNote} whyMatters={copy.fieldBudgetNoteWhyMatters}>
-                  <Input
-                    id="ed-budget"
+                  <QuickSelectWithFreeText
+                    idPrefix="ed-budget"
                     value={form.budgetFeel}
-                    maxLength={120}
-                    onChange={(e) =>
-                      setForm((f) => ({ ...f, budgetFeel: e.target.value }))
+                    options={copy.budgetFeelQuickOptions}
+                    onChange={(nextValue) =>
+                      setForm((f) => ({ ...f, budgetFeel: nextValue }))
                     }
                     placeholder="例: まずは小さく試したい"
-                    className={cn(
-                      "min-h-11 text-[16px] md:text-sm",
-                      isFs && "scroll-mt-6"
-                    )}
+                    maxLength={120}
+                    rows={3}
+                    isFs={isFs}
                   />
                 </StepBlock>
               ) : null}
@@ -786,19 +778,17 @@ export function EstimateDetailedHearingWizard({
                   hint={copy.fieldConstraintsHint}
                   whyMatters={copy.fieldConstraintsWhyMatters}
                 >
-                  <Textarea
-                    id="ed-constraints"
-                    rows={3}
+                  <QuickSelectWithFreeText
+                    idPrefix="ed-constraints"
                     value={form.constraints}
-                    maxLength={600}
-                    onChange={(e) =>
-                      setForm((f) => ({ ...f, constraints: e.target.value }))
+                    options={copy.constraintsQuickOptions}
+                    onChange={(nextValue) =>
+                      setForm((f) => ({ ...f, constraints: nextValue }))
                     }
                     placeholder="例: お客様の個人情報を扱う／スマホから使いたい"
-                    className={cn(
-                      "min-h-[80px] resize-y text-[16px] md:text-sm",
-                      isFs && "scroll-mt-6"
-                    )}
+                    maxLength={600}
+                    rows={3}
+                    isFs={isFs}
                   />
                 </StepBlock>
               ) : null}
@@ -855,9 +845,7 @@ export function EstimateDetailedHearingWizard({
               }
               onClick={goNext}
               aria-describedby={
-                (stepId === "productArchetype" || stepId === "problemSummary") &&
-                  !canAdvance &&
-                  !isExiting
+                !isReview && !canAdvance && !isExiting
                   ? "estimate-wizard-required-hint"
                   : isReview && !canSubmitGlobal && !isExiting
                     ? "estimate-wizard-submit-hint"
@@ -907,9 +895,7 @@ export function EstimateDetailedHearingWizard({
               }
               onClick={goNext}
               aria-describedby={
-                (stepId === "productArchetype" || stepId === "problemSummary") &&
-                  !canAdvance &&
-                  !isExiting
+                !isReview && !canAdvance && !isExiting
                   ? "estimate-wizard-required-hint"
                   : isReview && !canSubmitGlobal && !isExiting
                     ? "estimate-wizard-submit-hint"
@@ -929,16 +915,14 @@ export function EstimateDetailedHearingWizard({
         </div>
       )}
 
-      {(stepId === "productArchetype" || stepId === "problemSummary") &&
-      !canAdvance &&
-      !isExiting ? (
+      {!isReview && !canAdvance && !isExiting ? (
         <p id="estimate-wizard-required-hint" className="text-xs text-text-sub">
-          {copy.requiredStepHint}
+          {stepInvalidReason ?? copy.requiredStepHint}
         </p>
       ) : null}
       {isReview && !canSubmitGlobal && !isExiting ? (
         <p id="estimate-wizard-submit-hint" className="text-xs text-text-sub">
-          {copy.btnGenerateDisabledHint}
+          {reviewInvalidReason ?? copy.btnGenerateDisabledHint}
         </p>
       ) : null}
       {isExiting ? (
@@ -983,6 +967,80 @@ function SelectOptionButtons({
           {o.label}
         </button>
       ))}
+    </div>
+  );
+}
+
+function QuickSelectWithFreeText({
+  idPrefix,
+  value,
+  options,
+  onChange,
+  placeholder,
+  maxLength,
+  rows,
+  isFs,
+  required = false,
+}: {
+  idPrefix: string;
+  value: string;
+  options: readonly QuickSelectOption[];
+  onChange: (nextValue: string) => void;
+  placeholder: string;
+  maxLength: number;
+  rows: number;
+  isFs: boolean;
+  required?: boolean;
+}) {
+  const trimmed = value.trim();
+  const matchedOption = options.find((option) => option.value === trimmed);
+  const selectValue = matchedOption ? matchedOption.value : trimmed ? QUICK_CUSTOM_VALUE : "";
+
+  return (
+    <div className="space-y-3">
+      <select
+        id={`${idPrefix}-select`}
+        className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
+        value={selectValue}
+        onChange={(e) => {
+          const picked = e.target.value;
+          if (picked === QUICK_SKIP_VALUE) {
+            onChange("");
+            return;
+          }
+          if (picked === QUICK_CUSTOM_VALUE) {
+            if (!trimmed || matchedOption) onChange("");
+            return;
+          }
+          onChange(picked);
+        }}
+      >
+        <option value="">
+          {required ? "代表的な選択肢を選ぶ" : "任意: 代表的な選択肢を選ぶ"}
+        </option>
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+        <option value={QUICK_CUSTOM_VALUE}>その他（自由記述で入力）</option>
+        {!required ? <option value={QUICK_SKIP_VALUE}>今回は入力しない</option> : null}
+      </select>
+      <Textarea
+        id={`${idPrefix}-textarea`}
+        rows={rows}
+        value={selectValue === QUICK_CUSTOM_VALUE ? value : ""}
+        maxLength={maxLength}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
+        className={cn(
+          "min-h-[80px] resize-y text-[16px] md:text-sm",
+          isFs && "scroll-mt-6"
+        )}
+      />
+      <p className="text-xs text-text-sub">
+        代表選択肢をそのまま使うか、具体的に書きたい場合は自由記述で入力できます。
+      </p>
     </div>
   );
 }

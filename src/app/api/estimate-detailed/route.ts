@@ -4,7 +4,7 @@ import {
   buildEstimateDetailedNarrowRetryPrompt,
   buildEstimateDetailedUserPrompt,
 } from "@/lib/estimate-domain/default/prompts";
-import { defaultGeminiModel } from "@/lib/ai/gemini-model";
+import { defaultGeminiModel, estimateFallbackGeminiModel } from "@/lib/ai/gemini-model";
 import {
   estimateRangeWidthMan,
   isNarrowRangeEligible,
@@ -24,6 +24,39 @@ import { rateLimit } from "@/lib/rate-limit";
 export const maxDuration = 60;
 
 const ResultSchema = estimateDetailedAiOutputSchema;
+const PRIMARY_MAX_OUTPUT_TOKENS = 2048;
+const NARROW_RETRY_MAX_OUTPUT_TOKENS = 1536;
+const NARROW_RETRY_MAX_FIRST_CALL_MS = 10_000;
+
+type EstimateGenerationResult = {
+  object: Awaited<ReturnType<typeof generateObject<typeof ResultSchema>>>["object"];
+  usedFallbackModel: boolean;
+};
+
+async function generateEstimateObjectWithFallback(
+  prompt: string
+): Promise<EstimateGenerationResult> {
+  try {
+    const { object } = await generateObject({
+      model: defaultGeminiModel,
+      schema: ResultSchema,
+      system: ESTIMATE_DETAILED_SYSTEM_PROMPT,
+      prompt,
+      maxOutputTokens: PRIMARY_MAX_OUTPUT_TOKENS,
+    });
+    return { object, usedFallbackModel: false };
+  } catch (primaryErr) {
+    console.warn("[api/estimate-detailed] primary model failed, trying fallback", primaryErr);
+    const { object } = await generateObject({
+      model: estimateFallbackGeminiModel,
+      schema: ResultSchema,
+      system: ESTIMATE_DETAILED_SYSTEM_PROMPT,
+      prompt,
+      maxOutputTokens: PRIMARY_MAX_OUTPUT_TOKENS,
+    });
+    return { object, usedFallbackModel: true };
+  }
+}
 
 function sortLoHi(object: { estimateLoMan: number; estimateHiMan: number }) {
   if (object.estimateHiMan < object.estimateLoMan) {
@@ -73,20 +106,18 @@ export async function POST(req: Request) {
   });
 
   try {
-    const { object } = await generateObject({
-      model: defaultGeminiModel,
-      schema: ResultSchema,
-      system: ESTIMATE_DETAILED_SYSTEM_PROMPT,
-      prompt: userContent,
-      maxOutputTokens: 4096,
-    });
+    const generatedAt = Date.now();
+    const { object, usedFallbackModel } = await generateEstimateObjectWithFallback(userContent);
 
     sortLoHi(object);
 
     let final = object;
+    const firstCallElapsedMs = Date.now() - generatedAt;
     if (
       narrowBandTarget &&
-      estimateRangeWidthMan(final.estimateLoMan, final.estimateHiMan) > 100
+      estimateRangeWidthMan(final.estimateLoMan, final.estimateHiMan) > 100 &&
+      !usedFallbackModel &&
+      firstCallElapsedMs <= NARROW_RETRY_MAX_FIRST_CALL_MS
     ) {
       try {
         const retryPrompt = buildEstimateDetailedNarrowRetryPrompt(userContent);
@@ -95,7 +126,7 @@ export async function POST(req: Request) {
           schema: ResultSchema,
           system: ESTIMATE_DETAILED_SYSTEM_PROMPT,
           prompt: retryPrompt,
-          maxOutputTokens: 4096,
+          maxOutputTokens: NARROW_RETRY_MAX_OUTPUT_TOKENS,
         });
         sortLoHi(retryObject);
         final = retryObject;

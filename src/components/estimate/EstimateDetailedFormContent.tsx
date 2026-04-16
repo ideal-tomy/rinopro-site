@@ -11,11 +11,9 @@ import { resetEstimateProcessingLock } from "@/lib/estimate/estimate-detailed-pr
 import { buildEstimateDetailedAnswersRecord } from "@/lib/estimate/build-estimate-detailed-answers";
 import {
   clearEstimateDetailedFlow,
-  hasMinimumEstimateFacts,
   readEstimateDetailedFlow,
   writeEstimateDetailedFlow,
   type EstimateFormDraft,
-  buildEstimateFormDraftFactValues,
 } from "@/lib/estimate/estimate-detailed-session";
 import { estimateDetailedCopy } from "@/lib/content/site-copy";
 import { clearEstimateDetailedIntroDone } from "@/lib/estimate/estimate-detailed-intro-storage";
@@ -26,6 +24,7 @@ import {
   buildAnsweredQuestionIdSet,
   type EstimateQuestionId,
 } from "@/lib/estimate-core/question-model";
+import { isEstimateFormGloballySubmittable } from "@/lib/estimate/estimate-step-validation";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { cn } from "@/lib/utils";
 import type { VisitorJourneySummary } from "@/lib/journey/visitor-journey";
@@ -273,11 +272,6 @@ export function EstimateDetailedFormContent() {
     return () => cancelAnimationFrame(frame);
   }, [resetFlag, ctxFromUrl]);
 
-  const canSubmit = useMemo(
-    () => hasMinimumEstimateFacts(buildEstimateFormDraftFactValues(form)),
-    [form]
-  );
-
   const pathPrefillMeta = useMemo(() => {
     if (!decodedCtx?.path?.length) return null;
     return prefillEstimateDraftFromConciergePath(decodedCtx.track, decodedCtx.path);
@@ -299,6 +293,15 @@ export function EstimateDetailedFormContent() {
     }
     return ids;
   }, [decodedCtx?.industryBundle, pathPrefillMeta, visitorJourneySummary]);
+
+  const estimateWizardSessionScope = useMemo(
+    () => ({ prefilledQuestionIds, answeredQuestionIds }),
+    [prefilledQuestionIds, answeredQuestionIds]
+  );
+  const canSubmit = useMemo(
+    () => isEstimateFormGloballySubmittable(form, estimateWizardSessionScope),
+    [form, estimateWizardSessionScope]
+  );
 
   const journeyConfirmLines = useMemo(
     () => buildEstimateDraftFromVisitorJourney(visitorJourneySummary).confirmLines,

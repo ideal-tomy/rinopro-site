@@ -662,6 +662,38 @@ export const estimateDetailedCopy = {
   /** 任意の予算帯が見積上限以下に収まるとき */
   budgetWithinMessage: "希望のご予算で開発可能です",
   assumptionsTitle: "こういう前提で整理しています",
+  productArchetypeQuickOptions: [
+    { value: "Webアプリ", label: "Webアプリ" },
+    { value: "社内ツール", label: "社内ツール" },
+    { value: "LINE連携", label: "LINE連携" },
+    { value: "業務ダッシュボード", label: "業務ダッシュボード" },
+    { value: "データ整備・自動化", label: "データ整備・自動化" },
+  ],
+  problemSummaryQuickOptions: [
+    { value: "手作業が多くて時間がかかる", label: "手作業が多くて時間がかかる" },
+    { value: "情報が分散して確認に手間がかかる", label: "情報が分散して確認に手間がかかる" },
+    { value: "対応品質が担当者によってばらつく", label: "対応品質が担当者によってばらつく" },
+    { value: "現場状況をすぐ把握できない", label: "現場状況をすぐ把握できない" },
+    { value: "既存ツール同士が連携できていない", label: "既存ツール同士が連携できていない" },
+  ],
+  painQuickOptions: [
+    { value: "入力ミスや抜け漏れが起きる", label: "入力ミスや抜け漏れが起きる" },
+    { value: "問い合わせ対応が遅れやすい", label: "問い合わせ対応が遅れやすい" },
+    { value: "進捗共有に時間がかかる", label: "進捗共有に時間がかかる" },
+    { value: "優先順位付けが難しい", label: "優先順位付けが難しい" },
+  ],
+  budgetFeelQuickOptions: [
+    { value: "まずは小さく試したい", label: "まずは小さく試したい" },
+    { value: "効果が見えれば段階的に広げたい", label: "効果が見えれば段階的に広げたい" },
+    { value: "できるだけ早く本運用に乗せたい", label: "できるだけ早く本運用に乗せたい" },
+    { value: "費用よりも安定運用を重視したい", label: "費用よりも安定運用を重視したい" },
+  ],
+  constraintsQuickOptions: [
+    { value: "個人情報を扱うためセキュリティが重要", label: "個人情報を扱うためセキュリティが重要" },
+    { value: "既存システムと連携したい", label: "既存システムと連携したい" },
+    { value: "社内ネットワーク内で完結したい", label: "社内ネットワーク内で完結したい" },
+    { value: "スマホでも使えることが必要", label: "スマホでも使えることが必要" },
+  ],
   industryOptions: [
     { value: "construction", label: "建設・土木・現場系" },
     { value: "professional", label: "士業・コンサル・事務所" },
