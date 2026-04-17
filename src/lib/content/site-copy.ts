@@ -18,7 +18,7 @@ export const homeQuickStartCopy = {
   consult: {
     title: "相談から始める",
     body: "AIコンシェルジュが、目的や悩みを短く整理します。",
-    ctaLabel: "相談してみる",
+    ctaLabel: "チャットで整理する",
   },
   experience: {
     title: "体験から始める",
@@ -802,18 +802,18 @@ export const estimateDetailedCopy = {
 
 // --- 問い合わせ ---
 export const contactCopy = {
-  title: "無料相談・お問い合わせ",
+  title: "お問い合わせ",
   purpose:
     "問い合わせ前に要点を整理し、初回返信を具体化しやすい状態で送るための窓口です。直流入でも同じ基準で確認します。",
   /** 問い合わせページ：短いヒアリング（詳細見積フロー）へ */
-  estimateShortcutCta: "質問に答えて相談を始める",
+  estimateShortcutCta: "ヒアリングで要点をそろえる",
   estimateShortcutHint:
     "内容は担当者に届き、初回返信で具体的にご案内します。料金の目安まで先に整理したい場合も、同じヒアリングで進められます。",
   flow: {
-    sectionTitle: "相談の流れ",
+    sectionTitle: "お問い合わせの流れ",
     mobileSwipeHint: "横にスワイプして全体を確認できます",
     footnote:
-      "その後は、無料の打ち合わせやコンサル契約、本要件定義のヒアリングなど、内容に応じてご案内します。",
+      "その後は、内容に応じてオンライン打ち合わせ、コンサル契約、本要件定義のヒアリングなどをご案内します。",
     steps: [
       {
         title: "質問に回答",
@@ -829,7 +829,7 @@ export const contactCopy = {
       },
       {
         title: "打ち合わせ / 次の進め方",
-        body: "30分の無料打ち合わせや、開発に向けたすり合わせへ進みます。",
+        body: "双方の前提が合った場合に、30分程度の打ち合わせや開発に向けたすり合わせへ進むことがあります。",
       },
     ],
   },
@@ -887,7 +887,7 @@ export const contactCopy = {
     items: [
       "個人情報は相談目的以外に使用しません。",
       "返信目安は2営業日以内です。",
-      "初回の相談は、費用発生のご案内はありません。",
+      "初回のご連絡では、正式契約や確定見積のご案内には進みません。",
     ],
   },
 } as const;

@@ -19,7 +19,7 @@ import {
   type FlowSelection,
 } from "../src/lib/chat/concierge-flow";
 
-const ROOT_TITLE = "知りたいこと";
+const ROOT_TITLE = "欲しいもの";
 
 function rootSel(optionId: string, label: string): FlowSelection {
   return { stepKey: "root", optionId, label, stepTitle: ROOT_TITLE };
@@ -68,7 +68,7 @@ function run(): void {
   for (const build of A_STEP_BUILD.choices) {
     for (const scope of A_STEP_SCOPE.choices) {
       const path: FlowSelection[] = [
-        rootSel("root_a", "開発コストの概算を知りたい"),
+        rootSel("root_need_touchpoint", "お客様との接点を作りたい"),
         stepSel(
           "A3",
           build,
@@ -97,7 +97,7 @@ function run(): void {
   for (const sup of B_STEP_SUPPORT.choices) {
     for (const bs of B_STEP_SCOPE.choices) {
       const path: FlowSelection[] = [
-        rootSel("root_b", "コンサル・伴走の概算を知りたい"),
+        rootSel("root_need_new_service", "独自サービスを形にしたい"),
         stepSel(
           "B2",
           sup,
@@ -123,7 +123,7 @@ function run(): void {
     }
   }
 
-  const cdeRootLabel = "技術・ツール・進め方を知りたい";
+  const cdeRootLabel = "顧客・案件管理を楽にしたい";
   for (const pick of CDE_PICK_STEP.choices) {
     const step =
       pick.id === "cde_pick_c"
@@ -146,7 +146,7 @@ function run(): void {
 
     for (const choice of step.choices) {
       const path: FlowSelection[] = [
-        rootSel("root_cde", cdeRootLabel),
+        rootSel("root_need_management", cdeRootLabel),
         stepSel("CDE_PICK", pick, TITLE_CDE),
         stepSel(
           step.stepKey,
@@ -169,7 +169,7 @@ function run(): void {
 
   for (const choice of E_STEP2.choices) {
     const path: FlowSelection[] = [
-      rootSel("root_e", "まず相談・窓口の進め方を知りたい"),
+      rootSel("root_need_clarify", "まだうまく言えないので整理したい"),
       stepSel(
         "E2",
         choice,
@@ -194,7 +194,7 @@ function run(): void {
     process.exit(1);
   }
   console.log(
-    "コンシェルジュ組み合わせ検証: OK（A/B 全組み合わせ + CDE経由 + root_e 直）"
+    "コンシェルジュ組み合わせ検証: OK（A/B 全組み合わせ + CDE経由 + root_need_clarify 直）"
   );
 }
 

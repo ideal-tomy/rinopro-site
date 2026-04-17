@@ -54,43 +54,61 @@ function toFlowStep(step: QuestionStepDefinition): FlowStepDef {
 const ROOT_STEP = createQuestionStep(
   "ROOT",
   "Step 1",
-  "どの内容に近いですか？",
+  "いま一番ほしい状態に近いものは？",
   [
     createQuestionChoice(
-      "root_a",
-      "開発コストの概算を知りたい",
+      "root_need_touchpoint",
+      "お客様との接点を作りたい",
       [
         createFactEmission("productCategory", "candidate"),
         createFactEmission("entryIntent", "candidate"),
       ],
-      { analyticsKey: "root_a", routingKey: "A" }
+      { analyticsKey: "root_need_touchpoint", routingKey: "A" }
     ),
     createQuestionChoice(
-      "root_b",
-      "コンサル・伴走の概算を知りたい",
+      "root_need_management",
+      "顧客・案件管理を楽にしたい",
       [
         createFactEmission("productCategory", "candidate"),
         createFactEmission("entryIntent", "candidate"),
       ],
-      { analyticsKey: "root_b", routingKey: "B" }
+      { analyticsKey: "root_need_management", routingKey: "CDE" }
     ),
     createQuestionChoice(
-      "root_cde",
-      "技術・ツール・進め方を知りたい",
+      "root_need_automation",
+      "社内作業を減らしたい",
       [
         createFactEmission("productCategory", "candidate"),
         createFactEmission("entryIntent", "candidate"),
       ],
-      { analyticsKey: "root_cde", routingKey: "CDE" }
+      { analyticsKey: "root_need_automation", routingKey: "A" }
     ),
     createQuestionChoice(
-      "root_e",
-      "まず相談・窓口の進め方を知りたい",
+      "root_need_reception",
+      "予約・受付を自動化したい",
+      [
+        createFactEmission("productCategory", "candidate"),
+        createFactEmission("productArchetype", "candidate"),
+      ],
+      { analyticsKey: "root_need_reception", routingKey: "D" }
+    ),
+    createQuestionChoice(
+      "root_need_new_service",
+      "独自サービスを形にしたい",
+      [
+        createFactEmission("entryIntent", "candidate"),
+        createFactEmission("productCategory", "candidate"),
+      ],
+      { analyticsKey: "root_need_new_service", routingKey: "B" }
+    ),
+    createQuestionChoice(
+      "root_need_clarify",
+      "まだうまく言えないので整理したい",
       [
         createFactEmission("entryIntent", "candidate"),
         createFactEmission("inquiryIntent", "candidate"),
       ],
-      { analyticsKey: "root_e", routingKey: "E" }
+      { analyticsKey: "root_need_clarify", routingKey: "E" }
     ),
   ],
   "CDE_PICK"
@@ -100,7 +118,7 @@ export const ROOT_CHOICES: FlowChoice[] = ROOT_STEP.choices.map(toFlowChoice);
 
 /** C/D/E を入口でまとめたあとの中間ステップ */
 export const CDE_PICK_STEP: FlowStepDef = toFlowStep(
-  createQuestionStep("CDE_PICK", "Step 2", "どの内容に近いですか？", [
+  createQuestionStep("CDE_PICK", "Step 2", "次に深掘りしたい観点はどれですか？", [
     createQuestionChoice(
       "cde_pick_c",
       "技術の方向性・スタック",
@@ -126,10 +144,14 @@ export const CDE_PICK_STEP: FlowStepDef = toFlowStep(
 );
 
 export const A_STEP_BUILD: FlowStepDef = toFlowStep(
-  createQuestionStep("A3", "Step 2", "いま作りたいイメージに近いものは？", [
+  createQuestionStep(
+    "A3",
+    "Step 2",
+    "まずつくるものの「かたち」に近いものは？（目的はすでに選んでいる前提です）",
+    [
     createQuestionChoice(
       "build_poc",
-      "小さく試す（PoC / 1業務）",
+      "まず1業務だけ試したい（PoC）",
       [
         createFactEmission("productCategory", "candidate"),
         createFactEmission("productArchetype", "candidate"),
@@ -138,7 +160,7 @@ export const A_STEP_BUILD: FlowStepDef = toFlowStep(
     ),
     createQuestionChoice(
       "build_auto",
-      "既存業務を自動化したい",
+      "社内の繰り返し作業を自動化したい",
       [
         createFactEmission("productCategory", "candidate"),
         createFactEmission("productArchetype", "candidate"),
@@ -146,7 +168,7 @@ export const A_STEP_BUILD: FlowStepDef = toFlowStep(
     ),
     createQuestionChoice(
       "build_chatbot",
-      "社内チャットボットを作りたい",
+      "社内の質問・ナレッジをチャットで扱いたい",
       [
         createFactEmission("productCategory", "candidate"),
         createFactEmission("productArchetype", "candidate"),
@@ -154,7 +176,7 @@ export const A_STEP_BUILD: FlowStepDef = toFlowStep(
     ),
     createQuestionChoice(
       "build_inquiry",
-      "問い合わせ・受付を自動化したい",
+      "顧客向けの問い合わせ・受付を仕組み化したい",
       [
         createFactEmission("productCategory", "candidate"),
         createFactEmission("productArchetype", "candidate"),
@@ -162,7 +184,7 @@ export const A_STEP_BUILD: FlowStepDef = toFlowStep(
     ),
     createQuestionChoice(
       "build_platform",
-      "部門横断の業務基盤を作りたい",
+      "部門をまたぐ業務基盤・共通画面から運用したい",
       [
         createFactEmission("productCategory", "candidate"),
         createFactEmission("productArchetype", "candidate"),
@@ -554,7 +576,7 @@ export function getTopFlowChoice(
 export const COMMON_FINISH_BODY =
   "ご入力ありがとうございます。いただいた内容をもとに、**初期検討用の「仮要件定義」と「概算見積もり（前提条件つき）」**を約30秒で作成できます。社内共有用のたたき台としてご活用ください。";
 
-export const CTA_PRIMARY_LABEL = "無料で仮見積もり・要件定義を作成する";
+export const CTA_PRIMARY_LABEL = "仮見積もりと要件のたたき台をつくる";
 /** 詳細見積もりページ（多段質問 + AI 要件定義）へ */
 export const CTA_DETAILED_ESTIMATE_LABEL = "より詳しい見積もりを希望の方はコチラ";
 export const CTA_DEMO_DIRECT_LABEL = "この内容に近いdemoを直接体験する";

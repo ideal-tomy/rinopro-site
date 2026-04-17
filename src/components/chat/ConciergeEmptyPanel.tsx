@@ -13,7 +13,8 @@ function hintForPath(pathname: string): { title: string; body: string } {
   if (pathname.startsWith("/demo/")) {
     return {
       title: "このデモについて",
-      body: "画面の見方や想定ユースケースなど、下の入力欄からお気軽にご質問ください。",
+      body:
+        "画面の見方や想定ユースケースなど、下の入力欄からご質問ください。",
     };
   }
   return {

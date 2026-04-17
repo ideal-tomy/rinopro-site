@@ -189,12 +189,13 @@ export const DEMO_CONCIERGE_QUESTION_DEFS: Record<
   domain: createQuestionStep(
     "domain",
     "Step 1",
-    "事業領域に近いものを選んでください",
+    "作りたい体験に近い業務領域を選んでください",
     CONCIERGE_DOMAIN_OPTIONS.map((option) =>
       createQuestionChoice(
         option.id,
         option.label,
         [
+          createFactEmission("entryIntent", "candidate"),
           createFactEmission("industryBundle", "direct"),
           createFactEmission("productCategory", "candidate"),
         ],

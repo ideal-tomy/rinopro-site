@@ -40,7 +40,7 @@ const MAP_E2: Record<string, string> = {
   e_vague: "internal-knowledge-share-bot",
 };
 
-/** A3: 作りたいもの → プロトタイプ */
+/** A3: 成果物の型（product archetype）→ プロトタイプ */
 const MAP_A3: Record<string, string> = {
   build_chatbot: "internal-knowledge-share-bot",
   build_inquiry: "inquiry-intake-triage-demo",
@@ -49,7 +49,7 @@ const MAP_A3: Record<string, string> = {
   build_platform: "restaurant-ops-dashboard-demo",
 };
 
-/** B4: 改善テーマ → 近い体験 */
+/** B_SCOPE: 改善テーマ（challenge）→ 近い体験 */
 const MAP_B4: Record<string, string> = {
   ch_workload: "restaurant-ops-dashboard-demo",
   ch_silo: "internal-knowledge-share-bot",

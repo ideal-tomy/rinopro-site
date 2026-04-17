@@ -19,6 +19,7 @@
 6. **問い合わせの役割・送信ゲート方針**  
    - [`問い合わせポリシー.md`](./問い合わせポリシー.md) … 誰を問い合わせへ通し、誰を demo / 見積へ流すかの基準  
    - [`問い合わせ改善PLAN.md`](./問い合わせ改善PLAN.md) … 入口・送信ゲート・返信運用へ落とす段階計画  
+   - [`chat-reply-templates.md`](./chat-reply-templates.md) … AI 返信テンプレに加え、**人間向け初回返信**（MODE: inquiry）と `inquiry-brief` の対応  
 7. **会話の境界（session）** … [`concierge-chat-scopes.md`](./concierge-chat-scopes.md)（`concierge-session-id.ts` と同 PR で更新）  
 8. **API 応答モード（シニア等）** … [`concierge-senior-mode.md`](./concierge-senior-mode.md)（`concierge-senior.ts` / `route.ts` と同 PR で更新）  
 9. **リファクタ計画（ドキュメント整理のロードマップ）** … [`requirements-docs-refactor-plan.md`](./requirements-docs-refactor-plan.md)
@@ -35,15 +36,17 @@
 | shell / CTA / 入口 policy の責務境界 | 本索引のコード入口と `refactor-regression-checklist.md` |
 | 全チャットで共通化する facts / 質問担当の見直し | `チャット共通facts一覧.md` と `チャット質問棚卸し表.md` と `src/lib/facts/canonical-facts.ts` と `src/lib/chat/question-definition.ts` |
 | 問い合わせへ送る条件 / demo へ流す条件 / 送信ゲート | `問い合わせポリシー.md` と `問い合わせ改善PLAN.md` |
+| 問い合わせ初回返信テンプレ（人間オペ）または `inquiry-brief` 説明の見直し | `chat-reply-templates.md`（MODE: inquiry）と `問い合わせポリシー.md` §初回返信 |
 | 「トップだけおかしい」系の**プロダクト要件** | `要件定義.md` §3（受け入れ条件）と本索引から辿る B 層 doc |
 
 ## 実装の主要エントリ（コード）
 
 - UI 分岐・モーダル幅・表面: `src/components/chat/ChatContainer.tsx`（分岐の純粋算出は `src/lib/chat/concierge-panel-derived-state.ts`、副作用は `src/hooks/use-concierge-container-effects.ts`、CTA と入口 policy は `src/lib/chat/concierge-cta-policy.ts` / `src/lib/chat/concierge-entry-policy.ts`）  
-- トップ分岐ロジック: `src/lib/chat/concierge-flow.ts`  
+- トップ分岐ロジック: `src/lib/chat/concierge-flow.ts`（質問定義は `src/lib/chat/concierge-flow-definitions.ts`、UI 導線は `src/components/chat/HomeConciergeFlow.tsx`）  
 - 質問定義の共通契約: `src/lib/chat/question-definition.ts`（トップは `src/lib/chat/concierge-flow-definitions.ts`、demo は `src/lib/demo/intelligent-concierge.ts`、services は `src/lib/chat/service-card-preset-content.ts`）  
 - 吹き出し表示: `src/components/chat/ChatBubble.tsx`（ユーザーはプレーン、アシスタントは `assistant-markdown.tsx` で Markdown・内部パスリンク可）  
 - チャット API: `src/app/api/chat/route.ts`
+- 詳細見積 AI（`POST /api/estimate-detailed`）: `src/app/api/estimate-detailed/route.ts`（予算は `estimate-pricing-input.ts` でレンジ計算から除外、回答ベースの下限補正は `estimate-credible-range.ts`）
 - デモ hub のフリーテキスト→おすすめ3件（ルール・LLMなし）: `src/app/api/demos/recommend-from-text/route.ts` ＋ `src/lib/demo/infer-concierge-answers-from-text.ts`
 
 ## トップだけ挙動が異なって見える理由（要約）

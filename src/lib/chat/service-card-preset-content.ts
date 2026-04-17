@@ -21,13 +21,13 @@ export type ConStep1Key = "con_support" | "con_outcome";
 export type ServiceStep1Key = DevStep1Key | ConStep1Key;
 
 export const DEV_STEP1_DEFS: ReadonlyArray<{ key: DevStep1Key; label: string }> = [
-  { key: "dev_what", label: "何を作れるか・技術を知りたい" },
-  { key: "dev_cost", label: "費用・期間・準備を知りたい" },
+  { key: "dev_what", label: "作りたい業務ツールを整理したい" },
+  { key: "dev_cost", label: "進め方と概算の目安を知りたい" },
 ] as const;
 
 export const CON_STEP1_DEFS: ReadonlyArray<{ key: ConStep1Key; label: string }> = [
-  { key: "con_support", label: "支援内容・進め方を知りたい" },
-  { key: "con_outcome", label: "成果・費用感を知りたい" },
+  { key: "con_support", label: "業務整理から伴走してほしい" },
+  { key: "con_outcome", label: "改善成果のイメージを固めたい" },
 ] as const;
 
 export function getStep2Labels(
@@ -91,22 +91,22 @@ export type DevelopmentPresetLabel = (typeof DEVELOPMENT_PRESET_LABELS)[number];
 export type ConsultingPresetLabel = (typeof CONSULTING_PRESET_LABELS)[number];
 
 const DEV_STEP1_QUESTION_DEFS: ReadonlyArray<QuestionChoiceDefinition<DevStep1Key>> = [
-  createQuestionChoice("dev_what", "何を作れるか・技術を知りたい", [
+  createQuestionChoice("dev_what", "作りたい業務ツールを整理したい", [
     createFactEmission("entryIntent", "candidate"),
     createFactEmission("productCategory", "candidate"),
   ]),
-  createQuestionChoice("dev_cost", "費用・期間・準備を知りたい", [
+  createQuestionChoice("dev_cost", "進め方と概算の目安を知りたい", [
     createFactEmission("entryIntent", "candidate"),
     createFactEmission("desiredReply", "candidate"),
   ]),
 ] as const;
 
 const CON_STEP1_QUESTION_DEFS: ReadonlyArray<QuestionChoiceDefinition<ConStep1Key>> = [
-  createQuestionChoice("con_support", "支援内容・進め方を知りたい", [
+  createQuestionChoice("con_support", "業務整理から伴走してほしい", [
     createFactEmission("entryIntent", "candidate"),
     createFactEmission("desiredReply", "candidate"),
   ]),
-  createQuestionChoice("con_outcome", "成果・費用感を知りたい", [
+  createQuestionChoice("con_outcome", "改善成果のイメージを固めたい", [
     createFactEmission("entryIntent", "candidate"),
     createFactEmission("desiredReply", "candidate"),
   ]),

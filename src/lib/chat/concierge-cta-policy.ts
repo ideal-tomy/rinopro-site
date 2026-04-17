@@ -55,7 +55,7 @@ export function buildDelayedConciergeCtaConfig(args: {
       buttonCtas: [
         {
           key: "estimate",
-          label: mode === "consulting" ? "相談・見積もり" : "概算見積もり",
+          label: "詳細見積もり",
           href: "/estimate-detailed",
           ctaKind: "estimate_detailed",
           variant: "primary",
@@ -113,13 +113,13 @@ export function resolveHomeDoneDemoCta(
   return demoSlugResolved
     ? {
         key: "demo",
-        label: "参考demo",
+        label: "近いdemo",
         href: experienceHref(demoSlugResolved),
         ctaKind: "experience_prototype",
       }
     : {
         key: "demo",
-        label: "参考demo",
+        label: "近いdemo",
         href: "/demo/list",
         ctaKind: "demo_list",
       };
@@ -134,7 +134,7 @@ export function buildHomeDoneFooterCtas(
     primaryButtons: [
       {
         key: "estimate",
-        label: "自動見積もり",
+        label: "詳細見積もりへ",
         href: "/estimate-detailed",
         ctaKind: "estimate_detailed",
         variant: "primary",

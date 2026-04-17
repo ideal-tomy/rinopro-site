@@ -32,7 +32,7 @@ const CONCIERGE_ENTRY_PRESETS: Record<
   servicesDevelopmentCard: {
     mode: "development",
     entrySource: "services-card-development",
-    signals: { entryIntent: "consult" },
+    signals: { entryIntent: "estimate" },
   },
   servicesConsultingCard: {
     mode: "consulting",

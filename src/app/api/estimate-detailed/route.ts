@@ -18,6 +18,7 @@ import {
   buildPricingAnswerLines,
   pickBudgetContextLines,
 } from "@/lib/estimate/estimate-pricing-input";
+import { applyCredibleMinimumRangeToEstimate } from "@/lib/estimate/estimate-credible-range";
 import { estimateDetailedAiOutputSchema } from "@/lib/estimate/estimate-snapshot";
 import { rateLimit } from "@/lib/rate-limit";
 
@@ -154,6 +155,9 @@ export async function POST(req: Request) {
         );
       }
     }
+
+    const credible = applyCredibleMinimumRangeToEstimate(final, answers);
+    final = credible.output;
 
     return Response.json(final);
   } catch (err) {

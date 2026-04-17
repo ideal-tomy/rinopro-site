@@ -101,7 +101,8 @@ const POPUP_COPY: Record<
 > = {
   default: {
     title: "AIコンシェルジュ",
-    description: "音声またはテキストでお気軽にご相談ください。",
+    description:
+      "音声またはテキストで、いまの課題や聞きたいことを短く送ってください。",
   },
   development: {
     title: "開発について",

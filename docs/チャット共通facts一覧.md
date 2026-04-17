@@ -44,7 +44,7 @@
 
 | fact | 役割 | 現状の主な格納先 | 備考 |
 |------|------|------------------|------|
-| `entryIntent` | 直近の入口意図。学習・比較・相談・見積のどれで入ってきたか | `visitorJourney.latestEntryIntent` | 現状は `learn / compare / consult / estimate` の粒度 |
+| `entryIntent` | 直近の入口意図。学習・比較・相談・見積のどれで入ってきたか | `visitorJourney.latestEntryIntent` | Phase 7 で入口文言は「欲しいもの」起点へ変更したが、保存粒度は `learn / compare / consult / estimate` を維持 |
 | `pageKindHistory` | 最近どのページ群を見てきたか | `visitorJourney.recentPageKinds` | 関心の偏りや温度感を見る補助 |
 | `interestBias` | demo 寄り / consulting 寄り / development 寄り | `visitorJourney.interestBias` | CTA 優先順や返答トーンの補助 |
 | `journeyDepth` | `light / exploring / estimate_ready / contact_ready` | `visitorJourney.journeyDepth` | 今どの段階にいるかの要約 |

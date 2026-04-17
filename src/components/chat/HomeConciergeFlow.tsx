@@ -162,6 +162,15 @@ function commitIndustryGateFrame(
       industryBundle: bundle,
     };
   }
+  if (pending.track === "D") {
+    return {
+      kind: "question",
+      track: "D",
+      step: D_STEP2,
+      path: rootPath,
+      industryBundle: bundle,
+    };
+  }
   return {
     kind: "question",
     track: "E",
@@ -171,7 +180,7 @@ function commitIndustryGateFrame(
   };
 }
 
-const ROOT_TITLE = "知りたいこと";
+const ROOT_TITLE = "欲しいもの";
 
 function rootSelection(choice: FlowChoice): FlowSelection {
   return {
@@ -345,16 +354,17 @@ export function HomeConciergeFlow({
   }, []);
 
   const trackFromRootId = (id: string): ConciergeTrack | null => {
-    if (id === "root_a") return "A";
-    if (id === "root_b") return "B";
-    if (id === "root_e") return "E";
+    if (id === "root_need_touchpoint" || id === "root_need_automation") return "A";
+    if (id === "root_need_new_service") return "B";
+    if (id === "root_need_reception") return "D";
+    if (id === "root_need_clarify") return "E";
     return null;
   };
 
   const handleRootPick = useCallback(
     (choice: FlowChoice) => {
       const path = [rootSelection(choice)];
-      if (choice.id === "root_cde") {
+      if (choice.id === "root_need_management") {
         push({
           kind: "industry_gate",
           rootPath: path,
@@ -610,7 +620,7 @@ export function HomeConciergeFlow({
           {current.kind === "root" && (
             <div className="space-y-4">
               <h3 className="text-center text-[14px] font-semibold leading-relaxed tracking-wide text-text/95 sm:text-[16px]">
-                目的に近いものを選んでください
+                いま一番ほしい状態に近いものを選んでください
               </h3>
               <div className="flex flex-col gap-3">
                 {ROOT_CHOICES.map((c, idx) => (

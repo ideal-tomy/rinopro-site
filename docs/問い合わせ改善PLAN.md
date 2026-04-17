@@ -329,4 +329,5 @@
 - この PLAN は、いきなり全面実装するより **Phase 4 → Phase 5 → Phase 1/2** の順でも進められる
 - 先に送信ゲートと問い合わせコピーを締めるだけでも、運用負荷はかなり下がる
 - その後に入口カテゴリと facts モデルを揃えると、全チャットボットへの反映がしやすい
+- **2026-04-17（親計画 Phase 8）**: Phase 6 のコピー方針・Phase 7 の初回返信骨子を、`site-copy` / トップ分岐 `e_talk` / `concierge-prompts` / [`chat-reply-templates.md`](./chat-reply-templates.md)（MODE: inquiry）へ反映済み。メール本文テンプレがアプリ外の場合は同ドキュメントを運用の正とする。
 
