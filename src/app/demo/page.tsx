@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { PageShell } from "@/components/layout/PageShell";
 import { DemoPageContent } from "@/components/demo/DemoPageContent";
 import { fetchDemosForDisplay } from "@/lib/sanity/fetch";
@@ -14,7 +15,9 @@ export default async function DemoPage() {
 
   return (
     <PageShell>
-      <DemoPageContent demos={demos} />
+      <Suspense fallback={null}>
+        <DemoPageContent demos={demos} />
+      </Suspense>
     </PageShell>
   );
 }

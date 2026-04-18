@@ -22,6 +22,8 @@ export interface BeforeAfterDocumentShellProps {
   meta: ExperiencePrototypeMeta;
   className?: string;
   sampleTexts: string[];
+  /** `sampleTexts` と同じ長さ。未指定時は「サンプル1」…で表示 */
+  sampleLabels?: string[];
   buildMock: (input: DocumentShellUserInput) => DocumentShellMockResult;
   choiceSteps?: DocumentShellChoiceStep[];
   leftPanelTitle?: string;
@@ -218,10 +220,12 @@ function RightPanel({
   result,
   cursor,
   fullReveal,
+  runButtonLabel,
 }: {
   result: DocumentShellMockResult;
   cursor: Cursor;
   fullReveal: boolean;
+  runButtonLabel: string;
 }) {
   const blocks = result.blocks;
   const out: ReactNode[] = [];
@@ -246,7 +250,7 @@ function RightPanel({
   if (cursor.phase === "idle") {
     return (
       <p className="text-sm text-text-sub md:text-[1rem]">
-        左のメモを入力し、中央のボタンでたたき台を生成します。
+        左のメモを入力し、中央の「{runButtonLabel}」でたたき台を生成します。
       </p>
     );
   }
@@ -332,6 +336,7 @@ export function BeforeAfterDocumentShell({
   meta,
   className,
   sampleTexts,
+  sampleLabels,
   buildMock,
   choiceSteps = [],
   leftPanelTitle = "入力メモ（雑でOK）",
@@ -477,9 +482,9 @@ export function BeforeAfterDocumentShell({
               </p>
               <Button
                 type="button"
-                variant="outline"
+                variant="ghost"
                 size="sm"
-                className="border-silver/35 text-text hover:bg-silver/10 hover:text-text"
+                className="text-text-sub hover:bg-silver/10 hover:text-text"
                 disabled={busy}
                 onClick={openChoiceWizard}
               >
@@ -487,6 +492,27 @@ export function BeforeAfterDocumentShell({
                   ? "選択を編集"
                   : "選択を設定"}
               </Button>
+            </div>
+          ) : null}
+          {sampleTexts.length > 0 ? (
+            <div className="mb-3">
+              <p className="mb-2 text-xs font-medium text-text md:text-sm">
+                別のシナリオを読み込む
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {sampleTexts.map((s, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() => setText(s)}
+                    className="max-w-full rounded-lg border border-accent/35 bg-accent/5 px-3 py-1.5 text-left text-xs text-text transition hover:border-accent/55 hover:bg-accent/10 md:text-sm"
+                    title={s}
+                    aria-label={`${sampleLabels?.[i] ?? `シナリオ${i + 1}`}の文面を入力欄に読み込む`}
+                  >
+                    {sampleLabels?.[i] ?? `シナリオ${i + 1}`}
+                  </button>
+                ))}
+              </div>
             </div>
           ) : null}
           <Textarea
@@ -497,19 +523,6 @@ export function BeforeAfterDocumentShell({
             className="min-h-[140px] flex-1 resize-y font-mono text-sm text-text md:text-[1rem]"
             spellCheck={false}
           />
-          <div className="mt-3 flex flex-wrap gap-2">
-            {sampleTexts.map((s, i) => (
-              <button
-                key={i}
-                type="button"
-                onClick={() => setText(s)}
-                className="max-w-full truncate rounded-full border border-silver/30 bg-silver/5 px-3 py-1 text-xs text-text-sub transition hover:border-accent/40 hover:text-text md:text-sm"
-                title={s}
-              >
-                サンプル{i + 1}
-              </button>
-            ))}
-          </div>
           <p className="mt-2 text-xs text-text-sub">
             本画面はプロトタイプです。同じテーマの{" "}
             <Link
@@ -562,10 +575,11 @@ export function BeforeAfterDocumentShell({
                 result={result}
                 cursor={cursor}
                 fullReveal={fullReveal}
+                runButtonLabel={centerButtonLabel}
               />
             ) : (
               <p className="text-sm text-text-sub md:text-[1rem]">
-                左のメモを入力し、中央の「AI実行」で体裁のたたき台を生成します。
+                左のメモを入力し、中央の「{centerButtonLabel}」で体裁のたたき台を生成します。
               </p>
             )}
           </div>

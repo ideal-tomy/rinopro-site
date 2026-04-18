@@ -31,3 +31,20 @@
 - [ ] **機能パターンの偏り**: [`docs/demo-mock-taxonomy-matrix.md`](demo-mock-taxonomy-matrix.md) の表で、同セルへの集中が続いていないか確認
 - [ ] **重複インベントリ更新**: [`docs/demo-mock-inventory.md`](demo-mock-inventory.md) に追記済み
 - [ ] **seed 実行または Studio Publish 後**: `/demo`・`/demo/[slug]` の表示をスポット確認
+
+## E. 初回体験フロー（UI で誘導・tool-demo / 体験プロトタイプ共通）
+
+長文の機能説明より、**最初の数秒で「次の一手」が視線で分かる**ことを優先する。
+
+- [ ] **主 CTA は原則1つ**（実行・生成など）。補助操作は主操作の後か、視覚的に一段弱くする
+- [ ] **初回は短い一本道**（未入力→試す→結果）。高度な設定は折りたたみ・ウィザード・後段に分離
+- [ ] **サンプル・シナリオ切替**は「中身の差し替え」と分かるラベル（「サンプル1」だけにしない）。可能なら入力欄の直上に置く
+- [ ] **詳細仕様・機能一覧**はページ上段を占有しない（折りたたみ・「詳しく」・`/experience` では `foldLeadCopy` 等で任意表示）
+- [ ] **フローティングの「相談」系**は、生成の主ボタンと役割が被らない表記にする
+- [ ] **アクセシビリティ**: 視覚誘導に加え、ボタン名や `aria-label` で「押すと何が起きるか」を短く伝える（長文マニュアルの代替ではない）
+
+既存の書類たたき台シェル（[`BeforeAfterDocumentShell`](../src/components/experience/shells/BeforeAfterDocumentShell.tsx)）では `DocumentShellPresetDefinition.sampleLabels` でシナリオ名を渡せる。
+
+## F. 横展開（優先度）
+
+パイロットで型が固まったら、[`docs/demo-mock-inventory.md`](demo-mock-inventory.md) または [demo-portfolio-triage.md](demo-portfolio-triage.md) の優先度に沿って順次、セクション E を適用する。重複 UI が増えたら共有コンポーネント化を検討する。

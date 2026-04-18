@@ -1,10 +1,11 @@
 "use client";
 
-import Link from "next/link";
+import { ScrollSavingLink } from "@/components/navigation/ScrollSavingLink";
 import { useCallback, useEffect, useRef, useState, type MouseEvent } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import type { ExperiencePrototypeMeta } from "@/lib/experience/prototype-registry";
+import { buildExperienceEntryHref } from "@/lib/navigation/experience-entry";
 
 type Props = {
   meta: ExperiencePrototypeMeta;
@@ -16,6 +17,8 @@ type Props = {
    * `default`: 動画上オーバーレイ＋カード全体リンク。
    */
   variant?: "hub" | "split" | "default";
+  /** 設定時、遷移元の pathname + query を `returnTo` として体験リンクに付与 */
+  entryLocation?: string;
 };
 
 export function FeaturedExperienceVideoCard({
@@ -23,10 +26,15 @@ export function FeaturedExperienceVideoCard({
   videoSrc,
   className,
   variant = "default",
+  entryLocation,
 }: Props) {
   const [videoFailed, setVideoFailed] = useState(false);
   const [playbackBlocked, setPlaybackBlocked] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  const experienceHref = entryLocation
+    ? buildExperienceEntryHref(meta.slug, entryLocation)
+    : `/experience/${meta.slug}`;
 
   const ensureVideoPlayback = useCallback(() => {
     const video = videoRef.current;
@@ -167,7 +175,7 @@ export function FeaturedExperienceVideoCard({
           </p>
 
           <Button asChild variant="default" size="lg" className={cn("mt-4", ctaButtonClass)}>
-            <Link href={`/experience/${meta.slug}`}>体験を開く</Link>
+            <ScrollSavingLink href={experienceHref}>体験を開く</ScrollSavingLink>
           </Button>
         </div>
       </article>
@@ -232,7 +240,7 @@ export function FeaturedExperienceVideoCard({
             size="lg"
             className="mt-4 w-full min-h-12 border-silver/25 px-4 text-[15px] font-medium text-text-sub hover:border-action/45 hover:bg-action/10 hover:text-action sm:min-h-[3.25rem] sm:text-[1.05rem] md:min-h-14"
           >
-            <Link href={`/experience/${meta.slug}`}>体験を開く</Link>
+            <ScrollSavingLink href={experienceHref}>体験を開く</ScrollSavingLink>
           </Button>
         </div>
       </article>
@@ -241,8 +249,8 @@ export function FeaturedExperienceVideoCard({
 
   return (
     <article>
-      <Link
-        href={`/experience/${meta.slug}`}
+      <ScrollSavingLink
+        href={experienceHref}
         className={cn(
           "group block overflow-hidden rounded-xl border border-silver/25 bg-base-dark/50 transition-[border-color,transform] duration-300 hover:border-accent/40 hover:scale-[1.01] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
           className
@@ -295,7 +303,7 @@ export function FeaturedExperienceVideoCard({
             </span>
           </div>
         </div>
-      </Link>
+      </ScrollSavingLink>
     </article>
   );
 }

@@ -15,6 +15,8 @@ import {
   DEMO_HUB_PURPOSE_GROUPS,
   DEMO_LIST_CONCIERGE_QUERY,
 } from "@/lib/demo/demo-hub-sections";
+import { useCurrentLocationString } from "@/hooks/use-current-location";
+import { buildExperienceEntryHref } from "@/lib/navigation/experience-entry";
 import { getExperiencePrototypeBySlug } from "@/lib/experience/prototype-registry";
 import {
   MockStyleExperienceCard,
@@ -48,6 +50,7 @@ export function PurposePickSection({
   className,
   headingAlign = "start",
 }: PurposePickSectionProps) {
+  const returnSource = useCurrentLocationString();
   const [openPurposeId, setOpenPurposeId] = useState<string | null>(null);
 
   const openGroup = DEMO_HUB_PURPOSE_GROUPS.find((g) => g.id === openPurposeId);
@@ -131,7 +134,7 @@ export function PurposePickSection({
                     <li key={slug} className="flex justify-center">
                       <MockStyleExperienceCard
                         variant="grid"
-                        href={`/experience/${slug}`}
+                        href={buildExperienceEntryHref(slug, returnSource)}
                         title={meta.title}
                         oneLiner={oneLiner}
                         functionTags={demo?.functionTags}

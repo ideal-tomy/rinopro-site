@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { Suspense } from "react";
 import { Geist } from "next/font/google";
 import { Noto_Sans_JP } from "next/font/google";
 import { Header } from "@/components/layout/Header";
@@ -6,6 +7,7 @@ import { Footer } from "@/components/layout/Footer";
 import { ConciergeChatProvider } from "@/components/chat/concierge-chat-context";
 import { ChatContainerLazy } from "@/components/chat/ChatContainerLazy";
 import { VisitorJourneyTracker } from "@/components/journey/VisitorJourneyTracker";
+import { ScrollRestoreOnRoute } from "@/components/navigation/ScrollRestoreOnRoute";
 import "./globals.css";
 
 const geist = Geist({
@@ -56,6 +58,9 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-[var(--color-base)] text-[var(--color-text)]">
         <ConciergeChatProvider>
+          <Suspense fallback={null}>
+            <ScrollRestoreOnRoute />
+          </Suspense>
           <VisitorJourneyTracker />
           <Header />
           {children}

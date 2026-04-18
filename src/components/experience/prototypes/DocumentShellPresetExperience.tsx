@@ -21,6 +21,7 @@ export function DocumentShellPresetExperience({
       meta={meta}
       className={cn(className)}
       sampleTexts={preset.samples}
+      sampleLabels={preset.sampleLabels}
       choiceSteps={preset.choiceSteps}
       buildMock={preset.build}
       leftPanelTitle={preset.leftPanelTitle}

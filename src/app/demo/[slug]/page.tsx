@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PageShell } from "@/components/layout/PageShell";
 import { DemoDetailContent } from "@/components/demo/DemoDetailContent";
+import { parseReturnToFromSearchParams } from "@/lib/navigation/experience-entry";
 import { fetchDemoBySlug, fetchDemosForDisplay } from "@/lib/sanity/fetch";
 
 function getSlug(d: { slug?: string | { current?: string } }): string | undefined {
@@ -10,6 +11,7 @@ function getSlug(d: { slug?: string | { current?: string } }): string | undefine
 
 interface DemoDetailPageProps {
   params: Promise<{ slug: string }>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 }
 
 export async function generateMetadata({
@@ -34,14 +36,20 @@ export async function generateStaticParams() {
     .filter((x): x is { slug: string } => x != null);
 }
 
-export default async function DemoDetailPage({ params }: DemoDetailPageProps) {
+export default async function DemoDetailPage({
+  params,
+  searchParams,
+}: DemoDetailPageProps) {
   const { slug } = await params;
   const demo = await fetchDemoBySlug(slug);
   if (!demo) notFound();
 
+  const sp = await searchParams;
+  const returnHref = parseReturnToFromSearchParams(sp);
+
   return (
     <PageShell>
-      <DemoDetailContent demo={demo} />
+      <DemoDetailContent demo={demo} returnHref={returnHref} />
     </PageShell>
   );
 }

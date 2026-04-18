@@ -174,10 +174,18 @@ export const LOAN_PLAN_DRAFT_SAMPLES: string[] = [
   "IT受託で法人化したばかり。今後3年の事業計画の骨子が欲しい。",
 ];
 
+const LOAN_PLAN_DRAFT_SAMPLE_LABELS: string[] = [
+  "銀座エステ開業の例",
+  "渋谷カフェ開業の例",
+  "法人化直後のIT会社の例",
+];
+
 export const loanDocumentPreset: DocumentShellPresetDefinition = {
   choiceSteps: LOAN_CHOICE_STEPS,
   samples: LOAN_PLAN_DRAFT_SAMPLES,
+  sampleLabels: LOAN_PLAN_DRAFT_SAMPLE_LABELS,
   build: buildLoanPlanDraftMock,
   leftPanelTitle: "事業メモ（雑でOK）",
+  centerButtonLabel: "たたき台を生成",
   rightPanelTitle: "事業計画・資金計画（体裁イメージ）",
 };

@@ -22,6 +22,8 @@ export interface DocumentShellUserInput {
 export interface DocumentShellPresetDefinition {
   choiceSteps: DocumentShellChoiceStep[];
   samples: string[];
+  /** サンプルボタン表記（`samples` と同じ長さ）。未指定時は「サンプル1」形式 */
+  sampleLabels?: string[];
   build: (input: DocumentShellUserInput) => DocumentShellMockResult;
   leftPanelTitle?: string;
   centerButtonLabel?: string;

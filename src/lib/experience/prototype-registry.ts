@@ -16,6 +16,8 @@ export interface ExperiencePrototypeMeta {
    * 書類たたき台系など「開いた瞬間から専用画面」を優先するデモ向け。
    */
   immersiveOnDemoDetail?: boolean;
+  /** true のとき `/experience/{slug}` で `shortDescription` を折りたたみ（任意で開く） */
+  foldLeadCopy?: boolean;
   /** Live Sync テンプレの出力モード（`ExperiencePrototypeRunner` が Live Sync へルーティング） */
   liveSyncMode?: LiveSyncMode;
 }
@@ -66,6 +68,7 @@ export const EXPERIENCE_PROTOTYPES: ExperiencePrototypeMeta[] = [
     shortDescription:
       "問い合わせ本文からカテゴリ・優先度・タグを付与し、顧客向け返信案と社内メモをモック生成します。",
     inputHint: "例: 配送が遅れている／商品が破損／解約の手続きを知りたい",
+    foldLeadCopy: true,
   },
   {
     slug: "live-sync-voice-translation",
@@ -117,6 +120,7 @@ export const EXPERIENCE_PROTOTYPES: ExperiencePrototypeMeta[] = [
     inputHint:
       "例: エステを銀座で開業、融資の計画書を作りたい（内装の目安額があればメモ）",
     immersiveOnDemoDetail: true,
+    foldLeadCopy: true,
   },
   {
     slug: "bullet-mess-to-meeting-agenda",
@@ -147,6 +151,7 @@ export const EXPERIENCE_PROTOTYPES: ExperiencePrototypeMeta[] = [
       "テーマメモから、章立てとスライド設計表をモックで組み立てます。",
     inputHint: "例: 聴衆に伝えたい結論と、話したい論点をメモ",
     immersiveOnDemoDetail: true,
+    foldLeadCopy: true,
   },
   {
     slug: "rfp-requirements-extract",

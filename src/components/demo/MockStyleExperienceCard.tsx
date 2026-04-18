@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { ScrollSavingLink } from "@/components/navigation/ScrollSavingLink";
 import { cn } from "@/lib/utils";
 import {
   getIndustryTagClass,
@@ -33,7 +33,7 @@ export function MockStyleExperienceCard({
   onNavigate,
 }: MockStyleExperienceCardProps) {
   return (
-    <Link
+    <ScrollSavingLink
       href={href}
       onClick={() => onNavigate?.()}
       className={cn(
@@ -84,7 +84,7 @@ export function MockStyleExperienceCard({
           体験する
         </span>
       </div>
-    </Link>
+    </ScrollSavingLink>
   );
 }
 

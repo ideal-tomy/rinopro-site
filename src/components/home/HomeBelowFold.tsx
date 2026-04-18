@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { PageSectionDivider } from "@/components/layout/PageSectionDivider";
 import { FeaturedExperienceVideoCard } from "@/components/experience/FeaturedExperienceVideoCard";
-import { TypeExperienceSection } from "@/components/demo/TypeExperienceSection";
 import { PurposePickSection } from "@/components/demo/PurposePickSection";
 import {
   heroStaggerContainer,
@@ -15,6 +14,7 @@ import {
   homeDevelopmentSectionCopy,
   homeConsultingSectionCopy,
 } from "@/lib/content/site-copy";
+import { useCurrentLocationString } from "@/hooks/use-current-location";
 import { getFeaturedExperiencePrototypes } from "@/lib/experience/prototype-registry";
 import { FEATURED_SHOWCASE_VIDEO_BY_SLUG } from "@/lib/experience/featured-showcase-media";
 import type {
@@ -28,6 +28,8 @@ interface HomeBelowFoldProps {
 }
 
 export function HomeBelowFold({ demos }: HomeBelowFoldProps) {
+  const entryLocation = useCurrentLocationString();
+
   return (
     <>
       <div className="py-10 md:py-14">
@@ -52,6 +54,7 @@ export function HomeBelowFold({ demos }: HomeBelowFoldProps) {
               <FeaturedExperienceVideoCard
                 variant="split"
                 meta={p}
+                entryLocation={entryLocation}
                 videoSrc={
                   FEATURED_SHOWCASE_VIDEO_BY_SLUG[p.slug as FeaturedExperienceSlug]
                 }
@@ -75,23 +78,6 @@ export function HomeBelowFold({ demos }: HomeBelowFoldProps) {
         <motion.div
           variants={heroStaggerItem}
           custom={[0.12, 0.22] as [number, number]}
-          className="mb-16 md:mb-24"
-        >
-          <TypeExperienceSection
-            demos={demos}
-            headingId="home-type-experiences-heading"
-            headingAlign="center"
-            pcLayout="carousel"
-          />
-        </motion.div>
-
-        <div className="py-10 md:py-12">
-          <PageSectionDivider />
-        </div>
-
-        <motion.div
-          variants={heroStaggerItem}
-          custom={[0.18, 0.28] as [number, number]}
         >
           <PurposePickSection
             demos={demos}

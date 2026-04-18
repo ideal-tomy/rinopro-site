@@ -14,10 +14,19 @@ import type { ExperiencePrototypeMeta } from "@/lib/experience/prototype-registr
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { cn } from "@/lib/utils";
 
-const SAMPLES = [
-  "商品が届いたが箱が潰れている。交換したい",
-  "来月からプランを解約したい。手続きを教えて",
-  "ログインできない。エラーコード 403 が出る",
+const SAMPLE_SCENARIOS = [
+  {
+    label: "配送・破損の例",
+    body: "商品が届いたが箱が潰れている。交換したい",
+  },
+  {
+    label: "解約手続きの例",
+    body: "来月からプランを解約したい。手続きを教えて",
+  },
+  {
+    label: "ログイン不具合の例",
+    body: "ログインできない。エラーコード 403 が出る",
+  },
 ] as const;
 
 const tagContainer = {
@@ -86,6 +95,23 @@ export function InquiryIntakeTriageExperience({
           <h2 className="mb-3 text-sm font-semibold text-accent md:text-[1rem]">
             新着問い合わせ（未分類）
           </h2>
+          <p className="mb-2 text-xs font-medium text-text-sub md:text-sm">
+            例の問い合わせを読み込む
+          </p>
+          <div className="mb-3 flex flex-wrap gap-2">
+            {SAMPLE_SCENARIOS.map(({ label, body }) => (
+              <button
+                key={label}
+                type="button"
+                onClick={() => setText(body)}
+                className="rounded-lg border border-amber-500/35 bg-amber-500/10 px-3 py-1.5 text-left text-xs text-text transition hover:border-amber-500/55 hover:bg-amber-500/15 md:text-sm"
+                title={body}
+                aria-label={`「${label}」の文面を入力欄に読み込む`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
           <Textarea
             value={text}
             onChange={(e) => setText(e.target.value)}
@@ -93,18 +119,6 @@ export function InquiryIntakeTriageExperience({
             rows={4}
             className="mb-3 resize-y text-sm md:text-[1rem]"
           />
-          <div className="mb-3 flex flex-wrap gap-2">
-            {SAMPLES.map((s) => (
-              <button
-                key={s}
-                type="button"
-                onClick={() => setText(s)}
-                className="rounded-lg border border-silver/30 px-3 py-1.5 text-left text-xs text-text-sub transition hover:border-amber-500/40 hover:text-text md:text-sm"
-              >
-                {s}
-              </button>
-            ))}
-          </div>
           <Button type="button" onClick={run} disabled={!text.trim()}>
             分類・タグ付与・下書き生成
           </Button>

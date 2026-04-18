@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
+import { ScrollSavingLink } from "@/components/navigation/ScrollSavingLink";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
@@ -13,6 +14,7 @@ import {
   getFunctionTagClass,
   getIndustryTagClass,
 } from "@/lib/demo/demo-taxonomy";
+import { buildToolDemoEntryHref } from "@/lib/navigation/experience-entry";
 
 function getSlug(demo: AiDemo | DemoItem): string | undefined {
   return typeof demo.slug === "object" ? demo.slug?.current : demo.slug;
@@ -36,7 +38,13 @@ function RunModeBadge({ demo }: { demo: AiDemo | DemoItem }) {
   );
 }
 
-function RecommendationCard({ pick }: { pick: ConciergePick }) {
+function RecommendationCard({
+  pick,
+  returnSource,
+}: {
+  pick: ConciergePick;
+  returnSource: string;
+}) {
   const { demo, reason } = pick;
   const slug = getSlug(demo);
   const imageUrl = demo.image?.url;
@@ -44,9 +52,15 @@ function RecommendationCard({ pick }: { pick: ConciergePick }) {
   const functionTags = demo.functionTags ?? [];
   const industryTags = demo.industryTags ?? [];
 
+  const href = slug
+    ? buildToolDemoEntryHref(slug, returnSource)
+    : "/demo/list";
+
+  const LinkComponent = slug ? ScrollSavingLink : Link;
+
   return (
-    <Link
-      href={slug ? `/demo/${slug}` : "/demo/list"}
+    <LinkComponent
+      href={href}
       className="group flex w-[min(78vw,320px)] shrink-0 snap-start flex-col overflow-hidden rounded-xl border border-silver/20 bg-base-dark transition-colors hover:border-accent/40"
     >
       {imageUrl ? (
@@ -107,7 +121,7 @@ function RecommendationCard({ pick }: { pick: ConciergePick }) {
           体験する
         </span>
       </div>
-    </Link>
+    </LinkComponent>
   );
 }
 
@@ -115,10 +129,13 @@ export function DemoListRecommendationPopup({
   picks,
   open,
   onClose,
+  returnSource,
 }: {
   picks: ConciergePick[];
   open: boolean;
   onClose: () => void;
+  /** 一覧に戻すための `returnTo` 元 */
+  returnSource: string;
 }) {
   const railRef = useRef<HTMLDivElement | null>(null);
   const [canLeft, setCanLeft] = useState(false);
@@ -217,6 +234,7 @@ export function DemoListRecommendationPopup({
                   <RecommendationCard
                     key={getSlug(pick.demo) ?? pick.demo._id}
                     pick={pick}
+                    returnSource={returnSource}
                   />
                 ))}
               </div>

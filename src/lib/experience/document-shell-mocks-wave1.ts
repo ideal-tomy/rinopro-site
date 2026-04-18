@@ -41,6 +41,11 @@ export const bulletMessPreset: DocumentShellPresetDefinition = {
     "採用 / オンボーディング / ツール費用\n次回までに各自メモまとめる",
     "障害の振り返りと再発防止、顧客への連絡文言",
   ],
+  sampleLabels: [
+    "キックオフ・予算の例",
+    "採用・オンボーディングの例",
+    "障害振り返りの例",
+  ],
   build: (input: DocumentShellUserInput): DocumentShellMockResult => {
     const lines = extractBulletLikeLines(input.rawText);
     const fallback = splitLines(input.rawText);
@@ -93,6 +98,7 @@ export const bulletMessPreset: DocumentShellPresetDefinition = {
     };
   },
   leftPanelTitle: "飛び跳びメモ（そのまま貼ってOK）",
+  centerButtonLabel: "アジェンダを生成",
   rightPanelTitle: "会議アジェンダ（体裁イメージ）",
 };
 
@@ -205,6 +211,11 @@ export const presentationOutlinePreset: DocumentShellPresetDefinition = {
     "四半期レビュー: 数字はダッシュボード参照\n議論は次の打ち手のみ",
     "新サービスの価格体系とロードマップ",
   ],
+  sampleLabels: [
+    "PoC・投資判断の例",
+    "四半期レビューの例",
+    "新サービス価格の例",
+  ],
   build: (input: DocumentShellUserInput): DocumentShellMockResult => {
     const theme = input.rawText.split(/\n/)[0]?.trim() || "プレゼンテーマ（デモ）";
     const aud =
@@ -261,6 +272,7 @@ export const presentationOutlinePreset: DocumentShellPresetDefinition = {
     };
   },
   leftPanelTitle: "話したいテーマ・メモ",
+  centerButtonLabel: "骨子を生成",
   rightPanelTitle: "プレゼン骨子（体裁イメージ）",
 };
 

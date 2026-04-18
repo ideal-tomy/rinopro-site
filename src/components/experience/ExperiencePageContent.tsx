@@ -1,6 +1,8 @@
 "use client";
 
-import Link from "next/link";
+import { ScrollSavingLink } from "@/components/navigation/ScrollSavingLink";
+import { useCurrentLocationString } from "@/hooks/use-current-location";
+import { buildExperienceEntryHref } from "@/lib/navigation/experience-entry";
 import { ExperienceCard } from "./ExperienceCard";
 import { PageSectionWithScroll, StaggerGrid } from "@/components/layout/PageSectionWithScroll";
 import { Card } from "@/components/ui/card";
@@ -13,6 +15,7 @@ interface ExperiencePageContentProps {
 }
 
 export function ExperiencePageContent({ items }: ExperiencePageContentProps) {
+  const returnSource = useCurrentLocationString();
   const track3 = EXPERIENCE_PROTOTYPES.filter((p) => p.tier === "track3");
   const track2 = EXPERIENCE_PROTOTYPES.filter((p) => p.tier === "track2");
 
@@ -50,14 +53,14 @@ export function ExperiencePageContent({ items }: ExperiencePageContentProps) {
                 key={p.slug}
                 className="border-silver/25 p-5 transition-colors hover:border-accent/40"
               >
-                <Link
-                  href={`/experience/${p.slug}`}
+                <ScrollSavingLink
+                  href={buildExperienceEntryHref(p.slug, returnSource)}
                   className="block text-accent underline-offset-2 hover:underline"
                 >
                   <span className="text-base font-semibold text-text md:text-lg">
                     {p.title}
                   </span>
-                </Link>
+                </ScrollSavingLink>
                 <p className="mt-2 text-sm text-text-sub">{p.shortDescription}</p>
               </Card>
             ))}
@@ -73,14 +76,14 @@ export function ExperiencePageContent({ items }: ExperiencePageContentProps) {
                 key={p.slug}
                 className="border-silver/25 p-5 transition-colors hover:border-accent/40"
               >
-                <Link
-                  href={`/experience/${p.slug}`}
+                <ScrollSavingLink
+                  href={buildExperienceEntryHref(p.slug, returnSource)}
                   className="block text-accent underline-offset-2 hover:underline"
                 >
                   <span className="text-base font-semibold text-text md:text-lg">
                     {p.title}
                   </span>
-                </Link>
+                </ScrollSavingLink>
                 <p className="mt-2 text-sm text-text-sub">{p.shortDescription}</p>
               </Card>
             ))}

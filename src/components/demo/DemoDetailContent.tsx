@@ -12,10 +12,12 @@ import {
   getFunctionTagClass,
 } from "@/lib/demo/demo-taxonomy";
 import { ExperiencePrototypeRunner } from "@/components/experience/ExperiencePrototypeRunner";
+import { DemoExploreStickyRail } from "@/components/experience/DemoExploreStickyRail";
 import {
   getExperiencePrototypeBySlug,
   getExperienceUrlForDemoSlug,
 } from "@/lib/experience/prototype-registry";
+import { getSuggestedNextExperiences } from "@/lib/experience/suggested-next-experiences";
 
 function isAiDemo(demo: AiDemo | DemoItem): demo is AiDemo {
   return (demo as AiDemo)._type === "aiDemo" || "systemPrompt" in demo;
@@ -30,9 +32,14 @@ function getDemoSlugCurrent(demo: AiDemo | DemoItem): string | undefined {
 
 interface DemoDetailContentProps {
   demo: AiDemo | DemoItem;
+  /** `?returnTo=` 検証済み。体験ページと同じく固定ナビの「元のページ」に使う */
+  returnHref?: string | null;
 }
 
-export function DemoDetailContent({ demo }: DemoDetailContentProps) {
+export function DemoDetailContent({
+  demo,
+  returnHref = null,
+}: DemoDetailContentProps) {
   const functionTags = demo.functionTags ?? [];
   const industryTags = demo.industryTags ?? [];
   const hasTags = functionTags.length > 0 || industryTags.length > 0;
@@ -58,10 +65,16 @@ export function DemoDetailContent({ demo }: DemoDetailContentProps) {
   const experienceIsExternal =
     typeof experienceHref === "string" && experienceHref.startsWith("http");
 
+  const exploreSuggestions =
+    demoSlugStr && getExperiencePrototypeBySlug(demoSlugStr)
+      ? getSuggestedNextExperiences(demoSlugStr, 2)
+      : [];
+
   return (
+    <>
     <div
       className={cn(
-        "container mx-auto px-4 py-6 md:py-16 md:px-6",
+        "container mx-auto px-4 py-6 pb-28 md:py-16 md:pb-32 md:px-6",
         useImmersiveFirst ? "max-w-6xl" : "max-w-3xl"
       )}
     >
@@ -258,5 +271,10 @@ export function DemoDetailContent({ demo }: DemoDetailContentProps) {
 
       <DemoCrossServiceLinks />
     </div>
+    <DemoExploreStickyRail
+      returnHref={returnHref}
+      suggestions={exploreSuggestions}
+    />
+    </>
   );
 }

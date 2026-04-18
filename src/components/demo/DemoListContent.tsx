@@ -9,6 +9,7 @@ import {
   useState,
 } from "react";
 import Link from "next/link";
+import { ScrollSavingLink } from "@/components/navigation/ScrollSavingLink";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import type { AiDemo, DemoItem } from "@/lib/sanity/types";
@@ -34,6 +35,9 @@ import type {
   AiDemoIssueTag,
 } from "@/lib/sanity/types";
 import { DemoListRecommendationPopup } from "@/components/demo/DemoListRecommendationPopup";
+import { TypeExperienceSection } from "@/components/demo/TypeExperienceSection";
+import { useCurrentLocationString } from "@/hooks/use-current-location";
+import { buildToolDemoEntryHref } from "@/lib/navigation/experience-entry";
 import { PageSectionDivider } from "@/components/layout/PageSectionDivider";
 import { recordVisitorEntryIntent } from "@/lib/journey/visitor-journey-storage";
 
@@ -63,11 +67,14 @@ function DemoCard({
   demo,
   className,
   reason,
+  href: hrefOverride,
 }: {
   demo: AiDemo | DemoItem;
   className?: string;
   /** コンシェルジュ推薦の一行説明 */
   reason?: string;
+  /** 指定時は `returnTo` 付きなど完全なリンク先 */
+  href?: string;
 }) {
   const slug = getSlug(demo);
   const imageUrl = demo.image?.url;
@@ -75,9 +82,13 @@ function DemoCard({
   const functionTags = demo.functionTags ?? [];
   const industryTags = demo.industryTags ?? [];
 
+  const href = hrefOverride ?? (slug ? `/demo/${slug}` : "#");
+
+  const LinkComponent = href.includes("returnTo=") ? ScrollSavingLink : Link;
+
   return (
-    <Link
-      href={slug ? `/demo/${slug}` : "#"}
+    <LinkComponent
+      href={href}
       className={cn(
         "group flex w-[152px] shrink-0 snap-start flex-col overflow-hidden rounded-xl border border-silver/20 bg-base-dark transition-colors hover:border-accent/40 md:w-[248px]",
         className
@@ -141,7 +152,7 @@ function DemoCard({
           体験する
         </span>
       </div>
-    </Link>
+    </LinkComponent>
   );
 }
 
@@ -252,6 +263,7 @@ interface DemoListContentProps {
 }
 
 export function DemoListContent({ demos }: DemoListContentProps) {
+  const listReturnSource = useCurrentLocationString();
   const { demoListWizardSnapshot, requestOpenDemoListPageConcierge } =
     useConciergeChat();
   const entry = getConciergeEntryPreset("demoListCompare");
@@ -338,7 +350,7 @@ export function DemoListContent({ demos }: DemoListContentProps) {
         <div className="mb-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="space-y-1">
             <p className="text-sm text-text-sub">
-              まずは下のカテゴリから、そのまま気になる demo を見ていけます。
+              その下の形式別で触れる体験を試すか、さらに下のカテゴリから横断して探せます。
             </p>
             <p className="text-xs leading-relaxed text-text-sub/85">
               {appliedAnswers
@@ -375,6 +387,13 @@ export function DemoListContent({ demos }: DemoListContentProps) {
         ) : null}
       </section>
 
+      <TypeExperienceSection
+        demos={demos}
+        headingId="demo-list-type-experiences-heading"
+        headingAlign="center"
+        className="pb-2 pt-2 md:pb-4 md:pt-4"
+      />
+
       <div className="py-8 md:py-10">
         <PageSectionDivider variant="inset" />
       </div>
@@ -389,7 +408,15 @@ export function DemoListContent({ demos }: DemoListContentProps) {
             </h2>
             <HorizontalRail ariaLabel={`${label}のデモ一覧`}>
               {items.map((demo) => (
-                <DemoCard key={demo._id} demo={demo} />
+                <DemoCard
+                  key={demo._id}
+                  demo={demo}
+                  href={
+                    getSlug(demo)
+                      ? buildToolDemoEntryHref(getSlug(demo)!, listReturnSource)
+                      : undefined
+                  }
+                />
               ))}
             </HorizontalRail>
           </section>
@@ -400,6 +427,7 @@ export function DemoListContent({ demos }: DemoListContentProps) {
         picks={conciergePicks}
         open={recommendPopupOpen}
         onClose={() => setRecommendPopupOpen(false)}
+        returnSource={listReturnSource}
       />
     </div>
   );

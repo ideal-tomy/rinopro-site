@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useCurrentLocationString } from "@/hooks/use-current-location";
+import { buildExperienceEntryHref } from "@/lib/navigation/experience-entry";
 import {
   DEMO_HUB_TYPE_SECTION_SLUGS,
   getExperiencePrototypeBySlug,
@@ -32,11 +34,10 @@ interface TypeExperienceSectionProps {
   demos?: (AiDemo | DemoItem)[];
   headingId?: string;
   className?: string;
-  /** 見出しの配置。トップは `center` */
+  /** 見出しの配置（`/demo`・一覧・トップの目的別などで `center` を指定可能） */
   headingAlign?: "start" | "center";
   /**
-   * PC のみ。`carousel` はトップページ向け（3枚×2スライドの自動カルーセル）。
-   * `/demo` では未指定（grid）のままにすること。
+   * PC のみ。`carousel` は自動カルーセル（現状トップでは未使用・`/demo`・`/demo/list` は grid 推奨）。
    */
   pcLayout?: "grid" | "carousel";
 }
@@ -60,6 +61,7 @@ function usePrefersReducedMotion(): boolean {
 
 /**
  * 「タイプ別に体験する」6件。PCは3列×2行またはカルーセル、スマホは横スクロール。
+ * 主な利用箇所: `/demo` 体験ハブ、`/demo/list`（コンシェルジュブロック直下）。
  */
 export function TypeExperienceSection({
   demos,
@@ -68,6 +70,7 @@ export function TypeExperienceSection({
   headingAlign = "start",
   pcLayout = "grid",
 }: TypeExperienceSectionProps) {
+  const returnSource = useCurrentLocationString();
   const [carouselSlide, setCarouselSlide] = useState(0);
   const [carouselInstant, setCarouselInstant] = useState(false);
   const reducedMotion = usePrefersReducedMotion();
@@ -196,7 +199,7 @@ export function TypeExperienceSection({
                       <MockStyleExperienceCard
                         key={`${meta.slug}-${panelKey}`}
                         variant="grid"
-                        href={`/experience/${meta.slug}`}
+                        href={buildExperienceEntryHref(meta.slug, returnSource)}
                         title={meta.title}
                         oneLiner={oneLiner}
                         functionTags={demo?.functionTags}
@@ -264,7 +267,7 @@ export function TypeExperienceSection({
               <MockStyleExperienceCard
                 key={meta.slug}
                 variant="grid"
-                href={`/experience/${meta.slug}`}
+                href={buildExperienceEntryHref(meta.slug, returnSource)}
                 title={meta.title}
                 oneLiner={oneLiner}
                 functionTags={demo?.functionTags}
@@ -291,7 +294,7 @@ export function TypeExperienceSection({
               <MockStyleExperienceCard
                 key={meta.slug}
                 variant="rail"
-                href={`/experience/${meta.slug}`}
+                href={buildExperienceEntryHref(meta.slug, returnSource)}
                 title={meta.title}
                 oneLiner={oneLiner}
                 functionTags={demo?.functionTags}

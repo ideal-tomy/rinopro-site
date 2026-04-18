@@ -3,7 +3,7 @@ import { LayoutGrid } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { PageSectionDivider } from "@/components/layout/PageSectionDivider";
-import { FeaturedExperienceVideoCard } from "@/components/experience/FeaturedExperienceVideoCard";
+import { FeaturedExperienceVideoCardWithReturn } from "@/components/experience/FeaturedExperienceVideoCardWithReturn";
 import { TypeExperienceSection } from "@/components/demo/TypeExperienceSection";
 import { PurposePickSection } from "@/components/demo/PurposePickSection";
 import {
@@ -62,7 +62,7 @@ export function DemoPageContent({ demos }: DemoPageContentProps) {
           </div>
           <div className="mx-auto grid max-w-2xl grid-cols-1 gap-6">
             {featuredOrdered.map((p) => (
-              <FeaturedExperienceVideoCard
+              <FeaturedExperienceVideoCardWithReturn
                 key={p.slug}
                 variant="hub"
                 meta={p}
