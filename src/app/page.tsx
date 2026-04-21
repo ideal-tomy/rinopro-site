@@ -4,9 +4,9 @@ import { HeroSection } from "@/components/home/HeroSection";
 import { fetchDemosForDisplay } from "@/lib/sanity/fetch";
 
 export const metadata: Metadata = {
-  title: "Axeon | 現場業務を、AIで再設計して実装まで伴走する",
+  title: "Axeon | 現場の悩みを、会話で次の一手に。実装から定着まで伴走する",
   description:
-    "建設・士業など現場業務の効率化と、AIによる判定・要約・検索の実装。体験とデモで技術の感触を確認できます。",
+    "面倒な定型作業の整理を、AIコンシェルジュが短時間で手伝います。体験デモで感触を、サービスで全体像を確認できます。建設・士業など幅広い現場向け。",
 };
 
 export default async function Home() {

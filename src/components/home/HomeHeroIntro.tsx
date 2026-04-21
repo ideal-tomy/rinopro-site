@@ -4,6 +4,7 @@ import { HomeConsultCtaButton } from "@/components/home/HomeConsultCtaButton";
 import {
   topCopy,
   homeQuickStartCopy,
+  homeSelfServeRowCopy,
 } from "@/lib/content/site-copy";
 
 export function HomeHeroIntro() {
@@ -61,6 +62,20 @@ export function HomeHeroIntro() {
             </Button>
           </div>
         </div>
+        <p className="mt-5 text-center text-xs text-text-sub md:mt-6">
+          <span className="mr-2">{homeSelfServeRowCopy.lead}</span>
+          {homeSelfServeRowCopy.links.map((item, index) => (
+            <span key={item.href}>
+              {index > 0 ? <span className="text-silver/40"> · </span> : null}
+              <Link
+                href={item.href}
+                className="text-accent underline-offset-2 hover:underline"
+              >
+                {item.label}
+              </Link>
+            </span>
+          ))}
+        </p>
       </section>
     </>
   );

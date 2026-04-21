@@ -9,7 +9,9 @@ export type ConciergeKpiEventName =
   | "cta_visible"
   | "cta_click"
   | "followup_message"
-  | "wizard_reset";
+  | "wizard_reset"
+  | "fab_nudge_visible"
+  | "fab_nudge_dismiss";
 
 export type ConciergeKpiDetail = {
   name: ConciergeKpiEventName;
@@ -21,6 +23,8 @@ export type ConciergeKpiDetail = {
   href?: string;
   ctaKind?: string;
   turn?: number;
+  /** 右下FAB吹き出し用（`getConciergeFabNudgePageId` の値） */
+  nudgePageId?: string;
 };
 
 const EVENT_NAME = "concierge-kpi";

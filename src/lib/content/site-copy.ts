@@ -5,9 +5,158 @@
 
 // --- トップ ---
 export const topCopy = {
-  tagline: "ビジネスを再設計する",
+  tagline: "聞いて整理する。現場の「面倒」を、会話で次の一手に変える",
   subline:
-    "日報作成、写真整理、顧客対応……。現場に潜む『定型作業』をAIが担います。人にしかできない業務に集中できる環境を、実装から定着まで創り上げます。",
+    "Axeonは、読むだけのサイトではなく、話して進める導入です。1分ほどで悩みの整理と、次にやることが見えます。日報、写真、顧客対応──定型に埋もれる時間を減らし、人にしかできない仕事に寄せます。",
+} as const;
+
+/**
+ * 右下FAB「AIに相談」付近の先回り吹き出し（`ConciergeFabNudge`）
+ * ページIDごとに3文をローテ。v2 で閉じる状態のキー変更（v1 無効化）。
+ */
+export const conciergeFabNudgeShared = {
+  storageKey: "axeon:fab-nudge:v2" as const,
+  rotationIntervalMs: 4500,
+  /** 吹き出しの操作は閉じるのみ（`ConciergeFabNudge`） */
+  controls: {
+    close: "閉じる",
+  },
+} as const;
+
+export type ConciergeFabNudgePageId =
+  | "home"
+  | "demo_hub"
+  | "demo_list"
+  | "demo_detail"
+  | "services"
+  | "contact"
+  | "consulting"
+  | "flow"
+  | "other";
+
+type FabNudgePageContent = {
+  regionAriaLabel: string;
+  lines: readonly [string, string, string];
+};
+
+export const conciergeFabNudgeByPageId: Record<
+  ConciergeFabNudgePageId,
+  FabNudgePageContent
+> = {
+  home: {
+    regionAriaLabel: "AIコンシェルジュからの案内",
+    lines: [
+      "こんにちは。いまいちばん面倒なことは何ですか？",
+      "例：日報に毎日30分かかる、と1行でOKです。",
+      "うまく言えなくても大丈夫。質問に答えるだけで整理が進みます。",
+    ],
+  },
+  demo_hub: {
+    regionAriaLabel: "体験ラボの案内",
+    lines: [
+      "いま感じている課題のキーワードを、短く教えてください。",
+      "例：書類探し、写真の振り分け、問い合わせ返信、など。",
+      "目的に近い体験の探し方や、比較の相談も受け付けます。",
+    ],
+  },
+  demo_list: {
+    regionAriaLabel: "デモ一覧の案内",
+    lines: [
+      "比較したい観点（業種・用途・工数感など）を教えてください。",
+      "一覧が多くて迷う場合は、候補を一緒に絞れます。",
+      "短くメモのように送っても、質問形式で整えてもOKです。",
+    ],
+  },
+  demo_detail: {
+    regionAriaLabel: "体験デモの案内",
+    lines: [
+      "この体験で確かめたいこと、うまく言語化しきれなければ雑多でもOKです。",
+      "うまくいかなかった点や、自社に当てはめた疑問を投げてください。",
+      "他のデモ候補や、応用のイメージも相談できます。",
+    ],
+  },
+  services: {
+    regionAriaLabel: "サービス案内",
+    lines: [
+      "開発とコンサル、どちらに近い相談か、迷っていても構いません。",
+      "今の制約（期日感・社内合意のしやすさなど）は、ざっくりで大丈夫です。",
+      "文書を読んでも整理が難しければ、会話の方が早いこともあります。",
+    ],
+  },
+  contact: {
+    regionAriaLabel: "お問い合わせ案内",
+    lines: [
+      "問い合わせ前に、用件の骨子を一緒に整えたい方へ。",
+      "言葉に詰まる場合は、質問に答えるだけで文章の素案にできます。",
+      "営業を迫るものではありません。必要な事実だけ抜き出します。",
+    ],
+  },
+  consulting: {
+    regionAriaLabel: "コンサルティング案内",
+    lines: [
+      "現場の制約（体制・工数感・いつまでに結論欲しいか）を、短くで構いません。",
+      "いま起きていることと、欲しい形のギャップを一緒に言語化します。",
+      "過剰な提案に進みすぎないよう、次の一歩に絞って話せます。",
+    ],
+  },
+  flow: {
+    regionAriaLabel: "開発の流れの案内",
+    lines: [
+      "いま何が見えていて、次に知りたいのは何ですか。",
+      "試作の範囲、現場検証、本実装、など段階の相談もできます。",
+      "うまく言えなければ、質問形式で一緒に形にします。",
+    ],
+  },
+  other: {
+    regionAriaLabel: "AIコンシェルジュからの案内",
+    lines: [
+      "いま手が止まっている点や、聞きたいことを、短く送ってください。",
+      "専門用語が出たら、かみ砕いて説明します。",
+      "うまく言えなければ、質問に答えていく形でも大丈夫です。",
+    ],
+  },
+};
+
+/**
+ * 現在のパスに対応する FAB 吹き出しのページID
+ */
+export function getConciergeFabNudgePageId(
+  pathname: string | null
+): ConciergeFabNudgePageId {
+  if (!pathname || pathname === "/") {
+    return "home";
+  }
+  if (pathname === "/demo") {
+    return "demo_hub";
+  }
+  if (pathname === "/demo/list") {
+    return "demo_list";
+  }
+  if (/^\/demo\/[^/]+$/.test(pathname)) {
+    return "demo_detail";
+  }
+  if (pathname === "/services" || pathname.startsWith("/services/")) {
+    return "services";
+  }
+  if (pathname === "/contact") {
+    return "contact";
+  }
+  if (pathname === "/consulting") {
+    return "consulting";
+  }
+  if (pathname === "/flow") {
+    return "flow";
+  }
+  return "other";
+}
+
+/** トップ：会話を使わない導線（3カード直下） */
+export const homeSelfServeRowCopy = {
+  lead: "会話を使わずに見る",
+  links: [
+    { href: "/demo", label: "体験デモ" },
+    { href: "/services", label: "サービス概要" },
+  ],
 } as const;
 
 /** トップページ：相談・体験・料金の3カード（見出しリードは非表示のため未使用フィールドあり） */
@@ -16,13 +165,13 @@ export const homeQuickStartCopy = {
   intro:
     "気になる入口からどうぞ。途中で別の進み方に切り替えても問題ありません。",
   consult: {
-    title: "相談から始める",
-    body: "AIコンシェルジュが、目的や悩みを短く整理します。",
-    ctaLabel: "チャットで整理する",
+    title: "AIに悩みを吐き出す",
+    body: "短くメモする感覚でOKです。聞かれたことに答えるだけで、整理が進みます。",
+    ctaLabel: "悩みを1行で送る",
   },
   experience: {
-    title: "体験から始める",
-    body: "厳選した体験を見ながら、できそうなことをつかめます。",
+    title: "体験で感触を掴む",
+    body: "厳選した体験から、使えそうなイメージを掴めます。",
     ctaLabel: "体験ハブを見る",
     ctaHref: "/demo",
   },
