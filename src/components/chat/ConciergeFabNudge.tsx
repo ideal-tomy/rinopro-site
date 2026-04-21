@@ -176,7 +176,7 @@ export function ConciergeFabNudge() {
           "flex min-h-[5.75rem] w-full items-center rounded-xl px-3 py-4 sm:min-h-[6rem] sm:px-4",
           "border-2 border-accent/45",
           "bg-[linear-gradient(155deg,#162a42_0%,#101d2f_55%,#0c1524_100%)]",
-          "shadow-[0_6px_28px_rgba(0,0,0,0.55),0_0_0_1px_rgba(0,242,255,0.12),0_0_28px_-6px_rgba(0,242,255,0.18)]",
+          "shadow-[0_6px_28px_rgba(0,0,0,0.55),0_0_0_1px_color-mix(in_srgb,var(--color-accent)_12%,transparent),0_0_28px_-6px_color-mix(in_srgb,var(--color-accent)_18%,transparent)]",
           "backdrop-blur-sm"
         )}
         role="status"

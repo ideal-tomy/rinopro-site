@@ -41,7 +41,7 @@ export function Header() {
             >
               <Link
                 href={href}
-                className="block text-sm font-medium text-text-sub transition-colors hover:text-accent"
+                className="block text-sm font-medium text-white transition-colors hover:text-accent"
               >
                 {label}
               </Link>
@@ -51,7 +51,7 @@ export function Header() {
 
         <button
           type="button"
-          className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-text-sub transition-colors hover:bg-silver/10 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0e17] md:hidden"
+          className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-white transition-colors hover:bg-white/10 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0e17] md:hidden"
           onClick={handleOpenMobileNav}
           aria-label="メニューを開く"
         >

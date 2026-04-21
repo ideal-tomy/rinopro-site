@@ -7,6 +7,8 @@
 
 **実装の単一ソース**: [`src/lib/chat/concierge-session-id.ts`](../src/lib/chat/concierge-session-id.ts) の `buildConciergeChatSessionId`。
 
+**UI カラー**: サイト本編の `--color-accent` は青系だが、右下 FAB・`ChatContainer` 等のルートに付与した **`.chat-theme-ai` 内では `--color-accent` がシアン（`--color-chat-accent`）に上書き**され、チャットChromeは従来の「AI感」を保つ。
+
 ## 詳細見積もりとの関係
 
 トップの選択式フローから **詳細見積もり**へ渡す文脈は、チャット session とは別経路（[`src/lib/chat/estimate-handoff.ts`](../src/lib/chat/estimate-handoff.ts) のペイロード／URL／sessionStorage）で行う。  

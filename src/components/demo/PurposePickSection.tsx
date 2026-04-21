@@ -147,11 +147,7 @@ export function PurposePickSection({
                 })}
               </ul>
               <div className="mt-8 border-t border-silver/15 pt-6">
-                <Button
-                  variant="outline"
-                  className="w-full border-action/40 text-action hover:bg-action/10"
-                  asChild
-                >
+                <Button variant="outline" className="w-full" asChild>
                   <Link
                     href={`/demo/list?${DEMO_LIST_CONCIERGE_QUERY}`}
                     onClick={() => setOpenPurposeId(null)}

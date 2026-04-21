@@ -7,12 +7,25 @@
 :root {
   --color-base: #0a0e17;
   --color-base-dark: #0d1220;
-  --color-accent: #00f2ff;
-  /* プライマリ CTA・塗りボタン */
-  --color-action: #0067c0;
-  --color-silver: #c0c8d0;
-  --color-text: #e8ecf0;
-  --color-text-sub: #a0a8b0;
+  /* 互補5色（参考パレット） */
+  --color-color-1: #3b82f6;
+  --color-color-2: #f6af3b;
+  --color-color-3: #9dc0fa;
+  --color-color-4: #da8b0a;
+  --color-color-5: #d5e1f5;
+  /* サイト本編アクセント＝color-1 / 右下・チャット内のみシアン（.chat-theme-ai） */
+  --color-accent: var(--color-color-1);
+  --color-chat-accent: #00f2ff;
+  --color-warm: var(--color-color-2);
+  --color-warm-strong: var(--color-color-4);
+  --color-glow: var(--color-color-3);
+  --color-elevated: var(--color-color-5);
+  /* プライマリ CTA・塗りボタン（アクセントに揃える） */
+  --color-action: var(--color-color-1);
+  /* 地文・補足・ナビ・フッター等の字色: 一旦すべて白（border-silver/xx は白の薄い線になる） */
+  --color-silver: #ffffff;
+  --color-text: #ffffff;
+  --color-text-sub: #ffffff;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -49,13 +62,24 @@
 
 @theme inline {
   /* 注意: --color-base があるためユーティリティ `text-base` は「文字色=ベース色」になる。本文の 1rem には `text-[1rem]` を使う。 */
+  /* text / text-sub / silver は上記 :root と同じ白系（@theme にも明示） */
   --color-base: #0a0e17;
   --color-base-dark: #0d1220;
-  --color-accent: #00f2ff;
-  --color-action: #0067c0;
-  --color-silver: #c0c8d0;
-  --color-text: #e8ecf0;
-  --color-text-sub: #a0a8b0;
+  --color-color-1: #3b82f6;
+  --color-color-2: #f6af3b;
+  --color-color-3: #9dc0fa;
+  --color-color-4: #da8b0a;
+  --color-color-5: #d5e1f5;
+  --color-accent: var(--color-color-1);
+  --color-chat-accent: #00f2ff;
+  --color-warm: var(--color-color-2);
+  --color-warm-strong: var(--color-color-4);
+  --color-glow: var(--color-color-3);
+  --color-elevated: var(--color-color-5);
+  --color-action: var(--color-color-1);
+  --color-silver: #ffffff;
+  --color-text: #ffffff;
+  --color-text-sub: #ffffff;
   --color-background: var(--color-base);
   --color-foreground: var(--color-text);
   --font-sans:
@@ -105,10 +129,15 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+/* 右下・チャットUI: 従来のシアンを --color-accent として子に継承 */
+.chat-theme-ai {
+  --color-accent: var(--color-chat-accent);
+}
+
 /* 全ページ共通: 横スクロールバーを上品なガラス調に統一 */
 * {
   scrollbar-width: thin;
-  scrollbar-color: color-mix(in srgb, var(--color-accent) 38%, #9aa3ad 62%)
+  scrollbar-color: color-mix(in srgb, var(--color-glow) 42%, #9aa3ad 58%)
     transparent;
 }
 
@@ -127,23 +156,69 @@
   background-clip: padding-box;
   background-image: linear-gradient(
     90deg,
-    color-mix(in srgb, var(--color-accent) 65%, #c0c8d0 35%) 0%,
-    color-mix(in srgb, var(--color-accent) 35%, #c0c8d0 65%) 100%
+    color-mix(in srgb, var(--color-glow) 60%, #c0c8d0 40%) 0%,
+    color-mix(in srgb, var(--color-accent) 30%, #c0c8d0 70%) 100%
   );
   box-shadow:
     inset 0 0 0 1px rgb(255 255 255 / 10%),
-    0 0 10px rgb(0 242 255 / 18%);
+    0 0 10px color-mix(in srgb, var(--color-glow) 45%, transparent);
 }
 
 *::-webkit-scrollbar-thumb:hover {
   background-image: linear-gradient(
     90deg,
-    color-mix(in srgb, var(--color-accent) 80%, #d7dde3 20%) 0%,
-    color-mix(in srgb, var(--color-accent) 45%, #d7dde3 55%) 100%
+    color-mix(in srgb, var(--color-glow) 72%, #d7dde3 28%) 0%,
+    color-mix(in srgb, var(--color-accent) 40%, #d7dde3 60%) 100%
   );
   box-shadow:
     inset 0 0 0 1px rgb(255 255 255 / 16%),
-    0 0 14px rgb(0 242 255 / 24%);
+    0 0 14px color-mix(in srgb, var(--color-glow) 55%, transparent);
+}
+
+/* 主CTA: ホバー時のひと飛び光（簡易フラッシュ）。線形ホバー遷移は button 側 */
+.btn-primary-sheen {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary-sheen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    color-mix(in srgb, white 70%, transparent) 45%,
+    transparent 90%
+  );
+  transform: translateX(-120%) skewX(-16deg);
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .btn-primary-sheen:hover::after {
+    animation: btn-primary-sheen 0.65s ease-out;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-primary-sheen::after {
+    content: none;
+  }
+}
+
+@keyframes btn-primary-sheen {
+  0% {
+    transform: translateX(-120%) skewX(-16deg);
+    opacity: 0.75;
+  }
+  100% {
+    transform: translateX(120%) skewX(-16deg);
+    opacity: 0;
+  }
 }
 
 /* 横レール専用: スクロールバー非表示 */

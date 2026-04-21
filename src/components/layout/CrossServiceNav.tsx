@@ -3,7 +3,7 @@
 import Link from "next/link";
 
 const linkClass =
-  "text-sm text-text/85 underline-offset-4 transition-colors hover:text-accent";
+  "text-sm text-white underline-offset-4 transition-colors hover:text-accent";
 
 type ServiceCurrent = "consulting" | "flow";
 
@@ -19,7 +19,7 @@ export function ServiceCrossLinks({ current }: { current: ServiceCurrent }) {
       aria-label="関連ページ"
       className="mx-auto mt-14 max-w-xl border-t border-silver/15 pt-10 text-center md:mt-16"
     >
-      <p className="mb-4 text-[0.65rem] font-medium uppercase tracking-[0.28em] text-text-sub">
+      <p className="mb-4 text-[0.65rem] font-medium uppercase tracking-[0.28em] text-white">
         ほかのコンテンツ
       </p>
       <ul className="flex flex-wrap items-center justify-center gap-x-10 gap-y-3">
@@ -50,7 +50,7 @@ export function DemoCrossServiceLinks() {
       aria-label="進め方の詳細"
       className="mt-14 border-t border-silver/15 pt-10 text-center md:mt-16"
     >
-      <p className="mb-4 text-[0.65rem] font-medium uppercase tracking-[0.28em] text-text-sub">
+      <p className="mb-4 text-[0.65rem] font-medium uppercase tracking-[0.28em] text-white">
         実装・伴走の進め方
       </p>
       <ul className="flex flex-wrap items-center justify-center gap-x-10 gap-y-3">

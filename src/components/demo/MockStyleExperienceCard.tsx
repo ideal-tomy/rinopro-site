@@ -37,7 +37,7 @@ export function MockStyleExperienceCard({
       href={href}
       onClick={() => onNavigate?.()}
       className={cn(
-        "group flex shrink-0 snap-start flex-col rounded-2xl border border-silver/15 bg-base-dark/80 shadow-[0_1px_0_rgba(255,255,255,0.04)] transition-[border-color,box-shadow] duration-200 hover:border-action/35 hover:shadow-[0_8px_32px_rgba(0,0,0,0.35)]",
+        "group flex shrink-0 snap-start flex-col rounded-2xl border border-silver/35 bg-transparent text-text shadow-sm transition-[border-color,color,box-shadow] duration-200 hover:border-warm hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-warm/55 focus-visible:ring-offset-2 focus-visible:ring-offset-base",
         variant === "rail"
           ? "w-[min(200px,72vw)] max-w-[220px]"
           : "w-full max-w-[220px] min-h-[200px] justify-between",
@@ -47,11 +47,11 @@ export function MockStyleExperienceCard({
     >
       <div className="flex min-h-0 flex-1 flex-col justify-between p-4 md:p-5">
         <div className="min-h-0 flex-1">
-          <h2 className="mb-2 line-clamp-2 text-[15px] font-semibold leading-snug tracking-tight text-text group-hover:text-action md:text-[1rem] md:leading-snug">
+          <h2 className="mb-2 line-clamp-2 text-[15px] font-semibold leading-snug tracking-tight text-text group-hover:text-warm md:text-[1rem] md:leading-snug">
             {title}
           </h2>
           {oneLiner ? (
-            <p className="line-clamp-2 text-[13px] leading-relaxed text-text-sub/95 md:text-sm md:leading-relaxed">
+            <p className="line-clamp-2 text-[13px] leading-relaxed text-text md:text-sm md:leading-relaxed">
               {oneLiner}
             </p>
           ) : null}
@@ -80,7 +80,7 @@ export function MockStyleExperienceCard({
             </span>
           ))}
         </div>
-        <span className="mt-4 inline-flex h-9 w-full items-center justify-center rounded-lg border border-silver/25 bg-base-dark/50 text-[13px] font-medium text-text-sub transition-colors group-hover:border-action/45 group-hover:text-action md:h-10 md:text-sm">
+        <span className="mt-4 inline-flex h-9 w-full items-center justify-center rounded-lg border border-silver/35 bg-transparent text-[13px] font-medium text-text transition-colors group-hover:border-warm group-hover:text-warm md:h-10 md:text-sm">
           体験する
         </span>
       </div>
@@ -108,7 +108,7 @@ export function MockStylePurposeCard({
       type="button"
       onClick={onClick}
       className={cn(
-        "group flex shrink-0 snap-start flex-col rounded-2xl border border-silver/15 bg-base-dark/80 text-left shadow-[0_1px_0_rgba(255,255,255,0.04)] transition-[border-color,box-shadow] duration-200 hover:border-action/35 hover:shadow-[0_8px_32px_rgba(0,0,0,0.35)]",
+        "group flex shrink-0 snap-start flex-col rounded-2xl border border-silver/35 bg-transparent text-left text-text shadow-sm transition-[border-color,color,box-shadow] duration-200 hover:border-warm hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-warm/55 focus-visible:ring-offset-2 focus-visible:ring-offset-base",
         variant === "rail"
           ? "w-[min(200px,72vw)] max-w-[220px]"
           : "w-full max-w-[220px] min-h-[200px] justify-between",
@@ -118,14 +118,14 @@ export function MockStylePurposeCard({
     >
       <div className="flex min-h-0 flex-1 flex-col justify-between p-4 md:p-5">
         <div className="min-h-0 flex-1">
-          <h3 className="mb-2 line-clamp-2 text-[15px] font-semibold leading-snug tracking-tight text-text group-hover:text-action md:text-[1rem]">
+          <h3 className="mb-2 line-clamp-2 text-[15px] font-semibold leading-snug tracking-tight text-text group-hover:text-warm md:text-[1rem]">
             {title}
           </h3>
-          <p className="line-clamp-2 text-[13px] leading-relaxed text-text-sub/95 md:text-sm md:leading-relaxed">
+          <p className="line-clamp-2 text-[13px] leading-relaxed text-text md:text-sm md:leading-relaxed">
             {oneLiner}
           </p>
         </div>
-        <span className="mt-4 inline-flex h-9 w-full items-center justify-center rounded-lg border border-silver/25 bg-base-dark/50 text-[13px] font-medium text-text-sub transition-colors group-hover:border-action/45 group-hover:text-action md:h-10 md:text-sm">
+        <span className="mt-4 inline-flex h-9 w-full items-center justify-center rounded-lg border border-silver/35 bg-transparent text-[13px] font-medium text-text transition-colors group-hover:border-warm group-hover:text-warm md:h-10 md:text-sm">
           候補を開く
         </span>
       </div>

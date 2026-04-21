@@ -82,7 +82,7 @@ function TimelineNode({
           }}
         />
       )}
-      <span className="relative z-[1] flex h-12 w-12 items-center justify-center rounded-full border-2 border-accent/85 bg-base-dark/90 text-xs font-semibold tabular-nums text-accent shadow-[0_0_20px_-4px_rgba(0,242,255,0.5)] md:backdrop-blur-sm">
+      <span className="relative z-[1] flex h-12 w-12 items-center justify-center rounded-full border-2 border-accent/85 bg-base-dark/90 text-xs font-semibold tabular-nums text-accent shadow-[0_0_20px_-4px_color-mix(in_srgb,var(--color-accent)_40%,transparent)] md:backdrop-blur-sm">
         {label}
       </span>
     </div>

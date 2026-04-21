@@ -26,7 +26,7 @@ export function HomeHeroIntro() {
         aria-label="相談・体験・料金の入口"
       >
         <div className="grid gap-4 md:grid-cols-3">
-          <div className="flex h-full flex-col rounded-2xl border border-silver/20 bg-base-dark/60 p-5">
+          <div className="flex h-full flex-col rounded-2xl border border-silver/20 bg-base-dark/55 p-5 ring-1 ring-warm/15 ring-inset shadow-[inset_0_1px_0_0_color-mix(in_srgb,var(--color-elevated)_12%,transparent)]">
             <h3 className="text-[1rem] font-semibold text-text">
               {homeQuickStartCopy.consult.title}
             </h3>
@@ -35,7 +35,7 @@ export function HomeHeroIntro() {
             </p>
             <HomeConsultCtaButton label={homeQuickStartCopy.consult.ctaLabel} />
           </div>
-          <div className="flex h-full flex-col rounded-2xl border border-silver/20 bg-base-dark/60 p-5">
+          <div className="flex h-full flex-col rounded-2xl border border-silver/20 bg-base-dark/55 p-5 ring-1 ring-warm/15 ring-inset shadow-[inset_0_1px_0_0_color-mix(in_srgb,var(--color-elevated)_12%,transparent)]">
             <h3 className="text-[1rem] font-semibold text-text">
               {homeQuickStartCopy.experience.title}
             </h3>
@@ -48,7 +48,7 @@ export function HomeHeroIntro() {
               </Link>
             </Button>
           </div>
-          <div className="flex h-full flex-col rounded-2xl border border-silver/20 bg-base-dark/60 p-5">
+          <div className="flex h-full flex-col rounded-2xl border border-silver/20 bg-base-dark/55 p-5 ring-1 ring-warm/15 ring-inset shadow-[inset_0_1px_0_0_color-mix(in_srgb,var(--color-elevated)_12%,transparent)]">
             <h3 className="text-[1rem] font-semibold text-text">
               {homeQuickStartCopy.estimate.title}
             </h3>

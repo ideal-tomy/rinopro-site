@@ -81,7 +81,7 @@ export function DemoStoryScroll({ demos, title }: DemoStoryScrollProps) {
               className="pointer-events-none absolute inset-0 -z-10 opacity-30"
               style={{
                 background:
-                  "radial-gradient(ellipse 80% 50% at 50% 50%, rgba(0,242,255,0.08) 0%, transparent 70%)",
+                  "radial-gradient(ellipse 80% 50% at 50% 50%, color-mix(in srgb, var(--color-glow) 14%, transparent) 0%, transparent 70%)",
               }}
             />
 

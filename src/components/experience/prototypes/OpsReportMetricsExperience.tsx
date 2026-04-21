@@ -63,9 +63,9 @@ function MagicGraph({
       >
         <defs>
           <linearGradient id="ops-magic" x1="0" x2="1" y1="0" y2="0">
-            <stop offset="0%" stopColor="rgba(0,242,255,0.55)" />
-            <stop offset="50%" stopColor="rgba(0,242,255,0.85)" />
-            <stop offset="100%" stopColor="rgba(0,242,255,0.45)" />
+            <stop offset="0%" stopColor="rgba(59,130,246,0.55)" />
+            <stop offset="50%" stopColor="rgba(59,130,246,0.85)" />
+            <stop offset="100%" stopColor="rgba(59,130,246,0.45)" />
           </linearGradient>
         </defs>
         {/* grid */}
@@ -97,7 +97,7 @@ function MagicGraph({
             cx={xs[i]}
             cy={y}
             r="3.2"
-            fill="rgba(0,242,255,0.75)"
+            fill="rgba(59,130,246,0.75)"
           />
         ))}
       </svg>

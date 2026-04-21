@@ -74,13 +74,13 @@ export const INDUSTRY_COLOR_MAP: Record<string, string> = {
   物流: "border-indigo-500/60 bg-indigo-500/15 text-indigo-400",
   人材: "border-sky-500/60 bg-sky-500/15 text-sky-400",
   飲食: "border-orange-500/60 bg-orange-500/15 text-orange-400",
-  サービス: "border-cyan-500/60 bg-cyan-500/15 text-cyan-400",
+  サービス: "border-warm/60 bg-warm/15 text-warm",
   保険: "border-lime-500/60 bg-lime-500/15 text-lime-400",
 };
 
 /** 機能タグ（カテゴリ）→ Tailwind 色クラス */
 export const CATEGORY_COLOR_MAP: Record<string, string> = {
-  report: "border-cyan-500/60 bg-cyan-500/15 text-cyan-400",
+  report: "border-warm/60 bg-warm/15 text-warm",
   search: "border-blue-500/60 bg-blue-500/15 text-blue-400",
   inquiry: "border-amber-500/60 bg-amber-500/15 text-amber-400",
   document: "border-emerald-500/60 bg-emerald-500/15 text-emerald-400",

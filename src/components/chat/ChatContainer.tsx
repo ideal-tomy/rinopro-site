@@ -680,13 +680,13 @@ export function ChatContainer({ showLauncher = true }: ChatContainerProps) {
   }, [onServicesDevOrConsult, mode]);
 
   return (
-    <>
+    <div className="contents chat-theme-ai">
       {showLauncher ? (
         <div className="pointer-events-none fixed bottom-5 right-4 z-[80] sm:bottom-6 sm:right-6 md:bottom-8 md:right-8">
           <Button
             type="button"
             variant="outline"
-            className="pointer-events-auto box-border flex min-h-[3.5rem] min-w-[3.5rem] flex-col items-center justify-center gap-1 rounded-full border-2 border-silver/35 bg-base-dark/95 px-3 py-2 shadow-[0_6px_28px_rgba(0,0,0,0.5)] ring-1 ring-white/[0.06] backdrop-blur-sm transition-[border-color,box-shadow] duration-200 hover:border-accent/50 hover:shadow-[0_8px_32px_rgba(0,242,255,0.12)] sm:min-h-[3.75rem] sm:min-w-[10.5rem] sm:flex-row sm:gap-2 sm:px-4 sm:py-0"
+            className="pointer-events-auto box-border flex min-h-[3.5rem] min-w-[3.5rem] flex-col items-center justify-center gap-1 rounded-full border-2 border-silver/35 bg-base-dark/95 px-3 py-2 shadow-[0_6px_28px_rgba(0,0,0,0.5)] ring-1 ring-white/[0.06] backdrop-blur-sm transition-[border-color,box-shadow] duration-200 hover:border-accent/50 hover:shadow-[0_8px_32px_color-mix(in_srgb,var(--color-accent)_20%,transparent)] sm:min-h-[3.75rem] sm:min-w-[10.5rem] sm:flex-row sm:gap-2 sm:px-4 sm:py-0"
             onPointerEnter={maybePrefetchDemoCatalog}
             onFocus={maybePrefetchDemoCatalog}
             onClick={() => {
@@ -911,6 +911,6 @@ export function ChatContainer({ showLauncher = true }: ChatContainerProps) {
           )}
         </div>
       </ChatPopup>
-    </>
+    </div>
   );
 }

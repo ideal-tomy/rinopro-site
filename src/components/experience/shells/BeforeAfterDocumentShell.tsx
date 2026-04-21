@@ -562,7 +562,7 @@ export function BeforeAfterDocumentShell({
         </div>
 
         <div
-          className="flex min-h-[200px] flex-col rounded-xl border border-accent/35 bg-gradient-to-b from-base-dark to-base-dark/90 p-4 shadow-[0_0_0_1px_rgba(0,242,255,0.12)] md:min-h-[240px] md:p-5 lg:min-h-0"
+          className="flex min-h-[200px] flex-col rounded-xl border border-accent/35 bg-gradient-to-b from-base-dark to-base-dark/90 p-4 shadow-[0_0_0_1px_color-mix(in_srgb,var(--color-glow)_18%,transparent)] md:min-h-[240px] md:p-5 lg:min-h-0"
           aria-live="polite"
           aria-busy={busy}
         >

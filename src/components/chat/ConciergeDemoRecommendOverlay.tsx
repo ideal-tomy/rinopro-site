@@ -53,7 +53,7 @@ function DemoPickRow({
         aria-label={`${index + 1}件目: ${demo.title}のdemoを開く`}
         className={cn(
           "flex gap-3 rounded-xl border border-silver/20 bg-base-dark/95 p-2.5 text-left",
-          "transition-[border-color,box-shadow] duration-200 hover:border-accent/45 hover:shadow-[0_0_20px_rgba(0,242,255,0.08)]",
+          "transition-[border-color,box-shadow] duration-200 hover:border-accent/45 hover:shadow-[0_0_20px_color-mix(in_srgb,var(--color-accent)_14%,transparent)]",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-base"
         )}
       >

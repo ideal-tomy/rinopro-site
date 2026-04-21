@@ -371,7 +371,7 @@ export function LiveSyncTranslationExperience({
             </Button>
           </div>
 
-          <div className="mb-5 rounded-xl border-2 border-accent/55 bg-gradient-to-br from-accent/20 via-base-dark/90 to-base-dark/95 p-4 shadow-[0_0_24px_-4px_rgba(34,211,238,0.35)] ring-1 ring-accent/30 md:p-5">
+          <div className="mb-5 rounded-xl border-2 border-accent/55 bg-gradient-to-br from-accent/20 via-base-dark/90 to-base-dark/95 p-4 shadow-[0_0_24px_-4px_color-mix(in_srgb,var(--color-accent)_32%,transparent)] ring-1 ring-accent/30 md:p-5">
             <p className="text-[11px] font-semibold uppercase tracking-wider text-accent">
               おすすめ
             </p>

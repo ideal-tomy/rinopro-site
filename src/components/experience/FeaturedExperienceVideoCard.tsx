@@ -125,7 +125,7 @@ export function FeaturedExperienceVideoCard({
     return (
       <article
         className={cn(
-          "overflow-hidden rounded-xl border border-silver/25 bg-base-dark/50 transition-[border-color,box-shadow] duration-300 hover:border-accent/40",
+          "overflow-hidden rounded-xl border border-silver/35 bg-transparent text-text shadow-sm transition-[border-color,box-shadow] duration-300 hover:border-warm hover:shadow-sm",
           className
         )}
       >
@@ -156,7 +156,7 @@ export function FeaturedExperienceVideoCard({
             <div className="absolute inset-0 flex items-center justify-center bg-black/40">
               <button
                 type="button"
-                className="rounded-full border border-silver/35 bg-base-dark/85 px-4 py-2 text-sm font-medium text-text transition-colors hover:border-accent/50 hover:text-accent"
+                className="rounded-full border border-silver/35 bg-base-dark/85 px-4 py-2 text-sm font-medium text-text transition-colors hover:border-warm hover:text-warm"
                 onClick={handleManualPlay}
                 aria-label={`${meta.title}の動画を再生`}
               >
@@ -166,11 +166,11 @@ export function FeaturedExperienceVideoCard({
           ) : null}
         </div>
 
-        <div className="border-t border-silver/20 bg-base-dark/90 px-4 py-4 md:px-5 md:py-5">
+        <div className="border-t border-silver/35 bg-transparent px-4 py-4 md:px-5 md:py-5">
           <h3 className="text-[1rem] font-semibold leading-snug text-text md:text-lg">
             {meta.title}
           </h3>
-          <p className="mt-2 text-sm leading-relaxed text-text-sub md:text-[1rem]">
+          <p className="mt-2 text-sm leading-relaxed text-text md:text-[1rem]">
             {meta.shortDescription}
           </p>
 
@@ -186,7 +186,7 @@ export function FeaturedExperienceVideoCard({
     return (
       <article
         className={cn(
-          "overflow-hidden rounded-xl border border-silver/25 bg-base-dark/50 transition-[border-color,box-shadow] duration-300 hover:border-accent/40",
+          "overflow-hidden rounded-xl border border-silver/35 bg-transparent text-text shadow-sm transition-[border-color,box-shadow] duration-300 hover:border-warm hover:shadow-sm",
           className
         )}
       >
@@ -217,7 +217,7 @@ export function FeaturedExperienceVideoCard({
             <div className="absolute inset-0 flex items-center justify-center bg-black/40">
               <button
                 type="button"
-                className="rounded-full border border-silver/35 bg-base-dark/85 px-4 py-2 text-sm font-medium text-text transition-colors hover:border-accent/50 hover:text-accent"
+                className="rounded-full border border-silver/35 bg-base-dark/85 px-4 py-2 text-sm font-medium text-text transition-colors hover:border-warm hover:text-warm"
                 onClick={handleManualPlay}
                 aria-label={`${meta.title}の動画を再生`}
               >
@@ -227,18 +227,18 @@ export function FeaturedExperienceVideoCard({
           ) : null}
         </div>
 
-        <div className="border-t border-silver/20 bg-base-dark/90 px-4 py-4 md:px-5 md:py-5">
+        <div className="border-t border-silver/35 bg-transparent px-4 py-4 md:px-5 md:py-5">
           <h3 className="text-[1rem] font-semibold leading-snug text-text md:text-lg">
             {meta.title}
           </h3>
-          <p className="mt-2 text-sm leading-relaxed text-text-sub md:text-[1rem]">
+          <p className="mt-2 text-sm leading-relaxed text-text md:text-[1rem]">
             {meta.shortDescription}
           </p>
           <Button
             asChild
             variant="outline"
             size="lg"
-            className="mt-4 w-full min-h-12 border-silver/25 px-4 text-[15px] font-medium text-text-sub hover:border-action/45 hover:bg-action/10 hover:text-action sm:min-h-[3.25rem] sm:text-[1.05rem] md:min-h-14"
+            className={cn("mt-4 w-full", ctaButtonClass)}
           >
             <ScrollSavingLink href={experienceHref}>体験を開く</ScrollSavingLink>
           </Button>
@@ -252,7 +252,7 @@ export function FeaturedExperienceVideoCard({
       <ScrollSavingLink
         href={experienceHref}
         className={cn(
-          "group block overflow-hidden rounded-xl border border-silver/25 bg-base-dark/50 transition-[border-color,transform] duration-300 hover:border-accent/40 hover:scale-[1.01] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
+          "group block overflow-hidden rounded-xl border border-silver/35 bg-transparent text-text shadow-sm transition-[border-color,transform,box-shadow] duration-300 hover:border-warm hover:shadow-sm motion-safe:hover:scale-[1.01] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-warm/55 focus-visible:ring-offset-2 focus-visible:ring-offset-base",
           className
         )}
       >
@@ -276,7 +276,7 @@ export function FeaturedExperienceVideoCard({
             <div className="absolute inset-0 z-[2] flex items-center justify-center bg-black/40">
               <button
                 type="button"
-                className="rounded-full border border-silver/35 bg-base-dark/85 px-4 py-2 text-sm font-medium text-text transition-colors hover:border-accent/50 hover:text-accent"
+                className="rounded-full border border-silver/35 bg-base-dark/85 px-4 py-2 text-sm font-medium text-text transition-colors hover:border-warm hover:text-warm"
                 onClick={handleManualPlay}
                 aria-label={`${meta.title}の動画を再生`}
               >
@@ -295,10 +295,10 @@ export function FeaturedExperienceVideoCard({
             <h3 className="text-[1rem] font-semibold leading-snug text-text md:text-lg">
               {meta.title}
             </h3>
-            <p className="mt-1 line-clamp-2 text-xs text-text-sub md:text-sm">
+            <p className="mt-1 line-clamp-2 text-xs text-text/95 md:text-sm">
               {meta.shortDescription}
             </p>
-            <span className="mt-3 inline-block text-xs font-medium text-accent/90 underline-offset-4 opacity-90 transition-opacity group-hover:opacity-100 group-hover:underline">
+            <span className="mt-3 inline-block text-xs font-medium text-text/95 underline-offset-4 transition-colors group-hover:text-warm group-hover:underline">
               体験を開く
             </span>
           </div>

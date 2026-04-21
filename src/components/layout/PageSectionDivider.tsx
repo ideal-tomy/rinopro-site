@@ -13,7 +13,7 @@ type PageSectionDividerProps = {
 
 /**
  * セクション間の仕切り（1px）。
- * 中心がテーマカラー（--color-accent）で最も明るく、左右端は transparent に溶けるリニアグラデーション。
+ * 中心が --color-glow（細い光）で最も明るく、左右端は transparent に溶けるリニアグラデーション。
  * 中央のみごく弱い光彩で金属的なキレを補助。
  */
 export function PageSectionDivider({
@@ -33,10 +33,10 @@ export function PageSectionDivider({
       aria-hidden
     >
       <div
-        className="relative h-px w-full shrink-0 [background:linear-gradient(90deg,transparent_0%,var(--color-accent)_50%,transparent_100%)]"
+        className="relative h-px w-full shrink-0 [background:linear-gradient(90deg,transparent_0%,var(--color-glow)_50%,transparent_100%)]"
         style={{
           boxShadow:
-            "0 0 10px 0 color-mix(in srgb, var(--color-accent) 32%, transparent), 0 0 22px -4px color-mix(in srgb, var(--color-accent) 18%, transparent)",
+            "0 0 10px 0 color-mix(in srgb, var(--color-glow) 28%, transparent), 0 0 22px -4px color-mix(in srgb, var(--color-glow) 14%, transparent)",
         }}
       />
     </div>

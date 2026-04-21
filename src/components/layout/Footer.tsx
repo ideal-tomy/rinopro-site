@@ -14,8 +14,8 @@ export function Footer() {
     <footer className="mt-auto border-t border-silver/20 bg-base-dark">
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 py-8 md:flex-row md:px-6">
         <div className="text-center md:text-left">
-          <p className="text-sm text-text-sub">{footerCopy.tagline}</p>
-          <p className="mt-1 text-xs leading-relaxed text-text-sub/80">
+          <p className="text-sm text-white">{footerCopy.tagline}</p>
+          <p className="mt-1 text-xs leading-relaxed text-white/80">
             {footerCopy.subline}
           </p>
         </div>
@@ -24,7 +24,7 @@ export function Footer() {
             <Link
               key={href}
               href={href}
-              className="text-sm text-text-sub transition-colors hover:text-accent"
+              className="text-sm text-white transition-colors hover:text-accent"
             >
               {label}
             </Link>
