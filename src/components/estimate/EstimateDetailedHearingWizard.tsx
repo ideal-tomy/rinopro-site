@@ -37,8 +37,6 @@ type StepId = EstimateWizardStepId;
 
 type FormState = EstimateFormDraft;
 type QuickSelectOption = { value: string; label: string };
-const QUICK_CUSTOM_VALUE = "__custom";
-const QUICK_SKIP_VALUE = "__skip";
 
 export type EstimateDetailedHearingWizardProps = {
   form: FormState;
@@ -59,10 +57,6 @@ export type EstimateDetailedHearingWizardProps = {
 };
 
 const easeSpeak = [0.22, 1, 0.36, 1] as const;
-
-function isSelectOnlyStep(id: StepId, visibleSteps: readonly { id: StepId; selectOnly?: boolean }[]): boolean {
-  return Boolean(visibleSteps.find((s) => s.id === id)?.selectOnly);
-}
 
 export function EstimateDetailedHearingWizard({
   form,
@@ -177,22 +171,13 @@ export function EstimateDetailedHearingWizard({
         setEditingQuestionId(null);
         return;
       }
-      if (isFs) {
-        if (validateEstimateWizardStep({ ...form, ...patch }, stepId).ok) {
-          setStepIndex((i) => Math.min(i + 1, totalSteps - 1));
-        }
-      }
     },
     [
       currentQuestionId,
       editingQuestionId,
-      form,
       isExiting,
-      isFs,
       reviewIndex,
       setForm,
-      stepId,
-      totalSteps,
     ]
   );
 
@@ -209,8 +194,7 @@ export function EstimateDetailedHearingWizard({
     [isExiting, visibleSteps]
   );
 
-  const showFsPrimaryButton =
-    isFs && (isReview || !isSelectOnlyStep(stepId, visibleSteps));
+  const showFsPrimaryButton = isFs;
 
   const motionProps = prefersReducedMotion
     ? {
@@ -296,29 +280,13 @@ export function EstimateDetailedHearingWizard({
                   hint={copy.fieldIndustryHint}
                   whyMatters={copy.fieldIndustryWhyMatters}
                 >
-                  {isFs ? (
-                    <SelectOptionButtons
-                      options={copy.industryOptions}
-                      value={form.industry}
-                      onPick={(v) => handleSelectPick({ industry: v })}
-                      idPrefix="ed-industry"
-                    />
-                  ) : (
-                    <select
-                      id="ed-industry"
-                      className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
-                      value={form.industry}
-                      onChange={(e) =>
-                        setForm((f) => ({ ...f, industry: e.target.value }))
-                      }
-                    >
-                      {copy.industryOptions.map((o) => (
-                        <option key={o.value} value={o.value}>
-                          {o.label}
-                        </option>
-                      ))}
-                    </select>
-                  )}
+                  <SelectOptionButtons
+                    options={copy.industryOptions}
+                    value={form.industry}
+                    onPick={(v) => handleSelectPick({ industry: v })}
+                    idPrefix="ed-industry"
+                    compact={isFs}
+                  />
                 </StepBlock>
               ) : null}
 
@@ -387,57 +355,25 @@ export function EstimateDetailedHearingWizard({
 
               {stepId === "teamSize" ? (
                 <StepBlock title={copy.fieldTeam} whyMatters={copy.fieldTeamWhyMatters}>
-                  {isFs ? (
-                    <SelectOptionButtons
-                      options={copy.teamOptions}
-                      value={form.teamSize}
-                      onPick={(v) => handleSelectPick({ teamSize: v })}
-                      idPrefix="ed-team"
-                    />
-                  ) : (
-                    <select
-                      id="ed-team"
-                      className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
-                      value={form.teamSize}
-                      onChange={(e) =>
-                        setForm((f) => ({ ...f, teamSize: e.target.value }))
-                      }
-                    >
-                      {copy.teamOptions.map((o) => (
-                        <option key={o.value} value={o.value}>
-                          {o.label}
-                        </option>
-                      ))}
-                    </select>
-                  )}
+                  <SelectOptionButtons
+                    options={copy.teamOptions}
+                    value={form.teamSize}
+                    onPick={(v) => handleSelectPick({ teamSize: v })}
+                    idPrefix="ed-team"
+                    compact={isFs}
+                  />
                 </StepBlock>
               ) : null}
 
               {stepId === "timeline" ? (
                 <StepBlock title={copy.fieldTimeline} whyMatters={copy.fieldTimelineWhyMatters}>
-                  {isFs ? (
-                    <SelectOptionButtons
-                      options={copy.timelineOptions}
-                      value={form.timeline}
-                      onPick={(v) => handleSelectPick({ timeline: v })}
-                      idPrefix="ed-time"
-                    />
-                  ) : (
-                    <select
-                      id="ed-time"
-                      className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
-                      value={form.timeline}
-                      onChange={(e) =>
-                        setForm((f) => ({ ...f, timeline: e.target.value }))
-                      }
-                    >
-                      {copy.timelineOptions.map((o) => (
-                        <option key={o.value} value={o.value}>
-                          {o.label}
-                        </option>
-                      ))}
-                    </select>
-                  )}
+                  <SelectOptionButtons
+                    options={copy.timelineOptions}
+                    value={form.timeline}
+                    onPick={(v) => handleSelectPick({ timeline: v })}
+                    idPrefix="ed-time"
+                    compact={isFs}
+                  />
                 </StepBlock>
               ) : null}
 
@@ -447,29 +383,13 @@ export function EstimateDetailedHearingWizard({
                   hint={copy.fieldIntegrationHint}
                   whyMatters={copy.fieldIntegrationWhyMatters}
                 >
-                  {isFs ? (
-                    <SelectOptionButtons
-                      options={copy.integrationOptions}
-                      value={form.integration}
-                      onPick={(v) => handleSelectPick({ integration: v })}
-                      idPrefix="ed-int"
-                    />
-                  ) : (
-                    <select
-                      id="ed-int"
-                      className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
-                      value={form.integration}
-                      onChange={(e) =>
-                        setForm((f) => ({ ...f, integration: e.target.value }))
-                      }
-                    >
-                      {copy.integrationOptions.map((o) => (
-                        <option key={o.value} value={o.value}>
-                          {o.label}
-                        </option>
-                      ))}
-                    </select>
-                  )}
+                  <SelectOptionButtons
+                    options={copy.integrationOptions}
+                    value={form.integration}
+                    onPick={(v) => handleSelectPick({ integration: v })}
+                    idPrefix="ed-int"
+                    compact={isFs}
+                  />
                 </StepBlock>
               ) : null}
 
@@ -480,29 +400,13 @@ export function EstimateDetailedHearingWizard({
                   hint={`${copy.sectionCostDriversSub} ${copy.fieldHostingContextHint}`}
                   whyMatters={copy.fieldHostingContextWhyMatters}
                 >
-                  {isFs ? (
-                    <SelectOptionButtons
-                      options={copy.hostingContextOptions}
-                      value={form.hostingContext}
-                      onPick={(v) => handleSelectPick({ hostingContext: v })}
-                      idPrefix="ed-hosting"
-                    />
-                  ) : (
-                    <select
-                      id="ed-hosting"
-                      className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
-                      value={form.hostingContext}
-                      onChange={(e) =>
-                        setForm((f) => ({ ...f, hostingContext: e.target.value }))
-                      }
-                    >
-                      {copy.hostingContextOptions.map((o) => (
-                        <option key={o.value} value={o.value}>
-                          {o.label}
-                        </option>
-                      ))}
-                    </select>
-                  )}
+                  <SelectOptionButtons
+                    options={copy.hostingContextOptions}
+                    value={form.hostingContext}
+                    onPick={(v) => handleSelectPick({ hostingContext: v })}
+                    idPrefix="ed-hosting"
+                    compact={isFs}
+                  />
                 </StepBlock>
               ) : null}
 
@@ -512,29 +416,13 @@ export function EstimateDetailedHearingWizard({
                   hint={copy.fieldUsageSurfaceHint}
                   whyMatters={copy.fieldUsageSurfaceWhyMatters}
                 >
-                  {isFs ? (
-                    <SelectOptionButtons
-                      options={copy.usageSurfaceOptions}
-                      value={form.usageSurface}
-                      onPick={(v) => handleSelectPick({ usageSurface: v })}
-                      idPrefix="ed-usage"
-                    />
-                  ) : (
-                    <select
-                      id="ed-usage"
-                      className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
-                      value={form.usageSurface}
-                      onChange={(e) =>
-                        setForm((f) => ({ ...f, usageSurface: e.target.value }))
-                      }
-                    >
-                      {copy.usageSurfaceOptions.map((o) => (
-                        <option key={o.value} value={o.value}>
-                          {o.label}
-                        </option>
-                      ))}
-                    </select>
-                  )}
+                  <SelectOptionButtons
+                    options={copy.usageSurfaceOptions}
+                    value={form.usageSurface}
+                    onPick={(v) => handleSelectPick({ usageSurface: v })}
+                    idPrefix="ed-usage"
+                    compact={isFs}
+                  />
                 </StepBlock>
               ) : null}
 
@@ -545,29 +433,13 @@ export function EstimateDetailedHearingWizard({
                   hint={`${copy.sectionCostDriversSub} ${copy.fieldDataSensitivityHint}`}
                   whyMatters={copy.fieldDataSensitivityWhyMatters}
                 >
-                  {isFs ? (
-                    <SelectOptionButtons
-                      options={copy.dataSensitivityOptions}
-                      value={form.dataSensitivity}
-                      onPick={(v) => handleSelectPick({ dataSensitivity: v })}
-                      idPrefix="ed-data-sens"
-                    />
-                  ) : (
-                    <select
-                      id="ed-data-sens"
-                      className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
-                      value={form.dataSensitivity}
-                      onChange={(e) =>
-                        setForm((f) => ({ ...f, dataSensitivity: e.target.value }))
-                      }
-                    >
-                      {copy.dataSensitivityOptions.map((o) => (
-                        <option key={o.value} value={o.value}>
-                          {o.label}
-                        </option>
-                      ))}
-                    </select>
-                  )}
+                  <SelectOptionButtons
+                    options={copy.dataSensitivityOptions}
+                    value={form.dataSensitivity}
+                    onPick={(v) => handleSelectPick({ dataSensitivity: v })}
+                    idPrefix="ed-data-sens"
+                    compact={isFs}
+                  />
                 </StepBlock>
               ) : null}
 
@@ -577,57 +449,25 @@ export function EstimateDetailedHearingWizard({
                   hint={copy.fieldAudienceScopeHint}
                   whyMatters={copy.fieldAudienceScopeWhyMatters}
                 >
-                  {isFs ? (
-                    <SelectOptionButtons
-                      options={copy.audienceScopeOptions}
-                      value={form.audienceScope}
-                      onPick={(v) => handleSelectPick({ audienceScope: v })}
-                      idPrefix="ed-audience"
-                    />
-                  ) : (
-                    <select
-                      id="ed-audience"
-                      className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
-                      value={form.audienceScope}
-                      onChange={(e) =>
-                        setForm((f) => ({ ...f, audienceScope: e.target.value }))
-                      }
-                    >
-                      {copy.audienceScopeOptions.map((o) => (
-                        <option key={o.value} value={o.value}>
-                          {o.label}
-                        </option>
-                      ))}
-                    </select>
-                  )}
+                  <SelectOptionButtons
+                    options={copy.audienceScopeOptions}
+                    value={form.audienceScope}
+                    onPick={(v) => handleSelectPick({ audienceScope: v })}
+                    idPrefix="ed-audience"
+                    compact={isFs}
+                  />
                 </StepBlock>
               ) : null}
 
               {stepId === "currentWorkflow" ? (
                 <StepBlock title={copy.fieldCurrentWorkflow} hint={copy.fieldCurrentWorkflowHint}>
-                  {isFs ? (
-                    <SelectOptionButtons
-                      options={copy.currentWorkflowOptions}
-                      value={form.currentWorkflow}
-                      onPick={(v) => handleSelectPick({ currentWorkflow: v })}
-                      idPrefix="ed-workflow"
-                    />
-                  ) : (
-                    <select
-                      id="ed-workflow"
-                      className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
-                      value={form.currentWorkflow}
-                      onChange={(e) =>
-                        setForm((f) => ({ ...f, currentWorkflow: e.target.value }))
-                      }
-                    >
-                      {copy.currentWorkflowOptions.map((o) => (
-                        <option key={o.value} value={o.value}>
-                          {o.label}
-                        </option>
-                      ))}
-                    </select>
-                  )}
+                  <SelectOptionButtons
+                    options={copy.currentWorkflowOptions}
+                    value={form.currentWorkflow}
+                    onPick={(v) => handleSelectPick({ currentWorkflow: v })}
+                    idPrefix="ed-workflow"
+                    compact={isFs}
+                  />
                 </StepBlock>
               ) : null}
 
@@ -637,29 +477,13 @@ export function EstimateDetailedHearingWizard({
                   hint={copy.fieldUpdateFrequencyHint}
                   whyMatters={copy.fieldUpdateFrequencyWhyMatters}
                 >
-                  {isFs ? (
-                    <SelectOptionButtons
-                      options={copy.updateFrequencyOptions}
-                      value={form.updateFrequency}
-                      onPick={(v) => handleSelectPick({ updateFrequency: v })}
-                      idPrefix="ed-update-freq"
-                    />
-                  ) : (
-                    <select
-                      id="ed-update-freq"
-                      className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
-                      value={form.updateFrequency}
-                      onChange={(e) =>
-                        setForm((f) => ({ ...f, updateFrequency: e.target.value }))
-                      }
-                    >
-                      {copy.updateFrequencyOptions.map((o) => (
-                        <option key={o.value} value={o.value}>
-                          {o.label}
-                        </option>
-                      ))}
-                    </select>
-                  )}
+                  <SelectOptionButtons
+                    options={copy.updateFrequencyOptions}
+                    value={form.updateFrequency}
+                    onPick={(v) => handleSelectPick({ updateFrequency: v })}
+                    idPrefix="ed-update-freq"
+                    compact={isFs}
+                  />
                 </StepBlock>
               ) : null}
 
@@ -669,29 +493,13 @@ export function EstimateDetailedHearingWizard({
                   hint={copy.fieldDesignExpectationHint}
                   whyMatters={copy.fieldDesignExpectationWhyMatters}
                 >
-                  {isFs ? (
-                    <SelectOptionButtons
-                      options={copy.designExpectationOptions}
-                      value={form.designExpectation}
-                      onPick={(v) => handleSelectPick({ designExpectation: v })}
-                      idPrefix="ed-design"
-                    />
-                  ) : (
-                    <select
-                      id="ed-design"
-                      className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
-                      value={form.designExpectation}
-                      onChange={(e) =>
-                        setForm((f) => ({ ...f, designExpectation: e.target.value }))
-                      }
-                    >
-                      {copy.designExpectationOptions.map((o) => (
-                        <option key={o.value} value={o.value}>
-                          {o.label}
-                        </option>
-                      ))}
-                    </select>
-                  )}
+                  <SelectOptionButtons
+                    options={copy.designExpectationOptions}
+                    value={form.designExpectation}
+                    onPick={(v) => handleSelectPick({ designExpectation: v })}
+                    idPrefix="ed-design"
+                    compact={isFs}
+                  />
                 </StepBlock>
               ) : null}
 
@@ -701,57 +509,25 @@ export function EstimateDetailedHearingWizard({
                   hint={copy.fieldLoginModelHint}
                   whyMatters={copy.fieldLoginModelWhyMatters}
                 >
-                  {isFs ? (
-                    <SelectOptionButtons
-                      options={copy.loginModelOptions}
-                      value={form.loginModel}
-                      onPick={(v) => handleSelectPick({ loginModel: v })}
-                      idPrefix="ed-login"
-                    />
-                  ) : (
-                    <select
-                      id="ed-login"
-                      className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
-                      value={form.loginModel}
-                      onChange={(e) =>
-                        setForm((f) => ({ ...f, loginModel: e.target.value }))
-                      }
-                    >
-                      {copy.loginModelOptions.map((o) => (
-                        <option key={o.value} value={o.value}>
-                          {o.label}
-                        </option>
-                      ))}
-                    </select>
-                  )}
+                  <SelectOptionButtons
+                    options={copy.loginModelOptions}
+                    value={form.loginModel}
+                    onPick={(v) => handleSelectPick({ loginModel: v })}
+                    idPrefix="ed-login"
+                    compact={isFs}
+                  />
                 </StepBlock>
               ) : null}
 
               {stepId === "budgetBand" ? (
                 <StepBlock title={copy.fieldBudgetBand} whyMatters={copy.fieldBudgetBandWhyMatters}>
-                  {isFs ? (
-                    <SelectOptionButtons
-                      options={copy.budgetBandOptions}
-                      value={form.budgetBand}
-                      onPick={(v) => handleSelectPick({ budgetBand: v })}
-                      idPrefix="ed-band"
-                    />
-                  ) : (
-                    <select
-                      id="ed-band"
-                      className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
-                      value={form.budgetBand}
-                      onChange={(e) =>
-                        setForm((f) => ({ ...f, budgetBand: e.target.value }))
-                      }
-                    >
-                      {copy.budgetBandOptions.map((o) => (
-                        <option key={o.value} value={o.value}>
-                          {o.label}
-                        </option>
-                      ))}
-                    </select>
-                  )}
+                  <SelectOptionButtons
+                    options={copy.budgetBandOptions}
+                    value={form.budgetBand}
+                    onPick={(v) => handleSelectPick({ budgetBand: v })}
+                    idPrefix="ed-band"
+                    compact={isFs}
+                  />
                 </StepBlock>
               ) : null}
 
@@ -937,15 +713,20 @@ function SelectOptionButtons({
   value,
   onPick,
   idPrefix,
+  compact = false,
 }: {
   options: readonly { value: string; label: string }[];
   value: string;
   onPick: (v: string) => void;
   idPrefix: string;
+  compact?: boolean;
 }) {
   return (
     <div
-      className="grid max-h-[min(40vh,320px)] grid-cols-2 gap-2 overflow-y-auto overscroll-contain"
+      className={cn(
+        "grid max-h-[min(44vh,360px)] grid-cols-2 gap-2 overflow-y-auto overscroll-contain",
+        !compact && "md:grid-cols-3"
+      )}
       role="listbox"
       aria-label="選択肢"
     >
@@ -958,7 +739,7 @@ function SelectOptionButtons({
           id={`${idPrefix}-opt-${o.value}`}
           onClick={() => onPick(o.value)}
           className={cn(
-            "flex min-h-[2.75rem] items-center rounded-lg border px-2 py-1.5 text-left text-[12px] leading-snug text-white/95 transition-colors",
+            "flex min-h-[2.9rem] items-center rounded-lg border px-2.5 py-2 text-left text-[13px] leading-snug text-white/95 transition-colors md:min-h-[3rem] md:text-sm",
             value === o.value
               ? "border-action bg-action/20 ring-1 ring-action/30"
               : "border-silver/30 bg-base-dark hover:border-action/45 hover:bg-base-dark/90"
@@ -994,42 +775,35 @@ function QuickSelectWithFreeText({
 }) {
   const trimmed = value.trim();
   const matchedOption = options.find((option) => option.value === trimmed);
-  const selectValue = matchedOption ? matchedOption.value : trimmed ? QUICK_CUSTOM_VALUE : "";
+  const customText = matchedOption ? "" : value;
 
   return (
     <div className="space-y-3">
-      <select
-        id={`${idPrefix}-select`}
-        className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
-        value={selectValue}
-        onChange={(e) => {
-          const picked = e.target.value;
-          if (picked === QUICK_SKIP_VALUE) {
-            onChange("");
-            return;
-          }
-          if (picked === QUICK_CUSTOM_VALUE) {
-            if (!trimmed || matchedOption) onChange("");
-            return;
-          }
-          onChange(picked);
-        }}
-      >
-        <option value="">
-          {required ? "代表的な選択肢を選ぶ" : "任意: 代表的な選択肢を選ぶ"}
-        </option>
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-        <option value={QUICK_CUSTOM_VALUE}>その他（自由記述で入力）</option>
-        {!required ? <option value={QUICK_SKIP_VALUE}>今回は入力しない</option> : null}
-      </select>
+      <SelectOptionButtons
+        options={options}
+        value={trimmed}
+        onPick={onChange}
+        idPrefix={`${idPrefix}-quick`}
+        compact={isFs}
+      />
+      {!required ? (
+        <div className="flex justify-end">
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            className="h-8 px-2 text-xs text-text-sub hover:text-white"
+            onClick={() => onChange("")}
+            disabled={!trimmed}
+          >
+            今回は入力しない
+          </Button>
+        </div>
+      ) : null}
       <Textarea
         id={`${idPrefix}-textarea`}
         rows={rows}
-        value={selectValue === QUICK_CUSTOM_VALUE ? value : ""}
+        value={customText}
         maxLength={maxLength}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
@@ -1039,7 +813,7 @@ function QuickSelectWithFreeText({
         )}
       />
       <p className="text-xs text-text-sub">
-        代表選択肢をそのまま使うか、具体的に書きたい場合は自由記述で入力できます。
+        候補をタップするか、具体的に書きたい場合は自由記述で入力できます。
       </p>
     </div>
   );

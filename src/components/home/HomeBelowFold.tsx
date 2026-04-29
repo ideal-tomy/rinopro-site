@@ -109,7 +109,7 @@ export function HomeBelowFold({ demos }: HomeBelowFoldProps) {
           <p className="text-[1rem] leading-relaxed text-text md:text-lg">
             {homeDevelopmentSectionCopy.lead}
           </p>
-          <p className="mt-6 text-sm leading-relaxed text-text-sub md:mt-8 md:text-[1rem]">
+          <p className="mt-6 whitespace-pre-line text-sm leading-relaxed text-text-sub md:mt-8 md:text-[1rem]">
             {homeDevelopmentSectionCopy.body}
           </p>
           <Button asChild className="mt-8 md:mt-10" size="lg">
@@ -142,7 +142,7 @@ export function HomeBelowFold({ demos }: HomeBelowFoldProps) {
           <p className="text-[1rem] leading-relaxed text-text md:text-lg">
             {homeConsultingSectionCopy.lead}
           </p>
-          <p className="mt-6 text-sm leading-relaxed text-text-sub md:mt-8 md:text-[1rem]">
+          <p className="mt-6 whitespace-pre-line text-sm leading-relaxed text-text-sub md:mt-8 md:text-[1rem]">
             {homeConsultingSectionCopy.body}
           </p>
           <Button asChild className="mt-8 md:mt-10" size="lg" variant="outline">

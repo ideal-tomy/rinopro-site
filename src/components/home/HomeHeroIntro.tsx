@@ -16,7 +16,7 @@ export function HomeHeroIntro() {
         <h1 className="max-w-2xl text-center text-2xl font-bold text-accent md:text-3xl">
           {topCopy.tagline}
         </h1>
-        <p className="max-w-xl text-center text-sm text-text-sub md:text-[1rem]">
+        <p className="max-w-xl whitespace-pre-line text-center text-sm text-text-sub md:text-[1rem]">
           {topCopy.subline}
         </p>
       </section>
@@ -30,7 +30,7 @@ export function HomeHeroIntro() {
             <h3 className="text-[1rem] font-semibold text-text">
               {homeQuickStartCopy.consult.title}
             </h3>
-            <p className="mt-3 flex-1 text-sm leading-relaxed text-text-sub">
+            <p className="mt-3 flex-1 whitespace-pre-line text-sm leading-relaxed text-text-sub">
               {homeQuickStartCopy.consult.body}
             </p>
             <HomeConsultCtaButton label={homeQuickStartCopy.consult.ctaLabel} />
@@ -39,7 +39,7 @@ export function HomeHeroIntro() {
             <h3 className="text-[1rem] font-semibold text-text">
               {homeQuickStartCopy.experience.title}
             </h3>
-            <p className="mt-3 flex-1 text-sm leading-relaxed text-text-sub">
+            <p className="mt-3 flex-1 whitespace-pre-line text-sm leading-relaxed text-text-sub">
               {homeQuickStartCopy.experience.body}
             </p>
             <Button asChild className="mt-5 w-full">
@@ -52,7 +52,7 @@ export function HomeHeroIntro() {
             <h3 className="text-[1rem] font-semibold text-text">
               {homeQuickStartCopy.estimate.title}
             </h3>
-            <p className="mt-3 flex-1 text-sm leading-relaxed text-text-sub">
+            <p className="mt-3 flex-1 whitespace-pre-line text-sm leading-relaxed text-text-sub">
               {homeQuickStartCopy.estimate.body}
             </p>
             <Button asChild className="mt-5 w-full">
