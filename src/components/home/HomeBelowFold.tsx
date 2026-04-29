@@ -112,7 +112,7 @@ export function HomeBelowFold({ demos }: HomeBelowFoldProps) {
           <p className="mt-6 whitespace-pre-line text-sm leading-relaxed text-text-sub md:mt-8 md:text-[1rem]">
             {homeDevelopmentSectionCopy.body}
           </p>
-          <Button asChild className="mt-8 md:mt-10" size="lg">
+          <Button asChild className="mt-8 md:mt-10" size="lg" variant="outline">
             <Link href={homeDevelopmentSectionCopy.ctaHref}>
               {homeDevelopmentSectionCopy.ctaLabel}
             </Link>
