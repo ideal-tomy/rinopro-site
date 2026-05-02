@@ -134,6 +134,14 @@
   --color-accent: var(--color-chat-accent);
 }
 
+/* トップ LP のみ: 日本語の禁則・折り返し（サイト全域の p には当てない） */
+.home-landing-copy p,
+.home-landing-copy li {
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+  line-break: strict;
+}
+
 /* 全ページ共通: 横スクロールバーを上品なガラス調に統一 */
 * {
   scrollbar-width: thin;

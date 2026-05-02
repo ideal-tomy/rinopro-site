@@ -1,18 +1,21 @@
 import { ParticleBackground } from "@/components/three/ParticleBackground";
-import { HomeAcquisitionIntro } from "@/components/home/HomeAcquisitionIntro";
 import { HomeBelowFoldDeferred } from "@/components/home/HomeBelowFoldDeferred";
-import type { AiDemo, DemoItem } from "@/lib/sanity/types";
+import { HomeEmpathyCards } from "@/components/home/HomeEmpathyCards";
+import { HomeFirstView } from "@/components/home/HomeFirstView";
+import { HomeServiceFlowRow } from "@/components/home/HomeServiceFlowRow";
+import { HomeWhyPillars } from "@/components/home/HomeWhyPillars";
 
-interface HeroSectionProps {
-  demos: (AiDemo | DemoItem)[];
-}
-
-export function HeroSection({ demos }: HeroSectionProps) {
+export function HeroSection() {
   return (
     <>
       <ParticleBackground />
-      <HomeAcquisitionIntro />
-      <HomeBelowFoldDeferred demos={demos} />
+      <div className="home-landing-copy">
+        <HomeFirstView />
+        <HomeEmpathyCards />
+        <HomeWhyPillars />
+        <HomeServiceFlowRow />
+        <HomeBelowFoldDeferred />
+      </div>
     </>
   );
 }
