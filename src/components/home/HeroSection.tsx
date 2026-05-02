@@ -1,5 +1,5 @@
 import { ParticleBackground } from "@/components/three/ParticleBackground";
-import { HomeHeroIntro } from "@/components/home/HomeHeroIntro";
+import { HomeAcquisitionIntro } from "@/components/home/HomeAcquisitionIntro";
 import { HomeBelowFoldDeferred } from "@/components/home/HomeBelowFoldDeferred";
 import type { AiDemo, DemoItem } from "@/lib/sanity/types";
 
@@ -11,7 +11,7 @@ export function HeroSection({ demos }: HeroSectionProps) {
   return (
     <>
       <ParticleBackground />
-      <HomeHeroIntro />
+      <HomeAcquisitionIntro />
       <HomeBelowFoldDeferred demos={demos} />
     </>
   );

@@ -40,6 +40,7 @@ import { bootstrapContactIntakeForm, hasRealEstimateAiSnapshot } from "@/lib/con
 import { CONTACT_INTAKE_INITIAL_FORM } from "@/lib/contact/contact-intake-initial-form";
 import { buildContactSyntheticEstimateSnapshot } from "@/lib/contact/build-contact-synthetic-snapshot";
 import type { EstimateQuestionId } from "@/lib/estimate-core/question-model";
+import { getHomeAcquisitionPatternById } from "@/lib/content/home-acquisition";
 
 function applyPayloadToForm(
   payload: ChatHandoffPayload,
@@ -129,6 +130,7 @@ function buildExperienceOptions(): ExperienceOption[] {
 export function ContactForm() {
   const searchParams = useSearchParams();
   const handoffApplied = useRef(false);
+  const patternQueryApplied = useRef(false);
   const visitorSummaryApplied = useRef(false);
 
   const [name, setName] = useState("");
@@ -223,6 +225,25 @@ export function ContactForm() {
         setTargetSummary,
         setDecisionTimeline,
         setConstraintsSummary,
+      });
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [searchParams]);
+
+  useEffect(() => {
+    if (patternQueryApplied.current) return;
+    if (searchParams.get("handoff")) return;
+
+    const pattern = getHomeAcquisitionPatternById(
+      searchParams.get("pattern")
+    );
+    if (!pattern) return;
+
+    patternQueryApplied.current = true;
+    const frame = requestAnimationFrame(() => {
+      setAdditionalNote((prev) => {
+        const line = `【トップの参考パターン】${pattern.title}（ID: ${pattern.id}）について相談したいです。`;
+        return prev.trim() ? `${prev.trim()}\n\n${line}` : line;
       });
     });
     return () => cancelAnimationFrame(frame);
