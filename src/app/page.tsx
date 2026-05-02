@@ -1,21 +1,18 @@
 import type { Metadata } from "next";
 import { PageShell } from "@/components/layout/PageShell";
 import { HeroSection } from "@/components/home/HeroSection";
-import { fetchDemosForDisplay } from "@/lib/sanity/fetch";
 
 export const metadata: Metadata = {
   title:
-    "Axeon | 業務改善のヒントから相談まで。開発・コンサルで現場の効率化を支援",
+    "経営課題の言語化から動くシステムまで。コンサル・開発の一気通貫 | AXEON",
   description:
-    "よくある業務パターンから改善のイメージをつかみ、AIコンシェルジュで課題を整理。体験デモ・概算・お問い合わせまで一気通貫で。建設・士業など幅広い現場向け。",
+    "中小企業向けに、コンサルタントによる課題構造化と AI 駆動開発による高速実装をワンチームで。DX で何から始めるべきか迷う経営者の無料相談から、PoC・本実装まで伴走します。",
 };
 
-export default async function Home() {
-  const demos = await fetchDemosForDisplay();
-
+export default function Home() {
   return (
     <PageShell>
-      <HeroSection demos={demos} />
+      <HeroSection />
     </PageShell>
   );
 }
