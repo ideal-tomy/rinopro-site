@@ -41,6 +41,7 @@ import { CONTACT_INTAKE_INITIAL_FORM } from "@/lib/contact/contact-intake-initia
 import { buildContactSyntheticEstimateSnapshot } from "@/lib/contact/build-contact-synthetic-snapshot";
 import type { EstimateQuestionId } from "@/lib/estimate-core/question-model";
 import { getHomeAcquisitionPatternById } from "@/lib/content/home-acquisition";
+import { getIndustryShowcaseBySlug } from "@/lib/content/industry-showcase";
 
 function applyPayloadToForm(
   payload: ChatHandoffPayload,
@@ -131,6 +132,7 @@ export function ContactForm() {
   const searchParams = useSearchParams();
   const handoffApplied = useRef(false);
   const patternQueryApplied = useRef(false);
+  const industryQueryApplied = useRef(false);
   const visitorSummaryApplied = useRef(false);
 
   const [name, setName] = useState("");
@@ -231,19 +233,40 @@ export function ContactForm() {
   }, [searchParams]);
 
   useEffect(() => {
-    if (patternQueryApplied.current) return;
     if (searchParams.get("handoff")) return;
 
-    const pattern = getHomeAcquisitionPatternById(
-      searchParams.get("pattern")
-    );
-    if (!pattern) return;
+    const lines: string[] = [];
 
-    patternQueryApplied.current = true;
+    if (!patternQueryApplied.current) {
+      const pattern = getHomeAcquisitionPatternById(
+        searchParams.get("pattern")
+      );
+      if (pattern) {
+        patternQueryApplied.current = true;
+        lines.push(
+          `【トップの参考パターン】${pattern.title}（ID: ${pattern.id}）について相談したいです。`
+        );
+      }
+    }
+
+    if (!industryQueryApplied.current) {
+      const industry = getIndustryShowcaseBySlug(
+        searchParams.get("industry") ?? ""
+      );
+      if (industry) {
+        industryQueryApplied.current = true;
+        lines.push(
+          `【業種ページ】${industry.label}（${industry.slug}）について相談したいです。`
+        );
+      }
+    }
+
+    if (lines.length === 0) return;
+
     const frame = requestAnimationFrame(() => {
       setAdditionalNote((prev) => {
-        const line = `【トップの参考パターン】${pattern.title}（ID: ${pattern.id}）について相談したいです。`;
-        return prev.trim() ? `${prev.trim()}\n\n${line}` : line;
+        const block = lines.join("\n\n");
+        return prev.trim() ? `${prev.trim()}\n\n${block}` : block;
       });
     });
     return () => cancelAnimationFrame(frame);

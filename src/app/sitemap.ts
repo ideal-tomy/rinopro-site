@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { EXPERIENCE_PROTOTYPES } from "@/lib/experience/prototype-registry";
+import { getAllIndustryShowcaseSlugs } from "@/lib/content/industry-showcase";
 import { fetchDemosForDisplay } from "@/lib/sanity/fetch";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://axeon.example.com";
@@ -31,5 +32,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/consulting`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.7 },
     { url: `${BASE_URL}/about`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
     { url: `${BASE_URL}/contact`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },
+    ...getAllIndustryShowcaseSlugs().map((slug) => ({
+      url: `${BASE_URL}/solutions/${slug}`,
+      lastModified: new Date(),
+      changeFrequency: "weekly" as const,
+      priority: 0.88,
+    })),
   ];
 }

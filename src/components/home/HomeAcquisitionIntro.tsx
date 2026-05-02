@@ -1,5 +1,6 @@
 import { homeAcquisitionHeroCopy } from "@/lib/content/home-acquisition";
 import { HomeQuickStartCards } from "@/components/home/HomeQuickStartCards";
+import { IndustryShowcaseSection } from "@/components/home/IndustryShowcaseSection";
 import { PatternCaseGrid } from "@/components/home/PatternCaseGrid";
 
 export function HomeAcquisitionIntro() {
@@ -37,6 +38,8 @@ export function HomeAcquisitionIntro() {
           {homeAcquisitionHeroCopy.empathyClosing}
         </p>
       </section>
+
+      <IndustryShowcaseSection />
 
       <PatternCaseGrid />
 
