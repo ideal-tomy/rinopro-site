@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import type { AiDemo, DemoItem } from "@/lib/sanity/types";
 
 const HomeBelowFold = dynamic(
   () => import("./HomeBelowFold").then((mod) => mod.HomeBelowFold),
@@ -12,11 +11,7 @@ const HomeBelowFold = dynamic(
   }
 );
 
-interface HomeBelowFoldDeferredProps {
-  demos: (AiDemo | DemoItem)[];
-}
-
-export function HomeBelowFoldDeferred({ demos }: HomeBelowFoldDeferredProps) {
+export function HomeBelowFoldDeferred() {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -38,5 +33,5 @@ export function HomeBelowFoldDeferred({ demos }: HomeBelowFoldDeferredProps) {
     return () => globalThis.clearTimeout(timer);
   }, []);
 
-  return ready ? <HomeBelowFold demos={demos} /> : null;
+  return ready ? <HomeBelowFold /> : null;
 }
