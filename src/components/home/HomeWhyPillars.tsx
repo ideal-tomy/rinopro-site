@@ -27,7 +27,7 @@ export function HomeWhyPillars() {
           const Icon = icons[index];
           return (
             <li key={item.title}>
-              <article className="flex h-full flex-col rounded-2xl border border-silver/20 bg-base-dark/55 p-6 ring-1 ring-warm/15 ring-inset shadow-[inset_0_1px_0_0_color-mix(in_srgb,var(--color-elevated)_12%,transparent)] md:p-8">
+              <article className="flex h-full flex-col rounded-2xl border border-silver/20 bg-base-dark/55 p-6 ring-1 ring-warm/15 ring-inset shadow-[inset_0_1px_0_0_color-mix(in_srgb,var(--color-elevated)_12%,transparent)] transition-all duration-200 motion-reduce:transition-none md:p-8 md:hover:-translate-y-1 md:hover:shadow-[0_8px_24px_-4px_rgba(0,0,0,0.45)] motion-reduce:md:hover:translate-y-0 motion-reduce:md:hover:shadow-none">
                 <div className="flex justify-center md:justify-start">
                   <div className="flex size-[52px] items-center justify-center rounded-2xl bg-accent/15 text-accent md:size-16 md:rounded-[1.25rem]">
                     <Icon className="size-[26px] md:size-9" aria-hidden strokeWidth={1.75} />
