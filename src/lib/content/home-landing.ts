@@ -2,14 +2,14 @@
 
 export const homeLandingCopy = {
   firstView: {
-    headlineLine1: "「何が課題かわからない」から、",
-    headlineLine2: "動くシステムまで。",
+    headlineLine1: "戦略実装、",
+    headlineLine2: "一気通貫で。",
     subheadline:
-      "コンサルタント × AIトップエンジニアが、一気通貫で。",
+      "Big4出身コンサルタント × AI開発のトップエンジニア。",
     body:
-      "漠然とした経営課題の言語化から、AI駆動開発による高速な実装まで。\n中小企業の「次の一手」を、戦略と技術の両輪で支援します。",
-    primaryCta: "無料で経営相談する",
-    secondaryCta: "サービスを見る",
+      "DX戦略の構想から、AI駆動開発による高速実装、内製化の支援まで。\n企業変革を『絵に描いた餅』で終わらせない、実装力のあるパートナー。",
+    primaryCta: "初回コンサルティングのご相談",
+    secondaryCta: "サービス詳細",
     secondaryHref: "/services",
   },
 
