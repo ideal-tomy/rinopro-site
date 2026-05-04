@@ -6,7 +6,8 @@ const { faq } = homeLandingCopy;
 export function HomeFaqSection() {
   return (
     <section
-      className="container mx-auto max-w-3xl px-4 py-20 md:px-6 md:py-[120px]"
+      id="faq"
+      className="container mx-auto max-w-3xl px-4 py-20 md:px-6 md:py-[120px] scroll-mt-32"
       aria-labelledby="home-faq-heading"
     >
       <HomeLandingSectionHeading

@@ -50,8 +50,8 @@ const INDUSTRY_SHOWCASE_ITEMS_RAW: readonly IndustryShowcaseItem[] = [
       "点検・日報・写真・工程連絡がチャットと紙に散らばり、確認と再入力に時間がかかる。",
     solutionHint:
       "音声・写真・テキストから報告や連絡文案を下書きし、承認と記録の流れを短く設計します。",
-    imageSrc: "/media/industries/construction.svg",
-    imageAlt: "建設現場のイメージ。クレーンと建物のシルエットを抽象的に表現したイラスト",
+    imageSrc: "/images/kensetsu.jpg",
+    imageAlt: "木造建築の躯体と足場が並ぶ建設現場の写真",
     metaDescription:
       "建設・工事向け。現場報告、点検、工程連絡の負荷を下げるヒントと体験デモへの導線。",
     hub: {
@@ -78,8 +78,8 @@ const INDUSTRY_SHOWCASE_ITEMS_RAW: readonly IndustryShowcaseItem[] = [
       "先例検索、契約・議事の整理、期限管理が属人化し、確認依頼と差し戻しが繰り返される。",
     solutionHint:
       "検索・要約・ドラフト生成とリマインドを組み合わせ、判断に必要な材料を揃える時間を短縮します。",
-    imageSrc: "/media/industries/professional-services.svg",
-    imageAlt: "書類とディスプレイを想起させる抽象的なイラスト。士業・オフィス業務のイメージ",
+    imageSrc: "/images/regal.jpg",
+    imageAlt: "デスクに座り日月スタッズのバッジを付けたスーツ姿の士業イメージ",
     metaDescription:
       "士業・専門事務所向け。調べ物、契約・議事、期限まわりの負荷を下げるヒントと体験デモ。",
     hub: {
@@ -106,8 +106,8 @@ const INDUSTRY_SHOWCASE_ITEMS_RAW: readonly IndustryShowcaseItem[] = [
       "受発注・在庫・接客メモが系統ごとに分かれ、都度の確認と手入力が残業とミスを生む。",
     solutionHint:
       "現場の入力に合わせた集計・引き渡し文面・差分検知で、つなぎの手作業を減らします。",
-    imageSrc: "/media/industries/retail-distribution.svg",
-    imageAlt: "棚と箱をイメージした抽象的なイラスト。小売・流通のイメージ",
+    imageSrc: "/images/souko.jpg",
+    imageAlt: "倉庫・物流施設の外観イメージ",
     metaDescription:
       "小売・卸・製造の現場向け。受発注・在庫・接客まわりの負荷を下げるヒントと体験デモ。",
     hub: {
@@ -134,8 +134,8 @@ const INDUSTRY_SHOWCASE_ITEMS_RAW: readonly IndustryShowcaseItem[] = [
       "ドライバー・倉庫・荷主の間で、遅延・事故・納品の連絡が後追いになりトラブルが膨らむ。",
     solutionHint:
       "音声・写真からたたき台を作り、定型連絡と記録に残る形へそろえる仕組みを組み立てます。",
-    imageSrc: "/media/industries/logistics-mobility.svg",
-    imageAlt: "ルートと車両を想起させる抽象的なイラスト。配送・運輸のイメージ",
+    imageSrc: "/images/unsou.jpg",
+    imageAlt: "倉庫と駐車中のトラックが並ぶ運輸・配送の現場写真",
     metaDescription:
       "運輸・配送向け。遅延連絡・インシデント・納品報告の負荷を下げるヒントと体験デモ。",
     hub: {
@@ -162,8 +162,8 @@ const INDUSTRY_SHOWCASE_ITEMS_RAW: readonly IndustryShowcaseItem[] = [
       "一般問い合わせや窓口対応が担当依存で、注意事項の取りこぼしや二次対応のばらつきが出る。",
     solutionHint:
       "返信の骨子・要確認事項の整理と、院内・管内共有のたたき台で初動の質をそろえます。",
-    imageSrc: "/media/industries/healthcare-public.svg",
-    imageAlt: "ケアと案内を想起させる抽象的なイラスト。医療・公的窓口のイメージ",
+    imageSrc: "/images/docter.jpg",
+    imageAlt: "白衣と聴診器を身につけた医療従事者とクラウドを想起させるDXイメージの写真",
     metaDescription:
       "医療・公的窓口向け。問い合わせ対応の均一化と記録のしやすさのヒントと体験デモ。",
     hub: {
@@ -189,8 +189,8 @@ const INDUSTRY_SHOWCASE_ITEMS_RAW: readonly IndustryShowcaseItem[] = [
       "予約・クレーム・シフト申し送りが口頭とチャットに散らばり、当番ごとに品質がぶれる。",
     solutionHint:
       "予約・客情・在庫の情報を短いサマリにまとめ、仕込みと対応の優先順位をそろえやすくします。",
-    imageSrc: "/media/industries/hospitality-food.svg",
-    imageAlt: "皿と湯気を想起させる抽象的なイラスト。飲食・サービス業のイメージ",
+    imageSrc: "/images/food.jpg",
+    imageAlt: "レストランで天井から吊るされたグラス類と店内の写真",
     metaDescription:
       "飲食・サービス向け。予約・申し送り・クレーム対応の負荷を下げるヒントと体験デモ。",
     hub: {
@@ -216,6 +216,28 @@ export const INDUSTRY_SHOWCASE_ITEMS: readonly IndustryShowcaseItemWithPath[] =
     ...item,
     hubPath: solutionsPath(item.slug),
   }));
+
+/**
+ * トップページに出すフィーチャー業種（3件）。
+ * BtoB主要顧客になりうる「報告/契約/受発注」の3軸をカバー。
+ * 残り業種ハブ（/solutions/[slug]）は引き続きサイトに残し、SEO/サイトマップから外さない。
+ */
+export const FEATURED_INDUSTRY_SLUGS = [
+  "construction",
+  "professional-services",
+  "retail-distribution",
+] as const;
+
+export type FeaturedIndustrySlug = (typeof FEATURED_INDUSTRY_SLUGS)[number];
+
+export const FEATURED_INDUSTRY_ITEMS: readonly IndustryShowcaseItemWithPath[] =
+  FEATURED_INDUSTRY_SLUGS.map((slug) => {
+    const item = INDUSTRY_SHOWCASE_ITEMS.find((i) => i.slug === slug);
+    if (!item) {
+      throw new Error(`FEATURED_INDUSTRY_SLUGS に存在しない slug が含まれています: ${slug}`);
+    }
+    return item;
+  });
 
 const bySlug = new Map<string, IndustryShowcaseItemWithPath>(
   INDUSTRY_SHOWCASE_ITEMS.map((item) => [item.slug, item])

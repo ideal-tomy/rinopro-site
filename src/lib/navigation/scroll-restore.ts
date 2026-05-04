@@ -1,4 +1,4 @@
-const STORAGE_PREFIX = "axeon:scrollRestore:";
+const STORAGE_PREFIX = "AXEON:scrollRestore:";
 
 function keyForLocation(location: string): string {
   return STORAGE_PREFIX + location;

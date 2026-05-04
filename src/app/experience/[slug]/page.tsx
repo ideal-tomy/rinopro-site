@@ -24,9 +24,9 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const meta = getExperiencePrototypeBySlug(slug);
-  if (!meta) return { title: "体験 | Axeon" };
+  if (!meta) return { title: "体験 | AXEON" };
   return {
-    title: `${meta.title} | 体験 | Axeon`,
+    title: `${meta.title} | 体験 | AXEON`,
     description: meta.shortDescription,
   };
 }

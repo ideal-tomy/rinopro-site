@@ -8,7 +8,7 @@ import { DemoListContent } from "@/components/demo/DemoListContent";
 import { DemoListConciergeUrlSync } from "@/components/demo/DemoListConciergeUrlSync";
 
 export const metadata: Metadata = {
-  title: "demo一覧・比較 | Axeon",
+  title: "demo一覧・比較 | AXEON",
   description:
     "形式別の体験とカテゴリ別一覧で demo を比較できます。迷う場合はコンシェルジュで絞り込めます。",
 };

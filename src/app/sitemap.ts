@@ -3,7 +3,7 @@ import { EXPERIENCE_PROTOTYPES } from "@/lib/experience/prototype-registry";
 import { getAllIndustryShowcaseSlugs } from "@/lib/content/industry-showcase";
 import { fetchDemosForDisplay } from "@/lib/sanity/fetch";
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://axeon.example.com";
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://AXEON.example.com";
 
 function demoSlugForSitemap(d: { slug?: string | { current?: string } }): string | undefined {
   return typeof d.slug === "object" ? d.slug?.current : d.slug;

@@ -19,10 +19,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const item = getIndustryShowcaseBySlug(slug);
   if (!item) {
-    return { title: "ページが見つかりません | Axeon" };
+    return { title: "ページが見つかりません | AXEON" };
   }
   return {
-    title: `${item.label}向けの改善ヒント | Axeon`,
+    title: `${item.label}向けの改善ヒント | AXEON`,
     description: item.metaDescription,
   };
 }

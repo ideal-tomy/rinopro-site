@@ -37,7 +37,7 @@
 今回の `npm run build` で以下警告を確認:
 
 - Next.js が workspace root を `C:\\Users\\ryoji` と推定
-- 追加ロックファイルとして `C:\\Users\\ryoji\\demo\\rinopro\\package-lock.json` を検出
+- 追加ロックファイルとして `C:\\Users\\ryoji\\demo\\AXEON\\package-lock.json` を検出
 
 判定:
 

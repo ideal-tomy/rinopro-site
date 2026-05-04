@@ -23,7 +23,7 @@ export function HomeLandingSectionHeading({
   return (
     <header className={cn("mx-auto mb-14 max-w-4xl text-center md:mb-20", className)}>
       <p
-        className="font-mono text-2xl font-light tabular-nums tracking-[0.2em] text-white/50 md:text-[26px] lg:text-[28px]"
+        className="font-mono text-[32px] font-light tabular-nums tracking-[0.2em] text-accent/55 md:text-[36px] lg:text-[40px]"
         aria-hidden="true"
       >
         {index}

@@ -1,8 +1,5 @@
-import {
-  INDUSTRY_SHOWCASE_ITEMS,
-  industryShowcaseSectionCopy,
-} from "@/lib/content/industry-showcase";
-import { IndustryShowcaseCard } from "@/components/home/IndustryShowcaseCard";
+import { industryShowcaseSectionCopy } from "@/lib/content/industry-showcase";
+import { HomeIndustryTabs } from "@/components/home/HomeIndustryTabs";
 import { cn } from "@/lib/utils";
 
 type IndustryShowcaseSectionProps = {
@@ -32,16 +29,7 @@ export function IndustryShowcaseSection({
       <p className="mx-auto mb-8 max-w-[40ch] text-center text-[17px] leading-[1.8] text-white/[0.85] md:mb-10 md:max-w-2xl md:text-[18px]">
         {industryShowcaseSectionCopy.intro}
       </p>
-      <ul className="grid list-none gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {INDUSTRY_SHOWCASE_ITEMS.map((item, index) => (
-          <li key={item.slug}>
-            <IndustryShowcaseCard
-              item={item}
-              priorityImage={index === 0}
-            />
-          </li>
-        ))}
-      </ul>
+      <HomeIndustryTabs />
     </section>
   );
 }

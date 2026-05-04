@@ -11,7 +11,8 @@ const { pillars } = homeLandingCopy;
 export function HomeWhyPillars() {
   return (
     <section
-      className="container mx-auto max-w-6xl px-4 py-20 md:px-6 md:py-[120px]"
+      id="pillars"
+      className="container mx-auto max-w-6xl px-4 py-20 md:px-6 md:py-[120px] scroll-mt-32"
       aria-labelledby="home-pillars-heading"
     >
       <HomeLandingSectionHeading

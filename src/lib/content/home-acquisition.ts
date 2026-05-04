@@ -6,7 +6,7 @@
 export const homeAcquisitionHeroCopy = {
   tagline: "話すだけで、次が見えてくる。",
   subline:
-    "Axeonは、ただ情報を並べるだけのサイトではありません。\nAIとの対話を通じて、頭の中にある漠然とした悩みを、最短で整理します。\n日報、写真、問い合わせ対応など、定型業務に奪われる時間を減らし、\n人にしかできない判断と創造に集中できる環境づくりを支援します。",
+    "AXEONは、ただ情報を並べるだけのサイトではありません。\nAIとの対話を通じて、頭の中にある漠然とした悩みを、最短で整理します。\n日報、写真、問い合わせ対応など、定型業務に奪われる時間を減らし、\n人にしかできない判断と創造に集中できる環境づくりを支援します。",
   empathyHeading: "こんな状態が続いていませんか？",
   empathyLead:
     "手作業が多く、毎日の処理に時間がかかる。\n情報が散らばっていて、確認や引き継ぎに手間がかかる。\n担当者ごとに対応品質がぶれ、判断が遅れる。\nこうした状態は、現場の努力だけでは解消しにくい課題です。",
@@ -93,3 +93,26 @@ export function getHomeAcquisitionPatternById(
   if (!id) return null;
   return patternById.get(id) ?? null;
 }
+
+/**
+ * トップページに出すフィーチャー業務（4件）。
+ * 「全方位カバー」より「代表的な型に当てはまる人に刺す」狙いで、
+ * 入力負荷・情報分散・顧客対応・レポート集計の4軸を採用。
+ */
+export const FEATURED_PATTERN_IDS = [
+  "routine-automation",
+  "information-scatter",
+  "customer-response",
+  "reporting-load",
+] as const;
+
+export type FeaturedPatternId = (typeof FEATURED_PATTERN_IDS)[number];
+
+export const FEATURED_HOME_ACQUISITION_PATTERNS: readonly HomeAcquisitionPattern[] =
+  FEATURED_PATTERN_IDS.map((id) => {
+    const item = HOME_ACQUISITION_PATTERNS.find((p) => p.id === id);
+    if (!item) {
+      throw new Error(`FEATURED_PATTERN_IDS に存在しない id が含まれています: ${id}`);
+    }
+    return item;
+  });

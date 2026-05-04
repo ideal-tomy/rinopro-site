@@ -35,15 +35,15 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: {
-    default: "Axeon | 現場業務を、AIで再設計して実装まで伴走する",
-    template: "%s | Axeon",
+    default: "AXEON | 現場業務を、AIで再設計して実装まで伴走する",
+    template: "%s | AXEON",
   },
   description: "ビジネスを再設計するDXツール・AIツールの開発とコンサルティング。",
   openGraph: {
     type: "website",
     locale: "ja_JP",
   },
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://axeon.example.com"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://AXEON.example.com"),
 };
 
 export default function RootLayout({

@@ -14,7 +14,8 @@ const motionHover =
 export function HomeClosingCta() {
   return (
     <section
-      className="container mx-auto max-w-3xl px-4 py-[120px] md:px-6 md:pb-32 md:pt-[120px]"
+      id="cta"
+      className="container mx-auto max-w-3xl px-4 py-[120px] md:px-6 md:pb-32 md:pt-[120px] scroll-mt-32"
       aria-labelledby="home-closing-cta-heading"
     >
       <div className="rounded-3xl border border-accent/35 bg-base-dark/70 px-6 py-12 text-center shadow-[inset_0_1px_0_0_color-mix(in_srgb,var(--color-glow)_18%,transparent)] md:px-12 md:py-16">

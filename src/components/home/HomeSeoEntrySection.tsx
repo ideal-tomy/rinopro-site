@@ -8,7 +8,8 @@ const copy = homeLandingCopy.seoEntries;
 export function HomeSeoEntrySection() {
   return (
     <div
-      className="border-t border-transparent"
+      id="industry"
+      className="border-t border-transparent scroll-mt-32"
       role="region"
       aria-labelledby="home-seo-entries-heading"
     >

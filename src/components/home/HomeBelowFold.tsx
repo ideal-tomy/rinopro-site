@@ -5,40 +5,40 @@ import { HomeClosingCta } from "@/components/home/HomeClosingCta";
 import { HomeCompanyTeaser } from "@/components/home/HomeCompanyTeaser";
 import { HomeDemoEvidenceSection } from "@/components/home/HomeDemoEvidenceSection";
 import { HomeFaqSection } from "@/components/home/HomeFaqSection";
+import { HomeSectionShell } from "@/components/home/HomeSectionShell";
 import { HomeSeoEntrySection } from "@/components/home/HomeSeoEntrySection";
 
 export function HomeBelowFold() {
   return (
     <>
-      <div className="py-14 md:py-24">
+      <HomeSectionShell>
+        <HomeDemoEvidenceSection />
+      </HomeSectionShell>
+
+      {/* dividerの数は半減: 章境界として残すのは「実績→業種別」「FAQ→会社情報」の2箇所のみ */}
+      <div className="py-10 md:py-16">
         <PageSectionDivider />
       </div>
 
-      <HomeDemoEvidenceSection />
+      <HomeSectionShell tone="alt">
+        <HomeSeoEntrySection />
+      </HomeSectionShell>
 
-      <div className="py-14 md:py-24">
+      <HomeSectionShell>
+        <HomeFaqSection />
+      </HomeSectionShell>
+
+      <div className="py-10 md:py-16">
         <PageSectionDivider />
       </div>
 
-      <HomeSeoEntrySection />
+      <HomeSectionShell tone="alt">
+        <HomeCompanyTeaser />
+      </HomeSectionShell>
 
-      <div className="py-14 md:py-24">
-        <PageSectionDivider />
-      </div>
-
-      <HomeFaqSection />
-
-      <div className="py-14 md:py-24">
-        <PageSectionDivider />
-      </div>
-
-      <HomeCompanyTeaser />
-
-      <div className="py-14 md:py-24">
-        <PageSectionDivider />
-      </div>
-
-      <HomeClosingCta />
+      <HomeSectionShell>
+        <HomeClosingCta />
+      </HomeSectionShell>
     </>
   );
 }

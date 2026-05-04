@@ -1,9 +1,9 @@
 {
   "lighthouseVersion": "12.8.2",
-  "requestedUrl": "https://rinopro-site.vercel.app/services",
-  "mainDocumentUrl": "https://rinopro-site.vercel.app/services",
-  "finalDisplayedUrl": "https://rinopro-site.vercel.app/services",
-  "finalUrl": "https://rinopro-site.vercel.app/services",
+  "requestedUrl": "https://AXEON-site.vercel.app/services",
+  "mainDocumentUrl": "https://AXEON-site.vercel.app/services",
+  "finalDisplayedUrl": "https://AXEON-site.vercel.app/services",
+  "finalUrl": "https://AXEON-site.vercel.app/services",
   "fetchTime": "2026-04-15T15:22:26.517Z",
   "gatherMode": "navigation",
   "runWarnings": [
@@ -283,7 +283,7 @@
         ],
         "items": [
           {
-            "url": "https://rinopro-site.vercel.app/services",
+            "url": "https://AXEON-site.vercel.app/services",
             "responseTime": 8.747
           }
         ],
@@ -349,7 +349,7 @@
         "chains": {
           "122FA33A0A4836EA7C31B36169F874AD": {
             "request": {
-              "url": "https://rinopro-site.vercel.app/services",
+              "url": "https://AXEON-site.vercel.app/services",
               "startTime": 43579.157654,
               "endTime": 43579.21969,
               "responseReceivedTime": 43579.218172,
@@ -358,7 +358,7 @@
             "children": {
               "24416.4": {
                 "request": {
-                  "url": "https://rinopro-site.vercel.app/_next/static/chunks/09jbskz5u~_8..css",
+                  "url": "https://AXEON-site.vercel.app/_next/static/chunks/09jbskz5u~_8..css",
                   "startTime": 43579.235645,
                   "endTime": 43579.251917,
                   "responseReceivedTime": 43579.249891,
@@ -367,7 +367,7 @@
               },
               "24416.5": {
                 "request": {
-                  "url": "https://rinopro-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css",
+                  "url": "https://AXEON-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css",
                   "startTime": 43579.235812,
                   "endTime": 43579.283094,
                   "responseReceivedTime": 43579.272130000005,
@@ -376,7 +376,7 @@
                 "children": {
                   "24416.170": {
                     "request": {
-                      "url": "https://rinopro-site.vercel.app/_next/static/media/84ba4a404237237a-s.0dhweiompwwd-.woff2",
+                      "url": "https://AXEON-site.vercel.app/_next/static/media/84ba4a404237237a-s.0dhweiompwwd-.woff2",
                       "startTime": 43579.910619,
                       "endTime": 43579.96908,
                       "responseReceivedTime": 43579.954737,
@@ -385,7 +385,7 @@
                   },
                   "24416.164": {
                     "request": {
-                      "url": "https://rinopro-site.vercel.app/_next/static/media/9d85bd9105499ad1-s.0866~vmczf~a8.woff2",
+                      "url": "https://AXEON-site.vercel.app/_next/static/media/9d85bd9105499ad1-s.0866~vmczf~a8.woff2",
                       "startTime": 43579.91132,
                       "endTime": 43579.945053,
                       "responseReceivedTime": 43579.942236,
@@ -394,7 +394,7 @@
                   },
                   "24416.161": {
                     "request": {
-                      "url": "https://rinopro-site.vercel.app/_next/static/media/275ccf0c441a2836-s.08qdclfqwtsgb.woff2",
+                      "url": "https://AXEON-site.vercel.app/_next/static/media/275ccf0c441a2836-s.08qdclfqwtsgb.woff2",
                       "startTime": 43579.91149,
                       "endTime": 43579.972826,
                       "responseReceivedTime": 43579.968285,
@@ -403,7 +403,7 @@
                   },
                   "24416.162": {
                     "request": {
-                      "url": "https://rinopro-site.vercel.app/_next/static/media/d8ea5540f28d37db-s.0kff2wjoyxkwi.woff2",
+                      "url": "https://AXEON-site.vercel.app/_next/static/media/d8ea5540f28d37db-s.0kff2wjoyxkwi.woff2",
                       "startTime": 43579.911637,
                       "endTime": 43580.012764,
                       "responseReceivedTime": 43579.99550699999,
@@ -412,7 +412,7 @@
                   },
                   "24416.167": {
                     "request": {
-                      "url": "https://rinopro-site.vercel.app/_next/static/media/37f58264f669d8d0-s.0a1j_yg7j-fai.woff2",
+                      "url": "https://AXEON-site.vercel.app/_next/static/media/37f58264f669d8d0-s.0a1j_yg7j-fai.woff2",
                       "startTime": 43579.9118,
                       "endTime": 43579.941672,
                       "responseReceivedTime": 43579.938526000005,
@@ -421,7 +421,7 @@
                   },
                   "24416.166": {
                     "request": {
-                      "url": "https://rinopro-site.vercel.app/_next/static/media/3df8c6b5cf30c80b-s.0ckd0h9i26_bq.woff2",
+                      "url": "https://AXEON-site.vercel.app/_next/static/media/3df8c6b5cf30c80b-s.0ckd0h9i26_bq.woff2",
                       "startTime": 43579.91194,
                       "endTime": 43579.981136,
                       "responseReceivedTime": 43579.974311,
@@ -430,7 +430,7 @@
                   },
                   "24416.163": {
                     "request": {
-                      "url": "https://rinopro-site.vercel.app/_next/static/media/4f585ef944389036-s.07pu-lk_xhdqg.woff2",
+                      "url": "https://AXEON-site.vercel.app/_next/static/media/4f585ef944389036-s.07pu-lk_xhdqg.woff2",
                       "startTime": 43579.912113,
                       "endTime": 43580.024029,
                       "responseReceivedTime": 43580.013555,
@@ -439,7 +439,7 @@
                   },
                   "24416.157": {
                     "request": {
-                      "url": "https://rinopro-site.vercel.app/_next/static/media/27c06af3613529b2-s.03~8mdlqj_dxb.woff2",
+                      "url": "https://AXEON-site.vercel.app/_next/static/media/27c06af3613529b2-s.03~8mdlqj_dxb.woff2",
                       "startTime": 43579.912308,
                       "endTime": 43580.024984,
                       "responseReceivedTime": 43580.014607,
@@ -448,7 +448,7 @@
                   },
                   "24416.168": {
                     "request": {
-                      "url": "https://rinopro-site.vercel.app/_next/static/media/9a90a47970b2d1ac-s.0l1n~yoyeh2k4.woff2",
+                      "url": "https://AXEON-site.vercel.app/_next/static/media/9a90a47970b2d1ac-s.0l1n~yoyeh2k4.woff2",
                       "startTime": 43579.912469,
                       "endTime": 43580.004687,
                       "responseReceivedTime": 43579.993630000004,
@@ -457,7 +457,7 @@
                   },
                   "24416.165": {
                     "request": {
-                      "url": "https://rinopro-site.vercel.app/_next/static/media/5f2b96e387cbd8be-s.085eh.5s.5.xl.woff2",
+                      "url": "https://AXEON-site.vercel.app/_next/static/media/5f2b96e387cbd8be-s.085eh.5s.5.xl.woff2",
                       "startTime": 43579.912642,
                       "endTime": 43579.972019,
                       "responseReceivedTime": 43579.967394,
@@ -466,7 +466,7 @@
                   },
                   "24416.160": {
                     "request": {
-                      "url": "https://rinopro-site.vercel.app/_next/static/media/ab48bfb9925fb09d-s.0c04a00.5z2ls.woff2",
+                      "url": "https://AXEON-site.vercel.app/_next/static/media/ab48bfb9925fb09d-s.0c04a00.5z2ls.woff2",
                       "startTime": 43579.912806,
                       "endTime": 43579.991916,
                       "responseReceivedTime": 43579.984871,
@@ -475,7 +475,7 @@
                   },
                   "24416.158": {
                     "request": {
-                      "url": "https://rinopro-site.vercel.app/_next/static/media/a1606c58a7561dba-s.09gb0tc5obdnh.woff2",
+                      "url": "https://AXEON-site.vercel.app/_next/static/media/a1606c58a7561dba-s.09gb0tc5obdnh.woff2",
                       "startTime": 43579.912996,
                       "endTime": 43580.037075,
                       "responseReceivedTime": 43580.035238,
@@ -484,7 +484,7 @@
                   },
                   "24416.153": {
                     "request": {
-                      "url": "https://rinopro-site.vercel.app/_next/static/media/6791019760a8bee3-s.0iael8-_ctx6p.woff2",
+                      "url": "https://AXEON-site.vercel.app/_next/static/media/6791019760a8bee3-s.0iael8-_ctx6p.woff2",
                       "startTime": 43579.913234,
                       "endTime": 43579.989174,
                       "responseReceivedTime": 43579.982606,
@@ -493,7 +493,7 @@
                   },
                   "24416.141": {
                     "request": {
-                      "url": "https://rinopro-site.vercel.app/_next/static/media/b328eebf6b76f38b-s.03cfimws7rl-~.woff2",
+                      "url": "https://AXEON-site.vercel.app/_next/static/media/b328eebf6b76f38b-s.03cfimws7rl-~.woff2",
                       "startTime": 43579.913462,
                       "endTime": 43579.99318099999,
                       "responseReceivedTime": 43579.986699999994,
@@ -502,7 +502,7 @@
                   },
                   "24416.159": {
                     "request": {
-                      "url": "https://rinopro-site.vercel.app/_next/static/media/26cdd03f0e79a67c-s.0v51pjza1flos.woff2",
+                      "url": "https://AXEON-site.vercel.app/_next/static/media/26cdd03f0e79a67c-s.0v51pjza1flos.woff2",
                       "startTime": 43579.91378,
                       "endTime": 43580.005377,
                       "responseReceivedTime": 43579.994505,
@@ -511,7 +511,7 @@
                   },
                   "24416.148": {
                     "request": {
-                      "url": "https://rinopro-site.vercel.app/_next/static/media/b483e900f9641fa0-s.0o419ekentd0r.woff2",
+                      "url": "https://AXEON-site.vercel.app/_next/static/media/b483e900f9641fa0-s.0o419ekentd0r.woff2",
                       "startTime": 43579.914196,
                       "endTime": 43579.948977,
                       "responseReceivedTime": 43579.943929999994,
@@ -520,7 +520,7 @@
                   },
                   "24416.124": {
                     "request": {
-                      "url": "https://rinopro-site.vercel.app/_next/static/media/05a0d21a2cef6a7b-s.16__ymlru7hbb.woff2",
+                      "url": "https://AXEON-site.vercel.app/_next/static/media/05a0d21a2cef6a7b-s.16__ymlru7hbb.woff2",
                       "startTime": 43579.914576,
                       "endTime": 43579.951607,
                       "responseReceivedTime": 43579.949543,
@@ -529,7 +529,7 @@
                   },
                   "24416.156": {
                     "request": {
-                      "url": "https://rinopro-site.vercel.app/_next/static/media/b3517b03b44a2923-s.0-2qq.qiqio3d.woff2",
+                      "url": "https://AXEON-site.vercel.app/_next/static/media/b3517b03b44a2923-s.0-2qq.qiqio3d.woff2",
                       "startTime": 43579.923487,
                       "endTime": 43579.96579,
                       "responseReceivedTime": 43579.955541,
@@ -538,7 +538,7 @@
                   },
                   "24416.144": {
                     "request": {
-                      "url": "https://rinopro-site.vercel.app/_next/static/media/65521569a5d22bc8-s.0figye3bwlln8.woff2",
+                      "url": "https://AXEON-site.vercel.app/_next/static/media/65521569a5d22bc8-s.0figye3bwlln8.woff2",
                       "startTime": 43579.924004,
                       "endTime": 43579.984261,
                       "responseReceivedTime": 43579.975007,
@@ -547,7 +547,7 @@
                   },
                   "24416.155": {
                     "request": {
-                      "url": "https://rinopro-site.vercel.app/_next/static/media/a2a2f54707b7fb28-s.12cu_u36x77-h.woff2",
+                      "url": "https://AXEON-site.vercel.app/_next/static/media/a2a2f54707b7fb28-s.12cu_u36x77-h.woff2",
                       "startTime": 43579.92534,
                       "endTime": 43580.003779,
                       "responseReceivedTime": 43579.990708000005,
@@ -556,7 +556,7 @@
                   },
                   "24416.154": {
                     "request": {
-                      "url": "https://rinopro-site.vercel.app/_next/static/media/fd8028c2945c270c-s.0i.6p_.vnjb25.woff2",
+                      "url": "https://AXEON-site.vercel.app/_next/static/media/fd8028c2945c270c-s.0i.6p_.vnjb25.woff2",
                       "startTime": 43579.925749,
                       "endTime": 43579.988212,
                       "responseReceivedTime": 43579.98164300001,
@@ -565,7 +565,7 @@
                   },
                   "24416.151": {
                     "request": {
-                      "url": "https://rinopro-site.vercel.app/_next/static/media/6131a9320a0f0e00-s.0x5wmib~63_ji.woff2",
+                      "url": "https://AXEON-site.vercel.app/_next/static/media/6131a9320a0f0e00-s.0x5wmib~63_ji.woff2",
                       "startTime": 43579.926759,
                       "endTime": 43579.980437,
                       "responseReceivedTime": 43579.973375,
@@ -574,7 +574,7 @@
                   },
                   "24416.128": {
                     "request": {
-                      "url": "https://rinopro-site.vercel.app/_next/static/media/ed01be40e9c99084-s.0v8nd86m_p1r-.woff2",
+                      "url": "https://AXEON-site.vercel.app/_next/static/media/ed01be40e9c99084-s.0v8nd86m_p1r-.woff2",
                       "startTime": 43579.92708,
                       "endTime": 43579.992559,
                       "responseReceivedTime": 43579.985865999995,
@@ -585,7 +585,7 @@
               },
               "24416.6": {
                 "request": {
-                  "url": "https://rinopro-site.vercel.app/_next/static/chunks/0-yo2-8x4~j8-.css",
+                  "url": "https://AXEON-site.vercel.app/_next/static/chunks/0-yo2-8x4~j8-.css",
                   "startTime": 43579.23699,
                   "endTime": 43579.281917,
                   "responseReceivedTime": 43579.278032999995,
@@ -847,19 +847,19 @@
         ],
         "items": [
           {
-            "url": "https://rinopro-site.vercel.app/services",
+            "url": "https://AXEON-site.vercel.app/services",
             "total": 2501.2199999999993,
             "scripting": 39.36800000000001,
             "scriptParseCompile": 19.432
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/chunks/0rwwge57xnfls.js",
+            "url": "https://AXEON-site.vercel.app/_next/static/chunks/0rwwge57xnfls.js",
             "total": 1518.8199999999936,
             "scripting": 1481.1959999999933,
             "scriptParseCompile": 20.496
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/chunks/0y8c18m7gcnpm.js",
+            "url": "https://AXEON-site.vercel.app/_next/static/chunks/0y8c18m7gcnpm.js",
             "total": 837.488000000002,
             "scripting": 307.6880000000013,
             "scriptParseCompile": 15.952
@@ -871,19 +871,19 @@
             "scriptParseCompile": 0
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/chunks/178a4ynnpox30.js",
+            "url": "https://AXEON-site.vercel.app/_next/static/chunks/178a4ynnpox30.js",
             "total": 93.94400000000002,
             "scripting": 54.932000000000016,
             "scriptParseCompile": 22.439999999999998
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/chunks/06h_majhyqg.4.js",
+            "url": "https://AXEON-site.vercel.app/_next/static/chunks/06h_majhyqg.4.js",
             "total": 60.156,
             "scripting": 1.352,
             "scriptParseCompile": 58.172
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css",
+            "url": "https://AXEON-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css",
             "total": 52.956,
             "scripting": 0,
             "scriptParseCompile": 0
@@ -1042,7 +1042,7 @@
         ],
         "items": [
           {
-            "url": "https://rinopro-site.vercel.app/services",
+            "url": "https://AXEON-site.vercel.app/services",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 0,
@@ -1059,7 +1059,7 @@
             "entity": "vercel.app"
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/media/ad9c66e761fed85a-s.p.0e4b2z5rxsmxh.woff2",
+            "url": "https://AXEON-site.vercel.app/_next/static/media/ad9c66e761fed85a-s.p.0e4b2z5rxsmxh.woff2",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 77.87399999797344,
@@ -1077,7 +1077,7 @@
             "entity": "vercel.app"
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/media/caa3a2e1cccd8315-s.p.16t1db8_9y2o~.woff2",
+            "url": "https://AXEON-site.vercel.app/_next/static/media/caa3a2e1cccd8315-s.p.16t1db8_9y2o~.woff2",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 78.3779999986291,
@@ -1095,7 +1095,7 @@
             "entity": "vercel.app"
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/chunks/09jbskz5u~_8..css",
+            "url": "https://AXEON-site.vercel.app/_next/static/chunks/09jbskz5u~_8..css",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 78.52999999374151,
@@ -1112,7 +1112,7 @@
             "entity": "vercel.app"
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css",
+            "url": "https://AXEON-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 78.75,
@@ -1129,7 +1129,7 @@
             "entity": "vercel.app"
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/chunks/0-yo2-8x4~j8-.css",
+            "url": "https://AXEON-site.vercel.app/_next/static/chunks/0-yo2-8x4~j8-.css",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 78.89799999445677,
@@ -1146,7 +1146,7 @@
             "entity": "vercel.app"
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/chunks/0-hrh_uw98wb_.js",
+            "url": "https://AXEON-site.vercel.app/_next/static/chunks/0-hrh_uw98wb_.js",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 79.11999999731779,
@@ -1164,7 +1164,7 @@
             "entity": "vercel.app"
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/chunks/0nbpqvxo7_4zm.js",
+            "url": "https://AXEON-site.vercel.app/_next/static/chunks/0nbpqvxo7_4zm.js",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 79.22999999672174,
@@ -1181,7 +1181,7 @@
             "entity": "vercel.app"
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/chunks/0_3123y-75rrp.js",
+            "url": "https://AXEON-site.vercel.app/_next/static/chunks/0_3123y-75rrp.js",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 79.3099999949336,
@@ -1198,7 +1198,7 @@
             "entity": "vercel.app"
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/chunks/178a4ynnpox30.js",
+            "url": "https://AXEON-site.vercel.app/_next/static/chunks/178a4ynnpox30.js",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 79.40199999511242,
@@ -1215,7 +1215,7 @@
             "entity": "vercel.app"
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/chunks/04.i-__.as.dk.js",
+            "url": "https://AXEON-site.vercel.app/_next/static/chunks/04.i-__.as.dk.js",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 79.48200000077486,
@@ -1232,7 +1232,7 @@
             "entity": "vercel.app"
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/chunks/0rwwge57xnfls.js",
+            "url": "https://AXEON-site.vercel.app/_next/static/chunks/0rwwge57xnfls.js",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 79.56499999761581,
@@ -1249,7 +1249,7 @@
             "entity": "vercel.app"
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/chunks/turbopack-0wfbwy_auqaf0.js",
+            "url": "https://AXEON-site.vercel.app/_next/static/chunks/turbopack-0wfbwy_auqaf0.js",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 79.69699999690056,
@@ -1266,7 +1266,7 @@
             "entity": "vercel.app"
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/chunks/0nj.3uq1ic5f2.js",
+            "url": "https://AXEON-site.vercel.app/_next/static/chunks/0nj.3uq1ic5f2.js",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 79.78099999576807,
@@ -1283,7 +1283,7 @@
             "entity": "vercel.app"
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/chunks/0ocs.j_cva1_b.js",
+            "url": "https://AXEON-site.vercel.app/_next/static/chunks/0ocs.j_cva1_b.js",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 79.89299999922514,
@@ -1300,7 +1300,7 @@
             "entity": "vercel.app"
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/chunks/06h_majhyqg.4.js",
+            "url": "https://AXEON-site.vercel.app/_next/static/chunks/06h_majhyqg.4.js",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 79.96699999272823,
@@ -1317,7 +1317,7 @@
             "entity": "vercel.app"
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/chunks/0i.l9589uvx0j.js",
+            "url": "https://AXEON-site.vercel.app/_next/static/chunks/0i.l9589uvx0j.js",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 80.05399999767542,
@@ -1334,7 +1334,7 @@
             "entity": "vercel.app"
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/chunks/03r2m_3pwd_yd.js",
+            "url": "https://AXEON-site.vercel.app/_next/static/chunks/03r2m_3pwd_yd.js",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 80.13499999046326,
@@ -1351,7 +1351,7 @@
             "entity": "vercel.app"
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/chunks/0w_l964mpbsot.js",
+            "url": "https://AXEON-site.vercel.app/_next/static/chunks/0w_l964mpbsot.js",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 80.2039999961853,
@@ -1368,7 +1368,7 @@
             "entity": "vercel.app"
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/chunks/0y8c18m7gcnpm.js",
+            "url": "https://AXEON-site.vercel.app/_next/static/chunks/0y8c18m7gcnpm.js",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 80.28099999576807,
@@ -1385,7 +1385,7 @@
             "entity": "vercel.app"
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/media/84ba4a404237237a-s.0dhweiompwwd-.woff2",
+            "url": "https://AXEON-site.vercel.app/_next/static/media/84ba4a404237237a-s.0dhweiompwwd-.woff2",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 400.04999999701977,
@@ -1402,7 +1402,7 @@
             "entity": "vercel.app"
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/media/9d85bd9105499ad1-s.0866~vmczf~a8.woff2",
+            "url": "https://AXEON-site.vercel.app/_next/static/media/9d85bd9105499ad1-s.0866~vmczf~a8.woff2",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 467.9049999937415,
@@ -1419,7 +1419,7 @@
             "entity": "vercel.app"
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/media/275ccf0c441a2836-s.08qdclfqwtsgb.woff2",
+            "url": "https://AXEON-site.vercel.app/_next/static/media/275ccf0c441a2836-s.08qdclfqwtsgb.woff2",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 468.1149999946356,
@@ -1436,7 +1436,7 @@
             "entity": "vercel.app"
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/media/d8ea5540f28d37db-s.0kff2wjoyxkwi.woff2",
+            "url": "https://AXEON-site.vercel.app/_next/static/media/d8ea5540f28d37db-s.0kff2wjoyxkwi.woff2",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 468.7849999964237,
@@ -1453,7 +1453,7 @@
             "entity": "vercel.app"
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/media/37f58264f669d8d0-s.0a1j_yg7j-fai.woff2",
+            "url": "https://AXEON-site.vercel.app/_next/static/media/37f58264f669d8d0-s.0a1j_yg7j-fai.woff2",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 486.85199999809265,
@@ -1470,7 +1470,7 @@
             "entity": "vercel.app"
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/media/3df8c6b5cf30c80b-s.0ckd0h9i26_bq.woff2",
+            "url": "https://AXEON-site.vercel.app/_next/static/media/3df8c6b5cf30c80b-s.0ckd0h9i26_bq.woff2",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 552.0899999961257,
@@ -1487,7 +1487,7 @@
             "entity": "vercel.app"
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/media/4f585ef944389036-s.07pu-lk_xhdqg.woff2",
+            "url": "https://AXEON-site.vercel.app/_next/static/media/4f585ef944389036-s.07pu-lk_xhdqg.woff2",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 552.3099999949336,
@@ -1504,7 +1504,7 @@
             "entity": "vercel.app"
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/media/27c06af3613529b2-s.03~8mdlqj_dxb.woff2",
+            "url": "https://AXEON-site.vercel.app/_next/static/media/27c06af3613529b2-s.03~8mdlqj_dxb.woff2",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 552.3859999999404,
@@ -1521,7 +1521,7 @@
             "entity": "vercel.app"
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/media/9a90a47970b2d1ac-s.0l1n~yoyeh2k4.woff2",
+            "url": "https://AXEON-site.vercel.app/_next/static/media/9a90a47970b2d1ac-s.0l1n~yoyeh2k4.woff2",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 553.7909999936819,
@@ -1538,7 +1538,7 @@
             "entity": "vercel.app"
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/media/5f2b96e387cbd8be-s.085eh.5s.5.xl.woff2",
+            "url": "https://AXEON-site.vercel.app/_next/static/media/5f2b96e387cbd8be-s.085eh.5s.5.xl.woff2",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 553.9519999995828,
@@ -1555,7 +1555,7 @@
             "entity": "vercel.app"
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/media/ab48bfb9925fb09d-s.0c04a00.5z2ls.woff2",
+            "url": "https://AXEON-site.vercel.app/_next/static/media/ab48bfb9925fb09d-s.0c04a00.5z2ls.woff2",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 554.0659999921918,
@@ -1572,7 +1572,7 @@
             "entity": "vercel.app"
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/media/a1606c58a7561dba-s.09gb0tc5obdnh.woff2",
+            "url": "https://AXEON-site.vercel.app/_next/static/media/a1606c58a7561dba-s.09gb0tc5obdnh.woff2",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 557.2319999933243,
@@ -1589,7 +1589,7 @@
             "entity": "vercel.app"
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/media/6791019760a8bee3-s.0iael8-_ctx6p.woff2",
+            "url": "https://AXEON-site.vercel.app/_next/static/media/6791019760a8bee3-s.0iael8-_ctx6p.woff2",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 557.3739999905229,
@@ -1606,7 +1606,7 @@
             "entity": "vercel.app"
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/media/b328eebf6b76f38b-s.03cfimws7rl-~.woff2",
+            "url": "https://AXEON-site.vercel.app/_next/static/media/b328eebf6b76f38b-s.03cfimws7rl-~.woff2",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 558.7419999986887,
@@ -1623,7 +1623,7 @@
             "entity": "vercel.app"
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/media/26cdd03f0e79a67c-s.0v51pjza1flos.woff2",
+            "url": "https://AXEON-site.vercel.app/_next/static/media/26cdd03f0e79a67c-s.0v51pjza1flos.woff2",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 597.6179999932647,
@@ -1640,7 +1640,7 @@
             "entity": "vercel.app"
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/media/b483e900f9641fa0-s.0o419ekentd0r.woff2",
+            "url": "https://AXEON-site.vercel.app/_next/static/media/b483e900f9641fa0-s.0o419ekentd0r.woff2",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 597.9999999925494,
@@ -1657,7 +1657,7 @@
             "entity": "vercel.app"
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/media/05a0d21a2cef6a7b-s.16__ymlru7hbb.woff2",
+            "url": "https://AXEON-site.vercel.app/_next/static/media/05a0d21a2cef6a7b-s.16__ymlru7hbb.woff2",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 603.2019999921322,
@@ -1674,7 +1674,7 @@
             "entity": "vercel.app"
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/media/b3517b03b44a2923-s.0-2qq.qiqio3d.woff2",
+            "url": "https://AXEON-site.vercel.app/_next/static/media/b3517b03b44a2923-s.0-2qq.qiqio3d.woff2",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 609.4769999980927,
@@ -1691,7 +1691,7 @@
             "entity": "vercel.app"
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/media/65521569a5d22bc8-s.0figye3bwlln8.woff2",
+            "url": "https://AXEON-site.vercel.app/_next/static/media/65521569a5d22bc8-s.0figye3bwlln8.woff2",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 609.8829999938607,
@@ -1708,7 +1708,7 @@
             "entity": "vercel.app"
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/media/a2a2f54707b7fb28-s.12cu_u36x77-h.woff2",
+            "url": "https://AXEON-site.vercel.app/_next/static/media/a2a2f54707b7fb28-s.12cu_u36x77-h.woff2",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 657.5649999976158,
@@ -1725,7 +1725,7 @@
             "entity": "vercel.app"
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/media/fd8028c2945c270c-s.0i.6p_.vnjb25.woff2",
+            "url": "https://AXEON-site.vercel.app/_next/static/media/fd8028c2945c270c-s.0i.6p_.vnjb25.woff2",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 660.6579999998212,
@@ -1742,7 +1742,7 @@
             "entity": "vercel.app"
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/media/6131a9320a0f0e00-s.0x5wmib~63_ji.woff2",
+            "url": "https://AXEON-site.vercel.app/_next/static/media/6131a9320a0f0e00-s.0x5wmib~63_ji.woff2",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 675.0389999970794,
@@ -1759,7 +1759,7 @@
             "entity": "vercel.app"
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/media/ed01be40e9c99084-s.0v8nd86m_p1r-.woff2",
+            "url": "https://AXEON-site.vercel.app/_next/static/media/ed01be40e9c99084-s.0v8nd86m_p1r-.woff2",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 695.5890000015497,
@@ -1776,7 +1776,7 @@
             "entity": "vercel.app"
           },
           {
-            "url": "https://rinopro-site.vercel.app/?_rsc=nmjo1",
+            "url": "https://AXEON-site.vercel.app/?_rsc=nmjo1",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 1237.7049999982119,
@@ -1793,7 +1793,7 @@
             "entity": "vercel.app"
           },
           {
-            "url": "https://rinopro-site.vercel.app/favicon.ico?favicon.0x3dzn~oxb6tn.ico",
+            "url": "https://AXEON-site.vercel.app/favicon.ico?favicon.0x3dzn~oxb6tn.ico",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 1239.554999999702,
@@ -1810,7 +1810,7 @@
             "entity": "vercel.app"
           },
           {
-            "url": "https://rinopro-site.vercel.app/?_rsc=gjwff",
+            "url": "https://AXEON-site.vercel.app/?_rsc=gjwff",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 1262.835000000894,
@@ -1827,7 +1827,7 @@
             "entity": "vercel.app"
           },
           {
-            "url": "https://rinopro-site.vercel.app/?_rsc=1eepk",
+            "url": "https://AXEON-site.vercel.app/?_rsc=1eepk",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 1263.820000000298,
@@ -1844,7 +1844,7 @@
             "entity": "vercel.app"
           },
           {
-            "url": "https://rinopro-site.vercel.app/?_rsc=6fb3d",
+            "url": "https://AXEON-site.vercel.app/?_rsc=6fb3d",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 1264.668999992311,
@@ -1861,7 +1861,7 @@
             "entity": "vercel.app"
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/chunks/14yn3c9i.i-13.js",
+            "url": "https://AXEON-site.vercel.app/_next/static/chunks/14yn3c9i.i-13.js",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 1283.543999992311,
@@ -1884,209 +1884,209 @@
           "initiators": [
             {
               "type": "parser",
-              "url": "https://rinopro-site.vercel.app/services",
+              "url": "https://AXEON-site.vercel.app/services",
               "lineNumber": 0,
               "columnNumber": 431
             },
             {
               "type": "parser",
-              "url": "https://rinopro-site.vercel.app/services",
+              "url": "https://AXEON-site.vercel.app/services",
               "lineNumber": 0,
               "columnNumber": 563
             },
             {
               "type": "parser",
-              "url": "https://rinopro-site.vercel.app/services",
+              "url": "https://AXEON-site.vercel.app/services",
               "lineNumber": 0,
               "columnNumber": 656
             },
             {
               "type": "parser",
-              "url": "https://rinopro-site.vercel.app/services",
+              "url": "https://AXEON-site.vercel.app/services",
               "lineNumber": 0,
               "columnNumber": 749
             },
             {
               "type": "parser",
-              "url": "https://rinopro-site.vercel.app/services",
+              "url": "https://AXEON-site.vercel.app/services",
               "lineNumber": 0,
               "columnNumber": 842
             },
             {
               "type": "parser",
-              "url": "https://rinopro-site.vercel.app/services",
+              "url": "https://AXEON-site.vercel.app/services",
               "lineNumber": 0,
               "columnNumber": 940
             },
             {
               "type": "parser",
-              "url": "https://rinopro-site.vercel.app/services",
+              "url": "https://AXEON-site.vercel.app/services",
               "lineNumber": 0,
               "columnNumber": 1001
             },
             {
               "type": "parser",
-              "url": "https://rinopro-site.vercel.app/services",
+              "url": "https://AXEON-site.vercel.app/services",
               "lineNumber": 0,
               "columnNumber": 1071
             },
             {
               "type": "parser",
-              "url": "https://rinopro-site.vercel.app/services",
+              "url": "https://AXEON-site.vercel.app/services",
               "lineNumber": 0,
               "columnNumber": 1141
             },
             {
               "type": "parser",
-              "url": "https://rinopro-site.vercel.app/services",
+              "url": "https://AXEON-site.vercel.app/services",
               "lineNumber": 0,
               "columnNumber": 1211
             },
             {
               "type": "parser",
-              "url": "https://rinopro-site.vercel.app/services",
+              "url": "https://AXEON-site.vercel.app/services",
               "lineNumber": 0,
               "columnNumber": 1281
             },
             {
               "type": "parser",
-              "url": "https://rinopro-site.vercel.app/services",
+              "url": "https://AXEON-site.vercel.app/services",
               "lineNumber": 0,
               "columnNumber": 1361
             },
             {
               "type": "parser",
-              "url": "https://rinopro-site.vercel.app/services",
+              "url": "https://AXEON-site.vercel.app/services",
               "lineNumber": 0,
               "columnNumber": 1431
             },
             {
               "type": "parser",
-              "url": "https://rinopro-site.vercel.app/services",
+              "url": "https://AXEON-site.vercel.app/services",
               "lineNumber": 0,
               "columnNumber": 1501
             },
             {
               "type": "parser",
-              "url": "https://rinopro-site.vercel.app/services",
+              "url": "https://AXEON-site.vercel.app/services",
               "lineNumber": 0,
               "columnNumber": 1571
             },
             {
               "type": "parser",
-              "url": "https://rinopro-site.vercel.app/services",
+              "url": "https://AXEON-site.vercel.app/services",
               "lineNumber": 0,
               "columnNumber": 1641
             },
             {
               "type": "parser",
-              "url": "https://rinopro-site.vercel.app/services",
+              "url": "https://AXEON-site.vercel.app/services",
               "lineNumber": 0,
               "columnNumber": 1711
             },
             {
               "type": "parser",
-              "url": "https://rinopro-site.vercel.app/services",
+              "url": "https://AXEON-site.vercel.app/services",
               "lineNumber": 0,
               "columnNumber": 1781
             },
             {
               "type": "parser",
-              "url": "https://rinopro-site.vercel.app/services",
+              "url": "https://AXEON-site.vercel.app/services",
               "lineNumber": 0,
               "columnNumber": 1851
             },
             {
               "type": "parser",
-              "url": "https://rinopro-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css"
+              "url": "https://AXEON-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css"
             },
             {
               "type": "parser",
-              "url": "https://rinopro-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css"
+              "url": "https://AXEON-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css"
             },
             {
               "type": "parser",
-              "url": "https://rinopro-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css"
+              "url": "https://AXEON-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css"
             },
             {
               "type": "parser",
-              "url": "https://rinopro-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css"
+              "url": "https://AXEON-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css"
             },
             {
               "type": "parser",
-              "url": "https://rinopro-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css"
+              "url": "https://AXEON-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css"
             },
             {
               "type": "parser",
-              "url": "https://rinopro-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css"
+              "url": "https://AXEON-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css"
             },
             {
               "type": "parser",
-              "url": "https://rinopro-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css"
+              "url": "https://AXEON-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css"
             },
             {
               "type": "parser",
-              "url": "https://rinopro-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css"
+              "url": "https://AXEON-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css"
             },
             {
               "type": "parser",
-              "url": "https://rinopro-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css"
+              "url": "https://AXEON-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css"
             },
             {
               "type": "parser",
-              "url": "https://rinopro-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css"
+              "url": "https://AXEON-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css"
             },
             {
               "type": "parser",
-              "url": "https://rinopro-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css"
+              "url": "https://AXEON-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css"
             },
             {
               "type": "parser",
-              "url": "https://rinopro-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css"
+              "url": "https://AXEON-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css"
             },
             {
               "type": "parser",
-              "url": "https://rinopro-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css"
+              "url": "https://AXEON-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css"
             },
             {
               "type": "parser",
-              "url": "https://rinopro-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css"
+              "url": "https://AXEON-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css"
             },
             {
               "type": "parser",
-              "url": "https://rinopro-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css"
+              "url": "https://AXEON-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css"
             },
             {
               "type": "parser",
-              "url": "https://rinopro-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css"
+              "url": "https://AXEON-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css"
             },
             {
               "type": "parser",
-              "url": "https://rinopro-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css"
+              "url": "https://AXEON-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css"
             },
             {
               "type": "parser",
-              "url": "https://rinopro-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css"
+              "url": "https://AXEON-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css"
             },
             {
               "type": "parser",
-              "url": "https://rinopro-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css"
+              "url": "https://AXEON-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css"
             },
             {
               "type": "parser",
-              "url": "https://rinopro-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css"
+              "url": "https://AXEON-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css"
             },
             {
               "type": "parser",
-              "url": "https://rinopro-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css"
+              "url": "https://AXEON-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css"
             },
             {
               "type": "parser",
-              "url": "https://rinopro-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css"
+              "url": "https://AXEON-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css"
             },
             {
               "type": "parser",
-              "url": "https://rinopro-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css"
+              "url": "https://AXEON-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css"
             }
           ]
         }
@@ -2118,7 +2118,7 @@
         ],
         "items": [
           {
-            "origin": "https://rinopro-site.vercel.app",
+            "origin": "https://AXEON-site.vercel.app",
             "rtt": 8.281
           }
         ],
@@ -2153,7 +2153,7 @@
         ],
         "items": [
           {
-            "origin": "https://rinopro-site.vercel.app",
+            "origin": "https://AXEON-site.vercel.app",
             "serverResponseTime": 27.025999999999996
           }
         ],
@@ -2665,37 +2665,37 @@
         ],
         "items": [
           {
-            "url": "https://rinopro-site.vercel.app/services",
+            "url": "https://AXEON-site.vercel.app/services",
             "duration": 739,
             "startTime": 1141.0259999999998
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/chunks/0rwwge57xnfls.js",
+            "url": "https://AXEON-site.vercel.app/_next/static/chunks/0rwwge57xnfls.js",
             "duration": 493,
             "startTime": 4527.026
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/chunks/0rwwge57xnfls.js",
+            "url": "https://AXEON-site.vercel.app/_next/static/chunks/0rwwge57xnfls.js",
             "duration": 334,
             "startTime": 5080.026
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/chunks/178a4ynnpox30.js",
+            "url": "https://AXEON-site.vercel.app/_next/static/chunks/178a4ynnpox30.js",
             "duration": 271,
             "startTime": 3927.026
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/chunks/0rwwge57xnfls.js",
+            "url": "https://AXEON-site.vercel.app/_next/static/chunks/0rwwge57xnfls.js",
             "duration": 162,
             "startTime": 5461.026
           },
           {
-            "url": "https://rinopro-site.vercel.app/services",
+            "url": "https://AXEON-site.vercel.app/services",
             "duration": 155.9999999999999,
             "startTime": 932.026
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/chunks/0rwwge57xnfls.js",
+            "url": "https://AXEON-site.vercel.app/_next/static/chunks/0rwwge57xnfls.js",
             "duration": 86,
             "startTime": 5623.026
           },
@@ -2705,22 +2705,22 @@
             "startTime": 777.026
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/chunks/06h_majhyqg.4.js",
+            "url": "https://AXEON-site.vercel.app/_next/static/chunks/06h_majhyqg.4.js",
             "duration": 60,
             "startTime": 5020.026
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/chunks/0rwwge57xnfls.js",
+            "url": "https://AXEON-site.vercel.app/_next/static/chunks/0rwwge57xnfls.js",
             "duration": 56,
             "startTime": 5709.026
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css",
+            "url": "https://AXEON-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css",
             "duration": 53,
             "startTime": 1088.0259999999998
           },
           {
-            "url": "https://rinopro-site.vercel.app/services",
+            "url": "https://AXEON-site.vercel.app/services",
             "duration": 52,
             "startTime": 880.026
           }
@@ -2734,12 +2734,12 @@
         "debugData": {
           "type": "debugdata",
           "urls": [
-            "https://rinopro-site.vercel.app/services",
-            "https://rinopro-site.vercel.app/_next/static/chunks/0rwwge57xnfls.js",
-            "https://rinopro-site.vercel.app/_next/static/chunks/178a4ynnpox30.js",
+            "https://AXEON-site.vercel.app/services",
+            "https://AXEON-site.vercel.app/_next/static/chunks/0rwwge57xnfls.js",
+            "https://AXEON-site.vercel.app/_next/static/chunks/178a4ynnpox30.js",
             "Unattributable",
-            "https://rinopro-site.vercel.app/_next/static/chunks/06h_majhyqg.4.js",
-            "https://rinopro-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css"
+            "https://AXEON-site.vercel.app/_next/static/chunks/06h_majhyqg.4.js",
+            "https://AXEON-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css"
           ],
           "tasks": [
             {
@@ -3115,7 +3115,7 @@
         "type": "treemap-data",
         "nodes": [
           {
-            "name": "https://rinopro-site.vercel.app/services",
+            "name": "https://AXEON-site.vercel.app/services",
             "resourceBytes": 11700,
             "encodedBytes": 2205,
             "children": [
@@ -3152,91 +3152,91 @@
             ]
           },
           {
-            "name": "https://rinopro-site.vercel.app/_next/static/chunks/0-hrh_uw98wb_.js",
+            "name": "https://AXEON-site.vercel.app/_next/static/chunks/0-hrh_uw98wb_.js",
             "resourceBytes": 5596,
             "encodedBytes": 0,
             "unusedBytes": 1821
           },
           {
-            "name": "https://rinopro-site.vercel.app/_next/static/chunks/0nbpqvxo7_4zm.js",
+            "name": "https://AXEON-site.vercel.app/_next/static/chunks/0nbpqvxo7_4zm.js",
             "resourceBytes": 24146,
             "encodedBytes": 0,
             "unusedBytes": 5231
           },
           {
-            "name": "https://rinopro-site.vercel.app/_next/static/chunks/0_3123y-75rrp.js",
+            "name": "https://AXEON-site.vercel.app/_next/static/chunks/0_3123y-75rrp.js",
             "resourceBytes": 31371,
             "encodedBytes": 0,
             "unusedBytes": 10812
           },
           {
-            "name": "https://rinopro-site.vercel.app/_next/static/chunks/04.i-__.as.dk.js",
+            "name": "https://AXEON-site.vercel.app/_next/static/chunks/04.i-__.as.dk.js",
             "resourceBytes": 44022,
             "encodedBytes": 0,
             "unusedBytes": 36982
           },
           {
-            "name": "https://rinopro-site.vercel.app/_next/static/chunks/0nj.3uq1ic5f2.js",
+            "name": "https://AXEON-site.vercel.app/_next/static/chunks/0nj.3uq1ic5f2.js",
             "resourceBytes": 32038,
             "encodedBytes": 0,
             "unusedBytes": 11290
           },
           {
-            "name": "https://rinopro-site.vercel.app/_next/static/chunks/0ocs.j_cva1_b.js",
+            "name": "https://AXEON-site.vercel.app/_next/static/chunks/0ocs.j_cva1_b.js",
             "resourceBytes": 26556,
             "encodedBytes": 0,
             "unusedBytes": 451
           },
           {
-            "name": "https://rinopro-site.vercel.app/_next/static/chunks/turbopack-0wfbwy_auqaf0.js",
+            "name": "https://AXEON-site.vercel.app/_next/static/chunks/turbopack-0wfbwy_auqaf0.js",
             "resourceBytes": 11014,
             "encodedBytes": 0,
             "unusedBytes": 4299
           },
           {
-            "name": "https://rinopro-site.vercel.app/_next/static/chunks/03r2m_3pwd_yd.js",
+            "name": "https://AXEON-site.vercel.app/_next/static/chunks/03r2m_3pwd_yd.js",
             "resourceBytes": 588,
             "encodedBytes": 0,
             "unusedBytes": 0
           },
           {
-            "name": "https://rinopro-site.vercel.app/_next/static/chunks/0i.l9589uvx0j.js",
+            "name": "https://AXEON-site.vercel.app/_next/static/chunks/0i.l9589uvx0j.js",
             "resourceBytes": 54761,
             "encodedBytes": 0,
             "unusedBytes": 46626
           },
           {
-            "name": "https://rinopro-site.vercel.app/_next/static/chunks/0w_l964mpbsot.js",
+            "name": "https://AXEON-site.vercel.app/_next/static/chunks/0w_l964mpbsot.js",
             "resourceBytes": 50316,
             "encodedBytes": 0,
             "unusedBytes": 5002
           },
           {
-            "name": "https://rinopro-site.vercel.app/_next/static/chunks/06h_majhyqg.4.js",
+            "name": "https://AXEON-site.vercel.app/_next/static/chunks/06h_majhyqg.4.js",
             "resourceBytes": 253959,
             "encodedBytes": 48775,
             "unusedBytes": 210399
           },
           {
-            "name": "https://rinopro-site.vercel.app/_next/static/chunks/178a4ynnpox30.js",
+            "name": "https://AXEON-site.vercel.app/_next/static/chunks/178a4ynnpox30.js",
             "resourceBytes": 137472,
             "encodedBytes": 0,
             "unusedBytes": 61069
           },
           {
-            "name": "https://rinopro-site.vercel.app/_next/static/chunks/0y8c18m7gcnpm.js",
+            "name": "https://AXEON-site.vercel.app/_next/static/chunks/0y8c18m7gcnpm.js",
             "resourceBytes": 138864,
             "encodedBytes": 29117,
             "unusedBytes": 70184
           },
           {
-            "name": "https://rinopro-site.vercel.app/_next/static/chunks/0rwwge57xnfls.js",
+            "name": "https://AXEON-site.vercel.app/_next/static/chunks/0rwwge57xnfls.js",
             "resourceBytes": 203393,
             "encodedBytes": 27751,
             "unusedBytes": 78379
           },
           {
-            "name": "https://rinopro-site.vercel.app/_next/static/chunks/14yn3c9i.i-13.js",
+            "name": "https://AXEON-site.vercel.app/_next/static/chunks/14yn3c9i.i-13.js",
             "resourceBytes": 2548,
             "encodedBytes": 1168,
             "unusedBytes": 2386
@@ -4394,43 +4394,43 @@
         ],
         "items": [
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/media/84ba4a404237237a-s.0dhweiompwwd-.woff2",
+            "url": "https://AXEON-site.vercel.app/_next/static/media/84ba4a404237237a-s.0dhweiompwwd-.woff2",
             "totalBytes": 79267
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/chunks/0rwwge57xnfls.js",
+            "url": "https://AXEON-site.vercel.app/_next/static/chunks/0rwwge57xnfls.js",
             "totalBytes": 65842
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/chunks/06h_majhyqg.4.js",
+            "url": "https://AXEON-site.vercel.app/_next/static/chunks/06h_majhyqg.4.js",
             "totalBytes": 63650
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/chunks/0y8c18m7gcnpm.js",
+            "url": "https://AXEON-site.vercel.app/_next/static/chunks/0y8c18m7gcnpm.js",
             "totalBytes": 48416
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/chunks/178a4ynnpox30.js",
+            "url": "https://AXEON-site.vercel.app/_next/static/chunks/178a4ynnpox30.js",
             "totalBytes": 38602
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css",
+            "url": "https://AXEON-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css",
             "totalBytes": 33525
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/media/caa3a2e1cccd8315-s.p.16t1db8_9y2o~.woff2",
+            "url": "https://AXEON-site.vercel.app/_next/static/media/caa3a2e1cccd8315-s.p.16t1db8_9y2o~.woff2",
             "totalBytes": 28615
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/media/ad9c66e761fed85a-s.p.0e4b2z5rxsmxh.woff2",
+            "url": "https://AXEON-site.vercel.app/_next/static/media/ad9c66e761fed85a-s.p.0e4b2z5rxsmxh.woff2",
             "totalBytes": 25209
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/chunks/0w_l964mpbsot.js",
+            "url": "https://AXEON-site.vercel.app/_next/static/chunks/0w_l964mpbsot.js",
             "totalBytes": 23612
           },
           {
-            "url": "https://rinopro-site.vercel.app/?_rsc=6fb3d",
+            "url": "https://AXEON-site.vercel.app/?_rsc=6fb3d",
             "totalBytes": 23010
           }
         ],
@@ -4507,7 +4507,7 @@
         ],
         "items": [
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css",
+            "url": "https://AXEON-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css",
             "totalBytes": 33525,
             "wastedMs": 300
           }
@@ -4657,7 +4657,7 @@
         ],
         "items": [
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/chunks/06h_majhyqg.4.js",
+            "url": "https://AXEON-site.vercel.app/_next/static/chunks/06h_majhyqg.4.js",
             "totalBytes": 45696,
             "wastedBytes": 37858,
             "wastedPercent": 82.84762501033632
@@ -4914,7 +4914,7 @@
         ],
         "items": [
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/chunks/0nbpqvxo7_4zm.js",
+            "url": "https://AXEON-site.vercel.app/_next/static/chunks/0nbpqvxo7_4zm.js",
             "wastedBytes": 0,
             "subItems": {
               "type": "subitems",
@@ -4923,7 +4923,7 @@
                   "signal": "Array.prototype.at",
                   "location": {
                     "type": "source-location",
-                    "url": "https://rinopro-site.vercel.app/_next/static/chunks/0nbpqvxo7_4zm.js",
+                    "url": "https://AXEON-site.vercel.app/_next/static/chunks/0nbpqvxo7_4zm.js",
                     "urlProvider": "network",
                     "line": 0,
                     "column": 6451
@@ -4933,7 +4933,7 @@
                   "signal": "Array.prototype.flat",
                   "location": {
                     "type": "source-location",
-                    "url": "https://rinopro-site.vercel.app/_next/static/chunks/0nbpqvxo7_4zm.js",
+                    "url": "https://AXEON-site.vercel.app/_next/static/chunks/0nbpqvxo7_4zm.js",
                     "urlProvider": "network",
                     "line": 0,
                     "column": 5839
@@ -4943,7 +4943,7 @@
                   "signal": "Array.prototype.flatMap",
                   "location": {
                     "type": "source-location",
-                    "url": "https://rinopro-site.vercel.app/_next/static/chunks/0nbpqvxo7_4zm.js",
+                    "url": "https://AXEON-site.vercel.app/_next/static/chunks/0nbpqvxo7_4zm.js",
                     "urlProvider": "network",
                     "line": 0,
                     "column": 5952
@@ -4953,7 +4953,7 @@
                   "signal": "Object.fromEntries",
                   "location": {
                     "type": "source-location",
-                    "url": "https://rinopro-site.vercel.app/_next/static/chunks/0nbpqvxo7_4zm.js",
+                    "url": "https://AXEON-site.vercel.app/_next/static/chunks/0nbpqvxo7_4zm.js",
                     "urlProvider": "network",
                     "line": 0,
                     "column": 6328
@@ -4963,7 +4963,7 @@
                   "signal": "Object.hasOwn",
                   "location": {
                     "type": "source-location",
-                    "url": "https://rinopro-site.vercel.app/_next/static/chunks/0nbpqvxo7_4zm.js",
+                    "url": "https://AXEON-site.vercel.app/_next/static/chunks/0nbpqvxo7_4zm.js",
                     "urlProvider": "network",
                     "line": 0,
                     "column": 6586
@@ -4973,7 +4973,7 @@
                   "signal": "String.prototype.trimEnd",
                   "location": {
                     "type": "source-location",
-                    "url": "https://rinopro-site.vercel.app/_next/static/chunks/0nbpqvxo7_4zm.js",
+                    "url": "https://AXEON-site.vercel.app/_next/static/chunks/0nbpqvxo7_4zm.js",
                     "urlProvider": "network",
                     "line": 0,
                     "column": 5581
@@ -4983,7 +4983,7 @@
                   "signal": "String.prototype.trimStart",
                   "location": {
                     "type": "source-location",
-                    "url": "https://rinopro-site.vercel.app/_next/static/chunks/0nbpqvxo7_4zm.js",
+                    "url": "https://AXEON-site.vercel.app/_next/static/chunks/0nbpqvxo7_4zm.js",
                     "urlProvider": "network",
                     "line": 0,
                     "column": 5496
@@ -5305,7 +5305,7 @@
           {
             "source": {
               "type": "source-location",
-              "url": "https://rinopro-site.vercel.app/_next/static/chunks/0-yo2-8x4~j8-.css",
+              "url": "https://AXEON-site.vercel.app/_next/static/chunks/0-yo2-8x4~j8-.css",
               "urlProvider": "network",
               "line": 0,
               "column": 72336
@@ -5317,7 +5317,7 @@
           {
             "source": {
               "type": "source-location",
-              "url": "https://rinopro-site.vercel.app/_next/static/chunks/0-yo2-8x4~j8-.css",
+              "url": "https://AXEON-site.vercel.app/_next/static/chunks/0-yo2-8x4~j8-.css",
               "urlProvider": "network",
               "line": 0,
               "column": 72300
@@ -5958,7 +5958,7 @@
         ],
         "items": [
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/chunks/0nbpqvxo7_4zm.js",
+            "url": "https://AXEON-site.vercel.app/_next/static/chunks/0nbpqvxo7_4zm.js",
             "wastedBytes": 13968,
             "subItems": {
               "type": "subitems",
@@ -5967,7 +5967,7 @@
                   "signal": "Array.prototype.at",
                   "location": {
                     "type": "source-location",
-                    "url": "https://rinopro-site.vercel.app/_next/static/chunks/0nbpqvxo7_4zm.js",
+                    "url": "https://AXEON-site.vercel.app/_next/static/chunks/0nbpqvxo7_4zm.js",
                     "urlProvider": "network",
                     "line": 0,
                     "column": 6451
@@ -5977,7 +5977,7 @@
                   "signal": "Array.prototype.flat",
                   "location": {
                     "type": "source-location",
-                    "url": "https://rinopro-site.vercel.app/_next/static/chunks/0nbpqvxo7_4zm.js",
+                    "url": "https://AXEON-site.vercel.app/_next/static/chunks/0nbpqvxo7_4zm.js",
                     "urlProvider": "network",
                     "line": 0,
                     "column": 5839
@@ -5987,7 +5987,7 @@
                   "signal": "Array.prototype.flatMap",
                   "location": {
                     "type": "source-location",
-                    "url": "https://rinopro-site.vercel.app/_next/static/chunks/0nbpqvxo7_4zm.js",
+                    "url": "https://AXEON-site.vercel.app/_next/static/chunks/0nbpqvxo7_4zm.js",
                     "urlProvider": "network",
                     "line": 0,
                     "column": 5952
@@ -5997,7 +5997,7 @@
                   "signal": "Object.fromEntries",
                   "location": {
                     "type": "source-location",
-                    "url": "https://rinopro-site.vercel.app/_next/static/chunks/0nbpqvxo7_4zm.js",
+                    "url": "https://AXEON-site.vercel.app/_next/static/chunks/0nbpqvxo7_4zm.js",
                     "urlProvider": "network",
                     "line": 0,
                     "column": 6328
@@ -6007,7 +6007,7 @@
                   "signal": "Object.hasOwn",
                   "location": {
                     "type": "source-location",
-                    "url": "https://rinopro-site.vercel.app/_next/static/chunks/0nbpqvxo7_4zm.js",
+                    "url": "https://AXEON-site.vercel.app/_next/static/chunks/0nbpqvxo7_4zm.js",
                     "urlProvider": "network",
                     "line": 0,
                     "column": 6586
@@ -6017,7 +6017,7 @@
                   "signal": "String.prototype.trimEnd",
                   "location": {
                     "type": "source-location",
-                    "url": "https://rinopro-site.vercel.app/_next/static/chunks/0nbpqvxo7_4zm.js",
+                    "url": "https://AXEON-site.vercel.app/_next/static/chunks/0nbpqvxo7_4zm.js",
                     "urlProvider": "network",
                     "line": 0,
                     "column": 5581
@@ -6027,7 +6027,7 @@
                   "signal": "String.prototype.trimStart",
                   "location": {
                     "type": "source-location",
-                    "url": "https://rinopro-site.vercel.app/_next/static/chunks/0nbpqvxo7_4zm.js",
+                    "url": "https://AXEON-site.vercel.app/_next/static/chunks/0nbpqvxo7_4zm.js",
                     "urlProvider": "network",
                     "line": 0,
                     "column": 5496
@@ -6090,152 +6090,152 @@
               "type": "network-tree",
               "chains": {
                 "122FA33A0A4836EA7C31B36169F874AD": {
-                  "url": "https://rinopro-site.vercel.app/services",
+                  "url": "https://AXEON-site.vercel.app/services",
                   "navStartToEndTime": 95,
                   "transferSize": 9541,
                   "isLongest": true,
                   "children": {
                     "24416.5": {
-                      "url": "https://rinopro-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css",
+                      "url": "https://AXEON-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css",
                       "navStartToEndTime": 148,
                       "transferSize": 33525,
                       "isLongest": true,
                       "children": {
                         "24416.158": {
-                          "url": "https://rinopro-site.vercel.app/_next/static/media/a1606c58a7561dba-s.09gb0tc5obdnh.woff2",
+                          "url": "https://AXEON-site.vercel.app/_next/static/media/a1606c58a7561dba-s.09gb0tc5obdnh.woff2",
                           "navStartToEndTime": 1088,
                           "transferSize": 17065,
                           "isLongest": true,
                           "children": {}
                         },
                         "24416.157": {
-                          "url": "https://rinopro-site.vercel.app/_next/static/media/27c06af3613529b2-s.03~8mdlqj_dxb.woff2",
+                          "url": "https://AXEON-site.vercel.app/_next/static/media/27c06af3613529b2-s.03~8mdlqj_dxb.woff2",
                           "navStartToEndTime": 1083,
                           "transferSize": 19707,
                           "children": {}
                         },
                         "24416.163": {
-                          "url": "https://rinopro-site.vercel.app/_next/static/media/4f585ef944389036-s.07pu-lk_xhdqg.woff2",
+                          "url": "https://AXEON-site.vercel.app/_next/static/media/4f585ef944389036-s.07pu-lk_xhdqg.woff2",
                           "navStartToEndTime": 1078,
                           "transferSize": 16031,
                           "children": {}
                         },
                         "24416.162": {
-                          "url": "https://rinopro-site.vercel.app/_next/static/media/d8ea5540f28d37db-s.0kff2wjoyxkwi.woff2",
+                          "url": "https://AXEON-site.vercel.app/_next/static/media/d8ea5540f28d37db-s.0kff2wjoyxkwi.woff2",
                           "navStartToEndTime": 1071,
                           "transferSize": 17215,
                           "children": {}
                         },
                         "24416.159": {
-                          "url": "https://rinopro-site.vercel.app/_next/static/media/26cdd03f0e79a67c-s.0v51pjza1flos.woff2",
+                          "url": "https://AXEON-site.vercel.app/_next/static/media/26cdd03f0e79a67c-s.0v51pjza1flos.woff2",
                           "navStartToEndTime": 1070,
                           "transferSize": 18739,
                           "children": {}
                         },
                         "24416.168": {
-                          "url": "https://rinopro-site.vercel.app/_next/static/media/9a90a47970b2d1ac-s.0l1n~yoyeh2k4.woff2",
+                          "url": "https://AXEON-site.vercel.app/_next/static/media/9a90a47970b2d1ac-s.0l1n~yoyeh2k4.woff2",
                           "navStartToEndTime": 1051,
                           "transferSize": 11990,
                           "children": {}
                         },
                         "24416.155": {
-                          "url": "https://rinopro-site.vercel.app/_next/static/media/a2a2f54707b7fb28-s.12cu_u36x77-h.woff2",
+                          "url": "https://AXEON-site.vercel.app/_next/static/media/a2a2f54707b7fb28-s.12cu_u36x77-h.woff2",
                           "navStartToEndTime": 1050,
                           "transferSize": 17993,
                           "children": {}
                         },
                         "24416.141": {
-                          "url": "https://rinopro-site.vercel.app/_next/static/media/b328eebf6b76f38b-s.03cfimws7rl-~.woff2",
+                          "url": "https://AXEON-site.vercel.app/_next/static/media/b328eebf6b76f38b-s.03cfimws7rl-~.woff2",
                           "navStartToEndTime": 1050,
                           "transferSize": 19132,
                           "children": {}
                         },
                         "24416.128": {
-                          "url": "https://rinopro-site.vercel.app/_next/static/media/ed01be40e9c99084-s.0v8nd86m_p1r-.woff2",
+                          "url": "https://AXEON-site.vercel.app/_next/static/media/ed01be40e9c99084-s.0v8nd86m_p1r-.woff2",
                           "navStartToEndTime": 1029,
                           "transferSize": 19373,
                           "children": {}
                         },
                         "24416.160": {
-                          "url": "https://rinopro-site.vercel.app/_next/static/media/ab48bfb9925fb09d-s.0c04a00.5z2ls.woff2",
+                          "url": "https://AXEON-site.vercel.app/_next/static/media/ab48bfb9925fb09d-s.0c04a00.5z2ls.woff2",
                           "navStartToEndTime": 1016,
                           "transferSize": 15419,
                           "children": {}
                         },
                         "24416.153": {
-                          "url": "https://rinopro-site.vercel.app/_next/static/media/6791019760a8bee3-s.0iael8-_ctx6p.woff2",
+                          "url": "https://AXEON-site.vercel.app/_next/static/media/6791019760a8bee3-s.0iael8-_ctx6p.woff2",
                           "navStartToEndTime": 1009,
                           "transferSize": 17712,
                           "children": {}
                         },
                         "24416.154": {
-                          "url": "https://rinopro-site.vercel.app/_next/static/media/fd8028c2945c270c-s.0i.6p_.vnjb25.woff2",
+                          "url": "https://AXEON-site.vercel.app/_next/static/media/fd8028c2945c270c-s.0i.6p_.vnjb25.woff2",
                           "navStartToEndTime": 1003,
                           "transferSize": 16884,
                           "children": {}
                         },
                         "24416.144": {
-                          "url": "https://rinopro-site.vercel.app/_next/static/media/65521569a5d22bc8-s.0figye3bwlln8.woff2",
+                          "url": "https://AXEON-site.vercel.app/_next/static/media/65521569a5d22bc8-s.0figye3bwlln8.woff2",
                           "navStartToEndTime": 1002,
                           "transferSize": 17294,
                           "children": {}
                         },
                         "24416.166": {
-                          "url": "https://rinopro-site.vercel.app/_next/static/media/3df8c6b5cf30c80b-s.0ckd0h9i26_bq.woff2",
+                          "url": "https://AXEON-site.vercel.app/_next/static/media/3df8c6b5cf30c80b-s.0ckd0h9i26_bq.woff2",
                           "navStartToEndTime": 979,
                           "transferSize": 16319,
                           "children": {}
                         },
                         "24416.151": {
-                          "url": "https://rinopro-site.vercel.app/_next/static/media/6131a9320a0f0e00-s.0x5wmib~63_ji.woff2",
+                          "url": "https://AXEON-site.vercel.app/_next/static/media/6131a9320a0f0e00-s.0x5wmib~63_ji.woff2",
                           "navStartToEndTime": 978,
                           "transferSize": 20377,
                           "children": {}
                         },
                         "24416.161": {
-                          "url": "https://rinopro-site.vercel.app/_next/static/media/275ccf0c441a2836-s.08qdclfqwtsgb.woff2",
+                          "url": "https://AXEON-site.vercel.app/_next/static/media/275ccf0c441a2836-s.08qdclfqwtsgb.woff2",
                           "navStartToEndTime": 977,
                           "transferSize": 16082,
                           "children": {}
                         },
                         "24416.165": {
-                          "url": "https://rinopro-site.vercel.app/_next/static/media/5f2b96e387cbd8be-s.085eh.5s.5.xl.woff2",
+                          "url": "https://AXEON-site.vercel.app/_next/static/media/5f2b96e387cbd8be-s.085eh.5s.5.xl.woff2",
                           "navStartToEndTime": 976,
                           "transferSize": 14877,
                           "children": {}
                         },
                         "24416.170": {
-                          "url": "https://rinopro-site.vercel.app/_next/static/media/84ba4a404237237a-s.0dhweiompwwd-.woff2",
+                          "url": "https://AXEON-site.vercel.app/_next/static/media/84ba4a404237237a-s.0dhweiompwwd-.woff2",
                           "navStartToEndTime": 934,
                           "transferSize": 79267,
                           "children": {}
                         },
                         "24416.156": {
-                          "url": "https://rinopro-site.vercel.app/_next/static/media/b3517b03b44a2923-s.0-2qq.qiqio3d.woff2",
+                          "url": "https://AXEON-site.vercel.app/_next/static/media/b3517b03b44a2923-s.0-2qq.qiqio3d.woff2",
                           "navStartToEndTime": 915,
                           "transferSize": 17777,
                           "children": {}
                         },
                         "24416.124": {
-                          "url": "https://rinopro-site.vercel.app/_next/static/media/05a0d21a2cef6a7b-s.16__ymlru7hbb.woff2",
+                          "url": "https://AXEON-site.vercel.app/_next/static/media/05a0d21a2cef6a7b-s.16__ymlru7hbb.woff2",
                           "navStartToEndTime": 906,
                           "transferSize": 19934,
                           "children": {}
                         },
                         "24416.148": {
-                          "url": "https://rinopro-site.vercel.app/_next/static/media/b483e900f9641fa0-s.0o419ekentd0r.woff2",
+                          "url": "https://AXEON-site.vercel.app/_next/static/media/b483e900f9641fa0-s.0o419ekentd0r.woff2",
                           "navStartToEndTime": 905,
                           "transferSize": 17728,
                           "children": {}
                         },
                         "24416.164": {
-                          "url": "https://rinopro-site.vercel.app/_next/static/media/9d85bd9105499ad1-s.0866~vmczf~a8.woff2",
+                          "url": "https://AXEON-site.vercel.app/_next/static/media/9d85bd9105499ad1-s.0866~vmczf~a8.woff2",
                           "navStartToEndTime": 904,
                           "transferSize": 15064,
                           "children": {}
                         },
                         "24416.167": {
-                          "url": "https://rinopro-site.vercel.app/_next/static/media/37f58264f669d8d0-s.0a1j_yg7j-fai.woff2",
+                          "url": "https://AXEON-site.vercel.app/_next/static/media/37f58264f669d8d0-s.0a1j_yg7j-fai.woff2",
                           "navStartToEndTime": 902,
                           "transferSize": 16689,
                           "children": {}
@@ -6243,13 +6243,13 @@
                       }
                     },
                     "24416.6": {
-                      "url": "https://rinopro-site.vercel.app/_next/static/chunks/0-yo2-8x4~j8-.css",
+                      "url": "https://AXEON-site.vercel.app/_next/static/chunks/0-yo2-8x4~j8-.css",
                       "navStartToEndTime": 155,
                       "transferSize": 22358,
                       "children": {}
                     },
                     "24416.4": {
-                      "url": "https://rinopro-site.vercel.app/_next/static/chunks/09jbskz5u~_8..css",
+                      "url": "https://AXEON-site.vercel.app/_next/static/chunks/09jbskz5u~_8..css",
                       "navStartToEndTime": 111,
                       "transferSize": 805,
                       "children": {}
@@ -6320,16 +6320,16 @@
         ],
         "items": [
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/chunks/0-yo2-8x4~j8-.css",
+            "url": "https://AXEON-site.vercel.app/_next/static/chunks/0-yo2-8x4~j8-.css",
             "totalBytes": 22358
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css",
+            "url": "https://AXEON-site.vercel.app/_next/static/chunks/0svxuu4-ggiu..css",
             "totalBytes": 33525,
             "wastedMs": 300
           },
           {
-            "url": "https://rinopro-site.vercel.app/_next/static/chunks/09jbskz5u~_8..css",
+            "url": "https://AXEON-site.vercel.app/_next/static/chunks/09jbskz5u~_8..css",
             "totalBytes": 805
           }
         ]
@@ -7501,7 +7501,7 @@
     {
       "name": "vercel.app",
       "origins": [
-        "https://rinopro-site.vercel.app"
+        "https://AXEON-site.vercel.app"
       ],
       "isFirstParty": true,
       "isUnrecognized": true

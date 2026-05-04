@@ -16,7 +16,7 @@
 - `/services`
 
 ## Command Example
-- `npx lighthouse "https://rinopro-site.vercel.app/" --output=json --output-path="docs/lighthouse/latest-home-1.json" --chrome-flags="--headless=new --incognito --disable-extensions"`
+- `npx lighthouse "https://AXEON-site.vercel.app/" --output=json --output-path="docs/lighthouse/latest-home-1.json" --chrome-flags="--headless=new --incognito --disable-extensions"`
 
 ## Compare Metrics
 - Performance score

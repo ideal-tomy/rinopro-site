@@ -6,7 +6,8 @@ const { empathy } = homeLandingCopy;
 export function HomeEmpathyCards() {
   return (
     <section
-      className="container mx-auto max-w-6xl px-4 py-20 md:px-6 md:py-[120px]"
+      id="empathy"
+      className="container mx-auto max-w-6xl px-4 py-20 md:px-6 md:py-[120px] scroll-mt-32"
       aria-labelledby="home-empathy-heading"
     >
       <HomeLandingSectionHeading

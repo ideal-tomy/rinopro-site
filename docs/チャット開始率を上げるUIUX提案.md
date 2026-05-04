@@ -10,7 +10,7 @@
 
 ## 実装メモ（現行コードの置き場所）
 - 先回り吹き出しは、**全ページで共通化**し、**右下固定**の `ChatContainerLazy` 内（[`src/components/chat/ChatContainerLazy.tsx`](../src/components/chat/ChatContainerLazy.tsx)）で、FAB「**AIに相談**」**直上**に [`ConciergeFabNudge`](../src/components/chat/ConciergeFabNudge.tsx) として表示する。スクロール位置に依らず常に**同じ導線**に寄せ、発見性と「待機している感」を出す。
-- コピーは [`src/lib/content/site-copy.ts`](../src/lib/content/site-copy.ts) の `conciergeFabNudgeShared` / `conciergeFabNudgeByPageId` / `getConciergeFabNudgePageId(pathname)` で **URL に応じて切替**。`localStorage` キーは `axeon:fab-nudge:v1`、状態は **ページID単位**（他ページの閉じた状態と独立）。
+- コピーは [`src/lib/content/site-copy.ts`](../src/lib/content/site-copy.ts) の `conciergeFabNudgeShared` / `conciergeFabNudgeByPageId` / `getConciergeFabNudgePageId(pathname)` で **URL に応じて切替**。`localStorage` キーは `AXEON:fab-nudge:v1`、状態は **ページID単位**（他ページの閉じた状態と独立）。
 - 計測イベント名: `docs/concierge-analytics-events.md` の `fab_nudge_*`（`nudgePageId` を payload に含む）。
 - **新規ルート**で専用コピーが要る場合の手順: 型 `ConciergeFabNudgePageId` を拡張 → `getConciergeFabNudgePageId` に分岐を追加 → `conciergeFabNudgeByPageId` に定義を追加。
 - **手動確認の目安**: `/`・`/demo`・`/demo/list`・任意の `/demo/[slug]`・`/services`・`/contact` で吹き出しコピーが切り替わること（`npm run build` は通過済みの想定で、UIは dev で確認）。

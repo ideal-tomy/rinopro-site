@@ -1,9 +1,11 @@
 "use client";
 
+import { useRef } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { FeaturedExperienceVideoCard } from "@/components/experience/FeaturedExperienceVideoCard";
 import { Button } from "@/components/ui/button";
+import { HomeHorizontalDots } from "@/components/home/HomeHorizontalDots";
 import { HomeLandingSectionHeading } from "@/components/home/HomeLandingSectionHeading";
 import {
   heroStaggerContainer,
@@ -20,10 +22,13 @@ const copy = homeLandingCopy.demoEvidence;
 
 export function HomeDemoEvidenceSection() {
   const entryLocation = useCurrentLocationString();
+  const railRef = useRef<HTMLDivElement | null>(null);
+  const prototypes = getFeaturedExperiencePrototypes();
 
   return (
     <motion.section
-      className="container mx-auto max-w-6xl px-4 py-20 md:px-6 md:py-[120px]"
+      id="demo"
+      className="container mx-auto max-w-6xl px-4 py-20 md:px-6 md:py-[120px] scroll-mt-32"
       aria-labelledby="home-demo-evidence-heading"
       variants={heroStaggerContainer}
       initial="hidden"
@@ -42,13 +47,18 @@ export function HomeDemoEvidenceSection() {
           description={copy.intro}
         />
       </motion.div>
-      <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 sm:justify-items-center md:gap-10 lg:gap-12">
-        {getFeaturedExperiencePrototypes().map((p, i) => (
+      {/* PC(sm+): 2カラム grid。SP: scroll-snap 横スクロール。 */}
+      <div
+        ref={railRef}
+        className="-mx-4 flex snap-x snap-mandatory items-stretch gap-4 overflow-x-auto px-4 pb-2 [scroll-padding-inline:1rem] sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-8 sm:overflow-visible sm:px-0 sm:pb-0 sm:justify-items-center md:gap-10 lg:gap-12"
+      >
+        {prototypes.map((p, i) => (
           <motion.div
             key={p.slug}
+            data-dot-target
             variants={heroStaggerItem}
             custom={[0.1 + i * 0.06, 0.18 + i * 0.06] as [number, number]}
-            className="w-full max-w-[400px]"
+            className="w-[86%] min-w-[86%] shrink-0 snap-center sm:w-full sm:min-w-0 sm:max-w-[400px] sm:shrink"
           >
             <FeaturedExperienceVideoCard
               variant="split"
@@ -60,6 +70,14 @@ export function HomeDemoEvidenceSection() {
             />
           </motion.div>
         ))}
+      </div>
+      <div className="sm:hidden">
+        <HomeHorizontalDots
+          containerRef={railRef}
+          count={prototypes.length}
+          itemSelector="[data-dot-target]"
+          label="体験デモ"
+        />
       </div>
       <motion.div
         variants={heroStaggerItem}
