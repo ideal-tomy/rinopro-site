@@ -16,27 +16,27 @@ export const homeLandingCopy = {
   empathy: {
     sectionIndex: "01",
     sectionKicker: "課題の共感",
-    heading: "こんな経営者の方へ",
+    heading: "こんな課題に、お応えします",
     cards: [
       {
         icon: "💭",
-        prefix: "DXしたいが、",
-        emphasis: "何から手をつければいいか分からない",
+        prefix: "全社DX推進が、",
+        emphasis: "PoCで止まり実装フェーズに進まない",
       },
       {
         icon: "⚠️",
-        prefix: "コンサルに頼んだら、",
-        emphasis: "提案書だけで終わった",
+        prefix: "外部ベンダーが乱立し、",
+        emphasis: "戦略と実装の整合が取れない",
       },
       {
         icon: "🔧",
-        prefix: "開発会社に頼んだら、",
-        emphasis: "言った通りにしか作ってくれない",
+        prefix: "内製化を進めたいが、",
+        emphasis: "技術的な道筋が描けない",
       },
       {
         icon: "✨",
-        prefix: "AIを活用したいが、",
-        emphasis: "社内に知見がない",
+        prefix: "生成AI活用の戦略立案と実装の、",
+        emphasis: "両輪を担えるパートナーがいない",
       },
     ],
     bridge: "これらすべて、私たちが解決します",
