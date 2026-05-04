@@ -5,7 +5,7 @@ export const homeLandingCopy = {
     headlineLine1: "戦略実装、",
     headlineLine2: "一気通貫で。",
     subheadline:
-      "Big4出身コンサルタント × AI開発のトップエンジニア。",
+      "戦略コンサルティング経験者 × AI開発のトップエンジニア。",
     body:
       "DX戦略の構想から、AI駆動開発による高速実装、内製化の支援まで。\n企業変革を『絵に描いた餅』で終わらせない、実装力のあるパートナー。",
     primaryCta: "初回コンサルティングのご相談",
@@ -50,7 +50,7 @@ export const homeLandingCopy = {
       "戦略と実装が分かれると、提案と現場がすれ違います。AXEON では両方を一つのチームで担います。",
     items: [
       {
-        title: "Big4出身コンサルタントによる戦略策定",
+        title: "戦略コンサルティング経験に基づく戦略策定",
         body: "大手企業の変革プロジェクトで培った思考フレームで、経営課題を技術要件に翻訳。投資対効果を見据えた優先順位付けを行います。",
         detailLabel: "詳しく",
         detailHref: "/consulting",
@@ -79,7 +79,7 @@ export const homeLandingCopy = {
       {
         title: "ヒアリング / 言語化",
         consultRole:
-          "Big4 で鍛えたヒアリングで、経営課題と現場の摩擦を一枚に整理します。",
+          "戦略コンサルの現場で鍛えたヒアリングで、経営課題と現場の摩擦を一枚に整理します。",
         techRole: "データやツールの現状もあわせて可視化し、実装の前提をそろえます。",
       },
       {
