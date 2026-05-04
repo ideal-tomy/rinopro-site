@@ -26,14 +26,36 @@ const NAV_ITEMS: readonly NavItem[] = [
 
 /**
  * 「全部読まなくていい、必要な所だけ見ればいい」を可視化するためのトップ専用ナビ。
- * Header(`top-0 h-16 z-40`) の直下に sticky で重ねる（z-30）。
+ * Header(`top-0 h-16 z-40`) の直上にスクロール進捗バー（`fixed top-0 z-45`）。
+ * ナビ本体は Header 直下に sticky で重ねる（z-30）。
  * BelowFold は遅延マウントなので、対象ID へのジャンプ前に prewarm イベントを発火し、
  * 要素出現を rAF で待ってから scrollIntoView する。
  */
 export function HomeSectionStickyNav() {
   const [activeId, setActiveId] = useState<string>(NAV_ITEMS[0].id);
+  const [scrollProgress, setScrollProgress] = useState(0);
   const prefersReducedMotion = useReducedMotion();
   const listRef = useRef<HTMLUListElement | null>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const updateProgress = () => {
+      const root = document.documentElement;
+      const scrollTop = root.scrollTop;
+      const scrollable = root.scrollHeight - root.clientHeight;
+      const ratio = scrollable > 0 ? scrollTop / scrollable : 0;
+      setScrollProgress(Math.min(1, Math.max(0, ratio)));
+    };
+
+    updateProgress();
+    window.addEventListener("scroll", updateProgress, { passive: true });
+    window.addEventListener("resize", updateProgress);
+    return () => {
+      window.removeEventListener("scroll", updateProgress);
+      window.removeEventListener("resize", updateProgress);
+    };
+  }, []);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -127,31 +149,45 @@ export function HomeSectionStickyNav() {
     [prefersReducedMotion]
   );
 
+  const progressScaleStyle = prefersReducedMotion
+    ? { transform: `scaleX(${scrollProgress})` }
+    : { transform: `scaleX(${scrollProgress})`, transition: "transform 120ms ease-out" };
+
   return (
-    <nav
-      aria-label="ページ内セクション"
-      className="sticky top-16 z-30 w-full border-b border-silver/15 bg-base/85 backdrop-blur supports-[backdrop-filter]:bg-base/65"
-    >
-      <div className="relative mx-auto max-w-6xl">
-        <ul
-          ref={listRef}
-          className="no-scrollbar flex items-center gap-1.5 overflow-x-auto overscroll-x-contain px-3 py-2 [scroll-snap-type:x_proximity] sm:gap-2 md:px-6 md:py-2.5"
-          role="list"
-        >
-          {NAV_ITEMS.map((item) => {
-            const isActive = activeId === item.id;
-            const baseChip =
-              "inline-flex shrink-0 items-center gap-1 rounded-full border px-3 py-1.5 text-[13px] font-medium tracking-tight transition-[color,background-color,border-color] duration-200 [scroll-snap-align:center] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action focus-visible:ring-offset-2 focus-visible:ring-offset-base sm:text-sm";
-            const ctaCls = item.isCta
-              ? cn(
-                  "border-action/60 bg-action/15 text-white hover:bg-action/25",
-                  isActive && "border-action bg-action text-white"
-                )
-              : cn(
-                  "border-silver/25 bg-white/[0.02] text-white/80 hover:border-accent/45 hover:text-white",
-                  isActive &&
-                    "border-accent/60 bg-accent/15 text-white"
-                );
+    <>
+      <div
+        aria-hidden
+        className="pointer-events-none fixed left-0 right-0 top-0 z-[45] h-[3px] bg-black/35"
+      >
+        <div
+          className="h-full origin-left bg-accent"
+          style={progressScaleStyle}
+        />
+      </div>
+      <nav
+        aria-label="ページ内セクション"
+        className="sticky top-16 z-30 w-full border-b border-silver/15 bg-black/60 backdrop-blur-[12px] supports-[backdrop-filter]:bg-black/50"
+      >
+        <div className="relative mx-auto max-w-6xl">
+          <ul
+            ref={listRef}
+            className="no-scrollbar flex items-center gap-1.5 overflow-x-auto overscroll-x-contain px-3 py-2 [scroll-snap-type:x_proximity] sm:gap-2 md:px-6 md:py-2.5"
+            role="list"
+          >
+            {NAV_ITEMS.map((item) => {
+              const isActive = activeId === item.id;
+              const baseChip =
+                "inline-flex shrink-0 items-center gap-1 rounded-full border px-3 py-1.5 text-[14px] font-medium tracking-[0.05em] transition-[color,background-color,border-color,box-shadow,text-decoration-color] duration-200 [scroll-snap-align:center] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action focus-visible:ring-offset-2 focus-visible:ring-offset-base";
+              const ctaCls = item.isCta
+                ? cn(
+                    "border-action/60 bg-action/15 text-white hover:bg-action/25",
+                    isActive && "border-action bg-action text-white"
+                  )
+                : cn(
+                    "border-silver/25 bg-white/[0.02] text-white/80 hover:border-accent/45 hover:text-white",
+                    isActive &&
+                      "border-accent/55 bg-accent/10 text-white underline decoration-accent decoration-2 underline-offset-[10px]"
+                  );
             return (
               <li key={item.id}>
                 <a
@@ -171,15 +207,16 @@ export function HomeSectionStickyNav() {
           })}
         </ul>
         {/* 両端フェード（横にスクロールできることのヒント） */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-y-0 left-0 w-6 bg-gradient-to-r from-base/85 to-transparent md:hidden"
-        />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-y-0 right-0 w-6 bg-gradient-to-l from-base/85 to-transparent md:hidden"
-        />
-      </div>
-    </nav>
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-y-0 left-0 w-6 bg-gradient-to-r from-black/60 to-transparent md:hidden"
+          />
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-y-0 right-0 w-6 bg-gradient-to-l from-black/60 to-transparent md:hidden"
+          />
+        </div>
+      </nav>
+    </>
   );
 }
