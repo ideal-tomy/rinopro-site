@@ -40,11 +40,11 @@ export function IndustryShowcaseCard({
       <div className="p-7 md:p-8">
         <p className="text-[15px] leading-[1.8] text-white/[0.85] md:text-[16px]">
           <span className="font-semibold text-white">よくある負荷</span>
-          <span className="mt-2 block font-normal">{item.painHint}</span>
+          <span className="mt-3 block font-normal">{item.painHint}</span>
         </p>
         <p className="mt-5 text-[15px] leading-[1.8] text-white/[0.85] md:text-[16px]">
           <span className="font-semibold text-white">改善のヒント</span>
-          <span className="mt-2 block font-normal">{item.solutionHint}</span>
+          <span className="mt-3 block font-normal">{item.solutionHint}</span>
         </p>
         <p className="mt-5 text-[15px] font-semibold leading-[1.8] text-accent underline-offset-4 group-hover:underline md:text-[16px]">
           詳しく見る
