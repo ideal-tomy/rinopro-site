@@ -1,7 +1,9 @@
+import { MessageCircle, AlertTriangle, Wrench, Sparkles } from "lucide-react";
 import { HomeLandingSectionHeading } from "@/components/home/HomeLandingSectionHeading";
 import { homeLandingCopy } from "@/lib/content/home-landing";
 
 const { empathy } = homeLandingCopy;
+const icons = [MessageCircle, AlertTriangle, Wrench, Sparkles] as const;
 
 export function HomeEmpathyCards() {
   return (
@@ -16,23 +18,25 @@ export function HomeEmpathyCards() {
         kicker={empathy.sectionKicker}
         title={empathy.heading}
       />
-      <ul className="mx-auto grid max-w-5xl list-none gap-6 sm:grid-cols-2">
-        {empathy.cards.map((card) => (
-          <li key={`${card.prefix}-${card.emphasis}`}>
-            <article className="flex h-full min-h-[120px] flex-col gap-4 rounded-2xl border border-silver/20 bg-base-dark/55 p-6 ring-1 ring-warm/15 ring-inset shadow-[inset_0_1px_0_0_color-mix(in_srgb,var(--color-elevated)_12%,transparent)] md:p-8">
-              <span
-                className="select-none text-[2rem] leading-none md:text-[2.25rem]"
-                aria-hidden
-              >
-                {card.icon}
-              </span>
-              <p className="text-[16px] leading-[1.8] text-white/[0.85] md:text-[17px]">
-                <span className="text-white/[0.85]">{card.prefix}</span>
-                <strong className="font-semibold text-white">{card.emphasis}</strong>
-              </p>
-            </article>
-          </li>
-        ))}
+      <ul className="mx-auto grid max-w-6xl list-none gap-4 md:grid-cols-4">
+        {empathy.cards.map((card, index) => {
+          const Icon = icons[index];
+          return (
+            <li key={`${card.prefix}-${card.emphasis}`}>
+              <article className="flex h-full flex-col rounded-2xl border border-silver/20 bg-base-dark/55 p-7 ring-1 ring-warm/15 ring-inset shadow-[inset_0_1px_0_0_color-mix(in_srgb,var(--color-elevated)_12%,transparent)]">
+                <div className="flex size-10 items-center justify-center rounded-xl bg-accent/15 text-accent">
+                  <Icon className="size-5" aria-hidden strokeWidth={1.75} />
+                </div>
+                <p className="mt-4 text-[13px] leading-snug text-white/70">
+                  {card.prefix}
+                </p>
+                <p className="mt-2 text-[15px] font-semibold leading-[1.7] text-white">
+                  {card.emphasis}
+                </p>
+              </article>
+            </li>
+          );
+        })}
       </ul>
       <p className="mx-auto mt-16 max-w-[40ch] text-center text-[17px] font-semibold leading-[1.8] text-white md:mt-20 md:text-[18px]">
         {empathy.bridge}
