@@ -94,7 +94,7 @@ export function HomeIndustryTabs() {
               onClick={() => setActiveIndex(index)}
               onKeyDown={onKeyDown}
               className={cn(
-                "inline-flex shrink-0 items-center rounded-full border px-4 py-2 text-[14px] font-medium tracking-tight transition-[color,background-color,border-color] duration-200 [scroll-snap-align:center] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action focus-visible:ring-offset-2 focus-visible:ring-offset-base md:text-[15px]",
+                "clickable-element inline-flex shrink-0 items-center rounded-full border px-4 py-2 text-[14px] font-medium tracking-tight transition-[color,background-color,border-color,transform,opacity] duration-200 [scroll-snap-align:center] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action focus-visible:ring-offset-2 focus-visible:ring-offset-base md:text-[15px]",
                 isActive
                   ? "border-accent/60 bg-accent/15 text-white"
                   : "border-silver/25 bg-white/[0.02] text-white/80 hover:border-accent/45 hover:text-white"

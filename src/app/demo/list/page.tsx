@@ -10,7 +10,7 @@ import { DemoListConciergeUrlSync } from "@/components/demo/DemoListConciergeUrl
 export const metadata: Metadata = {
   title: "demo一覧・比較 | AXEON",
   description:
-    "形式別の体験とカテゴリ別一覧で demo を比較できます。迷う場合はコンシェルジュで絞り込めます。",
+    "形式別の体験とカテゴリ別一覧で demo を比較できます。カテゴリや形式で絞り込んでご覧いただけます。",
 };
 
 export default async function DemoListPage() {
@@ -24,7 +24,7 @@ export default async function DemoListPage() {
             demo一覧・比較
           </h1>
           <p className="mx-auto mt-3 max-w-2xl text-sm text-text-sub md:text-[1rem]">
-            ここでは業種や用途を横断して比べられます。まずはカテゴリから見て、迷う場合だけコンシェルジュで絞り込んでください。
+            ここでは業種や用途を横断して比べられます。カテゴリや形式で絞り込みながらご確認ください。
           </p>
           <Link
             href="/demo"

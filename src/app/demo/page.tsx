@@ -7,7 +7,7 @@ import { fetchDemosForDisplay } from "@/lib/sanity/fetch";
 export const metadata: Metadata = {
   title: "体験ハブ | AXEON",
   description:
-    "DXの種が見つかる体験ラボ。demo で課題の気づきと解決のヒントをつかみ、一覧で広く比較できます。",
+    "実装事例とプロトタイプを通じて、AXEONの開発品質をご確認いただけます。",
 };
 
 export default async function DemoPage() {

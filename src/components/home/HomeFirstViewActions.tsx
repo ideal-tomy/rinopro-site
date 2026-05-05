@@ -26,7 +26,7 @@ export function HomeFirstViewActions({
         label={primaryLabel}
         size="lg"
         className={cn(
-          "mt-0 w-full shadow-[0_0_28px_-6px_color-mix(in_srgb,var(--color-action)_50%,transparent)] sm:min-w-[260px]",
+          "clickable-element mt-0 w-full shadow-[0_0_28px_-6px_color-mix(in_srgb,var(--color-action)_50%,transparent)] sm:min-w-[260px]",
           homeLandingCtaButtonClass,
           motionHover,
           "motion-safe:hover:scale-[1.03] motion-safe:hover:shadow-[0_0_36px_-4px_color-mix(in_srgb,var(--color-action)_65%,transparent)] motion-reduce:hover:scale-100"
@@ -37,7 +37,7 @@ export function HomeFirstViewActions({
         size="lg"
         variant="outline"
         className={cn(
-          "w-full sm:w-auto sm:min-w-[220px]",
+          "clickable-element w-full sm:w-auto sm:min-w-[220px]",
           homeLandingCtaButtonClass,
           motionHover,
           "motion-safe:hover:scale-[1.02] hover:border-accent/80 hover:bg-white/[0.04] hover:shadow-[0_0_24px_-8px_color-mix(in_srgb,var(--color-action)_45%,transparent)] motion-reduce:hover:scale-100"

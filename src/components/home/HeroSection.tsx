@@ -12,8 +12,8 @@ export function HeroSection() {
     <>
       <ParticleBackground />
       <div className="home-landing-copy">
-        <HomeFirstView />
         <HomeSectionStickyNav />
+        <HomeFirstView />
         <HomeSectionShell tone="alt">
           <HomeEmpathyCards />
         </HomeSectionShell>

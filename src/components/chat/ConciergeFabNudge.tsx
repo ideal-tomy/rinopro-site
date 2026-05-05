@@ -75,6 +75,7 @@ export function ConciergeFabNudge() {
 
   const [hydrated, setHydrated] = useState(false);
   const [dismissed, setDismissed] = useState(false);
+  const [hasUserInteracted, setHasUserInteracted] = useState(false);
   const [lineIndex, setLineIndex] = useState(0);
   const [reduceMotion, setReduceMotion] = useState(false);
   const visibleEmitted = useRef<Set<string>>(new Set());
@@ -121,6 +122,19 @@ export function ConciergeFabNudge() {
 
   useEffect(() => {
     if (!hydrated || dismissed) return;
+    const markInteracted = () => setHasUserInteracted(true);
+    window.addEventListener("pointerdown", markInteracted, { once: true });
+    window.addEventListener("keydown", markInteracted, { once: true });
+    window.addEventListener("touchstart", markInteracted, { once: true });
+    return () => {
+      window.removeEventListener("pointerdown", markInteracted);
+      window.removeEventListener("keydown", markInteracted);
+      window.removeEventListener("touchstart", markInteracted);
+    };
+  }, [hydrated, dismissed, pageId]);
+
+  useEffect(() => {
+    if (!hydrated || dismissed) return;
     const key = `${pageId}::${pathname}`;
     if (visibleEmitted.current.has(key)) return;
     visibleEmitted.current.add(key);
@@ -147,7 +161,7 @@ export function ConciergeFabNudge() {
     emitConciergeKpi({ name: "fab_nudge_dismiss", pathname, nudgePageId: pageId });
   }, [pageId, pathname]);
 
-  if (!hydrated || dismissed) {
+  if (!hydrated || dismissed || !hasUserInteracted) {
     return null;
   }
 

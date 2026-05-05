@@ -5,10 +5,12 @@ import { cn } from "@/lib/utils";
 type IndustryShowcaseSectionProps = {
   /** 親セクション直下では見出しレベルとサイズを一段階下げる */
   nested?: boolean;
+  showHeading?: boolean;
 };
 
 export function IndustryShowcaseSection({
   nested = false,
+  showHeading = true,
 }: IndustryShowcaseSectionProps) {
   const HeadingTag = nested ? "h3" : "h2";
 
@@ -20,15 +22,19 @@ export function IndustryShowcaseSection({
       )}
       aria-labelledby="home-industry-showcase-heading"
     >
-      <HeadingTag
-        id="home-industry-showcase-heading"
-        className="mb-4 text-center text-balance text-xl font-semibold leading-snug tracking-tight text-white md:mb-5 md:text-2xl"
-      >
-        {industryShowcaseSectionCopy.heading}
-      </HeadingTag>
-      <p className="mx-auto mb-8 max-w-[40ch] text-center text-[17px] leading-[1.8] text-white/[0.85] md:mb-10 md:max-w-2xl md:text-[18px]">
-        {industryShowcaseSectionCopy.intro}
-      </p>
+      {showHeading ? (
+        <>
+          <HeadingTag
+            id="home-industry-showcase-heading"
+            className="mb-4 text-center text-balance text-xl font-semibold leading-snug tracking-tight text-white md:mb-5 md:text-2xl"
+          >
+            {industryShowcaseSectionCopy.heading}
+          </HeadingTag>
+          <p className="mx-auto mb-8 max-w-[40ch] text-center text-[17px] leading-[1.8] text-white/[0.85] md:mb-10 md:max-w-2xl md:text-[18px]">
+            {industryShowcaseSectionCopy.intro}
+          </p>
+        </>
+      ) : null}
       <HomeIndustryTabs />
     </section>
   );

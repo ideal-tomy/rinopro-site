@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Suspense } from "react";
+import NextTopLoader from "nextjs-toploader";
 import { Geist } from "next/font/google";
 import { Noto_Sans_JP } from "next/font/google";
 import { Header } from "@/components/layout/Header";
@@ -58,6 +59,12 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-[var(--color-base)] text-[var(--color-text)]">
         <ConciergeChatProvider>
+          <NextTopLoader
+            color="#3b82f6"
+            height={3}
+            showSpinner={false}
+            shadow="0 0 12px color-mix(in_srgb, #3b82f6 35%, transparent)"
+          />
           <Suspense fallback={null}>
             <ScrollRestoreOnRoute />
           </Suspense>

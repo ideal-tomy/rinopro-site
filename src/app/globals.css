@@ -239,6 +239,58 @@
   display: none;
 }
 
+/* Phase E: クリック／タップの即時フィードバック（hover は各コンポーネント側を維持） */
+@media (prefers-reduced-motion: no-preference) {
+  .clickable-element {
+    transition:
+      transform 0.1s ease,
+      opacity 0.1s ease,
+      box-shadow 0.1s ease,
+      border-color 0.1s ease;
+  }
+
+  .clickable-element:active {
+    transform: scale(0.97);
+    opacity: 0.85;
+  }
+
+  /* リンク／カード: hover で浮き、active で沈む（pointer はリンク用途のみで付与） */
+  .interactive-card {
+    cursor: pointer;
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease,
+      border-color 0.2s ease,
+      opacity 0.15s ease;
+  }
+
+  .interactive-card:hover {
+    transform: translateY(-4px);
+    box-shadow:
+      0 8px 24px rgb(0 0 0 / 0.3),
+      inset 0 1px 0 0 color-mix(in srgb, var(--color-elevated) 12%, transparent);
+  }
+
+  .interactive-card:active {
+    transform: translateY(0);
+    box-shadow:
+      0 2px 8px rgb(0 0 0 / 0.2),
+      inset 0 1px 0 0 color-mix(in srgb, var(--color-elevated) 10%, transparent);
+    transition-duration: 0.1s;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .clickable-element:active {
+    opacity: 0.92;
+  }
+
+  .interactive-card:hover,
+  .interactive-card:active {
+    transform: none;
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

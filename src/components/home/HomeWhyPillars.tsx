@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { Brain, Cpu, Workflow } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { HomeLandingSectionHeading } from "@/components/home/HomeLandingSectionHeading";
 import { homeLandingCopy } from "@/lib/content/home-landing";
 
@@ -27,7 +26,10 @@ export function HomeWhyPillars() {
           const Icon = icons[index];
           return (
             <li key={item.title}>
-              <article className="flex h-full flex-col rounded-2xl border border-silver/20 bg-base-dark/55 p-6 ring-1 ring-warm/15 ring-inset shadow-[inset_0_1px_0_0_color-mix(in_srgb,var(--color-elevated)_12%,transparent)] transition-all duration-200 motion-reduce:transition-none md:p-8 md:hover:-translate-y-1 md:hover:shadow-[0_8px_24px_-4px_rgba(0,0,0,0.45)] motion-reduce:md:hover:translate-y-0 motion-reduce:md:hover:shadow-none">
+              <Link
+                href={item.detailHref}
+                className="interactive-card group flex h-full flex-col rounded-2xl border border-silver/20 bg-base-dark/55 p-6 ring-1 ring-warm/15 ring-inset shadow-[inset_0_1px_0_0_color-mix(in_srgb,var(--color-elevated)_12%,transparent)] hover:border-accent/35 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-base md:p-8 motion-reduce:hover:!transform-none motion-reduce:hover:!shadow-none motion-reduce:active:!transform-none"
+              >
                 <div className="flex justify-center md:justify-start">
                   <div className="flex size-[52px] items-center justify-center rounded-2xl bg-accent/15 text-accent md:size-16 md:rounded-[1.25rem]">
                     <Icon className="size-[26px] md:size-9" aria-hidden strokeWidth={1.75} />
@@ -40,11 +42,11 @@ export function HomeWhyPillars() {
                   {item.body}
                 </p>
                 <div className="mt-10 md:mt-12">
-                  <Button asChild variant="ghost" className="w-full justify-center px-0 text-accent sm:w-auto">
-                    <Link href={item.detailHref}>{item.detailLabel}</Link>
-                  </Button>
+                  <span className="block w-full text-center text-accent underline-offset-4 transition group-hover:underline sm:w-auto sm:text-left">
+                    {item.detailLabel}
+                  </span>
                 </div>
-              </article>
+              </Link>
             </li>
           );
         })}

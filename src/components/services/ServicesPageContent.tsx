@@ -47,11 +47,6 @@ export function ServicesPageContent() {
       title={servicesCopy.title}
       headingClassName="text-center"
     >
-      <div className="mx-auto mb-10 flex max-w-xl flex-col items-center text-center md:mb-12">
-        <p className="text-[0.9375rem] leading-relaxed text-text-sub md:text-[1rem]">
-          AIコンシェルジュへの相談は、『チャットで相談する』から。
-        </p>
-      </div>
       <StaggerGrid
         cols="2"
         itemClassNameByIndex={{ 2: "sm:col-span-2" }}
@@ -60,7 +55,7 @@ export function ServicesPageContent() {
         <Card className="flex flex-col overflow-hidden border-silver/20 p-0 transition-colors hover:border-accent/50">
           <button
             type="button"
-            className="flex flex-1 flex-col items-center px-6 py-6 text-center"
+            className="clickable-element flex flex-1 flex-col items-center px-6 py-6 text-center transition-[transform,opacity] duration-100"
             onClick={() => {
               writeServicesFlowPick("development");
               recordVisitorEntryIntent("consult");
@@ -86,7 +81,7 @@ export function ServicesPageContent() {
         <Card className="flex flex-col overflow-hidden border-silver/20 p-0 transition-colors hover:border-accent/50">
           <button
             type="button"
-            className="flex flex-1 flex-col items-center px-6 py-6 text-center"
+            className="clickable-element flex flex-1 flex-col items-center px-6 py-6 text-center transition-[transform,opacity] duration-100"
             onClick={() => {
               writeServicesFlowPick("consulting");
               recordVisitorEntryIntent("consult");
@@ -123,7 +118,7 @@ export function ServicesPageContent() {
                 aria-controls={DETAIL_PANEL_ID}
                 tabIndex={activeDetail === "development" ? 0 : -1}
                 className={cn(
-                  "min-h-10 flex-1 rounded-lg border px-4 py-2 text-xs font-medium tracking-wide transition-colors sm:flex-none md:text-[0.8125rem]",
+                  "clickable-element min-h-10 flex-1 rounded-lg border px-4 py-2 text-xs font-medium tracking-wide transition-[color,background-color,border-color,transform,opacity] sm:flex-none md:text-[0.8125rem]",
                   activeDetail === "development"
                     ? "border-action/70 bg-action/15 text-action shadow-[0_0_16px_-4px_rgba(0,103,192,0.35)]"
                     : "border-silver/25 bg-base-dark/40 text-text/80 hover:border-action/35 hover:text-text"
@@ -140,7 +135,7 @@ export function ServicesPageContent() {
                 aria-controls={DETAIL_PANEL_ID}
                 tabIndex={activeDetail === "consulting" ? 0 : -1}
                 className={cn(
-                  "min-h-10 flex-1 rounded-lg border px-4 py-2 text-xs font-medium tracking-wide transition-colors sm:flex-none md:text-[0.8125rem]",
+                  "clickable-element min-h-10 flex-1 rounded-lg border px-4 py-2 text-xs font-medium tracking-wide transition-[color,background-color,border-color,transform,opacity] sm:flex-none md:text-[0.8125rem]",
                   activeDetail === "consulting"
                     ? "border-action/70 bg-action/15 text-action shadow-[0_0_16px_-4px_rgba(0,103,192,0.35)]"
                     : "border-silver/25 bg-base-dark/40 text-text/80 hover:border-action/35 hover:text-text"

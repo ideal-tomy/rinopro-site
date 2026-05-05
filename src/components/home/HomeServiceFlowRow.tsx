@@ -36,7 +36,7 @@ export function HomeServiceFlowRow() {
             <article
               key={`step-${step.title}`}
               data-dot-target
-              className="flex min-w-[82%] shrink-0 snap-center flex-col rounded-2xl border border-silver/20 bg-base-dark/40 p-6 ring-1 ring-warm/10 ring-inset md:min-w-0 md:flex-1 md:shrink md:snap-none md:p-8"
+              className="flex min-w-[82%] shrink-0 snap-center flex-col rounded-2xl border border-silver/20 bg-base-dark/40 p-6 ring-1 ring-warm/10 ring-inset md:min-h-[20rem] md:min-w-0 md:flex-1 md:shrink md:snap-none md:p-7 lg:min-h-[19rem]"
             >
               <span className="inline-flex size-11 shrink-0 items-center justify-center rounded-full border border-accent/35 bg-accent/15 text-sm font-bold tabular-nums text-accent md:size-12 md:text-[15px]">
                 {index + 1}
@@ -44,17 +44,11 @@ export function HomeServiceFlowRow() {
               <h3 className="mt-5 text-balance text-xl font-bold leading-snug text-white md:mt-6 md:text-[1.35rem] md:leading-snug lg:text-xl">
                 {step.title}
               </h3>
-              <p className="mt-4 text-[16px] leading-[1.8] text-white/[0.85] md:text-[17px]">
-                <span className="text-[14px] font-bold text-white md:text-[15px]">
-                  コンサル視点
-                </span>
-                <span className="mt-2 block font-normal">{step.consultRole}</span>
+              <p className="mt-4 text-[15px] leading-[1.75] text-white/[0.85] md:text-[16px]">
+                {step.consultRole}
               </p>
-              <p className="mt-4 text-[16px] leading-[1.8] text-white/[0.85] md:text-[17px]">
-                <span className="text-[14px] font-bold text-white md:text-[15px]">
-                  AI・開発視点
-                </span>
-                <span className="mt-2 block font-normal">{step.techRole}</span>
+              <p className="mt-2 text-[15px] leading-[1.75] text-white/[0.85] md:text-[16px]">
+                {step.techRole}
               </p>
             </article>
           );
@@ -70,11 +64,11 @@ export function HomeServiceFlowRow() {
               aria-hidden
             >
               <ChevronDown
-                className="size-7 text-accent/45 lg:hidden"
+                className="size-8 text-accent/70 lg:hidden"
                 strokeWidth={2}
               />
               <ChevronRight
-                className="hidden size-7 text-accent/45 lg:block"
+                className="hidden size-8 text-accent/70 lg:block"
                 strokeWidth={2}
               />
             </div>

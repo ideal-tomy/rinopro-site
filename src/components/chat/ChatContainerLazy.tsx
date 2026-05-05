@@ -47,7 +47,7 @@ function ChatLauncherFab({ onWarmup }: { onWarmup: () => void }) {
       <ConciergeFabNudge />
       <button
         type="button"
-        className="pointer-events-auto box-border inline-flex min-h-[3.5rem] min-w-[3.5rem] flex-col items-center justify-center gap-1 rounded-full border-2 border-silver/35 bg-base-dark/95 px-3 py-2 text-text shadow-[0_6px_28px_rgba(0,0,0,0.5)] ring-1 ring-white/[0.06] backdrop-blur-sm transition-[border-color,box-shadow,transform] duration-200 motion-safe:hover:scale-[1.03] hover:border-accent/50 hover:shadow-[0_8px_32px_color-mix(in_srgb,var(--color-accent)_20%,transparent)] sm:min-h-[3.75rem] sm:min-w-[10.5rem] sm:flex-row sm:gap-2 sm:px-4 sm:py-0"
+        className="pointer-events-auto box-border inline-flex min-h-[3.25rem] min-w-[3.25rem] flex-col items-center justify-center gap-1 rounded-full border border-silver/30 bg-base-dark/85 px-2.5 py-2 text-text opacity-90 shadow-[0_4px_18px_rgba(0,0,0,0.42)] ring-1 ring-white/[0.04] backdrop-blur-sm transition-[border-color,box-shadow,opacity] duration-200 hover:border-accent/45 hover:opacity-100 hover:shadow-[0_6px_24px_color-mix(in_srgb,var(--color-accent)_14%,transparent)] sm:min-h-[3.5rem] sm:min-w-[3.5rem] sm:flex-row sm:gap-1.5 sm:px-3 sm:py-0"
         onPointerEnter={onWarmup}
         onFocus={onWarmup}
         onClick={openConciergeFromFab}
@@ -55,7 +55,7 @@ function ChatLauncherFab({ onWarmup }: { onWarmup: () => void }) {
         aria-controls={
           isDemoExperienceWizardPath(pathname) ? "concierge-panel-page" : undefined
         }
-        aria-label="相談・ガイド（AIコンシェルジュ）を開く"
+        aria-label="相談・ガイド（AI相談窓口）を開く"
       >
         <svg
           aria-hidden
@@ -71,8 +71,8 @@ function ChatLauncherFab({ onWarmup }: { onWarmup: () => void }) {
           <path d="M8 13h5" />
           <path d="M12 3c4.97 0 9 3.58 9 8s-4.03 8-9 8c-1.2 0-2.35-.2-3.4-.58L3 21l1.85-4.08A7.42 7.42 0 0 1 3 11c0-4.42 4.03-8 9-8Z" />
         </svg>
-        <span className="max-w-[4.75rem] text-center text-[0.62rem] font-semibold leading-snug tracking-tight text-text sm:max-w-none sm:text-sm sm:font-medium sm:tracking-normal">
-          AIに相談
+        <span className="max-w-[4.75rem] text-center text-[0.62rem] font-semibold leading-snug tracking-tight text-text sm:max-w-none sm:text-xs sm:font-medium sm:tracking-normal">
+          相談
         </span>
       </button>
     </div>

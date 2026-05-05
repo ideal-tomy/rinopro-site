@@ -1,20 +1,17 @@
 import type { Metadata } from "next";
 import { PageShell } from "@/components/layout/PageShell";
 import { AboutPageContent } from "@/components/about/AboutPageContent";
-import { fetchTeamMembers } from "@/lib/sanity/fetch";
+import { aboutCopy } from "@/lib/content/site-copy";
 
 export const metadata: Metadata = {
   title: "会社紹介 | AXEON",
-  description:
-    "現場課題を構造化し、実装まで落とす。過剰提案せず、検証を優先するチームです。",
+  description: `${aboutCopy.hero.headline} ${aboutCopy.hero.sub}`,
 };
 
-export default async function AboutPage() {
-  const members = await fetchTeamMembers();
-
+export default function AboutPage() {
   return (
     <PageShell>
-      <AboutPageContent members={members} />
+      <AboutPageContent />
     </PageShell>
   );
 }

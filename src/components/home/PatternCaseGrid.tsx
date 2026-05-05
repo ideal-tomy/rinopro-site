@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 
 type PatternCaseGridProps = {
   nested?: boolean;
+  showHeading?: boolean;
 };
 
 /**
@@ -16,7 +17,10 @@ type PatternCaseGridProps = {
  * - summary に「タイトル + pain の冒頭」を常時表示し、閉じていても関連性を判断できる
  * - JS不要のネイティブ実装で、SEO（DOM テキスト常時露出）と互換性を担保
  */
-export function PatternCaseGrid({ nested = false }: PatternCaseGridProps) {
+export function PatternCaseGrid({
+  nested = false,
+  showHeading = true,
+}: PatternCaseGridProps) {
   const HeadingTag = nested ? "h3" : "h2";
 
   return (
@@ -27,15 +31,19 @@ export function PatternCaseGrid({ nested = false }: PatternCaseGridProps) {
       )}
       aria-labelledby="home-pattern-cases-heading"
     >
-      <HeadingTag
-        id="home-pattern-cases-heading"
-        className="mb-4 text-center text-balance text-xl font-semibold leading-snug tracking-tight text-white md:mb-5 md:text-2xl"
-      >
-        {homeAcquisitionHeroCopy.patternsHeading}
-      </HeadingTag>
-      <p className="mx-auto mb-8 max-w-[40ch] text-center text-[17px] leading-[1.8] text-white/[0.85] md:mb-10 md:max-w-2xl md:text-[18px]">
-        {homeAcquisitionHeroCopy.patternsIntro}
-      </p>
+      {showHeading ? (
+        <>
+          <HeadingTag
+            id="home-pattern-cases-heading"
+            className="mb-4 text-center text-balance text-xl font-semibold leading-snug tracking-tight text-white md:mb-5 md:text-2xl"
+          >
+            {homeAcquisitionHeroCopy.patternsHeading}
+          </HeadingTag>
+          <p className="mx-auto mb-8 max-w-[40ch] text-center text-[17px] leading-[1.8] text-white/[0.85] md:mb-10 md:max-w-2xl md:text-[18px]">
+            {homeAcquisitionHeroCopy.patternsIntro}
+          </p>
+        </>
+      ) : null}
       <ul className="mx-auto max-w-3xl list-none space-y-4">
         {FEATURED_HOME_ACQUISITION_PATTERNS.map((p) => (
           <li
@@ -44,7 +52,7 @@ export function PatternCaseGrid({ nested = false }: PatternCaseGridProps) {
           >
             <details className="group p-1">
               <summary
-                className="cursor-pointer list-none rounded-xl px-5 py-6 marker:content-none [&::-webkit-details-marker]:hidden md:px-6 md:py-6"
+                className="clickable-element cursor-pointer list-none rounded-xl px-5 py-6 marker:content-none [&::-webkit-details-marker]:hidden md:px-6 md:py-6"
               >
                 <span className="flex items-start justify-between gap-4">
                   <span className="block flex-1">
@@ -77,7 +85,10 @@ export function PatternCaseGrid({ nested = false }: PatternCaseGridProps) {
                   </p>
                 ) : null}
                 <Button asChild className="mt-7 w-full md:mt-9" variant="outline">
-                  <Link href={`/contact?pattern=${encodeURIComponent(p.id)}`}>
+                  <Link
+                    className="clickable-element"
+                    href={`/contact?pattern=${encodeURIComponent(p.id)}`}
+                  >
                     このパターンで相談する
                   </Link>
                 </Button>
@@ -88,7 +99,9 @@ export function PatternCaseGrid({ nested = false }: PatternCaseGridProps) {
       </ul>
       <div className="mt-10 flex justify-center md:mt-12">
         <Button asChild variant="ghost" className="text-accent">
-          <Link href="/services">業務改善のサービス詳細を見る →</Link>
+          <Link className="clickable-element" href="/services">
+            業務改善のサービス詳細を見る →
+          </Link>
         </Button>
       </div>
     </section>

@@ -15,7 +15,7 @@ export function IndustryShowcaseCard({
   return (
     <Link
       href={item.hubPath}
-      className="group block overflow-hidden rounded-2xl border border-silver/20 bg-base-dark/55 shadow-[inset_0_1px_0_0_color-mix(in_srgb,var(--color-elevated)_12%,transparent)] ring-1 ring-warm/15 ring-inset transition-all duration-200 motion-reduce:transition-none hover:border-accent/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-base md:hover:-translate-y-1 md:hover:shadow-[0_8px_24px_-4px_rgba(0,0,0,0.45)] motion-reduce:md:hover:translate-y-0 motion-reduce:md:hover:shadow-none"
+      className="interactive-card group block overflow-hidden rounded-2xl border border-silver/20 bg-base-dark/55 shadow-[inset_0_1px_0_0_color-mix(in_srgb,var(--color-elevated)_12%,transparent)] ring-1 ring-warm/15 ring-inset motion-reduce:hover:!transform-none motion-reduce:hover:!shadow-none motion-reduce:active:!transform-none hover:border-accent/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-base md:hover:border-accent/40"
     >
       <div className="relative aspect-video overflow-hidden">
         <Image

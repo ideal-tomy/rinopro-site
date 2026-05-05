@@ -12,8 +12,9 @@ export function DemoConciergeCtaButton({ label }: { label: string }) {
   return (
     <Button
       type="button"
-      variant="default"
-      size="lg"
+      variant="outline"
+      size="default"
+      className="clickable-element border-silver/25 opacity-95 hover:opacity-100"
       onClick={() => {
         recordVisitorEntryIntent("compare");
         requestOpenDemoListPageConcierge(entry.signals);
