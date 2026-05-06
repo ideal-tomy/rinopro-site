@@ -177,7 +177,7 @@ export function ConciergeFabNudge() {
           type="button"
           variant="text"
           size="sm"
-          className="h-7 min-h-0 px-2 text-[0.7rem] text-text-sub hover:text-text"
+          className="h-7 min-h-0 px-2 text-[0.7rem] text-[var(--color-text-tertiary)] hover:text-[var(--color-text-primary)]"
           onClick={onDismiss}
           aria-label={closeLabel}
         >
@@ -187,10 +187,10 @@ export function ConciergeFabNudge() {
 
       <div
         className={cn(
-          "flex min-h-[5.75rem] w-full items-center rounded-xl px-3 py-4 sm:min-h-[6rem] sm:px-4",
-          "border-2 border-accent/45",
-          "bg-[linear-gradient(155deg,#162a42_0%,#101d2f_55%,#0c1524_100%)]",
-          "shadow-[0_6px_28px_rgba(0,0,0,0.55),0_0_0_1px_color-mix(in_srgb,var(--color-accent)_12%,transparent),0_0_28px_-6px_color-mix(in_srgb,var(--color-accent)_18%,transparent)]",
+          "flex min-h-[4.5rem] w-full items-center rounded-xl px-3 py-3 sm:min-h-[5rem] sm:px-4 sm:py-3.5",
+          "border border-[var(--color-border-light)]",
+          "bg-[var(--color-bg-pure)]",
+          "shadow-[0_4px_16px_rgba(15,23,42,0.10)]",
           "backdrop-blur-sm"
         )}
         role="status"
@@ -199,8 +199,8 @@ export function ConciergeFabNudge() {
       >
         <p
           className={cn(
-            "w-full text-left text-sm leading-relaxed text-text sm:text-[0.9375rem]",
-            "line-clamp-4 sm:line-clamp-none",
+            "w-full text-left text-[13px] leading-relaxed text-[var(--color-text-secondary)] sm:text-sm",
+            "line-clamp-3 sm:line-clamp-none",
             rotationActive && "motion-safe:transition-opacity motion-safe:duration-200"
           )}
           key={reduceMotion ? `${pageId}-static` : `${pageId}-${lineIndex}`}
