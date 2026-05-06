@@ -29,6 +29,8 @@ export type IndustryShowcaseItem = {
     painBody: string;
     approachSectionTitle: string;
     approachBody: string;
+    /** 第4章テンプレ「関連する実装事例」 */
+    relatedCaseStudySlugs?: readonly string[];
     relatedDemos: readonly IndustryRelatedDemo[];
   };
 };
@@ -63,6 +65,7 @@ const INDUSTRY_SHOWCASE_ITEMS_RAW: readonly IndustryShowcaseItem[] = [
       approachSectionTitle: "解決の考え方（概要）",
       approachBody:
         "現場の入力手段（音声・写真・短文）に合わせて下書きを生成し、確認すべき項目だけを人に回す流れにします。既存の帳票やチャット運用との境界も含め、小さく試せる範囲から段階的に広げます。",
+      relatedCaseStudySlugs: ["gempo"],
       relatedDemos: [
         { slug: "construction-shadow-foreman", title: "現場監督の影武者" },
         // TODO: construction-photo-inspection-report は Sanity に demo ドキュメント登録後に有効化
@@ -93,6 +96,7 @@ const INDUSTRY_SHOWCASE_ITEMS_RAW: readonly IndustryShowcaseItem[] = [
       approachSectionTitle: "解決の考え方（概要）",
       approachBody:
         "まずは「検索しやすい要約」と「次アクションの見える化」から入り、承認フローに合わせて段階的に広げます。機密領域はルールで守り、下書き生成やチェック補助から効果を測ります。",
+      relatedCaseStudySlugs: ["internal-knowledge-bot"],
       relatedDemos: [
         { slug: "legal-memory-secretary", title: "10年分の記憶を持つ秘書" },
         { slug: "contract-review-summary", title: "契約書レビューサマリ" },
@@ -121,6 +125,7 @@ const INDUSTRY_SHOWCASE_ITEMS_RAW: readonly IndustryShowcaseItem[] = [
       approachSectionTitle: "解決の考え方（概要）",
       approachBody:
         "現場のボイス・写真・短文からサマリと次アクションを残し、既存の受発注・在庫ツールとつなぐ境界を設計します。いきなり全置き換えではなく、負荷の大きい接点から試します。",
+      relatedCaseStudySlugs: ["sales-pipeline"],
       relatedDemos: [
         { slug: "retail-floor-voice-handoff", title: "店頭接客ボイスメモの共有整理" },
         { slug: "inventory-balance-proposal", title: "在庫偏り是正提案" },
@@ -149,6 +154,7 @@ const INDUSTRY_SHOWCASE_ITEMS_RAW: readonly IndustryShowcaseItem[] = [
       approachSectionTitle: "解決の考え方（概要）",
       approachBody:
         "現場からの入力を短時間で「誰が読んでも追えるメモ」に変換し、荷主・社内への連絡文案までつなげます。個人情報・事故情報はマスキングや権限の設計とセットで扱います。",
+      relatedCaseStudySlugs: ["shaken-notify"],
       relatedDemos: [
         { slug: "driver-voice-incident-draft", title: "ドライバー音声から配送インシデント草案" },
         { slug: "delivery-photo-completion-report", title: "納品写真から配送完了レポート" },
@@ -177,6 +183,7 @@ const INDUSTRY_SHOWCASE_ITEMS_RAW: readonly IndustryShowcaseItem[] = [
       approachSectionTitle: "解決の考え方（概要）",
       approachBody:
         "注意書き付きの返信骨子や、院内・関係部署向けの共有メモのたたき台を用意し、最終判断は人が行う前提で設計します。公開文と内部メモを分け、ログの取り方も運用に合わせます。",
+      relatedCaseStudySlugs: ["internal-knowledge-bot"],
       relatedDemos: [
         { slug: "clinic-general-inquiry-skeleton", title: "一般問い合わせの返信骨子（注意書き付き）" },
         { slug: "civic-counter-reply-outline", title: "窓口・電話問い合わせの回答骨子" },
@@ -204,6 +211,7 @@ const INDUSTRY_SHOWCASE_ITEMS_RAW: readonly IndustryShowcaseItem[] = [
       approachSectionTitle: "解決の考え方（概要）",
       approachBody:
         "予約・販促・在庫に近いデータから「今日の注意点」を短く出し、接客・厨房・本部で同じ画面を見られるようにします。対外メッセージはトーンと注意事項をテンプレ化し、最終文面は人が調整する前提です。",
+      relatedCaseStudySlugs: ["shift-auto"],
       relatedDemos: [
         { slug: "restaurant-prep-list-from-bookings", title: "予約状況から仕込みリスト草案" },
         { slug: "shift-handover-summary", title: "シフト引継ぎサマリ生成" },

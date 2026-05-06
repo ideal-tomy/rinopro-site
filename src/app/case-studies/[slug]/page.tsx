@@ -5,6 +5,7 @@ import { CaseStudyDetailView } from "@/components/case-studies/case-study-detail
 import {
   getAllCaseStudySlugs,
   getCaseStudyDetail,
+  getCaseStudyOpenGraphImageSrc,
 } from "@/lib/content/case-study-detail";
 import {
   getImplementationShowcaseBySlug,
@@ -25,9 +26,25 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!detail) {
     return { title: "ページが見つかりません | AXEON" };
   }
+  const ogImage = getCaseStudyOpenGraphImageSrc(detail);
+  const canonicalPath = `/case-studies/${slug}`;
   return {
     title: detail.metaTitle,
     description: detail.metaDescription,
+    alternates: { canonical: canonicalPath },
+    openGraph: {
+      title: detail.metaTitle,
+      description: detail.metaDescription,
+      url: canonicalPath,
+      type: "article",
+      images: [{ url: ogImage, alt: detail.heroTitle }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: detail.metaTitle,
+      description: detail.metaDescription,
+      images: [ogImage],
+    },
   };
 }
 

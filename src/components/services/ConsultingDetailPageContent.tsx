@@ -44,6 +44,101 @@ function SectionWatermark({ n }: { n: string }) {
   );
 }
 
+function parseBulletLines(body: string): string[] {
+  return body
+    .split("\n")
+    .map((line) => line.trim())
+    .filter((line) => line.startsWith("・"))
+    .map((line) => line.replace(/^・/, "").trim());
+}
+
+function parseFaqLines(body: string): Array<{ q: string; a: string }> {
+  const lines = body
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean);
+
+  const items: Array<{ q: string; a: string }> = [];
+  for (let i = 0; i < lines.length; i += 1) {
+    const qLine = lines[i];
+    const aLine = lines[i + 1];
+    if (!qLine?.startsWith("Q.") || !aLine?.startsWith("A.")) continue;
+    items.push({
+      q: qLine.replace(/^Q\.\s*/, "").trim(),
+      a: aLine.replace(/^A\.\s*/, "").trim(),
+    });
+    i += 1;
+  }
+  return items;
+}
+
+function renderSectionBody(kicker: string, body: string) {
+  const isBulletVisual =
+    kicker.startsWith("セクション1") || kicker.startsWith("セクション6");
+  const isFaq = kicker.startsWith("セクション8");
+
+  if (isBulletVisual) {
+    const bulletLines = parseBulletLines(body);
+    const noteLine = body
+      .split("\n")
+      .map((line) => line.trim())
+      .find((line) => line.startsWith("※"));
+
+    return (
+      <div className="mx-auto max-w-3xl">
+        <ul className="grid list-none gap-3 md:grid-cols-2 md:gap-4">
+          {bulletLines.map((line) => (
+            <li
+              key={line}
+              className="rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-pure)] px-4 py-3 text-left text-[15px] leading-[1.75] text-[var(--color-text-secondary)] md:px-5 md:py-4 md:text-[16px]"
+            >
+              <span className="inline-flex items-start gap-2">
+                <span
+                  className="mt-[0.55em] size-1.5 shrink-0 rounded-full bg-[var(--color-accent-primary)]"
+                  aria-hidden
+                />
+                <span>{line}</span>
+              </span>
+            </li>
+          ))}
+        </ul>
+        {noteLine ? (
+          <p className="mt-4 text-left text-[14px] leading-[1.8] text-[var(--color-text-tertiary)] md:text-[15px]">
+            {noteLine}
+          </p>
+        ) : null}
+      </div>
+    );
+  }
+
+  if (isFaq) {
+    const qaItems = parseFaqLines(body);
+    return (
+      <div className="mx-auto max-w-3xl space-y-5">
+        {qaItems.map((item) => (
+          <article
+            key={item.q}
+            className="rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-pure)] px-5 py-4 text-left md:px-6 md:py-5"
+          >
+            <p className="text-[16px] font-semibold leading-[1.65] text-[var(--color-text-primary)]">
+              Q. {item.q}
+            </p>
+            <p className="mt-2 text-[15px] leading-[1.8] text-[var(--color-text-secondary)] md:text-[16px]">
+              A. {item.a}
+            </p>
+          </article>
+        ))}
+      </div>
+    );
+  }
+
+  return (
+    <p className={cn("whitespace-pre-line text-left", serviceReading.body)}>
+      {body}
+    </p>
+  );
+}
+
 export type ConsultingDetailPageContentProps = {
   /** `/services` 埋め込み時: 余白・見出し階層・クロスリンクを調整 */
   embedded?: boolean;
@@ -123,9 +218,7 @@ export function ConsultingDetailPageContent({
               >
                 {section.heading}
               </h2>
-              <p className={cn("text-left", serviceReading.body)}>
-                {section.body}
-              </p>
+              {renderSectionBody(section.kicker, section.body)}
             </div>
           </motion.article>
         ))}

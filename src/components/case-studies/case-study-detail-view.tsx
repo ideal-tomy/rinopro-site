@@ -243,6 +243,12 @@ export function CaseStudyDetailView({
             ))}
           </ul>
 
+          {detail.galleryNote ? (
+            <p className="mx-auto mt-12 max-w-3xl text-[14px] leading-[1.85] text-[var(--color-text-tertiary)] md:mt-14 md:text-[15px]">
+              {detail.galleryNote}
+            </p>
+          ) : null}
+
           <div className="mt-14 grid gap-10 md:mt-16 md:grid-cols-2 md:gap-12">
             {detail.gallery.map((g) => (
               <figure key={g.src} className="overflow-hidden rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-pure)]">

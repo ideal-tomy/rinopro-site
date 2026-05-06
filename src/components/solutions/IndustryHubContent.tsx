@@ -2,7 +2,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { PageSectionDivider } from "@/components/layout/PageSectionDivider";
+import { ImplementationShowcaseCard } from "@/components/home/ImplementationShowcaseCard";
 import type { IndustryShowcaseItemWithPath } from "@/lib/content/industry-showcase";
+import { getImplementationShowcaseBySlug } from "@/lib/content/implementation-showcase";
 
 interface IndustryHubContentProps {
   item: IndustryShowcaseItemWithPath;
@@ -10,6 +12,7 @@ interface IndustryHubContentProps {
 
 export function IndustryHubContent({ item }: IndustryHubContentProps) {
   const { hub } = item;
+  const relatedCaseStudySlugs = hub.relatedCaseStudySlugs ?? [];
 
   return (
     <>
@@ -76,6 +79,44 @@ export function IndustryHubContent({ item }: IndustryHubContentProps) {
       <div className="py-6 md:py-8">
         <PageSectionDivider />
       </div>
+
+      {relatedCaseStudySlugs.length > 0 ? (
+        <>
+          <section
+            className="container mx-auto max-w-6xl px-4 md:px-6"
+            aria-labelledby="hub-case-studies-heading"
+          >
+            <h2
+              id="hub-case-studies-heading"
+              className="text-xl font-semibold text-accent md:text-2xl"
+            >
+              関連する実装事例
+            </h2>
+            <p className="mt-3 max-w-3xl text-sm leading-relaxed text-text-sub md:text-[1rem]">
+              画面構成や進め方のイメージとしてご覧ください。外部デモURLが用意されている事例は、詳細ページから別タブで開けます。
+            </p>
+            <ul className="mt-8 grid list-none gap-6 md:grid-cols-2">
+              {relatedCaseStudySlugs.map((slug) => {
+                const showcase = getImplementationShowcaseBySlug(slug);
+                if (!showcase) return null;
+                return (
+                  <li key={slug} className="min-w-0">
+                    <ImplementationShowcaseCard
+                      item={showcase}
+                      href={`/case-studies/${slug}`}
+                      ctaLabel="事例詳細へ"
+                    />
+                  </li>
+                );
+              })}
+            </ul>
+          </section>
+
+          <div className="py-6 md:py-8">
+            <PageSectionDivider />
+          </div>
+        </>
+      ) : null}
 
       <section
         className="container mx-auto max-w-3xl px-4 pb-16 md:px-6 md:pb-24"

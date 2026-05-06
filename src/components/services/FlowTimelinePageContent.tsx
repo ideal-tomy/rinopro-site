@@ -9,6 +9,7 @@ import {
   FLOW_TRACK_ORDER,
   type FlowTrackKey,
   flowDetailPageCopyByTrack,
+  servicesDevelopmentFaqCopy,
 } from "@/lib/content/site-copy";
 import {
   serviceReading,
@@ -355,6 +356,41 @@ export function FlowTimelinePageContent({
         <p className={cn("mt-5 text-left", serviceReading.body)}>
           <EmphasisText text={activeCopy.architectureBody} />
         </p>
+      </motion.section>
+
+      <motion.section
+        className={cn(
+          "relative mx-auto mt-16 max-w-3xl md:mt-20 md:max-w-4xl",
+          embedded ? "px-5" : "px-6"
+        )}
+        aria-labelledby="services-development-faq-heading"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-40px" }}
+        variants={v}
+      >
+        <h3
+          id="services-development-faq-heading"
+          className="text-center text-[0.65rem] font-medium uppercase tracking-[0.35em] text-accent/85"
+        >
+          {servicesDevelopmentFaqCopy.kicker}
+        </h3>
+        <p className="mt-4 text-center text-xl font-semibold leading-snug text-text md:text-2xl">
+          {servicesDevelopmentFaqCopy.heading}
+        </p>
+        <p className={cn("mx-auto mt-5 max-w-2xl text-center", serviceReading.bodyCenter)}>
+          {servicesDevelopmentFaqCopy.intro}
+        </p>
+        <dl className="mt-10 space-y-8 border-t border-[var(--color-border-light)] pt-10 md:mt-12 md:space-y-10 md:pt-12">
+          {servicesDevelopmentFaqCopy.items.map((item) => (
+            <div key={item.q}>
+              <dt className="text-[1rem] font-semibold leading-snug text-text">{item.q}</dt>
+              <dd className={cn("mt-3 text-[1rem] leading-[2.05] text-text/90", serviceReading.body)}>
+                {item.a}
+              </dd>
+            </div>
+          ))}
+        </dl>
       </motion.section>
 
       <motion.div

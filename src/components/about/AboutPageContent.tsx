@@ -14,6 +14,8 @@ const cardShell =
 export function AboutPageContent() {
   const {
     hero,
+    founding,
+    leaderProfiles,
     principles,
     background,
     approach,
@@ -52,7 +54,58 @@ export function AboutPageContent() {
 
       <hr className="mx-auto h-px max-w-6xl border-0 bg-gradient-to-r from-transparent via-[var(--color-border-light)] to-transparent px-4" />
 
-      {/* 2 3つの考え方 */}
+      {/* 創業の経緯 */}
+      <section
+        className={cn(sectionShell, "scroll-mt-32")}
+        aria-labelledby="about-founding-heading"
+      >
+        <AboutSectionHeader
+          id="about-founding-heading"
+          kicker={founding.kicker}
+          title={founding.heading}
+        />
+        <div className="mx-auto max-w-3xl space-y-5 md:space-y-6">
+          {founding.paragraphs.map((p, i) => (
+            <p key={i} className={proseBody}>
+              {p}
+            </p>
+          ))}
+        </div>
+      </section>
+
+      <hr className="mx-auto h-px max-w-6xl border-0 bg-gradient-to-r from-transparent via-[var(--color-border-light)] to-transparent px-4" />
+
+      {/* 代表・技術責任者 */}
+      <section
+        className={cn(sectionShell, "scroll-mt-32")}
+        aria-labelledby="about-leaders-heading"
+      >
+        <AboutSectionHeader
+          id="about-leaders-heading"
+          kicker={leaderProfiles.kicker}
+          title={leaderProfiles.heading}
+          description={leaderProfiles.intro}
+        />
+        <div className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-2 lg:gap-8">
+          {leaderProfiles.profiles.map((profile) => (
+            <article key={profile.title} className={cn(cardShell, "flex h-full flex-col")}>
+              <p className="text-[13px] font-semibold uppercase tracking-[0.14em] text-[var(--color-accent-primary)] md:text-sm">
+                {profile.title}
+              </p>
+              <p className="mt-3 text-lg font-bold text-[var(--color-text-primary)] md:text-xl">
+                {profile.name}
+              </p>
+              <p className={cn(proseBody, "mt-5 flex-1 border-t border-[var(--color-border-light)] pt-5")}>
+                {profile.body}
+              </p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <hr className="mx-auto h-px max-w-6xl border-0 bg-gradient-to-r from-transparent via-[var(--color-border-light)] to-transparent px-4" />
+
+      {/* 3つの考え方 */}
       <section
         id="about-principles"
         className={cn(sectionShell, "scroll-mt-32")}

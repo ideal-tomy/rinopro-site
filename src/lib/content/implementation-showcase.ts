@@ -1,6 +1,6 @@
 /**
  * メインLP「Industry Showcase」（実装事例6カード）用データ。
- * 外部デプロイURLは NEXT_PUBLIC_SHOWCASE_* が未設定のとき `/case-studies#{slug}` にフォールバック。
+ * 外部デプロイURLは NEXT_PUBLIC_SHOWCASE_* が未設定のとき `/case-studies/[slug]#try-demo` にフォールバック。
  */
 
 export type ImplementationShowcaseItem = {
@@ -45,7 +45,7 @@ export function resolveImplementationShowcaseHref(
 ): string {
   if (item.internalPath) return item.internalPath;
   if (item.externalEnvKey) return pickExternalUrl(item.externalEnvKey, item.slug);
-  return `/case-studies#${item.slug}`;
+  return `/case-studies/${item.slug}`;
 }
 
 /** 表示順固定の6件 */
@@ -57,7 +57,7 @@ export const IMPLEMENTATION_SHOWCASE_ITEMS: readonly ImplementationShowcaseItem[
       productTitle: "〇〇工業向け 現場ポケット",
       catchCopy: "現場・事務所、どこからでもアクセス",
       industryLabel: "建設・工事",
-      thumbnailSrc: "/images/genbakanri_admin.png",
+      thumbnailSrc: "/images/genbakanri_admin.webp",
       thumbnailAlt: "GEMPO 現場ポケットの管理画面スクリーンショット",
       externalEnvKey: "NEXT_PUBLIC_SHOWCASE_GEMPO_URL",
       openInNewTab: true,
@@ -68,7 +68,7 @@ export const IMPLEMENTATION_SHOWCASE_ITEMS: readonly ImplementationShowcaseItem[
       productTitle: "車検管理ダッシュボード",
       catchCopy: "車検期限と通知運用を一元管理",
       industryLabel: "整備・車両管理",
-      thumbnailSrc: "/images/kurumakanri_pc.png",
+      thumbnailSrc: "/images/kurumakanri_pc.webp",
       thumbnailAlt: "車検管理ダッシュボードのスクリーンショット",
       externalEnvKey: "NEXT_PUBLIC_SHOWCASE_SHAKEN_URL",
       openInNewTab: true,
@@ -79,7 +79,7 @@ export const IMPLEMENTATION_SHOWCASE_ITEMS: readonly ImplementationShowcaseItem[
       productTitle: "採用・選考パイプライン管理",
       catchCopy: "候補者・選考・KPIを1画面で",
       industryLabel: "人事・採用",
-      thumbnailSrc: "/images/saiyoumaching_pc.png",
+      thumbnailSrc: "/images/saiyoumaching_pc.webp",
       thumbnailAlt: "採用・選考パイプライン管理のスクリーンショット",
       externalEnvKey: "NEXT_PUBLIC_SHOWCASE_RECRUIT_URL",
       openInNewTab: true,
@@ -90,7 +90,7 @@ export const IMPLEMENTATION_SHOWCASE_ITEMS: readonly ImplementationShowcaseItem[
       productTitle: "営業パイプライン テンプレート",
       catchCopy: "商談進行・受注見込みを一覧で",
       industryLabel: "営業・経営支援",
-      thumbnailSrc: "/images/salesdashboard_pc.png",
+      thumbnailSrc: "/images/salesdashboard_pc.webp",
       thumbnailAlt: "営業パイプラインのダッシュボード画面",
       externalEnvKey: "NEXT_PUBLIC_SHOWCASE_SALES_URL",
       openInNewTab: true,

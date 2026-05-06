@@ -19,6 +19,8 @@ export type CaseStudyDetail = {
   slug: string;
   metaTitle: string;
   metaDescription: string;
+  /** ギャラリー直上に表示する注記（未取得スクショのプレースホルダ説明など） */
+  galleryNote?: string;
   /** ブランド名（カードと一致） */
   heroEyebrow: string;
   heroTitle: string;
@@ -68,7 +70,7 @@ const DETAILS: readonly CaseStudyDetail[] = [
     ],
     overviewMedia: {
       kind: "image",
-      src: "/images/genbakanri_admin.png",
+      src: "/images/genbakanri_admin.webp",
       alt: "現場ポケット管理画面のスクリーンショット",
     },
     flowSteps: [
@@ -119,17 +121,17 @@ const DETAILS: readonly CaseStudyDetail[] = [
     ],
     gallery: [
       {
-        src: "/images/genbakanri_admin.png",
+        src: "/images/genbakanri_admin.webp",
         alt: "管理画面の一覧ビュー",
         caption: "本社・管理者向け：複数現場の状況を一覧で把握",
       },
       {
-        src: "/images/genbakanri_pc.png",
+        src: "/images/genbakanri_pc.webp",
         alt: "PC向け詳細画面",
         caption: "PCでもチャートやテーブルでじっくり確認できるレイアウト",
       },
       {
-        src: "/images/genbakanri_mobile.png",
+        src: "/images/genbakanri_mobile.webp",
         alt: "モバイル向け画面",
         caption: "現場向け：移動中でも必要な操作に絞った画面",
       },
@@ -170,7 +172,7 @@ const DETAILS: readonly CaseStudyDetail[] = [
     ],
     overviewMedia: {
       kind: "image",
-      src: "/images/kurumakanri_pc.png",
+      src: "/images/kurumakanri_pc.webp",
       alt: "車検管理ダッシュボードのPC画面",
     },
     flowSteps: [
@@ -217,12 +219,12 @@ const DETAILS: readonly CaseStudyDetail[] = [
     ],
     gallery: [
       {
-        src: "/images/kurumakanri_pc.png",
+        src: "/images/kurumakanri_pc.webp",
         alt: "車検管理のPCダッシュボード",
         caption: "PC：優先度と期限が一目でわかるキュー",
       },
       {
-        src: "/images/kurumakanri_mobile.png",
+        src: "/images/kurumakanri_mobile.webp",
         alt: "車検管理のモバイル画面",
         caption: "外出先でもキュー確認とメモの追記がしやすい画面",
       },
@@ -263,7 +265,7 @@ const DETAILS: readonly CaseStudyDetail[] = [
     ],
     overviewMedia: {
       kind: "image",
-      src: "/images/saiyoumaching_pc.png",
+      src: "/images/saiyoumaching_pc.webp",
       alt: "採用パイプライン管理画面",
     },
     flowSteps: [
@@ -310,12 +312,12 @@ const DETAILS: readonly CaseStudyDetail[] = [
     ],
     gallery: [
       {
-        src: "/images/saiyoumaching_pc.png",
+        src: "/images/saiyoumaching_pc.webp",
         alt: "採用パイプラインのPC画面",
         caption: "選考ステージと候補者の流れを一覧",
       },
       {
-        src: "/images/saiyoumaching_mobile.png",
+        src: "/images/saiyoumaching_mobile.webp",
         alt: "採用パイプラインのモバイル画面",
         caption: "外出先でもキューと急ぎのタスクを確認",
       },
@@ -356,7 +358,7 @@ const DETAILS: readonly CaseStudyDetail[] = [
     ],
     overviewMedia: {
       kind: "image",
-      src: "/images/salesdashboard_pc.png",
+      src: "/images/salesdashboard_pc.webp",
       alt: "営業パイプラインのダッシュボード",
     },
     flowSteps: [
@@ -403,12 +405,12 @@ const DETAILS: readonly CaseStudyDetail[] = [
     ],
     gallery: [
       {
-        src: "/images/salesdashboard_pc.png",
+        src: "/images/salesdashboard_pc.webp",
         alt: "営業ダッシュボードPC",
         caption: "商談パイプラインと主要指標を同時に確認",
       },
       {
-        src: "/images/salesdashboard_mobile.png",
+        src: "/images/salesdashboard_mobile.webp",
         alt: "営業ダッシュボードモバイル",
         caption: "外出先でもカードを更新し次アクションを記録",
       },
@@ -496,7 +498,7 @@ const DETAILS: readonly CaseStudyDetail[] = [
     ],
     gallery: [
       {
-        src: "/images/shiftkanri_pc.png",
+        src: "/images/shiftkanri_pc.webp",
         alt: "シフト管理PC画面",
         caption: "カレンダー上でシフト案を俯瞰・編集",
       },
@@ -515,6 +517,8 @@ const DETAILS: readonly CaseStudyDetail[] = [
   },
   {
     slug: "internal-knowledge-bot",
+    galleryNote:
+      "業種横断デモの複数画面スクショは順次差し替え予定です。現時点は代表画面のイメージを掲載しています（`/experience/internal-knowledge-share-bot` で実際の操作をご確認ください）。",
     metaTitle: "社内ナレッジ共有BOT | 実装事例 | AXEON",
     metaDescription:
       "業種別ナレッジに沿って回答し、ガイドツリーとチャットの両方から同じルールで案内する AI アシスタントの実装サンプルです。",
@@ -584,12 +588,12 @@ const DETAILS: readonly CaseStudyDetail[] = [
     ],
     gallery: [
       {
-        src: "/images/regaldashboard_pc.png",
+        src: "/images/regaldashboard_pc.webp",
         alt: "ダッシュボード風の参照画面イメージ",
         caption: "業種別ダッシュボードとガイドを組み合わせたイメージ",
       },
       {
-        src: "/images/jinji_pc.png",
+        src: "/images/jinji_pc.webp",
         alt: "業務アプリ画面イメージ",
         caption: "社内向け業務UIとの並列イメージ（実装は御社要件に合わせて調整）",
       },
@@ -616,4 +620,13 @@ export function getCaseStudyDetail(slug: string): CaseStudyDetail | undefined {
 
 export function getAllCaseStudySlugs(): string[] {
   return DETAILS.map((d) => d.slug);
+}
+
+/** OGP 用。動画ヒーロー時はギャラリー先頭の静止画を使用 */
+export function getCaseStudyOpenGraphImageSrc(detail: CaseStudyDetail): string {
+  if (detail.overviewMedia.kind === "image") {
+    return detail.overviewMedia.src;
+  }
+  const first = detail.gallery[0];
+  return first?.src ?? "/images/genbakanri_admin.webp";
 }
