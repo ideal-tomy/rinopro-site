@@ -107,8 +107,12 @@ export const homeLandingCopy = {
     sectionIndex: "05",
     sectionKicker: "CEO MESSAGE",
     heading: "代表メッセージ",
+    intro: "戦略と実装を分断させない意思を、代表自身の言葉でお伝えします。",
+    messageHeading: "想いを、形に。",
     name: "眞坂 莉乃",
     role: "代表取締役 CEO",
+    imageSrc: "/images/about.jpg",
+    imageAlt: "AXEON代表プロフィール写真",
     message:
       "コンサルタントとして大手企業の変革プロジェクトに携わる中で、戦略は見事に立てられても、実装で止まってしまう現場を何度も見てきました。AIが当たり前になったいま、私たちはもう一度、戦略と実装を一つのテーブルに戻すべきだと思います。軸を持って、前へ。AXEONは、その軸をお客様と一緒につくる会社です。",
     highlights: [

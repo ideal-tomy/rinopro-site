@@ -560,3 +560,33 @@ LPのIndustry Showcaseから飛ぶ詳細ページ。
 - [ ] PCとモバイルで動作確認済み
 - [ ] リンク切れなし
 - [ ] パフォーマンステストOK
+
+---
+
+## 18. G-4 導線置換マップ(2026-05)
+
+旧ページ整理で404を出さないため、当面の遷移先を以下で固定する。
+
+### 18-1. 残すURL(現行導線の正)
+
+- `/` (LPトップ)
+- `/about`
+- `/services`
+- `/contact`
+- `/demo` (体験ハブとして残置)
+- `/experience/[slug]`
+- `/solutions/[slug]`
+
+### 18-2. 統合・段階廃止URL
+
+- `/flow` → `/services/development` に統合
+- `/consulting` → `/services/consulting` に統合
+- `/demo/list` → `/demo` に統合
+- `/experience` → `/demo` に統合
+
+### 18-3. 導線置換の運用ルール
+
+- Header/Footer/トップCTAは「残すURL」だけを正としてリンクする。
+- `/flow` `/consulting` は互換導線として短期的に生かすが、主要導線からは外す。
+- チャットや補助導線内の旧URL参照は、段階的に統合先へ置換する。
+- 各置換時に「トップ→サービス→問い合わせ」の動線で404がないことを確認する。
