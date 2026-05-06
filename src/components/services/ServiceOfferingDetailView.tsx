@@ -131,7 +131,7 @@ export function ServiceOfferingDetailView({ offering }: ServiceOfferingDetailVie
             <IllustrationReveal className="mx-auto mt-14 max-w-2xl md:mt-16">
               <div className="rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-pure)] p-6 md:p-8">
                 <p className="text-center text-[15px] font-semibold text-[var(--color-text-primary)] md:text-[16px]">
-                  基盤の積層イメージ
+                  データの流れと役割のイメージ
                 </p>
                 <p className="mx-auto mt-2 max-w-[40ch] text-center text-[14px] leading-[1.75] text-[var(--color-text-tertiary)] md:text-[15px]">
                   実際の構成は御社の既存システムと規制に合わせて設計します。ここは役割の整理用の抽象図です。
