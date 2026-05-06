@@ -619,3 +619,48 @@ LPのIndustry Showcaseから飛ぶ詳細ページ。
 2. `/` → `/demo` → `/experience/[slug]`
 3. 互換導線: `/flow` → `/services/development`
 4. 互換導線: `/consulting` → `/services/consulting`
+
+---
+
+### 19-4. 実測ログ(2026-05-07)
+
+G-6 と G-7 で実施した監査の実測結果。
+
+#### 主要導線（コード上の遷移先）
+
+| 対象 | 遷移先 | 結果 |
+|---|---|---|
+| Header NAV | `/` `/services` `/about` `/contact` `/demo` | OK |
+| Footer LINKS | `/` `/services` `/about` `/contact` `/demo` | OK |
+| Home Primary CTA(初回相談) | `/contact` | OK |
+| Home Secondary CTA | `/services` | OK |
+| HomeCeoMessage profileHref | `/about` | OK |
+| HomeClosingCta auxiliaryLinks | `/services` `/about` | OK |
+| LP上の `/flow` `/consulting` 直リンク | なし | OK |
+
+#### 互換導線（permanentRedirect）
+
+- `/flow` → `/services/development` … OK
+- `/consulting` → `/services/consulting` … OK
+
+#### 補足: 旧URL残置（チャット文言・ジャーニー計測）
+
+- `src/lib/chat/assistant-linkify.ts` 内に `/flow` `/consulting` の表記が残るが、互換リダイレクトで遷移は成立。チャット本文中の文言整理は段階廃止対象として継続課題。
+- `src/lib/journey/visitor-journey.ts` ほか計測層の旧パス参照は内部の集計用途のため当面維持。
+
+#### レスポンシブ実測（PC / SP）
+
+| 対象 | 観察 | 対応 |
+|---|---|---|
+| HomeFirstView | SP/PCともに余白・タイポ整合 | OK |
+| HomeFirstViewActions | SP縦積み・PC横並びで破綻なし | OK |
+| HomeServiceFlowRow | SPは横スクロール・ドット表示で機能 | OK |
+| HomeClosingCta | SPで `py-[120px]` の余白過多 | 修正(SPは `py-20`) |
+| ChatLauncherFab | ダーク基調が浮いて目立ち過ぎ | G-6でライト統一・縮小 |
+| ConciergeFabNudge | ダーク濃紺の吹き出しで強調過大 | G-6で軽量ライト化 |
+
+#### 完了判定
+
+- 主要導線で404なし。互換導線は `permanentRedirect` で正規ページへ到達。
+- LP上の SP 崩れは `HomeClosingCta` の余白のみ。今回スプリント内で修正済み。
+- 下層ページのレスポンシブ追加調整は次フェーズへ分離。
