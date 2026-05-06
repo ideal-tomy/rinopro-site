@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { HomeConsultCtaButton } from "@/components/home/HomeConsultCtaButton";
 import { homeLandingCtaButtonClass } from "@/lib/content/home-landing-styles";
 
 type HomeFirstViewActionsProps = {
@@ -22,16 +21,18 @@ export function HomeFirstViewActions({
 }: HomeFirstViewActionsProps) {
   return (
     <div className="flex w-full max-w-md flex-col items-stretch gap-4 sm:max-w-none sm:flex-row sm:justify-center sm:gap-5">
-      <HomeConsultCtaButton
-        label={primaryLabel}
+      <Button
+        asChild
         size="lg"
         className={cn(
-          "clickable-element mt-0 w-full shadow-[0_0_28px_-6px_color-mix(in_srgb,var(--color-action)_50%,transparent)] sm:min-w-[260px]",
+          "clickable-element mt-0 w-full sm:min-w-[260px]",
           homeLandingCtaButtonClass,
           motionHover,
-          "motion-safe:hover:scale-[1.03] motion-safe:hover:shadow-[0_0_36px_-4px_color-mix(in_srgb,var(--color-action)_65%,transparent)] motion-reduce:hover:scale-100"
+          "motion-safe:hover:scale-[1.03] motion-reduce:hover:scale-100"
         )}
-      />
+      >
+        <Link href="/contact">{primaryLabel}</Link>
+      </Button>
       <Button
         asChild
         size="lg"
@@ -40,7 +41,7 @@ export function HomeFirstViewActions({
           "clickable-element w-full sm:w-auto sm:min-w-[220px]",
           homeLandingCtaButtonClass,
           motionHover,
-          "motion-safe:hover:scale-[1.02] hover:border-accent/80 hover:bg-white/[0.04] hover:shadow-[0_0_24px_-8px_color-mix(in_srgb,var(--color-action)_45%,transparent)] motion-reduce:hover:scale-100"
+          "motion-safe:hover:scale-[1.02] motion-reduce:hover:scale-100"
         )}
       >
         <Link href={secondaryHref}>{secondaryLabel}</Link>

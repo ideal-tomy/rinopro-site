@@ -47,7 +47,7 @@ function ChatLauncherFab({ onWarmup }: { onWarmup: () => void }) {
       <ConciergeFabNudge />
       <button
         type="button"
-        className="pointer-events-auto box-border inline-flex min-h-[3.25rem] min-w-[3.25rem] flex-col items-center justify-center gap-1 rounded-full border border-silver/30 bg-base-dark/85 px-2.5 py-2 text-text opacity-90 shadow-[0_4px_18px_rgba(0,0,0,0.42)] ring-1 ring-white/[0.04] backdrop-blur-sm transition-[border-color,box-shadow,opacity] duration-200 hover:border-accent/45 hover:opacity-100 hover:shadow-[0_6px_24px_color-mix(in_srgb,var(--color-accent)_14%,transparent)] sm:min-h-[3.5rem] sm:min-w-[3.5rem] sm:flex-row sm:gap-1.5 sm:px-3 sm:py-0"
+        className="pointer-events-auto box-border inline-flex min-h-[2.75rem] min-w-[2.75rem] flex-col items-center justify-center gap-1 rounded-full border border-[var(--color-border-light)] bg-[var(--color-bg-pure)]/95 px-2 py-1.5 text-[var(--color-text-secondary)] opacity-90 shadow-[0_2px_10px_rgba(15,23,42,0.10)] backdrop-blur-sm transition-[border-color,box-shadow,opacity] duration-200 hover:border-[var(--color-accent-primary)]/30 hover:opacity-100 hover:shadow-[0_4px_14px_rgba(15,23,42,0.14)] sm:min-h-[3rem] sm:min-w-[3rem] sm:flex-row sm:gap-1.5 sm:px-3 sm:py-0"
         onPointerEnter={onWarmup}
         onFocus={onWarmup}
         onClick={openConciergeFromFab}
@@ -60,7 +60,7 @@ function ChatLauncherFab({ onWarmup }: { onWarmup: () => void }) {
         <svg
           aria-hidden
           viewBox="0 0 24 24"
-          className="h-6 w-6 shrink-0 text-accent"
+          className="h-5 w-5 shrink-0 text-[var(--color-accent-primary)] sm:h-6 sm:w-6"
           fill="none"
           stroke="currentColor"
           strokeWidth="2"
@@ -71,7 +71,7 @@ function ChatLauncherFab({ onWarmup }: { onWarmup: () => void }) {
           <path d="M8 13h5" />
           <path d="M12 3c4.97 0 9 3.58 9 8s-4.03 8-9 8c-1.2 0-2.35-.2-3.4-.58L3 21l1.85-4.08A7.42 7.42 0 0 1 3 11c0-4.42 4.03-8 9-8Z" />
         </svg>
-        <span className="max-w-[4.75rem] text-center text-[0.62rem] font-semibold leading-snug tracking-tight text-text sm:max-w-none sm:text-xs sm:font-medium sm:tracking-normal">
+        <span className="max-w-[4.75rem] text-center text-[0.65rem] font-medium leading-snug tracking-tight text-[var(--color-text-secondary)] sm:max-w-none sm:text-[0.7rem] sm:tracking-normal">
           相談
         </span>
       </button>

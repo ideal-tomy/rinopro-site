@@ -452,7 +452,7 @@ export function ContactForm() {
   if (!hasPreparedContext) {
     return (
       <div className="space-y-4">
-        <div className="rounded-xl border border-accent/20 bg-base-dark/40 p-5 md:p-6">
+        <div className="rounded-xl border border-accent/20 bg-[var(--color-bg-pure)] p-5 md:p-6">
           <div className="flex gap-3">
             <span
               className="mt-0.5 inline-flex size-9 shrink-0 items-center justify-center rounded-lg border border-accent/25 bg-accent/10 text-accent"
@@ -461,8 +461,8 @@ export function ContactForm() {
               <ArrowUpToLine className="size-5" strokeWidth={2} />
             </span>
             <div className="min-w-0">
-              <p className="text-[16px] font-semibold text-white">{form.directGuideTitle}</p>
-              <p className="mt-2 text-sm leading-relaxed text-white/80">
+              <p className="text-[16px] font-semibold text-[var(--color-text-primary)]">{form.directGuideTitle}</p>
+              <p className="mt-2 text-sm leading-relaxed text-[var(--color-text-secondary)]">
                 {form.directGuideBody}
               </p>
             </div>
@@ -474,7 +474,7 @@ export function ContactForm() {
           answeredQuestionIds={answeredQuestionIds}
           onComplete={handleCompleteContactIntake}
         />
-        {intakeLoading ? <p className="text-sm text-white/75">整理しています…</p> : null}
+        {intakeLoading ? <p className="text-sm text-[var(--color-text-secondary)]">整理しています…</p> : null}
         {intakeError ? (
           <p className="text-sm text-red-400" role="alert">
             {intakeError}
@@ -599,7 +599,7 @@ export function ContactForm() {
               <span className="mt-1 block text-text-sub">{form.attachEstimateHint}</span>
             </span>
           </label>
-          <details className="rounded-lg border border-silver/20 bg-base-dark/40 p-3 text-sm">
+          <details className="rounded-lg border border-[var(--color-border-light)] bg-[var(--color-bg-base)] p-3 text-sm">
             <summary className="cursor-pointer font-medium text-text">
               {form.overviewRevealLabel}
             </summary>
@@ -657,7 +657,7 @@ export function ContactForm() {
           value={closestExperience}
           onChange={(e) => setClosestExperience(e.target.value)}
           className={cn(
-            "flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm",
+            "flex min-h-11 w-full rounded-lg border border-[var(--color-border-light)] bg-[var(--color-bg-pure)] px-3 py-2 text-[16px] text-text md:text-sm",
             errors.triedExperience && "border-red-500"
           )}
         >

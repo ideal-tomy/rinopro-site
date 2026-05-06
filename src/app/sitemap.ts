@@ -1,6 +1,8 @@
 import type { MetadataRoute } from "next";
 import { EXPERIENCE_PROTOTYPES } from "@/lib/experience/prototype-registry";
+import { getAllCaseStudySlugs } from "@/lib/content/case-study-detail";
 import { getAllIndustryShowcaseSlugs } from "@/lib/content/industry-showcase";
+import { getAllServiceOfferingSlugs } from "@/lib/content/service-offerings";
 import { fetchDemosForDisplay } from "@/lib/sanity/fetch";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://AXEON.example.com";
@@ -27,7 +29,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "weekly" as const,
       priority: 0.85,
     })),
+    { url: `${BASE_URL}/case-studies`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.85 },
+    ...getAllCaseStudySlugs().map((slug) => ({
+      url: `${BASE_URL}/case-studies/${slug}`,
+      lastModified: new Date(),
+      changeFrequency: "weekly" as const,
+      priority: 0.84,
+    })),
     { url: `${BASE_URL}/services`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
+    ...getAllServiceOfferingSlugs().map((slug) => ({
+      url: `${BASE_URL}/services/${slug}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.78,
+    })),
     { url: `${BASE_URL}/flow`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.7 },
     { url: `${BASE_URL}/consulting`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.7 },
     { url: `${BASE_URL}/about`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },

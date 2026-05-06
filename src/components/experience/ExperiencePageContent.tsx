@@ -24,10 +24,10 @@ export function ExperiencePageContent({ items }: ExperiencePageContentProps) {
       title="まず触って、イメージを合わせてください。"
       cta={{ href: "/contact", label: "相談する" }}
     >
-      <p className="mb-10 max-w-2xl text-sm text-text-sub md:text-[1rem]">
+      <p className="mb-10 max-w-2xl text-sm text-[var(--color-text-secondary)] md:text-[1rem]">
         アプリやダッシュボードに近い画面で、導入後の使い心地をイメージできます。
         あわせて
-        <a href="/demo" className="mx-1 text-accent underline-offset-2 hover:underline">
+        <a href="/demo" className="mx-1 text-[var(--color-accent-primary)] underline-offset-2 hover:underline">
           ツールdemo
         </a>
         から、チャット型の試し方もご利用ください。
@@ -36,62 +36,62 @@ export function ExperiencePageContent({ items }: ExperiencePageContentProps) {
       <section className="mb-14" aria-labelledby="interactive-prototypes-heading">
         <h2
           id="interactive-prototypes-heading"
-          className="mb-2 text-lg font-semibold text-accent md:text-xl"
+          className="mb-2 text-lg font-semibold text-[var(--color-accent-primary)] md:text-xl"
         >
           インタラクティブ体験（プロトタイプ）
         </h2>
-        <p className="mb-6 max-w-2xl text-sm text-text-sub md:text-[1rem]">
+        <p className="mb-6 max-w-2xl text-sm text-[var(--color-text-secondary)] md:text-[1rem]">
           ③はプロダクト寄り4本（秘書・クレーム返信・社内ナレッジBOT・飲食ダッシュボード）、続いて②の画面体験3本です。いずれもモック結果で流れを確認できます。
         </p>
         <div className="mb-8">
-          <h3 className="mb-3 text-sm font-medium text-text md:text-base">
+          <h3 className="mb-3 text-sm font-medium text-[var(--color-text-primary)] md:text-base">
             ③ プロダクト寄り
           </h3>
           <StaggerGrid layout="list">
             {track3.map((p) => (
               <Card
                 key={p.slug}
-                className="border-silver/25 p-5 transition-colors hover:border-accent/40"
+                className="border-[var(--color-border-light)] p-5 transition-colors hover:border-[var(--color-accent-primary)]/40"
               >
                 <ScrollSavingLink
                   href={buildExperienceEntryHref(p.slug, returnSource)}
-                  className="block text-accent underline-offset-2 hover:underline"
+                  className="block text-[var(--color-accent-primary)] underline-offset-2 hover:underline"
                 >
-                  <span className="text-base font-semibold text-text md:text-lg">
+                  <span className="text-base font-semibold text-[var(--color-text-primary)] md:text-lg">
                     {p.title}
                   </span>
                 </ScrollSavingLink>
-                <p className="mt-2 text-sm text-text-sub">{p.shortDescription}</p>
+                <p className="mt-2 text-sm text-[var(--color-text-secondary)]">{p.shortDescription}</p>
               </Card>
             ))}
           </StaggerGrid>
         </div>
         <div>
-          <h3 className="mb-3 text-sm font-medium text-text md:text-base">
+          <h3 className="mb-3 text-sm font-medium text-[var(--color-text-primary)] md:text-base">
             ② 画面体験
           </h3>
           <StaggerGrid layout="list">
             {track2.map((p) => (
               <Card
                 key={p.slug}
-                className="border-silver/25 p-5 transition-colors hover:border-accent/40"
+                className="border-[var(--color-border-light)] p-5 transition-colors hover:border-[var(--color-accent-primary)]/40"
               >
                 <ScrollSavingLink
                   href={buildExperienceEntryHref(p.slug, returnSource)}
-                  className="block text-accent underline-offset-2 hover:underline"
+                  className="block text-[var(--color-accent-primary)] underline-offset-2 hover:underline"
                 >
-                  <span className="text-base font-semibold text-text md:text-lg">
+                  <span className="text-base font-semibold text-[var(--color-text-primary)] md:text-lg">
                     {p.title}
                   </span>
                 </ScrollSavingLink>
-                <p className="mt-2 text-sm text-text-sub">{p.shortDescription}</p>
+                <p className="mt-2 text-sm text-[var(--color-text-secondary)]">{p.shortDescription}</p>
               </Card>
             ))}
           </StaggerGrid>
         </div>
       </section>
 
-      <h2 className="mb-4 text-lg font-semibold text-accent md:text-xl">
+      <h2 className="mb-4 text-lg font-semibold text-[var(--color-accent-primary)] md:text-xl">
         事例・紹介（Sanity）
       </h2>
       {items.length > 0 ? (

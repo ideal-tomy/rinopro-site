@@ -15,7 +15,14 @@ const nextConfig: NextConfig = {
     root: projectRoot,
   },
   async redirects() {
-    return [{ source: "/cases", destination: "/experience", permanent: true }];
+    return [
+      { source: "/cases", destination: "/experience", permanent: true },
+      {
+        source: "/case-studies/recruiting-cockpit",
+        destination: "/case-studies/recruit-cockpit",
+        permanent: true,
+      },
+    ];
   },
   async headers() {
     return [

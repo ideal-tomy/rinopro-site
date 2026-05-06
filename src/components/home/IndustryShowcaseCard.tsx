@@ -15,7 +15,7 @@ export function IndustryShowcaseCard({
   return (
     <Link
       href={item.hubPath}
-      className="interactive-card group block overflow-hidden rounded-2xl border border-silver/20 bg-base-dark/55 shadow-[inset_0_1px_0_0_color-mix(in_srgb,var(--color-elevated)_12%,transparent)] ring-1 ring-warm/15 ring-inset motion-reduce:hover:!transform-none motion-reduce:hover:!shadow-none motion-reduce:active:!transform-none hover:border-accent/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-base md:hover:border-accent/40"
+      className="interactive-card group block overflow-hidden rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-pure)] motion-reduce:hover:!transform-none motion-reduce:hover:!shadow-none motion-reduce:active:!transform-none hover:border-[var(--color-accent-primary)]/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent-primary)] focus-visible:ring-offset-2 md:hover:border-[var(--color-accent-primary)]/40"
     >
       <div className="relative aspect-video overflow-hidden">
         <Image
@@ -27,26 +27,26 @@ export function IndustryShowcaseCard({
           priority={priorityImage}
         />
         <div
-          className="absolute inset-0 bg-gradient-to-t from-base/95 via-base/55 to-transparent"
+          className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/35 to-transparent"
           aria-hidden
         />
         <div className="absolute inset-x-0 bottom-0 p-4 md:p-5">
-          <h3 className="text-balance text-[1rem] font-semibold text-text md:text-lg">
+          <h3 className="text-balance text-[1rem] font-semibold text-white md:text-lg">
             {item.label}
           </h3>
-          <p className="mt-1 text-[15px] leading-[1.8] text-text-sub md:text-[16px]">{item.tagline}</p>
+          <p className="mt-1 text-[15px] leading-[1.8] text-white/85 md:text-[16px]">{item.tagline}</p>
         </div>
       </div>
       <div className="p-7 md:p-8">
-        <p className="text-[15px] leading-[1.8] text-white/[0.85] md:text-[16px]">
-          <span className="font-semibold text-white">よくある負荷</span>
+        <p className="text-[15px] leading-[1.8] text-[var(--color-text-secondary)] md:text-[16px]">
+          <span className="font-semibold text-[var(--color-text-primary)]">よくある負荷</span>
           <span className="mt-3 block font-normal">{item.painHint}</span>
         </p>
-        <p className="mt-5 text-[15px] leading-[1.8] text-white/[0.85] md:text-[16px]">
-          <span className="font-semibold text-white">改善のヒント</span>
+        <p className="mt-5 text-[15px] leading-[1.8] text-[var(--color-text-secondary)] md:text-[16px]">
+          <span className="font-semibold text-[var(--color-text-primary)]">改善のヒント</span>
           <span className="mt-3 block font-normal">{item.solutionHint}</span>
         </p>
-        <p className="mt-5 text-[15px] font-semibold leading-[1.8] text-accent underline-offset-4 group-hover:underline md:text-[16px]">
+        <p className="mt-5 text-[15px] font-semibold leading-[1.8] text-[var(--color-accent-primary)] underline-offset-4 group-hover:underline md:text-[16px]">
           詳しく見る
         </p>
       </div>

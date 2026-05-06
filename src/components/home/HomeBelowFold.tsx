@@ -20,7 +20,7 @@ export function HomeBelowFold() {
         <PageSectionDivider />
       </div>
 
-      <HomeSectionShell tone="alt">
+      <HomeSectionShell tone="neutral">
         <HomeSeoEntrySection />
       </HomeSectionShell>
 
@@ -32,7 +32,7 @@ export function HomeBelowFold() {
         <PageSectionDivider />
       </div>
 
-      <HomeSectionShell tone="alt">
+      <HomeSectionShell tone="neutral">
         <HomeCompanyTeaser />
       </HomeSectionShell>
 

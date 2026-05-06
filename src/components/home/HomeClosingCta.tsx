@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { HomeConsultCtaButton } from "@/components/home/HomeConsultCtaButton";
+import { Button } from "@/components/ui/button";
 import { homeLandingCopy } from "@/lib/content/home-landing";
 import { homeLandingCtaButtonClass } from "@/lib/content/home-landing-styles";
 
@@ -15,10 +15,13 @@ export function HomeClosingCta() {
   return (
     <section
       id="cta"
-      className="container mx-auto max-w-3xl px-4 py-[120px] md:px-6 md:pb-32 md:pt-[120px] scroll-mt-32"
+      className="container mx-auto max-w-3xl scroll-mt-32 px-4 py-20 md:px-6 md:pb-32 md:pt-[120px]"
       aria-labelledby="home-closing-cta-heading"
     >
-      <div className="rounded-3xl border border-accent/35 bg-base-dark/70 px-6 py-12 text-center shadow-[inset_0_1px_0_0_color-mix(in_srgb,var(--color-glow)_18%,transparent)] md:px-12 md:py-16">
+      <p className="text-center text-[13px] font-semibold tracking-[0.12em] text-[var(--color-accent-primary)]">
+        {closing.sectionKicker}
+      </p>
+      <div className="mt-4 rounded-3xl border border-[var(--color-accent-primary)]/25 bg-[var(--color-accent-primary)] px-6 py-12 text-center md:px-12 md:py-16">
         <h2
           id="home-closing-cta-heading"
           className="text-balance text-[clamp(1.5rem,4vw,2.25rem)] font-bold leading-snug tracking-tight text-white md:text-[clamp(1.75rem,3vw,2.5rem)]"
@@ -29,16 +32,17 @@ export function HomeClosingCta() {
           {closing.body}
         </p>
         <div className="mx-auto mt-10 flex max-w-md justify-center md:mt-12">
-          <HomeConsultCtaButton
-            label={closing.primaryCta}
+          <Button
+            asChild
             size="lg"
             className={cn(
-              "mt-0 w-full shadow-[0_0_28px_-6px_color-mix(in_srgb,var(--color-action)_50%,transparent)]",
+              "mt-0 w-full border-white/35 bg-white text-[var(--color-accent-primary)]",
               homeLandingCtaButtonClass,
-              motionHover,
-              "motion-safe:hover:scale-[1.03] motion-safe:hover:shadow-[0_0_40px_-4px_color-mix(in_srgb,var(--color-action)_65%,transparent)] motion-reduce:hover:scale-100"
+              motionHover
             )}
-          />
+          >
+            <Link href="/contact">{closing.primaryCta}</Link>
+          </Button>
         </div>
         <nav
           className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-[15px] text-white/70 md:mt-12 md:text-[16px]"

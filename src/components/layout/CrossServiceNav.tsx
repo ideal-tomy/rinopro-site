@@ -11,8 +11,8 @@ type ServiceCurrent = "consulting" | "flow";
 export function ServiceCrossLinks({ current }: { current: ServiceCurrent }) {
   const sibling =
     current === "consulting"
-      ? { href: "/flow" as const, label: "開発の流れ" }
-      : { href: "/consulting" as const, label: "コンサルティング" };
+      ? { href: "/services/development" as const, label: "開発の進め方" }
+      : { href: "/services/consulting" as const, label: "コンサルティング" };
 
   return (
     <nav
@@ -55,12 +55,12 @@ export function DemoCrossServiceLinks() {
       </p>
       <ul className="flex flex-wrap items-center justify-center gap-x-10 gap-y-3">
         <li className="list-none">
-          <Link href="/flow" className={linkClass}>
-            開発の流れ
+          <Link href="/services/development" className={linkClass}>
+            開発の進め方
           </Link>
         </li>
         <li className="list-none">
-          <Link href="/consulting" className={linkClass}>
+          <Link href="/services/consulting" className={linkClass}>
             コンサルティング
           </Link>
         </li>

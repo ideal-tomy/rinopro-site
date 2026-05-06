@@ -11,10 +11,10 @@ const MobileNav = dynamic(
 
 const NAV_ITEMS = [
   { href: "/", label: "トップ" },
-  { href: "/demo", label: "体験・demo" },
   { href: "/services", label: "サービス" },
   { href: "/about", label: "会社紹介" },
   { href: "/contact", label: "問い合わせ" },
+  { href: "/demo", label: "体験デモ" },
 ] as const;
 
 export function Header() {
@@ -27,9 +27,9 @@ export function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-silver/20 bg-base/95 backdrop-blur supports-[backdrop-filter]:bg-base/80">
+    <header className="sticky top-0 z-40 w-full border-b border-[var(--color-border-light)] bg-[var(--color-bg-pure)]/95 backdrop-blur supports-[backdrop-filter]:bg-[var(--color-bg-pure)]/85">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 md:px-6">
-        <Link href="/" className="font-bold text-accent">
+        <Link href="/" className="font-bold text-[var(--color-accent-primary)]">
           AXEON
         </Link>
 
@@ -41,7 +41,7 @@ export function Header() {
             >
               <Link
                 href={href}
-                className="block text-sm font-medium text-white transition-colors hover:text-accent"
+                className="block text-sm font-medium text-[var(--color-text-primary)] transition-colors hover:text-[var(--color-accent-primary)]"
               >
                 {label}
               </Link>
@@ -51,7 +51,7 @@ export function Header() {
 
         <button
           type="button"
-          className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-white transition-colors hover:bg-white/10 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0e17] md:hidden"
+          className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-[var(--color-text-primary)] transition-colors hover:bg-[var(--color-accent-primary-light)] hover:text-[var(--color-accent-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-pure)] md:hidden"
           onClick={handleOpenMobileNav}
           aria-label="メニューを開く"
         >

@@ -9,6 +9,7 @@ import {
   FLOW_TRACK_ORDER,
   type FlowTrackKey,
   flowDetailPageCopyByTrack,
+  servicesDevelopmentFaqCopy,
 } from "@/lib/content/site-copy";
 import {
   serviceReading,
@@ -82,7 +83,7 @@ function TimelineNode({
           }}
         />
       )}
-      <span className="relative z-[1] flex h-12 w-12 items-center justify-center rounded-full border-2 border-accent/85 bg-base-dark/90 text-xs font-semibold tabular-nums text-accent shadow-[0_0_20px_-4px_color-mix(in_srgb,var(--color-accent)_40%,transparent)] md:backdrop-blur-sm">
+      <span className="relative z-[1] flex h-12 w-12 items-center justify-center rounded-full border-2 border-accent/85 bg-[var(--color-bg-pure)] text-xs font-semibold tabular-nums text-accent shadow-[0_0_20px_-4px_color-mix(in_srgb,var(--color-accent)_40%,transparent)] md:backdrop-blur-sm">
         {label}
       </span>
     </div>
@@ -101,7 +102,7 @@ function StepWatermarkDesktop({ n }: { n: string }) {
 }
 
 const tagClass =
-  "inline-block rounded-md border border-silver/30 bg-base-dark/50 px-2.5 py-1.5 text-[0.65rem] leading-tight text-text/85 md:px-3 md:text-xs";
+  "inline-block rounded-md border border-[var(--color-border-light)] bg-[var(--color-bg-base)] px-2.5 py-1.5 text-[0.65rem] leading-tight text-text/85 md:px-3 md:text-xs";
 
 export type FlowTimelinePageContentProps = {
   /** `/services` 埋め込み時: 余白・見出し階層・sticky・クロスリンクを調整 */
@@ -173,7 +174,7 @@ export function FlowTimelinePageContent({
       {/* 単体ページ: ヘッダー直下に sticky。埋め込み時は二重 sticky を避け通常フロー */}
       <nav
         className={cn(
-          "border-b border-silver/15 bg-base-dark/90 py-3 md:backdrop-blur-md supports-[backdrop-filter]:bg-base-dark/75",
+          "border-b border-[var(--color-border-light)] bg-[var(--color-bg-pure)]/95 py-3 md:backdrop-blur-md supports-[backdrop-filter]:bg-[var(--color-bg-pure)]/80",
           embedded
             ? "relative z-20 -mx-0 mb-8 md:-mx-2 md:mb-10"
             : "relative -mx-6 mb-10 z-30 md:sticky md:top-16 md:-mx-10 md:mb-12"
@@ -202,7 +203,7 @@ export function FlowTimelinePageContent({
                     "shrink-0 snap-start rounded-full border px-3.5 py-2 text-[0.65rem] font-medium uppercase tracking-[0.18em] transition-colors md:px-4 md:text-xs",
                     selected
                       ? "border-action/70 bg-action/15 text-action shadow-[0_0_16px_-4px_rgba(0,103,192,0.35)]"
-                      : "border-silver/25 bg-base-dark/40 text-text/80 hover:border-action/35 hover:text-text"
+                      : "border-[var(--color-border-light)] bg-[var(--color-bg-base)] text-text/80 hover:border-action/35 hover:text-text"
                   )}
                   onClick={() => setActiveTrack(key)}
                 >
@@ -231,7 +232,7 @@ export function FlowTimelinePageContent({
 
       <div className="relative mx-auto max-w-2xl md:max-w-3xl">
         <div
-          className="absolute bottom-0 left-8 top-0 hidden w-px bg-gradient-to-b from-transparent via-accent/40 to-transparent md:left-1/2 md:block md:-translate-x-1/2"
+        className="absolute bottom-0 left-8 top-0 hidden w-px bg-gradient-to-b from-transparent via-[var(--color-accent-primary)]/35 to-transparent md:left-1/2 md:block md:-translate-x-1/2"
           aria-hidden
         />
 
@@ -341,7 +342,7 @@ export function FlowTimelinePageContent({
 
       <motion.section
         className={cn(
-          "relative mx-auto mt-16 max-w-2xl overflow-hidden rounded-2xl border border-silver/20 bg-base-dark/35 text-center md:backdrop-blur-sm md:mt-20 md:px-12 md:py-12",
+          "relative mx-auto mt-16 max-w-2xl overflow-hidden rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-pure)] text-center md:backdrop-blur-sm md:mt-20 md:px-12 md:py-12",
           embedded ? "px-5 py-9 md:py-12" : "px-8 py-10"
         )}
         initial="hidden"
@@ -355,6 +356,41 @@ export function FlowTimelinePageContent({
         <p className={cn("mt-5 text-left", serviceReading.body)}>
           <EmphasisText text={activeCopy.architectureBody} />
         </p>
+      </motion.section>
+
+      <motion.section
+        className={cn(
+          "relative mx-auto mt-16 max-w-3xl md:mt-20 md:max-w-4xl",
+          embedded ? "px-5" : "px-6"
+        )}
+        aria-labelledby="services-development-faq-heading"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-40px" }}
+        variants={v}
+      >
+        <h3
+          id="services-development-faq-heading"
+          className="text-center text-[0.65rem] font-medium uppercase tracking-[0.35em] text-accent/85"
+        >
+          {servicesDevelopmentFaqCopy.kicker}
+        </h3>
+        <p className="mt-4 text-center text-xl font-semibold leading-snug text-text md:text-2xl">
+          {servicesDevelopmentFaqCopy.heading}
+        </p>
+        <p className={cn("mx-auto mt-5 max-w-2xl text-center", serviceReading.bodyCenter)}>
+          {servicesDevelopmentFaqCopy.intro}
+        </p>
+        <dl className="mt-10 space-y-8 border-t border-[var(--color-border-light)] pt-10 md:mt-12 md:space-y-10 md:pt-12">
+          {servicesDevelopmentFaqCopy.items.map((item) => (
+            <div key={item.q}>
+              <dt className="text-[1rem] font-semibold leading-snug text-text">{item.q}</dt>
+              <dd className={cn("mt-3 text-[1rem] leading-[2.05] text-text/90", serviceReading.body)}>
+                {item.a}
+              </dd>
+            </div>
+          ))}
+        </dl>
       </motion.section>
 
       <motion.div

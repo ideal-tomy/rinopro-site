@@ -1,29 +1,47 @@
-import { ParticleBackground } from "@/components/three/ParticleBackground";
-import { HomeBelowFoldDeferred } from "@/components/home/HomeBelowFoldDeferred";
+import { HomeCeoMessageSection } from "@/components/home/HomeCeoMessageSection";
 import { HomeEmpathyCards } from "@/components/home/HomeEmpathyCards";
 import { HomeFirstView } from "@/components/home/HomeFirstView";
 import { HomeSectionShell } from "@/components/home/HomeSectionShell";
-import { HomeSectionStickyNav } from "@/components/home/HomeSectionStickyNav";
+import { HomeSolutionsSection } from "@/components/home/HomeSolutionsSection";
 import { HomeServiceFlowRow } from "@/components/home/HomeServiceFlowRow";
-import { HomeWhyPillars } from "@/components/home/HomeWhyPillars";
+import { HomeValuesSection } from "@/components/home/HomeValuesSection";
+import { HomeImplementationShowcaseSection } from "@/components/home/HomeImplementationShowcaseSection";
+import { HomeFaqSection } from "@/components/home/HomeFaqSection";
+import { HomeCompanyTeaser } from "@/components/home/HomeCompanyTeaser";
+import { HomeClosingCta } from "@/components/home/HomeClosingCta";
 
 export function HeroSection() {
   return (
     <>
-      <ParticleBackground />
       <div className="home-landing-copy">
-        <HomeSectionStickyNav />
         <HomeFirstView />
-        <HomeSectionShell tone="alt">
+        <HomeSectionShell tone="warm">
           <HomeEmpathyCards />
         </HomeSectionShell>
-        <HomeSectionShell>
-          <HomeWhyPillars />
+        <HomeSectionShell tone="pure">
+          <HomeValuesSection />
         </HomeSectionShell>
-        <HomeSectionShell tone="alt">
+        <HomeSectionShell>
+          <HomeCeoMessageSection />
+        </HomeSectionShell>
+        <HomeSectionShell tone="pure">
+          <HomeSolutionsSection />
+        </HomeSectionShell>
+        <HomeSectionShell tone="neutral">
           <HomeServiceFlowRow />
         </HomeSectionShell>
-        <HomeBelowFoldDeferred />
+        <HomeSectionShell>
+          <HomeImplementationShowcaseSection />
+        </HomeSectionShell>
+        <HomeSectionShell tone="pure">
+          <HomeFaqSection />
+        </HomeSectionShell>
+        <HomeSectionShell tone="neutral">
+          <HomeCompanyTeaser />
+        </HomeSectionShell>
+        <HomeSectionShell>
+          <HomeClosingCta />
+        </HomeSectionShell>
       </div>
     </>
   );

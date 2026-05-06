@@ -3,19 +3,19 @@ import { footerCopy } from "@/lib/content/site-copy";
 
 const FOOTER_LINKS = [
   { href: "/", label: "トップ" },
-  { href: "/demo", label: "体験・demo" },
   { href: "/services", label: "サービス" },
   { href: "/about", label: "会社紹介" },
   { href: "/contact", label: "問い合わせ" },
+  { href: "/demo", label: "体験デモ" },
 ] as const;
 
 export function Footer() {
   return (
-    <footer className="mt-auto border-t border-silver/20 bg-base-dark">
+    <footer className="mt-auto border-t border-[var(--color-border-light)] bg-[var(--color-bg-pure)]">
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 py-8 md:flex-row md:px-6">
         <div className="text-center md:text-left">
-          <p className="text-sm text-white">{footerCopy.tagline}</p>
-          <p className="mt-1 text-xs leading-relaxed text-white/80">
+          <p className="text-sm text-[var(--color-text-primary)]">{footerCopy.tagline}</p>
+          <p className="mt-1 text-xs leading-relaxed text-[var(--color-text-secondary)]">
             {footerCopy.subline}
           </p>
         </div>
@@ -24,7 +24,7 @@ export function Footer() {
             <Link
               key={href}
               href={href}
-              className="text-sm text-white transition-colors hover:text-accent"
+              className="text-sm text-[var(--color-text-primary)] transition-colors hover:text-[var(--color-accent-primary)]"
             >
               {label}
             </Link>

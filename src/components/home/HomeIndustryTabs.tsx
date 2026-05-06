@@ -96,8 +96,8 @@ export function HomeIndustryTabs() {
               className={cn(
                 "clickable-element inline-flex shrink-0 items-center rounded-full border px-4 py-2 text-[14px] font-medium tracking-tight transition-[color,background-color,border-color,transform,opacity] duration-200 [scroll-snap-align:center] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action focus-visible:ring-offset-2 focus-visible:ring-offset-base md:text-[15px]",
                 isActive
-                  ? "border-accent/60 bg-accent/15 text-white"
-                  : "border-silver/25 bg-white/[0.02] text-white/80 hover:border-accent/45 hover:text-white"
+                  ? "border-[var(--color-accent-primary)]/60 bg-[var(--color-accent-primary-light)] text-[var(--color-accent-primary)]"
+                  : "border-[var(--color-border-light)] bg-[var(--color-bg-pure)] text-[var(--color-text-secondary)] hover:border-[var(--color-accent-primary)]/45 hover:text-[var(--color-text-primary)]"
               )}
             >
               {item.label}
@@ -135,7 +135,7 @@ export function HomeIndustryTabs() {
         if (others.length === 0) return null;
         return (
           <div className="mt-10 text-center md:mt-12">
-            <p className="text-[14px] text-white/70 md:text-[15px]">
+            <p className="text-[14px] text-[var(--color-text-secondary)] md:text-[15px]">
               他の業種について
             </p>
             <ul className="mt-3 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-[14px] md:text-[15px]">
@@ -143,7 +143,7 @@ export function HomeIndustryTabs() {
                 <li key={item.slug}>
                   <Link
                     href={item.hubPath}
-                    className="text-accent underline-offset-4 transition hover:underline"
+                    className="text-[var(--color-accent-primary)] underline-offset-4 transition hover:underline"
                   >
                     {item.label}
                   </Link>

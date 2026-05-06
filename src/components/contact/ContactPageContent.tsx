@@ -42,7 +42,7 @@ export function ContactPageContent() {
       </ScrollSequenceItem>
 
       <ScrollSequenceItem thresholds={[0.28, 0.48]}>
-        <div className="mt-12 rounded-xl border border-silver/20 bg-base-dark/50 p-6">
+        <div className="mt-12 rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-pure)] p-6">
           <h2 className="mb-4 font-semibold text-accent">
             {contactCopy.assurance.title}
           </h2>
