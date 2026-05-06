@@ -15,7 +15,7 @@ export function HomeClosingCta() {
   return (
     <section
       id="cta"
-      className="container mx-auto max-w-3xl px-4 py-[120px] md:px-6 md:pb-32 md:pt-[120px] scroll-mt-32"
+      className="container mx-auto max-w-3xl scroll-mt-32 px-4 py-20 md:px-6 md:pb-32 md:pt-[120px]"
       aria-labelledby="home-closing-cta-heading"
     >
       <p className="text-center text-[13px] font-semibold tracking-[0.12em] text-[var(--color-accent-primary)]">
