@@ -52,7 +52,7 @@ export function ServicesPageContent() {
         itemClassNameByIndex={{ 2: "sm:col-span-2" }}
         className="mx-auto w-full max-w-4xl"
       >
-        <Card className="flex flex-col overflow-hidden border-silver/20 p-0 transition-colors hover:border-accent/50">
+        <Card className="flex flex-col overflow-hidden border-[var(--color-border-light)] p-0 transition-colors hover:border-accent/50">
           <button
             type="button"
             className="clickable-element flex flex-1 flex-col items-center px-6 py-6 text-center transition-[transform,opacity] duration-100"
@@ -78,7 +78,7 @@ export function ServicesPageContent() {
           </button>
         </Card>
 
-        <Card className="flex flex-col overflow-hidden border-silver/20 p-0 transition-colors hover:border-accent/50">
+        <Card className="flex flex-col overflow-hidden border-[var(--color-border-light)] p-0 transition-colors hover:border-accent/50">
           <button
             type="button"
             className="clickable-element flex flex-1 flex-col items-center px-6 py-6 text-center transition-[transform,opacity] duration-100"
@@ -104,7 +104,7 @@ export function ServicesPageContent() {
           </button>
         </Card>
 
-        <div className="scroll-mt-24 rounded-2xl bg-base-dark/25 p-5 sm:p-6 md:p-6">
+        <div className="scroll-mt-24 rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-pure)] p-5 sm:p-6 md:p-6">
             <nav
               role="tablist"
               aria-label="サービス詳細の切り替え"
@@ -121,7 +121,7 @@ export function ServicesPageContent() {
                   "clickable-element min-h-10 flex-1 rounded-lg border px-4 py-2 text-xs font-medium tracking-wide transition-[color,background-color,border-color,transform,opacity] sm:flex-none md:text-[0.8125rem]",
                   activeDetail === "development"
                     ? "border-action/70 bg-action/15 text-action shadow-[0_0_16px_-4px_rgba(0,103,192,0.35)]"
-                    : "border-silver/25 bg-base-dark/40 text-text/80 hover:border-action/35 hover:text-text"
+                    : "border-[var(--color-border-light)] bg-[var(--color-bg-base)] text-text/80 hover:border-action/35 hover:text-text"
                 )}
                 onClick={() => setActiveDetail("development")}
               >
@@ -138,7 +138,7 @@ export function ServicesPageContent() {
                   "clickable-element min-h-10 flex-1 rounded-lg border px-4 py-2 text-xs font-medium tracking-wide transition-[color,background-color,border-color,transform,opacity] sm:flex-none md:text-[0.8125rem]",
                   activeDetail === "consulting"
                     ? "border-action/70 bg-action/15 text-action shadow-[0_0_16px_-4px_rgba(0,103,192,0.35)]"
-                    : "border-silver/25 bg-base-dark/40 text-text/80 hover:border-action/35 hover:text-text"
+                    : "border-[var(--color-border-light)] bg-[var(--color-bg-base)] text-text/80 hover:border-action/35 hover:text-text"
                 )}
                 onClick={() => setActiveDetail("consulting")}
               >
@@ -154,7 +154,7 @@ export function ServicesPageContent() {
                   ? "services-tab-development"
                   : "services-tab-consulting"
               }
-              className="overflow-hidden rounded-xl bg-base-dark/20"
+              className="overflow-hidden rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-base)]"
             >
               <AnimatePresence mode="wait" initial={false}>
                 {activeDetail === "development" ? (

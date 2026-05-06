@@ -14,7 +14,7 @@ export function IndustryHubContent({ item }: IndustryHubContentProps) {
   return (
     <>
       <section className="container mx-auto max-w-3xl px-4 py-12 md:px-6 md:py-16">
-        <div className="relative aspect-video max-h-[min(100vw,22rem)] overflow-hidden rounded-2xl border border-silver/20 ring-1 ring-warm/15 ring-inset md:max-h-[20rem]">
+        <div className="relative aspect-video max-h-[min(100vw,22rem)] overflow-hidden rounded-2xl border border-[var(--color-border-light)] md:max-h-[20rem]">
           <Image
             src={item.imageSrc}
             alt={item.imageAlt}
@@ -95,7 +95,7 @@ export function IndustryHubContent({ item }: IndustryHubContentProps) {
             <li key={demo.slug}>
               <Link
                 href={`/demo/${demo.slug}`}
-                className="flex flex-col rounded-xl border border-silver/20 bg-base-dark/40 px-4 py-3 text-text ring-1 ring-warm/10 ring-inset transition-colors hover:border-accent/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent sm:flex-row sm:items-center sm:justify-between"
+                className="flex flex-col rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-pure)] px-4 py-3 text-text transition-colors hover:border-accent/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent sm:flex-row sm:items-center sm:justify-between"
               >
                 <span className="font-medium">{demo.title}</span>
                 <span className="mt-1 text-sm text-accent sm:mt-0">

@@ -102,7 +102,7 @@ export function ConsultingDetailPageContent({
               "relative overflow-hidden rounded-2xl text-text md:backdrop-blur-sm transition-[background-color,border-color] duration-500 md:px-12 md:py-14",
               embedded
                 ? "border-0 bg-transparent px-5 py-8 shadow-none md:px-8"
-                : "border border-silver/15 bg-base-dark/40 px-8 py-12 shadow-none"
+                : "border border-[var(--color-border-light)] bg-[var(--color-bg-pure)] px-8 py-12 shadow-none"
             )}
             initial="hidden"
             whileInView="visible"

@@ -235,12 +235,12 @@ export function EstimateDetailedProcessingContent() {
 
       <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
         <Button variant="outline" asChild className="min-h-11">
-          <Link href="/flow" target="_blank" rel="noopener noreferrer">
+          <Link href="/services/development" target="_blank" rel="noopener noreferrer">
             {copy.processingLinkFlow}
           </Link>
         </Button>
         <Button variant="outline" asChild className="min-h-11">
-          <Link href="/demo/list" target="_blank" rel="noopener noreferrer">
+          <Link href="/demo" target="_blank" rel="noopener noreferrer">
             {copy.processingLinkDemo}
           </Link>
         </Button>

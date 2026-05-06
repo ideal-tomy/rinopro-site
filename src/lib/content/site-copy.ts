@@ -189,7 +189,7 @@ export const homeDevelopmentSectionCopy = {
   lead: "迷いを断ち切り、ビジネスを加速させる実装力。",
   body: "「何を作るか」が曖昧なまま開発をスタートさせることはありません。\n私たちは、対話を通じて磨き上げた「本当に必要な機能」だけを、確かな技術で形にします。\n一段ずつ、納得感を持って進めるプロセスで、開発にありがちな「認識のズレ」を徹底排除。\nプロフェッショナルの手で、現場が手放せなくなる高品質なシステムを構築します。",
   ctaLabel: "開発の流れ",
-  ctaHref: "/flow",
+  ctaHref: "/services/development",
 } as const;
 
 /** トップページ「コンサルティングについて」セクション */
@@ -198,7 +198,7 @@ export const homeConsultingSectionCopy = {
   lead: "机上の空論を捨て、現場に結果を。",
   body: "私たちは現場の最前線に飛び込み、ITが「当たり前の道具」として定着するまで並走し続けます。\n過剰な提案でコストを膨らませるのではなく、今の組織にとって最も効果的な「次の一手」を共に実行し、\n自走できる組織へと導きます。",
   ctaLabel: "コンサルティングを見る",
-  ctaHref: "/consulting",
+  ctaHref: "/services/consulting",
 } as const;
 
 export const demoHubCopy = {
@@ -225,12 +225,12 @@ export const servicesCopy = {
   development: {
     title: "開発",
     desc: "現状整理から要件化、試作、現場検証を経て本実装まで。段階的な検証でリスクを抑える。",
-    href: "/flow",
+    href: "/services/development",
   },
   consulting: {
     title: "コンサルティング",
     desc: "業務診断、優先順位設計、PoC設計、定着支援。過剰提案せず、検証可能な範囲で進める。",
-    href: "/consulting",
+    href: "/services/consulting",
   },
 } as const;
 

@@ -590,3 +590,32 @@ LPのIndustry Showcaseから飛ぶ詳細ページ。
 - `/flow` `/consulting` は互換導線として短期的に生かすが、主要導線からは外す。
 - チャットや補助導線内の旧URL参照は、段階的に統合先へ置換する。
 - 各置換時に「トップ→サービス→問い合わせ」の動線で404がないことを確認する。
+
+---
+
+## 19. 導線監査チェックリスト(運用固定)
+
+変更ごとに以下を必ず実施する。
+
+### 19-1. ブランチ安全確認（作業前/Push前）
+
+- `git branch --show-current` で `main` 以外であることを確認
+- `git status -sb` で差分と追跡先を確認
+- Push時は `git push` もしくは `git push -u origin <branch>` を使用
+
+### 19-2. 導線確認（変更後）
+
+- Header: `/` `/services` `/about` `/contact` `/demo`
+- Footer: `/` `/services` `/about` `/contact` `/demo`
+- Home Primary CTA: `/contact`
+- Home Secondary CTA: `/services`
+- 主要カードリンク: `/services/*` `/solutions/*` `/experience/*` `/demo`
+
+### 19-3. 404確認フロー
+
+以下の遷移でリンク切れがないことを確認する。
+
+1. `/` → `/services` → `/contact`
+2. `/` → `/demo` → `/experience/[slug]`
+3. 互換導線: `/flow` → `/services/development`
+4. 互換導線: `/consulting` → `/services/consulting`

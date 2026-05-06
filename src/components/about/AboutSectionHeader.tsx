@@ -28,13 +28,13 @@ export function AboutSectionHeader({
         className
       )}
     >
-      <p className="text-[12px] font-semibold uppercase tracking-[0.2em] text-accent md:text-[13px]">
+      <p className="text-[12px] font-semibold uppercase tracking-[0.2em] text-[var(--color-accent-primary)] md:text-[13px]">
         {kicker}
       </p>
       <h2
         id={id}
         className={cn(
-          "mt-3 text-balance font-bold leading-tight tracking-tight text-white",
+          "mt-3 text-balance font-bold leading-tight tracking-tight text-[var(--color-text-primary)]",
           "text-[clamp(1.75rem,3.8vw,2.5rem)]"
         )}
       >
@@ -42,7 +42,7 @@ export function AboutSectionHeader({
       </h2>
       <div
         className={cn(
-          "mt-6 h-px max-w-[120px] bg-gradient-to-r from-transparent via-accent/50 to-transparent md:mt-8",
+          "mt-6 h-px max-w-[120px] bg-gradient-to-r from-transparent via-[var(--color-accent-primary)]/50 to-transparent md:mt-8",
           isCenter ? "mx-auto" : ""
         )}
         aria-hidden
@@ -50,7 +50,7 @@ export function AboutSectionHeader({
       {description ? (
         <p
           className={cn(
-            "mt-6 text-[16px] leading-[1.8] text-white/[0.82] md:mt-8 md:text-[17px]",
+            "mt-6 text-[16px] leading-[1.8] text-[var(--color-text-secondary)] md:mt-8 md:text-[17px]",
             isCenter ? "mx-auto max-w-[40ch]" : "max-w-2xl"
           )}
         >

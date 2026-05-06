@@ -20,7 +20,7 @@ export function ContactFlowSteps() {
       >
         {flow.sectionTitle}
       </h2>
-      <p className="mb-4 text-xs leading-relaxed text-white/70 md:hidden">
+      <p className="mb-4 text-xs leading-relaxed text-[var(--color-text-secondary)] md:hidden">
         {flow.mobileSwipeHint}
       </p>
 
@@ -29,18 +29,18 @@ export function ContactFlowSteps() {
           <Fragment key={step.title}>
             {i > 0 ? (
               <div
-                className="flex shrink-0 items-center self-center px-1 text-accent/55"
+                className="flex shrink-0 items-center self-center px-1 text-[var(--color-accent-primary)]/55"
                 aria-hidden
               >
                 <ChevronRight className="size-5" strokeWidth={2} />
               </div>
             ) : null}
-            <div className="min-w-0 flex-1 rounded-xl border border-silver/20 bg-base-dark/40 p-4">
-              <p className="text-[11px] font-medium uppercase tracking-wide text-accent/80">
+            <div className="min-w-0 flex-1 rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-pure)] p-4">
+              <p className="text-[11px] font-medium uppercase tracking-wide text-[var(--color-accent-primary)]/80">
                 Step {i + 1}
               </p>
-              <h3 className="mt-1 text-[16px] font-semibold text-white">{step.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-white/80">{step.body}</p>
+              <h3 className="mt-1 text-[16px] font-semibold text-[var(--color-text-primary)]">{step.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-[var(--color-text-secondary)]">{step.body}</p>
             </div>
           </Fragment>
         ))}
@@ -55,18 +55,18 @@ export function ContactFlowSteps() {
         {steps.map((step, i) => (
           <div
             key={step.title}
-            className="w-[min(85vw,20rem)] shrink-0 snap-start rounded-xl border border-silver/20 bg-base-dark/40 p-4"
+            className="w-[min(85vw,20rem)] shrink-0 snap-start rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-pure)] p-4"
           >
-            <p className="text-[11px] font-medium uppercase tracking-wide text-accent/80">
+            <p className="text-[11px] font-medium uppercase tracking-wide text-[var(--color-accent-primary)]/80">
               Step {i + 1}
             </p>
-            <h3 className="mt-1 text-[16px] font-semibold text-white">{step.title}</h3>
-            <p className="mt-2 text-sm leading-relaxed text-white/80">{step.body}</p>
+            <h3 className="mt-1 text-[16px] font-semibold text-[var(--color-text-primary)]">{step.title}</h3>
+            <p className="mt-2 text-sm leading-relaxed text-[var(--color-text-secondary)]">{step.body}</p>
           </div>
         ))}
       </div>
 
-      <p className="mt-4 text-sm leading-relaxed text-white/75">{flow.footnote}</p>
+      <p className="mt-4 text-sm leading-relaxed text-[var(--color-text-secondary)]">{flow.footnote}</p>
     </section>
   );
 }

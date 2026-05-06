@@ -18,7 +18,7 @@ export function ContactAnsweredSnapshotSummary({
   if (pairs.length === 0) return null;
 
   return (
-    <div className="space-y-3 rounded-xl border border-silver/20 bg-base-dark/30 p-4">
+    <div className="space-y-3 rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-base)] p-4">
       <p className="text-sm font-medium text-text">{title}</p>
       {hint ? (
         <p className="text-sm leading-relaxed text-text-sub">{hint}</p>
