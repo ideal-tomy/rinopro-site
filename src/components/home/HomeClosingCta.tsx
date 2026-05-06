@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { HomeConsultCtaButton } from "@/components/home/HomeConsultCtaButton";
+import { Button } from "@/components/ui/button";
 import { homeLandingCopy } from "@/lib/content/home-landing";
 import { homeLandingCtaButtonClass } from "@/lib/content/home-landing-styles";
 
@@ -32,15 +32,17 @@ export function HomeClosingCta() {
           {closing.body}
         </p>
         <div className="mx-auto mt-10 flex max-w-md justify-center md:mt-12">
-          <HomeConsultCtaButton
-            label={closing.primaryCta}
+          <Button
+            asChild
             size="lg"
             className={cn(
               "mt-0 w-full border-white/35 bg-white text-[var(--color-accent-primary)]",
               homeLandingCtaButtonClass,
               motionHover
             )}
-          />
+          >
+            <Link href="/contact">{closing.primaryCta}</Link>
+          </Button>
         </div>
         <nav
           className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-[15px] text-white/70 md:mt-12 md:text-[16px]"
