@@ -26,9 +26,11 @@ export function HomeFirstView() {
           <br />
           {c.headlineLine2}
         </h1>
-        <p className="mx-auto mt-8 max-w-[40ch] text-center text-[17px] font-medium leading-[1.8] text-[var(--color-text-secondary)] md:mt-10 md:text-[18px]">
-          {c.subheadline}
-        </p>
+        {c.subheadline ? (
+          <p className="mx-auto mt-8 max-w-[40ch] text-center text-[17px] font-medium leading-[1.8] text-[var(--color-text-secondary)] md:mt-10 md:text-[18px]">
+            {c.subheadline}
+          </p>
+        ) : null}
         <p className="mx-auto mt-6 max-w-[40ch] whitespace-pre-line text-center text-[16px] leading-[1.8] text-[var(--color-text-secondary)] md:mt-8 md:text-[17px]">
           {c.body}
         </p>
