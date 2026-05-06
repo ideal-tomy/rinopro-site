@@ -5,29 +5,36 @@
 
 /* Design Tokens - docs/デザイン要件.md */
 :root {
-  --color-base: #0a0e17;
-  --color-base-dark: #0d1220;
-  /* 互補5色（参考パレット） */
-  --color-color-1: #3b82f6;
-  --color-color-2: #f6af3b;
-  --color-color-3: #9dc0fa;
-  --color-color-4: #da8b0a;
-  --color-color-5: #d5e1f5;
-  /* サイト本編アクセント＝color-1 / 右下・チャット内のみシアン（.chat-theme-ai） */
+  --color-base: #fafaf8;
+  --color-base-dark: #f4f4f2;
+  --color-bg-base: #fafaf8;
+  --color-bg-pure: #ffffff;
+  --color-bg-warm: #f5efe6;
+  --color-bg-neutral: #f4f4f2;
+  --color-color-1: #1e3a8a;
+  --color-color-2: #c9a961;
+  --color-color-3: #dbeafe;
+  --color-color-4: #a88b47;
+  --color-color-5: #e5e5e0;
   --color-accent: var(--color-color-1);
   --color-chat-accent: #00f2ff;
   --color-warm: var(--color-color-2);
   --color-warm-strong: var(--color-color-4);
   --color-glow: var(--color-color-3);
   --color-elevated: var(--color-color-5);
-  /* プライマリ CTA・塗りボタン（アクセントに揃える） */
   --color-action: var(--color-color-1);
-  /* 地文・補足・ナビ・フッター等の字色: 一旦すべて白（border-silver/xx は白の薄い線になる） */
-  --color-silver: #ffffff;
-  --color-text: #ffffff;
-  --color-text-sub: #ffffff;
+  --color-silver: #d1d1cc;
+  --color-text: #1a1a1a;
+  --color-text-sub: #4a4a4a;
+  --color-text-primary: #1a1a1a;
+  --color-text-secondary: #4a4a4a;
+  --color-text-tertiary: #6b6b6b;
+  --color-accent-primary: #1e3a8a;
+  --color-accent-primary-hover: #1e40af;
+  --color-accent-primary-light: #dbeafe;
+  --color-border-light: #e5e5e0;
   --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+  --foreground: oklch(0.25 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
@@ -61,15 +68,17 @@
 }
 
 @theme inline {
-  /* 注意: --color-base があるためユーティリティ `text-base` は「文字色=ベース色」になる。本文の 1rem には `text-[1rem]` を使う。 */
-  /* text / text-sub / silver は上記 :root と同じ白系（@theme にも明示） */
-  --color-base: #0a0e17;
-  --color-base-dark: #0d1220;
-  --color-color-1: #3b82f6;
-  --color-color-2: #f6af3b;
-  --color-color-3: #9dc0fa;
-  --color-color-4: #da8b0a;
-  --color-color-5: #d5e1f5;
+  --color-base: #fafaf8;
+  --color-base-dark: #f4f4f2;
+  --color-bg-base: #fafaf8;
+  --color-bg-pure: #ffffff;
+  --color-bg-warm: #f5efe6;
+  --color-bg-neutral: #f4f4f2;
+  --color-color-1: #1e3a8a;
+  --color-color-2: #c9a961;
+  --color-color-3: #dbeafe;
+  --color-color-4: #a88b47;
+  --color-color-5: #e5e5e0;
   --color-accent: var(--color-color-1);
   --color-chat-accent: #00f2ff;
   --color-warm: var(--color-color-2);
@@ -77,9 +86,16 @@
   --color-glow: var(--color-color-3);
   --color-elevated: var(--color-color-5);
   --color-action: var(--color-color-1);
-  --color-silver: #ffffff;
-  --color-text: #ffffff;
-  --color-text-sub: #ffffff;
+  --color-silver: #d1d1cc;
+  --color-text: #1a1a1a;
+  --color-text-sub: #4a4a4a;
+  --color-text-primary: #1a1a1a;
+  --color-text-secondary: #4a4a4a;
+  --color-text-tertiary: #6b6b6b;
+  --color-accent-primary: #1e3a8a;
+  --color-accent-primary-hover: #1e40af;
+  --color-accent-primary-light: #dbeafe;
+  --color-border-light: #e5e5e0;
   --color-background: var(--color-base);
   --color-foreground: var(--color-text);
   --font-sans:

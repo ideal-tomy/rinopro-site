@@ -1,46 +1,62 @@
-import { MessageCircle, AlertTriangle, Wrench, Sparkles } from "lucide-react";
 import { HomeLandingSectionHeading } from "@/components/home/HomeLandingSectionHeading";
-import { homeLandingCopy } from "@/lib/content/home-landing";
-
-const { empathy } = homeLandingCopy;
-const icons = [MessageCircle, AlertTriangle, Wrench, Sparkles] as const;
 
 export function HomeEmpathyCards() {
   return (
     <section
-      id="empathy"
-      className="container mx-auto max-w-6xl px-4 py-20 md:px-6 md:py-[120px] scroll-mt-32"
+      id="about"
+      className="py-20 md:py-[120px] scroll-mt-32"
       aria-labelledby="home-empathy-heading"
     >
       <HomeLandingSectionHeading
         id="home-empathy-heading"
-        index={empathy.sectionIndex}
-        kicker={empathy.sectionKicker}
-        title={empathy.heading}
+        index="02"
+        kicker="ABOUT NAME / MISSION"
+        title="AXEON という名前に込めた、二つの意味。"
       />
-      <ul className="mx-auto grid max-w-6xl list-none gap-4 md:grid-cols-4">
-        {empathy.cards.map((card, index) => {
-          const Icon = icons[index];
-          return (
-            <li key={`${card.prefix}-${card.emphasis}`}>
-              <article className="flex h-full flex-col rounded-2xl border border-silver/20 bg-base-dark/55 p-7 ring-1 ring-warm/15 ring-inset shadow-[inset_0_1px_0_0_color-mix(in_srgb,var(--color-elevated)_12%,transparent)] transition-all duration-200 motion-reduce:transition-none motion-safe:active:scale-[0.99] motion-safe:active:opacity-95 md:hover:-translate-y-1 md:hover:shadow-[0_8px_24px_-4px_rgba(0,0,0,0.45)] motion-reduce:md:hover:translate-y-0 motion-reduce:md:hover:shadow-none motion-reduce:active:scale-100 motion-reduce:active:opacity-100">
-                <div className="flex size-10 items-center justify-center rounded-xl bg-accent/15 text-accent">
-                  <Icon className="size-5" aria-hidden strokeWidth={1.75} />
-                </div>
-                <p className="mt-4 text-[13px] leading-snug text-white/70">
-                  {card.prefix}
-                </p>
-                <p className="mt-2 text-[15px] font-semibold leading-[1.7] text-white">
-                  {card.emphasis}
-                </p>
-              </article>
-            </li>
-          );
-        })}
-      </ul>
-      <p className="mx-auto mt-16 max-w-[40ch] text-center text-[17px] font-semibold leading-[1.8] text-white md:mt-20 md:text-[18px]">
-        {empathy.bridge}
-      </p>
+      <article className="relative left-1/2 w-screen -translate-x-1/2 overflow-hidden">
+        <div
+          className="absolute inset-0 bg-center bg-cover"
+          style={{ backgroundImage: "url('/images/top_about.jpg')" }}
+          aria-hidden
+        />
+        <div
+          className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/45 to-black/60 backdrop-blur-[1px]"
+          aria-hidden
+        />
+        <div className="relative mx-auto max-w-4xl px-6 py-14 text-center md:px-12 md:py-20">
+          <div className="space-y-6 text-[16px] leading-[1.9] text-white md:text-[17px]">
+            <p className="font-semibold text-white">
+              AXEONという名前には、二つの読み方があります。
+            </p>
+            <p>
+              英語で読めば、Axis × On（アクシス・オン）。
+              軸を持ち、前へ進む。環境が揺れても、流行が変わっても、
+              意思決定の中心を見失わずに進み続けるための言葉です。
+            </p>
+            <p>
+              日本語で読めば、軸 × 恩（じく・おん）。
+              私たちは、社会や人から多くの機会を受け取り、育てられてきました。
+              だからこそ、その恩を次の世代へ返していく。
+              この恩送りの循環を、事業を通じて実装することが、私たちの使命です。
+            </p>
+            <p>
+              私たちが目指すのは、AIで人の仕事を奪う未来ではありません。
+              定型業務、転記、検索、要約、整理をAIに任せ、
+              創造、判断、関係構築、本質的な議論へ、人の時間を返していくこと。
+            </p>
+            <p>
+              AXEONは、企業の軸を共につくるパートナーとして、
+              戦略と実装を同じテーブルに置き、
+              理想を現場で動く仕組みに変えていきます。
+            </p>
+            <p className="pt-2 text-[18px] font-semibold text-white md:text-[20px]">
+              国の力を、もう一段。
+              <br />
+              この言葉を、私たちは理念ではなく、実務で証明します。
+            </p>
+          </div>
+        </div>
+      </article>
     </section>
   );
 }

@@ -24,27 +24,27 @@ const buttonVariants = cva(
       variant: {
         default:
           "btn-primary-sheen border border-transparent " +
-          "bg-[#3b82f6] text-white shadow-sm " +
+          "bg-[var(--color-accent-primary)] text-white shadow-sm " +
           "transition-[background-color,box-shadow,transform,ring] duration-300 ease-out " +
           "motion-safe:transform-gpu motion-safe:hover:scale-[1.02] motion-reduce:transform-none " +
-          "hover:bg-warm-strong hover:text-white " +
+          "hover:bg-[var(--color-accent-primary-hover)] hover:text-white " +
           "focus-visible:ring-action",
         outline:
-          "border border-silver/35 bg-transparent text-text " +
+          "border border-[var(--color-border-light)] bg-transparent text-[var(--color-text-primary)] " +
           "transition-[color,border-color,ring] duration-200 ease-out " +
           "motion-safe:hover:scale-[1.01] motion-reduce:transform-none " +
-          "hover:border-warm hover:bg-transparent hover:text-warm " +
+          "hover:border-[var(--color-accent-primary)] hover:bg-transparent hover:text-[var(--color-accent-primary)] " +
           "focus-visible:ring-warm/55",
         ghost:
-          "border border-transparent bg-transparent text-text " +
+          "border border-transparent bg-transparent text-[var(--color-text-primary)] " +
           "transition-[color,border-color,background-color,ring] duration-200 ease-out " +
           "motion-safe:hover:scale-[1.01] motion-reduce:transform-none " +
-          "hover:border-warm/80 hover:bg-transparent hover:text-warm " +
+          "hover:border-[var(--color-accent-primary)]/80 hover:bg-transparent hover:text-[var(--color-accent-primary)] " +
           "focus-visible:ring-warm/50",
         text:
-          "border border-transparent bg-transparent px-0 text-text-sub " +
+          "border border-transparent bg-transparent px-0 text-[var(--color-text-secondary)] " +
           "transition-[color,ring] duration-200 " +
-          "hover:bg-transparent hover:text-warm " +
+          "hover:bg-transparent hover:text-[var(--color-accent-primary)] " +
           "scale-100 motion-safe:hover:scale-100 " +
           "focus-visible:ring-warm/50",
       },

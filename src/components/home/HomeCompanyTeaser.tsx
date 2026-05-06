@@ -17,11 +17,11 @@ export function HomeCompanyTeaser() {
         kicker={company.sectionKicker}
         title={company.heading}
       />
-      <div className="rounded-2xl border border-silver/20 bg-base-dark/55 p-6 ring-1 ring-warm/15 ring-inset md:p-8">
-        <p className="text-[17px] font-medium leading-[1.8] text-white/[0.85] md:text-[18px]">
+      <div className="rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-pure)] p-6 md:p-8">
+        <p className="text-[17px] font-medium leading-[1.8] text-[var(--color-text-secondary)] md:text-[18px]">
           {company.lead}
         </p>
-        <p className="mt-5 text-[16px] leading-[1.8] text-white/[0.85] md:mt-6 md:text-[17px]">
+        <p className="mt-5 text-[16px] leading-[1.8] text-[var(--color-text-secondary)] md:mt-6 md:text-[17px]">
           {company.body}
         </p>
         <Button asChild className="mt-8 md:mt-10" variant="outline" size="lg">

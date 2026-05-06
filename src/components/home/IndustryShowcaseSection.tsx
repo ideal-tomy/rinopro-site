@@ -16,6 +16,7 @@ export function IndustryShowcaseSection({
 
   return (
     <section
+      id="industry"
       className={cn(
         "container mx-auto max-w-6xl px-4 md:px-6",
         nested ? "pb-10 pt-4 md:pb-14 md:pt-6" : "pb-12 md:pb-16"
@@ -26,11 +27,11 @@ export function IndustryShowcaseSection({
         <>
           <HeadingTag
             id="home-industry-showcase-heading"
-            className="mb-4 text-center text-balance text-xl font-semibold leading-snug tracking-tight text-white md:mb-5 md:text-2xl"
+            className="mb-4 text-center text-balance text-xl font-semibold leading-snug tracking-tight text-[var(--color-text-primary)] md:mb-5 md:text-2xl"
           >
             {industryShowcaseSectionCopy.heading}
           </HeadingTag>
-          <p className="mx-auto mb-8 max-w-[40ch] text-center text-[17px] leading-[1.8] text-white/[0.85] md:mb-10 md:max-w-2xl md:text-[18px]">
+          <p className="mx-auto mb-8 max-w-[40ch] text-center text-[17px] leading-[1.8] text-[var(--color-text-secondary)] md:mb-10 md:max-w-2xl md:text-[18px]">
             {industryShowcaseSectionCopy.intro}
           </p>
         </>
