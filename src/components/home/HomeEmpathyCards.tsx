@@ -13,9 +13,10 @@ export function HomeEmpathyCards() {
         kicker="ABOUT NAME / MISSION"
         title="AXEON という名前に込めた、二つの意味。"
       />
+
       <article className="relative left-1/2 w-screen -translate-x-1/2 overflow-hidden">
         <div
-          className="absolute inset-0 bg-center bg-cover"
+          className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: "url('/images/top_about.jpg')" }}
           aria-hidden
         />

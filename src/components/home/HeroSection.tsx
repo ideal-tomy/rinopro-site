@@ -5,7 +5,7 @@ import { HomeSectionShell } from "@/components/home/HomeSectionShell";
 import { HomeSolutionsSection } from "@/components/home/HomeSolutionsSection";
 import { HomeServiceFlowRow } from "@/components/home/HomeServiceFlowRow";
 import { HomeValuesSection } from "@/components/home/HomeValuesSection";
-import { IndustryShowcaseSection } from "@/components/home/IndustryShowcaseSection";
+import { HomeImplementationShowcaseSection } from "@/components/home/HomeImplementationShowcaseSection";
 import { HomeFaqSection } from "@/components/home/HomeFaqSection";
 import { HomeCompanyTeaser } from "@/components/home/HomeCompanyTeaser";
 import { HomeClosingCta } from "@/components/home/HomeClosingCta";
@@ -31,7 +31,7 @@ export function HeroSection() {
           <HomeServiceFlowRow />
         </HomeSectionShell>
         <HomeSectionShell>
-          <IndustryShowcaseSection />
+          <HomeImplementationShowcaseSection />
         </HomeSectionShell>
         <HomeSectionShell tone="pure">
           <HomeFaqSection />

@@ -327,3 +327,71 @@
     animation-timing-function: ease-in-out;
   }
 }
+
+/* LP 図解: ヒーロー背景の淡い線描画（控えめ） */
+@keyframes illus-draw-line {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes illus-pulse-soft {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.22);
+    opacity: 0.62;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .illus-hero-line {
+    stroke-dasharray: 200;
+    stroke-dashoffset: 200;
+    animation: illus-draw-line 1.4s ease forwards;
+  }
+
+  .illus-hero-pulse {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: illus-pulse-soft 2.6s ease-in-out infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .illus-hero-line {
+    stroke-dashoffset: 0;
+  }
+
+  .illus-hero-pulse {
+    animation: none;
+  }
+}
+
+/* Industry Showcase: LIVE DEMO バッジの控えめな発光 */
+@keyframes showcase-live-glow {
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(30, 58, 138, 0.28);
+  }
+  50% {
+    opacity: 0.9;
+    box-shadow: 0 0 12px 2px rgba(30, 58, 138, 0.4);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .showcase-live-badge {
+    animation: showcase-live-glow 2.5s ease-in-out infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .showcase-live-badge {
+    animation: none;
+  }
+}

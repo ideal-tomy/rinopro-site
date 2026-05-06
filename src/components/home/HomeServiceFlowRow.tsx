@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
+import { ApproachTimeline } from "@/components/illustrations/approach-timeline";
 import { HomeLandingSectionHeading } from "@/components/home/HomeLandingSectionHeading";
 import { HomeHorizontalDots } from "@/components/home/HomeHorizontalDots";
 import { homeLandingCopy } from "@/lib/content/home-landing";
@@ -11,6 +12,11 @@ const { flow } = homeLandingCopy;
 export function HomeServiceFlowRow() {
   const steps = flow.steps;
   const railRef = useRef<HTMLDivElement | null>(null);
+  const timelineSteps = steps.map((step, index) => ({
+    number: String(index + 1).padStart(2, "0"),
+    title: step.title,
+    duration: step.duration,
+  }));
 
   return (
     <section
@@ -26,10 +32,18 @@ export function HomeServiceFlowRow() {
         description={flow.intro}
       />
 
+      <div className="mt-10 md:mt-12">
+        <ApproachTimeline steps={timelineSteps} />
+      </div>
+
+      <p className="mx-auto mt-10 max-w-3xl text-center text-[15px] leading-[1.75] text-[var(--color-text-secondary)] md:mt-12 md:text-[16px]">
+        各ステップのコンサル視点とAI・技術視点の要点は、以下のカードでご確認ください。
+      </p>
+
       {/* PC: 4カラム横並び。モバイル: scroll-snap 横スクロールでスワイプ。 */}
       <div
         ref={railRef}
-        className="-mx-4 flex snap-x snap-mandatory items-stretch gap-4 overflow-x-auto px-4 pb-2 [scroll-padding-inline:1rem] md:mx-0 md:snap-none md:gap-0 md:overflow-visible md:px-0 md:pb-0 lg:flex-row lg:items-stretch"
+        className="-mx-4 mt-8 flex snap-x snap-mandatory items-stretch gap-4 overflow-x-auto px-4 pb-2 [scroll-padding-inline:1rem] md:mx-0 md:mt-10 md:snap-none md:gap-0 md:overflow-visible md:px-0 md:pb-0 lg:flex-row lg:items-stretch"
       >
         {steps.flatMap((step, index) => {
           const card = (

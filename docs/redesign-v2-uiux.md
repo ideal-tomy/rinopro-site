@@ -2325,3 +2325,2175 @@ or
 - トップLP上の主導線は `/about` `/services` `/contact` `/demo` を正とする。
 - `/flow` `/consulting` は主要ナビゲーションから外し、統合先への移行期間のみ互換導線として扱う。
 - CTAは原則 `初回コンサルティングのご相談` → `/contact` を維持する。
+
+## 第3章: 図解の詳細仕様(SVG実装案)
+
+このセクションでは、トップページLPで使用するSVG図解の具体的な実装案を定義する。
+各図解について以下を明確化:
+- コンセプト(何を表現するか)
+- ビジュアルデザイン(線・形・配色)
+- SVGコード骨格(Cursor/Claude Codeで実装可能なレベル)
+- アニメーション仕様
+- 配置・サイズ
+
+実装時は、各図解を**独立したReactコンポーネント**として作成する想定。
+例: `components/illustrations/HeroAxisVisual.tsx`、`components/illustrations/AxisOnDiagram.tsx` 等。
+
+---
+
+### 図解 01: ヒーロー背景ビジュアル(HeroAxisVisual)
+
+#### コンセプト
+「軸を持って、前へ」を抽象的に表現。
+ヒーローのコピーを邪魔せず、**雰囲気として存在する**レベルの控えめさ。
+
+#### ビジュアルデザイン
+
+```
+[案A: 上昇する線群]
+
+中心に縦軸(細い線)
+そこから右斜め上に向かって短い線が複数本伸びる
+「成長」「上昇」「前進」を表現
+
+色:
+- 軸線: --color-accent-primary を 30% opacity
+- 上昇線: --color-accent-primary を 15-20% opacity
+- アクセント点: --color-accent-warm(ゴールド) を ポイントで
+
+サイズ:
+- PC: 600x600px(右寄せ配置)
+- モバイル: 320x320px(右下に控えめ)
+```
+
+#### SVGコード骨格
+
+```typescript
+// components/illustrations/HeroAxisVisual.tsx
+
+export const HeroAxisVisual = () => (
+  <svg
+    viewBox="0 0 600 600"
+    xmlns="http://www.w3.org/2000/svg"
+    className="hero-axis-visual"
+    fill="none"
+  >
+    {/* 縦の軸線(中央) */}
+    <line
+      x1="300" y1="100"
+      x2="300" y2="500"
+      stroke="var(--color-accent-primary)"
+      strokeWidth="1"
+      strokeOpacity="0.3"
+    />
+    
+    {/* 右上に伸びる線(複数本、長さ違い) */}
+    {[0, 1, 2, 3, 4].map((i) => (
+      <line
+        key={i}
+        x1="300"
+        y1={400 - i * 50}
+        x2={400 + i * 30}
+        y2={300 - i * 50}
+        stroke="var(--color-accent-primary)"
+        strokeWidth="1"
+        strokeOpacity={0.15 + i * 0.05}
+        className={`hero-line hero-line-${i}`}
+      />
+    ))}
+    
+    {/* アクセント点(ゴールド) */}
+    <circle
+      cx="300" cy="300"
+      r="3"
+      fill="var(--color-accent-warm)"
+      className="hero-pulse-dot"
+    />
+  </svg>
+);
+```
+
+#### アニメーション
+
+```css
+/* 線が下から上に描画されるアニメーション */
+.hero-line {
+  stroke-dasharray: 200;
+  stroke-dashoffset: 200;
+  animation: drawLine 1.5s ease forwards;
+}
+
+.hero-line-0 { animation-delay: 0.2s; }
+.hero-line-1 { animation-delay: 0.3s; }
+.hero-line-2 { animation-delay: 0.4s; }
+.hero-line-3 { animation-delay: 0.5s; }
+.hero-line-4 { animation-delay: 0.6s; }
+
+@keyframes drawLine {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* アクセント点が脈打つ */
+.hero-pulse-dot {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { 
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% { 
+    transform: scale(1.3);
+    opacity: 0.6;
+  }
+}
+```
+
+#### 実装ヒント
+
+- ヒーロー全体の `position: relative` 内で `position: absolute` 配置
+- z-index は背景レベル(コピーより後ろ)
+- モバイルでは縮小 or 非表示にしても良い
+
+---
+
+### 図解 02: About セクション「Axis × On」(AxisOnDiagram)
+
+#### コンセプト
+英語の意味「軸 × 前進」を表現。
+**シンプルな縦軸 + 右上に向かう矢印**で、前進・上昇を可視化。
+
+#### ビジュアルデザイン
+
+```
+[構成]
+
+中央に太めの縦線(これが「軸」)
+線の上端から右斜め上に向かって矢印
+矢印の先に光(円)
+
+色:
+- 軸線: --color-accent-primary
+- 矢印: --color-accent-primary
+- 光の円: --color-accent-warm
+
+サイズ: 200x200px(About カード上部に配置)
+```
+
+#### SVGコード骨格
+
+```typescript
+// components/illustrations/AxisOnDiagram.tsx
+
+export const AxisOnDiagram = () => (
+  <svg
+    viewBox="0 0 200 200"
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+  >
+    {/* 縦の軸線 */}
+    <line
+      x1="80" y1="180"
+      x2="80" y2="40"
+      stroke="var(--color-accent-primary)"
+      strokeWidth="2"
+      strokeLinecap="round"
+    />
+    
+    {/* 右斜め上に向かう矢印 */}
+    <line
+      x1="80" y1="80"
+      x2="160" y2="40"
+      stroke="var(--color-accent-primary)"
+      strokeWidth="2"
+      strokeLinecap="round"
+    />
+    
+    {/* 矢印の頭(三角形) */}
+    <polygon
+      points="160,40 150,40 155,30"
+      fill="var(--color-accent-primary)"
+    />
+    
+    {/* 光の円(矢印の先) */}
+    <circle
+      cx="170" cy="30"
+      r="6"
+      fill="var(--color-accent-warm)"
+      opacity="0.8"
+    />
+    
+    {/* 光の円(外側のグロー) */}
+    <circle
+      cx="170" cy="30"
+      r="12"
+      fill="var(--color-accent-warm)"
+      opacity="0.2"
+    />
+  </svg>
+);
+```
+
+#### アニメーション(任意)
+
+```css
+/* スクロールイン時、矢印が描画される */
+.axis-on-arrow {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+}
+
+.is-visible .axis-on-arrow {
+  animation: drawArrow 1s ease forwards 0.3s;
+}
+
+@keyframes drawArrow {
+  to { stroke-dashoffset: 0; }
+}
+```
+
+---
+
+### 図解 03: About セクション「軸 × 恩」(AxisOnGiveDiagram)
+
+#### コンセプト
+「受け取った恩を、また送り出す」循環を表現。
+**中心の円から外側へ広がる波**と**外から中心へ向かう矢印**で、受発の流れを示す。
+
+#### ビジュアルデザイン
+
+```
+[構成]
+
+中央に小さな円(自分・会社)
+外側から中心に向かう矢印 数本(受ける恩)
+中心から外側に広がる円 数本(送る恩)
+
+色:
+- 中心の円: --color-accent-warm
+- 受ける矢印: --color-text-secondary
+- 送る波(外側の円): --color-accent-warm のグラデーション
+
+サイズ: 200x200px
+```
+
+#### SVGコード骨格
+
+```typescript
+// components/illustrations/AxisOnGiveDiagram.tsx
+
+export const AxisOnGiveDiagram = () => (
+  <svg
+    viewBox="0 0 200 200"
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+  >
+    {/* 外側の波 1(受け取る前の恩) */}
+    <circle
+      cx="100" cy="100"
+      r="80"
+      stroke="var(--color-accent-warm)"
+      strokeWidth="1"
+      strokeOpacity="0.2"
+      strokeDasharray="2 4"
+    />
+    
+    {/* 外側の波 2 */}
+    <circle
+      cx="100" cy="100"
+      r="60"
+      stroke="var(--color-accent-warm)"
+      strokeWidth="1"
+      strokeOpacity="0.4"
+      strokeDasharray="2 4"
+    />
+    
+    {/* 受け取る矢印(4方向から) */}
+    {[
+      { x1: 30, y1: 30, x2: 80, y2: 80 },     // 左上から
+      { x1: 170, y1: 30, x2: 120, y2: 80 },   // 右上から
+      { x1: 30, y1: 170, x2: 80, y2: 120 },   // 左下から
+      { x1: 170, y1: 170, x2: 120, y2: 120 }, // 右下から
+    ].map((arrow, i) => (
+      <line
+        key={i}
+        {...arrow}
+        stroke="var(--color-text-secondary)"
+        strokeWidth="1.5"
+        strokeOpacity="0.5"
+        strokeLinecap="round"
+        markerEnd="url(#arrowhead)"
+      />
+    ))}
+    
+    {/* 矢印のヘッドマーカー定義 */}
+    <defs>
+      <marker
+        id="arrowhead"
+        markerWidth="10"
+        markerHeight="10"
+        refX="8"
+        refY="5"
+        orient="auto"
+      >
+        <polygon points="0,0 10,5 0,10" fill="var(--color-text-secondary)" opacity="0.5" />
+      </marker>
+    </defs>
+    
+    {/* 中心の円(光る核) */}
+    <circle
+      cx="100" cy="100"
+      r="20"
+      fill="var(--color-accent-warm)"
+      opacity="0.9"
+    />
+    
+    {/* 中心の円のグロー */}
+    <circle
+      cx="100" cy="100"
+      r="30"
+      fill="var(--color-accent-warm)"
+      opacity="0.3"
+    />
+  </svg>
+);
+```
+
+#### アニメーション(任意)
+
+```css
+/* 中心の円が脈打つ */
+.center-glow {
+  transform-origin: center;
+  animation: gentlePulse 3s ease-in-out infinite;
+}
+
+@keyframes gentlePulse {
+  0%, 100% { transform: scale(1); opacity: 0.3; }
+  50% { transform: scale(1.2); opacity: 0.5; }
+}
+```
+
+---
+
+### 図解 04: Mission「AIに任せる/人が集中する」対比図(MissionContrastDiagram)
+
+#### コンセプト
+左右の対比で「**人を解放する**」思想を可視化。
+左: 機械的・冷たい印象 / 右: 人間的・温かみのある印象。
+
+#### ビジュアルデザイン
+
+```
+[全体構成]
+
+左カード: AIに任せる仕事
+  - 背景: 薄いグレー
+  - 5項目を縦に並べる(各項目にラインアイコン)
+  - 機械的・整然とした表現
+
+中央: 大きな矢印(左→右)
+  - "AIで解放する" のラベル
+  - 色: --color-accent-primary
+
+右カード: 人が集中する仕事
+  - 背景: 暖色薄(--color-bg-warm)
+  - 4項目を縦に並べる(各項目にラインアイコン)
+  - 人間的・温かみのある表現
+```
+
+#### 実装方針
+
+**SVG単体ではなく、HTML + アイコン(lucide-react)で実装**。
+SVGで作るのは中央の矢印部分のみ。
+
+#### HTML構造
+
+```typescript
+// components/illustrations/MissionContrastDiagram.tsx
+
+import { Settings, FileText, Search, Minimize2, FolderTree,
+         Lightbulb, Scale, Handshake, MessageCircle } from 'lucide-react';
+
+export const MissionContrastDiagram = () => (
+  <div className="mission-contrast-grid">
+    {/* 左カード: AIに任せる */}
+    <div className="contrast-card contrast-card-left">
+      <div className="contrast-card-label">AI に任せる</div>
+      <ul>
+        <li><Settings size={20} />定型業務</li>
+        <li><FileText size={20} />転記作業</li>
+        <li><Search size={20} />検索</li>
+        <li><Minimize2 size={20} />要約</li>
+        <li><FolderTree size={20} />整理</li>
+      </ul>
+    </div>
+    
+    {/* 中央: 矢印 */}
+    <div className="contrast-arrow">
+      <ArrowSvg />
+      <span className="arrow-label">AI で解放する</span>
+    </div>
+    
+    {/* 右カード: 人が集中する */}
+    <div className="contrast-card contrast-card-right">
+      <div className="contrast-card-label">人が集中する</div>
+      <ul>
+        <li><Lightbulb size={20} />創造</li>
+        <li><Scale size={20} />判断</li>
+        <li><Handshake size={20} />関係構築</li>
+        <li><MessageCircle size={20} />本質的な議論</li>
+      </ul>
+    </div>
+  </div>
+);
+
+const ArrowSvg = () => (
+  <svg viewBox="0 0 80 40" width="80" height="40">
+    <line
+      x1="0" y1="20" x2="65" y2="20"
+      stroke="var(--color-accent-primary)"
+      strokeWidth="3"
+      strokeLinecap="round"
+    />
+    <polygon
+      points="65,12 80,20 65,28"
+      fill="var(--color-accent-primary)"
+    />
+  </svg>
+);
+```
+
+#### CSS
+
+```css
+.mission-contrast-grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 32px;
+  align-items: center;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.contrast-card {
+  padding: 32px;
+  border-radius: 12px;
+}
+
+.contrast-card-left {
+  background: var(--color-bg-neutral);
+  border: 1px solid var(--color-border-light);
+}
+
+.contrast-card-right {
+  background: var(--color-bg-warm);
+  border: 1px solid var(--color-accent-warm-light);
+}
+
+.contrast-card ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 16px;
+}
+
+.contrast-card li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  font-size: 16px;
+}
+
+.contrast-card-left li {
+  color: var(--color-text-secondary);
+}
+
+.contrast-card-right li {
+  color: var(--color-text-primary);
+  font-weight: 500;
+}
+
+.contrast-arrow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.arrow-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-accent-primary);
+  letter-spacing: 0.05em;
+}
+
+/* モバイル: 縦並び、矢印は下向き */
+@media (max-width: 768px) {
+  .mission-contrast-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  
+  .contrast-arrow {
+    transform: rotate(90deg);
+  }
+}
+```
+
+---
+
+### 図解 05: Approach 4ステップタイムライン(ApproachTimeline)
+
+#### コンセプト
+4つのステップを横並びタイムラインで表現。
+「進行している感」「段階的」を視覚化。
+
+#### ビジュアルデザイン
+
+```
+[PC構成]
+
+上部: 横一直線(タイムラインの軸)
+各ステップ位置に大きな円(マーカー)
+円の中にステップ番号(01, 02, 03, 04)
+円の下にカード(タイトル・期間・説明)
+
+色:
+- 軸線: --color-accent-primary を 30% opacity
+- マーカー: --color-accent-primary
+- カード背景: --color-bg-pure
+
+サイズ:
+- 全幅: 1100px(コンテナ最大幅)
+- 各カード: 250px幅
+```
+
+#### HTML + SVG構造
+
+```typescript
+// components/illustrations/ApproachTimeline.tsx
+
+const STEPS = [
+  {
+    number: '01',
+    title: '現状理解',
+    duration: '1〜2週間',
+    consultPoint: 'インタビュー + 業務同伴',
+    techPoint: 'データ・ツール現状把握',
+  },
+  {
+    number: '02',
+    title: '優先順位設計',
+    duration: '1〜2週間',
+    consultPoint: '効果×着手の2軸マップ',
+    techPoint: 'プロトタイプ早期検証',
+  },
+  {
+    number: '03',
+    title: '本実装',
+    duration: '1〜3ヶ月',
+    consultPoint: 'スコープ管理',
+    techPoint: 'AI-assisted 実装',
+  },
+  {
+    number: '04',
+    title: '運用・定着',
+    duration: '継続',
+    consultPoint: '組織への定着支援',
+    techPoint: 'モニタリング・改善',
+  },
+];
+
+export const ApproachTimeline = () => (
+  <div className="approach-timeline">
+    {/* タイムラインの軸 */}
+    <div className="timeline-axis-container">
+      <svg viewBox="0 0 1000 60" className="timeline-svg">
+        {/* 横線 */}
+        <line
+          x1="50" y1="30" x2="950" y2="30"
+          stroke="var(--color-accent-primary)"
+          strokeOpacity="0.3"
+          strokeWidth="2"
+        />
+        
+        {/* 各ステップのマーカー(円) */}
+        {[125, 375, 625, 875].map((cx, i) => (
+          <g key={i}>
+            <circle
+              cx={cx} cy="30"
+              r="20"
+              fill="var(--color-bg-pure)"
+              stroke="var(--color-accent-primary)"
+              strokeWidth="2"
+            />
+            <text
+              x={cx} y="36"
+              textAnchor="middle"
+              fill="var(--color-accent-primary)"
+              fontSize="14"
+              fontWeight="700"
+            >
+              {String(i + 1).padStart(2, '0')}
+            </text>
+          </g>
+        ))}
+      </svg>
+    </div>
+    
+    {/* ステップカード(下に並べる) */}
+    <div className="timeline-cards">
+      {STEPS.map((step) => (
+        <div key={step.number} className="timeline-card">
+          <div className="timeline-card-duration">{step.duration}</div>
+          <h3 className="timeline-card-title">{step.title}</h3>
+          
+          <div className="timeline-card-points">
+            <div className="point">
+              <div className="point-label">コンサル視点</div>
+              <p>{step.consultPoint}</p>
+            </div>
+            <div className="point">
+              <div className="point-label">AI・技術視点</div>
+              <p>{step.techPoint}</p>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+);
+```
+
+#### CSS
+
+```css
+.approach-timeline {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.timeline-axis-container {
+  margin-bottom: -10px;
+}
+
+.timeline-svg {
+  width: 100%;
+  height: auto;
+}
+
+.timeline-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.timeline-card {
+  background: var(--color-bg-pure);
+  border: 1px solid var(--color-border-light);
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.timeline-card-duration {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-accent-primary);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.timeline-card-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: 16px;
+}
+
+.point {
+  margin-bottom: 12px;
+}
+
+.point-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-accent-primary);
+  margin-bottom: 4px;
+}
+
+.point p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+}
+
+/* モバイル: 縦タイムライン */
+@media (max-width: 768px) {
+  .timeline-axis-container {
+    display: none; /* SVG軸を非表示 */
+  }
+  
+  .timeline-cards {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    border-left: 2px solid var(--color-accent-primary);
+    padding-left: 24px;
+    margin-left: 12px;
+    position: relative;
+  }
+  
+  .timeline-card {
+    position: relative;
+  }
+  
+  .timeline-card::before {
+    content: '';
+    position: absolute;
+    left: -34px;
+    top: 24px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--color-bg-pure);
+    border: 2px solid var(--color-accent-primary);
+  }
+}
+```
+
+#### アニメーション(任意)
+
+```css
+/* スクロールイン時、軸線が左から右に伸びる */
+.timeline-svg line {
+  stroke-dasharray: 900;
+  stroke-dashoffset: 900;
+}
+
+.is-visible .timeline-svg line {
+  animation: drawLine 1.5s ease forwards;
+}
+
+/* マーカーは順番に出現 */
+.timeline-svg g {
+  opacity: 0;
+}
+
+.is-visible .timeline-svg g:nth-child(1) { animation: fadeIn 0.3s ease 0.5s forwards; }
+.is-visible .timeline-svg g:nth-child(2) { animation: fadeIn 0.3s ease 0.8s forwards; }
+.is-visible .timeline-svg g:nth-child(3) { animation: fadeIn 0.3s ease 1.1s forwards; }
+.is-visible .timeline-svg g:nth-child(4) { animation: fadeIn 0.3s ease 1.4s forwards; }
+
+@keyframes drawLine {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+```
+
+---
+
+### 図解 06: Values の各アイコン
+
+#### 実装方針
+
+**lucide-reactのアイコンを直接使用**(SVG自作不要)。
+配色とサイズだけ統一管理。
+
+```typescript
+// components/sections/ValuesSection.tsx
+
+import { User, Sprout, ArrowLeftRight, Hourglass, BookOpen } from 'lucide-react';
+
+const VALUES = [
+  {
+    number: '01',
+    icon: User,
+    title: '人を中心に、設計する。',
+    body: 'AIの都合ではなく、人の働き方の都合から仕組みを考えます。',
+  },
+  {
+    number: '02',
+    icon: Sprout,
+    title: '派手さより、続くもの。',
+    body: '「使い続けられる」を最優先に、定着する仕組みをつくります。',
+  },
+  {
+    number: '03',
+    icon: ArrowLeftRight,
+    title: '翻訳の品質に、こだわる。',
+    body: '経営の言葉と、現場の言葉と、技術の言葉。その間にある翻訳を、最も大切にします。',
+  },
+  {
+    number: '04',
+    icon: Hourglass,
+    title: '短期成果と、長期視点。',
+    body: '早く効果を出しながら、3年後10年後の社会も見据えます。',
+  },
+  {
+    number: '05',
+    icon: BookOpen,
+    title: '知見を、隠さない。',
+    body: 'ノウハウは渡すもの。お客様が自走できる状態こそ、私たちの目標です。',
+  },
+];
+
+// 各カードでアイコンを描画
+<div className="value-card">
+  <div className="value-icon-wrapper">
+    <Icon size={32} strokeWidth={1.5} />
+  </div>
+  <div className="value-number">{value.number}</div>
+  <h3>{value.title}</h3>
+  <p>{value.body}</p>
+</div>
+```
+
+#### CSS
+
+```css
+.value-icon-wrapper {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--color-accent-primary-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-accent-primary);
+  margin-bottom: 24px;
+}
+```
+
+---
+
+### 図解 07: Solutions の各アイコン
+
+同様に lucide-react を使用。
+
+```typescript
+import { 
+  BrainCircuit,    // DX戦略コンサル
+  Code,            // AI駆動開発
+  FlaskConical,    // PoC・実証実験
+  GraduationCap,   // 内製化支援
+  Layers,          // 業務システム開発
+  TrendingUp,      // 運用・改善伴走
+} from 'lucide-react';
+```
+
+---
+
+### 図解 08: CEO Message の暫定シルエット(CeoSilhouette)
+
+#### コンセプト
+顔写真が用意できるまでの**暫定ビジュアル**。
+人物の輪郭(肩から上)を抽象的に表現、顔の詳細は描かない。
+
+#### SVGコード骨格
+
+```typescript
+// components/illustrations/CeoSilhouette.tsx
+
+export const CeoSilhouette = () => (
+  <svg
+    viewBox="0 0 360 480"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    {/* 背景のグラデーション */}
+    <defs>
+      <radialGradient id="bgGrad" cx="50%" cy="40%" r="60%">
+        <stop offset="0%" stopColor="var(--color-accent-warm-light)" />
+        <stop offset="100%" stopColor="var(--color-bg-warm)" />
+      </radialGradient>
+    </defs>
+    
+    {/* 背景 */}
+    <rect width="360" height="480" fill="url(#bgGrad)" />
+    
+    {/* 思考を表す光線(オプション) */}
+    {[0, 1, 2].map((i) => (
+      <line
+        key={i}
+        x1={80 + i * 30}
+        y1={60 + i * 20}
+        x2={120 + i * 40}
+        y2={100 + i * 20}
+        stroke="var(--color-accent-warm)"
+        strokeWidth="1"
+        strokeOpacity="0.4"
+      />
+    ))}
+    
+    {/* シルエット(肩・首・頭の輪郭) */}
+    <path
+      d="M 90 480 
+         L 90 380 
+         Q 90 340 110 320 
+         Q 130 300 150 295
+         Q 160 290 165 280
+         Q 165 270 165 260
+         Q 165 250 175 245
+         Q 180 240 180 230
+         A 50 50 0 1 1 280 230
+         Q 280 240 285 245
+         Q 295 250 295 260
+         Q 295 270 295 280
+         Q 300 290 310 295
+         Q 330 300 350 320
+         Q 370 340 370 380
+         L 370 480 Z"
+      fill="var(--color-text-secondary)"
+      opacity="0.7"
+    />
+  </svg>
+);
+```
+
+**注意**: 上記のpathは概念的な記述。実際にはSVGエディタ(Figma等)で描画してパスを取得する方が綺麗。
+もしくは、AI画像生成で1枚生成して画像として使う方が手っ取り早い。
+
+#### 代替案: AI生成画像を使う
+
+```
+[プロンプト例]
+"abstract silhouette portrait of a professional woman, 
+business casual, warm lighting, soft shadows, 
+neutral beige background, minimal artistic style, no facial details"
+
+→ Midjourney/DALL-E等で生成
+→ /public/media/ceo-silhouette-placeholder.webp として保存
+```
+
+#### 実装
+
+```typescript
+// 暫定: SVG または AI生成画像
+<div className="ceo-photo-area">
+  <Image
+    src="/media/ceo-silhouette-placeholder.webp"
+    alt="代表シルエット"
+    width={360}
+    height={480}
+    priority
+  />
+</div>
+
+// 本番: 差し替え
+<div className="ceo-photo-area">
+  <Image
+    src="/media/ceo-photo.webp"
+    alt="代表 [氏名]"
+    width={360}
+    height={480}
+    priority
+  />
+</div>
+```
+
+---
+
+### 図解実装の優先順位
+
+```
+[最優先・必須]
+1. 図解05: Approach タイムライン(SVG)
+2. 図解04: Mission 対比図(HTML + アイコン)
+3. 図解06: Values アイコン(lucide-react)
+4. 図解07: Solutions アイコン(lucide-react)
+
+[重要・LP完成度に直結]
+5. 図解02: About「Axis × On」(SVG)
+6. 図解03: About「軸 × 恩」(SVG)
+7. 図解08: CEO 暫定シルエット(AI生成画像)
+
+[あった方がいい・装飾]
+8. 図解01: ヒーロー背景(SVG)
+
+実装順序: 6, 7, 4, 5, 1, 2, 3, 8
+(アイコン系は楽 → 基本図解 → 装飾は最後)
+```
+
+---
+
+### 共通の実装ルール
+
+#### Reactコンポーネント化
+
+すべての図解は独立したコンポーネントとして作成:
+
+```
+components/
+├── illustrations/
+│   ├── HeroAxisVisual.tsx
+│   ├── AxisOnDiagram.tsx
+│   ├── AxisOnGiveDiagram.tsx
+│   ├── MissionContrastDiagram.tsx
+│   ├── ApproachTimeline.tsx
+│   └── CeoSilhouette.tsx
+└── sections/
+    ├── HeroSection.tsx
+    ├── AboutSection.tsx
+    ├── MissionSection.tsx
+    ├── ValuesSection.tsx
+    ├── ApproachSection.tsx
+    └── ...
+```
+
+#### 色変数の使用
+
+すべての色は **CSS変数(--color-XXX)** を使用。
+ハードコード(#1E3A8A 等)は禁止。
+
+#### アクセシビリティ
+
+- SVGには `<title>` タグで内容説明を追加
+- `aria-hidden="true"` で装飾的なSVGはスクリーンリーダーから除外
+- アイコンには `aria-label` を付ける(意味がある場合)
+
+---
+
+## 第3章 完了条件
+
+- [ ] 全8つの図解の実装方針が明確
+- [ ] 各図解のSVG/HTMLコード骨格が記載
+- [ ] アニメーション仕様が定義
+- [ ] 実装優先順位が明確
+- [ ] 共通ルール(コンポーネント化、色変数)が明示
+
+これで図解部分は実装可能なレベルまで詰まった。
+次は第4章で、下層ページの詳細を定義する。
+
+## 第4章: 下層ページ詳細
+
+このセクションでは、トップページLPからリンクされる**下層ページ**の詳細仕様を定義する。
+
+### 下層ページの一覧
+
+```
+[現状残す予定のページ]
+1. /about - 詳細プロフィール・会社の詳細
+2. /services/[slug] - 各サービスの詳細(6ページ)
+3. /solutions/[industry] - 業界別の詳細(6ページ)
+4. /case-studies/[slug] - 業界別実装事例の詳細(6ページ)※新規
+5. /contact - 問い合わせフォーム
+6. /experience/internal-knowledge-share-bot - 体験できるdemo
+7. /privacy - プライバシーポリシー
+8. /terms - 利用規約
+
+[削除候補]
+- /demo, /demo/list - 業界別実装事例セクションに統合
+- /flow - LPのApproachセクションに統合
+- /consulting - /services/consulting に統合
+- /experience の他のslug - 削除(不要なdemo)
+```
+
+---
+
+### Page 1: /about (詳細プロフィール)
+
+#### 役割
+
+LPの「CEO Message + キャリア」セクションだけでは伝えきれない、
+**会社の詳細・代表の詳細プロフィール・想いの長文版**を掲載するページ。
+
+#### ターゲット
+- LPで興味を持った人
+- 「もっと深く知りたい」「面接前に下調べしたい」人
+- 投資家・パートナー候補
+
+#### ページ構成
+
+```
+[Hero - シンプル]
+ラベル: ABOUT US
+見出し: 私たちのこと
+サブコピー: AXEONを構成する人と思想を、より深くお伝えします。
+
+[Section 1: 創業の経緯]
+- なぜAXEONを立ち上げたか
+- 代表の戦略コンサル時代の問題意識
+- AIが「使える道具」になった時代背景
+※500〜700文字程度
+
+[Section 2: 代表プロフィール]
+- 写真(本番は顔写真、暫定はシルエット)
+- 経歴詳細
+  - 学歴(UCLA卒等)
+  - 戦略コンサルティングファーム経験
+  - 主要プロジェクト経験(具体的な業界・テーマ)
+  - 専門領域
+
+[Section 3: 共同創業者プロフィール]
+- AI開発のスペシャリスト
+- 経歴
+- 専門領域
+
+[Section 4: 私たちの3つの考え方]
+※LPと同じだが、より詳細に説明
+- 各項目の背景となる思想
+- 具体的な事例・体験談
+※LPの2-3倍の詳細
+
+[Section 5: チーム体制]
+- Strategy Lead × AI Engineering Lead の標準体制
+- パートナーシップネットワーク
+- 1プロジェクトの進め方
+
+[Section 6: 会社情報(詳細)]
+- LPの会社情報セクションと同じ
+- + 沿革(あれば)
+- + 受賞歴・認定(あれば)
+
+[Section 7: メッセージ]
+- 採用や投資・パートナー検討への呼びかけ
+- 連絡先
+
+[Section 8: CTA]
+- LPのContactと同じ
+```
+
+#### レイアウト方針
+
+- 1カラムを基本に、読み物として作る
+- セクション間の余白多め
+- max-width: 800px(本文)で読みやすく
+- 写真・図解は適度に配置
+- スクロールに合わせてサイドナビが追従(目次)はオプション
+
+#### コピーボリューム
+- 全体: 3000〜5000文字
+- LPの**3〜5倍**の情報量
+
+#### 実装ヒント
+
+```
+[既存の /about を流用]
+現在の /about は既に「3つの考え方」「進め方」「対応領域」のセクションがある。
+これをベースに、LPで使うsectionを抽出 + 詳細セクションを追加する形で再構築。
+
+[新規セクション]
+- 創業の経緯(代表ストーリーから抽出)
+- 代表プロフィール詳細
+- 共同創業者プロフィール
+- 沿革(将来用、現状は省略可)
+```
+
+---
+
+### Page 2: /services/[slug] (各サービス詳細)
+
+#### 役割
+
+LPの「Our Solutions」カードからクリックされるページ。
+各サービスを**深掘りして説明**する。
+
+#### 対象6ページ
+
+```
+1. /services/consulting - DX戦略コンサルティング
+2. /services/ai-development - AI駆動開発
+3. /services/poc - PoC・実証実験
+4. /services/internal-development - 内製化支援・組織開発
+5. /services/system-development - 業務システム開発
+6. /services/operations - 運用・改善伴走
+```
+
+#### 共通構成
+
+```
+[Hero]
+ラベル: SERVICE
+見出し: [サービス名]
+サブコピー: 1〜2行のサービスの本質
+[CTA: 相談する] [CTA: 業界別事例を見る]
+
+[Section 1: こんな課題はありませんか?]
+ターゲット顧客が抱える典型的な課題を3〜5個
+チェックリスト形式 or カード形式で表示
+
+[Section 2: AXEONのアプローチ]
+このサービスで何を解決するか
+具体的な提供方法
+他社との差別化ポイント
+
+[Section 3: 進め方]
+このサービス特有のステップ
+標準的な期間感
+コミュニケーション頻度
+
+[Section 4: 提供する成果物]
+- 戦略提言書
+- 業務フロー図
+- システム仕様書
+- 等、サービスに応じた成果物リスト
+
+[Section 5: 価格・納期の目安]
+- プロジェクト規模感(数百万〜数億円)
+- 標準納期
+- 「詳細は要相談」を明記
+
+[Section 6: よくある質問]
+このサービス特有のFAQ 3〜5個
+
+[Section 7: 関連サービス]
+他のサービスへのリンク
+
+[Section 8: CTA]
+「このサービスについて相談する」
+```
+
+#### 各サービスの差別化(コピーの方向性)
+
+```
+1. DX戦略コンサルティング
+   キーワード: 翻訳・実装可能・経営の言葉
+   差別化: 「絵に描いた餅にしない、実装まで考える戦略」
+
+2. AI駆動開発
+   キーワード: 速度・品質・AI活用
+   差別化: 「従来の1/3〜1/2の期間で本実装まで」
+
+3. PoC・実証実験
+   キーワード: 動くもの・検証・意思決定
+   差別化: 「3〜6週間で動くものを、判断材料を提供」
+
+4. 内製化支援
+   キーワード: 自走・組織開発・知識移転
+   差別化: 「お客様が走れる状態まで伴走」
+
+5. 業務システム開発
+   キーワード: 既存連携・スケール・本格実装
+   差別化: 「既存システムとの繋ぎ込みが得意」
+
+6. 運用・改善伴走
+   キーワード: 定着・モニタリング・継続改善
+   差別化: 「リリース後こそ本番」
+```
+
+#### コピーボリューム
+- 各ページ: 1500〜2500文字
+
+---
+
+### Page 3: /solutions/[industry] (業界別の詳細)
+
+#### 役割
+
+特定の業界の課題に特化した解決策をまとめたページ。
+業界×AXEONサービスのマトリクスで、業界視点での提案。
+
+#### 対象6ページ
+
+```
+1. /solutions/construction - 建設・工事
+2. /solutions/restaurant-service - 飲食・サービス
+3. /solutions/retail-distribution - 小売・卸・メーカー現場
+4. /solutions/transportation - 運輸・配送
+5. /solutions/medical-public - 医療・公的窓口
+6. /solutions/professional-services - 士業・専門事務
+```
+
+#### 共通構成
+
+```
+[Hero]
+ラベル: INDUSTRY SOLUTIONS
+見出し: [業界名]
+サブコピー: この業界でAXEONがご支援できること
+
+[Section 1: この業界の典型的な課題]
+業界特有の課題を4〜5個カード形式で
+- 報告と連絡の分散
+- 写真と書類の整理時間
+- 担当者交代時の引継ぎ
+- 等(業界に応じて変える)
+
+[Section 2: AXEONのアプローチ]
+業界特性を踏まえた解決方針
+- 既存の業務フローに寄り添う
+- 段階的な導入
+- 業界特有の制約への配慮
+
+[Section 3: 提供できるソリューション]
+この業界で特に提供できる施策をリスト化
+- AI による定型業務自動化
+- 現場/本社の情報一元化
+- 等
+
+[Section 4: 関連する実装事例]
+※ここがキー
+業界に関連する /case-studies/[slug] へのリンク
+1〜3個のカード
+
+[Section 5: 進め方]
+この業界での標準的なプロジェクトステップ
+
+[Section 6: よくある質問]
+業界特有のFAQ 3〜5個
+- 既存システムとの連携
+- 業界特有の規制への対応
+- 協力会社・関連業者への影響
+- 等
+
+[Section 7: CTA]
+「貴社の[業界]に合わせて相談する」
+```
+
+#### 業界別の差別化ポイント
+
+```
+1. 建設・工事
+   特有課題: 協力会社、現場/本社、安全衛生
+   関連事例: 現場ポケット(GEMPO)
+   関連サービス: AI駆動開発、運用伴走
+
+2. 飲食・サービス
+   特有課題: シフト、勤怠、店舗オペレーション
+   関連事例: シフト自動くん
+   関連サービス: 業務システム開発、PoC
+
+3. 小売・卸・メーカー現場
+   特有課題: 店頭/倉庫/本部のズレ、在庫
+   関連事例: (準備中)
+   関連サービス: AI駆動開発、内製化支援
+
+4. 運輸・配送
+   特有課題: ドライバー、配送、安全
+   関連事例: (準備中)
+   関連サービス: PoC、業務システム開発
+
+5. 医療・公的窓口
+   特有課題: 問い合わせ、知識標準化
+   関連事例: (準備中)
+   関連サービス: AI駆動開発、内製化支援
+
+6. 士業・専門事務
+   特有課題: 機密情報、専門知識、過去案件参照
+   関連事例: 社内ナレッジBOT(士業モード)
+   関連サービス: AI駆動開発、コンサルティング
+```
+
+#### コピーボリューム
+- 各ページ: 1500〜2000文字
+
+---
+
+### Page 4: /case-studies/[slug] (実装事例詳細) ★新規
+
+#### 役割
+
+LP の Industry Showcase からクリックされるページ。
+**実装したプロダクトの詳細**を紹介する。
+
+#### 対象6ページ
+
+```
+1. /case-studies/gempo - 現場ポケット
+2. /case-studies/shaken-notify - 車検管理
+3. /case-studies/recruiting-cockpit - 採用コックピット
+4. /case-studies/sales-pipeline - 営業パイプライン
+5. /case-studies/shift-auto - シフト自動くん
+6. /case-studies/internal-knowledge-bot - 社内ナレッジBOT
+```
+
+#### 共通構成
+
+```
+[Hero]
+ラベル: CASE STUDY
+見出し: [プロダクト名]
+サブコピー: [短いキャッチコピー]
+業界: [業界タグ]
+[CTA: 実際に触ってみる] [CTA: 同様の支援を相談する]
+
+[Section 1: プロダクト概要]
+- スクショ(大きく)
+- 何をするプロダクトか(2〜3段落)
+- 対象企業規模
+
+[Section 2: 解決する課題]
+このプロダクトが解決する典型的な課題
+3〜4個のカード形式
+
+[Section 3: 主な機能]
+プロダクトの主要機能をリスト化
+スクショ複数枚で説明
+- PC画面、モバイル画面、両方ある場合は併載
+
+[Section 4: 技術スタック・実装ハイライト]
+- 使用技術
+- 実装期間
+- 特徴的な実装ポイント
+
+[Section 5: 実際に触る]
+- 大きなCTA
+- 「実際に触ってみる →」ボタン
+- 別タブでデプロイURLへ
+
+[Section 6: 同様のご支援]
+- このプロダクトのような実装を、貴社向けに作れます
+- 関連する /services へのリンク
+- 関連する /solutions/[業界] へのリンク
+
+[Section 7: CTA]
+「貴社向けの実装を相談する」
+```
+
+#### 各プロダクトの内容(暫定)
+
+```
+1. /case-studies/gempo (現場ポケット)
+   業界: 建設・工事
+   解決課題: 現場/本社の情報分断、報告書作成、配員調整
+   主な機能: 配員アラーム、報告書のAI下書き、書類ハブ
+   スクショ: PC管理画面 + モバイル現場画面
+
+2. /case-studies/shaken-notify (車検管理)
+   業界: 整備・車両管理
+   解決課題: 車検期限管理、顧客通知、見積もり発行
+   主な機能: ダッシュボード、優先度管理、配信履歴
+   スクショ: PC + モバイル
+
+3. /case-studies/recruiting-cockpit (採用コックピット)
+   業界: 人事・採用
+   解決課題: 候補者選考、AIマッチング、KPI管理
+   主な機能: 選考パイプライン、AIマッチング、応募書類OCR
+   スクショ: PC
+
+4. /case-studies/sales-pipeline (営業パイプライン)
+   業界: 営業・経営支援
+   解決課題: 商談進行管理、提案優先度、停滞案件
+   主な機能: パイプライン管理、AIアラート、KPI
+   スクショ: PC
+
+5. /case-studies/shift-auto (シフト自動くん)
+   業界: 飲食・サービス
+   解決課題: シフト調整、希望ヒアリング、最適化
+   主な機能: スタッフ希望入力、AI最適化、店長承認
+   スクショ: PC
+
+6. /case-studies/internal-knowledge-bot (社内ナレッジBOT)
+   業界: 横断(AIアシスタント)
+   解決課題: 社内ナレッジ参照、専門知識共有
+   主な機能: 業種別対応、ガイドツリー、出典明示
+   スクショ: 複数業種対応の画面
+   特記: 「LIVE DEMO」バッジ、自サイト内で動く
+```
+
+#### コピーボリューム
+- 各ページ: 1500〜2500文字
+- スクショ: 3〜6枚
+
+---
+
+### Page 5: /contact (問い合わせ)
+
+#### 役割
+
+サイト全体からの問い合わせ受付。
+LP・各下層ページのCTAから到達する。
+
+#### 構成
+
+```
+[Hero - シンプル]
+ラベル: CONTACT
+見出し: お気軽にご相談ください
+サブコピー: 1時間の初回相談で、課題の輪郭をご一緒に整理します。
+
+[Section 1: 問い合わせフォーム]
+標準項目:
+- 会社名(必須)
+- 部署・役職(任意)
+- お名前(必須)
+- メールアドレス(必須)
+- 電話番号(任意)
+- ご相談内容(必須・テキストエリア)
+- 業界(セレクト・任意)
+- 従業員規模(セレクト・任意)
+- お問い合わせの種類(チェックボックス・複数可)
+  □ 初回相談
+  □ サービス内容について
+  □ 実装事例について
+  □ その他
+
+[Section 2: 相談の流れ]
+1. お問い合わせ
+2. 担当からご連絡(1〜3営業日)
+3. 初回相談(オンライン or オフライン、1時間)
+4. ご提案
+
+[Section 3: よくあるご質問]
+- 相談だけでも大丈夫?
+- 費用は?
+- 個人情報の取り扱いは?
+- 等
+
+[Section 4: 直接連絡先]
+- メール: contact@axeon.jp
+- 営業時間 等
+```
+
+#### 実装ヒント
+
+- 既存のContactフォームを流用
+- 必須項目のバリデーション
+- 送信後のサンクスページ or トースト
+- メール通知設定
+
+---
+
+### Page 6: /experience/internal-knowledge-share-bot (体験できるdemo)
+
+#### 役割
+
+唯一動かす体験demo。
+社内ナレッジBOTの体験ページ。
+
+#### 構成
+
+```
+[既存実装をライトモード化のみ]
+- ヘッダー、フッターをライトモードに統一
+- 配色を新しいトークンに揃える
+- 機能(動的なAI回答)はそのまま
+- 業種選択(建設、士業、等)は維持
+- 出典明示も維持
+```
+
+#### 実装ヒント
+
+```
+- 既存コンポーネントの色を CSS 変数に置き換え
+- 完全な作り直しは不要
+- LP のIndustry Showcase からリンクされる
+```
+
+---
+
+### Page 7-8: /privacy, /terms (プライバシーポリシー、利用規約)
+
+#### 役割
+
+法的に必要なページ。
+シンプルなテキストのみ。
+
+#### 構成
+
+```
+[シンプルなレイアウト]
+- 見出し
+- 改定日
+- 各条項(h2 で見出し、p で本文)
+- 連絡先(プライバシーポリシーには必須)
+```
+
+#### 実装ヒント
+
+- 既存ページがあれば流用
+- 新規作成の場合、テンプレートから(法律事務所のテンプレート等)
+- 内容は代表 or 弁護士に確認
+
+---
+
+### 共通の実装ヒント
+
+#### 各下層ページの共通レイアウト
+
+```
+[ヘッダー] - LPと同じ(ライトモード)
+[Hero - 各ページの簡潔な紹介]
+[本文セクション]
+[CTA - 問い合わせへ]
+[フッター] - LPと同じ
+```
+
+#### パンくずリスト
+
+各下層ページには、上部にパンくずを設置:
+```
+ホーム > サービス > DX戦略コンサルティング
+```
+
+#### 関連ページへのリンク
+
+各下層ページの最後に、関連ページへの導線:
+```
+[次に読みたい]
+- 関連サービス2〜3個
+- 関連事例1〜2個
+- お問い合わせ
+```
+
+---
+
+## 第4章 完了条件
+
+- [ ] 全7種類の下層ページの構成が明確
+- [ ] 各ページのコピーボリューム目安が定義
+- [ ] /case-studies/[slug] の新規ページ仕様が確定
+- [ ] 既存ページの統廃合方針が明確
+- [ ] パンくず・関連リンクの方針が定義
+
+これで下層ページまで設計完了。
+最後に第5章で素材リストを最終化する。
+
+
+## 第5章: 素材リスト最終版
+
+このセクションでは、実装に必要な**全素材**を一覧化する。
+実装着手前に、すべての素材が揃っていることを確認するチェックリストとしても機能する。
+
+---
+
+### 素材分類とステータス
+
+#### 🟢 ステータス凡例
+
+```
+✅ 用意済み(すぐ使える状態)
+🟡 部分的に用意済み(調整必要)
+🔴 未用意(これから手配)
+⏰ 後回し可能(将来用意)
+```
+
+---
+
+### 5-1. 既存画像・スクショ素材
+
+#### 📸 デプロイ済みプロダクトのスクショ
+
+```
+✅ salesdashboard_pc.png - 営業パイプライン PC画面
+✅ shiftkanri_pc.png - シフト自動くん PC画面
+✅ genbakanri_admin.png - 現場ポケット 管理者画面
+✅ genbakanri_mobile.png - 現場ポケット モバイル画面
+✅ jinji_pc.png - 人事評価 PC画面 (使わない予定)
+✅ kurumakanri_mobile.png - 車検管理 モバイル画面
+✅ kurumakanri_pc.png - 車検管理 PC画面
+✅ regaldashboard_pc.png - リーガルダッシュボード PC画面 (使わない予定)
+✅ saiyoumaching_pc.png - 採用マッチング PC画面
+🔴 内部ナレッジBOT - スクショ未取得
+```
+
+#### 配置先(推奨)
+
+```
+/public/media/case-studies/
+├── gempo/
+│   ├── pc-admin.webp(genbakanri_admin の最適化版)
+│   ├── mobile.webp(genbakanri_mobile の最適化版)
+│   └── thumbnail.webp(LP用サムネ)
+├── shaken-notify/
+│   ├── pc.webp
+│   ├── mobile.webp
+│   └── thumbnail.webp
+├── recruiting-cockpit/
+│   ├── pc.webp
+│   └── thumbnail.webp
+├── sales-pipeline/
+│   ├── pc.webp
+│   └── thumbnail.webp
+├── shift-auto/
+│   ├── pc.webp
+│   └── thumbnail.webp
+└── internal-knowledge-bot/
+    ├── chat.webp
+    ├── industry-select.webp
+    └── thumbnail.webp
+```
+
+#### 必要な処理
+
+```
+[実装前にやること]
+1. PNG → WebP 変換(画像最適化)
+   - ツール: Squoosh, sharp, ImageMagick
+   - 品質: 80〜85%
+   - サイズ削減目安: 60〜80%
+
+2. リネーム
+   - 現状の日本語/英語混在のファイル名を整理
+
+3. サイズ最適化
+   - サムネイル用: 800x450px(16:9)
+   - 詳細ページ用: 1920x1080px or オリジナル
+
+4. 内部ナレッジBOTのスクショ取得
+   - 業種選択画面、チャット画面、出典表示画面
+   - 3〜5枚程度
+```
+
+---
+
+### 5-2. 業界別の雰囲気写真
+
+#### 🟡 用途と取得方針
+
+```
+LP の Industry Showcase の各カードに使う「業界の雰囲気」を表す写真。
+ただし、Industry Showcase は HTMLで作ったプロダクトのスクショに置き換える方針なので、
+業界別の雰囲気写真は **下層ページ用** に必要。
+```
+
+#### 必要な業界写真(各ページのHero用)
+
+```
+/public/media/industries/
+├── construction.webp - 建設現場
+├── restaurant-service.webp - 飲食店厨房・接客
+├── retail-distribution.webp - 倉庫・小売店舗
+├── transportation.webp - 物流・トラック
+├── medical-public.webp - クリニック・窓口
+└── professional-services.webp - オフィス・打ち合わせ
+```
+
+#### 取得方法
+
+```
+[推奨ソース: Unsplash]
+URL: https://unsplash.com
+- 商用利用可、無料
+- クレジット表記推奨(必須ではない)
+- 高品質
+
+[キーワード例]
+建設: "construction site japan", "construction worker"
+飲食: "restaurant kitchen", "japanese restaurant"
+小売: "warehouse storage", "retail store"
+運輸: "logistics truck", "delivery"
+医療: "medical office", "clinic reception"
+士業: "office meeting", "consulting"
+
+[サイズ・形式]
+- 解像度: 1920x1080px以上
+- 形式: WebP に変換
+- 容量: 200KB以下を目標
+```
+
+#### ステータス
+
+```
+🔴 全6枚未取得
+[作業時間目安: 1〜2時間]
+```
+
+---
+
+### 5-3. 代表写真・シルエット
+
+#### CEO関連の素材
+
+```
+[暫定]
+🔴 CEO シルエット画像
+   - サイズ: 360x480px
+   - 形式: WebP
+   - 取得方法:
+     A. AI生成(Midjourney等)で1枚生成
+     B. SVGで自作(コード化)
+     C. ストック画像から「シルエット」で検索
+
+[本番]
+⏰ CEO 顔写真(プロカメラマン撮影)
+   - ポーズ: 腕組み or 上半身斜め向き
+   - 表情: 自信ある笑顔 or 真剣
+   - 撮影予定: 後日
+   - サイズ: 360x480px(同じアスペクト比)
+   - 配置: /public/media/team/ceo-photo.webp
+```
+
+#### AI生成プロンプト例(暫定用)
+
+```
+"abstract silhouette portrait of a professional Japanese woman, 
+business attire, soft warm lighting, neutral background, 
+minimal artistic style, no facial details, 
+slight smile expression suggested by silhouette only"
+
+→ Midjourney / DALL-E / Stable Diffusion で生成
+→ 1枚良いものを選び、軽微な調整
+```
+
+---
+
+### 5-4. SVG図解(コードで実装)
+
+#### 必要なSVG図解
+
+```
+✅ 第3章で実装案を完成済み(コードレベルで定義)
+
+実装するSVGコンポーネント:
+🔴 components/illustrations/HeroAxisVisual.tsx
+🔴 components/illustrations/AxisOnDiagram.tsx
+🔴 components/illustrations/AxisOnGiveDiagram.tsx
+🔴 components/illustrations/MissionContrastDiagram.tsx (HTML+SVG混合)
+🔴 components/illustrations/ApproachTimeline.tsx
+🔴 components/illustrations/CeoSilhouette.tsx (代替: AI生成画像)
+
+実装時間目安:
+- ヒーロー背景: 1〜2時間
+- About 図解 2枚: 各30分〜1時間
+- Mission 対比図: 1〜2時間
+- Approach タイムライン: 2〜3時間
+- CEO シルエット: 30分(AI生成画像使う場合)
+
+合計: 5〜10時間
+```
+
+---
+
+### 5-5. アイコン(lucide-react)
+
+#### 使用アイコン一覧
+
+```
+[Values 5項目]
+✅ User - 「人を中心に」
+✅ Sprout - 「派手さより続くもの」
+✅ ArrowLeftRight - 「翻訳の品質」
+✅ Hourglass - 「短期成果と長期視点」
+✅ BookOpen - 「知見を、隠さない」
+
+[Solutions 6項目]
+✅ BrainCircuit - DX戦略コンサル
+✅ Code - AI駆動開発
+✅ FlaskConical - PoC・実証実験
+✅ GraduationCap - 内製化支援
+✅ Layers - 業務システム開発
+✅ TrendingUp - 運用・改善伴走
+
+[Mission 対比図]
+✅ Settings, FileText, Search, Minimize2, FolderTree (左カード)
+✅ Lightbulb, Scale, Handshake, MessageCircle (右カード)
+
+[業界アイコン(下層ページ用)]
+✅ HardHat - 建設
+✅ ChefHat or Utensils - 飲食
+✅ Store or Warehouse - 小売
+✅ Truck - 運輸
+✅ Stethoscope - 医療
+✅ Briefcase or Scale - 士業
+
+[その他汎用]
+✅ ArrowRight - CTAの矢印
+✅ ChevronDown - アコーディオン
+✅ Mail - お問い合わせ
+✅ MapPin - 所在地
+✅ ExternalLink - 外部リンク
+```
+
+#### 実装
+
+```
+[インストール]
+✅ lucide-react は既にプロジェクトに入っているはず
+   なければ: npm install lucide-react
+
+[使用方法]
+import { User, Code, BrainCircuit } from 'lucide-react';
+
+<User size={32} strokeWidth={1.5} />
+```
+
+---
+
+### 5-6. フォント
+
+#### 使用フォント
+
+```
+✅ 日本語: Noto Sans JP (Google Fonts)
+✅ 英語: Inter (Google Fonts)
+
+[読み込み方法 - Next.js]
+import { Noto_Sans_JP, Inter } from 'next/font/google';
+
+const notoSansJP = Noto_Sans_JP({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-noto-sans-jp',
+});
+
+const inter = Inter({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-inter',
+});
+```
+
+#### ステータス
+
+```
+🟡 既に使っている可能性あり(現状確認必要)
+🔴 ライトモード移行で読み直し必要
+```
+
+---
+
+### 5-7. ファビコン・OGP画像
+
+```
+🔴 ファビコン (favicon.ico, favicon.png)
+   - 32x32, 192x192 等の各サイズ
+
+🔴 OGP画像 (og-image.png)
+   - サイズ: 1200x630px
+   - 内容: AXEONロゴ + キャッチコピー
+   - 用途: SNSシェア時の画像
+
+🔴 Apple Touch Icon
+   - サイズ: 180x180px
+```
+
+---
+
+### 5-8. ロゴ素材
+
+```
+[既存の確認が必要]
+🟡 AXEON ロゴ(SVG推奨)
+   - PCヘッダー用(横長)
+   - モバイル用(コンパクト)
+   - フッター用(モノクロ可)
+   - フォーム送信時のメール署名用
+
+[現状確認事項]
+☐ 既存のロゴSVGがあるか
+☐ ライトモード対応版があるか
+☐ ダーク/ライト両対応か
+```
+
+---
+
+### 5-9. 動画・GIF素材(将来用)
+
+```
+⏰ プロダクト紹介動画(将来)
+   - 各case-studyページに埋め込む短い動画
+   - 30秒〜1分程度
+   - 操作デモ or プロダクト概要
+   - 撮影/作成: 後日対応
+
+⏰ Hero背景動画(将来)
+   - LP のヒーロー背景に動画
+   - 控えめなループ動画
+   - 容量に注意(2MB以下推奨)
+```
+
+---
+
+### 5-10. 既存コンテンツの整理
+
+#### 削除対象
+
+```
+🗑️ /demo, /demo/list - 不要
+🗑️ /flow - LPのApproachセクションに統合
+🗑️ /consulting - /services/consulting に統合
+🗑️ /experience の以下のslug:
+   - photo-inspection-report (リンク切れ)
+   - daily-weekly-report-summary (リンク切れ)
+   - その他の中途半端なdemo
+
+🗑️ コピー定数:
+   - topCopy(旧ファーストビュー用)
+   - homeQuickStartCopy(旧AI相談カード)
+   - 旧ダーク前提のセクション定義
+
+🗑️ コンポーネント:
+   - 旧チャットボット主役配置の名残
+   - HomeHeroIntro, HomeAcquisitionIntro, HomeQuickStartCards
+   - その他deprecated済みコンポーネント
+```
+
+---
+
+### 5-11. 素材調達・実装の進行スケジュール
+
+#### Phase A: 素材準備(実装開始前に完了)
+
+```
+[必須・最優先]
+☐ デプロイ済みプロダクトスクショの最適化(WebP変換、リネーム)
+☐ 業界別ストック画像の取得・配置(6枚)
+☐ ロゴ素材の確認(必要に応じて新規作成)
+☐ 既存demoスクショ取得(社内ナレッジBOT)
+
+[並行実施]
+☐ CEOシルエット画像の生成 or SVG実装
+☐ ファビコン・OGP画像の作成
+
+時間目安: 4〜8時間
+```
+
+#### Phase B: 図解実装
+
+```
+☐ Values & Solutionsアイコン適用
+☐ Approachタイムライン実装
+☐ Mission 対比図実装
+☐ About 2図解実装
+☐ Hero背景ビジュアル実装
+
+時間目安: 5〜10時間
+```
+
+#### Phase C: ページ実装
+
+```
+☐ ライトモード基盤切替
+☐ LP型トップページ実装
+☐ /about 詳細ページ実装
+☐ /services/[各] 6ページ実装
+☐ /solutions/[業界] 6ページ実装
+☐ /case-studies/[各] 6ページ実装
+☐ /contact ページ調整
+
+時間目安: 20〜30時間
+```
+
+#### Phase D: 仕上げ
+
+```
+☐ レスポンシブ調整
+☐ アクセシビリティ確認
+☐ パフォーマンス最適化
+☐ 動作テスト全ページ
+
+時間目安: 5〜10時間
+```
+
+#### 合計時間目安
+
+```
+全体: 35〜60時間
+1日5〜8時間作業として: 5〜10日
+```
+
+---
+
+### 5-12. リリース前チェックリスト
+
+```
+[コンテンツ]
+☐ 全コピーが設計書通りに実装されている
+☐ 会社情報の実情報(住所、設立日、代表名)が反映されている
+☐ Mission/Vision/Valuesに矛盾がない
+☐ Big4表記が完全に消えている
+
+[ビジュアル]
+☐ ライトモード一貫
+☐ 全画像がWebP化されている
+☐ 全画像にalt属性が付いている
+☐ ロゴが各箇所で正しく表示
+
+[機能]
+☐ 全リンクが機能する(リンク切れなし)
+☐ Contactフォームが送信できる
+☐ 体験demoが動く(社内ナレッジBOT)
+☐ Industry Showcase の外部リンクが新タブで開く
+
+[レスポンシブ]
+☐ PC(1920px, 1440px, 1280px)で表示確認
+☐ タブレット(1024px, 768px)で表示確認
+☐ モバイル(375px, 414px)で表示確認
+
+[アクセシビリティ]
+☐ キーボード操作可能
+☐ スクリーンリーダー対応
+☐ コントラスト比 WCAG AA 準拠
+☐ フォーカス表示が見える
+
+[パフォーマンス]
+☐ Lighthouse スコア 90以上(Performance)
+☐ ファーストビューLoad 3秒以内
+☐ 画像最適化済み
+
+[SEO]
+☐ メタタグ設定(title, description)
+☐ OGP画像設定
+☐ sitemap.xml 更新
+☐ robots.txt 確認
+
+[法的事項]
+☐ プライバシーポリシー記載
+☐ 利用規約記載(必要なら)
+☐ 特定商取引法表記(必要なら)
+☐ Cookie ポリシー(必要なら)
+```
+
+---
+
+## 第5章 完了条件
+
+- [ ] 全素材のステータスが明確
+- [ ] 素材調達計画が立っている
+- [ ] 実装フェーズの時間見積もりがある
+- [ ] リリース前チェックリストが完成
+
+これで Redesign v2 の UI/UX 詳細仕様書、全章完了。
+
+---
+
+## 全体まとめ
+
+```
+第1章: 共通デザイントークン
+  → 配色、タイポグラフィ、余白、ボタン、カードの基本ルール
+
+第2章: トップページLP各セクション詳細(11セクション)
+  → 各セクションの目的、レイアウト、コピー、図解仕様
+
+第3章: 図解の詳細仕様(SVG実装案)
+  → 8つの図解の具体的な実装案、コード骨格
+
+第4章: 下層ページ詳細
+  → /about, /services, /solutions, /case-studies等の構成
+
+第5章: 素材リスト最終版
+  → 必要な全素材、ステータス、調達計画
+```
+
+---
+
+## 次のステップ
+
+設計書はここで完成。
+これ以降は **実装フェーズ** に入る。
+
+```
+[実装手順 - 推奨]
+
+1. 素材準備(Phase A)
+   - スクショの最適化
+   - 業界画像の取得
+   - CEOシルエットの生成
+
+2. ブランチ作成
+   git checkout -b refactor/redesign-v2
+
+3. ライトモード基盤切替(Phase G-1)
+   - グローバルCSS、Tailwind設定の更新
+   - ヘッダー/フッターのライトモード対応
+
+4. LP実装(Phase G-2)
+   - 11セクションの実装
+   - 図解コンポーネントの実装
+
+5. 下層ページ実装(Phase G-3〜G-5)
+   - 順次更新
+
+6. 仕上げ(Phase G-6, G-7)
+   - 微調整、動作確認
+
+実装開始の合図は、ユーザー側で素材準備が整ってから。
+```
