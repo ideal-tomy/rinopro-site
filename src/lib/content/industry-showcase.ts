@@ -65,8 +65,10 @@ const INDUSTRY_SHOWCASE_ITEMS_RAW: readonly IndustryShowcaseItem[] = [
         "現場の入力手段（音声・写真・短文）に合わせて下書きを生成し、確認すべき項目だけを人に回す流れにします。既存の帳票やチャット運用との境界も含め、小さく試せる範囲から段階的に広げます。",
       relatedDemos: [
         { slug: "construction-shadow-foreman", title: "現場監督の影武者" },
-        { slug: "internal-knowledge-share-bot", title: "社内ナレッジ共有BOT（建設・設備モード）" },
+        // TODO: construction-photo-inspection-report は Sanity に demo ドキュメント登録後に有効化
+        // { slug: "construction-photo-inspection-report", title: "現場写真から点検報告" },
         { slug: "morning-meeting-daily-draft", title: "朝礼メモから日報ドラフト" },
+        { slug: "internal-knowledge-share-bot", title: "社内ナレッジ共有BOT（建設・設備モード）" },
       ],
     },
   },

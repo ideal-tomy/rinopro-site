@@ -3,6 +3,7 @@
 import type { ExperiencePrototypeMeta } from "@/lib/experience/prototype-registry";
 import { DriverVoiceIncidentExperience } from "@/components/experience/prototypes/DriverVoiceIncidentExperience";
 import { LegalMemorySecretaryExperience } from "@/components/experience/prototypes/LegalMemorySecretaryExperience";
+import { ConstructionPhotoInspectionExperience } from "@/components/experience/prototypes/ConstructionPhotoInspectionExperience";
 import { PropertyExteriorPhotoExperience } from "@/components/experience/prototypes/PropertyExteriorPhotoExperience";
 import { InternalKnowledgeBotExperience } from "@/components/experience/prototypes/InternalKnowledgeBotExperience";
 import { ReceiptPhotoExpenseExperience } from "@/components/experience/prototypes/ReceiptPhotoExpenseExperience";
@@ -39,6 +40,12 @@ export function ExperiencePrototypeRunner({
   if (meta.slug === "legal-memory-secretary") {
     return (
       <LegalMemorySecretaryExperience meta={meta} className={className} />
+    );
+  }
+
+  if (meta.slug === "construction-photo-inspection-report") {
+    return (
+      <ConstructionPhotoInspectionExperience meta={meta} className={className} />
     );
   }
 

@@ -264,6 +264,14 @@ export const EXPERIENCE_PROTOTYPES: ExperiencePrototypeMeta[] = [
     immersiveOnDemoDetail: true,
   },
   {
+    slug: "construction-photo-inspection-report",
+    title: "現場写真から点検報告",
+    tier: "track2",
+    demoSlug: "construction-photo-inspection-report",
+    shortDescription: "写真にピンを打ち、不備タグと現場所長向けの点検報告文案をモック生成します。",
+    inputHint: "例: 足場北側、クランプ1箇所に緩みを確認。作業前に所長に報告。",
+  },
+  {
     slug: "property-exterior-photo-memo",
     title: "外観・共用部の写真メモ",
     tier: "track2",
