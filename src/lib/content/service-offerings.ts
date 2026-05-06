@@ -3,8 +3,6 @@
  * ルート: /services/[slug]（consulting / development 静的ルートと非競合）
  */
 
-import type { ApproachTimelineStep } from "@/components/illustrations/approach-timeline";
-
 export type ServiceOfferingCallout = {
   label: string;
   text: string;
@@ -18,6 +16,13 @@ export type ServiceOfferingIssueCard = {
 export type ServiceOfferingRelatedLink = {
   href: string;
   label: string;
+};
+
+export type ServiceJourneyStep = {
+  number: string;
+  title: string;
+  duration: string;
+  description: string;
 };
 
 export type ServiceOfferingDetail = {
@@ -44,7 +49,7 @@ export type ServiceOfferingDetail = {
   journey: {
     heading: string;
     intro: string;
-    steps: readonly ApproachTimelineStep[];
+    steps: readonly ServiceJourneyStep[];
   };
   pitfalls: {
     heading: string;
@@ -126,10 +131,10 @@ const OFFERINGS: readonly ServiceOfferingDetail[] = [
       intro:
         "ヒアリングで暗黙知を拾い、優先順位と検証スコープを確定します。次のPoCや実装に繋がる成果物の形まで含めてすり合わせます。",
       steps: [
-        { number: "01", title: "現状把握", duration: "1〜2週間" },
-        { number: "02", title: "論点・ギャップ整理", duration: "1〜2週間" },
-        { number: "03", title: "優先順位とロードマップ", duration: "1週間" },
-        { number: "04", title: "実行・検証計画", duration: "合意" },
+        { number: "01", title: "現状把握", duration: "1〜2週間", description: "経営・現場・システムの実態をそろえ、課題の見取り図を作ります。" },
+        { number: "02", title: "論点・ギャップ整理", duration: "1〜2週間", description: "理想像との差分を構造化し、先に解くべき論点を絞り込みます。" },
+        { number: "03", title: "優先順位とロードマップ", duration: "1週間", description: "効果と実現性の両面で着手順を決め、投資判断に耐える計画へ落とします。" },
+        { number: "04", title: "実行・検証計画", duration: "合意", description: "次フェーズで迷わないよう、検証単位・体制・成果物を明文化します。" },
       ],
     },
     pitfalls: {
@@ -225,10 +230,10 @@ const OFFERINGS: readonly ServiceOfferingDetail[] = [
       intro:
         "業務フローに沿ってスコープを切り、試作で体感を取り、本実装で運用要件まで仕上げます。",
       steps: [
-        { number: "01", title: "業務フロー確定", duration: "1〜2週間" },
-        { number: "02", title: "試作・検証", duration: "2〜6週間" },
-        { number: "03", title: "本実装", duration: "1〜3ヶ月" },
-        { number: "04", title: "運用・改善", duration: "継続" },
+        { number: "01", title: "業務フロー確定", duration: "1〜2週間", description: "入力・判断・承認の流れを固定し、AIを置く位置を決めます。" },
+        { number: "02", title: "試作・検証", duration: "2〜6週間", description: "短期間で触れる形を作り、現場フィードバックで要件を磨きます。" },
+        { number: "03", title: "本実装", duration: "1〜3ヶ月", description: "権限・監査・連携を含めた本番仕様で実装し、品質を担保します。" },
+        { number: "04", title: "運用・改善", duration: "継続", description: "利用指標を見ながら改善を継続し、定着と拡張を進めます。" },
       ],
     },
     pitfalls: {
@@ -324,10 +329,10 @@ const OFFERINGS: readonly ServiceOfferingDetail[] = [
       intro:
         "現状のデータ調査から始め、優先ドメインを選び、パイプラインと権限を段階的に敷きます。",
       steps: [
-        { number: "01", title: "データ棚卸し", duration: "2〜3週間" },
-        { number: "02", title: "要件・モデル設計", duration: "2〜4週間" },
-        { number: "03", title: "パイプライン実装", duration: "1〜3ヶ月" },
-        { number: "04", title: "運用移管・改善", duration: "継続" },
+        { number: "01", title: "データ棚卸し", duration: "2〜3週間", description: "ソース・更新頻度・責任者を明確化し、欠損リスクを把握します。" },
+        { number: "02", title: "要件・モデル設計", duration: "2〜4週間", description: "業務定義と権限を反映したデータモデルと品質基準を定義します。" },
+        { number: "03", title: "パイプライン実装", duration: "1〜3ヶ月", description: "収集・整備・配信の流れを実装し、監視とリトライを組み込みます。" },
+        { number: "04", title: "運用移管・改善", duration: "継続", description: "運用手順を移管しながら、コストと品質の最適化を継続します。" },
       ],
     },
     pitfalls: {
@@ -423,10 +428,10 @@ const OFFERINGS: readonly ServiceOfferingDetail[] = [
       intro:
         "現状スキル棚卸しから始め、パイロット案件で実践し、運用と改善のループを内製へ移します。",
       steps: [
-        { number: "01", title: "体制・スキル診断", duration: "1〜2週間" },
-        { number: "02", title: "パイロット実装", duration: "1〜2ヶ月" },
-        { number: "03", title: "運用引き継ぎ", duration: "並行" },
-        { number: "04", title: "自律運用", duration: "移行後" },
+        { number: "01", title: "体制・スキル診断", duration: "1〜2週間", description: "現状の役割とスキル差分を可視化し、内製化の現実的な範囲を決めます。" },
+        { number: "02", title: "パイロット実装", duration: "1〜2ヶ月", description: "小さな案件で実践し、レビューと改善の型をチームに定着させます。" },
+        { number: "03", title: "運用引き継ぎ", duration: "並行", description: "監視・障害対応・変更管理を共同運用しながら段階的に移管します。" },
+        { number: "04", title: "自律運用", duration: "移行後", description: "内製チーム主体で改善を回し、外部は専門支援に絞る体制へ移行します。" },
       ],
     },
     pitfalls: {
@@ -522,10 +527,10 @@ const OFFERINGS: readonly ServiceOfferingDetail[] = [
       intro:
         "ハブで負荷の置きどころを共有し、PoCスコープを業界前提で切ります。その後、現場検証と横展開の順序を決めます。",
       steps: [
-        { number: "01", title: "業界ヒアリング", duration: "1〜2週間" },
-        { number: "02", title: "ユースケース選定", duration: "1週間" },
-        { number: "03", title: "現場検証", duration: "2〜6週間" },
-        { number: "04", title: "横展開・標準化", duration: "計画" },
+        { number: "01", title: "業界ヒアリング", duration: "1〜2週間", description: "業界特有の制約と現場運用を把握し、前提条件を明文化します。" },
+        { number: "02", title: "ユースケース選定", duration: "1週間", description: "効果と実現性の高いテーマを選び、検証スコープを限定します。" },
+        { number: "03", title: "現場検証", duration: "2〜6週間", description: "実運用で検証し、ルール・UI・データ項目のズレを調整します。" },
+        { number: "04", title: "横展開・標準化", duration: "計画", description: "拠点や部署へ展開できるよう、運用手順と標準設定を整備します。" },
       ],
     },
     pitfalls: {
@@ -622,10 +627,10 @@ const OFFERINGS: readonly ServiceOfferingDetail[] = [
       intro:
         "定例レビューでデータと現場の声を突き合わせ、バックログを更新します。四半期ごとにロードマップを見直します。",
       steps: [
-        { number: "01", title: "計測設計", duration: "初期" },
-        { number: "02", title: "定例レビュー", duration: "週次/月次" },
-        { number: "03", title: "改善実装", duration: "スプリント" },
-        { number: "04", title: "振り返り", duration: "四半期" },
+        { number: "01", title: "計測設計", duration: "初期", description: "業務成果とシステム健全性を追える指標・ダッシュボードを定義します。" },
+        { number: "02", title: "定例レビュー", duration: "週次/月次", description: "データと現場の声を突き合わせ、課題を優先順位付きで整理します。" },
+        { number: "03", title: "改善実装", duration: "スプリント", description: "優先課題から実装し、効果検証までを短い周期で回します。" },
+        { number: "04", title: "振り返り", duration: "四半期", description: "成果と残課題を評価し、次期ロードマップへ反映します。" },
       ],
     },
     pitfalls: {

@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { ApproachTimeline } from "@/components/illustrations/approach-timeline";
 import { IllustrationReveal } from "@/components/illustrations/illustration-reveal";
 import { HomeSectionShell } from "@/components/home/HomeSectionShell";
 import { Button } from "@/components/ui/button";
@@ -9,6 +8,7 @@ import type { ServiceOfferingDetail } from "@/lib/content/service-offerings";
 import { INDUSTRY_SHOWCASE_ITEMS } from "@/lib/content/industry-showcase";
 import { ServiceOfferingImprovementCycleDiagram } from "@/components/illustrations/service-offering-improvement-cycle";
 import { ServiceOfferingDataStackDiagram } from "@/components/illustrations/service-offering-data-stack";
+import { ServiceJourneyDiagram } from "@/components/services/ServiceJourneyDiagram";
 
 type ServiceOfferingDetailViewProps = {
   offering: ServiceOfferingDetail;
@@ -125,7 +125,7 @@ export function ServiceOfferingDetailView({ offering }: ServiceOfferingDetailVie
             {journey.intro}
           </p>
           <IllustrationReveal className="mt-12 md:mt-14">
-            <ApproachTimeline steps={[...journey.steps]} />
+            <ServiceJourneyDiagram steps={journey.steps} />
           </IllustrationReveal>
           {offering.slug === "data-platform" ? (
             <IllustrationReveal className="mx-auto mt-14 max-w-2xl md:mt-16">
