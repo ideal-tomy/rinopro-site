@@ -267,13 +267,13 @@ GembaShift風カード形式で、4〜6個のサービスを並列表示。
 PC: 6カードグリッド(2x3 or 3x2)
 SP: 横スクロール
 
-### 実装方針
-- 「demo」という言葉は使わない
-- 「業界別プロダクト例」「Industry Examples」として表示
-- **動く2つを主役**にする:
+### 実装方針（更新）
+- LP内では「業界別プロダクト例」として見せる
+- 6カードは `case-studies` ではなく**各外部デプロイURLへ直接遷移**（`target="_blank"`）
+- セクション末尾CTAは `/experience`（demo一覧ギャラリー）へ誘導
+- `/experience` 内の **LIVE EXPERIENCE** で動く2つを主役化
   - 社内ナレッジ共有BOT(業種別・二画面)
   - 飲食店オペレーション・ダッシュボード
-- 残り4業界は「準備中」or 静的なイメージ画像のみ
 
 ### カード仕様
 
@@ -410,6 +410,7 @@ SP: 横スクロール
 
 [ページ]
 - /demo, /demo/list は削除 or 大幅縮小(業界別プロダクト例セクションに統合)
+- /case-studies/[slug] は廃止し、/experience に統合
 - /experience の不要なslugは削除
 
 [コピー定数]
@@ -424,7 +425,7 @@ SP: 横スクロール
 [コンポーネント]
 - /about の構造的な素材(LP内に統合する形で)
 - /solutions/[業界] の構造(再設計するが、URLは残す)
-- /contact, /experience(動くdemoのみ)
+- /contact, /experience(ギャラリー + LIVE EXPERIENCE導線)
 
 [コピー定数]
 - aboutCopy(LP内に統合する素材として)
@@ -454,13 +455,20 @@ LPのOur Solutionsカードから飛ぶ詳細ページ。
 ### /solutions/[業界]
 LPのIndustry Showcaseから飛ぶ詳細ページ。
 各業界の課題と解決例を詳しく説明。
-動くものがあるなら、ここで体験させる。
+必要に応じて `/experience`（LIVE EXPERIENCE / DEMO GALLERY）へ誘導する。
+
+### /experience
+demo一覧ギャラリーページとして再構築。
+LPのIndustry Showcase末尾CTAから流入し、以下へ分岐させる。
+- LIVE EXPERIENCE: `/experience/internal-knowledge-share-bot`, `/experience/restaurant-ops-dashboard-demo`
+- DEMO GALLERY: 外部デプロイURL（新規タブ）
 
 ### /contact
 問い合わせフォーム。LPの最終CTAから飛ぶ。
 
 ### 削除候補
 - /demo, /demo/list(業界別プロダクト例セクションに統合)
+- /case-studies/[slug](/experience に統合)
 - /experience の不要なslug(社内ナレッジBOTと飲食店ダッシュボード以外)
 - /flow(LPのApproachセクションに統合)
 - /consulting(LPのSolutionsカードに統合 or /servicesに統合)
@@ -496,7 +504,7 @@ LPのIndustry Showcaseから飛ぶ詳細ページ。
 #### Phase G-4: 旧コンテンツの整理・削除(2〜3時間)
 - 不要なdemo・コンポーネント・ページの削除
 - 残すdemoの整理(社内ナレッジBOT、飲食店ダッシュボード)
-- /demo, /experience の整理
+- /case-studies 廃止、/experience 集約導線への整理
 
 #### Phase G-5: 下層ページのライトモード適用(3〜5時間)
 - /about, /services, /solutions/[業界], /contact, /experience を
@@ -573,7 +581,7 @@ LPのIndustry Showcaseから飛ぶ詳細ページ。
 - `/about`
 - `/services`
 - `/contact`
-- `/demo` (体験ハブとして残置)
+- `/experience` (体験ギャラリー)
 - `/experience/[slug]`
 - `/solutions/[slug]`
 
@@ -581,8 +589,8 @@ LPのIndustry Showcaseから飛ぶ詳細ページ。
 
 - `/flow` → `/services/development` に統合
 - `/consulting` → `/services/consulting` に統合
-- `/demo/list` → `/demo` に統合
-- `/experience` → `/demo` に統合
+- `/demo/list` → `/experience` に統合
+- `/demo` → `/experience` に統合
 
 ### 18-3. 導線置換の運用ルール
 
@@ -605,18 +613,18 @@ LPのIndustry Showcaseから飛ぶ詳細ページ。
 
 ### 19-2. 導線確認（変更後）
 
-- Header: `/` `/services` `/about` `/contact` `/demo`
-- Footer: `/` `/services` `/about` `/contact` `/demo`
+- Header: `/` `/services` `/about` `/contact` `/experience`
+- Footer: `/` `/services` `/about` `/contact` `/experience`
 - Home Primary CTA: `/contact`
 - Home Secondary CTA: `/services`
-- 主要カードリンク: `/services/*` `/solutions/*` `/experience/*` `/demo`
+- 主要カードリンク: `/services/*` `/solutions/*` `/experience/*`
 
 ### 19-3. 404確認フロー
 
 以下の遷移でリンク切れがないことを確認する。
 
 1. `/` → `/services` → `/contact`
-2. `/` → `/demo` → `/experience/[slug]`
+2. `/` → `/experience` → `/experience/[slug]`
 3. 互換導線: `/flow` → `/services/development`
 4. 互換導線: `/consulting` → `/services/consulting`
 
@@ -630,8 +638,8 @@ G-6 と G-7 で実施した監査の実測結果。
 
 | 対象 | 遷移先 | 結果 |
 |---|---|---|
-| Header NAV | `/` `/services` `/about` `/contact` `/demo` | OK |
-| Footer LINKS | `/` `/services` `/about` `/contact` `/demo` | OK |
+| Header NAV | `/` `/services` `/about` `/contact` `/experience` | OK |
+| Footer LINKS | `/` `/services` `/about` `/contact` `/experience` | OK |
 | Home Primary CTA(初回相談) | `/contact` | OK |
 | Home Secondary CTA | `/services` | OK |
 | HomeCeoMessage profileHref | `/about` | OK |

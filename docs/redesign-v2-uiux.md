@@ -1858,55 +1858,22 @@ INDUSTRY SHOWCASE
 [サブコピー]
 実際に動くプロダクトで、操作感と実装品質をご確認いただけます。
 
-[6カード]
+[6つのデプロイ済みプロダクトカード]
+- リンク先は /case-studies/[slug] ではなく、各デプロイ済み外部URLへ直接遷移
+- `target="_blank"` で新規タブ表示
+- ホバー時に「外部サイトに移動します」のヒント表示
 
-カード1: 飲食・サービス
-[業界写真] Unsplash等の飲食店写真
-[業界名] 飲食・サービス
-[プロダクト名] 飲食店オペレーション・ダッシュボード
-[説明] 売上、在庫、シフトまで一元管理。
-       現場と本部の温度差を解消します。
-[CTA] 触ってみる → /experience/restaurant-ops-dashboard-demo
+[カードデータ方針]
+{
+  slug: 'gempo',
+  title: '現場ポケット',
+  industry: '建設・工事',
+  href: 'https://[デプロイ済みURL]',
+  isExternal: true,
+}
 
-カード2: 建設・工事
-[業界写真] 建設現場の写真
-[業界名] 建設・工事
-[プロダクト名] 社内ナレッジBOT(建設業モード)
-[説明] 安全衛生・現場ノウハウを、AIが即答。
-       ベテランの知見を組織化します。
-[CTA] 触ってみる → /experience/internal-knowledge-share-bot
-
-カード3: 士業・専門事務
-[業界写真] 法律事務所などの写真
-[業界名] 士業・専門事務
-[プロダクト名] 社内ナレッジBOT(士業モード)
-[説明] 過去の案件や規程を、AIが瞬時に検索。
-       専門知識のサイロ化を防ぎます。
-[CTA] 触ってみる → /experience/internal-knowledge-share-bot
-
-カード4: 小売・卸・メーカー現場
-[業界写真] 倉庫・店舗の写真
-[業界名] 小売・卸・メーカー現場
-[プロダクト名] (準備中)
-[説明] 店頭・倉庫・本部の情報のズレを解消する
-       オペレーションシステムを準備中です。
-[CTA] Coming Soon
-
-カード5: 運輸・配送
-[業界写真] トラック・物流の写真
-[業界名] 運輸・配送
-[プロダクト名] (準備中)
-[説明] ドライバーのボイスメモから、配送レポートを
-       自動生成するシステムを準備中です。
-[CTA] Coming Soon
-
-カード6: 医療・公的窓口
-[業界写真] クリニック・窓口の写真
-[業界名] 医療・公的窓口
-[プロダクト名] (準備中)
-[説明] 問い合わせ対応の効率化と、知識の標準化を
-       支援するシステムを準備中です。
-[CTA] Coming Soon
+[セクション最下部CTA]
+「すべてのdemoを見る →」を配置し、リンク先は /experience
 ```
 
 #### 図解・ビジュアル仕様
@@ -3381,16 +3348,18 @@ components/
 1. /about - 詳細プロフィール・会社の詳細
 2. /services/[slug] - 各サービスの詳細(6ページ)
 3. /solutions/[industry] - 業界別の詳細(6ページ)
-4. /case-studies/[slug] - 業界別実装事例の詳細(6ページ)※新規
+4. /experience - demo一覧ギャラリー
 5. /contact - 問い合わせフォーム
 6. /experience/internal-knowledge-share-bot - 体験できるdemo
-7. /privacy - プライバシーポリシー
-8. /terms - 利用規約
+7. /experience/restaurant-ops-dashboard-demo - 体験できるdemo
+8. /privacy - プライバシーポリシー
+9. /terms - 利用規約
 
 [削除候補]
 - /demo, /demo/list - 業界別実装事例セクションに統合
 - /flow - LPのApproachセクションに統合
 - /consulting - /services/consulting に統合
+- /case-studies/[slug] - /experience に統合
 - /experience の他のslug - 削除(不要なdemo)
 ```
 
@@ -3629,7 +3598,7 @@ LPの「Our Solutions」カードからクリックされるページ。
 
 [Section 4: 関連する実装事例]
 ※ここがキー
-業界に関連する /case-studies/[slug] へのリンク
+業界に関連する /experience へのリンク（LIVE EXPERIENCE もしくは DEMO GALLERY）
 1〜3個のカード
 
 [Section 5: 進め方]
@@ -3685,111 +3654,135 @@ LPの「Our Solutions」カードからクリックされるページ。
 
 ---
 
-### Page 4: /case-studies/[slug] (実装事例詳細) ★新規
+### Page 4: ~~/case-studies/[slug]~~ → 廃止
+
+実装事例の詳細ページは廃止。
+代わりに /experience(後述)に統合し、シンプルな2階層構造にする。
+
+理由:
+- 3層構造(LP → case-studies → experience)が冗長
+- 「Case Studies」は実績の言葉だが、AXEONはまだ実績フェーズではない
+- 「触れる体験」を主軸にする方が誠実で訴求力高い
+
+### Page 4: /experience (demo一覧ギャラリー) ★新規
 
 #### 役割
 
-LP の Industry Showcase からクリックされるページ。
-**実装したプロダクトの詳細**を紹介する。
+すべてのプロダクトdemoを一覧表示するギャラリーページ。
+LP の Industry Showcase からリンクされる。
+「触れる体験」を主軸にした見せ方で、外部デプロイURLや自サイト内動くdemoへ誘導する。
 
-#### 対象6ページ
+#### URL選定
 
-```
-1. /case-studies/gempo - 現場ポケット
-2. /case-studies/shaken-notify - 車検管理
-3. /case-studies/recruiting-cockpit - 採用コックピット
-4. /case-studies/sales-pipeline - 営業パイプライン
-5. /case-studies/shift-auto - シフト自動くん
-6. /case-studies/internal-knowledge-bot - 社内ナレッジBOT
-```
+`/experience` を採用(既存URL流用、SEO引き継ぎ)。
+既存の `/experience/[slug]` 配下は、動く2つを除いて削除。
 
-#### 共通構成
+#### ページ構成
 
 ```
-[Hero]
-ラベル: CASE STUDY
-見出し: [プロダクト名]
-サブコピー: [短いキャッチコピー]
-業界: [業界タグ]
-[CTA: 実際に触ってみる] [CTA: 同様の支援を相談する]
+[Hero - ヒーロー]
+ラベル: EXPERIENCE
+見出し: 課題を、3分で体感してもらう。
+サブコピー: 各業界向けの実装プロダクトを、
+           実際に触ってご確認いただけます。
+           商談・授業・ヒアリングの場で、
+           リアルな操作感をお見せします。
 
-[Section 1: プロダクト概要]
-- スクショ(大きく)
-- 何をするプロダクトか(2〜3段落)
-- 対象企業規模
+[統計数字 - 3つ]
+6 DEMO PRODUCTS  /  5+ INDUSTRIES  /  3分 平均体験時間
 
-[Section 2: 解決する課題]
-このプロダクトが解決する典型的な課題
-3〜4個のカード形式
+[Section 1: LIVE EXPERIENCE(自サイト内で動く)]
+ラベル: LIVE EXPERIENCE
+見出し: その場で動く、対話型デモ
+サブコピー: 当サイト内で、実際にAIが反応するデモを体験できます。
 
-[Section 3: 主な機能]
-プロダクトの主要機能をリスト化
-スクショ複数枚で説明
-- PC画面、モバイル画面、両方ある場合は併載
+[2カード - 大きめに表示]
+- 飲食店オペレーション・ダッシュボード
+  - リンク: /experience/restaurant-ops-dashboard-demo
+- 社内ナレッジ共有BOT(業種別・二画面)
+  - リンク: /experience/internal-knowledge-share-bot
 
-[Section 4: 技術スタック・実装ハイライト]
-- 使用技術
-- 実装期間
-- 特徴的な実装ポイント
+[Section 2: DEMO GALLERY(6つのデプロイ済み外部プロダクト)]
+ラベル: DEMO GALLERY
+見出し: 業界別の、実装プロダクト
+サブコピー: 別ウィンドウで開いて、自由にお試しください。
 
-[Section 5: 実際に触る]
-- 大きなCTA
-- 「実際に触ってみる →」ボタン
-- 別タブでデプロイURLへ
+[3 × 2 グリッド(PC)/ 横スクロール(モバイル)]
+1. 現場ポケット(GEMPO) - 建設・工事
+2. AI評価会議・公正評価支援 - 人事・採用
+3. 採用コックピット - 人事・採用
+4. 士業向けミニSFA - 士業・専門事務
+5. シフト自動くん - 飲食・サービス
+6. Shaken Notify(車検管理) - 整備・車両管理
 
-[Section 6: 同様のご支援]
-- このプロダクトのような実装を、貴社向けに作れます
-- 関連する /services へのリンク
-- 関連する /solutions/[業界] へのリンク
-
-[Section 7: CTA]
-「貴社向けの実装を相談する」
+[Section 3: CTA]
+見出し: 「うちの業界でも作れる?」
+CTA: お問い合わせ・デモを提案 → /contact
 ```
 
-#### 各プロダクトの内容(暫定)
+#### レイアウト方針
+
+- ライトモードで統一(添付HTMLはダーク基調なので、配色変換が必要)
+- 第1章のデザイントークンを完全準拠
+- LIVE EXPERIENCE セクションは目立たせる(大きいカード、バッジ)
+- DEMO GALLERY セクションは6カード均等配置
+- 統計数字は視覚的に強い印象(数字大きく、ラベル小さく)
+
+#### 配色
 
 ```
-1. /case-studies/gempo (現場ポケット)
-   業界: 建設・工事
-   解決課題: 現場/本社の情報分断、報告書作成、配員調整
-   主な機能: 配員アラーム、報告書のAI下書き、書類ハブ
-   スクショ: PC管理画面 + モバイル現場画面
-
-2. /case-studies/shaken-notify (車検管理)
-   業界: 整備・車両管理
-   解決課題: 車検期限管理、顧客通知、見積もり発行
-   主な機能: ダッシュボード、優先度管理、配信履歴
-   スクショ: PC + モバイル
-
-3. /case-studies/recruiting-cockpit (採用コックピット)
-   業界: 人事・採用
-   解決課題: 候補者選考、AIマッチング、KPI管理
-   主な機能: 選考パイプライン、AIマッチング、応募書類OCR
-   スクショ: PC
-
-4. /case-studies/sales-pipeline (営業パイプライン)
-   業界: 営業・経営支援
-   解決課題: 商談進行管理、提案優先度、停滞案件
-   主な機能: パイプライン管理、AIアラート、KPI
-   スクショ: PC
-
-5. /case-studies/shift-auto (シフト自動くん)
-   業界: 飲食・サービス
-   解決課題: シフト調整、希望ヒアリング、最適化
-   主な機能: スタッフ希望入力、AI最適化、店長承認
-   スクショ: PC
-
-6. /case-studies/internal-knowledge-bot (社内ナレッジBOT)
-   業界: 横断(AIアシスタント)
-   解決課題: 社内ナレッジ参照、専門知識共有
-   主な機能: 業種別対応、ガイドツリー、出典明示
-   スクショ: 複数業種対応の画面
-   特記: 「LIVE DEMO」バッジ、自サイト内で動く
+背景: --color-bg-base
+セクション切替: 各セクション間で背景色を微妙に変える
+LIVE バッジ: --color-accent-warm(ゴールド系)+ パルスアニメ
+業界タグ: --color-accent-primary-light の背景 + --color-accent-primary 文字
+機能タグ: 透明背景 + --color-border-light のボーダー
 ```
 
-#### コピーボリューム
-- 各ページ: 1500〜2500文字
-- スクショ: 3〜6枚
+#### インタラクション
+
+- 統計数字: スクロールイン時に0からカウントアップアニメーション
+- カードホバー: 浮き上がり + アイコンが微妙に光る
+- 外部リンクには `target="_blank"` + 外部リンクアイコン
+- LIVE DEMO バッジは微妙にパルス(2秒サイクル)
+- 「体験を開く」「体験する」ボタンは矢印が右に動く
+
+#### 削除する旧コンテンツ
+
+```
+削除対象:
+- /experience/photo-inspection-report (リンク切れ)
+- /experience/daily-weekly-report-summary (リンク切れ)
+- /experience/construction-shadow-foreman (低品質)
+- /experience/property-exterior-photo-memo
+- /experience/driver-voice-incident-draft
+- /experience/ops-report-metrics-demo
+- /experience/legal-memory-secretary
+- /experience/service-claim-reply-assist
+- /experience/workflow-approval-lite-demo
+- /experience/inquiry-intake-triage-demo
+- /experience/legal-professional-mini-sfa-demo
+- /experience/morning-meeting-daily-draft
+- その他の中途半端なslug 全般
+- /demo, /demo/list (使われない)
+- /experience の旧一覧ページ
+
+残すもの:
+- /experience (新ギャラリーとして再構築)
+- /experience/internal-knowledge-share-bot (動くdemo・建設業/士業選択可能)
+- /experience/restaurant-ops-dashboard-demo (動くdemo)
+```
+
+#### 実装ヒント
+
+```
+[既存の /experience の活用]
+- 現状の /experience ページのコンポーネントを大幅に書き換え
+- 既存の industry-showcase.ts や experience.ts をベースに、
+  新ギャラリー用のデータ構造を整理
+
+[新規データソース提案]
+src/lib/content/experience-gallery.ts
+```
 
 ---
 
@@ -3850,14 +3843,14 @@ LP・各下層ページのCTAから到達する。
 
 ---
 
-### Page 6: /experience/internal-knowledge-share-bot (体験できるdemo)
+### Page 6: /experience/internal-knowledge-share-bot および /experience/restaurant-ops-dashboard-demo
 
 #### 役割
 
-唯一動かす体験demo。
-社内ナレッジBOTの体験ページ。
+自サイト内で実際に動く体験demo。
+新しい /experience(ギャラリー)から「LIVE EXPERIENCE」として誘導される。
 
-#### 構成
+#### 実装方針
 
 ```
 [既存実装をライトモード化のみ]
@@ -3868,12 +3861,11 @@ LP・各下層ページのCTAから到達する。
 - 出典明示も維持
 ```
 
-#### 実装ヒント
+#### 完全な作り直しは不要
 
 ```
 - 既存コンポーネントの色を CSS 変数に置き換え
-- 完全な作り直しは不要
-- LP のIndustry Showcase からリンクされる
+- 既存の体験ロジックは維持し、導線のみ /experience に統合
 ```
 
 ---
@@ -3936,9 +3928,9 @@ LP・各下層ページのCTAから到達する。
 
 ## 第4章 完了条件
 
-- [ ] 全7種類の下層ページの構成が明確
+- [ ] 全8種類の下層ページの構成が明確
 - [ ] 各ページのコピーボリューム目安が定義
-- [ ] /case-studies/[slug] の新規ページ仕様が確定
+- [ ] /experience ギャラリーおよびLIVE EXPERIENCE導線が確定
 - [ ] 既存ページの統廃合方針が明確
 - [ ] パンくず・関連リンクの方針が定義
 
@@ -3966,7 +3958,7 @@ LP・各下層ページのCTAから到達する。
 
 ---
 
-### 5-1. 既存画像・スクショ素材
+### 5-1. 既存画像・スクショ素材(更新)
 
 #### 📸 デプロイ済みプロダクトのスクショ
 
@@ -3983,34 +3975,23 @@ LP・各下層ページのCTAから到達する。
 🔴 内部ナレッジBOT - スクショ未取得
 ```
 
-#### 配置先(推奨)
+#### 配置先(更新版)
 
 ```
-/public/media/case-studies/
-├── gempo/
-│   ├── pc-admin.webp(genbakanri_admin の最適化版)
-│   ├── mobile.webp(genbakanri_mobile の最適化版)
-│   └── thumbnail.webp(LP用サムネ)
-├── shaken-notify/
-│   ├── pc.webp
-│   ├── mobile.webp
-│   └── thumbnail.webp
-├── recruiting-cockpit/
-│   ├── pc.webp
-│   └── thumbnail.webp
-├── sales-pipeline/
-│   ├── pc.webp
-│   └── thumbnail.webp
-├── shift-auto/
-│   ├── pc.webp
-│   └── thumbnail.webp
-└── internal-knowledge-bot/
-    ├── chat.webp
-    ├── industry-select.webp
-    └── thumbnail.webp
+/public/media/experience/
+├── live/
+│   ├── restaurant-dashboard.webp
+│   └── knowledge-bot.webp
+└── external/
+    ├── gempo.webp(genbakanri_admin の最適化版)
+    ├── shaken-notify.webp
+    ├── recruiting-cockpit.webp
+    ├── sales-pipeline.webp(AI評価会議用)
+    ├── shift-auto.webp
+    └── legal-mini-sfa.webp(士業向け)
 ```
 
-#### 必要な処理
+#### 必要な処理(更新)
 
 ```
 [実装前にやること]
@@ -4019,16 +4000,17 @@ LP・各下層ページのCTAから到達する。
    - 品質: 80〜85%
    - サイズ削減目安: 60〜80%
 
-2. リネーム
-   - 現状の日本語/英語混在のファイル名を整理
+2. 配置先を /public/media/experience/ に変更
 
-3. サイズ最適化
-   - サムネイル用: 800x450px(16:9)
-   - 詳細ページ用: 1920x1080px or オリジナル
-
-4. 内部ナレッジBOTのスクショ取得
+3. 内部ナレッジBOTのスクショ取得
    - 業種選択画面、チャット画面、出典表示画面
    - 3〜5枚程度
+
+4. 飲食店ダッシュボードのスクショ取得(現状もしまだなら)
+
+5. サイズ最適化
+   - サムネイル用: 800x450px(16:9)
+   - ギャラリーカード用: 1200x675px 推奨
 ```
 
 ---
@@ -4291,7 +4273,7 @@ const inter = Inter({
 
 ---
 
-### 5-10. 既存コンテンツの整理
+### 5-10. 既存コンテンツの整理(更新版)
 
 #### 削除対象
 
@@ -4299,10 +4281,21 @@ const inter = Inter({
 🗑️ /demo, /demo/list - 不要
 🗑️ /flow - LPのApproachセクションに統合
 🗑️ /consulting - /services/consulting に統合
+🗑️ /case-studies/[slug] - /experience に統合
 🗑️ /experience の以下のslug:
    - photo-inspection-report (リンク切れ)
    - daily-weekly-report-summary (リンク切れ)
-   - その他の中途半端なdemo
+   - construction-shadow-foreman (低品質)
+   - property-exterior-photo-memo
+   - driver-voice-incident-draft
+   - ops-report-metrics-demo
+   - legal-memory-secretary
+   - service-claim-reply-assist
+   - workflow-approval-lite-demo
+   - inquiry-intake-triage-demo
+   - legal-professional-mini-sfa-demo
+   - morning-meeting-daily-draft
+   - その他の中途半端なslug 全般
 
 🗑️ コピー定数:
    - topCopy(旧ファーストビュー用)
@@ -4313,6 +4306,14 @@ const inter = Inter({
    - 旧チャットボット主役配置の名残
    - HomeHeroIntro, HomeAcquisitionIntro, HomeQuickStartCards
    - その他deprecated済みコンポーネント
+   - case-studies関連コンポーネント
+
+[残すもの]
+- /experience (新ギャラリーとして再構築)
+- /experience/internal-knowledge-share-bot (動くdemo)
+- /experience/restaurant-ops-dashboard-demo (動くdemo)
+- /about, /services/[slug], /solutions/[industry], /contact
+- /privacy, /terms
 ```
 
 ---
@@ -4355,7 +4356,8 @@ const inter = Inter({
 ☐ /about 詳細ページ実装
 ☐ /services/[各] 6ページ実装
 ☐ /solutions/[業界] 6ページ実装
-☐ /case-studies/[各] 6ページ実装
+☐ /experience ギャラリー実装
+☐ /experience/live demo 2ページ調整
 ☐ /contact ページ調整
 
 時間目安: 20〜30時間
@@ -4457,10 +4459,41 @@ const inter = Inter({
   → 8つの図解の具体的な実装案、コード骨格
 
 第4章: 下層ページ詳細
-  → /about, /services, /solutions, /case-studies等の構成
+  → /about, /services, /solutions, /experience等の構成
 
 第5章: 素材リスト最終版
   → 必要な全素材、ステータス、調達計画
+```
+
+---
+
+## 修正完了状態の整理
+
+```
+[完成した設計書]
+✅ docs/redesign-v2-uiux.md
+   ✅ 第1章: 共通デザイントークン
+   ✅ 第2章: トップページLP各セクション詳細
+      ✅ Section 8 のリンク先変更
+   ✅ 第3章: 図解の詳細仕様
+   ✅ 第4章: 下層ページ詳細
+      ✅ Page 4: /case-studies 削除
+      ✅ Page 4(新): /experience ギャラリーページ追加
+      ✅ Page 6: LIVE EXPERIENCE 2ページの位置づけ更新
+   ✅ 第5章: 素材リスト最終版
+      ✅ 配置先パスの更新
+      ✅ 削除対象リストの更新
+
+[サイト全体のページ数(計画)]
+- LP: 1ページ
+- /about: 1ページ
+- /services/[slug]: 6ページ
+- /solutions/[industry]: 6ページ
+- /experience: 1ページ + 動くdemo2ページ
+- /contact: 1ページ
+- /privacy, /terms: 2ページ
+
+合計: 20ページ(現状の30+ページから大幅整理)
 ```
 
 ---

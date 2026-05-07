@@ -679,12 +679,11 @@ export const aboutCopy = {
   leaderProfiles: {
     kicker: "PROFILE",
     heading: "代表・技術責任者",
-    intro:
-      "実名・経歴の詳細表記は公開準備に合わせて更新します。まずは担当領域と進め方のイメージをご確認ください。",
+    intro: "",
     profiles: [
       {
         title: "代表 / Strategy Lead",
-        name: "眞坂 莉乃",
+        name: "秋吉 莉乃",
         body:
           "戦略コンサルティングファームにおける企業変革プロジェクトを経て、経営課題の構造化と優先順位設計に強みを持ちます。製造・金融・流通・医療・公共領域など、業界横断の経験をもとに、現場と経営の両面から実装可能な計画へ落とし込みます。",
       },
@@ -841,17 +840,17 @@ export const aboutCopy = {
       { label: "社名", value: "株式会社 AXEON" },
       {
         label: "所在地",
-        value: "東京都目黒区（詳細住所は開示準備中のためお問い合わせください）",
+        value: "東京都目黒区",
       },
-      { label: "設立", value: "2026年6月（予定）" },
+      { label: "設立", value: "2026年6月" },
       {
         label: "代表取締役",
-        value: "眞坂 莉乃（※正式な公表体裁に準じて後日更新します）",
+        value: "秋吉 莉乃",
       },
       {
         label: "事業内容",
         value:
-          "DX戦略コンサルティング / AI駆動による業務システム開発 / 内製化支援・組織開発",
+          "DX戦略コンサルティング / AI駆動による業務システム開発 / 内製化支援・組織開発 / AI導入支援",
       },
       { label: "連絡先", value: "contact@axeon.jp" },
       { label: "URL", value: "https://axeon.jp" },
