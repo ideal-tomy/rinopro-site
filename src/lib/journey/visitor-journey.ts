@@ -122,7 +122,7 @@ export function detectVisitorJourneyPageKind(
   pathname: string
 ): VisitorJourneyPageKind {
   if (pathname === "/") return "top";
-  if (pathname === "/demo") return "demo_hub";
+  if (pathname === "/demo" || pathname === "/experience") return "demo_hub";
   if (pathname === "/demo/list") return "demo_list";
   if (/^\/demo\/[^/]+$/.test(pathname)) return "demo_detail";
   if (pathname === "/services") return "services";

@@ -382,10 +382,10 @@ export function CaseStudyDetailView({
           </Button>
           <p className="mt-8">
             <Link
-              href="/case-studies"
+              href="/experience"
               className="text-[15px] font-semibold text-[var(--color-accent-primary)] underline-offset-4 hover:underline md:text-[16px]"
             >
-              実装事例一覧へ戻る
+              体験ギャラリーへ戻る
             </Link>
           </p>
         </section>

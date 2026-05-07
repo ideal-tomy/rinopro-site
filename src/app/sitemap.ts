@@ -1,6 +1,5 @@
 import type { MetadataRoute } from "next";
-import { EXPERIENCE_PROTOTYPES } from "@/lib/experience/prototype-registry";
-import { getAllCaseStudySlugs } from "@/lib/content/case-study-detail";
+import { ALLOWED_INTERACTIVE_EXPERIENCE_SLUGS } from "@/lib/content/experience-gallery";
 import { getAllIndustryShowcaseSlugs } from "@/lib/content/industry-showcase";
 import { getAllServiceOfferingSlugs } from "@/lib/content/service-offerings";
 import { fetchDemosForDisplay } from "@/lib/sanity/fetch";
@@ -21,20 +20,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return [
     { url: BASE_URL, lastModified: new Date(), changeFrequency: "weekly", priority: 1 },
-    { url: `${BASE_URL}/demo`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.95 },
+    { url: `${BASE_URL}/experience`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.95 },
     ...demoEntries,
-    ...EXPERIENCE_PROTOTYPES.map((p) => ({
-      url: `${BASE_URL}/experience/${p.slug}`,
+    ...ALLOWED_INTERACTIVE_EXPERIENCE_SLUGS.map((slug) => ({
+      url: `${BASE_URL}/experience/${slug}`,
       lastModified: new Date(),
       changeFrequency: "weekly" as const,
-      priority: 0.85,
-    })),
-    { url: `${BASE_URL}/case-studies`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.85 },
-    ...getAllCaseStudySlugs().map((slug) => ({
-      url: `${BASE_URL}/case-studies/${slug}`,
-      lastModified: new Date(),
-      changeFrequency: "weekly" as const,
-      priority: 0.84,
+      priority: 0.88,
     })),
     { url: `${BASE_URL}/services`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
     ...getAllServiceOfferingSlugs().map((slug) => ({

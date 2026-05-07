@@ -79,14 +79,14 @@ export function useDemoListPageOpenSequence(
   ]);
 }
 
-/** `/demo/list` 自動オープン直後に `/demo` へ来たときモーダルを閉じる */
+/** `/demo/list` 自動オープン直後に体験ハブへ来たときモーダルを閉じる */
 export function useCloseConciergeWhenDemoAfterAutoList(
   pathname: string,
   entrySource: string,
   setOpen: SetBool
 ) {
   useEffect(() => {
-    if (pathname !== "/demo") return;
+    if (pathname !== "/demo" && pathname !== "/experience") return;
     if (entrySource !== "auto") return;
     setOpen(false);
   }, [pathname, entrySource, setOpen]);

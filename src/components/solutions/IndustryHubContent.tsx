@@ -4,7 +4,10 @@ import { Button } from "@/components/ui/button";
 import { PageSectionDivider } from "@/components/layout/PageSectionDivider";
 import { ImplementationShowcaseCard } from "@/components/home/ImplementationShowcaseCard";
 import type { IndustryShowcaseItemWithPath } from "@/lib/content/industry-showcase";
-import { getImplementationShowcaseBySlug } from "@/lib/content/implementation-showcase";
+import {
+  getImplementationShowcaseBySlug,
+  resolveImplementationShowcaseHref,
+} from "@/lib/content/implementation-showcase";
 
 interface IndustryHubContentProps {
   item: IndustryShowcaseItemWithPath;
@@ -93,7 +96,7 @@ export function IndustryHubContent({ item }: IndustryHubContentProps) {
               関連する実装事例
             </h2>
             <p className="mt-3 max-w-3xl text-sm leading-relaxed text-text-sub md:text-[1rem]">
-              画面構成や進め方のイメージとしてご覧ください。外部デモURLが用意されている事例は、詳細ページから別タブで開けます。
+              画面構成や進め方のイメージとしてご覧ください。外部デモは別タブで開きます。サイト内で動くdemoは体験ページへ進みます。
             </p>
             <ul className="mt-8 grid list-none gap-6 md:grid-cols-2">
               {relatedCaseStudySlugs.map((slug) => {
@@ -103,8 +106,10 @@ export function IndustryHubContent({ item }: IndustryHubContentProps) {
                   <li key={slug} className="min-w-0">
                     <ImplementationShowcaseCard
                       item={showcase}
-                      href={`/case-studies/${slug}`}
-                      ctaLabel="事例詳細へ"
+                      href={resolveImplementationShowcaseHref(showcase)}
+                      ctaLabel={
+                        showcase.internalPath ? "体験を開く" : "体験する"
+                      }
                     />
                   </li>
                 );
@@ -156,7 +161,7 @@ export function IndustryHubContent({ item }: IndustryHubContentProps) {
             </Link>
           </Button>
           <Button asChild size="lg" variant="outline">
-            <Link href="/demo">体験ラボを見る</Link>
+            <Link href="/experience">体験ラボを見る</Link>
           </Button>
         </div>
       </section>

@@ -27,8 +27,8 @@ export function ExperiencePageContent({ items }: ExperiencePageContentProps) {
       <p className="mb-10 max-w-2xl text-sm text-[var(--color-text-secondary)] md:text-[1rem]">
         アプリやダッシュボードに近い画面で、導入後の使い心地をイメージできます。
         あわせて
-        <a href="/demo" className="mx-1 text-[var(--color-accent-primary)] underline-offset-2 hover:underline">
-          ツールdemo
+        <a href="/experience" className="mx-1 text-[var(--color-accent-primary)] underline-offset-2 hover:underline">
+          体験ギャラリー
         </a>
         から、チャット型の試し方もご利用ください。
       </p>

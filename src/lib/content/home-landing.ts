@@ -218,8 +218,8 @@ export const homeLandingCopy = {
     sectionKicker: "INDUSTRY SHOWCASE",
     heading: "業界別の、実装事例。",
     intro: "",
-    allCasesLabel: "すべての事例を見る",
-    allCasesHref: "/case-studies",
+    allCasesLabel: "すべてのdemoを見る",
+    allCasesHref: "/experience",
   },
 
   demoEvidence: {
@@ -229,7 +229,7 @@ export const homeLandingCopy = {
     intro:
       "提案資料だけでなく、動くサンプルで実装力を確認できます。実導入時は御社業務に合わせて設計します。",
     moreDemosLabel: "体験デモをもっと見る",
-    moreDemosHref: "/demo",
+    moreDemosHref: "/experience",
   },
 
   // 互換用

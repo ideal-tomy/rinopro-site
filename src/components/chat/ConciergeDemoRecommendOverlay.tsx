@@ -156,7 +156,7 @@ export function ConciergeDemoRecommendOverlay({
 
       <div className="flex shrink-0 flex-wrap items-center justify-center gap-x-5 gap-y-1 border-t border-silver/15 bg-base/40 px-4 py-2">
         <Link
-          href="/demo"
+          href="/experience"
           className={footerLinkClass}
           onClick={() => onDismissForNavigation()}
         >

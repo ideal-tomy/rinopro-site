@@ -6,7 +6,10 @@ import { Button } from "@/components/ui/button";
 import { HomeHorizontalDots } from "@/components/home/HomeHorizontalDots";
 import { HomeLandingSectionHeading } from "@/components/home/HomeLandingSectionHeading";
 import { ImplementationShowcaseCard } from "@/components/home/ImplementationShowcaseCard";
-import { IMPLEMENTATION_SHOWCASE_ITEMS } from "@/lib/content/implementation-showcase";
+import {
+  IMPLEMENTATION_SHOWCASE_ITEMS,
+  resolveImplementationShowcaseHref,
+} from "@/lib/content/implementation-showcase";
 import { homeLandingCopy } from "@/lib/content/home-landing";
 import { homeLandingCtaButtonClass } from "@/lib/content/home-landing-styles";
 
@@ -42,8 +45,11 @@ export function HomeImplementationShowcaseSection() {
           >
             <ImplementationShowcaseCard
               item={item}
-              href={`/case-studies/${item.slug}`}
+              href={resolveImplementationShowcaseHref(item)}
               priorityImage={false}
+              ctaLabel={
+                item.internalPath ? "体験を開く" : "体験する"
+              }
             />
           </div>
         ))}

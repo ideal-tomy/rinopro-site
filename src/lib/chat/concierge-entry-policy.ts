@@ -86,7 +86,10 @@ export function resolveEntryChoiceSurface(args: {
 }
 
 export function resolveDemoListSequenceOpen(pathname: string) {
-  const host = pathname === "/demo/list" || pathname === "/demo";
+  const host =
+    pathname === "/demo/list" ||
+    pathname === "/demo" ||
+    pathname === "/experience";
   if (!host) return null;
   return {
     entrySource: "fab" as const,
@@ -98,7 +101,9 @@ export function resolveDemoListSequenceOpen(pathname: string) {
 export function resolveDemoWizardCompletion(pathname: string) {
   return {
     shouldClose:
-      pathname === "/demo/list" || pathname === "/demo",
+      pathname === "/demo/list" ||
+      pathname === "/demo" ||
+      pathname === "/experience",
     surface: "pick" as const,
     entrySource: "fab" as const,
   };

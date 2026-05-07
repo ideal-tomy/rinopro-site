@@ -240,9 +240,7 @@ export function EstimateDetailedProcessingContent() {
           </Link>
         </Button>
         <Button variant="outline" asChild className="min-h-11">
-          <Link href="/demo" target="_blank" rel="noopener noreferrer">
-            {copy.processingLinkDemo}
-          </Link>
+          <Link href="/experience">{copy.processingLinkDemo}</Link>
         </Button>
       </div>
 

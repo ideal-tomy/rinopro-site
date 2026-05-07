@@ -166,7 +166,7 @@ const OFFERINGS: readonly ServiceOfferingDetail[] = [
       heading: "関連する入口",
       links: [
         { href: "/services/consulting", label: "コンサルティングの詳細プロセス" },
-        { href: "/case-studies", label: "実装事例一覧" },
+        { href: "/experience", label: "体験・demo一覧" },
         { href: "/services", label: "サービスハブ" },
       ],
     },
@@ -265,8 +265,7 @@ const OFFERINGS: readonly ServiceOfferingDetail[] = [
       heading: "関連する入口",
       links: [
         { href: "/services/development", label: "開発の進め方（詳細タブ）" },
-        { href: "/demo", label: "体験デモ" },
-        { href: "/case-studies", label: "実装事例" },
+        { href: "/experience", label: "体験ギャラリー" },
       ],
     },
   },
@@ -364,7 +363,7 @@ const OFFERINGS: readonly ServiceOfferingDetail[] = [
       heading: "関連する入口",
       links: [
         { href: "/services", label: "サービスハブ" },
-        { href: "/demo", label: "データ活用に繋がるデモ" },
+        { href: "/experience", label: "データ活用に繋がるデモ" },
         { href: "/contact", label: "相談フォーム" },
       ],
     },
@@ -561,8 +560,7 @@ const OFFERINGS: readonly ServiceOfferingDetail[] = [
     relatedLinks: {
       heading: "関連する入口",
       links: [
-        { href: "/case-studies", label: "実装事例" },
-        { href: "/demo", label: "体験デモ" },
+        { href: "/experience", label: "体験ギャラリー" },
         { href: "/services", label: "サービスハブ" },
       ],
     },
@@ -663,7 +661,7 @@ const OFFERINGS: readonly ServiceOfferingDetail[] = [
       links: [
         { href: "/contact", label: "運用伴走の相談" },
         { href: "/services/ai-apps", label: "AI業務アプリ開発" },
-        { href: "/case-studies", label: "実装事例" },
+        { href: "/experience", label: "体験・demo" },
       ],
     },
   },

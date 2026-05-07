@@ -265,7 +265,7 @@ export function DemoDetailContent({
           </Button>
         )}
         <Button variant="outline" asChild>
-          <Link href="/demo">一覧に戻る</Link>
+          <Link href="/experience">一覧に戻る</Link>
         </Button>
       </div>
 

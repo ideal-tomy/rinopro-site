@@ -26,8 +26,8 @@ interface DemoExploreStickyRailProps {
  */
 export function DemoExploreStickyRail({
   returnHref,
-  hubHref = "/demo",
-  listHref = "/demo/list",
+  hubHref = "/experience",
+  listHref = "/experience",
   suggestions,
 }: DemoExploreStickyRailProps) {
   const backTarget = returnHref ?? hubHref;

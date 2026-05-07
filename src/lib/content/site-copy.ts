@@ -126,7 +126,7 @@ export function getConciergeFabNudgePageId(
   if (!pathname || pathname === "/") {
     return "home";
   }
-  if (pathname === "/demo") {
+  if (pathname === "/demo" || pathname === "/experience") {
     return "demo_hub";
   }
   if (pathname === "/demo/list") {
@@ -154,7 +154,7 @@ export function getConciergeFabNudgePageId(
 export const homeSelfServeRowCopy = {
   lead: "会話を使わずに見る",
   links: [
-    { href: "/demo", label: "体験デモ" },
+    { href: "/experience", label: "体験デモ" },
     { href: "/services", label: "サービス概要" },
   ],
 } as const;
@@ -173,7 +173,7 @@ export const homeQuickStartCopy = {
     title: "実例から、可能性を掴む。",
     body: "厳選された活用シナリオから、自社に最適な導入イメージを具体化します。\n「何ができるか」を直感的に理解しましょう。",
     ctaLabel: "活用事例を見る",
-    ctaHref: "/demo",
+    ctaHref: "/experience",
   },
   estimate: {
     title: "数字で、実現を具体化する。",

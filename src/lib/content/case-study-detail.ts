@@ -1,5 +1,5 @@
 /**
- * /case-studies/[slug] 詳細ページ用コンテンツ。
+ * 旧 `/case-studies/[slug]` 用コンテンツ（ルートは `/experience` に統合済み。参照はレガシー用途のみ）。
  * LP の実装事例カード（implementation-showcase）と slug を共有する。
  */
 

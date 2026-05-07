@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { ImplementationShowcaseItem } from "@/lib/content/implementation-showcase";
 
@@ -85,10 +85,14 @@ export function ImplementationShowcaseCard({
         <p className="mt-auto pt-6 text-[15px] font-semibold text-[var(--color-accent-primary)] md:text-[16px]">
           <span className="inline-flex items-center gap-1 underline-offset-4 group-hover:underline">
             {ctaLabel}
-            <ArrowRight
-              className="size-4 motion-safe:transition-transform motion-safe:duration-300 motion-safe:group-hover:translate-x-1"
-              aria-hidden
-            />
+            {external ? (
+              <ExternalLink className="size-4 shrink-0" aria-hidden />
+            ) : (
+              <ArrowRight
+                className="size-4 motion-safe:transition-transform motion-safe:duration-300 motion-safe:group-hover:translate-x-1"
+                aria-hidden
+              />
+            )}
           </span>
         </p>
       </div>
@@ -101,6 +105,7 @@ export function ImplementationShowcaseCard({
         href={href}
         target="_blank"
         rel="noopener noreferrer"
+        title="外部サイトに移動します"
         className={sharedClass}
       >
         {inner}

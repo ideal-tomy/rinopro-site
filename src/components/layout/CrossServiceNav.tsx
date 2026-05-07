@@ -24,7 +24,7 @@ export function ServiceCrossLinks({ current }: { current: ServiceCurrent }) {
       </p>
       <ul className="flex flex-wrap items-center justify-center gap-x-10 gap-y-3">
         <li className="list-none">
-          <Link href="/demo" className={linkClass}>
+          <Link href="/experience" className={linkClass}>
             体験・demo
           </Link>
         </li>
@@ -43,7 +43,7 @@ export function ServiceCrossLinks({ current }: { current: ServiceCurrent }) {
   );
 }
 
-/** /demo 一覧：開発・コンサル詳細への導線 */
+/** 体験ギャラリー（/experience）：開発・コンサル詳細への導線 */
 export function DemoCrossServiceLinks() {
   return (
     <nav

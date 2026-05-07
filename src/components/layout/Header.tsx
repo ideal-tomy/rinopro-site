@@ -14,7 +14,7 @@ const NAV_ITEMS = [
   { href: "/services", label: "サービス" },
   { href: "/about", label: "会社紹介" },
   { href: "/contact", label: "問い合わせ" },
-  { href: "/demo", label: "体験デモ" },
+  { href: "/experience", label: "体験デモ" },
 ] as const;
 
 export function Header() {

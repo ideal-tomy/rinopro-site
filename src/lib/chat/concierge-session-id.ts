@@ -43,7 +43,7 @@ export function buildConciergeChatSessionId(args: {
     }
     return "concierge-services-hub";
   }
-  if (pathname.startsWith("/demo")) {
+  if (pathname.startsWith("/demo") || pathname.startsWith("/experience")) {
     return `concierge-demo-${pathname.replace(/\//g, "_")}`;
   }
   return `concierge-path-${slug}`;

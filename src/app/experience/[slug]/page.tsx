@@ -1,20 +1,22 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { Suspense } from "react";
 import { PageShell } from "@/components/layout/PageShell";
 import { ExperiencePrototypeRunner } from "@/components/experience/ExperiencePrototypeRunner";
 import { DemoExploreStickyRail } from "@/components/experience/DemoExploreStickyRail";
 import { parseReturnToFromSearchParams } from "@/lib/navigation/experience-entry";
-import { getSuggestedNextExperiences } from "@/lib/experience/suggested-next-experiences";
 import {
-  EXPERIENCE_PROTOTYPES,
-  getExperiencePrototypeBySlug,
-} from "@/lib/experience/prototype-registry";
+  ALLOWED_INTERACTIVE_EXPERIENCE_SLUGS,
+  isAllowedInteractiveExperienceSlug,
+} from "@/lib/content/experience-gallery";
+import { getExperiencePrototypeBySlug } from "@/lib/experience/prototype-registry";
 
 export function generateStaticParams() {
-  return EXPERIENCE_PROTOTYPES.map((p) => ({ slug: p.slug }));
+  return ALLOWED_INTERACTIVE_EXPERIENCE_SLUGS.map((slug) => ({ slug }));
 }
+
+export const dynamicParams = true;
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -36,6 +38,10 @@ export default async function ExperiencePrototypePage({
   searchParams,
 }: Props) {
   const { slug } = await params;
+  if (!isAllowedInteractiveExperienceSlug(slug)) {
+    permanentRedirect("/experience");
+  }
+
   const meta = getExperiencePrototypeBySlug(slug);
   if (!meta) notFound();
 
@@ -43,17 +49,21 @@ export default async function ExperiencePrototypePage({
   const returnHref = parseReturnToFromSearchParams(sp);
 
   const tierLabel = meta.tier === "track3" ? "③ プロダクト寄り" : "② 画面体験";
-  const compactHero = slug === "legal-professional-mini-sfa-demo";
-  const exploreSuggestions = getSuggestedNextExperiences(slug, 2);
-  const crumbBackHref = returnHref ?? "/demo";
-  const crumbBackLabel = returnHref ? "前のページ" : "体験・demoハブ";
+  const exploreSuggestions = ALLOWED_INTERACTIVE_EXPERIENCE_SLUGS.filter(
+    (s) => s !== slug
+  )
+    .map((s) => {
+      const m = getExperiencePrototypeBySlug(s);
+      return m ? { slug: m.slug, title: m.title } : null;
+    })
+    .filter((x): x is { slug: string; title: string } => x != null);
+  const crumbBackHref = returnHref ?? "/experience";
+  const crumbBackLabel = returnHref ? "前のページ" : "体験ギャラリー";
 
   return (
     <PageShell>
       <div className="container mx-auto max-w-6xl px-4 pb-28 pt-8 md:px-6 md:pb-32 md:pt-14">
-        <nav
-          className={compactHero ? "mb-4 text-xs text-text-sub md:mb-6 md:text-sm" : "mb-6 text-sm text-text-sub"}
-        >
+        <nav className="mb-6 text-sm text-text-sub">
           <Link
             href={crumbBackHref}
             className="text-accent underline-offset-2 hover:underline"
@@ -71,13 +81,7 @@ export default async function ExperiencePrototypePage({
             プロトタイプ（モック結果）
           </span>
         </div>
-        <h1
-          className={
-            compactHero
-              ? "mb-2 text-xl font-bold text-accent md:mb-3 md:text-3xl"
-              : "mb-3 text-2xl font-bold text-accent md:text-3xl"
-          }
-        >
+        <h1 className="mb-3 text-2xl font-bold text-accent md:text-3xl">
           {meta.title}
         </h1>
         {meta.foldLeadCopy ? (
@@ -90,13 +94,7 @@ export default async function ExperiencePrototypePage({
             </p>
           </details>
         ) : (
-          <p
-            className={
-              compactHero
-                ? "mb-5 max-w-2xl text-xs leading-relaxed text-text-sub md:mb-8 md:text-sm"
-                : "mb-8 max-w-2xl text-sm text-text-sub md:text-[16px]"
-            }
-          >
+          <p className="mb-8 max-w-2xl text-sm text-text-sub md:text-[16px]">
             {meta.shortDescription}
           </p>
         )}
@@ -110,6 +108,8 @@ export default async function ExperiencePrototypePage({
       </div>
       <DemoExploreStickyRail
         returnHref={returnHref}
+        hubHref="/experience"
+        listHref="/experience"
         suggestions={exploreSuggestions}
       />
     </PageShell>
