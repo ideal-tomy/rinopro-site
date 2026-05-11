@@ -145,7 +145,7 @@ const DETAILS: readonly CaseStudyDetail[] = [
     relatedSolutionsSlug: "construction",
     relatedLinks: [
       { label: "AI業務アプリ開発", href: "/services/development" },
-      { label: "DX戦略・コンサルティング", href: "/services/consulting" },
+      { label: "DX戦略設計", href: "/services/consulting" },
     ],
   },
   {
