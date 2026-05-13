@@ -571,7 +571,7 @@ export function EstimateDetailedHearingWizard({
 
               {stepId === "review" ? (
                 <div className="space-y-4">
-                  <p className="text-sm font-medium text-white/90">
+                  <p className="text-sm font-medium text-[var(--color-text-primary)]">
                     入力内容の要約です。このまま整理を開始できます。
                   </p>
                   {reviewAnswerPairs.length === 0 ? (
@@ -581,7 +581,7 @@ export function EstimateDetailedHearingWizard({
                       {reviewAnswerPairs.map(({ question, answer, questionId }) => (
                         <div key={question} className="border-b border-silver/10 pb-3 last:border-b-0">
                           <dt className="text-[15px] font-semibold text-text">{question}</dt>
-                          <dd className="mt-1 whitespace-pre-wrap text-[15px] leading-relaxed text-white/85">
+                          <dd className="mt-1 whitespace-pre-wrap text-[15px] leading-relaxed text-[var(--color-text-secondary)]">
                             {answer}
                           </dd>
                           {questionId ? (
@@ -643,7 +643,7 @@ export function EstimateDetailedHearingWizard({
               type="button"
               variant="ghost"
               size="sm"
-              className="h-8 min-h-8 shrink-0 px-2 text-xs text-text-sub hover:text-white"
+              className="h-8 min-h-8 shrink-0 px-2 text-xs text-text-sub hover:text-[var(--color-accent-primary)]"
               disabled={(!isEditingQuestion && isFirst) || isExiting}
               onClick={goBack}
             >
@@ -739,10 +739,10 @@ function SelectOptionButtons({
           id={`${idPrefix}-opt-${o.value}`}
           onClick={() => onPick(o.value)}
           className={cn(
-            "flex min-h-[2.9rem] items-center rounded-lg border px-2.5 py-2 text-left text-[13px] leading-snug text-white/95 transition-colors md:min-h-[3rem] md:text-sm",
+            "flex min-h-[2.9rem] items-center rounded-lg border px-2.5 py-2 text-left text-[13px] font-medium leading-snug text-[var(--color-accent-primary)] transition-colors hover:text-[var(--color-accent-primary-hover)] md:min-h-[3rem] md:text-sm",
             value === o.value
-              ? "border-action bg-action/20 ring-1 ring-action/30"
-              : "border-silver/30 bg-base-dark hover:border-action/45 hover:bg-base-dark/90"
+              ? "border-[var(--color-accent-primary)] bg-[var(--color-accent-primary-light)] font-semibold text-[var(--color-accent-primary)] ring-1 ring-[var(--color-accent-primary)]/30"
+              : "border-silver/30 bg-base-dark hover:border-[var(--color-accent-primary)]/45 hover:bg-[var(--color-accent-primary-light)]/60"
           )}
         >
           {o.label}
@@ -792,7 +792,7 @@ function QuickSelectWithFreeText({
             type="button"
             variant="ghost"
             size="sm"
-            className="h-8 px-2 text-xs text-text-sub hover:text-white"
+            className="h-8 px-2 text-xs text-text-sub hover:text-[var(--color-accent-primary)]"
             onClick={() => onChange("")}
             disabled={!trimmed}
           >
