@@ -31,22 +31,42 @@ export function HomeEmpathyCards() {
             </p>
             <p>
               英語で読めば、Axis × On（アクシス・オン）。
-              軸を持ち、前へ進む。環境が揺れても、流行が変わっても、
-              意思決定の中心を見失わずに進み続けるための言葉です。
+              <br className="md:hidden" />
+              軸を持ち、前へ進む。
+              <br className="md:hidden" />
+              環境が揺れても、流行が変わっても、
+              <br className="md:hidden" />
+              意思決定の中心を見失わずに
+              <br className="md:hidden" />
+              進み続けるための言葉です。
             </p>
             <p>
               日本語で読めば、軸 × 恩（じく・おん）。
-              私たちは、社会や人から多くの機会を受け取り、育てられてきました。
+              <br className="md:hidden" />
+              私たちは、社会や人から多くの機会を受け取り、
+              <br className="md:hidden" />
+              育てられてきました。
+              <br className="md:hidden" />
               だからこそ、その恩を次の世代へ返していく。
-              この恩送りの循環を、事業を通じて実装することが、私たちの使命です。
+              <br className="md:hidden" />
+              この恩送りの循環を、事業を通じて実装することが、
+              <br className="md:hidden" />
+              私たちの使命です。
             </p>
             <p>
-              私たちが目指すのは、AIで人の仕事を奪う未来ではありません。
+              私たちが目指すのは、
+              <br className="md:hidden" />
+              AIで人の仕事を奪う未来ではありません。
+              <br className="md:hidden" />
               定型業務、転記、検索、要約、整理をAIに任せ、
-              創造、判断、関係構築、本質的な議論へ、人の時間を返していくこと。
+              <br className="md:hidden" />
+              創造、判断、関係構築、本質的な議論へ、
+              <br className="md:hidden" />
+              人の時間を返していくこと。
             </p>
             <p>
               AXEONは、企業の軸を共につくるパートナーとして、
+              <br className="md:hidden" />
               戦略と実装を同じテーブルに置き、
               理想を現場で動く仕組みに変えていきます。
             </p>
