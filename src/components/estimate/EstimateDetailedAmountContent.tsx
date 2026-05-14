@@ -11,6 +11,7 @@ import {
   buildContactMessageDraft,
   buildContactPrefillNavigation,
   buildHandoffPayloadV2FromDetailed,
+  storeContactEstimateSnapshotInSession,
   storeContactPrefillInSession,
 } from "@/lib/chat/estimate-handoff";
 import { estimateDetailedCopy } from "@/lib/content/site-copy";
@@ -86,6 +87,9 @@ export function EstimateDetailedAmountContent() {
     if (storeInSession) {
       storeContactPrefillInSession(text);
     }
+    // 整理済み snapshot を別レーンで運ぶ。ContactForm が起動時に取り出し、
+    // 「整理済みである」ことを画面に明示しつつ、送信時に API へ同梱する。
+    storeContactEstimateSnapshotInSession(snapshot);
     suppressNextChatAutoOpen();
     setConciergeOpen(false);
     router.push(href);

@@ -336,6 +336,45 @@ export function consumeContactPrefillFromSession(): string | null {
   }
 }
 
+/**
+ * 詳細見積もり由来の問い合わせで、整理済みの snapshot を ContactForm まで運ぶための一時保管。
+ * テキスト prefill とは別レーンで sessionStorage に保存し、ContactForm が起動時に取り出して
+ * 「整理済みであること」をユーザーに見せ、送信時に API へ同梱する。
+ */
+export const CONTACT_ESTIMATE_SNAPSHOT_STORAGE_KEY =
+  "AXEON_contact_estimate_snapshot_v1";
+
+export function storeContactEstimateSnapshotInSession(
+  snapshot: EstimateSnapshot
+): void {
+  if (typeof window === "undefined") return;
+  try {
+    window.sessionStorage.setItem(
+      CONTACT_ESTIMATE_SNAPSHOT_STORAGE_KEY,
+      JSON.stringify(snapshot)
+    );
+  } catch {
+    // ignore quota / private mode
+  }
+}
+
+export function consumeContactEstimateSnapshotFromSession(): EstimateSnapshot | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = window.sessionStorage.getItem(
+      CONTACT_ESTIMATE_SNAPSHOT_STORAGE_KEY
+    );
+    if (!raw) return null;
+    window.sessionStorage.removeItem(CONTACT_ESTIMATE_SNAPSHOT_STORAGE_KEY);
+    const parsed = JSON.parse(raw) as unknown;
+    const checked = estimateSnapshotSchema.safeParse(parsed);
+    if (!checked.success) return null;
+    return checked.data;
+  } catch {
+    return null;
+  }
+}
+
 export function storeHandoffPayloadInSession(payload: ChatHandoffPayload): void {
   if (typeof window === "undefined") return;
   try {

@@ -10,6 +10,7 @@ import { contactCopy } from "@/lib/content/site-copy";
 import { cn } from "@/lib/utils";
 import {
   buildContactMessageDraft,
+  consumeContactEstimateSnapshotFromSession,
   consumeContactPrefillFromSession,
   consumeHandoffPayloadFromSession,
   CONTACT_PREFILL_QUERY,
@@ -18,6 +19,7 @@ import {
   CONTACT_HANDOFF_SESSION_QUERY,
   type ChatHandoffPayload,
 } from "@/lib/chat/estimate-handoff";
+import type { EstimateSnapshot } from "@/lib/estimate/estimate-snapshot";
 import {
   DEMO_HUB_TYPE_SECTION_SLUGS,
   FEATURED_EXPERIENCE_SLUGS,
@@ -72,6 +74,19 @@ export function ContactForm() {
   const [message, setMessage] = useState("");
   const [closestExperience, setClosestExperience] = useState("");
   const [closestExperienceOther, setClosestExperienceOther] = useState("");
+  /** 詳細見積もり由来：送信時に hidden で添付し、件名・本文を「整理済み相談」に切り替える */
+  const [carriedSnapshot, setCarriedSnapshot] = useState<EstimateSnapshot | null>(
+    null
+  );
+  /**
+   * バナー表示用：いまの下書きが「どの整理を引き継いだものか」をユーザーに伝える。
+   * - "estimate"  : 詳細見積もり（金額レンジ等あり）
+   * - "concierge" : チャット由来（snapshot なし）
+   * - null        : 直接入力のみ
+   */
+  const [handoffOrigin, setHandoffOrigin] = useState<
+    "estimate" | "concierge" | null
+  >(null);
 
   const { status, errors, submit, submitError } = useContactForm();
   const form = contactCopy.form;
@@ -111,6 +126,16 @@ export function ContactForm() {
       return;
     }
 
+    // 詳細見積もり由来なら snapshot を別レーンで受け取り、送信時に同梱する。
+    // 取り出せたかどうかでバナー文言を切り替える。
+    const pickedSnapshot = consumeContactEstimateSnapshotFromSession();
+    if (pickedSnapshot) {
+      setCarriedSnapshot(pickedSnapshot);
+      setHandoffOrigin("estimate");
+    } else {
+      setHandoffOrigin("concierge");
+    }
+
     const frame = requestAnimationFrame(() => {
       setMessage((prev) => (prev.trim() ? `${merged}\n\n${prev.trim()}` : merged));
     });
@@ -121,27 +146,33 @@ export function ContactForm() {
     if (handoffApplied.current) return;
     if (searchParams.get(CONTACT_PREFILL_QUERY)) return;
 
-    const raw = searchParams.get("handoff");
-    if (raw === CONTACT_HANDOFF_SESSION_QUERY) {
-      const payload = consumeHandoffPayloadFromSession();
-      if (!payload) return;
+    const applyPayload = (payload: ChatHandoffPayload) => {
       handoffApplied.current = true;
       const draft = handoffDraftText(payload);
+      // 互換ルートでも snapshot を含むなら整理済みとして拾い、UI と送信に反映する。
+      if (payload.v === 2 && "snapshot" in payload && payload.snapshot) {
+        setCarriedSnapshot(payload.snapshot);
+        setHandoffOrigin("estimate");
+      } else {
+        setHandoffOrigin("concierge");
+      }
       const frame = requestAnimationFrame(() => {
         setMessage((prev) => (prev.trim() ? `${draft}\n\n${prev.trim()}` : draft));
       });
       return () => cancelAnimationFrame(frame);
+    };
+
+    const raw = searchParams.get("handoff");
+    if (raw === CONTACT_HANDOFF_SESSION_QUERY) {
+      const payload = consumeHandoffPayloadFromSession();
+      if (!payload) return;
+      return applyPayload(payload);
     }
 
     if (!raw) return;
     const payload = decodeChatHandoff(raw);
     if (!payload) return;
-    handoffApplied.current = true;
-    const draft = handoffDraftText(payload);
-    const frame = requestAnimationFrame(() => {
-      setMessage((prev) => (prev.trim() ? `${draft}\n\n${prev.trim()}` : draft));
-    });
-    return () => cancelAnimationFrame(frame);
+    return applyPayload(payload);
   }, [searchParams]);
 
   useEffect(() => {
@@ -189,6 +220,9 @@ export function ContactForm() {
       ...(resolvedTriedExperience
         ? { triedExperience: resolvedTriedExperience }
         : {}),
+      // 「整理済み相談」を保ったまま送信する：API 側で件名と本文が
+      // `[整理済み相談]` ／ 見積もりメモ併記に切り替わる。
+      ...(carriedSnapshot ? { estimateSnapshot: carriedSnapshot } : {}),
     };
     const success = await submit(payload);
     if (success) {
@@ -198,6 +232,8 @@ export function ContactForm() {
       setMessage("");
       setClosestExperience("");
       setClosestExperienceOther("");
+      setCarriedSnapshot(null);
+      setHandoffOrigin(null);
     }
   };
 
@@ -260,6 +296,29 @@ export function ContactForm() {
         <label htmlFor="contact-message" className="mb-2 block text-sm font-medium text-text">
           {form.messageLabel}
         </label>
+        {handoffOrigin ? (
+          <div
+            className="mb-3 rounded-lg border border-accent/30 bg-accent/5 px-3 py-3 text-sm leading-relaxed text-text"
+            role="status"
+            aria-live="polite"
+          >
+            <p className="font-semibold text-accent">
+              {handoffOrigin === "estimate"
+                ? "✓ 詳細見積もりの内容を引き継いで下書きを入れています"
+                : "✓ AIコンシェルジュでの相談内容を引き継いで下書きを入れています"}
+            </p>
+            {handoffOrigin === "estimate" && carriedSnapshot?.ai ? (
+              <p className="mt-1 text-[13px] text-text-sub">
+                金額の目安：約 {carriedSnapshot.ai.estimateLoMan} 万円 〜{" "}
+                {carriedSnapshot.ai.estimateHiMan} 万円
+                <span className="ml-1">（整理済み内容として一緒にお送りします）</span>
+              </p>
+            ) : null}
+            <p className="mt-1 text-[13px] text-text-sub">
+              そのまま送信できます。追記・編集も可能です。
+            </p>
+          </div>
+        ) : null}
         <Textarea
           id="contact-message"
           value={message}
