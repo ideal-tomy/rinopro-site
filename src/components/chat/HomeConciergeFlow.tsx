@@ -36,10 +36,12 @@ import {
 } from "@/lib/chat/concierge-flow";
 
 import {
-  buildContactHandoffUrl,
+  buildContactMessageDraft,
+  buildContactPrefillNavigation,
   buildEstimateContextPayload,
   buildEstimateDetailedEntryUrl,
   buildHandoffPayloadV1,
+  storeContactPrefillInSession,
 } from "@/lib/chat/estimate-handoff";
 import type { ConciergeIndustryBundle } from "@/lib/chat/estimate-handoff";
 import { ConciergeIndustryStep } from "@/components/chat/ConciergeIndustryStep";
@@ -251,8 +253,8 @@ function ConciergeNextStepsCard({
       <Link
         href={demoHref}
         className={cn(
-          "flex min-h-[3.2rem] items-center justify-center rounded-xl border border-white/18 bg-white/[0.07] px-3 py-3 text-center text-[12px] font-semibold leading-snug text-white shadow-[0_6px_20px_rgba(0,0,0,0.18)] transition-[transform,background-color,border-color,box-shadow] sm:text-[14px]",
-          "hover:-translate-y-0.5 hover:border-action/55 hover:bg-action/18 hover:shadow-[0_10px_26px_rgba(0,103,192,0.18)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-action",
+          "flex min-h-[3.2rem] items-center justify-center rounded-xl border border-[var(--color-accent-primary)]/40 bg-[var(--color-bg-pure)] px-3 py-3 text-center text-[12px] font-semibold leading-snug text-[var(--color-accent-primary)] shadow-sm transition-[transform,background-color,border-color,box-shadow] sm:text-[14px]",
+          "hover:-translate-y-0.5 hover:border-[var(--color-accent-primary)] hover:bg-[var(--color-accent-primary-light)]/35 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-action",
           disabled && "pointer-events-none opacity-50"
         )}
         onClick={(e) => {
@@ -267,8 +269,8 @@ function ConciergeNextStepsCard({
         type="button"
         disabled={disabled}
         className={cn(
-          "flex min-h-[3.2rem] w-full items-center justify-center rounded-xl border border-action/45 bg-action/22 px-3 py-3 text-center text-[12px] font-semibold leading-snug text-white shadow-[0_8px_22px_rgba(0,103,192,0.16)] transition-[transform,background-color,border-color,box-shadow] sm:text-[14px]",
-          "hover:-translate-y-0.5 hover:border-action/75 hover:bg-action/35 hover:shadow-[0_12px_28px_rgba(0,103,192,0.24)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-action",
+          "flex min-h-[3.2rem] w-full items-center justify-center rounded-xl border border-transparent bg-[var(--color-accent-primary)] px-3 py-3 text-center text-[12px] font-semibold leading-snug text-white shadow-md transition-[transform,background-color,border-color,box-shadow] sm:text-[14px]",
+          "hover:-translate-y-0.5 hover:bg-[var(--color-accent-primary-hover)] hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-action",
           disabled && "opacity-50"
         )}
         onClick={() => {
@@ -498,8 +500,13 @@ export function HomeConciergeFlow({
       current.body,
       readVisitorJourneySummary()
     );
+    const text = buildContactMessageDraft(payload);
+    const { href, storeInSession } = buildContactPrefillNavigation(text);
+    if (storeInSession) {
+      storeContactPrefillInSession(text);
+    }
     dismissConciergeForNavigation();
-    router.push(buildContactHandoffUrl(payload));
+    router.push(href);
   };
 
   const handleFreeformCta = () => {
@@ -881,8 +888,8 @@ function DoneStep({
 
       <div className="min-h-0 flex-1 overflow-y-auto pb-4">
         {isAb && abParts ? (
-          <div className="rounded-2xl border border-silver/20 bg-base/40 p-4 sm:p-6">
-            <p className="text-center text-[16px] font-bold leading-snug text-white sm:text-2xl">
+          <div className="rounded-2xl border border-silver/30 bg-[var(--color-bg-pure)] p-4 sm:p-6">
+            <p className="text-center text-[16px] font-bold leading-snug text-text sm:text-2xl">
               {parseBoldLine(abParts.headline)}
             </p>
             {abParts.sub ? (
@@ -910,7 +917,7 @@ function DoneStep({
             ) : null}
           </div>
         ) : cdeParts ? (
-          <div className="rounded-2xl border border-silver/20 bg-base/40 p-4 sm:p-6">
+          <div className="rounded-2xl border border-silver/30 bg-[var(--color-bg-pure)] p-4 sm:p-6">
             <div className="text-[10px] font-semibold leading-relaxed tracking-wide text-text/95 sm:text-[16px]">
               {cdeParts.intro.split("\n").map((line, i) => (
                 <p key={`ci-${i}`} className="mb-2 last:mb-0">
@@ -999,8 +1006,8 @@ function DoneStep({
                         className={cn(
                           ctaBase,
                           item.variant === "primary"
-                            ? "border-action/50 bg-action/25 text-white shadow-[0_0_18px_rgba(0,103,192,0.18)] hover:border-action/70 hover:bg-action/35"
-                            : "border-white/15 bg-white/[0.06] text-text/95 hover:border-white/25"
+                            ? "border-transparent bg-[var(--color-accent-primary)] text-white shadow-md hover:bg-[var(--color-accent-primary-hover)]"
+                            : "border-[var(--color-accent-primary)]/40 bg-[var(--color-bg-pure)] text-[var(--color-accent-primary)] hover:border-[var(--color-accent-primary)] hover:bg-[var(--color-accent-primary-light)]/35"
                         )}
                       >
                         {item.label}

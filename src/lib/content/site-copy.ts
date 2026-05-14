@@ -1009,13 +1009,13 @@ export const estimateDetailedCopy = {
   btnContact: "この内容で問い合わせる",
   inquiryPrepTitle: "問い合わせ前の確認",
   inquiryPrepIntro:
-    "ここでは、サイト内で整理済みの内容を土台にして、最初の返信を具体的にするために不足点だけを補います。長いヒアリングではなく、必要な確認だけに絞ります。",
+    "ここでは任意で、サイト内で整理済みの内容を土台にして、最初の返信を具体化するための不足点だけを補えます。実行しなくても、そのまま「この内容で問い合わせる」からお進みいただけます。",
   inquiryPrepIntentLabel: "今回の相談でいちばん知りたいこと",
   inquiryPrepDesiredReplyLabel: "今回の返信でほしい内容",
   inquiryPrepPrimaryHint:
-    "まずは、今回どんな返答を求めているかを選んで問い合わせ用の整理を作ります。",
+    "ご希望に応じて、返答のイメージを選んで問い合わせ用の整理を作れます（任意）。",
   inquiryPrepFollowUpHint:
-    "追加で確認したい点だけを並べています。埋めると、送信時点でかなり具体的な問い合わせになります。",
+    "追加で確認したい点だけを並べています。埋めると、送信時点でより具体的な問い合わせになります（任意）。",
   inquiryPrepGenerateCta: "不足点を整理する",
   inquiryPrepRefreshCta: "この回答で問い合わせ内容を更新する",
   inquiryPrepLoading: "整理しています…",
@@ -1033,7 +1033,7 @@ export const estimateDetailedCopy = {
   inquiryPrepReplyFocusTitle: "初回返信でまず触れるべき論点",
   inquiryPrepUnresolvedTitle: "まだ確認が必要な点",
   inquiryPrepContactGate:
-    "問い合わせの前に、上の確認を一度実行してください。送信時点でこちらが返しやすい状態まで整理します。",
+    "（参考）問い合わせ前の整理は任意です。未整理でもお問い合わせフォームから送信できます。",
   inquiryPrepError: "問い合わせ前整理に失敗しました。時間を置いて再度お試しください。",
   rangeDisclaimer: "最終的な開発費用は、お話を伺ったうえでお出しします。",
   /** 結果・金額ページの要約ブロック見出し */
@@ -1184,7 +1184,10 @@ export const estimateDetailedCopy = {
 export const contactCopy = {
   title: "お問い合わせ",
   purpose:
-    "問い合わせ前に要点を整理し、初回返信を具体化しやすい状態で送るための窓口です。直流入でも同じ基準で確認します。",
+    "ご相談内容を短く書いて送ってください。2営業日以内に担当者よりご返信します。",
+  /** 問い合わせページ下部：詳細見積フローへ（任意） */
+  depthPromptLine:
+    "もう少し整理してから送りたい場合は、次のリンクからヒアリングに進めます。",
   /** 問い合わせページ：短いヒアリング（詳細見積フロー）へ */
   estimateShortcutCta: "ヒアリングで要点をそろえる",
   estimateShortcutHint:
@@ -1218,6 +1221,13 @@ export const contactCopy = {
     namePlaceholder: "山田 太郎",
     emailLabel: "メールアドレス",
     emailPlaceholder: "example@example.com",
+    companyLabel: "会社名（任意）",
+    companyPlaceholder: "株式会社○○",
+    messageLabel: "ご相談内容",
+    messagePlaceholder:
+      "例: 営業事務の問い合わせ一次対応を自動化したい。今期中に方向性を決めたい。",
+    messageHint:
+      "現状の困りごとや、期待することを自由に書いてください。長文でも箇条書きでも構いません。",
     triedExperienceLabel: "最も近かった体験・デモ",
     triedExperiencePlaceholder: "選択してください",
     triedExperienceOtherPlaceholder:

@@ -6,6 +6,21 @@ import {
 import { contactSchema } from "@/lib/validation/contact-schema";
 import { rateLimit } from "@/lib/rate-limit";
 
+function normalizeContactBody(raw: unknown): unknown {
+  if (typeof raw !== "object" || raw === null) return raw;
+  const o = raw as Record<string, unknown>;
+  const fromMessage =
+    typeof o.message === "string" && o.message.trim().length > 0 ? o.message.trim() : "";
+  const fromProblem =
+    typeof o.problemStatement === "string" && o.problemStatement.trim().length > 0
+      ? o.problemStatement.trim()
+      : "";
+  return {
+    ...o,
+    message: fromMessage || fromProblem,
+  };
+}
+
 export async function POST(req: Request) {
   const ip = req.headers.get("x-forwarded-for") ?? req.headers.get("x-real-ip") ?? "anonymous";
   if (!rateLimit(ip)) {
@@ -14,7 +29,7 @@ export async function POST(req: Request) {
 
   try {
     const body = await req.json();
-    const result = contactSchema.safeParse(body);
+    const result = contactSchema.safeParse(normalizeContactBody(body));
 
     if (!result.success) {
       return NextResponse.json(
@@ -26,57 +41,50 @@ export async function POST(req: Request) {
     const {
       name,
       email,
+      company,
       triedExperience,
       visitorJourney,
       estimateSnapshot,
       inquiryBrief,
       inquiryIntent,
       desiredReply,
-      problemStatement,
+      message,
       targetSummary,
       decisionTimeline,
       constraintsSummary,
       additionalNote,
     } = result.data;
 
-    const adminMail = buildAdminContactEmail({
+    const messageBody = message.trim();
+
+    const mailBase = {
       name,
       email,
+      company,
       triedExperience,
+      message: messageBody,
       visitorJourney: visitorJourney ?? estimateSnapshot?.visitorJourney ?? null,
       inquiryBrief: inquiryBrief ?? null,
-      inquiryIntent,
-      desiredReply,
-      problemStatement,
-      targetSummary,
-      decisionTimeline,
-      constraintsSummary,
-      additionalNote,
       estimateSnapshot: estimateSnapshot ?? null,
-    });
-    const customerMail = buildCustomerContactEmail({
-      name,
-      email,
-      triedExperience,
-      visitorJourney: visitorJourney ?? estimateSnapshot?.visitorJourney ?? null,
-      inquiryBrief: inquiryBrief ?? null,
-      inquiryIntent,
-      desiredReply,
-      problemStatement,
-      targetSummary,
-      decisionTimeline,
-      constraintsSummary,
-      additionalNote,
-      estimateSnapshot: estimateSnapshot ?? null,
-    });
+      ...(inquiryIntent ? { inquiryIntent } : {}),
+      ...(desiredReply ? { desiredReply } : {}),
+      ...(targetSummary?.trim() ? { targetSummary: targetSummary.trim() } : {}),
+      ...(decisionTimeline?.trim() ? { decisionTimeline: decisionTimeline.trim() } : {}),
+      ...(constraintsSummary?.trim() ? { constraintsSummary: constraintsSummary.trim() } : {}),
+      ...(additionalNote?.trim() ? { additionalNote: additionalNote.trim() } : {}),
+    };
+
+    const adminMail = buildAdminContactEmail(mailBase);
+    const customerMail = buildCustomerContactEmail(mailBase);
 
     // TODO: Resend / SendGrid 等で送信。現状はログで運用側が把握できる形にする。
     console.info("[Contact] inbound", {
       name,
       email,
-      inquiryIntent,
-      desiredReply,
-      problemLength: problemStatement.length,
+      company: company?.trim() ?? null,
+      inquiryIntent: inquiryIntent ?? null,
+      desiredReply: desiredReply ?? null,
+      messageLength: messageBody.length,
       triedExperience: triedExperience ?? null,
       hasVisitorJourney: Boolean(visitorJourney ?? estimateSnapshot?.visitorJourney),
       hasEstimateSnapshot: Boolean(estimateSnapshot),

@@ -7,10 +7,21 @@ alwaysApply: true
 
 ## 1. コーディング規約
 
-### 1.0 Tailwind 文字色（重要）
+### 1.0 Tailwind 文字色・配色（重要・redesign-v2 ライト化前提）
 
-- **`text-base` ユーティリティは使わない**（`globals.css` の `--color-base` と衝突し、**文字色がベースの黒 `#0a0e17` になる**）。本文の 1rem 相当は **`text-[16px]`** や **`text-[1rem]`** を使う。
-- **暗背景上の本文は原則 `text-text` / `text-text-sub` / `text-white`（`--color-text` / `--color-text-sub` はどちらも白ベース。階層は `text-white/80` 等）**。黒ベースの文字色は指定がない限り使わない。
+**現行トークン（`src/app/globals.css`）**
+
+- `--color-bg-pure: #ffffff` / `--color-bg-base: #fafaf8` / `--color-bg-neutral: #f4f4f2`
+- `--color-text: #1a1a1a`（**黒系**） / `--color-text-sub: #4a4a4a`（**ダークグレー**）
+- `--color-accent-primary: #26418e`（深いブルー） / `--color-accent-primary-light: #dbeafe`
+
+**ルール**
+
+- **本文は `text-text` または `text-text-sub` を基本**。`text-white` の直書きは原則禁止（**明背景に白文字＝不可視**）。`text-white` を使うのは、**ソリッドな濃色背景（`bg-[var(--color-accent-primary)]` などの上）に乗っているとき限定**。
+- **`text-base` ユーティリティは使わない**（`globals.css` の `--color-base` と衝突する）。本文の 1rem 相当は **`text-[16px]`** や **`text-[1rem]`** を使う。
+- **ガラス系背景（`bg-white/[0.06]` / `bg-base/40` など半透明＋ブラー）は使わない**。明背景上で輪郭が消える。明背景前提のカードは `bg-[var(--color-bg-pure)]` / `bg-[var(--color-bg-neutral)]`、強調パネルは `bg-accent-primary-light/40` を使う。
+- 半透明枠の `border-white/15` 等は `border-silver/30` または `border-[var(--color-border-light)]` に置換する。
+- 既存コードで `text-white` を見かけたら、それは **ダーク時代の残り**である可能性が高い。`text-text` / `text-text-sub` への置換を検討する。
 
 ### 1.1 命名規則
 

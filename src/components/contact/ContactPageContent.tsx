@@ -5,8 +5,6 @@ import {
   ScrollSequence,
   ScrollSequenceItem,
 } from "@/components/motion/ScrollSequence";
-import { Button } from "@/components/ui/button";
-import { ContactFlowSteps } from "./ContactFlowSteps";
 import { ContactForm } from "./ContactForm";
 import { contactCopy } from "@/lib/content/site-copy";
 
@@ -22,23 +20,25 @@ export function ContactPageContent() {
         </p>
       </ScrollSequenceItem>
 
-      <ScrollSequenceItem thresholds={[0.12, 0.22]}>
-        <div className="mb-8">
-          <Button asChild className="min-h-11 w-full sm:w-auto">
-            <Link href="/estimate-detailed">{contactCopy.estimateShortcutCta}</Link>
-          </Button>
-          <p className="mt-3 text-sm leading-relaxed text-text-sub">
-            {contactCopy.estimateShortcutHint}
-          </p>
-        </div>
-      </ScrollSequenceItem>
-
-      <ScrollSequenceItem thresholds={[0.18, 0.32]}>
-        <ContactFlowSteps />
-      </ScrollSequenceItem>
-
-      <ScrollSequenceItem thresholds={[0.22, 0.38]}>
+      <ScrollSequenceItem thresholds={[0.18, 0.38]}>
         <ContactForm />
+      </ScrollSequenceItem>
+
+      <ScrollSequenceItem thresholds={[0.24, 0.42]}>
+        <aside className="mt-10 rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-pure)] p-5 md:p-6">
+          <p className="text-sm leading-relaxed text-text-sub">{contactCopy.depthPromptLine}</p>
+          <p className="mt-3 text-sm">
+            <Link
+              href="/estimate-detailed"
+              className="font-medium text-accent underline-offset-4 hover:underline"
+            >
+              {contactCopy.estimateShortcutCta}
+            </Link>
+            <span className="mt-2 block text-xs leading-relaxed text-text-sub">
+              {contactCopy.estimateShortcutHint}
+            </span>
+          </p>
+        </aside>
       </ScrollSequenceItem>
 
       <ScrollSequenceItem thresholds={[0.28, 0.48]}>

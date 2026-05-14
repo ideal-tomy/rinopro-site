@@ -8,9 +8,11 @@ import { useConciergeChat } from "@/components/chat/concierge-chat-context";
 import { EstimateDetailedInquiryPreparation } from "@/components/estimate/EstimateDetailedInquiryPreparation";
 import { suppressNextChatAutoOpen } from "@/lib/chat/chat-auto-open";
 import {
-  buildContactHandoffNavigation,
+  buildContactMessageDraft,
+  buildContactPrefillNavigation,
   buildHandoffPayloadV2FromDetailed,
-  storeHandoffPayloadInSession,
+  storeContactEstimateSnapshotInSession,
+  storeContactPrefillInSession,
 } from "@/lib/chat/estimate-handoff";
 import { estimateDetailedCopy } from "@/lib/content/site-copy";
 import {
@@ -29,10 +31,7 @@ import {
 } from "@/lib/estimate/estimate-detailed-budget";
 import { EstimateDetailedPhilosophyFootnote } from "@/components/estimate/EstimateDetailedPhilosophyFootnote";
 import { EstimateDetailedResumeQuestionsButton } from "@/components/estimate/EstimateDetailedResumeQuestionsButton";
-import {
-  evaluateInquiryGate,
-  type EstimateInquiryPreparation,
-} from "@/lib/inquiry/inquiry-brief";
+import type { EstimateInquiryPreparation } from "@/lib/inquiry/inquiry-brief";
 import { recordVisitorEstimateAnswers } from "@/lib/journey/visitor-journey-storage";
 
 const copy = estimateDetailedCopy;
@@ -80,26 +79,17 @@ export function EstimateDetailedAmountContent() {
   }, [flow?.answers]);
 
   const snapshot = flow ? buildSnapshotFromFlow(flow) : null;
-  const inquiryPreparation = flow?.inquiryPreparation ?? null;
-  const inquiryGate = evaluateInquiryGate({
-    brief: inquiryPreparation?.brief,
-    problemSummary: inquiryPreparation?.brief.problemSummary,
-    targetSummary: inquiryPreparation?.brief.targetSummary,
-    timelineSummary: inquiryPreparation?.brief.timelineSummary,
-    followUpQuestions: inquiryPreparation?.followUpQuestions,
-    followUpAnswers: inquiryPreparation?.followUpAnswers,
-    hasViewedEstimateOrEquivalent: true,
-    hasReviewedGeneratedBrief: inquiryPreparation?.brief != null,
-  });
-  const contactReady = inquiryGate.status === "sendable";
-
   const goContact = useCallback(() => {
     if (!snapshot) return;
     const payload = buildHandoffPayloadV2FromDetailed(snapshot);
-    const { href, storeInSession } = buildContactHandoffNavigation(payload);
+    const text = buildContactMessageDraft(payload);
+    const { href, storeInSession } = buildContactPrefillNavigation(text);
     if (storeInSession) {
-      storeHandoffPayloadInSession(payload);
+      storeContactPrefillInSession(text);
     }
+    // 整理済み snapshot を別レーンで運ぶ。ContactForm が起動時に取り出し、
+    // 「整理済みである」ことを画面に明示しつつ、送信時に API へ同梱する。
+    storeContactEstimateSnapshotInSession(snapshot);
     suppressNextChatAutoOpen();
     setConciergeOpen(false);
     router.push(href);
@@ -137,31 +127,31 @@ export function EstimateDetailedAmountContent() {
     <div className="space-y-10">
       <header className="space-y-2 text-center">
         <p className="text-sm font-medium text-accent">{copy.amountPageKicker}</p>
-        <h1 className="text-2xl font-bold text-white md:text-3xl">{copy.amountPageTitle}</h1>
-        <p className="mx-auto max-w-xl text-sm leading-relaxed text-white/85">
+        <h1 className="text-2xl font-bold text-text md:text-3xl">{copy.amountPageTitle}</h1>
+        <p className="mx-auto max-w-xl text-sm leading-relaxed text-text-sub">
           {copy.amountPageSub}
         </p>
       </header>
 
       <section
-        className="mx-auto max-w-xl rounded-2xl border-2 border-accent/50 bg-gradient-to-b from-accent/10 to-base-dark/80 px-6 py-10 text-center shadow-lg shadow-accent/5 md:px-10 md:py-12"
+        className="mx-auto max-w-xl rounded-2xl border-2 border-accent/40 bg-gradient-to-b from-accent/5 to-[var(--color-bg-pure)] px-6 py-10 text-center shadow-lg shadow-accent/5 md:px-10 md:py-12"
         aria-label={copy.sectionRange}
       >
-        <p className="text-sm font-medium text-white/80">{copy.amountHeroPrefix}</p>
+        <p className="text-sm font-medium text-text-sub">{copy.amountHeroPrefix}</p>
         <p className="mt-2 flex flex-wrap items-baseline justify-center gap-1 text-4xl font-bold tabular-nums text-accent md:text-5xl">
           <span>{estimateLoMan}</span>
-          <span className="text-2xl font-semibold text-white md:text-3xl">
+          <span className="text-2xl font-semibold text-text md:text-3xl">
             {copy.amountBetween}
           </span>
           <span>{estimateHiMan}</span>
         </p>
-        <p className="mt-2 text-[16px] font-medium text-white">{copy.amountHeroSuffix}</p>
-        <p className="mt-6 text-left text-sm font-medium leading-relaxed text-white/90 md:text-[16px]">
+        <p className="mt-2 text-[16px] font-medium text-text">{copy.amountHeroSuffix}</p>
+        <p className="mt-6 text-left text-sm font-medium leading-relaxed text-text md:text-[16px]">
           {copy.rangeDisclaimer}
         </p>
         {budgetVsEstimate === "within" ? (
           <p
-            className="mt-5 rounded-lg border border-accent/40 bg-accent/15 px-4 py-3 text-center text-[16px] font-semibold text-white"
+            className="mt-5 rounded-lg border border-accent/35 bg-accent/10 px-4 py-3 text-center text-[16px] font-semibold text-accent"
             role="status"
           >
             {copy.budgetWithinMessage}
@@ -171,14 +161,14 @@ export function EstimateDetailedAmountContent() {
 
       {estimateDrivers.length > 0 ? (
         <section
-          className="mx-auto max-w-xl rounded-xl border border-accent/30 bg-accent/[0.06] p-4 md:p-5"
+          className="mx-auto max-w-xl rounded-xl border border-accent/25 bg-accent/[0.04] p-4 md:p-5"
           aria-label={copy.estimateDriversTitle}
         >
-          <p className="text-sm font-semibold text-white">{copy.estimateDriversTitle}</p>
-          <ul className="mt-3 space-y-3 text-left text-[15px] leading-relaxed text-white/90 md:text-[16px]">
+          <p className="text-sm font-semibold text-text">{copy.estimateDriversTitle}</p>
+          <ul className="mt-3 space-y-3 text-left text-[15px] leading-relaxed text-text-sub md:text-[16px]">
             {estimateDrivers.map((d, i) => (
               <li key={`${i}-${d.factor.slice(0, 24)}`} className="flex flex-col gap-0.5 border-b border-silver/10 pb-3 last:border-b-0 last:pb-0">
-                <span className="text-white/95">{d.factor}</span>
+                <span className="text-text">{d.factor}</span>
                 <span className="text-xs text-accent/90 md:text-sm">{driverEffectLabel(d.effect)}</span>
               </li>
             ))}
@@ -186,9 +176,9 @@ export function EstimateDetailedAmountContent() {
         </section>
       ) : null}
 
-      <div className="rounded-xl border border-silver/20 bg-base-dark/40 p-4 md:p-5">
-        <p className="text-sm font-semibold text-white">{copy.overviewTitleRecap}</p>
-        <p className="mt-2 text-[16px] leading-relaxed text-white/90">
+      <div className="rounded-xl border border-silver/20 bg-[var(--color-bg-pure)] p-4 md:p-5">
+        <p className="text-sm font-semibold text-text">{copy.overviewTitleRecap}</p>
+        <p className="mt-2 text-[16px] leading-relaxed text-text-sub">
           {flow.ai.plainCustomerSummary}
         </p>
       </div>
@@ -208,7 +198,6 @@ export function EstimateDetailedAmountContent() {
           type="button"
           className="min-h-12 w-full px-8 text-[16px] sm:w-auto"
           onClick={goContact}
-          disabled={!contactReady}
         >
           {copy.btnContact}
         </Button>
@@ -219,11 +208,6 @@ export function EstimateDetailedAmountContent() {
           <Link href={backHref}>{copy.backToResult}</Link>
         </Button>
       </div>
-      {!contactReady ? (
-        <p className="text-center text-sm leading-relaxed text-white/70">
-          {copy.inquiryPrepContactGate}
-        </p>
-      ) : null}
     </div>
   );
 }

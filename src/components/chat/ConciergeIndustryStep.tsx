@@ -67,7 +67,7 @@ export function ConciergeIndustryStep({
           </div>
         ) : null}
 
-        <h3 className="text-[14px] font-semibold leading-relaxed tracking-wide text-text/95 sm:text-[16px]">
+        <h3 className="text-[14px] font-semibold leading-relaxed tracking-wide text-text sm:text-[16px]">
           事業領域に近いものを選んでください
         </h3>
 
@@ -90,8 +90,8 @@ export function ConciergeIndustryStep({
         </div>
 
         {detailOptions.length > 0 ? (
-          <details className="rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2">
-            <summary className="cursor-pointer text-[12px] font-medium text-text/95 sm:text-sm">
+          <details className="rounded-xl border border-silver/30 bg-[var(--color-bg-neutral)] px-3 py-2">
+            <summary className="cursor-pointer text-[12px] font-medium text-text sm:text-sm">
               詳しく選ぶ（任意）
             </summary>
             <div className="mt-2 flex flex-col gap-2 pb-1">
@@ -123,14 +123,14 @@ export function ConciergeIndustryStep({
             onChange={(e) => setNote(e.target.value)}
             disabled={disabled}
             placeholder="例: 清掃・ビルメン、スリランカ人材の派遣"
-            className="border-white/15 bg-white/[0.06] text-[16px] text-text placeholder:text-text-sub sm:text-sm"
+            className="border-silver/30 bg-[var(--color-bg-pure)] text-[16px] text-text placeholder:text-text-sub sm:text-sm"
           />
         </div>
 
         {trailingSlot ? <div className="pt-1">{trailingSlot}</div> : null}
       </div>
 
-      <div className="sticky bottom-0 z-10 shrink-0 border-t border-white/10 bg-base/90 py-3 backdrop-blur-md">
+      <div className="sticky bottom-0 z-10 shrink-0 border-t border-silver/30 bg-[var(--color-bg-pure)]/95 py-3 backdrop-blur-md">
         <ConciergeCtaButton
           type="button"
           variant="primary"

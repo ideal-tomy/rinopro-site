@@ -464,7 +464,10 @@ LPのIndustry Showcase末尾CTAから流入し、以下へ分岐させる。
 - DEMO GALLERY: 外部デプロイURL（新規タブ）
 
 ### /contact
-問い合わせフォーム。LPの最終CTAから飛ぶ。
+シンプル版フォームで運用（**v3**）。送信本文は **`message` 主軸**。チャット・詳細見積・業種/パターン入口からは **テキスト prefill**（クエリ `?prefill=`／長文時は sessionStorage 経由の `?prefill=session`）で土台を渡す。旧 **構造化 `?handoff=`** は互換として当面残置。LP の最終 CTA・ヘッダー／フッターからは常にこのシンプル版へ直行する。
+
+### /estimate-detailed（任意ルート）
+詳細見積フローは **当面残置**するが、ヘッダー・トップ・チャットの主導線からは外し、希望者のみが到達する **任意ルート**とする。金額ページの「問い合わせに進む」は `/contact` への **テキスト prefill** に統一。問い合わせ前の整理ブロックは **任意**（未整理でも問い合わせ可能）。
 
 ### 削除候補
 - /demo, /demo/list(業界別プロダクト例セクションに統合)
@@ -472,7 +475,7 @@ LPのIndustry Showcase末尾CTAから流入し、以下へ分岐させる。
 - /experience の不要なslug(社内ナレッジBOTと飲食店ダッシュボード以外)
 - /flow(LPのApproachセクションに統合)
 - /consulting(LPのSolutionsカードに統合 or /servicesに統合)
-- /estimate-detailed系(必要性を再判断)
+- /estimate-detailed系（**2026-05 更新**: 当面残置。上記「任意ルート」として運用し、主要導線からは外す）
 
 ---
 
@@ -672,3 +675,45 @@ G-6 と G-7 で実施した監査の実測結果。
 - 主要導線で404なし。互換導線は `permanentRedirect` で正規ページへ到達。
 - LP上の SP 崩れは `HomeClosingCta` の余白のみ。今回スプリント内で修正済み。
 - 下層ページのレスポンシブ追加調整は次フェーズへ分離。
+
+---
+
+### 19-5. Contact シンプル化（v3）サマリー（2026-05-14）
+
+- **`/contact`**: シンプル版（`message` 主軸）。管理者メールは `message` を主本文に据え、旧構造化項目は **来ている場合のみ併記**（`/api/contact` の正規化後）。
+- **チャット → 問い合わせ**: 新規正は **テキスト prefill**（`buildContactPrefillNavigation`）。旧 `?handoff=` 系ヘルパーは互換のため残置。
+- **詳細見積 → 問い合わせ**: 同じ prefill 経路に追従。問い合わせ前整理は **任意**（送信ゲート撤廃）。
+- **コンシェルジュ CTA**: 明背景上の視認性のため、`ConciergeChoiceButton` の primary/secondary を solid 系配色に変更。
+
+### 19-6. 実測ログ（2026-05-14・問い合わせシンプル化ブランチ）
+
+実施: `npm run build` は **exit 0（成功）**（2026-05-14 実施）。加えて、コードベース上の遷移先・リダイレクト定義を照合（ローカル dev サーバ未起動のため、実行時ブラウザ実測は Push 前に推奨）。
+
+#### 主要導線（コード上の遷移先）
+
+| 対象 | 確認内容 | 結果 |
+|---|---|---|
+| Header NAV | `/` `/services` `/about` `/contact` `/experience` | OK（`src/components/layout/Header.tsx` 等の定義と一致） |
+| Footer LINKS | 同上系 | OK |
+| Home Primary CTA | `/contact` 直行 | OK |
+| `/` → `/services` → `/contact` | 各 `page.tsx` 存在 | OK |
+| `/` → `/experience` → `/experience/[slug]` | 動的ルート存在 | OK |
+
+#### 互換導線（`permanentRedirect`）
+
+| パス | 遷移先 | 結果 |
+|---|---|---|
+| `/flow` | `/services/development` | OK（`src/app/flow/page.tsx`） |
+| `/consulting` | `/services/consulting` | OK（`src/app/consulting/page.tsx`） |
+
+#### prefill 注入（コード整合）
+
+| 経路 | 確認内容 | 結果 |
+|---|---|---|
+| チャット CTA | `buildContactMessageDraft` → `buildContactPrefillNavigation` → `/contact?...` | OK（`HomeConciergeFlow`） |
+| 詳細見積 金額ページ | 同上 | OK（`EstimateDetailedAmountContent`） |
+| `ContactForm` | `?prefill=` / `prefill=session` / 互換 `?handoff=` | OK |
+
+#### 補足
+
+- 業種 `?industry=` / パターン `?pattern=` の prefill は **`handoff` も `prefill` も無いときのみ**追記する実装のため、チャット経路で二重注入しないことを確認済み（`ContactForm`）。

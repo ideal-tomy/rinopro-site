@@ -15,3 +15,8 @@
 - **`page`** で `/services` など上記以外: `concierge-path-{pathname のスラッグ化}`（実装参照）
 
 体験ハブは **`/demo` を `/experience` に統合**しているため、両プレフィックスは同一ポリシーで扱う。
+
+## 問い合わせハンドオフ（2026-05 追記）
+
+- **正規経路**: コンシェルジュ（および詳細見積終端）から `/contact` へ進むときは、**テキスト化 prefill**（クエリ `?prefill=`、長文時は sessionStorage + `?prefill=session`）を用いる。
+- **旧 `?handoff=`（構造化ペイロード）**: 互換のため当面 **残置**。新規実装では prefill を優先する。

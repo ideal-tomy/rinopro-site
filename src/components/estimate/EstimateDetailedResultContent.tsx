@@ -41,11 +41,11 @@ export function EstimateDetailedResultContent() {
   return (
     <div className="space-y-8">
       <header className="space-y-2">
-        <p className="text-sm font-medium text-white/80">{copy.sectionResult}</p>
-        <h1 className="text-2xl font-bold text-white md:text-3xl">
+        <p className="text-sm font-medium text-accent">{copy.sectionResult}</p>
+        <h1 className="text-2xl font-bold text-[var(--color-accent-primary)] md:text-3xl">
           {copy.requirementDefinitionNote}のたたき台
         </h1>
-        <p className="text-sm leading-relaxed text-white/85 md:text-[15px]">
+        <p className="text-sm leading-relaxed text-[var(--color-accent-primary)]/90 md:text-[15px]">
           {copy.resultIntro}
         </p>
       </header>

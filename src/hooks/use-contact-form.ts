@@ -11,7 +11,11 @@ export function useContactForm() {
   const [submitError, setSubmitError] = useState("");
 
   const submit = useCallback(async (data: ContactFormData): Promise<boolean> => {
-    const result = contactSchema.safeParse(data);
+    const merged = {
+      ...data,
+      message: (data.message ?? data.problemStatement ?? "").trim(),
+    };
+    const result = contactSchema.safeParse(merged);
     if (!result.success) {
       const fieldErrors: Partial<Record<keyof ContactFormData, string>> = {};
       result.error.issues.forEach((e) => {

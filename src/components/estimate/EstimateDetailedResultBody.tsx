@@ -18,7 +18,7 @@ function ResultAccordion({ title, children, className }: { title: string; childr
         className
       )}
     >
-      <summary className="flex cursor-pointer list-none items-center justify-between gap-3 p-4 text-[16px] font-semibold text-white">
+      <summary className="flex cursor-pointer list-none items-center justify-between gap-3 p-4 text-[16px] font-semibold text-[var(--color-accent-primary)]">
         <span>{title}</span>
         <ChevronDown
           className="size-5 shrink-0 text-accent transition-transform duration-200 group-open:rotate-180"
@@ -34,7 +34,7 @@ function BulletList({ items, className }: { items: string[]; className?: string 
   return (
     <ul
       className={cn(
-        "list-inside list-disc space-y-1.5 pl-0.5 text-[15px] leading-relaxed text-white/90 md:text-[16px]",
+        "list-inside list-disc space-y-1.5 pl-0.5 text-[15px] leading-relaxed text-[var(--color-accent-primary)]/90 md:text-[16px]",
         className
       )}
     >
@@ -61,30 +61,30 @@ export function EstimateDetailedResultBody({
   return (
     <div className="space-y-6">
       <div className="rounded-xl border-2 border-accent/35 bg-accent/[0.08] p-5 md:p-6">
-        <p className="text-sm font-semibold uppercase tracking-wide text-white md:text-[16px]">{copy.overviewTitle}</p>
-        <p className="mt-3 whitespace-pre-wrap text-[16px] font-medium leading-relaxed text-white/95 md:text-lg">
+        <p className="text-sm font-semibold uppercase tracking-wide text-[var(--color-accent-primary)] md:text-[16px]">{copy.overviewTitle}</p>
+        <p className="mt-3 whitespace-pre-wrap text-[16px] font-medium leading-relaxed text-[var(--color-accent-primary)]/95 md:text-lg">
           {result.plainCustomerSummary}
         </p>
       </div>
 
       {scopeIn.length > 0 ? (
         <ResultAccordion title={copy.scopeInTitle}>
-          <BulletList items={scopeIn} className="!text-white/85" />
+          <BulletList items={scopeIn} className="!text-[var(--color-accent-primary)]/85" />
         </ResultAccordion>
       ) : null}
       {scopeOut.length > 0 ? (
         <ResultAccordion title={copy.scopeOutTitle}>
-          <BulletList items={scopeOut} className="!text-white/85" />
+          <BulletList items={scopeOut} className="!text-[var(--color-accent-primary)]/85" />
         </ResultAccordion>
       ) : null}
       {openQuestions.length > 0 ? (
         <ResultAccordion title={copy.openQuestionsTitle}>
-          <BulletList items={openQuestions} className="!text-white/85" />
+          <BulletList items={openQuestions} className="!text-[var(--color-accent-primary)]/85" />
         </ResultAccordion>
       ) : null}
       {regulatoryNotes.length > 0 ? (
         <ResultAccordion title={copy.regulatoryNotesTitle}>
-          <BulletList items={regulatoryNotes} className="!text-white/85" />
+          <BulletList items={regulatoryNotes} className="!text-[var(--color-accent-primary)]/85" />
         </ResultAccordion>
       ) : null}
 
@@ -94,13 +94,13 @@ export function EstimateDetailedResultBody({
 
       <ResultAccordion title={copy.selectedAnswersAccordionTitle}>
         {qaPairs.length === 0 ? (
-          <p className="text-[15px] text-white/70">（回答がありません）</p>
+          <p className="text-[15px] text-[var(--color-accent-primary)]/70">（回答がありません）</p>
         ) : (
           <dl className="space-y-4">
             {qaPairs.map(({ question, answer }) => (
               <div key={question}>
-                <dt className="text-[15px] font-semibold text-white md:text-[16px]">{question}</dt>
-                <dd className="mt-1 whitespace-pre-wrap text-[15px] leading-relaxed text-white/85 md:text-[16px]">
+                <dt className="text-[15px] font-semibold text-[var(--color-accent-primary)] md:text-[16px]">{question}</dt>
+                <dd className="mt-1 whitespace-pre-wrap text-[15px] leading-relaxed text-[var(--color-accent-primary)]/85 md:text-[16px]">
                   {answer}
                 </dd>
               </div>
@@ -110,7 +110,7 @@ export function EstimateDetailedResultBody({
       </ResultAccordion>
 
       <ResultAccordion title={copy.assumptionsTitle}>
-        <BulletList items={result.assumptions} className="!text-white/85" />
+        <BulletList items={result.assumptions} className="!text-[var(--color-accent-primary)]/85" />
       </ResultAccordion>
 
       {result.followUpItems.length > 0 ? (
@@ -118,8 +118,8 @@ export function EstimateDetailedResultBody({
           <div className="space-y-5">
             {result.followUpItems.map((item, i) => (
               <div key={`${item.title}-${i}`} className="border-b border-silver/10 pb-4 last:border-b-0 last:pb-0">
-                <p className="text-[16px] font-semibold text-white">{item.title}</p>
-                <p className="mt-2 text-[15px] leading-relaxed text-white/85 md:text-[16px]">{item.description}</p>
+                <p className="text-[16px] font-semibold text-[var(--color-accent-primary)]">{item.title}</p>
+                <p className="mt-2 text-[15px] leading-relaxed text-[var(--color-accent-primary)]/85 md:text-[16px]">{item.description}</p>
               </div>
             ))}
           </div>
