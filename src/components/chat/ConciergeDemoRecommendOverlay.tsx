@@ -52,7 +52,7 @@ function DemoPickRow({
         onClick={() => onNavigate()}
         aria-label={`${index + 1}件目: ${demo.title}のdemoを開く`}
         className={cn(
-          "flex gap-3 rounded-xl border border-silver/20 bg-base-dark/95 p-2.5 text-left",
+          "flex gap-3 rounded-xl border border-silver/30 bg-[var(--color-bg-pure)] p-2.5 text-left",
           "transition-[border-color,box-shadow] duration-200 hover:border-accent/45 hover:shadow-[0_0_20px_color-mix(in_srgb,var(--color-accent)_14%,transparent)]",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-base"
         )}
@@ -71,7 +71,7 @@ function DemoPickRow({
         <div className="flex min-w-0 flex-1 flex-col justify-center gap-1">
           <div className="flex min-w-0 items-center gap-2">
             <RunModeBadge demo={demo} />
-            <h2 className="truncate text-[13px] font-semibold leading-snug text-white/95">
+            <h2 className="truncate text-[13px] font-semibold leading-snug text-text">
               {demo.title}
             </h2>
           </div>
@@ -108,20 +108,20 @@ export function ConciergeDemoRecommendOverlay({
 }: ConciergeDemoRecommendOverlayProps) {
   return (
     <div
-      className="absolute inset-0 z-40 flex flex-col bg-base/95 backdrop-blur-md"
+      className="absolute inset-0 z-40 flex flex-col bg-[var(--color-bg-pure)]/95 backdrop-blur-md"
       role="dialog"
       aria-modal="true"
       aria-labelledby="concierge-demo-rec-title"
     >
-      <div className="flex shrink-0 items-start justify-between gap-3 border-b border-silver/15 px-4 py-2.5">
+      <div className="flex shrink-0 items-start justify-between gap-3 border-b border-silver/30 px-4 py-2.5">
         <div className="min-w-0">
           <h2
             id="concierge-demo-rec-title"
-            className="text-sm font-semibold leading-snug text-white/95"
+            className="text-sm font-semibold leading-snug text-text"
           >
             おすすめの demo（最大3件）
           </h2>
-          <p className="mt-0.5 text-[11px] leading-snug text-text/75">
+          <p className="mt-0.5 text-[11px] leading-snug text-text-sub">
             行をタップすると、その demo のページへ進みます。
           </p>
         </div>
@@ -148,13 +148,13 @@ export function ConciergeDemoRecommendOverlay({
             ))}
           </ol>
         ) : (
-          <p className="text-sm text-text/85">
+          <p className="text-sm text-text-sub">
             いまはカタログを読み込めませんでした。一覧からお選びください。
           </p>
         )}
       </div>
 
-      <div className="flex shrink-0 flex-wrap items-center justify-center gap-x-5 gap-y-1 border-t border-silver/15 bg-base/40 px-4 py-2">
+      <div className="flex shrink-0 flex-wrap items-center justify-center gap-x-5 gap-y-1 border-t border-silver/30 bg-[var(--color-bg-neutral)] px-4 py-2">
         <Link
           href="/experience"
           className={footerLinkClass}

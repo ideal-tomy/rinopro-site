@@ -200,7 +200,7 @@ export function EstimateDetailedProcessingContent() {
         <p className="text-center text-xs text-text-sub">{copy.processingVideoEmptyHint}</p>
       )}
 
-      <section className="overflow-hidden rounded-xl border border-silver/25 bg-base-dark/50 p-5">
+      <section className="overflow-hidden rounded-xl border border-silver/30 bg-[var(--color-bg-neutral)] p-5">
         <h2 className="text-sm font-semibold text-accent">{copy.processingTipHeading}</h2>
         <div className="relative mt-4 min-h-[6.5rem] md:min-h-[5.75rem]">
           <AnimatePresence mode="wait" initial={false}>
@@ -225,7 +225,7 @@ export function EstimateDetailedProcessingContent() {
                 duration: prefersReducedMotion ? 0.15 : 0.85,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="text-[16px] font-semibold leading-relaxed text-white/95 md:text-lg"
+              className="text-[16px] font-semibold leading-relaxed text-text md:text-lg"
             >
               {copy.processingTips[tipIndex]}
             </motion.div>

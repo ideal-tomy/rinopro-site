@@ -7,11 +7,11 @@ import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
 const choiceGlassBase =
   "group relative w-full min-h-[44px] text-left transition-[transform,box-shadow,border-color,background-color] duration-200 ease-out " +
-  "rounded-2xl border border-white/15 bg-white/[0.06] backdrop-blur-[20px] " +
+  "rounded-2xl border border-silver/30 bg-[var(--color-bg-pure)] " +
   "px-4 py-3 shadow-sm " +
-  "hover:border-white/25 hover:shadow-[0_0_24px_rgba(0,103,192,0.14)] " +
+  "hover:border-[var(--color-accent-primary)]/55 hover:bg-[var(--color-accent-primary-light)]/25 hover:shadow-md " +
   "active:scale-[0.98] " +
-  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action focus-visible:ring-offset-2 focus-visible:ring-offset-base " +
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-pure)] " +
   "disabled:pointer-events-none disabled:opacity-50";
 
 /** 業種第1層2列向け：パディングと文字を詰める（`text-base` は使わない） */
@@ -19,7 +19,7 @@ const choiceGlassCompact =
   "min-h-[44px] px-3 py-2.5 sm:px-3 sm:py-2.5";
 
 const choiceSelected =
-  "border-action/45 bg-action/[0.12] shadow-[0_0_20px_rgba(0,103,192,0.18)]";
+  "border-[var(--color-accent-primary)]/60 bg-[var(--color-accent-primary-light)]/55 shadow-md";
 
 export interface ConciergeChoiceButtonProps
   extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "children"> {
@@ -50,12 +50,12 @@ export function ConciergeChoiceButton({
   const compact = labelDensity === "compact";
 
   const prefixCls = compact
-    ? "pt-0.5 text-[10px] font-semibold tabular-nums tracking-wide text-action/85 sm:text-[11px]"
-    : "pt-0.5 text-[10px] font-semibold tabular-nums tracking-wide text-action/85 sm:text-[16px]";
+    ? "pt-0.5 text-[10px] font-semibold tabular-nums tracking-wide text-[var(--color-accent-primary)] sm:text-[11px]"
+    : "pt-0.5 text-[10px] font-semibold tabular-nums tracking-wide text-[var(--color-accent-primary)] sm:text-[16px]";
 
   const labelCls = compact
-    ? "text-[10px] font-semibold leading-tight tracking-wide text-text/95 sm:text-[11px]"
-    : "text-[10px] font-semibold leading-relaxed tracking-wide text-text/95 sm:text-[16px]";
+    ? "text-[10px] font-semibold leading-tight tracking-wide text-text sm:text-[11px]"
+    : "text-[10px] font-semibold leading-relaxed tracking-wide text-text sm:text-[16px]";
 
   return (
     <button
@@ -83,7 +83,7 @@ export function ConciergeChoiceButton({
             <span className={cn("block", labelCls)}>{label}</span>
           )}
           {description ? (
-            <span className="mt-1 block text-[10px] font-normal leading-relaxed tracking-wide text-text/95 sm:text-xs">
+            <span className="mt-1 block text-[10px] font-normal leading-relaxed tracking-wide text-text-sub sm:text-xs">
               {description}
             </span>
           ) : null}

@@ -30,7 +30,7 @@ function ChoiceSkeleton({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        "h-[3.25rem] rounded-2xl border border-white/10 bg-white/[0.06] animate-pulse",
+        "h-[3.25rem] rounded-2xl border border-silver/30 bg-[var(--color-bg-neutral)] animate-pulse",
         className
       )}
       aria-hidden

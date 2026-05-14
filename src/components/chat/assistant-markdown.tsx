@@ -48,7 +48,7 @@ const assistantMarkdownComponents: Components = {
     );
   },
   strong({ children }) {
-    return <strong className="font-semibold text-white/95">{children}</strong>;
+    return <strong className="font-semibold text-text">{children}</strong>;
   },
   em({ children }) {
     return <em className="italic text-text">{children}</em>;
@@ -91,13 +91,13 @@ const assistantMarkdownComponents: Components = {
     );
   },
   h1: ({ children }) => (
-    <p className="mb-1 text-[12px] font-semibold text-white/95 sm:text-sm">{children}</p>
+    <p className="mb-1 text-[12px] font-semibold text-text sm:text-sm">{children}</p>
   ),
   h2: ({ children }) => (
-    <p className="mb-1 text-[12px] font-semibold text-white/95 sm:text-sm">{children}</p>
+    <p className="mb-1 text-[12px] font-semibold text-text sm:text-sm">{children}</p>
   ),
   h3: ({ children }) => (
-    <p className="mb-1 text-[12px] font-semibold text-white/95 sm:text-sm">{children}</p>
+    <p className="mb-1 text-[12px] font-semibold text-text sm:text-sm">{children}</p>
   ),
   blockquote({ children }) {
     return (
