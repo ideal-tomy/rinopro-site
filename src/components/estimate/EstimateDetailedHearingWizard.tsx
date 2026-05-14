@@ -214,7 +214,7 @@ export function EstimateDetailedHearingWizard({
     <section
       id="estimate-hearing"
       className={cn(
-        "space-y-5 rounded-xl border border-silver/25 bg-base-dark/50 p-5 md:p-8",
+        "space-y-5 rounded-xl border border-silver/30 bg-[var(--color-bg-pure)] p-5 md:p-8",
         isFs && "space-y-3 border-0 bg-transparent p-0 pb-24"
       )}
     >
@@ -260,7 +260,7 @@ export function EstimateDetailedHearingWizard({
           className="pointer-events-none absolute -inset-px rounded-2xl bg-gradient-to-br from-accent/15 via-transparent to-silver/10 opacity-70"
           aria-hidden
         />
-        <div className="relative overflow-hidden rounded-2xl border border-silver/20 bg-base-dark/80 shadow-[0_24px_80px_-24px_rgba(0,0,0,0.65)] backdrop-blur-sm">
+        <div className="relative overflow-hidden rounded-2xl border border-silver/25 bg-[var(--color-bg-pure)] shadow-[0_24px_80px_-24px_rgba(0,0,0,0.18)] backdrop-blur-sm">
           <AnimatePresence mode="wait" initial={false}>
             <motion.div
               key={stepId}
@@ -611,11 +611,12 @@ export function EstimateDetailedHearingWizard({
       </div>
 
       {isFs ? (
-        <div className="flex flex-col gap-2">
+        <div className="sticky bottom-0 z-20 -mx-2 border-t border-silver/25 bg-[var(--color-bg-pure)]/95 px-2 pt-2 backdrop-blur-sm">
+          <div className="flex flex-col gap-2">
           {showFsPrimaryButton ? (
             <Button
               type="button"
-              className="min-h-11 w-full"
+              className="min-h-11 w-full shadow-sm"
               disabled={
                 isExiting || (!isReview && !canAdvance) || (isReview && !canSubmitGlobal)
               }
@@ -649,6 +650,7 @@ export function EstimateDetailedHearingWizard({
             >
               {isEditingQuestion ? "一覧に戻る" : "戻る"}
             </Button>
+          </div>
           </div>
         </div>
       ) : (

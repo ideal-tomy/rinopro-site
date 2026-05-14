@@ -55,6 +55,7 @@ function applyPayloadToForm(
     setTargetSummary: (s: string) => void;
     setDecisionTimeline: (s: string) => void;
     setConstraintsSummary: (s: string) => void;
+    setHasChatHandoffContext: (v: boolean) => void;
   }
 ) {
   if (payload.v === 2 && payload.source === "estimate_detailed") {
@@ -70,6 +71,7 @@ function applyPayloadToForm(
         setters.setDecisionTimeline(brief.timelineSummary);
         setters.setConstraintsSummary(brief.constraintsSummary);
         setters.setAdditionalNote("");
+        setters.setHasChatHandoffContext(false);
         return;
       }
       setters.setInquiryIntent("estimate");
@@ -79,16 +81,19 @@ function applyPayloadToForm(
       setters.setDecisionTimeline("時期は要確認");
       setters.setConstraintsSummary("大きな制約は要確認");
       setters.setAdditionalNote("");
+      setters.setHasChatHandoffContext(true);
       return;
     }
     setters.setEstimateSnapshot(null);
     setters.setVisitorJourney(null);
     setters.setAdditionalNote(buildContactMessageDraft(payload));
+    setters.setHasChatHandoffContext(true);
     return;
   }
   setters.setEstimateSnapshot(null);
   if (payload.v !== 1) {
     setters.setVisitorJourney(null);
+    setters.setHasChatHandoffContext(false);
     return;
   }
   setters.setVisitorJourney(payload.visitorJourney ?? null);
@@ -97,6 +102,7 @@ function applyPayloadToForm(
   setters.setDecisionTimeline("時期は要確認");
   setters.setConstraintsSummary("大きな制約は要確認");
   setters.setAdditionalNote(buildContactMessageDraft(payload));
+  setters.setHasChatHandoffContext(true);
 }
 
 type ExperienceOption = {
@@ -159,11 +165,20 @@ export function ContactForm() {
   const [intakeError, setIntakeError] = useState("");
   const [intakeLoading, setIntakeLoading] = useState(false);
   const [hasCompletedContactIntake, setHasCompletedContactIntake] = useState(false);
+  const [briefLoading, setBriefLoading] = useState(false);
+  const [briefError, setBriefError] = useState("");
+  const [followUpAnswers, setFollowUpAnswers] = useState<Record<string, string>>({});
+  const [hasChatHandoffContext, setHasChatHandoffContext] = useState(false);
 
   const { status, errors, submit, submitError } = useContactForm();
   const form = contactCopy.form;
 
   const effectiveBrief = estimateSnapshot?.inquiryPreparation?.brief ?? null;
+  const followUpQuestions = estimateSnapshot?.inquiryPreparation?.followUpQuestions ?? [];
+  const unresolvedRequiredCount = followUpQuestions.filter((question) => {
+    if (!question.required) return false;
+    return !(followUpAnswers[question.id]?.trim().length);
+  }).length;
   const experienceOptions = useMemo(() => buildExperienceOptions(), []);
   const resolvedTriedExperience = useMemo(() => {
     if (closestExperience === OTHER_EXPERIENCE_VALUE) {
@@ -207,6 +222,7 @@ export function ContactForm() {
           setTargetSummary,
           setDecisionTimeline,
           setConstraintsSummary,
+          setHasChatHandoffContext,
         });
       });
       return () => cancelAnimationFrame(frame);
@@ -227,10 +243,15 @@ export function ContactForm() {
         setTargetSummary,
         setDecisionTimeline,
         setConstraintsSummary,
+        setHasChatHandoffContext,
       });
     });
     return () => cancelAnimationFrame(frame);
   }, [searchParams]);
+
+  useEffect(() => {
+    setFollowUpAnswers(estimateSnapshot?.inquiryPreparation?.followUpAnswers ?? {});
+  }, [estimateSnapshot]);
 
   useEffect(() => {
     if (searchParams.get("handoff")) return;
@@ -282,17 +303,19 @@ export function ContactForm() {
   }, [estimateSnapshot, visitorJourney]);
 
   const hasRealEstimateContext = hasRealEstimateAiSnapshot(estimateSnapshot);
-  const hasPreparedContext = hasRealEstimateContext || hasCompletedContactIntake;
+  const hasPreparedContext =
+    hasRealEstimateContext || hasCompletedContactIntake || hasChatHandoffContext;
 
   const inquiryGate = evaluateInquiryGate({
     brief: effectiveBrief,
     problemSummary: problemStatement,
     targetSummary,
     timelineSummary: decisionTimeline,
-    followUpQuestions: estimateSnapshot?.inquiryPreparation?.followUpQuestions,
-    followUpAnswers: estimateSnapshot?.inquiryPreparation?.followUpAnswers,
-    hasViewedEstimateOrEquivalent: hasRealEstimateContext || hasCompletedContactIntake,
-    hasReviewedGeneratedBrief: effectiveBrief != null,
+    followUpQuestions,
+    followUpAnswers,
+    hasViewedEstimateOrEquivalent:
+      hasRealEstimateContext || hasCompletedContactIntake || hasChatHandoffContext,
+    hasReviewedGeneratedBrief: effectiveBrief != null || hasChatHandoffContext,
   });
   const canSendPreparedInquiry = hasPreparedContext && inquiryGate.status === "sendable";
 
@@ -393,6 +416,7 @@ export function ContactForm() {
       setInquiryIntent(result.brief.inquiryIntent);
       setDesiredReply(result.brief.desiredReply);
       setHasCompletedContactIntake(true);
+      setHasChatHandoffContext(false);
     } catch (error) {
       setIntakeError(
         error instanceof Error
@@ -401,6 +425,47 @@ export function ContactForm() {
       );
     } finally {
       setIntakeLoading(false);
+    }
+  };
+
+  const handlePrepareInquiryBrief = async () => {
+    if (!estimateSnapshot || briefLoading) return;
+    setBriefLoading(true);
+    setBriefError("");
+    try {
+      const result = await fetchInquiryBriefWithRetry({
+        snapshot: estimateSnapshot,
+        preparation: {
+          inquiryIntent,
+          desiredReply,
+          followUpAnswers,
+        },
+      });
+      const nextSnapshot: EstimateSnapshot = {
+        ...estimateSnapshot,
+        inquiryPreparation: {
+          inquiryIntent: result.brief.inquiryIntent,
+          desiredReply: result.brief.desiredReply,
+          followUpQuestions: result.followUpQuestions,
+          followUpAnswers,
+          brief: result.brief,
+        },
+      };
+      setEstimateSnapshot(nextSnapshot);
+      setProblemStatement(result.brief.problemSummary);
+      setTargetSummary(result.brief.targetSummary);
+      setDecisionTimeline(result.brief.timelineSummary);
+      setConstraintsSummary(result.brief.constraintsSummary);
+      setInquiryIntent(result.brief.inquiryIntent);
+      setDesiredReply(result.brief.desiredReply);
+    } catch (error) {
+      setBriefError(
+        error instanceof Error
+          ? error.message
+          : "問い合わせ前の要点整理に失敗しました。時間を置いて再度お試しください。"
+      );
+    } finally {
+      setBriefLoading(false);
     }
   };
 
@@ -446,7 +511,20 @@ export function ContactForm() {
       setIntakeForm(CONTACT_INTAKE_INITIAL_FORM);
       setAnsweredQuestionIds(new Set());
       setIntakeError("");
+      setBriefError("");
+      setFollowUpAnswers({});
+      setHasChatHandoffContext(false);
     }
+  };
+
+  const gateReasonLabels: Record<string, string> = {
+    problem_summary: "困っていることの要約",
+    target_summary: "対象業務・利用者",
+    timeline_summary: "判断したい時期",
+    brief_confirmation: "送信前の要点作成",
+    estimate_confirmation: "事前ヒアリングまたは見積内容の確認",
+    required_follow_up: "追加質問への回答",
+    readiness: "送信前にもう少し整理が必要",
   };
 
   if (!hasPreparedContext) {
@@ -486,6 +564,7 @@ export function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      <h2 className="text-[16px] font-semibold text-accent">送信内容の確認</h2>
       {effectiveBrief ? (
         <div className="space-y-3 rounded-xl border border-accent/25 bg-accent/5 p-4">
           <p className="text-sm font-medium text-text">{form.inquirySummaryTitle}</p>
@@ -581,8 +660,64 @@ export function ContactForm() {
               </div>
             ) : null}
           </dl>
+          {estimateSnapshot ? (
+            <div className="space-y-2 rounded-lg border border-accent/20 bg-[var(--color-bg-pure)] p-3">
+              <p className="text-xs leading-relaxed text-text-sub">
+                送信前に、この内容をもとに「送信される相談内容の要点」を作成してください。
+              </p>
+              <Button
+                type="button"
+                className="min-h-10 w-full sm:w-auto"
+                onClick={handlePrepareInquiryBrief}
+                disabled={briefLoading || unresolvedRequiredCount > 0}
+              >
+                {briefLoading ? "要点を整理しています…" : "この回答で要点を更新する"}
+              </Button>
+              {briefError ? (
+                <p className="text-sm text-red-500" role="alert">
+                  {briefError}
+                </p>
+              ) : null}
+            </div>
+          ) : null}
         </div>
       )}
+
+      {followUpQuestions.length > 0 ? (
+        <div className="space-y-3 rounded-xl border border-accent/25 bg-[var(--color-bg-pure)] p-4">
+          <p className="text-sm font-semibold text-accent">追加で確認したいこと</p>
+          {followUpQuestions.map((question) => (
+            <label key={question.id} className="block space-y-2 text-sm text-text">
+              <span className="font-medium">
+                {question.question}
+                {question.required ? "（必須）" : "（任意）"}
+              </span>
+              {question.helpText ? (
+                <span className="block text-xs leading-relaxed text-text-sub">
+                  {question.helpText}
+                </span>
+              ) : null}
+              <Textarea
+                rows={3}
+                value={followUpAnswers[question.id] ?? ""}
+                placeholder={question.placeholder ?? "わかる範囲でご入力ください"}
+                onChange={(e) =>
+                  setFollowUpAnswers((current) => ({
+                    ...current,
+                    [question.id]: e.target.value,
+                  }))
+                }
+                className="min-h-[88px] resize-y text-[16px] md:text-sm"
+              />
+            </label>
+          ))}
+          {unresolvedRequiredCount > 0 ? (
+            <p className="text-xs text-accent">
+              追加質問の必須回答が {unresolvedRequiredCount} 件あります。回答後に「この回答で要点を更新する」を押してください。
+            </p>
+          ) : null}
+        </div>
+      ) : null}
 
       {estimateSnapshot ? (
         <div className="space-y-3 rounded-xl border border-accent/25 bg-accent/5 p-4">
@@ -614,6 +749,8 @@ export function ContactForm() {
         </div>
       ) : null}
 
+      <div className="rounded-xl border border-silver/25 bg-[var(--color-bg-pure)] p-4">
+        <h2 className="mb-4 text-[16px] font-semibold text-accent">連絡先</h2>
       <div>
         <label htmlFor="name" className="mb-2 block text-sm font-medium text-text">
           {form.nameLabel}
@@ -682,7 +819,10 @@ export function ContactForm() {
           <p className="mt-1 text-sm text-red-500">{errors.triedExperience}</p>
         ) : null}
       </div>
+      </div>
 
+      <div className="rounded-xl border border-silver/25 bg-[var(--color-bg-pure)] p-4">
+      <h2 className="mb-4 text-[16px] font-semibold text-accent">補足（任意）</h2>
       <div>
         <label
           htmlFor="additionalNote"
@@ -706,6 +846,7 @@ export function ContactForm() {
           <p className="mt-1 text-sm text-red-500">{errors.additionalNote}</p>
         ) : null}
       </div>
+      </div>
 
       {status === "success" ? <p className="text-sm text-accent">{form.success}</p> : null}
       {status === "error" && submitError ? (
@@ -714,9 +855,17 @@ export function ContactForm() {
         </p>
       ) : null}
       {inquiryGate.status !== "sendable" ? (
-        <p className="text-sm text-amber-200" role="status">
-          問い合わせ送信前の確認が未完了です。見積の確認内容と要点を見直してください。
-        </p>
+        <div
+          className="rounded-lg border border-amber-300/40 bg-amber-50 px-4 py-3 text-sm text-amber-900"
+          role="status"
+        >
+          <p>問い合わせ送信前の確認が未完了です。次の項目を完了してください。</p>
+          <ul className="mt-2 list-inside list-disc space-y-1">
+            {inquiryGate.missingRequirements.map((missing) => (
+              <li key={missing}>{gateReasonLabels[missing] ?? missing}</li>
+            ))}
+          </ul>
+        </div>
       ) : null}
 
       <Button

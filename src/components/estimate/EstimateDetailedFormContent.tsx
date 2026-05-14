@@ -408,7 +408,7 @@ export function EstimateDetailedFormContent() {
           <header className="space-y-3">
             <p className="text-sm font-medium text-accent">{copy.kicker}</p>
             <h1 className="text-2xl font-bold text-text md:text-3xl">{copy.title}</h1>
-            <p className="max-w-2xl text-sm leading-relaxed text-white/85 md:text-[16px]">
+            <p className="max-w-2xl text-sm leading-relaxed text-[var(--color-accent-primary)]/90 md:text-[16px]">
               {copy.intro}
             </p>
             {decodedCtx?.industryBundle ? (
@@ -425,14 +425,14 @@ export function EstimateDetailedFormContent() {
 
           {visitorJourneySummary || journeyConfirmLines.length > 0 ? (
             <section className="rounded-xl border border-accent/25 bg-accent/[0.06] p-4 md:p-5">
-              <p className="text-sm font-semibold text-white">
+              <p className="text-sm font-semibold text-[var(--color-accent-primary)]">
                 サイト内で整理できている内容を引き継いでいます
               </p>
-              <p className="mt-2 text-sm leading-relaxed text-white/75">
+              <p className="mt-2 text-sm leading-relaxed text-[var(--color-accent-primary)]/80">
                 分かっている内容は初期値に反映しています。必要ならこのあと変更できます。
               </p>
               {journeyConfirmLines.length > 0 ? (
-                <ul className="mt-3 space-y-1.5 text-sm leading-relaxed text-white/90">
+                <ul className="mt-3 space-y-1.5 text-sm leading-relaxed text-[var(--color-accent-primary)]/90">
                   {journeyConfirmLines.map((line) => (
                     <li key={line} className="flex gap-2">
                       <span className="text-accent/80">・</span>
@@ -442,7 +442,7 @@ export function EstimateDetailedFormContent() {
                 </ul>
               ) : null}
               {visitorJourneySummary ? (
-                <p className="mt-3 text-xs leading-relaxed text-white/60">
+                <p className="mt-3 text-xs leading-relaxed text-[var(--color-accent-primary)]/70">
                   {visitorJourneySummary.journeySummary}
                 </p>
               ) : null}

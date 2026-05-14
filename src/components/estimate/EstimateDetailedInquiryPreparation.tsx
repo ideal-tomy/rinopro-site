@@ -131,18 +131,21 @@ export function EstimateDetailedInquiryPreparation({
   };
 
   return (
-    <section className="space-y-5 rounded-xl border border-silver/20 bg-base-dark/40 p-5 md:p-6">
+    <section className="space-y-5 rounded-xl border border-accent/20 bg-[var(--color-bg-pure)] p-5 md:p-6">
       <div className="space-y-2">
-        <h2 className="text-lg font-semibold text-white">
+        <h2 className="text-lg font-semibold text-text">
           {copy.inquiryPrepTitle}
         </h2>
-        <p className="text-sm leading-relaxed text-white/80">
+        <p className="text-sm leading-relaxed text-text-sub">
           {copy.inquiryPrepIntro}
+        </p>
+        <p className="rounded-md border border-accent/20 bg-accent/5 px-3 py-2 text-xs leading-relaxed text-accent">
+          問い合わせに進むには、このブロックで一度「不足点を整理する」を実行してください。
         </p>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2">
-        <label className="space-y-2 text-sm text-white">
+        <label className="space-y-2 text-sm text-text">
           <span className="font-medium">{copy.inquiryPrepIntentLabel}</span>
           <select
             className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
@@ -162,7 +165,7 @@ export function EstimateDetailedInquiryPreparation({
           </select>
         </label>
 
-        <label className="space-y-2 text-sm text-white">
+        <label className="space-y-2 text-sm text-text">
           <span className="font-medium">{copy.inquiryPrepDesiredReplyLabel}</span>
           <select
             className="flex min-h-11 w-full rounded-lg border border-silver/30 bg-base-dark px-3 py-2 text-[16px] text-text md:text-sm"
@@ -184,7 +187,7 @@ export function EstimateDetailedInquiryPreparation({
       </div>
 
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-sm leading-relaxed text-white/70">
+        <p className="text-sm leading-relaxed text-text-sub">
           {questions.length > 0 && missingRequiredCount > 0
             ? copy.inquiryPrepFollowUpHint
             : copy.inquiryPrepPrimaryHint}
@@ -204,18 +207,18 @@ export function EstimateDetailedInquiryPreparation({
       </div>
 
       {questions.length > 0 ? (
-        <div className="space-y-4 rounded-xl border border-accent/20 bg-accent/[0.05] p-4">
-          <p className="text-sm font-medium text-white">
+        <div className="space-y-4 rounded-xl border border-accent/20 bg-accent/[0.04] p-4">
+          <p className="text-sm font-medium text-text">
             {copy.inquiryPrepFollowUpTitle}
           </p>
           {questions.map((question) => (
-            <label key={question.id} className="block space-y-2 text-sm text-white">
+            <label key={question.id} className="block space-y-2 text-sm text-text">
               <span className="font-medium">
                 {question.question}
                 {question.required ? ` ${copy.inquiryPrepRequiredMark}` : ""}
               </span>
               {question.helpText ? (
-                <span className="block text-xs leading-relaxed text-white/65">
+                <span className="block text-xs leading-relaxed text-text-sub">
                   {question.helpText}
                 </span>
               ) : null}
@@ -245,9 +248,9 @@ export function EstimateDetailedInquiryPreparation({
       ) : null}
 
       {brief ? (
-        <div className="space-y-4 rounded-xl border border-silver/20 bg-base-dark/60 p-4 md:p-5">
+        <div className="space-y-4 rounded-xl border border-silver/20 bg-base-dark/40 p-4 md:p-5">
           <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-            <p className="text-sm font-semibold text-white">
+            <p className="text-sm font-semibold text-text">
               {copy.inquiryPrepBriefTitle}
             </p>
             <span
@@ -256,8 +259,8 @@ export function EstimateDetailedInquiryPreparation({
                 brief.readiness === "ready"
                   ? "border-accent/40 bg-accent/10 text-accent"
                   : brief.readiness === "ready_with_gaps"
-                    ? "border-amber-300/40 bg-amber-200/10 text-amber-200"
-                    : "border-silver/30 bg-white/5 text-white/75"
+                    ? "border-amber-300/40 bg-amber-200/20 text-[var(--color-accent-primary)]"
+                    : "border-silver/30 bg-base-dark text-text-sub"
               )}
             >
               {inquiryReadinessLabel(brief.readiness)}
@@ -266,75 +269,75 @@ export function EstimateDetailedInquiryPreparation({
 
           <dl className="grid gap-4 md:grid-cols-2">
             <div>
-              <dt className="text-xs font-medium uppercase tracking-wide text-white/55">
+              <dt className="text-xs font-medium uppercase tracking-wide text-text-sub">
                 {copy.inquiryPrepIntentLabel}
               </dt>
-              <dd className="mt-1 text-sm leading-relaxed text-white/90">
+              <dd className="mt-1 text-sm leading-relaxed text-text">
                 {brief.inquiryIntentLabel}
               </dd>
             </div>
             <div>
-              <dt className="text-xs font-medium uppercase tracking-wide text-white/55">
+              <dt className="text-xs font-medium uppercase tracking-wide text-text-sub">
                 {copy.inquiryPrepDesiredReplyLabel}
               </dt>
-              <dd className="mt-1 text-sm leading-relaxed text-white/90">
+              <dd className="mt-1 text-sm leading-relaxed text-text">
                 {brief.desiredReplyLabel}
               </dd>
             </div>
             <div className="md:col-span-2">
-              <dt className="text-xs font-medium uppercase tracking-wide text-white/55">
+              <dt className="text-xs font-medium uppercase tracking-wide text-text-sub">
                 {copy.inquiryPrepProblemTitle}
               </dt>
-              <dd className="mt-1 text-sm leading-relaxed text-white/90">
+              <dd className="mt-1 text-sm leading-relaxed text-text">
                 {brief.problemSummary}
               </dd>
             </div>
             <div className="md:col-span-2">
-              <dt className="text-xs font-medium uppercase tracking-wide text-white/55">
+              <dt className="text-xs font-medium uppercase tracking-wide text-text-sub">
                 {copy.inquiryPrepReplySummaryTitle}
               </dt>
-              <dd className="mt-1 text-sm leading-relaxed text-white/90">
+              <dd className="mt-1 text-sm leading-relaxed text-text">
                 {brief.requestedReplySummary}
               </dd>
             </div>
             <div>
-              <dt className="text-xs font-medium uppercase tracking-wide text-white/55">
+              <dt className="text-xs font-medium uppercase tracking-wide text-text-sub">
                 {copy.inquiryPrepTargetTitle}
               </dt>
-              <dd className="mt-1 text-sm leading-relaxed text-white/90">
+              <dd className="mt-1 text-sm leading-relaxed text-text">
                 {brief.targetSummary}
               </dd>
             </div>
             <div>
-              <dt className="text-xs font-medium uppercase tracking-wide text-white/55">
+              <dt className="text-xs font-medium uppercase tracking-wide text-text-sub">
                 {copy.inquiryPrepTimelineTitle}
               </dt>
-              <dd className="mt-1 text-sm leading-relaxed text-white/90">
+              <dd className="mt-1 text-sm leading-relaxed text-text">
                 {brief.timelineSummary}
               </dd>
             </div>
             <div className="md:col-span-2">
-              <dt className="text-xs font-medium uppercase tracking-wide text-white/55">
+              <dt className="text-xs font-medium uppercase tracking-wide text-text-sub">
                 {copy.inquiryPrepScopeTitle}
               </dt>
-              <dd className="mt-1 text-sm leading-relaxed text-white/90">
+              <dd className="mt-1 text-sm leading-relaxed text-text">
                 {brief.scopeSummary}
               </dd>
             </div>
             <div className="md:col-span-2">
-              <dt className="text-xs font-medium uppercase tracking-wide text-white/55">
+              <dt className="text-xs font-medium uppercase tracking-wide text-text-sub">
                 {copy.inquiryPrepConstraintsTitle}
               </dt>
-              <dd className="mt-1 text-sm leading-relaxed text-white/90">
+              <dd className="mt-1 text-sm leading-relaxed text-text">
                 {brief.constraintsSummary}
               </dd>
             </div>
             {brief.journeySummary ? (
               <div className="md:col-span-2">
-                <dt className="text-xs font-medium uppercase tracking-wide text-white/55">
+                <dt className="text-xs font-medium uppercase tracking-wide text-text-sub">
                   サイト内で引き継いだ文脈
                 </dt>
-                <dd className="mt-1 text-sm leading-relaxed text-white/90">
+                <dd className="mt-1 text-sm leading-relaxed text-text">
                   {brief.journeySummary}
                 </dd>
               </div>
@@ -343,10 +346,10 @@ export function EstimateDetailedInquiryPreparation({
 
           {brief.replyFocus.length > 0 ? (
             <div>
-              <p className="text-xs font-medium uppercase tracking-wide text-white/55">
+              <p className="text-xs font-medium uppercase tracking-wide text-text-sub">
                 {copy.inquiryPrepReplyFocusTitle}
               </p>
-              <ul className="mt-2 space-y-1.5 text-sm leading-relaxed text-white/90">
+              <ul className="mt-2 space-y-1.5 text-sm leading-relaxed text-text">
                 {brief.replyFocus.map((item) => (
                   <li key={item} className="flex gap-2">
                     <span className="text-accent/80">・</span>
@@ -359,10 +362,10 @@ export function EstimateDetailedInquiryPreparation({
 
           {brief.unresolvedPoints.length > 0 ? (
             <div>
-              <p className="text-xs font-medium uppercase tracking-wide text-white/55">
+              <p className="text-xs font-medium uppercase tracking-wide text-text-sub">
                 {copy.inquiryPrepUnresolvedTitle}
               </p>
-              <ul className="mt-2 space-y-1.5 text-sm leading-relaxed text-white/90">
+              <ul className="mt-2 space-y-1.5 text-sm leading-relaxed text-text">
                 {brief.unresolvedPoints.map((item) => (
                   <li key={item} className="flex gap-2">
                     <span className="text-accent/80">・</span>
