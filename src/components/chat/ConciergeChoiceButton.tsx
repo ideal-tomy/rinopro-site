@@ -94,29 +94,29 @@ export function ConciergeChoiceButton({
 }
 
 const ctaPrimary =
-  "w-full rounded-2xl border border-action/50 bg-action/25 px-4 py-3 font-semibold leading-relaxed tracking-wide " +
-  "text-white shadow-[0_0_20px_rgba(0,103,192,0.2)] backdrop-blur-[20px] " +
-  "transition-[transform,box-shadow,border-color,background-color,color] duration-200 ease-out " +
-  "hover:border-action/70 hover:bg-action/35 hover:text-white hover:shadow-[0_0_28px_rgba(0,103,192,0.28)] " +
+  "w-full rounded-2xl border border-transparent bg-[var(--color-accent-primary)] px-4 py-3 font-semibold leading-relaxed tracking-wide " +
+  "text-white shadow-md " +
+  "transition-[transform,box-shadow,background-color,border-color,color] duration-200 ease-out " +
+  "hover:bg-[var(--color-accent-primary-hover)] hover:text-white " +
   "active:scale-[0.98] " +
-  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action focus-visible:ring-offset-2 focus-visible:ring-offset-base " +
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-pure)] " +
   "disabled:pointer-events-none disabled:opacity-50";
 
 const ctaSecondary =
-  "w-full rounded-2xl border border-white/15 bg-white/[0.06] px-4 py-3 font-semibold leading-relaxed tracking-wide text-text/95 " +
-  "shadow-sm backdrop-blur-[20px] " +
-  "transition-[transform,box-shadow,border-color,background-color] duration-200 ease-out " +
-  "hover:border-white/25 hover:shadow-[0_0_24px_rgba(0,103,192,0.14)] " +
+  "w-full rounded-2xl border border-[var(--color-accent-primary)]/40 bg-[var(--color-bg-pure)] px-4 py-3 font-semibold leading-relaxed tracking-wide " +
+  "text-[var(--color-accent-primary)] shadow-sm " +
+  "transition-[transform,box-shadow,border-color,background-color,color] duration-200 ease-out " +
+  "hover:border-[var(--color-accent-primary)] hover:bg-[var(--color-accent-primary-light)]/35 " +
   "active:scale-[0.98] " +
-  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action focus-visible:ring-offset-2 focus-visible:ring-offset-base " +
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-pure)] " +
   "disabled:pointer-events-none disabled:opacity-50";
 
 const ctaGhost =
-  "w-full rounded-2xl border border-transparent bg-transparent px-4 py-3 text-sm font-medium leading-relaxed tracking-wide text-text-sub " +
+  "w-full rounded-2xl border border-transparent bg-transparent px-4 py-3 text-sm font-medium leading-relaxed tracking-wide text-[var(--color-accent-primary)]/85 " +
   "transition-[transform,background-color,color] duration-200 ease-out " +
-  "hover:bg-white/[0.04] hover:text-text/90 " +
+  "hover:bg-[var(--color-accent-primary-light)]/25 hover:text-[var(--color-accent-primary)] " +
   "active:scale-[0.99] " +
-  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action focus-visible:ring-offset-2 focus-visible:ring-offset-base " +
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-pure)] " +
   "disabled:pointer-events-none disabled:opacity-50";
 
 export type ConciergeCtaVariant = "primary" | "secondary" | "ghost";
