@@ -6,7 +6,7 @@ import { ContactPageContent } from "@/components/contact/ContactPageContent";
 export const metadata: Metadata = {
   title: "問い合わせ | AXEON",
   description:
-    "整理した課題と要件のたたき台を送るお問い合わせ窓口です。初回返信で具体的にお返しできるよう、送信前に要点をそろえます。",
+    "ご相談内容をフォームからお送りいただける窓口です。2営業日以内に担当者よりご返信します。",
 };
 
 export default function ContactPage() {

@@ -1184,7 +1184,10 @@ export const estimateDetailedCopy = {
 export const contactCopy = {
   title: "お問い合わせ",
   purpose:
-    "問い合わせ前に要点を整理し、初回返信を具体化しやすい状態で送るための窓口です。直流入でも同じ基準で確認します。",
+    "ご相談内容を短く書いて送ってください。2営業日以内に担当者よりご返信します。",
+  /** 問い合わせページ下部：詳細見積フローへ（任意） */
+  depthPromptLine:
+    "もう少し整理してから送りたい場合は、次のリンクからヒアリングに進めます。",
   /** 問い合わせページ：短いヒアリング（詳細見積フロー）へ */
   estimateShortcutCta: "ヒアリングで要点をそろえる",
   estimateShortcutHint:
@@ -1218,6 +1221,13 @@ export const contactCopy = {
     namePlaceholder: "山田 太郎",
     emailLabel: "メールアドレス",
     emailPlaceholder: "example@example.com",
+    companyLabel: "会社名（任意）",
+    companyPlaceholder: "株式会社○○",
+    messageLabel: "ご相談内容",
+    messagePlaceholder:
+      "例: 営業事務の問い合わせ一次対応を自動化したい。今期中に方向性を決めたい。",
+    messageHint:
+      "現状の困りごとや、期待することを自由に書いてください。長文でも箇条書きでも構いません。",
     triedExperienceLabel: "最も近かった体験・デモ",
     triedExperiencePlaceholder: "選択してください",
     triedExperienceOtherPlaceholder:

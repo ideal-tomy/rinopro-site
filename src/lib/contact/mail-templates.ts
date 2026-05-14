@@ -15,6 +15,7 @@ import { isContactSyntheticEstimateSnapshot } from "@/lib/contact/build-contact-
 export interface ContactMailContext {
   name: string;
   email: string;
+  company?: string;
   triedExperience?: string;
   inquiryBrief?: InquiryBrief | null;
   inquiryIntent: InquiryIntent;
@@ -153,6 +154,7 @@ export function buildAdminContactEmail(ctx: ContactMailContext): {
 
   const headline = [
     `お名前: ${ctx.name}`,
+    ctx.company?.trim() ? `会社名: ${ctx.company.trim()}` : null,
     `メール: ${ctx.email}`,
     ctx.triedExperience ? `最も近かった体験・デモ: ${ctx.triedExperience}` : null,
     rangeLine,
@@ -198,6 +200,7 @@ export function buildCustomerContactEmail(ctx: ContactMailContext): {
   const subject = "【AXEON】お問い合わせを受け付けました";
   const lines = [
     `${ctx.name} 様`,
+    ctx.company?.trim() ? `会社名: ${ctx.company.trim()}` : null,
     "",
     "このたびはお問い合わせありがとうございます。内容を確認のうえ、2営業日以内にご返信いたします。",
     "",

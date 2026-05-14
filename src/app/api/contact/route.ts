@@ -5,6 +5,22 @@ import {
 } from "@/lib/contact/mail-templates";
 import { contactSchema } from "@/lib/validation/contact-schema";
 import { rateLimit } from "@/lib/rate-limit";
+import type { InquiryDesiredReply, InquiryIntent } from "@/lib/inquiry/inquiry-brief";
+
+function normalizeContactBody(raw: unknown): unknown {
+  if (typeof raw !== "object" || raw === null) return raw;
+  const o = raw as Record<string, unknown>;
+  const fromMessage =
+    typeof o.message === "string" && o.message.trim().length > 0 ? o.message.trim() : "";
+  const fromProblem =
+    typeof o.problemStatement === "string" && o.problemStatement.trim().length > 0
+      ? o.problemStatement.trim()
+      : "";
+  return {
+    ...o,
+    message: fromMessage || fromProblem,
+  };
+}
 
 export async function POST(req: Request) {
   const ip = req.headers.get("x-forwarded-for") ?? req.headers.get("x-real-ip") ?? "anonymous";
@@ -14,7 +30,7 @@ export async function POST(req: Request) {
 
   try {
     const body = await req.json();
-    const result = contactSchema.safeParse(body);
+    const result = contactSchema.safeParse(normalizeContactBody(body));
 
     if (!result.success) {
       return NextResponse.json(
@@ -26,30 +42,38 @@ export async function POST(req: Request) {
     const {
       name,
       email,
+      company,
       triedExperience,
       visitorJourney,
       estimateSnapshot,
       inquiryBrief,
       inquiryIntent,
       desiredReply,
-      problemStatement,
+      message,
       targetSummary,
       decisionTimeline,
       constraintsSummary,
       additionalNote,
     } = result.data;
 
+    const resolvedIntent: InquiryIntent = inquiryIntent ?? "estimate";
+    const resolvedDesired: InquiryDesiredReply = desiredReply ?? "rough_estimate";
+    const resolvedTarget = targetSummary?.trim() || "（未記入）";
+    const resolvedTimeline = decisionTimeline?.trim() || "（未記入）";
+    const problemStatementResolved = message.trim();
+
     const adminMail = buildAdminContactEmail({
       name,
       email,
+      company,
       triedExperience,
       visitorJourney: visitorJourney ?? estimateSnapshot?.visitorJourney ?? null,
       inquiryBrief: inquiryBrief ?? null,
-      inquiryIntent,
-      desiredReply,
-      problemStatement,
-      targetSummary,
-      decisionTimeline,
+      inquiryIntent: resolvedIntent,
+      desiredReply: resolvedDesired,
+      problemStatement: problemStatementResolved,
+      targetSummary: resolvedTarget,
+      decisionTimeline: resolvedTimeline,
       constraintsSummary,
       additionalNote,
       estimateSnapshot: estimateSnapshot ?? null,
@@ -57,14 +81,15 @@ export async function POST(req: Request) {
     const customerMail = buildCustomerContactEmail({
       name,
       email,
+      company,
       triedExperience,
       visitorJourney: visitorJourney ?? estimateSnapshot?.visitorJourney ?? null,
       inquiryBrief: inquiryBrief ?? null,
-      inquiryIntent,
-      desiredReply,
-      problemStatement,
-      targetSummary,
-      decisionTimeline,
+      inquiryIntent: resolvedIntent,
+      desiredReply: resolvedDesired,
+      problemStatement: problemStatementResolved,
+      targetSummary: resolvedTarget,
+      decisionTimeline: resolvedTimeline,
       constraintsSummary,
       additionalNote,
       estimateSnapshot: estimateSnapshot ?? null,
@@ -74,9 +99,10 @@ export async function POST(req: Request) {
     console.info("[Contact] inbound", {
       name,
       email,
-      inquiryIntent,
-      desiredReply,
-      problemLength: problemStatement.length,
+      company: company?.trim() ?? null,
+      inquiryIntent: resolvedIntent,
+      desiredReply: resolvedDesired,
+      messageLength: problemStatementResolved.length,
       triedExperience: triedExperience ?? null,
       hasVisitorJourney: Boolean(visitorJourney ?? estimateSnapshot?.visitorJourney),
       hasEstimateSnapshot: Boolean(estimateSnapshot),
