@@ -1009,13 +1009,13 @@ export const estimateDetailedCopy = {
   btnContact: "この内容で問い合わせる",
   inquiryPrepTitle: "問い合わせ前の確認",
   inquiryPrepIntro:
-    "ここでは、サイト内で整理済みの内容を土台にして、最初の返信を具体的にするために不足点だけを補います。長いヒアリングではなく、必要な確認だけに絞ります。",
+    "ここでは任意で、サイト内で整理済みの内容を土台にして、最初の返信を具体化するための不足点だけを補えます。実行しなくても、そのまま「この内容で問い合わせる」からお進みいただけます。",
   inquiryPrepIntentLabel: "今回の相談でいちばん知りたいこと",
   inquiryPrepDesiredReplyLabel: "今回の返信でほしい内容",
   inquiryPrepPrimaryHint:
-    "まずは、今回どんな返答を求めているかを選んで問い合わせ用の整理を作ります。",
+    "ご希望に応じて、返答のイメージを選んで問い合わせ用の整理を作れます（任意）。",
   inquiryPrepFollowUpHint:
-    "追加で確認したい点だけを並べています。埋めると、送信時点でかなり具体的な問い合わせになります。",
+    "追加で確認したい点だけを並べています。埋めると、送信時点でより具体的な問い合わせになります（任意）。",
   inquiryPrepGenerateCta: "不足点を整理する",
   inquiryPrepRefreshCta: "この回答で問い合わせ内容を更新する",
   inquiryPrepLoading: "整理しています…",
@@ -1033,7 +1033,7 @@ export const estimateDetailedCopy = {
   inquiryPrepReplyFocusTitle: "初回返信でまず触れるべき論点",
   inquiryPrepUnresolvedTitle: "まだ確認が必要な点",
   inquiryPrepContactGate:
-    "問い合わせの前に、上の確認を一度実行してください。送信時点でこちらが返しやすい状態まで整理します。",
+    "（参考）問い合わせ前の整理は任意です。未整理でもお問い合わせフォームから送信できます。",
   inquiryPrepError: "問い合わせ前整理に失敗しました。時間を置いて再度お試しください。",
   rangeDisclaimer: "最終的な開発費用は、お話を伺ったうえでお出しします。",
   /** 結果・金額ページの要約ブロック見出し */

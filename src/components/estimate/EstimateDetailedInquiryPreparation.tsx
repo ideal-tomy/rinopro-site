@@ -140,7 +140,7 @@ export function EstimateDetailedInquiryPreparation({
           {copy.inquiryPrepIntro}
         </p>
         <p className="rounded-md border border-accent/20 bg-accent/5 px-3 py-2 text-xs leading-relaxed text-accent">
-          問い合わせに進むには、このブロックで一度「不足点を整理する」を実行してください。
+          ここでの整理は任意です。実行しなくても、下の「この内容で問い合わせる」からお進みいただけます。
         </p>
       </div>
 

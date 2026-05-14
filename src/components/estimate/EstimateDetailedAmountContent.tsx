@@ -8,9 +8,10 @@ import { useConciergeChat } from "@/components/chat/concierge-chat-context";
 import { EstimateDetailedInquiryPreparation } from "@/components/estimate/EstimateDetailedInquiryPreparation";
 import { suppressNextChatAutoOpen } from "@/lib/chat/chat-auto-open";
 import {
-  buildContactHandoffNavigation,
+  buildContactMessageDraft,
+  buildContactPrefillNavigation,
   buildHandoffPayloadV2FromDetailed,
-  storeHandoffPayloadInSession,
+  storeContactPrefillInSession,
 } from "@/lib/chat/estimate-handoff";
 import { estimateDetailedCopy } from "@/lib/content/site-copy";
 import {
@@ -29,10 +30,7 @@ import {
 } from "@/lib/estimate/estimate-detailed-budget";
 import { EstimateDetailedPhilosophyFootnote } from "@/components/estimate/EstimateDetailedPhilosophyFootnote";
 import { EstimateDetailedResumeQuestionsButton } from "@/components/estimate/EstimateDetailedResumeQuestionsButton";
-import {
-  evaluateInquiryGate,
-  type EstimateInquiryPreparation,
-} from "@/lib/inquiry/inquiry-brief";
+import type { EstimateInquiryPreparation } from "@/lib/inquiry/inquiry-brief";
 import { recordVisitorEstimateAnswers } from "@/lib/journey/visitor-journey-storage";
 
 const copy = estimateDetailedCopy;
@@ -80,25 +78,13 @@ export function EstimateDetailedAmountContent() {
   }, [flow?.answers]);
 
   const snapshot = flow ? buildSnapshotFromFlow(flow) : null;
-  const inquiryPreparation = flow?.inquiryPreparation ?? null;
-  const inquiryGate = evaluateInquiryGate({
-    brief: inquiryPreparation?.brief,
-    problemSummary: inquiryPreparation?.brief.problemSummary,
-    targetSummary: inquiryPreparation?.brief.targetSummary,
-    timelineSummary: inquiryPreparation?.brief.timelineSummary,
-    followUpQuestions: inquiryPreparation?.followUpQuestions,
-    followUpAnswers: inquiryPreparation?.followUpAnswers,
-    hasViewedEstimateOrEquivalent: true,
-    hasReviewedGeneratedBrief: inquiryPreparation?.brief != null,
-  });
-  const contactReady = inquiryGate.status === "sendable";
-
   const goContact = useCallback(() => {
     if (!snapshot) return;
     const payload = buildHandoffPayloadV2FromDetailed(snapshot);
-    const { href, storeInSession } = buildContactHandoffNavigation(payload);
+    const text = buildContactMessageDraft(payload);
+    const { href, storeInSession } = buildContactPrefillNavigation(text);
     if (storeInSession) {
-      storeHandoffPayloadInSession(payload);
+      storeContactPrefillInSession(text);
     }
     suppressNextChatAutoOpen();
     setConciergeOpen(false);
@@ -208,7 +194,6 @@ export function EstimateDetailedAmountContent() {
           type="button"
           className="min-h-12 w-full px-8 text-[16px] sm:w-auto"
           onClick={goContact}
-          disabled={!contactReady}
         >
           {copy.btnContact}
         </Button>
@@ -219,11 +204,6 @@ export function EstimateDetailedAmountContent() {
           <Link href={backHref}>{copy.backToResult}</Link>
         </Button>
       </div>
-      {!contactReady ? (
-        <p className="rounded-lg border border-amber-300/30 bg-amber-50 px-4 py-3 text-center text-sm leading-relaxed text-amber-800">
-          {copy.inquiryPrepContactGate}
-        </p>
-      ) : null}
     </div>
   );
 }
