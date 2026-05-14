@@ -36,10 +36,12 @@ import {
 } from "@/lib/chat/concierge-flow";
 
 import {
-  buildContactHandoffUrl,
+  buildContactMessageDraft,
+  buildContactPrefillNavigation,
   buildEstimateContextPayload,
   buildEstimateDetailedEntryUrl,
   buildHandoffPayloadV1,
+  storeContactPrefillInSession,
 } from "@/lib/chat/estimate-handoff";
 import type { ConciergeIndustryBundle } from "@/lib/chat/estimate-handoff";
 import { ConciergeIndustryStep } from "@/components/chat/ConciergeIndustryStep";
@@ -498,8 +500,13 @@ export function HomeConciergeFlow({
       current.body,
       readVisitorJourneySummary()
     );
+    const text = buildContactMessageDraft(payload);
+    const { href, storeInSession } = buildContactPrefillNavigation(text);
+    if (storeInSession) {
+      storeContactPrefillInSession(text);
+    }
     dismissConciergeForNavigation();
-    router.push(buildContactHandoffUrl(payload));
+    router.push(href);
   };
 
   const handleFreeformCta = () => {

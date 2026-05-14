@@ -289,6 +289,53 @@ export function buildContactHandoffNavigation(
   return { href: buildContactHandoffUrl(payload), storeInSession: false };
 }
 
+/** 問い合わせの「ご相談内容」にそのまま入れるテキスト用クエリ名 */
+export const CONTACT_PREFILL_QUERY = "prefill";
+/** URL が長すぎるときは sessionStorage に退避するときの query 値 */
+export const CONTACT_PREFILL_SESSION_MARKER = "session";
+export const CONTACT_PREFILL_STORAGE_KEY = "AXEON_contact_prefill_v1";
+
+/**
+ * `/contact?prefill=...` へ遷移する href を組み立てる。
+ * 長い場合は `?prefill=session` + sessionStorage（`storeContactPrefillInSession`）を使う。
+ */
+export function buildContactPrefillNavigation(
+  text: string,
+  maxHrefLength = 1800
+): { href: string; storeInSession: boolean } {
+  const trimmed = text.trim();
+  const encoded = encodeURIComponent(trimmed);
+  const href = `/contact?${CONTACT_PREFILL_QUERY}=${encoded}`;
+  if (href.length > maxHrefLength) {
+    return {
+      href: `/contact?${CONTACT_PREFILL_QUERY}=${encodeURIComponent(CONTACT_PREFILL_SESSION_MARKER)}`,
+      storeInSession: true,
+    };
+  }
+  return { href, storeInSession: false };
+}
+
+export function storeContactPrefillInSession(text: string): void {
+  if (typeof window === "undefined") return;
+  try {
+    window.sessionStorage.setItem(CONTACT_PREFILL_STORAGE_KEY, text.trim());
+  } catch {
+    // ignore quota / private mode
+  }
+}
+
+export function consumeContactPrefillFromSession(): string | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = window.sessionStorage.getItem(CONTACT_PREFILL_STORAGE_KEY);
+    if (!raw) return null;
+    window.sessionStorage.removeItem(CONTACT_PREFILL_STORAGE_KEY);
+    return raw;
+  } catch {
+    return null;
+  }
+}
+
 export function storeHandoffPayloadInSession(payload: ChatHandoffPayload): void {
   if (typeof window === "undefined") return;
   try {

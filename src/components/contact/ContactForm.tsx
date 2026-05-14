@@ -10,7 +10,10 @@ import { contactCopy } from "@/lib/content/site-copy";
 import { cn } from "@/lib/utils";
 import {
   buildContactMessageDraft,
+  consumeContactPrefillFromSession,
   consumeHandoffPayloadFromSession,
+  CONTACT_PREFILL_QUERY,
+  CONTACT_PREFILL_SESSION_MARKER,
   decodeChatHandoff,
   CONTACT_HANDOFF_SESSION_QUERY,
   type ChatHandoffPayload,
@@ -58,6 +61,7 @@ function handoffDraftText(payload: ChatHandoffPayload): string {
 
 export function ContactForm() {
   const searchParams = useSearchParams();
+  const prefillApplied = useRef(false);
   const handoffApplied = useRef(false);
   const patternQueryApplied = useRef(false);
   const industryQueryApplied = useRef(false);
@@ -84,7 +88,38 @@ export function ContactForm() {
   }, [closestExperience, closestExperienceOther]);
 
   useEffect(() => {
+    if (prefillApplied.current) return;
+    const raw = searchParams.get(CONTACT_PREFILL_QUERY);
+    if (!raw) return;
+    prefillApplied.current = true;
+
+    let draft = "";
+    if (raw === CONTACT_PREFILL_SESSION_MARKER) {
+      draft = consumeContactPrefillFromSession() ?? "";
+    } else {
+      try {
+        draft = decodeURIComponent(raw);
+      } catch {
+        prefillApplied.current = false;
+        return;
+      }
+    }
+
+    const merged = draft.trim();
+    if (!merged) {
+      prefillApplied.current = false;
+      return;
+    }
+
+    const frame = requestAnimationFrame(() => {
+      setMessage((prev) => (prev.trim() ? `${merged}\n\n${prev.trim()}` : merged));
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [searchParams]);
+
+  useEffect(() => {
     if (handoffApplied.current) return;
+    if (searchParams.get(CONTACT_PREFILL_QUERY)) return;
 
     const raw = searchParams.get("handoff");
     if (raw === CONTACT_HANDOFF_SESSION_QUERY) {
@@ -110,7 +145,7 @@ export function ContactForm() {
   }, [searchParams]);
 
   useEffect(() => {
-    if (searchParams.get("handoff")) return;
+    if (searchParams.get("handoff") || searchParams.get(CONTACT_PREFILL_QUERY)) return;
 
     const lines: string[] = [];
 
