@@ -36,9 +36,9 @@ export function HomeFirstView() {
         </p>
         <div className="mt-20 w-full max-w-lg md:mt-[5rem] md:max-w-none">
           <HomeFirstViewActions
-            primaryLabel={c.primaryCta}
-            secondaryLabel={c.secondaryCta}
-            secondaryHref={c.secondaryHref}
+            cards={c.serviceOfferCards}
+            servicesLabel={c.servicesCta}
+            servicesHref={c.servicesHref}
           />
         </div>
       </div>

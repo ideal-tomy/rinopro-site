@@ -7,9 +7,20 @@ export const homeLandingCopy = {
     subheadline: "",
     body:
       "戦略と実装を同じテーブルに戻し、\n企業の変革を構想で止めない。\nAXEONは、想いと成果を両立するパートナーです。",
-    primaryCta: "初回コンサルティングのご相談",
-    secondaryCta: "サービス詳細を見る",
-    secondaryHref: "/services",
+    serviceOfferCards: [
+      {
+        title: "コンサル",
+        description: "コンサル&開発、運用保守",
+        href: "/services/consulting",
+      },
+      {
+        title: "開発",
+        description: "月額、3か月毎更新",
+        href: "/services/development",
+      },
+    ],
+    servicesCta: "サービス詳細を見る",
+    servicesHref: "/services",
   },
 
   empathy: {
@@ -206,18 +217,18 @@ export const homeLandingCopy = {
     ],
   },
 
-  /** メインLP Approach 直下：実装事例6カード（Industry Showcase） */
+  /** About 直下：実装事例6カード（Industry Showcase） */
   implementationShowcase: {
-    sectionIndex: "08",
+    sectionIndex: "03",
     sectionKicker: "INDUSTRY SHOWCASE",
-    heading: "業界別の、実装事例。",
+    heading: "業界別、実装demo",
     intro: "",
     allCasesLabel: "すべてのdemoを見る",
     allCasesHref: "/experience",
   },
 
   demoEvidence: {
-    sectionIndex: "08",
+    sectionIndex: "03",
     sectionKicker: "INDUSTRY SHOWCASE",
     heading: "業界別プロダクト例",
     intro:
@@ -228,7 +239,7 @@ export const homeLandingCopy = {
 
   // 互換用
   seoEntries: {
-    sectionIndex: "08",
+    sectionIndex: "03",
     sectionKicker: "INDUSTRY",
     heading: "業種別・業務別の入口",
     intro:
@@ -236,7 +247,7 @@ export const homeLandingCopy = {
   },
 
   faq: {
-    sectionIndex: "09",
+    sectionIndex: "08",
     sectionKicker: "FAQ",
     heading: "よくある質問",
     items: [
@@ -264,7 +275,7 @@ export const homeLandingCopy = {
   },
 
   company: {
-    sectionIndex: "10",
+    sectionIndex: "09",
     sectionKicker: "会社案内",
     heading: "Company",
     lead:
@@ -276,7 +287,7 @@ export const homeLandingCopy = {
   },
 
   closing: {
-    sectionIndex: "11",
+    sectionIndex: "10",
     sectionKicker: "CONTACT",
     headline: "初回コンサルティングのご相談",
     body: "専門家との対話で、課題の輪郭と次のアクションを整理します。",

@@ -229,7 +229,7 @@ export const servicesCopy = {
   },
   consulting: {
     title: "コンサルティング",
-    desc: "業務診断、優先順位設計、PoC設計、定着支援。過剰提案せず、検証可能な範囲で進める。",
+    desc: "業務診断、優先順位設計、PoC設計、定着支援。検証可能な範囲で進める。",
     href: "/services/consulting",
   },
 } as const;
