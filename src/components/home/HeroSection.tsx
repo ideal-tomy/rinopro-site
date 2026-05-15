@@ -18,6 +18,9 @@ export function HeroSection() {
         <HomeSectionShell tone="warm">
           <HomeEmpathyCards />
         </HomeSectionShell>
+        <HomeSectionShell>
+          <HomeImplementationShowcaseSection />
+        </HomeSectionShell>
         <HomeSectionShell tone="pure">
           <HomeValuesSection />
         </HomeSectionShell>
@@ -29,9 +32,6 @@ export function HeroSection() {
         </HomeSectionShell>
         <HomeSectionShell tone="neutral">
           <HomeServiceFlowRow />
-        </HomeSectionShell>
-        <HomeSectionShell>
-          <HomeImplementationShowcaseSection />
         </HomeSectionShell>
         <HomeSectionShell tone="pure">
           <HomeFaqSection />
