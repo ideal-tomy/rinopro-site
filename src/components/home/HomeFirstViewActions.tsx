@@ -11,6 +11,7 @@ type ServiceOfferCard = {
 };
 
 type HomeFirstViewActionsProps = {
+  serviceSectionKicker?: string;
   cards: readonly ServiceOfferCard[];
   servicesLabel: string;
   servicesHref: string;
@@ -20,12 +21,18 @@ const motionHover =
   "motion-safe:transition-[transform,box-shadow,border-color] motion-safe:duration-300 motion-reduce:transition-none";
 
 export function HomeFirstViewActions({
+  serviceSectionKicker,
   cards,
   servicesLabel,
   servicesHref,
 }: HomeFirstViewActionsProps) {
   return (
     <div className="flex w-full flex-col items-center gap-6 md:gap-8">
+      {serviceSectionKicker ? (
+        <p className="text-center text-[13px] font-semibold tracking-[0.2em] text-[var(--color-accent-primary)] md:text-sm">
+          {serviceSectionKicker}
+        </p>
+      ) : null}
       <div className="grid w-full max-w-4xl grid-cols-1 gap-5 md:grid-cols-2 md:gap-6">
         {cards.map((card) => (
           <Link

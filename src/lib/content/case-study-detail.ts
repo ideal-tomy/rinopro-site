@@ -52,7 +52,7 @@ const DETAILS: readonly CaseStudyDetail[] = [
     metaDescription:
       "建設・工事向け。現場と本社の情報分断を減らし、報告・配員・書類を一つのハブにまとめる実装サンプルの紹介です。",
     heroEyebrow: "GEMPO",
-    heroTitle: "〇〇工業向け 現場ポケット",
+    heroTitle: "建設業向け 現場ポケット",
     heroSubtitle: "現場でも事務所でも、今日の現場がひと目でわかる。",
     industryTag: "建設・工事",
     beforeAfter: {

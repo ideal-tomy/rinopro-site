@@ -36,6 +36,7 @@ export function HomeFirstView() {
         </p>
         <div className="mt-20 w-full max-w-lg md:mt-[5rem] md:max-w-none">
           <HomeFirstViewActions
+            serviceSectionKicker={c.serviceSectionKicker}
             cards={c.serviceOfferCards}
             servicesLabel={c.servicesCta}
             servicesHref={c.servicesHref}

@@ -6,17 +6,18 @@ export const homeLandingCopy = {
     headlineLine2: "人にしかできないことに集中できる社会へ",
     subheadline: "",
     body:
-      "戦略と実装を同じテーブルに戻し、\n企業の変革を構想で止めない。\nAXEONは、想いと成果を両立するパートナーです。",
+      "手作業や定型業務を自動化し、\n人は、人にしか生み出せない価値へ。\n\nAXEONは、業務効率化のその先にある企業の本質的な変革を支援します。",
+    serviceSectionKicker: "ー Service ー",
     serviceOfferCards: [
       {
-        title: "コンサル",
+        title: "コンサルティング",
         description: "コンサル&開発、運用保守",
         href: "/services/consulting",
       },
       {
-        title: "開発",
+        title: "IT部門半内製化",
         description: "月額、3か月毎更新",
-        href: "/services/development",
+        href: "/services/insourcing-enablement",
       },
     ],
     servicesCta: "サービス詳細を見る",
@@ -133,7 +134,7 @@ export const homeLandingCopy = {
     imageSrc: "/images/about.jpg",
     imageAlt: "AXEON代表プロフィール写真",
     message:
-      "大手企業の変革に関わる中で、戦略と実装の分断を何度も見てきました。AXEONでは、構想から運用まで一気通貫で伴走し、現場で成果が残る形に落とし込みます。",
+      "UCLA卒業後、外資系コンサルティングファームにて大手企業の変革に関わる中で、戦略と実装の分断を何度も見てきました。AXEONでは、構想から運用まで一気通貫で伴走し、現場で成果が残る形に落とし込みます。",
     profileHref: "/about",
     profileLabel: "詳細プロフィールを見る",
   },

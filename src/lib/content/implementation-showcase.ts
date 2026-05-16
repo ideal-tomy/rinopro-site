@@ -63,7 +63,7 @@ export const IMPLEMENTATION_SHOWCASE_ITEMS: readonly ImplementationShowcaseItem[
     {
       slug: "gempo",
       brandName: "GEMPO",
-      productTitle: "〇〇工業向け 現場ポケット",
+      productTitle: "建設業向け 現場ポケット",
       catchCopy: "現場・事務所、どこからでもアクセス",
       industryLabel: "建設・工事",
       thumbnailSrc: "/images/genbakanri_admin.webp",
@@ -122,7 +122,7 @@ export const IMPLEMENTATION_SHOWCASE_ITEMS: readonly ImplementationShowcaseItem[
       catchCopy:
         "売上・シフト・入金などオペレーションを、業務UIで短時間に体感",
       industryLabel: "飲食・サービス",
-      thumbnailSrc: "/images/genbakanri_admin.webp",
+      thumbnailSrc: "/images/top07_restauland.png",
       thumbnailAlt: "飲食店オペレーション・ダッシュボードの画面イメージ",
       internalPath: "/experience/restaurant-ops-dashboard-demo",
       openInNewTab: false,
