@@ -665,7 +665,7 @@ export const aboutCopy = {
     kicker: "AXEON とは",
     headline: "中堅企業のDX推進を、戦略から実装まで伴走するチームです。",
     sub:
-      "東京都目黒区を拠点に、経営・事業の視点とAI開発の実装力を統合し、企画で止まらないDXを支援します。",
+      "経営・事業の視点とAI開発の実装力を統合し、企画で止まらないDXを支援します。",
   },
   founding: {
     kicker: "OUR STORY",

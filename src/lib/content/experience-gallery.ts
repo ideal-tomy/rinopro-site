@@ -29,7 +29,7 @@ export function isAllowedInteractiveExperienceSlug(
 export const experienceGalleryCopy = {
   hero: {
     kicker: "EXPERIENCE",
-    title: "課題を、3分で体感してもらう。",
+    title: "課題を、3分で体感",
     lead:
       "各業界向けの実装プロダクトを、実際に触ってご確認いただけます。商談・授業・ヒアリングの場で、リアルな操作感をお見せします。",
   },
@@ -51,7 +51,7 @@ export const experienceGalleryCopy = {
   ctaSection: {
     title: "うちの業界でも作れる?",
     lead:
-      "製造業・人材派遣・士業以外の業界にも対応可能です。業界・課題感をざっくりお話しいただければ、貴社向けに最適なデモを提案します。",
+      "建設・物流・製造以外の業界にも対応可能です。業界・課題感をざっくりお話しいただければ、貴社向けに最適なデモを提案します。",
     buttonLabel: "お問い合わせ・デモを提案",
     href: "/contact",
   },
@@ -74,7 +74,7 @@ export const LIVE_EXPERIENCE_DEMOS: readonly LiveGalleryDemo[] = [
     industryLabel: "飲食・サービス",
     description:
       "売上推定や設定・シフト状況・入金リクエスト・客先設定・客単価状況などを 3 分でご体感できます。",
-    imageSrc: "/images/genbakanri_admin.webp",
+    imageSrc: "/images/top07_restauland.png",
     imageAlt: "飲食店オペレーション・ダッシュボードの画面イメージ",
     href: "/experience/restaurant-ops-dashboard-demo",
   },
