@@ -28,15 +28,19 @@ const nextConfig: NextConfig = {
     ];
   },
   async headers() {
+    const defaultCsp =
+      "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https: blob:; font-src 'self'; connect-src 'self' https://*.sanity.io wss:; frame-ancestors 'none';";
+    const lpCsp =
+      "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https: blob:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; frame-ancestors 'none';";
+
     return [
       {
-        source: "/(.*)",
-        headers: [
-          {
-            key: "Content-Security-Policy",
-            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https: blob:; font-src 'self'; connect-src 'self' https://*.sanity.io wss:; frame-ancestors 'none';",
-          },
-        ],
+        source: "/lp/:path*",
+        headers: [{ key: "Content-Security-Policy", value: lpCsp }],
+      },
+      {
+        source: "/((?!lp/).*)",
+        headers: [{ key: "Content-Security-Policy", value: defaultCsp }],
       },
     ];
   },

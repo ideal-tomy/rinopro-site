@@ -71,7 +71,7 @@ export function HomeEmpathyCards() {
               理想を現場で動く仕組みに変えていきます。
             </p>
             <p className="pt-2 text-[18px] font-semibold text-white md:text-[20px]">
-              国の力を、もう一段。
+              日本の国力を上げる。
               <br />
               この言葉を、私たちは理念ではなく、実務で証明します。
             </p>

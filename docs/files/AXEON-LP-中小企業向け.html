@@ -1,0 +1,1560 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AXEON｜「使えるAI」を、中堅企業のスピードで。</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Noto+Sans+JP:wght@300;400;500;700&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0a1f44;
+    --navy-deep: #061638;
+    --navy-soft: #2a3f6f;
+    --beige: #f3ebe0;
+    --beige-light: #faf6ef;
+    --accent: #c84a3a;
+    --text: #1a1a1a;
+    --text-mute: #6b6b6b;
+    --line: #e5e0d6;
+    --bg: #fbfaf7;
+    --white: #ffffff;
+    --display: 'Fraunces', 'Cormorant Garamond', serif;
+    --body: 'Noto Sans JP', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--body);
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.8;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* Header */
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    padding: 24px 48px;
+    backdrop-filter: blur(20px);
+    background: rgba(251, 250, 247, 0.85);
+    border-bottom: 1px solid rgba(229, 224, 214, 0.5);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .logo {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 22px;
+    letter-spacing: 0.15em;
+    color: var(--navy);
+  }
+  .nav {
+    display: flex;
+    gap: 40px;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+  }
+  .nav a {
+    color: var(--text);
+    text-decoration: none;
+    transition: color 0.3s;
+    position: relative;
+  }
+  .nav a:hover { color: var(--accent); }
+  .nav a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--accent);
+    transition: width 0.3s;
+  }
+  .nav a:hover::after { width: 100%; }
+
+  /* Section common */
+  section {
+    padding: 140px 48px;
+    position: relative;
+  }
+  .container {
+    max-width: 1180px;
+    margin: 0 auto;
+  }
+  .section-num {
+    font-family: var(--display);
+    font-size: 14px;
+    letter-spacing: 0.4em;
+    color: var(--text-mute);
+    margin-bottom: 8px;
+    display: block;
+  }
+  .section-label {
+    font-family: var(--display);
+    font-size: 12px;
+    letter-spacing: 0.4em;
+    color: var(--text-mute);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    display: block;
+  }
+  .section-title {
+    font-family: var(--display);
+    font-size: 44px;
+    font-weight: 400;
+    line-height: 1.4;
+    color: var(--navy);
+    margin-bottom: 24px;
+    letter-spacing: -0.01em;
+  }
+  .section-lead {
+    font-size: 16px;
+    color: var(--text-mute);
+    max-width: 640px;
+    line-height: 2;
+  }
+  .section-header {
+    text-align: center;
+    margin-bottom: 80px;
+  }
+  .section-header .section-lead {
+    margin: 24px auto 0;
+  }
+
+  /* Hero */
+  .hero {
+    min-height: 100vh;
+    padding: 180px 48px 100px;
+    background: linear-gradient(180deg, var(--beige-light) 0%, var(--bg) 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -300px;
+    right: -200px;
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba(10, 31, 68, 0.04) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -200px;
+    left: -200px;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(200, 74, 58, 0.03) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero-inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+  .hero-tagline {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 14px;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+  .hero-title {
+    font-family: var(--display);
+    font-size: clamp(40px, 6vw, 78px);
+    font-weight: 400;
+    line-height: 1.25;
+    color: var(--navy);
+    letter-spacing: -0.02em;
+    margin-bottom: 40px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.4s forwards;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .hero-subtitle {
+    font-size: 17px;
+    line-height: 2;
+    color: var(--text);
+    max-width: 580px;
+    margin-bottom: 56px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.6s forwards;
+  }
+  .hero-cta {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.8s forwards;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 36px;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: none;
+    font-family: var(--body);
+  }
+  .btn-primary {
+    background: var(--navy);
+    color: var(--white);
+    border: 1px solid var(--navy);
+  }
+  .btn-primary:hover {
+    background: var(--navy-deep);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(10, 31, 68, 0.2);
+  }
+  .btn-secondary {
+    background: transparent;
+    color: var(--navy);
+    border: 1px solid var(--navy);
+  }
+  .btn-secondary:hover {
+    background: var(--navy);
+    color: var(--white);
+  }
+  .btn-accent {
+    background: var(--accent);
+    color: var(--white);
+    border: 1px solid var(--accent);
+  }
+  .btn-accent:hover {
+    background: #a83b2d;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(200, 74, 58, 0.25);
+  }
+  .btn-arrow {
+    transition: transform 0.3s;
+  }
+  .btn:hover .btn-arrow {
+    transform: translateX(4px);
+  }
+
+  /* Challenge section */
+  .challenges {
+    background: var(--white);
+  }
+  .challenge-list {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+  .challenge-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--line);
+    transition: padding 0.3s;
+  }
+  .challenge-item:hover {
+    padding-left: 12px;
+  }
+  .challenge-check {
+    width: 22px;
+    height: 22px;
+    border: 1.5px solid var(--navy);
+    border-radius: 2px;
+    flex-shrink: 0;
+    margin-top: 4px;
+    position: relative;
+    transition: all 0.3s;
+  }
+  .challenge-item:hover .challenge-check {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+  .challenge-item:hover .challenge-check::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--white);
+    font-size: 14px;
+    font-weight: bold;
+  }
+  .challenge-text {
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--text);
+  }
+  .challenge-footer {
+    margin-top: 60px;
+    text-align: center;
+    padding: 40px;
+    background: var(--beige-light);
+    border-left: 3px solid var(--accent);
+  }
+  .challenge-footer p {
+    font-size: 15px;
+    line-height: 2;
+    color: var(--text);
+  }
+
+  /* Principles */
+  .principles {
+    background: var(--navy);
+    color: var(--white);
+    position: relative;
+    overflow: hidden;
+  }
+  .principles::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+  }
+  .principles .section-num,
+  .principles .section-label {
+    color: rgba(255,255,255,0.5);
+  }
+  .principles .section-title {
+    color: var(--white);
+  }
+  .principles .section-lead {
+    color: rgba(255,255,255,0.7);
+  }
+  .principle-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    margin-top: 80px;
+  }
+  .principle-card {
+    padding: 48px 32px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    transition: all 0.4s;
+    position: relative;
+  }
+  .principle-card:hover {
+    background: rgba(255,255,255,0.06);
+    transform: translateY(-6px);
+  }
+  .principle-num {
+    font-family: var(--display);
+    font-size: 12px;
+    letter-spacing: 0.4em;
+    color: var(--accent);
+    margin-bottom: 28px;
+  }
+  .principle-title {
+    font-family: var(--display);
+    font-size: 26px;
+    line-height: 1.5;
+    margin-bottom: 24px;
+    color: var(--white);
+    font-weight: 400;
+  }
+  .principle-desc {
+    font-size: 15px;
+    line-height: 1.9;
+    color: rgba(255,255,255,0.75);
+  }
+
+  /* Solutions */
+  .solutions {
+    background: var(--bg);
+  }
+  .solution-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 80px;
+  }
+  .solution-card {
+    padding: 44px 32px;
+    background: var(--white);
+    border: 1px solid var(--line);
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .solution-card.featured {
+    border-top: 3px solid var(--accent);
+  }
+  .solution-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(10, 31, 68, 0.08);
+  }
+  .solution-num {
+    font-family: var(--display);
+    font-size: 12px;
+    letter-spacing: 0.3em;
+    color: var(--text-mute);
+    margin-bottom: 20px;
+  }
+  .solution-title {
+    font-family: var(--display);
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--navy);
+    margin-bottom: 20px;
+  }
+  .solution-desc {
+    font-size: 14px;
+    line-height: 1.9;
+    color: var(--text-mute);
+    margin-bottom: 24px;
+  }
+  .solution-link {
+    font-size: 13px;
+    color: var(--navy);
+    text-decoration: none;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    transition: color 0.3s;
+  }
+  .solution-link:hover {
+    color: var(--accent);
+  }
+
+  /* Approach */
+  .approach {
+    background: var(--beige-light);
+  }
+  .approach-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    margin-top: 80px;
+    position: relative;
+  }
+  .step-card {
+    padding: 40px 24px;
+    background: var(--white);
+    border: 1px solid var(--line);
+    position: relative;
+    text-align: left;
+    transition: transform 0.3s;
+  }
+  .step-card:not(:last-child) {
+    border-right: none;
+  }
+  .step-card::after {
+    content: '';
+    position: absolute;
+    right: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    background: var(--beige-light);
+    border-top: 1px solid var(--line);
+    border-right: 1px solid var(--line);
+    transform: translateY(-50%) rotate(45deg);
+    z-index: 2;
+  }
+  .step-card:last-child::after { display: none; }
+  .step-num {
+    font-family: var(--display);
+    font-size: 32px;
+    color: var(--accent);
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  .step-sub {
+    font-family: var(--display);
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: var(--text-mute);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .step-title {
+    font-family: var(--display);
+    font-size: 20px;
+    color: var(--navy);
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+  .step-desc {
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--text-mute);
+  }
+
+  /* Cases */
+  .cases {
+    background: var(--white);
+  }
+  .case-featured {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 80px;
+    margin-bottom: 32px;
+  }
+  .case-card {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+  .case-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(10, 31, 68, 0.1);
+  }
+  .case-image {
+    height: 180px;
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-soft) 100%);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .case-image::before {
+    content: '';
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background-image:
+      linear-gradient(45deg, rgba(255,255,255,0.05) 25%, transparent 25%),
+      linear-gradient(-45deg, rgba(255,255,255,0.05) 25%, transparent 25%);
+    background-size: 30px 30px;
+    animation: caseShift 8s linear infinite;
+  }
+  @keyframes caseShift {
+    from { transform: translate(0, 0); }
+    to { transform: translate(30px, 30px); }
+  }
+  .case-image-label {
+    font-family: var(--display);
+    font-size: 28px;
+    color: rgba(255,255,255,0.9);
+    z-index: 2;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+  }
+  .case-content {
+    padding: 28px;
+  }
+  .case-name {
+    font-family: var(--display);
+    font-size: 20px;
+    color: var(--navy);
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+  .case-sub {
+    font-size: 13px;
+    color: var(--text-mute);
+    margin-bottom: 16px;
+  }
+  .case-desc {
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--text);
+    margin-bottom: 20px;
+  }
+  .case-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+  .case-tag {
+    font-size: 11px;
+    padding: 4px 12px;
+    background: var(--beige);
+    color: var(--navy);
+    border-radius: 2px;
+    letter-spacing: 0.05em;
+  }
+  .case-action {
+    font-size: 13px;
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+  }
+  .case-others {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .case-mini {
+    padding: 24px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    transition: all 0.3s;
+  }
+  .case-mini:hover {
+    border-color: var(--navy);
+  }
+  .case-mini-name {
+    font-family: var(--display);
+    font-size: 17px;
+    color: var(--navy);
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+  .case-mini-sub {
+    font-size: 12px;
+    color: var(--text-mute);
+    margin-bottom: 12px;
+  }
+
+  /* Mid CTA */
+  .mid-cta {
+    background: var(--beige);
+    padding: 100px 48px;
+    text-align: center;
+  }
+  .mid-cta-inner {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+  .mid-cta-title {
+    font-family: var(--display);
+    font-size: 36px;
+    line-height: 1.5;
+    color: var(--navy);
+    margin-bottom: 24px;
+    font-weight: 400;
+  }
+  .mid-cta-desc {
+    font-size: 16px;
+    line-height: 2;
+    color: var(--text);
+    margin-bottom: 40px;
+  }
+  .mid-cta-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* Experience */
+  .experience {
+    background: var(--white);
+    text-align: center;
+  }
+  .exp-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin: 80px auto;
+    max-width: 880px;
+  }
+  .exp-stat {
+    padding: 56px 24px;
+    background: var(--beige-light);
+    border-top: 3px solid var(--accent);
+    transition: transform 0.3s;
+  }
+  .exp-stat:hover {
+    transform: translateY(-6px);
+  }
+  .exp-stat-num {
+    font-family: var(--display);
+    font-size: 72px;
+    font-weight: 500;
+    color: var(--navy);
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+  .exp-stat-label {
+    font-family: var(--display);
+    font-size: 12px;
+    letter-spacing: 0.3em;
+    color: var(--text-mute);
+    text-transform: uppercase;
+  }
+
+  /* Team */
+  .team {
+    background: var(--beige-light);
+  }
+  .team-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 80px;
+  }
+  .team-card {
+    padding: 48px 40px;
+    background: var(--white);
+    border: 1px solid var(--line);
+  }
+  .team-label {
+    font-family: var(--display);
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: var(--text-mute);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .team-role {
+    font-family: var(--display);
+    font-size: 28px;
+    color: var(--navy);
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  .team-sub {
+    font-size: 13px;
+    color: var(--text-mute);
+    margin-bottom: 28px;
+  }
+  .team-list {
+    list-style: none;
+  }
+  .team-list li {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 14px;
+    color: var(--text);
+    position: relative;
+    padding-left: 20px;
+  }
+  .team-list li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+  .team-note {
+    margin-top: 48px;
+    padding: 32px 40px;
+    background: var(--navy);
+    color: var(--white);
+    border-left: 4px solid var(--accent);
+  }
+  .team-note strong {
+    display: block;
+    font-family: var(--display);
+    font-size: 20px;
+    margin-bottom: 12px;
+    color: var(--white);
+    font-weight: 500;
+  }
+  .team-note p {
+    font-size: 14px;
+    line-height: 2;
+    color: rgba(255,255,255,0.85);
+  }
+
+  /* Scope table */
+  .scope {
+    background: var(--white);
+  }
+  .scope-table {
+    max-width: 880px;
+    margin: 80px auto 0;
+    border-top: 1px solid var(--line);
+  }
+  .scope-row {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--line);
+    transition: background 0.3s;
+  }
+  .scope-row:hover {
+    background: var(--beige-light);
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .scope-key {
+    font-family: var(--display);
+    font-size: 15px;
+    letter-spacing: 0.05em;
+    color: var(--navy);
+    font-weight: 500;
+  }
+  .scope-val {
+    font-size: 15px;
+    line-height: 1.9;
+    color: var(--text);
+  }
+  .scope-val em {
+    background: linear-gradient(transparent 60%, rgba(200, 74, 58, 0.2) 60%);
+    font-style: normal;
+    font-weight: 500;
+    padding: 0 2px;
+  }
+  .scope-note {
+    margin-top: 40px;
+    padding: 28px;
+    background: var(--beige-light);
+    border-left: 3px solid var(--accent);
+    max-width: 880px;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 14px;
+    line-height: 2;
+    color: var(--text);
+  }
+
+  /* FAQ */
+  .faq {
+    background: var(--bg);
+  }
+  .faq-list {
+    max-width: 880px;
+    margin: 80px auto 0;
+  }
+  .faq-item {
+    border-bottom: 1px solid var(--line);
+  }
+  .faq-question {
+    padding: 28px 0;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: padding 0.3s;
+  }
+  .faq-question:hover {
+    padding-left: 12px;
+  }
+  .faq-q-text {
+    font-family: var(--display);
+    font-size: 20px;
+    color: var(--navy);
+    font-weight: 500;
+    flex: 1;
+    padding-right: 24px;
+  }
+  .faq-q-text::before {
+    content: 'Q. ';
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .faq-toggle {
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--navy);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+    flex-shrink: 0;
+  }
+  .faq-item.open .faq-toggle {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+  .faq-toggle::before {
+    content: '+';
+    color: var(--navy);
+    font-size: 18px;
+    font-weight: 300;
+    transition: all 0.3s;
+  }
+  .faq-item.open .faq-toggle::before {
+    content: '−';
+    color: var(--white);
+  }
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.3s;
+  }
+  .faq-item.open .faq-answer {
+    max-height: 400px;
+    padding: 0 0 32px 0;
+  }
+  .faq-a-text {
+    font-size: 15px;
+    line-height: 2;
+    color: var(--text-mute);
+    padding-left: 40px;
+    border-left: 2px solid var(--beige);
+  }
+  .faq-a-text::before {
+    content: 'A. ';
+    font-family: var(--display);
+    color: var(--navy);
+    font-weight: 600;
+  }
+
+  /* Company */
+  .company {
+    background: var(--white);
+  }
+  .company-card {
+    max-width: 760px;
+    margin: 60px auto 0;
+    padding: 56px 48px;
+    background: var(--beige-light);
+    text-align: center;
+  }
+  .company-intro {
+    font-size: 15px;
+    line-height: 2;
+    color: var(--text);
+    margin-bottom: 40px;
+  }
+  .company-table {
+    text-align: left;
+    margin-bottom: 40px;
+  }
+  .company-row {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 14px;
+  }
+  .company-row:last-child { border-bottom: none; }
+  .company-row dt {
+    font-family: var(--display);
+    color: var(--navy);
+    font-weight: 500;
+  }
+  .company-row dd {
+    color: var(--text);
+  }
+
+  /* Final CTA */
+  .final-cta {
+    background: var(--navy);
+    color: var(--white);
+    text-align: center;
+    padding: 140px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .final-cta::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle, rgba(200,74,58,0.08) 0%, transparent 70%);
+  }
+  .final-cta-inner {
+    position: relative;
+    z-index: 2;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+  .final-tagline {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 14px;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    margin-bottom: 32px;
+  }
+  .final-title {
+    font-family: var(--display);
+    font-size: clamp(32px, 5vw, 56px);
+    line-height: 1.4;
+    margin-bottom: 32px;
+    color: var(--white);
+    font-weight: 400;
+  }
+  .final-desc {
+    font-size: 17px;
+    line-height: 2;
+    margin-bottom: 56px;
+    color: rgba(255,255,255,0.8);
+  }
+  .final-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+  .btn-final {
+    background: var(--accent);
+    color: var(--white);
+    border: 1px solid var(--accent);
+    padding: 22px 56px;
+    font-size: 16px;
+  }
+  .btn-final:hover {
+    background: var(--white);
+    color: var(--navy);
+    border-color: var(--white);
+  }
+  .final-sublinks {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    margin-top: 32px;
+  }
+  .final-sublinks a {
+    font-size: 13px;
+    color: rgba(255,255,255,0.6);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: color 0.3s;
+  }
+  .final-sublinks a:hover { color: var(--white); }
+
+  /* Footer */
+  .footer {
+    background: var(--navy-deep);
+    color: rgba(255,255,255,0.5);
+    padding: 40px 48px;
+    text-align: center;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    section { padding: 80px 24px; }
+    .header { padding: 20px 24px; }
+    .nav { display: none; }
+    .principle-grid,
+    .solution-grid,
+    .approach-steps,
+    .case-featured,
+    .case-others,
+    .exp-stats,
+    .team-grid {
+      grid-template-columns: 1fr;
+    }
+    .step-card::after { display: none; }
+    .scope-row { grid-template-columns: 1fr; gap: 8px; }
+    .company-row { grid-template-columns: 1fr; gap: 4px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo">AXEON</div>
+  <nav class="nav">
+    <a href="#">トップ</a>
+    <a href="#solutions">サービス</a>
+    <a href="#company">会社情報</a>
+    <a href="#contact">問い合わせ</a>
+    <a href="#">資料DL</a>
+  </nav>
+</header>
+
+<!-- 01 Hero -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-tagline">FOR GROWING COMPANIES</div>
+    <h1 class="hero-title">「使えるAI」を、<br>中堅企業の<em>スピード</em>で。</h1>
+    <p class="hero-subtitle">大手向けの大規模プロジェクトでも、フリーランス頼みの不安な開発でもない。経営の意図を、現場で動くシステムに変える。少数精鋭の伴走チームです。</p>
+    <div class="hero-cta">
+      <a href="#contact" class="btn btn-accent">初回相談（無料・30分）を予約する<span class="btn-arrow">→</span></a>
+      <a href="#solutions" class="btn btn-secondary">サービス資料をダウンロード</a>
+    </div>
+  </div>
+</section>
+
+<!-- 02 Challenges -->
+<section class="challenges">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <span class="section-label">YOUR CHALLENGES</span>
+      <h2 class="section-title">こんな課題、ありませんか？</h2>
+    </div>
+    <ul class="challenge-list">
+      <li class="challenge-item">
+        <span class="challenge-check"></span>
+        <span class="challenge-text">AIを使いたいが、何から始めればいいか分からない</span>
+      </li>
+      <li class="challenge-item">
+        <span class="challenge-check"></span>
+        <span class="challenge-text">PoCをやってみたが、本実装に進めず止まっている</span>
+      </li>
+      <li class="challenge-item">
+        <span class="challenge-check"></span>
+        <span class="challenge-text">大手SIerに見積もりを取ったら、予算が合わなかった</span>
+      </li>
+      <li class="challenge-item">
+        <span class="challenge-check"></span>
+        <span class="challenge-text">ツールを導入したが、現場で使われていない</span>
+      </li>
+      <li class="challenge-item">
+        <span class="challenge-check"></span>
+        <span class="challenge-text">社内にDXを推進できる専任人材がいない</span>
+      </li>
+    </ul>
+    <div class="challenge-footer">
+      <p>一つでも当てはまる場合、まずは<strong>30分の無料相談</strong>から始められます。<br>私たちは、中堅企業の「実情」を理解した上で、実装可能な選択肢を提案します。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 03 Principles -->
+<section class="principles">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <span class="section-label">OUR PRINCIPLES</span>
+      <h2 class="section-title">私たちが大切にしている、<br>3つの考え方</h2>
+      <p class="section-lead">私たちは、AI導入を「華やかなプロジェクト」にはしません。<br>お客様の事業に効く、地味で確実な変化を積み重ねます。</p>
+    </div>
+    <div class="principle-grid">
+      <div class="principle-card">
+        <div class="principle-num">01 ／ STRATEGY</div>
+        <h3 class="principle-title">「実装できる戦略」しか提案しない</h3>
+        <p class="principle-desc">事業の中身、業務の現実、組織の力量を踏まえて、実現可能な選択肢を提案します。キレイな絵だけを描いて、お客様の机に置いていくことはしません。</p>
+      </div>
+      <div class="principle-card">
+        <div class="principle-num">02 ／ EXECUTION</div>
+        <h3 class="principle-title">PoCで終わらせない、定着まで伴走する</h3>
+        <p class="principle-desc">多くのDXプロジェクトが、PoCで満足してしまう構造にあります。私たちは、本実装・運用・改善まで、同じチームで併走します。</p>
+      </div>
+      <div class="principle-card">
+        <div class="principle-num">03 ／ TRANSLATION</div>
+        <h3 class="principle-title">翻訳の品質を、最重要視する</h3>
+        <p class="principle-desc">経営層と現場、人とAI、技術と業務。それぞれの言葉を翻訳する精度こそが、プロジェクトの成否を分けます。私たちは、翻訳の品質をプロダクトの品質と同じだけ大切にしています。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 Solutions -->
+<section class="solutions" id="solutions">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <span class="section-label">OUR SOLUTIONS</span>
+      <h2 class="section-title">戦略から実装まで、<br>必要な支援を一気通貫で。</h2>
+      <p class="section-lead">経営課題の整理から実装、運用改善まで。<br>分担せず、同じチームでひとつのプロジェクトを伴走します。</p>
+    </div>
+    <div class="solution-grid">
+      <div class="solution-card featured">
+        <div class="solution-num">SERVICE 01</div>
+        <h3 class="solution-title">AI業務アプリ開発</h3>
+        <p class="solution-desc">大規模なシステム刷新ではなく、業務の中で「ここを変えたら効く」というポイントに、使えるAIアプリを実装します。</p>
+        <a href="#" class="solution-link">詳しく見る →</a>
+      </div>
+      <div class="solution-card featured">
+        <div class="solution-num">SERVICE 02</div>
+        <h3 class="solution-title">DX戦略設計</h3>
+        <p class="solution-desc">「何から手をつけるか」の優先順位設計から、投資対効果を見極めた施策設計まで。専任担当がいなくても進められる進め方を組み立てます。</p>
+        <a href="#" class="solution-link">詳しく見る →</a>
+      </div>
+      <div class="solution-card featured">
+        <div class="solution-num">SERVICE 03</div>
+        <h3 class="solution-title">内製化支援</h3>
+        <p class="solution-desc">外注を続けるのではなく、社内でAIを使いこなせる状態へ。チーム組成からスキル移管まで伴走します。</p>
+        <a href="#" class="solution-link">詳しく見る →</a>
+      </div>
+      <div class="solution-card">
+        <div class="solution-num">SERVICE 04</div>
+        <h3 class="solution-title">データ活用基盤構築</h3>
+        <p class="solution-desc">データを業務に活用できる基盤づくり。集めただけで終わらせない設計を行います。</p>
+        <a href="#" class="solution-link">詳しく見る →</a>
+      </div>
+      <div class="solution-card">
+        <div class="solution-num">SERVICE 05</div>
+        <h3 class="solution-title">業界別ソリューション</h3>
+        <p class="solution-desc">業種固有の業務に最適化したパッケージ的支援。導入までの時間を大幅に短縮します。</p>
+        <a href="#" class="solution-link">詳しく見る →</a>
+      </div>
+      <div class="solution-card">
+        <div class="solution-num">SERVICE 06</div>
+        <h3 class="solution-title">保守・運用</h3>
+        <p class="solution-desc">導入後の運用保守・改善で、長く使える仕組みに育てていきます。</p>
+        <a href="#" class="solution-link">詳しく見る →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 Approach -->
+<section class="approach">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <span class="section-label">APPROACH</span>
+      <h2 class="section-title">4つのステップで、<br>確実に成果へ。</h2>
+      <p class="section-lead">最初から大きく動かさず、小さく試して確かめながら前に進みます。</p>
+    </div>
+    <div class="approach-steps">
+      <div class="step-card">
+        <div class="step-num">01</div>
+        <div class="step-sub">DISCOVERY</div>
+        <h3 class="step-title">ヒアリング</h3>
+        <p class="step-desc">業務の課題や現状を把握。どこで何が困っているかを見極めます。経営層／現場の声を、両方拾います。</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">02</div>
+        <div class="step-sub">STRUCTURING</div>
+        <h3 class="step-title">要件化</h3>
+        <p class="step-desc">何を、どこから、何によって解決するかを構造化。やるべきこと／やらないことを明確にします。</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">03</div>
+        <div class="step-sub">VALIDATION</div>
+        <h3 class="step-title">試作・現場検証</h3>
+        <p class="step-desc">小さく試して効果を確認。うまくいかなければ、立ち止まって設計を見直します。</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">04</div>
+        <div class="step-sub">INTEGRATION</div>
+        <h3 class="step-title">本実装・運用支援</h3>
+        <p class="step-desc">業務に組み込み、定着化と改善・運用までを伴走。「導入したのに使われない」を防ぎます。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 Cases -->
+<section class="cases">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <span class="section-label">INDUSTRY SHOWCASE</span>
+      <h2 class="section-title">業界別の、実装事例</h2>
+      <p class="section-lead">AXEONが実装してきたプロダクトの一部をご紹介します。<br>すべて、3分で体感できるデモを用意しています。</p>
+    </div>
+    <div class="case-featured">
+      <div class="case-card">
+        <div class="case-image"><span class="case-image-label">AI Knowledge Bot</span></div>
+        <div class="case-content">
+          <h3 class="case-name">AI Knowledge Bot</h3>
+          <p class="case-sub">社内ナレッジ共有BOT</p>
+          <p class="case-desc">専任の問い合わせ窓口がいなくても、社内の「知っている人」を介さずに必要な情報にたどり着ける。中堅企業の属人化を解消する代表的な事例です。</p>
+          <div class="case-tags">
+            <span class="case-tag">業務全般</span>
+            <span class="case-tag">情報共有</span>
+          </div>
+          <a href="#" class="case-action">体験する →</a>
+        </div>
+      </div>
+      <div class="case-card">
+        <div class="case-image"><span class="case-image-label">SHIFT AUTO</span></div>
+        <div class="case-content">
+          <h3 class="case-name">SHIFT AUTO</h3>
+          <p class="case-sub">シフト自動化システム</p>
+          <p class="case-desc">店舗・拠点を持つ中堅企業向け。エクセル管理から脱却し、運用負荷を大幅に削減します。</p>
+          <div class="case-tags">
+            <span class="case-tag">営業・サービス</span>
+            <span class="case-tag">店舗運営</span>
+          </div>
+          <a href="#" class="case-action">体験する →</a>
+        </div>
+      </div>
+      <div class="case-card">
+        <div class="case-image"><span class="case-image-label">採用コックピット</span></div>
+        <div class="case-content">
+          <h3 class="case-name">採用コックピット</h3>
+          <p class="case-sub">採用・選考パイプライン管理</p>
+          <p class="case-desc">採用担当が1〜2人の中堅企業で、応募管理と選考の見える化を実現。属人化を防ぎます。</p>
+          <div class="case-tags">
+            <span class="case-tag">人事・採用</span>
+          </div>
+          <a href="#" class="case-action">体験する →</a>
+        </div>
+      </div>
+    </div>
+    <div class="case-others">
+      <div class="case-mini">
+        <h4 class="case-mini-name">受発注ダッシュボード</h4>
+        <p class="case-mini-sub">営業パイプライン・テンプレート</p>
+        <a href="#" class="case-action">体験する →</a>
+      </div>
+      <div class="case-mini">
+        <h4 class="case-mini-name">申し送りUI</h4>
+        <p class="case-mini-sub">自動引き継ぎ作成支援</p>
+        <a href="#" class="case-action">体験する →</a>
+      </div>
+      <div class="case-mini">
+        <h4 class="case-mini-name">人事評価サポートAI</h4>
+        <p class="case-mini-sub">評価コメント・面談記録支援</p>
+        <a href="#" class="case-action">体験する →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Mid CTA -->
+<section class="mid-cta">
+  <div class="mid-cta-inner">
+    <h2 class="mid-cta-title">「自社で動かしたら、どうなる？」を、<br>3分で確かめられます。</h2>
+    <p class="mid-cta-desc">体感デモを試してから相談すれば、話が早い。<br>8つの実装プロダクトを、その場で動かしてみてください。</p>
+    <div class="mid-cta-buttons">
+      <a href="#" class="btn btn-primary">Experienceページで体感する<span class="btn-arrow">→</span></a>
+      <a href="#contact" class="btn btn-secondary">初回相談を予約する</a>
+    </div>
+  </div>
+</section>
+
+<!-- 07 Experience -->
+<section class="experience">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <span class="section-label">LIVE EXPERIENCE</span>
+      <h2 class="section-title">課題を、3分で体感してもらう。</h2>
+      <p class="section-lead">各業界向けの実装プロダクトを、実際に触って試せます。<br>資料・営業ヒアリングの前に、リアルな動作を確かめてください。</p>
+    </div>
+    <div class="exp-stats">
+      <div class="exp-stat">
+        <div class="exp-stat-num">8</div>
+        <div class="exp-stat-label">Demo Products</div>
+      </div>
+      <div class="exp-stat">
+        <div class="exp-stat-num">5+</div>
+        <div class="exp-stat-label">Industries</div>
+      </div>
+      <div class="exp-stat">
+        <div class="exp-stat-num">3<span style="font-size: 32px;">分</span></div>
+        <div class="exp-stat-label">平均体感時間</div>
+      </div>
+    </div>
+    <a href="#" class="btn btn-primary">Experienceページを見る<span class="btn-arrow">→</span></a>
+  </div>
+</section>
+
+<!-- 08 Team -->
+<section class="team">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">07</span>
+      <span class="section-label">OUR TEAM</span>
+      <h2 class="section-title">1プロジェクトに対する、<br>標準体制</h2>
+      <p class="section-lead">業務や人数によって少数で運営しますが、伴走しないチームではありません。精鋭でプロジェクトを進めます。</p>
+    </div>
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="team-label">ROLE 01</div>
+        <h3 class="team-role">Strategy Lead</h3>
+        <p class="team-sub">戦略・要件設計</p>
+        <ul class="team-list">
+          <li>戦略設計と方針策定</li>
+          <li>経営要件の調整</li>
+          <li>プロジェクトマネジメント</li>
+          <li>要件・課題整理の設計</li>
+        </ul>
+      </div>
+      <div class="team-card">
+        <div class="team-label">ROLE 02</div>
+        <h3 class="team-role">AI Engineering Lead</h3>
+        <p class="team-sub">実装・技術設計</p>
+        <ul class="team-list">
+          <li>要件設計と技術選定</li>
+          <li>開発実装の指揮</li>
+          <li>業務設計</li>
+          <li>既存システムとの統合</li>
+        </ul>
+      </div>
+    </div>
+    <div class="team-note">
+      <strong>中堅企業のプロジェクトでは、2名体制が標準です。</strong>
+      <p>大手SIerのような大人数体制ではなく、Strategy Lead と AI Engineering Lead が直接お客様と対話します。意思決定が早く、認識齟齬が起きにくい構造です。両Leadがペアで案件に伴走するのが基本構造。難易度や規模に応じて、追加メンバーやパートナーリソースを柔軟にアサインします。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 09 Scope -->
+<section class="scope">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">08</span>
+      <span class="section-label">OUR SCOPE</span>
+      <h2 class="section-title">ご支援可能な領域</h2>
+    </div>
+    <div class="scope-table">
+      <div class="scope-row">
+        <div class="scope-key">業種実績</div>
+        <div class="scope-val">製造、金融、流通、医療、小売、公共 など</div>
+      </div>
+      <div class="scope-row">
+        <div class="scope-key">支援テーマ</div>
+        <div class="scope-val">業務自動化、データ活用、業務AI化、社内DX、内製化支援、組織開発</div>
+      </div>
+      <div class="scope-row">
+        <div class="scope-key">プロジェクト規模</div>
+        <div class="scope-val"><em>数百万円〜数千万円規模に対応</em>（要相談で柔軟）</div>
+      </div>
+      <div class="scope-row">
+        <div class="scope-key">標準期間</div>
+        <div class="scope-val"><em>PoC：3ヶ月〜</em>／本実装：6ヶ月〜</div>
+      </div>
+      <div class="scope-row">
+        <div class="scope-key">契約形態</div>
+        <div class="scope-val"><em>業務委託 / 顧問契約から開始可能</em>／フレキシブル</div>
+      </div>
+    </div>
+    <div class="scope-note">
+      小さく始めて、効果を確かめながら進めるケースが大半です。<br>いきなり大規模投資ではなく、3ヶ月単位の区切りで判断していけます。
+    </div>
+  </div>
+</section>
+
+<!-- 10 FAQ -->
+<section class="faq">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">09</span>
+      <span class="section-label">FAQ</span>
+      <h2 class="section-title">よくある質問</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-question">
+          <div class="faq-q-text">小さく始めることはできますか？</div>
+          <div class="faq-toggle"></div>
+        </div>
+        <div class="faq-answer">
+          <div class="faq-a-text">可能です。PoC・小規模実装からのスタートが多く、3ヶ月単位での区切りを設けて段階的に進めるケースが大半です。投資判断のステップを細かく刻めるので、リスクを抑えて始められます。</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">
+          <div class="faq-q-text">専任のIT担当がいないのですが、進められますか？</div>
+          <div class="faq-toggle"></div>
+        </div>
+        <div class="faq-answer">
+          <div class="faq-a-text">問題ありません。経営者や兼任担当者の方を窓口に、私たちが現場ヒアリングから巻き取って進めます。社内に専任DX人材がいない中堅企業からのご相談が、私たちのメイン領域です。</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">
+          <div class="faq-q-text">大手SIerと比べて、何が違いますか？</div>
+          <div class="faq-toggle"></div>
+        </div>
+        <div class="faq-answer">
+          <div class="faq-a-text">大規模・標準化された手順を売る大手SIerと違い、私たちは小回りが効く少数精鋭です。意思決定が早く、要件の変化にも柔軟に対応します。中堅企業の実情に合った提案ができます。</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">
+          <div class="faq-q-text">費用感はどのくらいですか？</div>
+          <div class="faq-toggle"></div>
+        </div>
+        <div class="faq-answer">
+          <div class="faq-a-text">プロジェクト規模により幅がありますが、PoCで数百万円〜、本実装で1,000万円〜が一つの目安です。詳細は初回相談でお伝えします。</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">
+          <div class="faq-q-text">AIに詳しくない経営者でも、相談できますか？</div>
+          <div class="faq-toggle"></div>
+        </div>
+        <div class="faq-answer">
+          <div class="faq-a-text">大丈夫です。むしろ、AI技術の詳細よりも「何を解決したいか」を一緒に整理することから始めます。技術的な判断は、私たちが翻訳して説明します。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 Company -->
+<section class="company" id="company">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">10</span>
+      <span class="section-label">COMPANY</span>
+      <h2 class="section-title">会社概要</h2>
+    </div>
+    <div class="company-card">
+      <p class="company-intro">AXEONは、経営・事業の視点とAI実装力を結合した、少数精鋭のチームです。<br>派手な業界ではない領域で大きな変化を起こすことを志しています。</p>
+      <dl class="company-table">
+        <div class="company-row"><dt>社名</dt><dd>AXEON株式会社</dd></div>
+        <div class="company-row"><dt>代表者</dt><dd>秋吉 莉乃</dd></div>
+        <div class="company-row"><dt>設立</dt><dd>2026年6月</dd></div>
+        <div class="company-row"><dt>連絡先</dt><dd>contact@axeon.jp</dd></div>
+        <div class="company-row"><dt>URL</dt><dd>https://axeon.jp</dd></div>
+      </dl>
+      <a href="#" class="btn btn-secondary">会社情報を見る<span class="btn-arrow">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- 12 Final CTA -->
+<section class="final-cta" id="contact">
+  <div class="final-cta-inner">
+    <div class="final-tagline">LET'S TALK</div>
+    <h2 class="final-title">まずは、お話を<br>聞かせてください。</h2>
+    <p class="final-desc">30分の無料相談で、課題の整理と「次の一歩」を一緒に決めます。<br>詳細な提案や、すぐに何かを売り込むことはしません。</p>
+    <div class="final-buttons">
+      <a href="#" class="btn btn-final">初回相談（無料・30分）を予約する<span class="btn-arrow">→</span></a>
+    </div>
+    <div class="final-sublinks">
+      <a href="#solutions">サービス詳細を見る</a>
+      <a href="#company">会社情報を見る</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  © 2026 AXEON Inc. ALL RIGHTS RESERVED.
+</footer>
+
+<script>
+  // FAQ accordion
+  document.querySelectorAll('.faq-question').forEach(q => {
+    q.addEventListener('click', () => {
+      const item = q.parentElement;
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('section:not(.hero)').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(30px)';
+    el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+    observer.observe(el);
+  });
+</script>
+
+</body>
+</html>

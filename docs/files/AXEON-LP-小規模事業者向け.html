@@ -1,0 +1,1780 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AXEON｜小さなお店・小さな会社のための、AIのはじめ方。</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700;900&family=Zen+Maru+Gothic:wght@400;500;700;900&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1f3a5f;
+    --navy-soft: #344d75;
+    --coral: #ef6c4f;
+    --coral-deep: #d85436;
+    --coral-light: #fce8df;
+    --cream: #fdf8f0;
+    --cream-deep: #f5ecd9;
+    --beige: #faf2e3;
+    --text: #2a2a2a;
+    --text-mute: #5e5750;
+    --line: #e8dfc9;
+    --white: #ffffff;
+    --green: #6b8e6f;
+    --display: 'Zen Maru Gothic', 'Noto Sans JP', sans-serif;
+    --body: 'Noto Sans JP', sans-serif;
+    --hand: 'Caveat', cursive;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--body);
+    color: var(--text);
+    background: var(--cream);
+    line-height: 1.9;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    font-size: 16px;
+  }
+
+  /* Header */
+  .header {
+    position: sticky;
+    top: 0;
+    background: var(--cream);
+    padding: 16px 24px;
+    z-index: 100;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .logo {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 22px;
+    letter-spacing: 0.1em;
+    color: var(--navy);
+  }
+  .header-cta {
+    background: var(--coral);
+    color: var(--white);
+    padding: 10px 20px;
+    border-radius: 100px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 700;
+    transition: all 0.2s;
+  }
+  .header-cta:hover {
+    background: var(--coral-deep);
+    transform: translateY(-1px);
+  }
+
+  /* Section common */
+  section {
+    padding: 100px 24px;
+    position: relative;
+  }
+  .container {
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+  .section-label {
+    display: inline-block;
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--coral);
+    background: var(--coral-light);
+    padding: 6px 18px;
+    border-radius: 100px;
+    margin-bottom: 24px;
+    letter-spacing: 0.05em;
+  }
+  .section-title {
+    font-family: var(--display);
+    font-size: clamp(28px, 4vw, 38px);
+    font-weight: 900;
+    line-height: 1.5;
+    color: var(--navy);
+    margin-bottom: 24px;
+  }
+  .section-lead {
+    font-size: 16px;
+    color: var(--text);
+    max-width: 720px;
+    line-height: 2;
+  }
+  .section-header {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+  .section-header .section-lead {
+    margin: 24px auto 0;
+  }
+  .handwriting {
+    font-family: var(--hand);
+    font-size: 32px;
+    color: var(--coral);
+    transform: rotate(-3deg);
+    display: inline-block;
+    line-height: 1;
+  }
+
+  /* Hero */
+  .hero {
+    background:
+      radial-gradient(circle at 20% 30%, rgba(239, 108, 79, 0.08) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(107, 142, 111, 0.06) 0%, transparent 50%),
+      var(--cream);
+    padding: 80px 24px 100px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 60px;
+    right: -50px;
+    width: 280px;
+    height: 280px;
+    background: var(--cream-deep);
+    border-radius: 50%;
+    opacity: 0.6;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: 100px;
+    left: -100px;
+    width: 350px;
+    height: 350px;
+    background: var(--coral-light);
+    border-radius: 50%;
+    opacity: 0.4;
+  }
+  .hero-inner {
+    max-width: 980px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+    text-align: center;
+  }
+  .hero-tag {
+    display: inline-block;
+    background: var(--white);
+    color: var(--navy);
+    padding: 10px 24px;
+    border-radius: 100px;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 32px;
+    box-shadow: 0 4px 16px rgba(31, 58, 95, 0.08);
+  }
+  .hero-tag::before {
+    content: '🌱 ';
+  }
+  .hero-title {
+    font-family: var(--display);
+    font-size: clamp(32px, 5.5vw, 60px);
+    font-weight: 900;
+    line-height: 1.4;
+    color: var(--navy);
+    margin-bottom: 32px;
+    letter-spacing: -0.01em;
+  }
+  .hero-title .accent {
+    color: var(--coral);
+    position: relative;
+    display: inline-block;
+  }
+  .hero-title .accent::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 100%;
+    height: 8px;
+    background: var(--coral-light);
+    z-index: -1;
+    border-radius: 4px;
+  }
+  .hero-subtitle {
+    font-size: 17px;
+    line-height: 2.2;
+    color: var(--text);
+    max-width: 680px;
+    margin: 0 auto 48px;
+  }
+  .hero-cta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+  .hero-buttons {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .hero-note {
+    font-size: 14px;
+    color: var(--text-mute);
+    margin-top: 8px;
+  }
+  .hero-note::before {
+    content: '✓ ';
+    color: var(--green);
+    font-weight: 700;
+  }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 18px 36px;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 100px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 2px solid transparent;
+    font-family: var(--body);
+  }
+  .btn-coral {
+    background: var(--coral);
+    color: var(--white);
+    border-color: var(--coral);
+    box-shadow: 0 4px 0 var(--coral-deep);
+  }
+  .btn-coral:hover {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 var(--coral-deep);
+  }
+  .btn-outline {
+    background: var(--white);
+    color: var(--navy);
+    border: 2px solid var(--navy);
+  }
+  .btn-outline:hover {
+    background: var(--navy);
+    color: var(--white);
+  }
+  .btn-xl {
+    padding: 22px 48px;
+    font-size: 17px;
+  }
+  .btn-arrow {
+    transition: transform 0.3s;
+  }
+  .btn:hover .btn-arrow {
+    transform: translateX(4px);
+  }
+
+  /* Challenges */
+  .challenges {
+    background: var(--white);
+  }
+  .challenge-card {
+    max-width: 760px;
+    margin: 0 auto;
+    background: var(--cream);
+    padding: 48px 40px;
+    border-radius: 24px;
+    position: relative;
+  }
+  .challenge-card::before {
+    content: '';
+    position: absolute;
+    top: -16px;
+    left: 40px;
+    width: 32px;
+    height: 32px;
+    background: var(--cream);
+    transform: rotate(45deg);
+  }
+  .challenge-list {
+    list-style: none;
+  }
+  .challenge-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 18px 0;
+    border-bottom: 1px dashed var(--line);
+    transition: padding 0.3s;
+  }
+  .challenge-item:last-child { border-bottom: none; }
+  .challenge-item:hover {
+    padding-left: 8px;
+  }
+  .challenge-check {
+    width: 24px;
+    height: 24px;
+    border: 2px solid var(--coral);
+    border-radius: 6px;
+    flex-shrink: 0;
+    margin-top: 4px;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: transparent;
+    font-weight: 900;
+    font-size: 14px;
+  }
+  .challenge-item:hover .challenge-check {
+    background: var(--coral);
+    color: var(--white);
+  }
+  .challenge-text {
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--text);
+    font-weight: 500;
+  }
+  .challenge-footer {
+    margin-top: 40px;
+    text-align: center;
+    font-size: 15px;
+    line-height: 2;
+    color: var(--text);
+  }
+  .challenge-footer strong {
+    color: var(--coral);
+    font-weight: 700;
+  }
+
+  /* Principles */
+  .principles {
+    background: var(--beige);
+  }
+  .principle-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 60px;
+  }
+  .principle-card {
+    background: var(--white);
+    padding: 40px 32px;
+    border-radius: 20px;
+    position: relative;
+    transition: all 0.3s;
+    border: 2px solid transparent;
+  }
+  .principle-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--coral);
+    box-shadow: 0 20px 40px rgba(239, 108, 79, 0.12);
+  }
+  .principle-num {
+    width: 48px;
+    height: 48px;
+    background: var(--coral);
+    color: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 20px;
+    margin-bottom: 24px;
+  }
+  .principle-title {
+    font-family: var(--display);
+    font-size: 21px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 20px;
+    line-height: 1.5;
+  }
+  .principle-desc {
+    font-size: 14px;
+    line-height: 1.9;
+    color: var(--text-mute);
+  }
+
+  /* Solutions */
+  .solutions {
+    background: var(--white);
+  }
+  .solution-featured {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 48px;
+  }
+  .solution-main {
+    background: var(--cream);
+    padding: 40px 36px;
+    border-radius: 20px;
+    border: 2px solid transparent;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .solution-main::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 120px;
+    height: 120px;
+    background: var(--coral-light);
+    border-radius: 50%;
+    transform: translate(40px, -40px);
+    opacity: 0.6;
+  }
+  .solution-main:hover {
+    border-color: var(--coral);
+    transform: translateY(-4px);
+  }
+  .solution-icon {
+    font-size: 40px;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .solution-title {
+    font-family: var(--display);
+    font-size: 24px;
+    font-weight: 900;
+    color: var(--navy);
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .solution-desc {
+    font-size: 14px;
+    line-height: 1.9;
+    color: var(--text);
+    margin-bottom: 24px;
+    position: relative;
+  }
+  .solution-link {
+    font-size: 14px;
+    color: var(--coral);
+    font-weight: 700;
+    text-decoration: none;
+    position: relative;
+  }
+  .solution-others {
+    background: var(--beige);
+    padding: 32px 36px;
+    border-radius: 20px;
+  }
+  .solution-others-title {
+    font-size: 15px;
+    color: var(--text-mute);
+    margin-bottom: 16px;
+    line-height: 1.7;
+  }
+  .solution-others-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .solution-others-list li {
+    padding: 8px 0;
+    font-size: 14px;
+    color: var(--navy);
+    font-weight: 500;
+  }
+  .solution-others-list li::before {
+    content: '・';
+    color: var(--coral);
+    font-weight: 900;
+    margin-right: 4px;
+  }
+
+  /* Approach */
+  .approach {
+    background: var(--cream);
+  }
+  .approach-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-top: 48px;
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .step-card {
+    background: var(--white);
+    padding: 32px 36px;
+    border-radius: 20px;
+    display: flex;
+    gap: 28px;
+    align-items: flex-start;
+    transition: transform 0.3s;
+    border: 2px solid transparent;
+    position: relative;
+  }
+  .step-card:hover {
+    transform: translateX(8px);
+    border-color: var(--coral-light);
+  }
+  .step-num-circle {
+    width: 64px;
+    height: 64px;
+    background: var(--coral);
+    color: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+  .step-content {
+    flex: 1;
+  }
+  .step-title {
+    font-family: var(--display);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 8px;
+    line-height: 1.5;
+  }
+  .step-desc {
+    font-size: 14px;
+    line-height: 1.9;
+    color: var(--text-mute);
+  }
+
+  /* Cases */
+  .cases {
+    background: var(--white);
+  }
+  .case-featured {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+  .case-card {
+    background: var(--cream);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+  .case-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px rgba(31, 58, 95, 0.08);
+  }
+  .case-image {
+    aspect-ratio: 4/3;
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-soft) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .case-image::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(239, 108, 79, 0.3) 0%, transparent 40%),
+      radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.05) 0%, transparent 40%);
+  }
+  .case-image-label {
+    font-family: var(--display);
+    font-size: 22px;
+    color: var(--white);
+    font-weight: 700;
+    text-align: center;
+    padding: 0 20px;
+    position: relative;
+    z-index: 2;
+  }
+  .case-content {
+    padding: 24px 28px;
+  }
+  .case-tag {
+    display: inline-block;
+    font-size: 11px;
+    padding: 4px 12px;
+    background: var(--coral-light);
+    color: var(--coral-deep);
+    border-radius: 100px;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .case-name {
+    font-family: var(--display);
+    font-size: 19px;
+    font-weight: 900;
+    color: var(--navy);
+    margin-bottom: 4px;
+  }
+  .case-sub {
+    font-size: 13px;
+    color: var(--text-mute);
+    margin-bottom: 16px;
+  }
+  .case-desc {
+    font-size: 13px;
+    line-height: 1.9;
+    color: var(--text);
+    margin-bottom: 20px;
+  }
+  .case-action {
+    font-size: 14px;
+    color: var(--coral);
+    text-decoration: none;
+    font-weight: 700;
+  }
+  .case-others {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .case-mini {
+    padding: 24px;
+    background: var(--cream);
+    border-radius: 16px;
+    text-align: left;
+    transition: transform 0.2s;
+  }
+  .case-mini:hover {
+    transform: translateY(-2px);
+  }
+  .case-mini-name {
+    font-family: var(--display);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 4px;
+  }
+  .case-mini-sub {
+    font-size: 12px;
+    color: var(--text-mute);
+    margin-bottom: 12px;
+  }
+
+  /* Mid CTA */
+  .mid-cta {
+    background: var(--coral);
+    color: var(--white);
+    padding: 80px 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .mid-cta::before {
+    content: '';
+    position: absolute;
+    top: -80px;
+    left: -80px;
+    width: 300px;
+    height: 300px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 50%;
+  }
+  .mid-cta::after {
+    content: '';
+    position: absolute;
+    bottom: -80px;
+    right: -80px;
+    width: 300px;
+    height: 300px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 50%;
+  }
+  .mid-cta-inner {
+    max-width: 720px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+  .mid-cta-handwriting {
+    font-family: var(--hand);
+    font-size: 28px;
+    color: rgba(255,255,255,0.8);
+    margin-bottom: 16px;
+    transform: rotate(-2deg);
+    display: inline-block;
+  }
+  .mid-cta-title {
+    font-family: var(--display);
+    font-size: clamp(24px, 4vw, 34px);
+    font-weight: 900;
+    line-height: 1.5;
+    margin-bottom: 24px;
+  }
+  .mid-cta-desc {
+    font-size: 16px;
+    line-height: 2;
+    margin-bottom: 40px;
+    opacity: 0.95;
+  }
+  .mid-cta .btn {
+    background: var(--white);
+    color: var(--coral);
+    border-color: var(--white);
+    box-shadow: 0 4px 0 rgba(0,0,0,0.1);
+  }
+  .mid-cta .btn:hover {
+    background: var(--navy);
+    color: var(--white);
+    border-color: var(--navy);
+  }
+
+  /* Experience */
+  .experience {
+    background: var(--beige);
+    text-align: center;
+  }
+  .exp-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin: 56px auto;
+    max-width: 720px;
+  }
+  .exp-stat {
+    background: var(--white);
+    padding: 40px 24px;
+    border-radius: 20px;
+    transition: transform 0.3s;
+  }
+  .exp-stat:hover {
+    transform: translateY(-4px);
+  }
+  .exp-stat-num {
+    font-family: var(--display);
+    font-size: 56px;
+    font-weight: 900;
+    color: var(--coral);
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+  .exp-stat-label {
+    font-size: 13px;
+    color: var(--text-mute);
+    font-weight: 500;
+  }
+
+  /* Team */
+  .team {
+    background: var(--white);
+  }
+  .team-card {
+    max-width: 760px;
+    margin: 0 auto;
+    background: var(--cream);
+    padding: 56px 48px;
+    border-radius: 24px;
+    text-align: center;
+    position: relative;
+  }
+  .team-avatar {
+    width: 120px;
+    height: 120px;
+    background: linear-gradient(135deg, var(--coral) 0%, var(--coral-deep) 100%);
+    border-radius: 50%;
+    margin: 0 auto 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--display);
+    font-size: 48px;
+    color: var(--white);
+    font-weight: 900;
+    box-shadow: 0 8px 24px rgba(239, 108, 79, 0.25);
+  }
+  .team-role {
+    font-family: var(--display);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--coral);
+    margin-bottom: 8px;
+  }
+  .team-name {
+    font-family: var(--display);
+    font-size: 32px;
+    font-weight: 900;
+    color: var(--navy);
+    margin-bottom: 24px;
+  }
+  .team-desc {
+    font-size: 15px;
+    line-height: 2;
+    color: var(--text);
+    margin-bottom: 32px;
+  }
+  .team-quote {
+    background: var(--white);
+    padding: 24px 32px;
+    border-radius: 16px;
+    font-size: 14px;
+    line-height: 1.9;
+    color: var(--text-mute);
+    text-align: left;
+    position: relative;
+    border-left: 4px solid var(--coral);
+  }
+  .team-quote strong {
+    color: var(--navy);
+    font-weight: 700;
+  }
+
+  /* Scope */
+  .scope {
+    background: var(--cream);
+  }
+  .scope-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 48px;
+  }
+  .scope-card {
+    background: var(--white);
+    padding: 36px 32px;
+    border-radius: 20px;
+  }
+  .scope-card.full-width {
+    grid-column: 1 / -1;
+    text-align: center;
+    background: var(--coral-light);
+  }
+  .scope-card-title {
+    font-family: var(--display);
+    font-size: 19px;
+    font-weight: 900;
+    color: var(--navy);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .scope-card-title::before {
+    content: '';
+    width: 4px;
+    height: 20px;
+    background: var(--coral);
+    border-radius: 2px;
+  }
+  .scope-list {
+    list-style: none;
+  }
+  .scope-list li {
+    padding: 8px 0;
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.7;
+  }
+  .scope-list li::before {
+    content: '○ ';
+    color: var(--coral);
+    font-weight: 700;
+  }
+  .scope-card.full-width .scope-card-title {
+    justify-content: center;
+  }
+  .scope-card.full-width p {
+    font-size: 15px;
+    line-height: 2;
+    color: var(--text);
+  }
+  .scope-card.full-width strong {
+    color: var(--coral-deep);
+    font-weight: 700;
+  }
+
+  /* FAQ */
+  .faq {
+    background: var(--white);
+  }
+  .faq-list {
+    max-width: 760px;
+    margin: 48px auto 0;
+  }
+  .faq-item {
+    background: var(--cream);
+    border-radius: 16px;
+    margin-bottom: 12px;
+    overflow: hidden;
+    transition: all 0.2s;
+  }
+  .faq-item.open {
+    background: var(--coral-light);
+  }
+  .faq-q {
+    padding: 24px 28px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    transition: background 0.2s;
+  }
+  .faq-q-text {
+    font-family: var(--display);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1.5;
+    flex: 1;
+  }
+  .faq-q-text::before {
+    content: 'Q. ';
+    color: var(--coral);
+    font-weight: 900;
+  }
+  .faq-toggle {
+    width: 32px;
+    height: 32px;
+    background: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: var(--coral);
+    font-weight: 900;
+    font-size: 18px;
+    transition: all 0.3s;
+  }
+  .faq-item.open .faq-toggle {
+    background: var(--coral);
+    color: var(--white);
+    transform: rotate(45deg);
+  }
+  .faq-a {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+  }
+  .faq-item.open .faq-a {
+    max-height: 400px;
+  }
+  .faq-a-text {
+    padding: 0 28px 24px;
+    font-size: 14px;
+    line-height: 2;
+    color: var(--text-mute);
+  }
+  .faq-a-text::before {
+    content: 'A. ';
+    color: var(--coral);
+    font-weight: 900;
+  }
+
+  /* Company */
+  .company {
+    background: var(--cream);
+  }
+  .company-table {
+    max-width: 600px;
+    margin: 48px auto 0;
+    background: var(--white);
+    padding: 40px;
+    border-radius: 20px;
+  }
+  .company-row {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 14px;
+  }
+  .company-row:last-child { border-bottom: none; }
+  .company-row dt {
+    font-family: var(--display);
+    color: var(--navy);
+    font-weight: 700;
+  }
+  .company-row dd {
+    color: var(--text);
+  }
+
+  /* Final CTA */
+  .final-cta {
+    background: var(--navy);
+    color: var(--white);
+    padding: 100px 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .final-cta::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(239, 108, 79, 0.2) 0%, transparent 70%);
+  }
+  .final-inner {
+    max-width: 720px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+  .final-handwriting {
+    font-family: var(--hand);
+    font-size: 36px;
+    color: var(--coral-light);
+    transform: rotate(-3deg);
+    display: inline-block;
+    margin-bottom: 16px;
+  }
+  .final-title {
+    font-family: var(--display);
+    font-size: clamp(28px, 5vw, 42px);
+    font-weight: 900;
+    line-height: 1.5;
+    margin-bottom: 32px;
+  }
+  .final-desc {
+    font-size: 16px;
+    line-height: 2.2;
+    margin-bottom: 48px;
+    opacity: 0.9;
+  }
+  .final-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+  .final .btn-coral {
+    padding: 24px 56px;
+    font-size: 18px;
+    box-shadow: 0 6px 0 var(--coral-deep), 0 12px 30px rgba(239, 108, 79, 0.4);
+  }
+  .final .btn-coral:hover {
+    transform: translateY(3px);
+    box-shadow: 0 3px 0 var(--coral-deep);
+  }
+  .final-note {
+    font-size: 14px;
+    color: rgba(255,255,255,0.7);
+    font-family: var(--hand);
+    font-size: 22px;
+  }
+
+  /* Footer */
+  .footer {
+    background: var(--navy);
+    color: rgba(255,255,255,0.5);
+    padding: 32px 24px;
+    text-align: center;
+    font-size: 12px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+
+  /* Sticky bottom CTA (mobile only) */
+  .sticky-cta {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: var(--white);
+    border-top: 1px solid var(--line);
+    padding: 12px 16px;
+    z-index: 99;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.06);
+    display: none;
+  }
+  .sticky-cta .btn {
+    width: 100%;
+    padding: 14px;
+    font-size: 15px;
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    section { padding: 64px 20px; }
+    .principle-grid,
+    .solution-featured,
+    .case-featured,
+    .case-others,
+    .scope-grid,
+    .exp-stats {
+      grid-template-columns: 1fr;
+    }
+    .solution-others-list {
+      grid-template-columns: 1fr;
+    }
+    .step-card {
+      flex-direction: column;
+      gap: 16px;
+      padding: 28px;
+    }
+    .step-num-circle {
+      width: 48px;
+      height: 48px;
+      font-size: 18px;
+    }
+    .company-row {
+      grid-template-columns: 1fr;
+      gap: 4px;
+    }
+    .sticky-cta { display: block; }
+    body { padding-bottom: 80px; }
+    .header-cta { display: none; }
+  }
+
+  /* === 拡張ナビゲーション === */
+  .header {
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .header.is-hidden {
+    transform: translateY(-100%);
+  }
+  .nav {
+    flex: 1;
+    justify-content: center;
+  }
+  .nav a {
+    position: relative;
+    padding: 4px 0;
+  }
+  .nav a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--coral);
+    transition: width 0.3s;
+  }
+  .nav a:hover::after { width: 100%; }
+  .nav a.is-active {
+    color: var(--navy);
+    font-weight: 500;
+  }
+  .nav a.is-active::after {
+    width: 100%;
+    background: var(--navy);
+  }
+  .header-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: var(--navy);
+    color: var(--white);
+    text-decoration: none;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    font-weight: 500;
+    border-radius: 2px;
+    transition: background 0.3s;
+    flex-shrink: 0;
+  }
+  .header-cta:hover {
+    background: var(--coral);
+    color: var(--navy);
+  }
+  .nav-toggle {
+    display: none;
+    background: none;
+    border: 1px solid var(--line);
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    cursor: pointer;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    border-radius: 2px;
+  }
+  .nav-toggle span,
+  .nav-toggle span::before,
+  .nav-toggle span::after {
+    content: '';
+    display: block;
+    width: 18px;
+    height: 1px;
+    background: var(--navy);
+    transition: transform 0.3s, opacity 0.3s;
+  }
+  .nav-toggle span::before {
+    position: absolute;
+    top: 12px;
+    left: 11px;
+  }
+  .nav-toggle span::after {
+    position: absolute;
+    bottom: 12px;
+    left: 11px;
+  }
+  .nav-toggle.is-open span {
+    background: transparent;
+  }
+  .nav-toggle.is-open span::before {
+    top: 19px;
+    transform: rotate(45deg);
+  }
+  .nav-toggle.is-open span::after {
+    bottom: 20px;
+    transform: rotate(-45deg);
+  }
+  section[id] {
+    scroll-margin-top: 80px;
+  }
+  @media (max-width: 900px) {
+    .nav {
+      display: none;
+      position: fixed;
+      top: 64px;
+      left: 0;
+      right: 0;
+      background: var(--bg);
+      flex-direction: column;
+      padding: 24px 24px 32px;
+      gap: 0;
+      border-bottom: 1px solid var(--line);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.04);
+      max-height: calc(100vh - 64px);
+      overflow-y: auto;
+    }
+    .nav.is-open {
+      display: flex;
+    }
+    .nav a {
+      padding: 16px 8px;
+      border-bottom: 1px solid var(--line);
+      font-size: 14px;
+    }
+    .nav a:last-child { border-bottom: none; }
+    .nav a::after { display: none; }
+    .nav a.is-active {
+      color: var(--coral);
+    }
+    .nav-toggle { display: inline-flex; }
+    .header-cta {
+      padding: 8px 14px;
+      font-size: 11px;
+    }
+  }
+
+
+
+</style>
+</head>
+<body>
+
+<header class="header" id="siteHeader">
+  <a href="#" class="logo">AXEON</a>
+  <nav class="nav" id="siteNav">
+    <a href="#principles">考え方</a>
+    <a href="#solutions">サービス</a>
+    <a href="#approach">進め方</a>
+    <a href="#cases">事例</a>
+    <a href="#team">体制</a>
+    <a href="#faq">FAQ</a>
+  </nav>
+  <a href="#contact" class="header-cta">初回相談を予約</a>
+  <button class="nav-toggle" id="navToggle" aria-label="メニューを開く" aria-expanded="false">
+    <span></span>
+  </button>
+</header>
+
+<!-- 01 Hero -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">小さな会社・お店のためのAI支援</div>
+    <h1 class="hero-title">小さなお店・小さな会社のための、<br><span class="accent">AIのはじめ方</span>。</h1>
+    <p class="hero-subtitle">「AIってよく分からない」「うちみたいな規模で使えるの？」<br>そう思っている経営者の方こそ、まず話を聞いてみてください。<br>業務の中で困っていることから、一緒に整理します。</p>
+    <div class="hero-cta">
+      <div class="hero-buttons">
+        <a href="#contact" class="btn btn-coral btn-xl">まずは話を聞いてみる（無料）<span class="btn-arrow">→</span></a>
+        <a href="#cases" class="btn btn-outline">事例を見る</a>
+      </div>
+      <p class="hero-note">代表が直接お話しします｜営業電話なし</p>
+    </div>
+  </div>
+</section>
+
+<!-- 02 Challenges -->
+<section class="challenges">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">あなたの悩み、聞かせてください</span>
+      <h2 class="section-title">こんなこと、ありませんか？</h2>
+    </div>
+    <div class="challenge-card">
+      <ul class="challenge-list">
+        <li class="challenge-item">
+          <span class="challenge-check">✓</span>
+          <span class="challenge-text">人手が足りないが、新しい人もなかなか採用できない</span>
+        </li>
+        <li class="challenge-item">
+          <span class="challenge-check">✓</span>
+          <span class="challenge-text">自分が現場に出っぱなしで、仕組み化に時間が割けない</span>
+        </li>
+        <li class="challenge-item">
+          <span class="challenge-check">✓</span>
+          <span class="challenge-text">手作業や紙の管理が多く、もっと効率化したい</span>
+        </li>
+        <li class="challenge-item">
+          <span class="challenge-check">✓</span>
+          <span class="challenge-text">取引先がデジタル化していて、ついていけない不安がある</span>
+        </li>
+        <li class="challenge-item">
+          <span class="challenge-check">✓</span>
+          <span class="challenge-text">AIやデジタル化に興味はあるが、何から始めればいいか分からない</span>
+        </li>
+      </ul>
+      <div class="challenge-footer">
+        <strong>一つでも当てはまる方</strong>は、まず気軽に話を聞いてみてください。<br>大げさな仕組みではなく、いまの仕事に合わせた使い方をご提案します。
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 Principles -->
+<section class="principles" id="principles">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">私たちの考え方</span>
+      <h2 class="section-title">私たちが大切にしている、<br>3つのこと</h2>
+      <p class="section-lead">AIを「すごいシステム」にしません。<br>いまの仕事が、ちょっと楽になる。それを積み重ねます。</p>
+    </div>
+    <div class="principle-grid">
+      <div class="principle-card">
+        <div class="principle-num">1</div>
+        <h3 class="principle-title">できないことを「やりましょう」とは言いません</h3>
+        <p class="principle-desc">あなたの会社の規模、人数、業務に合わせて、本当に使える方法だけをご提案します。</p>
+      </div>
+      <div class="principle-card">
+        <div class="principle-num">2</div>
+        <h3 class="principle-title">ツールを入れて終わりには、しません</h3>
+        <p class="principle-desc">実際に現場で使われ、続けて使えるところまで一緒に伴走します。入れただけで終わるのが、一番もったいないことだと思っています。</p>
+      </div>
+      <div class="principle-card">
+        <div class="principle-num">3</div>
+        <h3 class="principle-title">課題の言語化を、最重要視する</h3>
+        <p class="principle-desc">「DXとは…」「AIとは…」みたいな話はしません。あなたの仕事の言葉にして、納得できる形で説明します。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 Solutions -->
+<section class="solutions" id="solutions">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">できること</span>
+      <h2 class="section-title">どんなことを、お手伝いできるか</h2>
+    </div>
+    <div class="solution-featured">
+      <div class="solution-main">
+        <div class="solution-icon">📦</div>
+        <h3 class="solution-title">業界別のテンプレート</h3>
+        <p class="solution-desc">飲食店向け、建設・工事向け、車検事業向けなど、すでに動いているプロダクトを、あなたの業務に合わせて導入できます。ゼロから作らないので、コストも期間も抑えられます。</p>
+        <a href="#" class="solution-link">詳しく見る →</a>
+      </div>
+      <div class="solution-main">
+        <div class="solution-icon">🔧</div>
+        <h3 class="solution-title">現場の困りごと、ひとつから</h3>
+        <p class="solution-desc">「この業務だけ、楽にしたい」というポイントだけに絞ったツール開発。大きな投資をせずに、まず一つだけ試してみる、というスタートが可能です。</p>
+        <a href="#" class="solution-link">詳しく見る →</a>
+      </div>
+    </div>
+    <div class="solution-others">
+      <p class="solution-others-title">下記のサポートも対応していますが、まずは上記の2つから始める方が多いです。</p>
+      <ul class="solution-others-list">
+        <li>事業の方向性整理（DX戦略設計）</li>
+        <li>データ活用基盤づくり</li>
+        <li>社内でツールを使いこなせるようにする支援</li>
+        <li>導入後の保守・運用</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 05 Approach -->
+<section class="approach" id="approach">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">4つのステップ</span>
+      <h2 class="section-title">無理なく進めます</h2>
+    </div>
+    <div class="approach-steps">
+      <div class="step-card">
+        <div class="step-num">01</div>
+        <h3 class="step-title">まず、お話を聞かせてください</h3>
+        <p class="step-desc">何に困っていて、何を変えたいのか。世間話の延長くらいの感覚で大丈夫です。</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">02</div>
+        <h3 class="step-title">「何をやって、何をやらないか」を一緒に決めます</h3>
+        <p class="step-desc">全部やろうとしません。一番効きそうなところを絞り込みます。</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">03</div>
+        <h3 class="step-title">小さく試して、効果を確かめます</h3>
+        <p class="step-desc">「これなら使えそう」「ここは違う」を、実際に動かしながら判断します。</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">04</div>
+        <h3 class="step-title">現場で使われるところまで、一緒に進めます</h3>
+        <p class="step-desc">入れて終わりにしません。続けて使えるかどうかを最後まで見ます。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 Cases -->
+<section class="cases" id="cases">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">事例</span>
+      <h2 class="section-title">実際に動いている事例</h2>
+      <p class="section-lead">「自分の業界に近いもの」があれば、それを参考に話を進められます。<br>すべて、3分で触って体感できます。</p>
+    </div>
+    <div class="case-featured">
+      <div class="case-card">
+        <div class="case-image"><span class="case-image-label">GEMPO</span></div>
+        <div class="case-content">
+          <span class="case-tag">建設・工事</span>
+          <h3 class="case-name">GEMPO</h3>
+          <p class="case-sub">建設・工事向け 現場サポート</p>
+          <p class="case-desc">建設・工事業界の小規模事業者向け。現場と事務所のやり取りを、シンプルなUIで効率化。専門知識なしでも使えます。</p>
+          <a href="#" class="case-action">触ってみる →</a>
+        </div>
+      </div>
+      <div class="case-card">
+        <div class="case-image"><span class="case-image-label">Shaken<br>Notify</span></div>
+        <div class="case-content">
+          <span class="case-tag">車検・整備</span>
+          <h3 class="case-name">Shaken Notify</h3>
+          <p class="case-sub">車検管理ダッシュボード</p>
+          <p class="case-desc">車検事業者向け。期限管理・お客様への連絡を、ボタン操作だけで完結。エクセル管理の手間が減ります。</p>
+          <a href="#" class="case-action">触ってみる →</a>
+        </div>
+      </div>
+      <div class="case-card">
+        <div class="case-image"><span class="case-image-label">Restaurant<br>Ops</span></div>
+        <div class="case-content">
+          <span class="case-tag">飲食</span>
+          <h3 class="case-name">Restaurant Ops</h3>
+          <p class="case-sub">飲食店オペレーション</p>
+          <p class="case-desc">飲食店向け。シフト・売上・在庫を一画面で。店長・オーナーが「これくらいなら触れる」と感じる設計です。</p>
+          <a href="#" class="case-action">触ってみる →</a>
+        </div>
+      </div>
+    </div>
+    <div class="case-others">
+      <div class="case-mini">
+        <h4 class="case-mini-name">SHIFT AUTO</h4>
+        <p class="case-mini-sub">シフト自動化システム</p>
+        <a href="#" class="case-action">触ってみる →</a>
+      </div>
+      <div class="case-mini">
+        <h4 class="case-mini-name">申し送りUI</h4>
+        <p class="case-mini-sub">自動引き継ぎ作成支援</p>
+        <a href="#" class="case-action">触ってみる →</a>
+      </div>
+      <div class="case-mini">
+        <h4 class="case-mini-name">AI Knowledge Bot</h4>
+        <p class="case-mini-sub">社内ナレッジ共有BOT</p>
+        <a href="#" class="case-action">触ってみる →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Mid CTA -->
+<section class="mid-cta">
+  <div class="mid-cta-inner">
+    <div class="mid-cta-handwriting">— first step —</div>
+    <h2 class="mid-cta-title">「うちでも、こんなのが使えるかな？」</h2>
+    <p class="mid-cta-desc">その気持ち、3分のデモで確かめてください。<br>触ってみて、ピンとこなければ、それでも全然大丈夫です。</p>
+    <a href="#" class="btn btn-xl"><span>事例を触ってみる</span><span class="btn-arrow">→</span></a>
+  </div>
+</section>
+
+<!-- 07 Experience -->
+<section class="experience">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">まずは触ってみる</span>
+      <h2 class="section-title">触ってみるだけで、大丈夫です</h2>
+      <p class="section-lead">操作してみて、自分の店・会社で使えそうかどうかだけ、感じてみてください。<br>体感後の押し売りはありません。</p>
+    </div>
+    <div class="exp-stats">
+      <div class="exp-stat">
+        <div class="exp-stat-num">8</div>
+        <div class="exp-stat-label">体験できる事例</div>
+      </div>
+      <div class="exp-stat">
+        <div class="exp-stat-num">5+</div>
+        <div class="exp-stat-label">対応業界</div>
+      </div>
+      <div class="exp-stat">
+        <div class="exp-stat-num">3<span style="font-size: 32px;">分</span></div>
+        <div class="exp-stat-label">平均体感時間</div>
+      </div>
+    </div>
+    <a href="#" class="btn btn-coral btn-xl">事例を触ってみる<span class="btn-arrow">→</span></a>
+  </div>
+</section>
+
+<!-- 08 Team -->
+<section class="team" id="team">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">担当者</span>
+      <h2 class="section-title">代表が直接、お話しします</h2>
+      <p class="section-lead">営業担当を挟まず、経営者本人が直接お話を伺います。</p>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">A</div>
+      <div class="team-role">代表</div>
+      <h3 class="team-name">秋吉 莉乃</h3>
+      <p class="team-desc">大手企業の経営支援に長年関わってきた経験を、いまは「小さな会社・お店の現場」に向けて活かしています。<br>専門用語ではなく、あなたの業務の言葉で、一緒に考えます。</p>
+      <div class="team-quote">
+        <strong>「経営の話と、現場の話、両方できる人がいると話が早い」</strong>とよく言われます。どちらかに偏らず、あなたの会社全体を見て話します。
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 Scope -->
+<section class="scope">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">対応範囲</span>
+      <h2 class="section-title">対応できる業種・業務</h2>
+    </div>
+    <div class="scope-grid">
+      <div class="scope-card">
+        <h3 class="scope-card-title">対応している業種・業務</h3>
+        <ul class="scope-list">
+          <li>飲食店、小売店、サービス業</li>
+          <li>建設・工事業、町工場</li>
+          <li>士業事務所、クリニック</li>
+          <li>小規模EC、地域密着型ビジネス</li>
+          <li>その他、業務に困っているすべての方</li>
+        </ul>
+      </div>
+      <div class="scope-card">
+        <h3 class="scope-card-title">よく相談される内容</h3>
+        <ul class="scope-list">
+          <li>人手不足の解消・業務効率化</li>
+          <li>紙・エクセル管理からの脱却</li>
+          <li>顧客対応・問い合わせ対応の自動化</li>
+          <li>データ活用の入り口づくり</li>
+        </ul>
+      </div>
+      <div class="scope-card full-width">
+        <h3 class="scope-card-title">料金について</h3>
+        <p>プロジェクトの内容によって幅があるため、まずは無料相談でお話を伺ってから、見積もりをお伝えします。<br><strong>無理な提案や、予算に合わない提案はしません。</strong></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 FAQ -->
+<section class="faq" id="faq">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">よくある質問</span>
+      <h2 class="section-title">よくある質問</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q">
+          <div class="faq-q-text">AIに詳しくないのですが、相談できますか？</div>
+          <div class="faq-toggle">+</div>
+        </div>
+        <div class="faq-a">
+          <div class="faq-a-text">もちろんです。むしろ「詳しくない方」のご相談がほとんどです。専門用語は使わず、業務の言葉でお話しします。</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">
+          <div class="faq-q-text">小さな店・会社でも、相談に乗ってもらえますか？</div>
+          <div class="faq-toggle">+</div>
+        </div>
+        <div class="faq-a">
+          <div class="faq-a-text">はい。従業員数や売上規模で断ることはありません。困りごとがあれば、まずはお話だけでも聞かせてください。</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">
+          <div class="faq-q-text">どのくらいの費用がかかりますか？</div>
+          <div class="faq-toggle">+</div>
+        </div>
+        <div class="faq-a">
+          <div class="faq-a-text">内容によって幅があります。すぐに数百万円が必要というケースばかりではありません。月額の顧問契約や、業界別のパッケージから始められる場合もあります。まずは無料相談でお見積もりをお伝えします。</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">
+          <div class="faq-q-text">何から始めればいいか、分かっていないのですが大丈夫ですか？</div>
+          <div class="faq-toggle">+</div>
+        </div>
+        <div class="faq-a">
+          <div class="faq-a-text">大丈夫です。「何が困っているか」を整理するところから一緒に始めます。具体的な解決方法は、その後で考えれば十分です。</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">
+          <div class="faq-q-text">提案を聞いたあと、断っても大丈夫ですか？</div>
+          <div class="faq-toggle">+</div>
+        </div>
+        <div class="faq-a">
+          <div class="faq-a-text">もちろんです。提案を聞いて「うちには合わない」と思ったら、断って構いません。営業の追いかけ電話やしつこい連絡はしません。</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">
+          <div class="faq-q-text">個人事業主・フリーランスでも相談できますか？</div>
+          <div class="faq-toggle">+</div>
+        </div>
+        <div class="faq-a">
+          <div class="faq-a-text">ご相談自体は可能です。ただし、ご提案できる内容に限りがあるため、まずは状況をお聞かせください。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 Company -->
+<section class="company">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">会社情報</span>
+      <h2 class="section-title">会社情報</h2>
+    </div>
+    <dl class="company-table">
+      <div class="company-row"><dt>社名</dt><dd>AXEON株式会社</dd></div>
+      <div class="company-row"><dt>代表者</dt><dd>秋吉 莉乃</dd></div>
+      <div class="company-row"><dt>設立</dt><dd>2026年6月</dd></div>
+      <div class="company-row"><dt>連絡先</dt><dd>contact@axeon.jp</dd></div>
+      <div class="company-row"><dt>URL</dt><dd>https://axeon.jp</dd></div>
+    </dl>
+  </div>
+</section>
+
+<!-- 12 Final CTA -->
+<section class="final-cta" id="contact">
+  <div class="final-inner">
+    <div class="final-handwriting">— let's talk —</div>
+    <h2 class="final-title">まずは、お話を<br>聞かせてください。</h2>
+    <p class="final-desc">何が困っているか、整理するところから始めましょう。<br>営業電話やしつこい連絡はしません。気軽にどうぞ。</p>
+    <div class="final-buttons">
+      <a href="#" class="btn btn-coral">まずは話を聞いてみる（無料）<span class="btn-arrow">→</span></a>
+      <p class="final-note">「うちでもできるか」を一緒に考えます</p>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  © 2026 AXEON Inc. ALL RIGHTS RESERVED.
+</footer>
+
+<div class="sticky-cta">
+  <a href="#contact" class="btn btn-coral">まずは話を聞いてみる（無料）</a>
+</div>
+
+<script>
+  document.querySelectorAll('.faq-q').forEach(q => {
+    q.addEventListener('click', () => {
+      const item = q.parentElement;
+      item.classList.toggle('open');
+    });
+  });
+
+  // ========== ヘッダー機能 ==========
+  const header = document.getElementById('siteHeader');
+  let lastScrollY = window.scrollY;
+  let scrollAccum = 0;
+  const HIDE_THRESHOLD = 60;
+
+  window.addEventListener('scroll', () => {
+    const currentY = window.scrollY;
+    const delta = currentY - lastScrollY;
+    if (currentY < 100) {
+      header.classList.remove('is-hidden');
+      scrollAccum = 0;
+    } else {
+      scrollAccum += delta;
+      if (scrollAccum > HIDE_THRESHOLD) {
+        header.classList.add('is-hidden');
+        scrollAccum = HIDE_THRESHOLD;
+      }
+      if (scrollAccum < -HIDE_THRESHOLD / 2) {
+        header.classList.remove('is-hidden');
+        scrollAccum = -HIDE_THRESHOLD / 2;
+      }
+    }
+    lastScrollY = currentY;
+  }, { passive: true });
+
+  const navLinks = document.querySelectorAll('#siteNav a[href^="#"]');
+  const sectionMap = new Map();
+  navLinks.forEach(link => {
+    const id = link.getAttribute('href').slice(1);
+    const target = document.getElementById(id);
+    if (target) sectionMap.set(target, link);
+  });
+
+  const sectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const link = sectionMap.get(entry.target);
+      if (!link) return;
+      if (entry.isIntersecting) {
+        navLinks.forEach(l => l.classList.remove('is-active'));
+        link.classList.add('is-active');
+      }
+    });
+  }, {
+    rootMargin: '-120px 0px -50% 0px',
+    threshold: 0
+  });
+
+  sectionMap.forEach((link, section) => {
+    sectionObserver.observe(section);
+  });
+
+  const navToggle = document.getElementById('navToggle');
+  const siteNav = document.getElementById('siteNav');
+  if (navToggle && siteNav) {
+    navToggle.addEventListener('click', () => {
+      const isOpen = siteNav.classList.toggle('is-open');
+      navToggle.classList.toggle('is-open', isOpen);
+      navToggle.setAttribute('aria-expanded', isOpen);
+    });
+    siteNav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        if (window.innerWidth <= 900) {
+          siteNav.classList.remove('is-open');
+          navToggle.classList.remove('is-open');
+          navToggle.setAttribute('aria-expanded', 'false');
+        }
+      });
+    });
+  }
+
+</script>
+
+</body>
+</html>

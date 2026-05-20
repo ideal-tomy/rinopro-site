@@ -42,14 +42,14 @@ export const homeLandingCopy = {
     ],
     photoBandLines: [
       "AXEONは、企業の軸を共につくるパートナーとして、戦略と実装を同じテーブルに置き、理想を現場で動く仕組みに変えていきます。",
-      "国の力を、もう一段。この言葉を、私たちは理念ではなく、実務で証明します。",
+      "日本の国力を上げる。この言葉を、私たちは理念ではなく、実務で証明します。",
     ],
   },
 
   mission: {
     sectionIndex: "03",
     sectionKicker: "OUR MISSION",
-    heading: "国の力を、もう一段。",
+    heading: "日本の国力を上げる。",
     leadParagraphs: [
       "少子高齢化と人手不足。",
       "日本企業は、これからますます「人」が貴重な資源になります。",

@@ -38,12 +38,35 @@ export function useContactForm() {
         body: JSON.stringify(result.data),
       });
 
-      if (!res.ok) throw new Error("送信に失敗しました");
+      if (!res.ok) {
+        const payload = (await res.json().catch(() => null)) as {
+          error?: string;
+          message?: string;
+        } | null;
+        const apiMessage =
+          typeof payload?.message === "string" && payload.message.trim().length > 0
+            ? payload.message.trim()
+            : null;
+        if (payload?.error === "mail_not_configured") {
+          throw new Error(
+            apiMessage ??
+              "メール送信の設定が完了していません。しばらくしてから再度お試しください。"
+          );
+        }
+        if (res.status === 429) {
+          throw new Error("送信回数が多すぎます。しばらくしてから再度お試しください。");
+        }
+        throw new Error(apiMessage ?? "送信に失敗しました");
+      }
       setStatus("success");
       return true;
-    } catch {
+    } catch (error) {
       setStatus("error");
-      setSubmitError("送信に失敗しました。しばらくしてから再度お試しください。");
+      setSubmitError(
+        error instanceof Error && error.message
+          ? error.message
+          : "送信に失敗しました。しばらくしてから再度お試しください。"
+      );
       return false;
     }
   }, []);
