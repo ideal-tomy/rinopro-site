@@ -14,6 +14,14 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: projectRoot,
   },
+  async rewrites() {
+    return [
+      {
+        source: "/lp/chuken-enterprise-v2",
+        destination: "/lp/chuken-enterprise-v2.html",
+      },
+    ];
+  },
   async redirects() {
     return [
       { source: "/cases", destination: "/experience", permanent: true },

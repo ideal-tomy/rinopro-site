@@ -8,7 +8,14 @@
 |-----------|----------|-------------|
 | 中堅企業向け v2 | `public/lp/chuken-enterprise-v2.html` | `https://www.axeon.jp/lp/chuken-enterprise-v2` |
 
-※ `.html` 付きURLは上記へリダイレクトされます。配信は `src/app/lp/chuken-enterprise-v2/route.ts` が HTML を返します。
+※ `.html` 付きURLは上記へリダイレクトされます。配信は `public/lp/chuken-enterprise-v2.html` を rewrite で表示します（サイトの Header/Footer は付きません）。
+
+## ローカルで開けないとき
+
+1. 動いている `npm run dev` をすべて止める（ターミナルで Ctrl+C）
+2. まだポートが塞がっている場合: `taskkill /PID <表示されたPID> /F`
+3. `.next` フォルダを削除してから `npm run dev` を再実行
+4. `http://localhost:3000/lp/chuken-enterprise-v2` を開く（**3001 ではなく、起動ログに出たポート**）
 
 ## 原稿の置き場所
 
