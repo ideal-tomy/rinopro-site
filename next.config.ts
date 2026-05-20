@@ -25,6 +25,11 @@ const nextConfig: NextConfig = {
       },
       { source: "/demo/list", destination: "/experience", permanent: true },
       { source: "/demo", destination: "/experience", permanent: true },
+      {
+        source: "/lp/chuken-enterprise-v2.html",
+        destination: "/lp/chuken-enterprise-v2",
+        permanent: false,
+      },
     ];
   },
   async headers() {

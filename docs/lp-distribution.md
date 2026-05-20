@@ -6,7 +6,9 @@
 
 | ターゲット | ファイル | URL（本番） |
 |-----------|----------|-------------|
-| 中堅企業向け v2 | `public/lp/chuken-enterprise-v2.html` | `https://www.axeon.jp/lp/chuken-enterprise-v2.html` |
+| 中堅企業向け v2 | `public/lp/chuken-enterprise-v2.html` | `https://www.axeon.jp/lp/chuken-enterprise-v2` |
+
+※ `.html` 付きURLは上記へリダイレクトされます。配信は `src/app/lp/chuken-enterprise-v2/route.ts` が HTML を返します。
 
 ## 原稿の置き場所
 
