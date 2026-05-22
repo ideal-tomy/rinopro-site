@@ -15,7 +15,7 @@ export const contactSchema = z.object({
   message: z
     .string()
     .min(8, "ご相談内容をもう少し具体的に入力してください（8文字以上）")
-    .max(1200, "1200文字以内で入力してください"),
+    .max(6000, "6000文字以内で入力してください"),
   triedExperience: z
     .string()
     .max(200, "最も近かった体験・デモは200文字以内で入力してください")

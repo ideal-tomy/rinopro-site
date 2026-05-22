@@ -1,8 +1,5 @@
 import { NextResponse } from "next/server";
-import {
-  buildAdminContactEmail,
-  buildCustomerContactEmail,
-} from "@/lib/contact/mail-templates";
+import { sendContactEmails } from "@/lib/contact/send-contact-emails";
 import { contactSchema } from "@/lib/validation/contact-schema";
 import { rateLimit } from "@/lib/rate-limit";
 
@@ -74,10 +71,6 @@ export async function POST(req: Request) {
       ...(additionalNote?.trim() ? { additionalNote: additionalNote.trim() } : {}),
     };
 
-    const adminMail = buildAdminContactEmail(mailBase);
-    const customerMail = buildCustomerContactEmail(mailBase);
-
-    // TODO: Resend / SendGrid 等で送信。現状はログで運用側が把握できる形にする。
     console.info("[Contact] inbound", {
       name,
       email,
@@ -90,16 +83,19 @@ export async function POST(req: Request) {
       hasEstimateSnapshot: Boolean(estimateSnapshot),
       hasInquiryBrief: Boolean(inquiryBrief),
     });
-    console.info("[Contact] admin mail draft\n--- subject:", adminMail.subject, "\n", adminMail.textBody);
-    console.info(
-      "[Contact] customer mail draft\n--- subject:",
-      customerMail.subject,
-      "\n",
-      customerMail.textBody
-    );
 
-    return NextResponse.json({ success: true });
-  } catch {
+    const sendResult = await sendContactEmails(mailBase);
+    if (!sendResult.ok) {
+      const status = sendResult.code === "mail_not_configured" ? 503 : 502;
+      return NextResponse.json(
+        { error: sendResult.code, message: sendResult.message },
+        { status }
+      );
+    }
+
+    return NextResponse.json({ success: true, mode: sendResult.mode });
+  } catch (error) {
+    console.error("[Contact] unexpected error", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }

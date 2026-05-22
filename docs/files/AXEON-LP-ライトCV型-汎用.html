@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>「やってみたい」で止まっているAI導入を、3ヶ月で動くシステムに。｜AXEON</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0a1f44;
+    --navy-deep: #061638;
+    --navy-light: #1a3563;
+    --red: #e63946;
+    --red-deep: #c82d3a;
+    --red-light: #ff5a68;
+    --yellow: #ffd60a;
+    --gray-bg: #f4f6fa;
+    --gray-line: #e0e4ec;
+    --text: #1a1a1a;
+    --text-mute: #5a5a5a;
+    --white: #ffffff;
+    --body: 'Noto Sans JP', sans-serif;
+    --display: 'Inter', 'Noto Sans JP', sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--body);
+    color: var(--text);
+    background: var(--white);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    padding-bottom: 80px; /* for sticky CTA on mobile */
+  }
+
+  /* Header */
+  .header {
+    background: var(--white);
+    padding: 14px 24px;
+    border-bottom: 1px solid var(--gray-line);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 22px;
+    letter-spacing: 0.05em;
+    color: var(--navy);
+  }
+  .header-cta {
+    background: var(--red);
+    color: var(--white);
+    padding: 10px 20px;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background 0.2s;
+  }
+  .header-cta:hover { background: var(--red-deep); }
+
+  /* Hero */
+  .hero {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+    color: var(--white);
+    padding: 60px 24px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(230, 57, 70, 0.2) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero-inner {
+    max-width: 980px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+  .hero-eyebrow {
+    display: inline-block;
+    background: var(--red);
+    color: var(--white);
+    padding: 6px 16px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    border-radius: 2px;
+    margin-bottom: 24px;
+  }
+  .hero-title {
+    font-size: clamp(32px, 5.5vw, 56px);
+    font-weight: 900;
+    line-height: 1.35;
+    margin-bottom: 24px;
+    letter-spacing: -0.01em;
+  }
+  .hero-title .highlight {
+    background: linear-gradient(transparent 65%, var(--yellow) 65%);
+    color: var(--white);
+    padding: 0 4px;
+  }
+  .hero-subtitle {
+    font-size: 17px;
+    line-height: 1.9;
+    margin-bottom: 32px;
+    color: rgba(255,255,255,0.9);
+  }
+  .hero-subtitle strong {
+    color: var(--yellow);
+    font-weight: 700;
+  }
+  .badges {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+  .badge {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 10px 18px;
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: 100px;
+    backdrop-filter: blur(10px);
+  }
+  .badge::before {
+    content: '✓';
+    color: var(--yellow);
+    margin-right: 6px;
+    font-weight: 700;
+  }
+  .hero-cta {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 480px;
+  }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 20px 32px;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: all 0.2s;
+    cursor: pointer;
+    border: none;
+    font-family: var(--body);
+    text-align: center;
+  }
+  .btn-red {
+    background: var(--red);
+    color: var(--white);
+    box-shadow: 0 4px 0 var(--red-deep);
+    border: none;
+  }
+  .btn-red:hover {
+    background: var(--red-deep);
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 var(--red-deep);
+  }
+  .btn-red:active {
+    transform: translateY(4px);
+    box-shadow: 0 0 0 var(--red-deep);
+  }
+  .btn-white {
+    background: var(--white);
+    color: var(--navy);
+    border: 2px solid var(--white);
+  }
+  .btn-white:hover {
+    background: transparent;
+    color: var(--white);
+  }
+  .btn-outline {
+    background: transparent;
+    color: var(--navy);
+    border: 2px solid var(--navy);
+  }
+  .btn-outline:hover {
+    background: var(--navy);
+    color: var(--white);
+  }
+  .btn-xl {
+    padding: 24px 48px;
+    font-size: 18px;
+    width: 100%;
+    max-width: 480px;
+  }
+  .btn-note {
+    font-size: 12px;
+    color: rgba(255,255,255,0.7);
+    text-align: center;
+    margin-top: 8px;
+  }
+
+  /* Section common */
+  section {
+    padding: 64px 24px;
+  }
+  .container {
+    max-width: 980px;
+    margin: 0 auto;
+  }
+  .section-title {
+    font-size: clamp(26px, 4vw, 36px);
+    font-weight: 900;
+    text-align: center;
+    line-height: 1.4;
+    margin-bottom: 40px;
+    color: var(--navy);
+  }
+  .section-title .red { color: var(--red); }
+
+  /* Challenges */
+  .challenges {
+    background: var(--gray-bg);
+  }
+  .challenge-list {
+    max-width: 720px;
+    margin: 0 auto;
+    background: var(--white);
+    padding: 32px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(10, 31, 68, 0.06);
+  }
+  .challenge-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px dashed var(--gray-line);
+  }
+  .challenge-item:last-child { border-bottom: none; }
+  .challenge-check {
+    width: 24px;
+    height: 24px;
+    background: var(--red);
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    font-weight: 900;
+    font-size: 13px;
+  }
+  .challenge-text {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.6;
+  }
+  .challenge-footer {
+    margin-top: 32px;
+    text-align: center;
+    padding: 24px;
+    background: var(--navy);
+    color: var(--white);
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 700;
+  }
+  .challenge-footer .yellow {
+    color: var(--yellow);
+  }
+
+  /* Benefits */
+  .benefits {
+    background: var(--white);
+  }
+  .benefit-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 40px;
+  }
+  .benefit-card {
+    padding: 32px 24px;
+    background: var(--white);
+    border: 2px solid var(--gray-line);
+    border-radius: 12px;
+    text-align: center;
+    transition: all 0.3s;
+    position: relative;
+  }
+  .benefit-card:hover {
+    border-color: var(--red);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(230, 57, 70, 0.12);
+  }
+  .benefit-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    display: block;
+  }
+  .benefit-title {
+    font-size: 19px;
+    font-weight: 900;
+    color: var(--navy);
+    margin-bottom: 12px;
+    line-height: 1.5;
+  }
+  .benefit-desc {
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--text-mute);
+  }
+
+  /* Inline CTA Block */
+  .cta-block {
+    background: linear-gradient(135deg, var(--red) 0%, var(--red-deep) 100%);
+    padding: 56px 24px;
+    text-align: center;
+    color: var(--white);
+  }
+  .cta-block-title {
+    font-size: clamp(22px, 3.5vw, 30px);
+    font-weight: 900;
+    line-height: 1.5;
+    margin-bottom: 16px;
+  }
+  .cta-block-desc {
+    font-size: 15px;
+    line-height: 1.9;
+    margin-bottom: 32px;
+    opacity: 0.95;
+  }
+  .cta-block .btn-red {
+    background: var(--white);
+    color: var(--red);
+    box-shadow: 0 4px 0 rgba(0,0,0,0.15);
+  }
+  .cta-block .btn-red:hover {
+    background: var(--navy);
+    color: var(--white);
+  }
+  .cta-block-note {
+    margin-top: 16px;
+    font-size: 13px;
+    opacity: 0.9;
+  }
+
+  /* Reasons */
+  .reasons {
+    background: var(--gray-bg);
+  }
+  .reason-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .reason-card {
+    background: var(--white);
+    padding: 32px 24px;
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+  .reason-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(10, 31, 68, 0.1);
+  }
+  .reason-num {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    font-size: 96px;
+    font-weight: 900;
+    color: var(--gray-bg);
+    line-height: 1;
+    font-family: var(--display);
+    z-index: 1;
+  }
+  .reason-content {
+    position: relative;
+    z-index: 2;
+  }
+  .reason-label {
+    display: inline-block;
+    background: var(--navy);
+    color: var(--white);
+    padding: 4px 10px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    border-radius: 2px;
+    margin-bottom: 16px;
+  }
+  .reason-title {
+    font-size: 18px;
+    font-weight: 900;
+    color: var(--navy);
+    margin-bottom: 12px;
+    line-height: 1.5;
+  }
+  .reason-desc {
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--text-mute);
+  }
+
+  /* Cases */
+  .cases {
+    background: var(--white);
+  }
+  .case-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .case-card {
+    background: var(--gray-bg);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.2s;
+  }
+  .case-card:hover {
+    transform: translateY(-2px);
+  }
+  .case-thumb {
+    height: 140px;
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    font-weight: 900;
+    font-size: 18px;
+    letter-spacing: 0.02em;
+    padding: 16px;
+    text-align: center;
+  }
+  .case-info {
+    padding: 16px 20px;
+  }
+  .case-info-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .case-info-sub {
+    font-size: 12px;
+    color: var(--text-mute);
+  }
+
+  /* Pricing */
+  .pricing {
+    background: var(--gray-bg);
+  }
+  .pricing-table {
+    max-width: 720px;
+    margin: 0 auto;
+    background: var(--white);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(10, 31, 68, 0.06);
+  }
+  .pricing-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 24px;
+    border-bottom: 1px solid var(--gray-line);
+    align-items: center;
+  }
+  .pricing-row:last-child { border-bottom: none; }
+  .pricing-row.header {
+    background: var(--navy);
+    color: var(--white);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+  .pricing-plan {
+    font-weight: 900;
+    color: var(--navy);
+    font-size: 16px;
+  }
+  .pricing-period {
+    color: var(--text-mute);
+    font-size: 14px;
+  }
+  .pricing-price {
+    font-weight: 900;
+    color: var(--red);
+    font-size: 16px;
+  }
+  .pricing-note {
+    max-width: 720px;
+    margin: 24px auto 0;
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-mute);
+    line-height: 1.8;
+  }
+
+  /* FAQ */
+  .faq {
+    background: var(--white);
+  }
+  .faq-list {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .faq-item {
+    border: 1px solid var(--gray-line);
+    border-radius: 8px;
+    margin-bottom: 12px;
+    overflow: hidden;
+    transition: border 0.2s;
+  }
+  .faq-item.open {
+    border-color: var(--navy);
+  }
+  .faq-q {
+    padding: 20px 24px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    background: var(--white);
+    transition: background 0.2s;
+  }
+  .faq-q:hover {
+    background: var(--gray-bg);
+  }
+  .faq-q-text {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1.5;
+  }
+  .faq-q-text::before {
+    content: 'Q. ';
+    color: var(--red);
+    font-weight: 900;
+  }
+  .faq-toggle {
+    width: 28px;
+    height: 28px;
+    background: var(--gray-bg);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: var(--navy);
+    font-weight: 900;
+    font-size: 16px;
+    transition: all 0.2s;
+  }
+  .faq-item.open .faq-toggle {
+    background: var(--red);
+    color: var(--white);
+    transform: rotate(45deg);
+  }
+  .faq-a {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+  .faq-item.open .faq-a {
+    max-height: 300px;
+  }
+  .faq-a-text {
+    padding: 0 24px 20px;
+    font-size: 14px;
+    line-height: 1.9;
+    color: var(--text-mute);
+  }
+
+  /* Company */
+  .company {
+    background: var(--gray-bg);
+    padding: 32px 24px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-mute);
+  }
+
+  /* Final CTA */
+  .final {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+    color: var(--white);
+    padding: 80px 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .final::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(230, 57, 70, 0.15) 0%, transparent 70%);
+  }
+  .final-inner {
+    position: relative;
+    z-index: 2;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .final-title {
+    font-size: clamp(28px, 5vw, 44px);
+    font-weight: 900;
+    line-height: 1.4;
+    margin-bottom: 24px;
+  }
+  .final-desc {
+    font-size: 16px;
+    line-height: 2;
+    margin-bottom: 40px;
+    color: rgba(255,255,255,0.9);
+  }
+  .final .btn-red {
+    box-shadow: 0 6px 0 var(--red-deep), 0 12px 30px rgba(230, 57, 70, 0.4);
+  }
+  .final .btn-red:hover {
+    transform: translateY(3px);
+    box-shadow: 0 3px 0 var(--red-deep), 0 6px 20px rgba(230, 57, 70, 0.4);
+  }
+
+  /* Footer */
+  .footer {
+    background: var(--navy-deep);
+    color: rgba(255,255,255,0.5);
+    padding: 24px;
+    text-align: center;
+    font-size: 11px;
+  }
+
+  /* Sticky bottom CTA (mobile) */
+  .sticky-cta {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: var(--white);
+    border-top: 1px solid var(--gray-line);
+    padding: 12px 16px;
+    z-index: 99;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+    display: none;
+  }
+  .sticky-cta .btn {
+    width: 100%;
+    padding: 14px;
+    font-size: 15px;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .benefit-grid,
+    .reason-grid,
+    .case-grid {
+      grid-template-columns: 1fr;
+    }
+    .badges { flex-direction: column; gap: 8px; }
+    .badge { text-align: center; }
+    .pricing-row {
+      grid-template-columns: 1fr;
+      gap: 4px;
+      text-align: center;
+    }
+    .pricing-row.header { display: none; }
+    .pricing-plan::after { content: ' プラン'; font-weight: 400; font-size: 13px; color: var(--text-mute); }
+    .sticky-cta { display: block; }
+    body { padding-bottom: 70px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo">AXEON</div>
+  <a href="#contact" class="header-cta">無料相談を予約</a>
+</header>
+
+<!-- 01 Hero -->
+<section class="hero">
+  <div class="hero-inner">
+    <span class="hero-eyebrow">中堅企業のAI導入支援</span>
+    <h1 class="hero-title">「やってみたい」で止まっているAI導入を、<br><span class="highlight">3ヶ月で動くシステム</span>に。</h1>
+    <p class="hero-subtitle">中堅企業のAI導入、<strong>約70%が"PoC止まり"</strong>。<br>原因は、戦略と実装を分けて頼んでいることでした。</p>
+    <div class="badges">
+      <span class="badge">経営×AI実装の専門チーム</span>
+      <span class="badge">PoC：3ヶ月〜</span>
+      <span class="badge">初回相談 無料</span>
+    </div>
+    <div class="hero-cta">
+      <a href="#contact" class="btn btn-red btn-xl">無料相談を予約する（30分）</a>
+      <a href="#" class="btn btn-white">サービス資料をダウンロード</a>
+      <p class="btn-note">無料・30分・営業電話なし</p>
+    </div>
+  </div>
+</section>
+
+<!-- 02 Challenges -->
+<section class="challenges">
+  <div class="container">
+    <h2 class="section-title">こんなお悩み、<span class="red">ありませんか？</span></h2>
+    <ul class="challenge-list">
+      <li class="challenge-item">
+        <span class="challenge-check">!</span>
+        <span class="challenge-text">AIを使いたいが、何から始めればいいか分からない</span>
+      </li>
+      <li class="challenge-item">
+        <span class="challenge-check">!</span>
+        <span class="challenge-text">PoCをやってみたが、本実装に進めず止まっている</span>
+      </li>
+      <li class="challenge-item">
+        <span class="challenge-check">!</span>
+        <span class="challenge-text">大手SIerに見積もりを取ったら、予算が合わなかった</span>
+      </li>
+      <li class="challenge-item">
+        <span class="challenge-check">!</span>
+        <span class="challenge-text">ツールを導入したのに、現場で使われていない</span>
+      </li>
+      <li class="challenge-item">
+        <span class="challenge-check">!</span>
+        <span class="challenge-text">社内にDXを推進できる専任人材がいない</span>
+      </li>
+    </ul>
+    <div class="challenge-footer">
+      <span class="yellow">一つでも当てはまる方</span>は、続きをご覧ください。<br>中堅企業に特化した、すぐに使える方法があります。
+    </div>
+  </div>
+</section>
+
+<!-- 03 Benefits -->
+<section class="benefits">
+  <div class="container">
+    <h2 class="section-title">AXEONなら、<span class="red">こう変わります。</span></h2>
+    <div class="benefit-grid">
+      <div class="benefit-card">
+        <span class="benefit-icon">🚀</span>
+        <h3 class="benefit-title">戦略から実装まで、<br>ワンチームで進む</h3>
+        <p class="benefit-desc">コンサル会社と開発会社を別々に頼む必要はありません。構想設計から本実装まで、同じチームで一貫して伴走します。</p>
+      </div>
+      <div class="benefit-card">
+        <span class="benefit-icon">💰</span>
+        <h3 class="benefit-title">大手SIerの半分の体制で、<br>半分の期間で</h3>
+        <p class="benefit-desc">2名標準体制の少数精鋭。意思決定が早く、要件変更にも柔軟に対応。中堅企業の予算感に合わせた進め方が可能です。</p>
+      </div>
+      <div class="benefit-card">
+        <span class="benefit-icon">📊</span>
+        <h3 class="benefit-title">PoC止まりにしない<br>仕組み</h3>
+        <p class="benefit-desc">「やってみました」で終わらせません。本実装・運用・改善まで同じチームが伴走するから、現場で使われるシステムになります。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Block 1 -->
+<section class="cta-block">
+  <h2 class="cta-block-title">気になった方は、まず話を聞いてみませんか？</h2>
+  <p class="cta-block-desc">30分の無料相談で、課題の整理と「次の一歩」を一緒に決めます。<br>営業電話やしつこい連絡はしません。</p>
+  <a href="#contact" class="btn btn-red btn-xl">無料相談を予約する（30分）</a>
+  <p class="cta-block-note">無料・30分・営業電話なし</p>
+</section>
+
+<!-- 04 Reasons -->
+<section class="reasons">
+  <div class="container">
+    <h2 class="section-title">なぜ、<span class="red">中堅企業に選ばれる</span>のか。</h2>
+    <div class="reason-grid">
+      <div class="reason-card">
+        <div class="reason-num">01</div>
+        <div class="reason-content">
+          <span class="reason-label">REASON 01</span>
+          <h3 class="reason-title">経営×AI実装の<br>専門チーム</h3>
+          <p class="reason-desc">大手企業の経営支援経験を持つ代表と、AI実装に強い専門メンバーがチームで案件に伴走。「経営の言葉」と「技術の言葉」を一つに繋ぐ、課題の言語化に強いチームです。</p>
+        </div>
+      </div>
+      <div class="reason-card">
+        <div class="reason-num">02</div>
+        <div class="reason-content">
+          <span class="reason-label">REASON 02</span>
+          <h3 class="reason-title">戦略から実装まで、<br>一気通貫</h3>
+          <p class="reason-desc">コンサルだけ／開発だけのベンダーと違い、AXEONは構想から運用まで一貫してサポート。ベンダー間の引き継ぎロスや認識齟齬が起きません。</p>
+        </div>
+      </div>
+      <div class="reason-card">
+        <div class="reason-num">03</div>
+        <div class="reason-content">
+          <span class="reason-label">REASON 03</span>
+          <h3 class="reason-title">3ヶ月単位で、<br>小さく始められる</h3>
+          <p class="reason-desc">いきなり大規模投資ではなく、PoC：3ヶ月〜から開始可能。効果を確かめながら、段階的に拡張していけます。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 Cases -->
+<section class="cases">
+  <div class="container">
+    <h2 class="section-title">実際に動いている、<span class="red">実装プロダクト</span></h2>
+    <div class="case-grid">
+      <div class="case-card">
+        <div class="case-thumb">AI Knowledge Bot</div>
+        <div class="case-info">
+          <div class="case-info-title">AI Knowledge Bot</div>
+          <div class="case-info-sub">社内ナレッジ共有BOT｜業務全般</div>
+        </div>
+      </div>
+      <div class="case-card">
+        <div class="case-thumb">SHIFT AUTO</div>
+        <div class="case-info">
+          <div class="case-info-title">SHIFT AUTO</div>
+          <div class="case-info-sub">シフト自動化システム｜営業・サービス</div>
+        </div>
+      </div>
+      <div class="case-card">
+        <div class="case-thumb">採用コックピット</div>
+        <div class="case-info">
+          <div class="case-info-title">採用コックピット</div>
+          <div class="case-info-sub">採用・選考パイプライン管理｜人事</div>
+        </div>
+      </div>
+      <div class="case-card">
+        <div class="case-thumb">受発注ダッシュボード</div>
+        <div class="case-info">
+          <div class="case-info-title">受発注ダッシュボード</div>
+          <div class="case-info-sub">営業パイプライン管理｜営業事務</div>
+        </div>
+      </div>
+      <div class="case-card">
+        <div class="case-thumb">Restaurant Ops</div>
+        <div class="case-info">
+          <div class="case-info-title">Restaurant Ops</div>
+          <div class="case-info-sub">オペレーション・ダッシュボード｜飲食</div>
+        </div>
+      </div>
+      <div class="case-card">
+        <div class="case-thumb">人事評価<br>サポートAI</div>
+        <div class="case-info">
+          <div class="case-info-title">人事評価サポートAI</div>
+          <div class="case-info-sub">評価コメント支援｜人事・採用</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Block 2 -->
+<section class="cta-block">
+  <h2 class="cta-block-title">自社にも、似た事例で導入できるか聞いてみる。</h2>
+  <p class="cta-block-desc">業界・業務内容に応じて、最適なアプローチをご提案します。</p>
+  <a href="#contact" class="btn btn-red btn-xl">無料相談を予約する（30分）</a>
+  <p class="cta-block-note">無料・30分・営業電話なし</p>
+</section>
+
+<!-- 06 Pricing -->
+<section class="pricing">
+  <div class="container">
+    <h2 class="section-title">料金・期間の<span class="red">目安</span></h2>
+    <div class="pricing-table">
+      <div class="pricing-row header">
+        <div>プラン</div>
+        <div>期間</div>
+        <div>費用目安</div>
+      </div>
+      <div class="pricing-row">
+        <div class="pricing-plan">PoC（概念実証）</div>
+        <div class="pricing-period">3ヶ月〜</div>
+        <div class="pricing-price">数百万円〜</div>
+      </div>
+      <div class="pricing-row">
+        <div class="pricing-plan">本実装</div>
+        <div class="pricing-period">6ヶ月〜</div>
+        <div class="pricing-price">1,000万円〜</div>
+      </div>
+      <div class="pricing-row">
+        <div class="pricing-plan">顧問契約</div>
+        <div class="pricing-period">月額</div>
+        <div class="pricing-price">要相談</div>
+      </div>
+    </div>
+    <p class="pricing-note">具体的な金額はプロジェクト規模により変動します。<br>詳細は無料相談でお見積もりをお伝えします。</p>
+  </div>
+</section>
+
+<!-- 07 FAQ -->
+<section class="faq">
+  <div class="container">
+    <h2 class="section-title">よくある<span class="red">質問</span></h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q">
+          <div class="faq-q-text">小さく始めることはできますか？</div>
+          <div class="faq-toggle">+</div>
+        </div>
+        <div class="faq-a">
+          <div class="faq-a-text">はい。PoC・小規模実装からのスタートが多く、3ヶ月単位での区切りで段階的に進められます。</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">
+          <div class="faq-q-text">専任のIT担当がいないのですが、進められますか？</div>
+          <div class="faq-toggle">+</div>
+        </div>
+        <div class="faq-a">
+          <div class="faq-a-text">問題ありません。経営者や兼任担当者の方を窓口に、現場ヒアリングから巻き取って進めます。</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">
+          <div class="faq-q-text">大手SIerと比べて、何が違いますか？</div>
+          <div class="faq-toggle">+</div>
+        </div>
+        <div class="faq-a">
+          <div class="faq-a-text">少数精鋭で意思決定が早く、要件の変化にも柔軟に対応します。中堅企業の実情に合った提案が可能です。</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">
+          <div class="faq-q-text">AIに詳しくない経営者でも、相談できますか？</div>
+          <div class="faq-toggle">+</div>
+        </div>
+        <div class="faq-a">
+          <div class="faq-a-text">大丈夫です。技術より「何を解決したいか」を一緒に整理することから始めます。</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">
+          <div class="faq-q-text">まず相談だけでも可能ですか？</div>
+          <div class="faq-toggle">+</div>
+        </div>
+        <div class="faq-a">
+          <div class="faq-a-text">はい。30分の無料相談から始められます。営業電話やしつこい連絡はしません。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 Company -->
+<div class="company">
+  AXEON株式会社｜代表：秋吉 莉乃｜設立：2026年6月｜<a href="https://axeon.jp" style="color: var(--navy); text-decoration: underline;">https://axeon.jp</a>
+</div>
+
+<!-- 09 Final CTA -->
+<section class="final" id="contact">
+  <div class="final-inner">
+    <h2 class="final-title">「やってみたい」を、<br>形にしませんか。</h2>
+    <p class="final-desc">PoC止まりで終わらせない、<br>戦略から実装まで伴走するチームです。<br>まずは30分、お話を聞かせてください。</p>
+    <a href="#" class="btn btn-red btn-xl">無料相談を予約する（30分）</a>
+    <p class="btn-note" style="margin-top: 16px; color: rgba(255,255,255,0.7);">無料・30分・営業電話なし</p>
+  </div>
+</section>
+
+<footer class="footer">
+  © 2026 AXEON Inc. ALL RIGHTS RESERVED.
+</footer>
+
+<!-- Sticky bottom CTA (mobile only) -->
+<div class="sticky-cta">
+  <a href="#contact" class="btn btn-red">無料相談を予約する（30分・無料）</a>
+</div>
+
+<script>
+  // FAQ accordion
+  document.querySelectorAll('.faq-q').forEach(q => {
+    q.addEventListener('click', () => {
+      const item = q.parentElement;
+      item.classList.toggle('open');
+    });
+  });
+</script>
+
+</body>
+</html>

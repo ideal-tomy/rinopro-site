@@ -325,6 +325,7 @@ export function ContactForm() {
           onChange={(e) => setMessage(e.target.value)}
           placeholder={form.messagePlaceholder}
           rows={8}
+          maxLength={6000}
           className={cn(
             "min-h-[180px] resize-y text-[16px] md:text-sm",
             errors.message && "border-red-500"
