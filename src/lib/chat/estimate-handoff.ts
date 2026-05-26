@@ -295,6 +295,10 @@ export const CONTACT_PREFILL_QUERY = "prefill";
 export const CONTACT_PREFILL_SESSION_MARKER = "session";
 export const CONTACT_PREFILL_STORAGE_KEY = "AXEON_contact_prefill_v1";
 
+/** 詳細見積もりから問い合わせへ遷移した意図（復旧・失敗判定用） */
+export const CONTACT_FROM_ESTIMATE_QUERY = "from";
+export const CONTACT_FROM_ESTIMATE_VALUE = "estimate";
+
 /**
  * `/contact?prefill=...` へ遷移する href を組み立てる。
  * 長い場合は `?prefill=session` + sessionStorage（`storeContactPrefillInSession`）を使う。
@@ -324,16 +328,26 @@ export function storeContactPrefillInSession(text: string): void {
   }
 }
 
-export function consumeContactPrefillFromSession(): string | null {
+export function peekContactPrefillFromSession(): string | null {
   if (typeof window === "undefined") return null;
   try {
     const raw = window.sessionStorage.getItem(CONTACT_PREFILL_STORAGE_KEY);
-    if (!raw) return null;
-    window.sessionStorage.removeItem(CONTACT_PREFILL_STORAGE_KEY);
-    return raw;
+    return raw?.trim() ? raw : null;
   } catch {
     return null;
   }
+}
+
+/** @deprecated 送信成功まで保持するため peek + clearContactHandoffFromSession を推奨 */
+export function consumeContactPrefillFromSession(): string | null {
+  const value = peekContactPrefillFromSession();
+  if (value == null) return null;
+  try {
+    window.sessionStorage.removeItem(CONTACT_PREFILL_STORAGE_KEY);
+  } catch {
+    // ignore
+  }
+  return value;
 }
 
 /**
@@ -358,20 +372,78 @@ export function storeContactEstimateSnapshotInSession(
   }
 }
 
-export function consumeContactEstimateSnapshotFromSession(): EstimateSnapshot | null {
+export function peekContactEstimateSnapshotFromSession(): EstimateSnapshot | null {
   if (typeof window === "undefined") return null;
   try {
     const raw = window.sessionStorage.getItem(
       CONTACT_ESTIMATE_SNAPSHOT_STORAGE_KEY
     );
     if (!raw) return null;
-    window.sessionStorage.removeItem(CONTACT_ESTIMATE_SNAPSHOT_STORAGE_KEY);
     const parsed = JSON.parse(raw) as unknown;
     const checked = estimateSnapshotSchema.safeParse(parsed);
     if (!checked.success) return null;
     return checked.data;
   } catch {
     return null;
+  }
+}
+
+/** @deprecated 送信成功まで保持するため peek + clearContactHandoffFromSession を推奨 */
+export function consumeContactEstimateSnapshotFromSession(): EstimateSnapshot | null {
+  const value = peekContactEstimateSnapshotFromSession();
+  if (value == null) return null;
+  try {
+    window.sessionStorage.removeItem(CONTACT_ESTIMATE_SNAPSHOT_STORAGE_KEY);
+  } catch {
+    // ignore
+  }
+  return value;
+}
+
+/** 見積→問い合わせ用: 本文 prefill と snapshot をまとめて保存 */
+export function storeContactHandoffBundle(args: {
+  text: string;
+  snapshot: EstimateSnapshot;
+}): void {
+  const trimmed = args.text.trim();
+  if (trimmed) {
+    storeContactPrefillInSession(trimmed);
+  }
+  storeContactEstimateSnapshotInSession(args.snapshot);
+}
+
+/**
+ * 詳細見積もりから問い合わせへ遷移する URL（`from=estimate` 付き）。
+ * 長文は sessionStorage に退避する。
+ */
+export function buildContactUrlFromEstimate(
+  text: string,
+  maxHrefLength = 1800
+): { href: string; storeInSession: boolean } {
+  const trimmed = text.trim();
+  if (!trimmed) {
+    return {
+      href: `/contact?${CONTACT_FROM_ESTIMATE_QUERY}=${CONTACT_FROM_ESTIMATE_VALUE}`,
+      storeInSession: false,
+    };
+  }
+  const nav = buildContactPrefillNavigation(trimmed, maxHrefLength);
+  const sep = nav.href.includes("?") ? "&" : "?";
+  return {
+    ...nav,
+    href: `${nav.href}${sep}${CONTACT_FROM_ESTIMATE_QUERY}=${CONTACT_FROM_ESTIMATE_VALUE}`,
+  };
+}
+
+/** 問い合わせ送信成功後に handoff 用 sessionStorage をまとめて削除 */
+export function clearContactHandoffFromSession(): void {
+  if (typeof window === "undefined") return;
+  try {
+    window.sessionStorage.removeItem(CONTACT_PREFILL_STORAGE_KEY);
+    window.sessionStorage.removeItem(CONTACT_ESTIMATE_SNAPSHOT_STORAGE_KEY);
+    window.sessionStorage.removeItem(CONTACT_HANDOFF_STORAGE_KEY);
+  } catch {
+    // ignore
   }
 }
 
@@ -384,38 +456,55 @@ export function storeHandoffPayloadInSession(payload: ChatHandoffPayload): void 
   }
 }
 
-export function consumeHandoffPayloadFromSession(): ChatHandoffPayload | null {
+export function peekHandoffPayloadFromSession(): ChatHandoffPayload | null {
   if (typeof window === "undefined") return null;
   try {
     const raw = window.sessionStorage.getItem(CONTACT_HANDOFF_STORAGE_KEY);
     if (!raw) return null;
-    window.sessionStorage.removeItem(CONTACT_HANDOFF_STORAGE_KEY);
     const parsed = JSON.parse(raw) as ChatHandoffPayload;
-    if (parsed.v === HANDOFF_V2 && parsed.source === "estimate_detailed") {
-      if ("snapshot" in parsed && parsed.snapshot) {
-        const checked = estimateSnapshotSchema.safeParse(parsed.snapshot);
-        if (checked.success) {
-          return { v: HANDOFF_V2, source: "estimate_detailed", snapshot: checked.data };
-        }
-        return null;
-      }
-      const rec = parsed as unknown as Record<string, unknown>;
-      if (isV2Legacy(rec)) {
-        return {
-          v: HANDOFF_V2,
-          source: "estimate_detailed",
-          requirementDoc: rec.requirementDoc,
-          estimateLoMan: rec.estimateLoMan,
-          estimateHiMan: rec.estimateHiMan,
-          answersSummary: rec.answersSummary,
-        };
-      }
-    }
-    if (parsed.v === HANDOFF_V1) return parsed;
-    return null;
+    return normalizeHandoffPayloadFromSession(parsed);
   } catch {
     return null;
   }
+}
+
+function normalizeHandoffPayloadFromSession(
+  parsed: ChatHandoffPayload
+): ChatHandoffPayload | null {
+  if (parsed.v === HANDOFF_V2 && parsed.source === "estimate_detailed") {
+    if ("snapshot" in parsed && parsed.snapshot) {
+      const checked = estimateSnapshotSchema.safeParse(parsed.snapshot);
+      if (checked.success) {
+        return { v: HANDOFF_V2, source: "estimate_detailed", snapshot: checked.data };
+      }
+      return null;
+    }
+    const rec = parsed as unknown as Record<string, unknown>;
+    if (isV2Legacy(rec)) {
+      return {
+        v: HANDOFF_V2,
+        source: "estimate_detailed",
+        requirementDoc: rec.requirementDoc,
+        estimateLoMan: rec.estimateLoMan,
+        estimateHiMan: rec.estimateHiMan,
+        answersSummary: rec.answersSummary,
+      };
+    }
+  }
+  if (parsed.v === HANDOFF_V1) return parsed;
+  return null;
+}
+
+/** @deprecated 送信成功まで保持するため peek + clearContactHandoffFromSession を推奨 */
+export function consumeHandoffPayloadFromSession(): ChatHandoffPayload | null {
+  const value = peekHandoffPayloadFromSession();
+  if (value == null) return null;
+  try {
+    window.sessionStorage.removeItem(CONTACT_HANDOFF_STORAGE_KEY);
+  } catch {
+    // ignore
+  }
+  return value;
 }
 
 export function buildEstimateDetailedEntryUrl(

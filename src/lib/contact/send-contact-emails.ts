@@ -9,6 +9,12 @@ export type SendContactEmailsResult =
   | { ok: true; mode: "sent" | "dev_logged" }
   | { ok: false; code: "mail_not_configured" | "send_failed"; message: string };
 
+function previewAttachmentLog(content: string, max = 200): string {
+  const oneLine = content.replace(/\s+/g, " ").trim();
+  if (oneLine.length <= max) return oneLine;
+  return `${oneLine.slice(0, max)}…`;
+}
+
 export async function sendContactEmails(
   ctx: ContactMailContext
 ): Promise<SendContactEmailsResult> {
@@ -35,6 +41,15 @@ export async function sendContactEmails(
       "\n",
       adminMail.textBody
     );
+    if (adminMail.attachments.length > 0) {
+      console.info("[Contact] admin attachments:");
+      for (const att of adminMail.attachments) {
+        console.info(
+          `  - ${att.filename} (${att.content.length} chars) preview:`,
+          previewAttachmentLog(att.content)
+        );
+      }
+    }
     console.info(
       "[Contact] customer mail draft\n--- subject:",
       customerMail.subject,
@@ -55,6 +70,14 @@ export async function sendContactEmails(
 
   const resend = new Resend(apiKey);
 
+  const adminAttachments =
+    adminMail.attachments.length > 0
+      ? adminMail.attachments.map((att) => ({
+          filename: att.filename,
+          content: Buffer.from(att.content, "utf-8"),
+        }))
+      : undefined;
+
   try {
     const [adminResult, customerResult] = await Promise.all([
       resend.emails.send({
@@ -63,6 +86,7 @@ export async function sendContactEmails(
         replyTo: ctx.email,
         subject: adminMail.subject,
         text: adminMail.textBody,
+        attachments: adminAttachments,
       }),
       resend.emails.send({
         from,

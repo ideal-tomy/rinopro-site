@@ -1,5 +1,4 @@
 import type { EstimateSnapshot } from "@/lib/estimate/estimate-snapshot";
-import { buildAnswersSummaryLines } from "@/lib/estimate/estimate-snapshot";
 import type { VisitorJourneySummary } from "@/lib/journey/visitor-journey";
 import {
   inquiryDesiredReplyLabel,
@@ -11,16 +10,30 @@ import {
 } from "@/lib/inquiry/inquiry-brief";
 import { ESTIMATE_PHILOSOPHY_UI_PARAGRAPH } from "@/lib/estimate/estimate-output-philosophy";
 import { isContactSyntheticEstimateSnapshot } from "@/lib/contact/build-contact-synthetic-snapshot";
+import {
+  buildAdminContactSubject,
+  buildAdminTriageSummary,
+} from "@/lib/contact/build-admin-triage-summary";
+import {
+  buildAdminContactAttachments,
+  formatAttachmentListForBody,
+  type ContactMailAttachment,
+} from "@/lib/contact/build-contact-mail-attachments";
+import {
+  adminUserAddedDisplay,
+  customerMessageDisplay,
+  splitContactMessage,
+} from "@/lib/contact/split-contact-message";
 
-/** 問い合わせメール用コンテキスト。シンプル版は name / email / message が主。旧項目は任意で併記。 */
+export type { ContactMailAttachment };
+
+/** 問い合わせメール用コンテキスト。シンプル版は name / email / message が主。 */
 export interface ContactMailContext {
   name: string;
   email: string;
   company?: string;
   triedExperience?: string;
-  /** シンプル版の主本文（旧 problemStatement を流し込んでも可） */
   message: string;
-  /** 旧フォーム・詳細見積経由で来た場合のみ併記 */
   inquiryIntent?: InquiryIntent;
   desiredReply?: InquiryDesiredReply;
   targetSummary?: string;
@@ -32,35 +45,6 @@ export interface ContactMailContext {
   estimateSnapshot?: EstimateSnapshot | null;
 }
 
-function estimateBlock(snapshot: EstimateSnapshot): string {
-  const { ai } = snapshot;
-  const synthetic = isContactSyntheticEstimateSnapshot(snapshot);
-  const range = synthetic
-    ? "（問い合わせページのヒアリングのみ。金額レンジは未算出）"
-    : `約${ai.estimateLoMan}万円〜${ai.estimateHiMan}万円程度（目安）`;
-  const answers = buildAnswersSummaryLines(snapshot.answers);
-  return [
-    synthetic ? "■ 問い合わせヒアリング（同封データ）" : "■ 見積もりメモ（自動・目安）",
-    `タイトル: ${ai.requirementTitle}`,
-    `金額の目安: ${range}`,
-    "",
-    "【概略】",
-    ai.plainCustomerSummary,
-    "",
-    "【ヒアリング回答の要約】",
-    answers || "（なし）",
-    "",
-    "【詳しく確認が必要なこと】",
-    ai.followUpItems.length
-      ? ai.followUpItems.map((x) => `・${x.title}\n  ${x.description}`).join("\n\n")
-      : "（なし）",
-    "",
-    "【内容の整理（Markdown）】",
-    snapshot.requirementDocMarkdown,
-  ].join("\n");
-}
-
-/** 旧フォーム由来の追加フィールド（来ていればのみ） */
 function optionalLegacyFormFieldsBlock(ctx: ContactMailContext): string | null {
   const lines: string[] = [];
   if (ctx.inquiryIntent) {
@@ -113,66 +97,76 @@ function inquiryBriefBlock(brief: InquiryBrief): string {
   ].join("\n");
 }
 
-function visitorJourneyBlock(summary: VisitorJourneySummary): string {
+function compactVisitorJourneyBlock(summary: VisitorJourneySummary): string {
   return [
-    "■ サイト内ジャーニー要約",
     `要約: ${summary.journeySummary}`,
-    `関心傾向: ${summary.interestBias}`,
-    `到達状況: ${summary.journeyDepth}`,
+    `関心: ${summary.interestBias} / 到達: ${summary.journeyDepth}`,
     summary.latestEntryIntent ? `直近意図: ${summary.latestEntryIntent}` : null,
-    summary.viewedDemoSlugs.length > 0
-      ? `見た demo: ${summary.viewedDemoSlugs.join(", ")}`
-      : null,
-    summary.lastFreeformSummary
-      ? `自由記述メモ: ${summary.lastFreeformSummary}`
+    summary.industryBundle?.domainId
+      ? `業種コンテキスト: ${summary.industryBundle.domainId}`
       : null,
   ]
     .filter(Boolean)
     .join("\n");
 }
 
-/** 管理者・社内向け：先頭に判断しやすい要約 */
+function followUpTitlesBlock(snapshot: EstimateSnapshot): string | null {
+  if (snapshot.ai.followUpItems.length === 0) return null;
+  const lines = snapshot.ai.followUpItems
+    .slice(0, 5)
+    .map((item) => `・${item.title}`);
+  return ["▼ 初回返信メモ（タイトルのみ）", ...lines].join("\n");
+}
+
+/** 管理者・社内向け：サマリ + コンパクト本文 + 添付メタ */
 export function buildAdminContactEmail(ctx: ContactMailContext): {
   subject: string;
   textBody: string;
+  attachments: ContactMailAttachment[];
 } {
-  const hasEstimate = Boolean(ctx.estimateSnapshot);
+  const split = splitContactMessage(ctx.message);
+  const attachments = buildAdminContactAttachments(ctx.estimateSnapshot);
   const snap = ctx.estimateSnapshot;
-  const rangeLine =
-    snap != null && !isContactSyntheticEstimateSnapshot(snap)
-      ? `金額の目安: 約${snap.ai.estimateLoMan}万円〜${snap.ai.estimateHiMan}万円（税別・目安）`
-      : null;
+  const hasRealEstimate =
+    snap != null && !isContactSyntheticEstimateSnapshot(snap);
 
-  const headline = [
-    `お名前: ${ctx.name}`,
-    ctx.company?.trim() ? `会社名: ${ctx.company.trim()}` : null,
-    `メール: ${ctx.email}`,
-    ctx.triedExperience ? `最も近かった体験・デモ: ${ctx.triedExperience}` : null,
-    rangeLine,
-  ]
-    .filter(Boolean)
-    .join("\n");
+  const sections: string[] = [];
 
-  const subject =
-    hasEstimate || ctx.inquiryBrief
-      ? `[AXEON][整理済み相談] ${ctx.name} 様よりお問い合わせ`
-      : `[AXEON] ${ctx.name} 様よりお問い合わせ`;
+  const triage = buildAdminTriageSummary(ctx);
+  if (triage) {
+    sections.push("▼ 案件サマリ（30秒）", triage, "");
+  } else {
+    const contactLines = [
+      "▼ 連絡先",
+      `お名前: ${ctx.name}`,
+      ctx.company?.trim() ? `会社名: ${ctx.company.trim()}` : "",
+      `メール: ${ctx.email}`,
+      ctx.triedExperience ? `体験・デモ: ${ctx.triedExperience}` : "",
+      "",
+    ].filter((line, i, arr) => line !== "" || i === arr.length - 1);
+    sections.push(...contactLines);
+  }
 
-  const sections: string[] = [
-    "▼ ひと目用",
-    headline,
-    "",
-    "▼ ご相談内容",
-    ctx.message.trim(),
-  ];
+  sections.push(
+    "▼ お客様の追記（手入力のみ）",
+    adminUserAddedDisplay(split)
+  );
+
+  if (hasRealEstimate && snap) {
+    const followUp = followUpTitlesBlock(snap);
+    if (followUp) {
+      sections.push("", followUp);
+    }
+  }
+
+  const journey = ctx.visitorJourney ?? snap?.visitorJourney;
+  if (journey) {
+    sections.push("", "▼ サイト内ジャーニー（コンパクト）", compactVisitorJourneyBlock(journey));
+  }
 
   const legacyBlock = optionalLegacyFormFieldsBlock(ctx);
   if (legacyBlock) {
     sections.push("", legacyBlock);
-  }
-
-  if (ctx.visitorJourney) {
-    sections.push("", visitorJourneyBlock(ctx.visitorJourney));
   }
 
   if (ctx.inquiryBrief) {
@@ -183,49 +177,51 @@ export function buildAdminContactEmail(ctx: ContactMailContext): {
     sections.push("", "▼ 最後の補足", ctx.additionalNote.trim());
   }
 
-  if (hasEstimate && snap) {
-    sections.push("", estimateBlock(snap));
-  }
-
   sections.push(
     "",
-    "▼ 構造化データ（JSON・ログ用）",
-    hasEstimate && snap ? JSON.stringify(snap, null, 2) : "（見積スナップショットなし）"
+    "---",
+    "詳細な要件定義・ヒアリング回答・構造化データは添付を参照してください。",
+    formatAttachmentListForBody(attachments)
   );
 
-  return { subject, textBody: sections.join("\n") };
+  const textBody = sections.join("\n");
+
+  return {
+    subject: buildAdminContactSubject(ctx),
+    textBody,
+    attachments,
+  };
 }
 
-/** お客様向け：受付確認と安心感 */
+/** お客様向け：短い受付確認 */
 export function buildCustomerContactEmail(ctx: ContactMailContext): {
   subject: string;
   textBody: string;
 } {
-  const subject = "【AXEON】お問い合わせを受け付けました";
+  const split = splitContactMessage(ctx.message);
+  const snap = ctx.estimateSnapshot;
+  const hasRealEstimate =
+    snap != null && !isContactSyntheticEstimateSnapshot(snap);
+
   const lines: (string | null)[] = [
     `${ctx.name} 様`,
     ctx.company?.trim() ? `会社名: ${ctx.company.trim()}` : null,
     "",
     "このたびはお問い合わせありがとうございます。内容を確認のうえ、2営業日以内にご返信いたします。",
     "",
-    "▼ 送信内容",
-    ctx.message.trim(),
+    "▼ お送りいただいた内容",
+    customerMessageDisplay(split),
   ];
 
   if (ctx.additionalNote?.trim()) {
     lines.push("", "▼ 補足", ctx.additionalNote.trim());
   }
 
-  if (ctx.visitorJourney) {
-    lines.push("", "▼ サイト内で引き継いだ内容", ctx.visitorJourney.journeySummary);
-  }
-
-  if (ctx.estimateSnapshot && !isContactSyntheticEstimateSnapshot(ctx.estimateSnapshot)) {
-    const { ai } = ctx.estimateSnapshot;
+  if (hasRealEstimate && snap) {
     lines.push(
       "",
       "▼ 見積もりの目安（参考）",
-      `金額の目安: 約${ai.estimateLoMan}万円〜${ai.estimateHiMan}万円程度`,
+      `約 ${snap.ai.estimateLoMan} 万円〜${snap.ai.estimateHiMan} 万円程度`,
       "※ 正式なお見積もりではありません。詳細は返信にてご案内します。",
       "",
       ESTIMATE_PHILOSOPHY_UI_PARAGRAPH
@@ -234,5 +230,8 @@ export function buildCustomerContactEmail(ctx: ContactMailContext): {
 
   lines.push("", "※ 本メールに心当たりがない場合は、お手数ですが破棄してください。");
 
-  return { subject, textBody: lines.filter((x) => x !== null).join("\n") };
+  return {
+    subject: "【AXEON】お問い合わせを受け付けました",
+    textBody: lines.filter((x) => x !== null).join("\n"),
+  };
 }

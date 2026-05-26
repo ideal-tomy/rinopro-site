@@ -1271,6 +1271,23 @@ export const contactCopy = {
     submit: "送信する",
     submitting: "送信中...",
     success: "送信しました。2営業日以内にご返信します。",
+    handoffLoading: "見積内容を読み込んでいます…",
+    handoffEstimateOkTitle: "詳細見積もりの内容を引き継いでいます",
+    handoffEstimateOkHint: "そのまま送信できます。追記・編集も可能です。",
+    handoffEstimateOkRangeSuffix: "（整理済み内容として一緒にお送りします）",
+    handoffEstimateRecoveredHint: "保存データから再読み込みしました。",
+    handoffConciergeOkTitle: "AIコンシェルジュでの相談内容を引き継いで下書きを入れています",
+    handoffConciergeOkHint: "そのまま送信できます。追記・編集も可能です。",
+    handoffFailedTitle: "見積内容を読み込めませんでした",
+    handoffFailedBody:
+      "金額の目安ページから、もう一度「この内容で問い合わせる」をお試しください。同じタブでお進みいただくと確実です。",
+    handoffFailedStorageHint:
+      "ブラウザのプライベート閲覧やストレージ制限が有効な場合、引き継ぎできないことがあります。",
+    handoffBackToAmountCta: "金額の目安ページに戻る",
+    handoffRestartEstimateCta: "見積を最初からやり直す",
+    handoffSendWithoutEstimateCta: "通常の問い合わせとして送信する",
+    handoffSubmitBlockedHint:
+      "見積内容が読み込めるまで送信できません。上のボタンから金額ページへ戻るか、通常の問い合わせとして続行してください。",
   },
   assurance: {
     title: "ご安心ください",

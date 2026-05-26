@@ -7,19 +7,9 @@ import { Button } from "@/components/ui/button";
 import { useConciergeChat } from "@/components/chat/concierge-chat-context";
 import { EstimateDetailedInquiryPreparation } from "@/components/estimate/EstimateDetailedInquiryPreparation";
 import { suppressNextChatAutoOpen } from "@/lib/chat/chat-auto-open";
-import {
-  buildContactMessageDraft,
-  buildContactPrefillNavigation,
-  buildHandoffPayloadV2FromDetailed,
-  storeContactEstimateSnapshotInSession,
-  storeContactPrefillInSession,
-} from "@/lib/chat/estimate-handoff";
+import { prepareContactNavigationFromEstimateFlow } from "@/lib/contact/navigate-to-contact-from-estimate";
 import { estimateDetailedCopy } from "@/lib/content/site-copy";
-import {
-  ESTIMATE_SNAPSHOT_SCHEMA_VERSION,
-  formatRequirementDocMarkdown,
-  type EstimateSnapshot,
-} from "@/lib/estimate/estimate-snapshot";
+import { buildEstimateSnapshotFromFlow } from "@/lib/estimate/build-estimate-snapshot-from-flow";
 import {
   readEstimateDetailedFlow,
   writeEstimateDetailedFlow,
@@ -35,21 +25,6 @@ import type { EstimateInquiryPreparation } from "@/lib/inquiry/inquiry-brief";
 import { recordVisitorEstimateAnswers } from "@/lib/journey/visitor-journey-storage";
 
 const copy = estimateDetailedCopy;
-
-function buildSnapshotFromFlow(flow: EstimateDetailedFlowState): EstimateSnapshot | null {
-  if (!flow.ai) return null;
-  return {
-    schemaVersion: ESTIMATE_SNAPSHOT_SCHEMA_VERSION,
-    source: "estimate_detailed",
-    createdAt: new Date().toISOString(),
-    priorContext: flow.priorContext || undefined,
-    answers: flow.answers,
-    ai: flow.ai,
-    visitorJourney: flow.visitorJourney ?? undefined,
-    inquiryPreparation: flow.inquiryPreparation ?? undefined,
-    requirementDocMarkdown: formatRequirementDocMarkdown(flow.ai, flow.answers),
-  };
-}
 
 export function EstimateDetailedAmountContent() {
   const router = useRouter();
@@ -78,22 +53,15 @@ export function EstimateDetailedAmountContent() {
     recordVisitorEstimateAnswers(flow.answers);
   }, [flow?.answers]);
 
-  const snapshot = flow ? buildSnapshotFromFlow(flow) : null;
+  const snapshot = flow ? buildEstimateSnapshotFromFlow(flow) : null;
   const goContact = useCallback(() => {
-    if (!snapshot) return;
-    const payload = buildHandoffPayloadV2FromDetailed(snapshot);
-    const text = buildContactMessageDraft(payload);
-    const { href, storeInSession } = buildContactPrefillNavigation(text);
-    if (storeInSession) {
-      storeContactPrefillInSession(text);
-    }
-    // 整理済み snapshot を別レーンで運ぶ。ContactForm が起動時に取り出し、
-    // 「整理済みである」ことを画面に明示しつつ、送信時に API へ同梱する。
-    storeContactEstimateSnapshotInSession(snapshot);
+    if (!flow) return;
+    const href = prepareContactNavigationFromEstimateFlow(flow);
+    if (!href) return;
     suppressNextChatAutoOpen();
     setConciergeOpen(false);
     router.push(href);
-  }, [router, setConciergeOpen, snapshot]);
+  }, [router, setConciergeOpen, flow]);
 
   const handlePreparationChange = useCallback(
     (next: EstimateInquiryPreparation) => {
