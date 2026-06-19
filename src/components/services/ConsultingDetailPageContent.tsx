@@ -5,6 +5,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ServiceCrossLinks } from "@/components/layout/CrossServiceNav";
 import { consultingDetailPageCopy } from "@/lib/content/site-copy";
+import { ServicesDetailIntroImage } from "@/components/services/ServicesDetailIntroImage";
 import {
   serviceReading,
   serviceShellInset,
@@ -183,6 +184,8 @@ export function ConsultingDetailPageContent({
           </h1>
         )}
       </motion.header>
+
+      <ServicesDetailIntroImage className="mb-10 md:mb-12" />
 
       <div
         className={cn(

@@ -15,6 +15,7 @@ import {
   serviceReading,
   serviceShellInset,
 } from "@/lib/ui/service-reading-styles";
+import { ServicesDetailIntroImage } from "@/components/services/ServicesDetailIntroImage";
 import { cn } from "@/lib/utils";
 
 const EASE_MIST = [0.22, 1, 0.36, 1] as const;
@@ -214,6 +215,8 @@ export function FlowTimelinePageContent({
           </div>
         </div>
       </nav>
+
+      <ServicesDetailIntroImage className="mb-8 md:mb-10" />
 
       <motion.div
         id={flowPanelId}

@@ -9,13 +9,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { useContactForm } from "@/hooks/use-contact-form";
 import { useContactHandoff } from "@/hooks/use-contact-handoff";
 import { contactCopy } from "@/lib/content/site-copy";
+import { getImplementationShowcaseContactFormOptions } from "@/lib/content/implementation-showcase";
 import { cn } from "@/lib/utils";
 import type { EstimateSnapshot } from "@/lib/estimate/estimate-snapshot";
-import {
-  DEMO_HUB_TYPE_SECTION_SLUGS,
-  FEATURED_EXPERIENCE_SLUGS,
-  getExperiencePrototypeBySlug,
-} from "@/lib/experience/prototype-registry";
 import { getHomeAcquisitionPatternById } from "@/lib/content/home-acquisition";
 import { getIndustryShowcaseBySlug } from "@/lib/content/industry-showcase";
 
@@ -28,21 +24,8 @@ const OTHER_EXPERIENCE_VALUE = "__other";
 const NONE_EXPERIENCE_VALUE = "__none";
 
 function buildExperienceOptions(): ExperienceOption[] {
-  const seen = new Set<string>();
-  const orderedSlugs = [
-    ...FEATURED_EXPERIENCE_SLUGS,
-    ...DEMO_HUB_TYPE_SECTION_SLUGS,
-  ];
-
-  const base = orderedSlugs.flatMap((slug) => {
-    const meta = getExperiencePrototypeBySlug(slug);
-    if (!meta || seen.has(meta.title)) return [];
-    seen.add(meta.title);
-    return [{ value: meta.title, label: meta.title }];
-  });
-
   return [
-    ...base,
+    ...getImplementationShowcaseContactFormOptions(),
     { value: OTHER_EXPERIENCE_VALUE, label: "その他" },
     { value: NONE_EXPERIENCE_VALUE, label: "特に体験していない" },
   ];

@@ -329,3 +329,14 @@ export const IMPLEMENTATION_SHOWCASE_ITEMS: readonly ImplementationShowcaseItem[
       flagship: true,
     },
   ];
+
+/** `/contact` の「最も近かった体験・デモ」選択肢（ギャラリー表示順と同期） */
+export function getImplementationShowcaseContactFormOptions(): readonly {
+  value: string;
+  label: string;
+}[] {
+  return IMPLEMENTATION_SHOWCASE_ITEMS.map((item) => ({
+    value: item.productTitle,
+    label: item.productTitle,
+  }));
+}
