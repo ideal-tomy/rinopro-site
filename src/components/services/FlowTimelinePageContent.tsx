@@ -216,7 +216,7 @@ export function FlowTimelinePageContent({
         </div>
       </nav>
 
-      <ServicesDetailIntroImage className="mb-8 md:mb-10" />
+      <ServicesDetailIntroImage highlight="development" className="mb-8 md:mb-10" />
 
       <motion.div
         id={flowPanelId}

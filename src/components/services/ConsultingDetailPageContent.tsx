@@ -185,7 +185,7 @@ export function ConsultingDetailPageContent({
         )}
       </motion.header>
 
-      <ServicesDetailIntroImage className="mb-10 md:mb-12" />
+      <ServicesDetailIntroImage highlight="consulting" className="mb-10 md:mb-12" />
 
       <div
         className={cn(
