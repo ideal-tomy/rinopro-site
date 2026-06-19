@@ -81,9 +81,6 @@ export function resolveImplementationDemoHref(
   if (item.slug === "restaurant-ops-dashboard-demo") {
     return "/experience/restaurant-ops-dashboard-demo?mode=live";
   }
-  if (item.slug === "kaigo-care-dx") {
-    return "/lp/kaigo-care-dx";
-  }
   if (item.externalUrl) return item.externalUrl;
   if (item.externalEnvKey) return pickExternalUrl(item.externalEnvKey, item.slug);
   if (item.internalPath) return item.internalPath;
@@ -270,8 +267,10 @@ export const IMPLEMENTATION_SHOWCASE_ITEMS: readonly ImplementationShowcaseItem[
       industryLabel: "医療・介護",
       thumbnailSrc: "/images/demo_images/kaigo-care-dx.png",
       thumbnailAlt: "ケア記録DX提案デモの画面イメージ",
-      internalPath: "/lp/kaigo-care-dx",
-      openInNewTab: false,
+      externalUrl:
+        "https://kaigo-operation-demo.vercel.app/experience/kaigo-care-dx",
+      openInNewTab: true,
+      liveDemo: true,
       flagship: true,
     },
     {
