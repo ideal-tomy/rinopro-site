@@ -6,7 +6,6 @@
 import {
   getFeaturedShowcaseItems,
   getGalleryShowcaseItems,
-  IMPLEMENTATION_SHOWCASE_ITEMS,
   type ImplementationShowcaseItem,
 } from "@/lib/content/implementation-showcase";
 
@@ -30,26 +29,13 @@ export function isAllowedInteractiveExperienceSlug(
 export const experienceGalleryCopy = {
   hero: {
     kicker: "EXPERIENCE",
-    title: "課題を、3分で体感",
+    title: "触って探す、AI活用のヒント",
     lead:
-      "各業界向けの実装プロダクトを、実際に触ってご確認いただけます。商談・授業・ヒアリングの場で、リアルな操作感をお見せします。",
+      "業界別の実装プロダクトとデモを一覧でご覧いただけます。気になるものを実際に触って、自社への応用イメージを膨らませてください。",
   },
-  stats: [
-    { value: String(IMPLEMENTATION_SHOWCASE_ITEMS.length), label: "DEMO PRODUCTS" },
-    { value: "8+", label: "INDUSTRIES" },
-    { value: "3分", label: "平均体験時間" },
-  ],
-  featuredSection: {
-    kicker: "FEATURED",
-    title: "注目の実装プロダクト",
-    lead:
-      "サイト内で詳しくご紹介している主力デモです。課題の整理から操作感の確認まで、短時間でご覧いただけます。",
-  },
-  gallerySection: {
-    kicker: "DEMO GALLERY",
-    title: "その他の業界別プロダクト",
-    lead:
-      "詳細ページからデモ環境へ進めます。外部サイトで開くものは、別タブで自由にお試しください。",
+  listSection: {
+    title: "デモ・実装事例一覧",
+    lead: "業種で絞り込めます。気になるカードからデモ環境へ進めます。",
   },
   ctaSection: {
     title: "うちの業界でも作れる?",

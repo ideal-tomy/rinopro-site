@@ -4,12 +4,29 @@
  * 指定済み公開URLまたは `/experience#demo-{slug}` にフォールバック。
  */
 
+/** /experience の業種フィルタ用カテゴリ（チップ表示順） */
+export const EXPERIENCE_INDUSTRY_CATEGORIES = [
+  { id: "medical", label: "医療・介護" },
+  { id: "construction", label: "建設" },
+  { id: "hr", label: "人事" },
+  { id: "food", label: "飲食・サービス" },
+  { id: "agri", label: "農業" },
+  { id: "realestate", label: "不動産" },
+  { id: "ma", label: "M&A・投資" },
+  { id: "cross", label: "横断・その他" },
+] as const;
+
+export type ExperienceIndustryCategoryId =
+  (typeof EXPERIENCE_INDUSTRY_CATEGORIES)[number]["id"];
+
 export type ImplementationShowcaseItem = {
   slug: string;
   brandName: string;
   productTitle: string;
   catchCopy: string;
   industryLabel: string;
+  /** /experience の業種フィルタ用カテゴリ */
+  industryCategory: ExperienceIndustryCategoryId;
   thumbnailSrc: string;
   thumbnailAlt: string;
   /** カード用スライド（3枚想定）。未指定時は thumbnailSrc を単一表示 */
@@ -119,6 +136,22 @@ export function getGalleryShowcaseItems(): readonly ImplementationShowcaseItem[]
   return IMPLEMENTATION_SHOWCASE_ITEMS.filter((i) => !i.featured);
 }
 
+export type ExperienceGalleryCategory = {
+  id: ExperienceIndustryCategoryId | "all";
+  label: string;
+};
+
+/** 実際にデモが存在する業種カテゴリのみを、定義順で返す（先頭に「すべて」） */
+export function getExperienceGalleryCategories(): readonly ExperienceGalleryCategory[] {
+  const present = new Set(
+    IMPLEMENTATION_SHOWCASE_ITEMS.map((i) => i.industryCategory)
+  );
+  const filtered = EXPERIENCE_INDUSTRY_CATEGORIES.filter((c) =>
+    present.has(c.id)
+  );
+  return [{ id: "all", label: "すべて" }, ...filtered];
+}
+
 const MA_SLIDES = [
   "/images/demo_images/m&a_demo01.png",
   "/images/demo_images/m&a_demo02.png",
@@ -136,6 +169,7 @@ export const IMPLEMENTATION_SHOWCASE_ITEMS: readonly ImplementationShowcaseItem[
   [
     {
       slug: "restaurant-ops-dashboard-demo",
+      industryCategory: "food",
       brandName: "Restaurant Ops",
       productTitle: "飲食店オペレーション・ダッシュボード",
       catchCopy:
@@ -151,6 +185,7 @@ export const IMPLEMENTATION_SHOWCASE_ITEMS: readonly ImplementationShowcaseItem[
     },
     {
       slug: "internal-knowledge-bot",
+      industryCategory: "cross",
       brandName: "AI Knowledge Bot",
       productTitle: "社内ナレッジ共有BOT",
       catchCopy: "業種別ナレッジに即答するAI",
@@ -165,6 +200,7 @@ export const IMPLEMENTATION_SHOWCASE_ITEMS: readonly ImplementationShowcaseItem[
     },
     {
       slug: "gempo",
+      industryCategory: "construction",
       brandName: "GEMPO",
       productTitle: "建設業向け 現場ポケット",
       catchCopy: "現場・事務所、どこからでもアクセス",
@@ -179,6 +215,7 @@ export const IMPLEMENTATION_SHOWCASE_ITEMS: readonly ImplementationShowcaseItem[
     },
     {
       slug: "ma-dd-valueup",
+      industryCategory: "ma",
       brandName: "M&A バリューアップ",
       productTitle: "DD〜バリューアップ〜EXIT 一気通貫システム",
       catchCopy:
@@ -195,6 +232,7 @@ export const IMPLEMENTATION_SHOWCASE_ITEMS: readonly ImplementationShowcaseItem[
     },
     {
       slug: "recruit-cockpit",
+      industryCategory: "hr",
       brandName: "採用コックピット",
       productTitle: "採用・選考パイプライン管理",
       catchCopy: "候補者・選考・KPIを1画面で",
@@ -209,6 +247,7 @@ export const IMPLEMENTATION_SHOWCASE_ITEMS: readonly ImplementationShowcaseItem[
     },
     {
       slug: "shift-auto",
+      industryCategory: "food",
       brandName: "SHIFT AUTO",
       productTitle: "シフト自動くん",
       catchCopy: "スタッフの希望から最適シフトを生成",
@@ -222,6 +261,7 @@ export const IMPLEMENTATION_SHOWCASE_ITEMS: readonly ImplementationShowcaseItem[
     },
     {
       slug: "smart-agri-copilot",
+      industryCategory: "agri",
       brandName: "Oriza Copilot",
       productTitle: "スマート農業コパイロット",
       catchCopy: "圃場データと作業記録を、現場で素早く整理",
@@ -236,6 +276,7 @@ export const IMPLEMENTATION_SHOWCASE_ITEMS: readonly ImplementationShowcaseItem[
     },
     {
       slug: "hr-evaluation-support",
+      industryCategory: "hr",
       brandName: "人事評価サポートAIツール",
       productTitle: "評価コメント・面談準備サポート",
       catchCopy: "評価プロセスを整理して、判断のムラを減らす",
@@ -248,6 +289,7 @@ export const IMPLEMENTATION_SHOWCASE_ITEMS: readonly ImplementationShowcaseItem[
     },
     {
       slug: "handover-ai-charting",
+      industryCategory: "medical",
       brandName: "申し送りAI",
       productTitle: "自動カルテ作成サポート",
       catchCopy: "音声メモから申し送り内容を素早く構造化",
@@ -260,6 +302,7 @@ export const IMPLEMENTATION_SHOWCASE_ITEMS: readonly ImplementationShowcaseItem[
     },
     {
       slug: "kaigo-care-dx",
+      industryCategory: "medical",
       brandName: "ケア記録DX",
       productTitle: "障害福祉・訪問看護・訪問診療 業務基盤",
       catchCopy:
@@ -267,14 +310,14 @@ export const IMPLEMENTATION_SHOWCASE_ITEMS: readonly ImplementationShowcaseItem[
       industryLabel: "医療・介護",
       thumbnailSrc: "/images/demo_images/kaigo-care-dx.png",
       thumbnailAlt: "ケア記録DX提案デモの画面イメージ",
-      externalUrl:
-        "https://kaigo-operation-demo.vercel.app/experience/kaigo-care-dx",
+      externalUrl: "https://kaigo-operation-demo.vercel.app/",
       openInNewTab: true,
       liveDemo: true,
       flagship: true,
     },
     {
       slug: "property-matching",
+      industryCategory: "realestate",
       brandName: "物件マッチング",
       productTitle: "条件整理と提案候補の可視化",
       catchCopy: "希望条件に合わせて提案候補を素早く比較",

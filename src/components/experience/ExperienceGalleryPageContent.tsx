@@ -1,22 +1,34 @@
+"use client";
+
+import { useMemo, useState } from "react";
 import { ImplementationShowcaseCard } from "@/components/home/ImplementationShowcaseCard";
 import { Button } from "@/components/ui/button";
+import { experienceGalleryCopy } from "@/lib/content/experience-gallery";
 import {
-  experienceGalleryCopy,
-  getFeaturedShowcaseItems,
-  getGalleryShowcaseItems,
-} from "@/lib/content/experience-gallery";
+  getExperienceGalleryCategories,
+  IMPLEMENTATION_SHOWCASE_ITEMS,
+  type ExperienceGalleryCategory,
+} from "@/lib/content/implementation-showcase";
+import { cn } from "@/lib/utils";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 export function ExperienceGalleryPageContent() {
-  const featuredItems = getFeaturedShowcaseItems();
-  const galleryItems = getGalleryShowcaseItems();
-  const { hero, stats, featuredSection, gallerySection, ctaSection } =
-    experienceGalleryCopy;
+  const { hero, listSection, ctaSection } = experienceGalleryCopy;
+  const categories = getExperienceGalleryCategories();
+  const [activeCategory, setActiveCategory] =
+    useState<ExperienceGalleryCategory["id"]>("all");
+
+  const visibleItems = useMemo(() => {
+    if (activeCategory === "all") return IMPLEMENTATION_SHOWCASE_ITEMS;
+    return IMPLEMENTATION_SHOWCASE_ITEMS.filter(
+      (item) => item.industryCategory === activeCategory
+    );
+  }, [activeCategory]);
 
   return (
     <div className="pb-24 pt-10 md:pb-32 md:pt-14">
-      {/* Hero */}
+      {/* Hero（短縮） */}
       <section
         className="container mx-auto max-w-6xl px-4 text-center md:px-6"
         aria-labelledby="experience-gallery-hero-heading"
@@ -30,96 +42,63 @@ export function ExperienceGalleryPageContent() {
         >
           {hero.title}
         </h1>
-        <p className="mx-auto mt-6 max-w-[44ch] whitespace-pre-line text-[16px] leading-[1.85] text-[var(--color-text-secondary)] md:mt-8 md:text-[17px]">
+        <p className="mx-auto mt-5 max-w-[48ch] text-[16px] leading-[1.85] text-[var(--color-text-secondary)] md:mt-6 md:text-[17px]">
           {hero.lead}
         </p>
       </section>
 
-      {/* Stats */}
+      {/* 一覧（業種チップ + フラットグリッド） */}
       <section
-        className="container mx-auto mt-14 max-w-6xl px-4 md:mt-20 md:px-6"
-        aria-label="体験コンテンツの概要"
+        className="container mx-auto mt-12 max-w-6xl px-4 md:mt-16 md:px-6"
+        aria-labelledby="experience-gallery-list-heading"
       >
-        <ul className="grid gap-8 sm:grid-cols-3">
-          {stats.map((s) => (
-            <li
-              key={s.label}
-              className="rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-pure)] px-6 py-8 text-center shadow-[0_1px_2px_rgb(0_0_0_/_0.04)]"
-            >
-              <p className="font-mono text-[clamp(2rem,5vw,3rem)] font-bold tabular-nums text-[var(--color-accent-primary)]">
-                {s.value}
-              </p>
-              <p className="mt-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--color-text-secondary)] md:text-[12px]">
-                {s.label}
-              </p>
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      {/* FEATURED */}
-      <section
-        id="featured-demos"
-        className="container mx-auto mt-20 max-w-6xl px-4 md:mt-28 md:px-6"
-        aria-labelledby="experience-featured-heading"
-      >
-        <p className="text-center text-[13px] font-semibold uppercase tracking-[0.15em] text-[var(--color-accent-primary)] md:text-sm">
-          {featuredSection.kicker}
-        </p>
         <h2
-          id="experience-featured-heading"
-          className="mt-3 text-center text-balance text-[clamp(1.5rem,3.5vw,2.25rem)] font-bold text-[var(--color-text-primary)]"
+          id="experience-gallery-list-heading"
+          className="text-balance text-[clamp(1.35rem,3vw,1.875rem)] font-bold text-[var(--color-text-primary)]"
         >
-          {featuredSection.title}
+          {listSection.title}
         </h2>
-        <p className="mx-auto mt-4 max-w-[44ch] text-center text-[16px] leading-[1.85] text-[var(--color-text-secondary)] md:mt-6 md:text-[17px]">
-          {featuredSection.lead}
+        <p className="mt-3 text-[15px] leading-[1.8] text-[var(--color-text-secondary)] md:text-[16px]">
+          {listSection.lead}
         </p>
 
-        <ul className="mt-10 grid list-none gap-8 lg:grid-cols-2 lg:gap-10">
-          {featuredItems.map((item) => (
+        {/* 業種フィルタチップ */}
+        <div
+          className="mt-6 flex flex-wrap gap-2.5 md:mt-8"
+          role="group"
+          aria-label="業種で絞り込み"
+        >
+          {categories.map((category) => {
+            const isActive = category.id === activeCategory;
+            return (
+              <button
+                key={category.id}
+                type="button"
+                aria-pressed={isActive}
+                onClick={() => setActiveCategory(category.id)}
+                className={cn(
+                  "min-h-9 rounded-full border px-4 py-1.5 text-[14px] font-medium transition-colors",
+                  "motion-safe:transition-[background-color,border-color,color]",
+                  isActive
+                    ? "border-[var(--color-accent-primary)] bg-[var(--color-accent-primary)] text-[var(--color-bg-pure)]"
+                    : "border-[var(--color-border-light)] bg-[var(--color-bg-pure)] text-[var(--color-text-secondary)] hover:border-[var(--color-accent-primary)]/40 hover:text-[var(--color-text-primary)]"
+                )}
+              >
+                {category.label}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* カードグリッド */}
+        <ul className="mt-10 grid list-none gap-8 sm:grid-cols-2 lg:grid-cols-3 lg:gap-10">
+          {visibleItems.map((item) => (
             <li key={item.slug} id={`demo-${item.slug}`} className="scroll-mt-28">
               <ImplementationShowcaseCard item={item} />
             </li>
           ))}
         </ul>
       </section>
-
-      {/* DEMO GALLERY */}
-      {galleryItems.length > 0 ? (
-        <section
-          id="demo-gallery"
-          className="mt-20 bg-[var(--color-bg-neutral)] py-16 md:mt-28 md:py-24"
-          aria-labelledby="experience-gallery-heading"
-        >
-          <div className="container mx-auto max-w-6xl px-4 md:px-6">
-            <p className="text-center text-[13px] font-semibold uppercase tracking-[0.15em] text-[var(--color-accent-primary)] md:text-sm">
-              {gallerySection.kicker}
-            </p>
-            <h2
-              id="experience-gallery-heading"
-              className="mt-3 text-center text-balance text-[clamp(1.5rem,3.5vw,2.25rem)] font-bold text-[var(--color-text-primary)]"
-            >
-              {gallerySection.title}
-            </h2>
-            <p className="mx-auto mt-4 max-w-[44ch] text-center text-[16px] leading-[1.85] text-[var(--color-text-secondary)] md:mt-6 md:text-[17px]">
-              {gallerySection.lead}
-            </p>
-
-            <ul className="mt-12 grid list-none gap-8 md:grid-cols-2 lg:grid-cols-3 lg:gap-10">
-              {galleryItems.map((item) => (
-                <li
-                  key={item.slug}
-                  id={`demo-${item.slug}`}
-                  className="scroll-mt-28"
-                >
-                  <ImplementationShowcaseCard item={item} />
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
-      ) : null}
 
       {/* CTA */}
       <section
