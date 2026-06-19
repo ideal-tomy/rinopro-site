@@ -19,6 +19,24 @@ function contactHref(query?: string): string {
   return `/contact?${query}`;
 }
 
+function EmphasisText({ text }: { text: string }) {
+  const segments = text.split(/(\*\*[^*]+\*\*)/g);
+  return (
+    <>
+      {segments.map((seg, i) => {
+        if (seg.startsWith("**") && seg.endsWith("**")) {
+          return (
+            <strong key={i} className="font-semibold text-[var(--color-text-primary)]">
+              {seg.slice(2, -2)}
+            </strong>
+          );
+        }
+        return <span key={i}>{seg}</span>;
+      })}
+    </>
+  );
+}
+
 export function ServiceOfferingDetailView({ offering }: ServiceOfferingDetailViewProps) {
   const { hero, why, issues, journey, pitfalls, outcomes, relatedLinks } = offering;
 
@@ -64,7 +82,9 @@ export function ServiceOfferingDetailView({ offering }: ServiceOfferingDetailVie
           </h2>
           <div className="mx-auto mt-8 max-w-3xl space-y-5 text-[16px] leading-[1.85] text-[var(--color-text-secondary)] md:mt-10 md:text-[17px]">
             {why.paragraphs.map((p, i) => (
-              <p key={i}>{p}</p>
+              <p key={i}>
+                <EmphasisText text={p} />
+              </p>
             ))}
           </div>
           {why.callouts?.length ? (
@@ -172,7 +192,7 @@ export function ServiceOfferingDetailView({ offering }: ServiceOfferingDetailVie
             {pitfalls.heading}
           </h2>
           <div className="mt-10 grid gap-8 md:mt-12 md:grid-cols-2 md:gap-10">
-            <div className="rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-neutral)] p-6 md:p-8">
+            <div className="rounded-2xl border border-[var(--color-border-light)] border-l-4 border-l-orange-400/60 bg-[var(--color-bg-neutral)] p-6 md:p-8">
               <h3 className="text-[17px] font-semibold text-[var(--color-text-primary)] md:text-lg">{pitfalls.stumblingTitle}</h3>
               <ul className="mt-5 list-disc space-y-3 pl-5 text-[15px] leading-[1.85] text-[var(--color-text-secondary)] marker:text-[var(--color-accent-primary)] md:text-[16px]">
                 {pitfalls.stumblingItems.map((line) => (
@@ -180,7 +200,7 @@ export function ServiceOfferingDetailView({ offering }: ServiceOfferingDetailVie
                 ))}
               </ul>
             </div>
-            <div className="rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-pure)] p-6 shadow-[0_1px_2px_rgb(0_0_0_/_0.04)] md:p-8">
+            <div className="rounded-2xl border border-[var(--color-border-light)] border-l-4 border-l-accent/60 bg-[var(--color-bg-pure)] p-6 shadow-[0_1px_2px_rgb(0_0_0_/_0.04)] md:p-8">
               <h3 className="text-[17px] font-semibold text-[var(--color-text-primary)] md:text-lg">{pitfalls.supportTitle}</h3>
               <ul className="mt-5 list-disc space-y-3 pl-5 text-[15px] leading-[1.85] text-[var(--color-text-secondary)] marker:text-[var(--color-accent-primary)] md:text-[16px]">
                 {pitfalls.supportItems.map((line) => (
@@ -214,7 +234,10 @@ export function ServiceOfferingDetailView({ offering }: ServiceOfferingDetailVie
               </li>
             ))}
           </ul>
-          <p className="mx-auto mt-8 max-w-3xl text-[16px] leading-[1.9] text-[var(--color-text-secondary)] md:mt-10 md:text-[17px]">
+          <p className="mx-auto mt-8 max-w-3xl text-[12px] font-semibold tracking-[0.12em] text-[var(--color-accent-primary)] md:mt-10 md:text-[13px]">
+            将来像
+          </p>
+          <p className="mx-auto mt-3 max-w-3xl text-[16px] leading-[1.9] text-[var(--color-text-secondary)] md:mt-4 md:text-[17px]">
             {outcomes.futureParagraph}
           </p>
         </section>

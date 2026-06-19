@@ -20,6 +20,10 @@ const nextConfig: NextConfig = {
         source: "/lp/chuken-enterprise-v2",
         destination: "/lp/chuken-enterprise-v2.html",
       },
+      {
+        source: "/lp/kaigo-care-dx",
+        destination: "/lp/kaigo-care-dx.html",
+      },
     ];
   },
   async redirects() {
@@ -36,6 +40,11 @@ const nextConfig: NextConfig = {
       {
         source: "/lp/chuken-enterprise-v2.html",
         destination: "/lp/chuken-enterprise-v2",
+        permanent: false,
+      },
+      {
+        source: "/lp/kaigo-care-dx.html",
+        destination: "/lp/kaigo-care-dx",
         permanent: false,
       },
     ];

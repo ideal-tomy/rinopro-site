@@ -1,41 +1,65 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, ExternalLink } from "lucide-react";
+import { ExternalLink } from "lucide-react";
+import { ShowcaseThumbnailSlides } from "@/components/home/ShowcaseThumbnailSlides";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import type { ImplementationShowcaseItem } from "@/lib/content/implementation-showcase";
+import {
+  resolveImplementationDemoHref,
+  resolveImplementationDetailHref,
+} from "@/lib/content/implementation-showcase";
 
 export type ImplementationShowcaseCardProps = {
   item: ImplementationShowcaseItem;
-  href: string;
   priorityImage?: boolean;
-  /** カードフッターのリンク文言（LP は詳細ページ誘導が主） */
-  ctaLabel?: string;
 };
+
+function isVideoPath(path: string): boolean {
+  const normalized = path.toLowerCase();
+  return (
+    normalized.endsWith(".mp4") ||
+    normalized.endsWith(".webm") ||
+    normalized.endsWith(".ogg")
+  );
+}
 
 function isAbsoluteHttpUrl(url: string): boolean {
   return url.startsWith("http://") || url.startsWith("https://");
 }
 
-function isVideoPath(path: string): boolean {
-  const normalized = path.toLowerCase();
-  return normalized.endsWith(".mp4") || normalized.endsWith(".webm") || normalized.endsWith(".ogg");
-}
-
 export function ImplementationShowcaseCard({
   item,
-  href,
   priorityImage = false,
-  ctaLabel = "詳しく見る",
 }: ImplementationShowcaseCardProps) {
-  const external = isAbsoluteHttpUrl(href);
+  const demoHref = resolveImplementationDemoHref(item);
+  const detailHref = resolveImplementationDetailHref(item);
+  const demoOpensExternal = isAbsoluteHttpUrl(demoHref);
   const videoThumbnail = isVideoPath(item.thumbnailSrc);
-  const sharedClass =
-    "interactive-card group flex h-full flex-col overflow-hidden rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-pure)] text-left motion-reduce:hover:!transform-none motion-reduce:hover:!shadow-none motion-reduce:active:!transform-none motion-safe:transition-[transform,box-shadow,border-color] motion-safe:duration-300 hover:border-[var(--color-accent-primary)]/35 hover:shadow-lg md:hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent-primary)] focus-visible:ring-offset-2";
+  const slideSources =
+    item.thumbnailSlides && item.thumbnailSlides.length > 0
+      ? item.thumbnailSlides
+      : null;
 
-  const inner = (
-    <>
+  return (
+    <article
+      className={cn(
+        "interactive-card group flex h-full flex-col overflow-hidden rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-pure)] text-left",
+        "motion-reduce:hover:!transform-none motion-reduce:hover:!shadow-none",
+        "motion-safe:transition-[transform,box-shadow,border-color] motion-safe:duration-300",
+        "hover:border-[var(--color-accent-primary)]/35 hover:shadow-lg md:hover:-translate-y-1"
+      )}
+    >
       <div className="relative aspect-video w-full shrink-0 overflow-hidden bg-[var(--color-bg-neutral)]">
-        {videoThumbnail ? (
+        {slideSources ? (
+          <ShowcaseThumbnailSlides
+            slides={slideSources}
+            alt={item.thumbnailAlt}
+            sizes="(max-width: 768px) 82vw, (max-width: 1024px) 45vw, 320px"
+            priority={priorityImage}
+            className="motion-safe:transition-transform motion-safe:duration-300 motion-safe:group-hover:scale-[1.04]"
+          />
+        ) : videoThumbnail ? (
           <video
             src={item.thumbnailSrc}
             aria-label={item.thumbnailAlt}
@@ -82,40 +106,25 @@ export function ImplementationShowcaseCard({
             {item.industryLabel}
           </span>
         </p>
-        <p className="mt-auto pt-6 text-[15px] font-semibold text-[var(--color-accent-primary)] md:text-[16px]">
-          <span className="inline-flex items-center gap-1 underline-offset-4 group-hover:underline">
-            {ctaLabel}
-            {external ? (
-              <ExternalLink className="size-4 shrink-0" aria-hidden />
-            ) : (
-              <ArrowRight
-                className="size-4 motion-safe:transition-transform motion-safe:duration-300 motion-safe:group-hover:translate-x-1"
-                aria-hidden
-              />
-            )}
-          </span>
-        </p>
+        <div className="mt-auto flex flex-col gap-2.5 pt-6 sm:flex-row">
+          <Button asChild size="sm" className="min-h-10 flex-1 gap-1.5">
+            <a
+              href={demoHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              title={
+                demoOpensExternal ? "外部サイトでデモを開きます" : "新しいタブでデモを開きます"
+              }
+            >
+              デモ体験
+              <ExternalLink className="size-3.5 shrink-0" aria-hidden />
+            </a>
+          </Button>
+          <Button asChild variant="outline" size="sm" className="min-h-10 flex-1">
+            <Link href={detailHref}>詳細</Link>
+          </Button>
+        </div>
       </div>
-    </>
-  );
-
-  if (external) {
-    return (
-      <a
-        href={href}
-        target="_blank"
-        rel="noopener noreferrer"
-        title="外部サイトに移動します"
-        className={sharedClass}
-      >
-        {inner}
-      </a>
-    );
-  }
-
-  return (
-    <Link href={href} className={sharedClass}>
-      {inner}
-    </Link>
+    </article>
   );
 }

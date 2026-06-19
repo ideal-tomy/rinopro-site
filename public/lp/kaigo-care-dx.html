@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ケア記録DX 提案 ｜ AXEON</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Shippori+Mincho+B1:wght@600;700;800&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1C2522; --ink-soft:#5A6660; --ink-faint:#8B958F;
+  --paper:#F6F4EE; --surface:#FFFFFF; --surface-2:#EDF1EC;
+  --primary:#175E51; --primary-d:#0F4438; --primary-soft:#DBE9E3;
+  --accent:#DE8E33; --accent-soft:#FAEAD2;
+  --line:#E3E0D6; --line-2:#D2D6CF;
+  --alert:#BE5239; --alert-soft:#F7E2DC;
+  --ok:#3B8C6C; --ok-soft:#DCEEE5;
+  --shadow:0 1px 2px rgba(20,40,34,.04),0 8px 28px rgba(20,40,34,.06);
+  --shadow-lg:0 2px 6px rgba(20,40,34,.06),0 24px 60px rgba(20,40,34,.12);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Noto Sans JP',sans-serif; color:var(--ink);
+  background:var(--paper); line-height:1.75; -webkit-font-smoothing:antialiased;
+  font-feature-settings:"palt";
+}
+.serif{font-family:'Shippori Mincho B1',serif}
+.mono{font-family:'Roboto Mono',monospace}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+section{padding:96px 0}
+h2.serif{font-size:clamp(26px,4vw,40px);font-weight:800;line-height:1.4;letter-spacing:.01em}
+.eyebrow{font-family:'Roboto Mono',monospace;font-size:12px;letter-spacing:.22em;color:var(--accent);font-weight:700;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.eyebrow::before{content:"";width:26px;height:1.5px;background:var(--accent)}
+
+/* ===== Header ===== */
+header.nav{position:sticky;top:0;z-index:50;background:rgba(246,244,238,.86);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav-in{max-width:1080px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:.04em;font-size:18px}
+.brand-mark{height:40px;width:auto;display:block;flex:none}
+.brand small{font-family:'Roboto Mono',monospace;font-size:10px;color:var(--ink-faint);letter-spacing:.18em;font-weight:500}
+.nav-cta{font-size:13px;font-weight:700;color:#fff;background:var(--primary);padding:9px 18px;border-radius:999px;text-decoration:none;transition:.2s}
+.nav-cta:hover{background:var(--primary-d)}
+
+/* ===== Hero ===== */
+.hero{padding:100px 0 80px;position:relative;overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center}
+.hero h1{font-family:'Shippori Mincho B1',serif;font-weight:800;font-size:clamp(34px,5.4vw,58px);line-height:1.32;letter-spacing:.01em}
+.hero h1 .mk{position:relative;white-space:nowrap}
+.hero h1 .mk::after{content:"";position:absolute;left:-2px;right:-2px;bottom:6px;height:14px;background:var(--accent-soft);z-index:-1}
+.hero .lead{margin-top:24px;font-size:17px;color:var(--ink-soft);max-width:46ch}
+.hero .who{margin-top:30px;display:inline-flex;gap:8px;flex-wrap:wrap}
+.chip{font-size:12.5px;font-weight:500;background:var(--surface);border:1px solid var(--line);padding:7px 13px;border-radius:999px;color:var(--ink-soft)}
+.chip b{color:var(--primary);font-weight:700}
+
+/* hero visual: flow */
+.flowcard{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:var(--shadow-lg)}
+.flowcard .ftitle{font-size:12px;font-weight:700;color:var(--ink-faint);font-family:'Roboto Mono',monospace;letter-spacing:.12em;margin-bottom:16px}
+.fnode{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border-radius:13px;background:var(--surface-2);position:relative}
+.fnode .ic{width:34px;height:34px;flex:none;border-radius:9px;display:grid;place-items:center;background:#fff;border:1px solid var(--line)}
+.fnode .ic svg{width:18px;height:18px}
+.fnode h4{font-size:13.5px;font-weight:700}
+.fnode p{font-size:11.5px;color:var(--ink-soft);line-height:1.5}
+.farrow{height:22px;display:grid;place-items:center;color:var(--line-2)}
+.farrow svg{width:16px;height:16px}
+.fnode.hl{background:linear-gradient(135deg,var(--primary),var(--primary-d));}
+.fnode.hl h4,.fnode.hl p{color:#fff}
+.fnode.hl p{color:#cfe4dd}
+.fnode.hl .ic{background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.2)}
+.fnode.hl .ic svg{stroke:#fff}
+
+/* ===== Problem / Before-After ===== */
+.ba{display:grid;grid-template-columns:1fr auto 1fr;gap:0;margin-top:48px;align-items:stretch}
+.ba-col{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:30px;box-shadow:var(--shadow)}
+.ba-col.before{border-style:dashed;background:transparent}
+.ba-tag{display:inline-block;font-family:'Roboto Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.1em;padding:5px 11px;border-radius:6px;margin-bottom:18px}
+.before .ba-tag{background:var(--alert-soft);color:var(--alert)}
+.after .ba-tag{background:var(--primary-soft);color:var(--primary-d)}
+.ba-li{display:flex;gap:11px;padding:11px 0;border-top:1px solid var(--line);font-size:14px}
+.ba-li:first-of-type{border-top:none}
+.ba-li .x{flex:none;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;margin-top:2px}
+.before .ba-li .x{background:var(--alert-soft);color:var(--alert)}
+.after .ba-li .x{background:var(--ok-soft);color:var(--ok)}
+.ba-li .x svg{width:12px;height:12px}
+.ba-mid{display:grid;place-items:center;padding:0 20px}
+.ba-mid .arc{width:48px;height:48px;border-radius:50%;background:var(--accent);display:grid;place-items:center;box-shadow:0 8px 20px rgba(222,142,51,.35)}
+.ba-mid .arc svg{width:22px;height:22px;stroke:#fff}
+
+/* ===== Dashboard demo ===== */
+#demo{background:linear-gradient(180deg,#11342C,#0C2620);color:#EAF0ED;border-radius:0}
+#demo .eyebrow{color:var(--accent)}
+#demo h2{color:#fff}
+#demo .sub{color:#A9C2B9;max-width:54ch;margin-top:12px;font-size:15.5px}
+.roleswitch{display:inline-flex;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:5px;margin:34px 0 26px;gap:4px;flex-wrap:wrap}
+.role-btn{border:none;background:transparent;color:#A9C2B9;font-family:'Noto Sans JP';font-size:13.5px;font-weight:700;padding:11px 20px;border-radius:10px;cursor:pointer;transition:.18s;display:flex;align-items:center;gap:9px}
+.role-btn svg{width:16px;height:16px}
+.role-btn.active{background:#fff;color:var(--primary-d);box-shadow:0 4px 14px rgba(0,0,0,.2)}
+.role-note{font-size:13px;color:#8FACA3;margin-bottom:18px;display:flex;align-items:center;gap:8px}
+.role-note svg{width:15px;height:15px;flex:none}
+
+/* the app frame */
+.appframe{background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.4);color:var(--ink)}
+.appbar{display:flex;align-items:center;gap:14px;padding:13px 18px;border-bottom:1px solid var(--line);background:var(--surface-2)}
+.appbar .traffic{display:flex;gap:6px}
+.appbar .traffic i{width:10px;height:10px;border-radius:50%;display:block}
+.appbar .url{flex:1;font-family:'Roboto Mono',monospace;font-size:11.5px;color:var(--ink-faint);background:#fff;border:1px solid var(--line);border-radius:7px;padding:5px 11px}
+.appbar .role-badge{font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;background:var(--primary-soft);color:var(--primary-d)}
+.view{display:none;padding:22px}
+.view.active{display:block;animation:fade .35s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* KPI cards */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:15px 16px}
+.kpi .lab{font-size:11.5px;color:var(--ink-soft);font-weight:500;display:flex;align-items:center;gap:6px}
+.kpi .lab .d{width:7px;height:7px;border-radius:50%}
+.kpi .num{font-family:'Roboto Mono',monospace;font-size:27px;font-weight:700;margin-top:6px;letter-spacing:-.01em}
+.kpi .num small{font-size:14px;color:var(--ink-faint)}
+.kpi.warn .num{color:var(--accent)}
+.kpi.alert .num{color:var(--alert)}
+.kpi.ok .num{color:var(--ok)}
+
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:16px 18px;margin-bottom:14px}
+.panel-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:13px}
+.panel-h h4{font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px}
+.panel-h h4 svg{width:16px;height:16px;color:var(--primary)}
+.panel-h .more{font-size:11.5px;color:var(--ink-faint);font-family:'Roboto Mono',monospace}
+
+/* facility list */
+.flist{display:grid;gap:8px}
+.frow{display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:12px;padding:10px 13px;border-radius:10px;background:var(--surface-2);font-size:13px}
+.frow .fn{font-weight:700;display:flex;align-items:center;gap:9px}
+.frow .fn .gh{font-family:'Roboto Mono',monospace;font-size:10.5px;color:var(--ink-faint);background:#fff;border:1px solid var(--line);padding:2px 7px;border-radius:5px}
+.frow .ft{font-size:11.5px;color:var(--ink-soft)}
+.stat{font-size:11.5px;font-weight:700;padding:4px 11px;border-radius:999px;display:inline-flex;align-items:center;gap:6px}
+.stat .pd{width:7px;height:7px;border-radius:50%}
+.stat.done{background:var(--ok-soft);color:var(--ok)} .stat.done .pd{background:var(--ok)}
+.stat.wait{background:var(--accent-soft);color:#9C6418} .stat.wait .pd{background:var(--accent)}
+.stat.alr{background:var(--alert-soft);color:var(--alert)} .stat.alr .pd{background:var(--alert)}
+
+/* approve queue */
+.queue{display:grid;gap:10px}
+.qcard{border:1px solid var(--line);border-radius:11px;padding:13px 15px;display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center}
+.qcard .qm{font-size:12.5px;color:var(--ink-soft)}
+.qcard .qm b{color:var(--ink)}
+.qcard .qsrc{font-size:11px;font-family:'Roboto Mono',monospace;color:var(--ink-faint);margin-top:3px}
+.qbtn{font-size:12px;font-weight:700;padding:8px 15px;border-radius:8px;border:none;cursor:pointer;background:var(--primary);color:#fff;white-space:nowrap}
+
+/* mobile phone view */
+.phone-wrap{display:grid;grid-template-columns:300px 1fr;gap:26px;align-items:start}
+.phone{width:300px;background:#0C2620;border-radius:30px;padding:11px;box-shadow:var(--shadow-lg)}
+.phone-scr{background:var(--paper);border-radius:21px;overflow:hidden;min-height:520px}
+.ph-top{background:var(--primary);color:#fff;padding:16px 18px}
+.ph-top .greet{font-size:12px;opacity:.85}
+.ph-top .nm{font-size:16px;font-weight:700;margin-top:2px}
+.ph-body{padding:15px}
+.ph-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:11px}
+.ph-card .vt{font-size:11px;color:var(--ink-faint);font-weight:700;letter-spacing:.04em}
+.visit{display:flex;align-items:center;gap:11px;margin-top:8px}
+.visit .vtime{font-family:'Roboto Mono',monospace;font-size:13px;font-weight:700;color:var(--primary)}
+.visit .vinfo{flex:1}
+.visit .vu{font-size:13.5px;font-weight:700}
+.visit .vp{font-size:11px;color:var(--ink-soft)}
+.bigbtn{display:block;width:100%;text-align:center;background:var(--accent);color:#fff;font-weight:700;font-size:15px;padding:15px;border:none;border-radius:14px;cursor:pointer;box-shadow:0 8px 18px rgba(222,142,51,.3);margin-top:4px}
+.tapgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:11px}
+.taprep{background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:13px 10px;text-align:center;font-size:12px;font-weight:700;color:var(--ink-soft);cursor:pointer}
+.taprep svg{width:20px;height:20px;display:block;margin:0 auto 6px;color:var(--primary)}
+.phone-note{font-size:13.5px;color:var(--ink-soft);line-height:1.8}
+.phone-note h4{font-size:16px;font-weight:700;color:var(--ink);margin-bottom:12px;font-family:'Shippori Mincho B1',serif}
+.phone-note ul{list-style:none;margin-top:14px;display:grid;gap:10px}
+.phone-note li{display:flex;gap:10px;font-size:13.5px}
+.phone-note li svg{width:18px;height:18px;flex:none;color:var(--primary);margin-top:2px}
+
+/* medical calendar */
+.cal{border:1px solid var(--line);border-radius:11px;overflow:hidden}
+.cal-head{display:grid;grid-template-columns:62px repeat(5,1fr);background:var(--surface-2);border-bottom:1px solid var(--line)}
+.cal-head div{padding:9px 6px;font-size:11px;font-weight:700;text-align:center;color:var(--ink-soft);border-left:1px solid var(--line)}
+.cal-head div:first-child{border-left:none}
+.cal-row{display:grid;grid-template-columns:62px repeat(5,1fr);border-bottom:1px solid var(--line)}
+.cal-row:last-child{border-bottom:none}
+.cal-time{padding:10px 6px;font-family:'Roboto Mono',monospace;font-size:11px;color:var(--ink-faint);text-align:center;border-right:1px solid var(--line)}
+.cal-cell{border-left:1px solid var(--line);padding:5px;min-height:50px}
+.cal-cell:first-child{border-left:none}
+.ev{font-size:10.5px;font-weight:700;padding:6px 8px;border-radius:7px;line-height:1.35;height:100%}
+.ev .who{display:block;font-weight:500;font-size:9.5px;opacity:.85;margin-top:2px}
+.ev.nurse{background:var(--primary-soft);color:var(--primary-d)}
+.ev.doc{background:var(--accent-soft);color:#8A5410}
+.ev.share{background:var(--ok-soft);color:var(--ok)}
+.share-banner{display:flex;gap:11px;align-items:flex-start;background:var(--surface-2);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:10px;padding:13px 15px;margin-bottom:14px;font-size:12.5px;color:var(--ink-soft)}
+.share-banner svg{width:18px;height:18px;flex:none;color:var(--accent);margin-top:1px}
+.share-banner b{color:var(--ink)}
+
+/* ===== Auto-report demo ===== */
+.autobox{display:grid;grid-template-columns:1fr 64px 1fr;gap:0;align-items:center;margin-top:42px}
+.chatcard{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow)}
+.chatcard .ch-h{display:flex;align-items:center;gap:9px;font-size:12px;font-weight:700;color:var(--ink-soft);margin-bottom:14px;font-family:'Roboto Mono',monospace}
+.chatcard .ch-h .lw{width:22px;height:22px;border-radius:6px;background:#00B900;display:grid;place-items:center;color:#fff;font-size:11px;font-weight:900}
+.bubble{background:var(--surface-2);border-radius:4px 13px 13px 13px;padding:11px 14px;font-size:13px;line-height:1.7;margin-bottom:8px;position:relative}
+.bubble .nm{font-size:11px;font-weight:700;color:var(--primary);margin-bottom:3px}
+.bubble .tm{font-size:10px;color:var(--ink-faint);font-family:'Roboto Mono',monospace;margin-top:5px}
+.docout{background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
+.docout .do-h{background:var(--primary);color:#fff;padding:13px 18px;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:space-between}
+.docout .do-h .badge{font-size:10px;background:rgba(255,255,255,.2);padding:3px 9px;border-radius:5px;font-family:'Roboto Mono',monospace}
+.docout .do-b{padding:18px}
+.field{display:grid;grid-template-columns:96px 1fr;gap:10px;padding:9px 0;border-bottom:1px dashed var(--line);font-size:12.5px}
+.field:last-child{border-bottom:none}
+.field .fl{color:var(--ink-faint);font-weight:700;font-size:11.5px}
+.field .fv{font-weight:500}
+.field .fv mark{background:var(--accent-soft);padding:1px 4px;border-radius:3px;font-weight:700}
+.auto-arrow{display:grid;place-items:center;color:var(--accent)}
+.auto-arrow svg{width:30px;height:30px}
+
+/* ===== Permission matrix ===== */
+.matrix{width:100%;border-collapse:separate;border-spacing:0;margin-top:40px;font-size:13px;background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.matrix th,.matrix td{padding:13px 15px;text-align:left;border-bottom:1px solid var(--line)}
+.matrix thead th{background:var(--surface-2);font-size:12px;font-weight:700;color:var(--ink-soft);letter-spacing:.02em}
+.matrix tbody tr:last-child td{border-bottom:none}
+.matrix td:first-child,.matrix th:first-child{font-weight:700;border-right:1px solid var(--line)}
+.matrix .role-h{font-size:11px}
+.perm{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:6px;font-size:12px;font-weight:700}
+.perm.full{background:var(--ok-soft);color:var(--ok)}
+.perm.part{background:var(--accent-soft);color:#9C6418}
+.perm.none{background:#F0EFEA;color:var(--ink-faint)}
+.matrix tbody td:not(:first-child){text-align:center}
+
+/* ===== Security ===== */
+#sec{background:var(--surface)}
+.secgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:42px}
+.seccard{border:1px solid var(--line);border-radius:16px;padding:24px;background:var(--paper);position:relative;overflow:hidden}
+.seccard .si{width:42px;height:42px;border-radius:11px;background:var(--primary);display:grid;place-items:center;margin-bottom:15px}
+.seccard .si svg{width:21px;height:21px;stroke:#fff}
+.seccard h4{font-size:16px;font-weight:700;margin-bottom:9px}
+.seccard p{font-size:13.5px;color:var(--ink-soft);line-height:1.75}
+.seccard .tag{position:absolute;top:18px;right:18px;font-family:'Roboto Mono',monospace;font-size:10px;color:var(--ink-faint);letter-spacing:.1em}
+.sens-banner{margin-top:24px;background:var(--alert-soft);border:1px solid #EBC4B8;border-radius:14px;padding:18px 22px;display:flex;gap:14px;align-items:flex-start}
+.sens-banner svg{width:22px;height:22px;color:var(--alert);flex:none;margin-top:2px}
+.sens-banner b{color:var(--alert)}
+.sens-banner p{font-size:13.5px;color:#7A3A2A;line-height:1.7}
+
+/* ===== Roadmap ===== */
+.road{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:44px;position:relative}
+.road::before{content:"";position:absolute;top:21px;left:6%;right:6%;height:2px;background:var(--line-2)}
+.rstep{text-align:center;padding:0 14px;position:relative}
+.rnum{width:44px;height:44px;border-radius:50%;background:var(--surface);border:2px solid var(--primary);color:var(--primary);font-family:'Roboto Mono',monospace;font-weight:700;font-size:15px;display:grid;place-items:center;margin:0 auto 18px;position:relative;z-index:1}
+.rstep:first-child .rnum{background:var(--primary);color:#fff}
+.rstep h4{font-size:15px;font-weight:700;margin-bottom:8px}
+.rstep .rp{font-size:11px;font-family:'Roboto Mono',monospace;color:var(--accent);font-weight:700;letter-spacing:.05em;margin-bottom:8px}
+.rstep p{font-size:12.5px;color:var(--ink-soft);line-height:1.7}
+
+/* ===== CTA ===== */
+#cta{background:linear-gradient(135deg,var(--primary),var(--primary-d));color:#fff;text-align:center}
+#cta h2{color:#fff}
+#cta p{color:#C3DAD2;max-width:48ch;margin:18px auto 0;font-size:16px}
+.cta-btn{display:inline-block;margin-top:30px;background:var(--accent);color:#fff;font-weight:700;font-size:15px;padding:15px 36px;border-radius:999px;text-decoration:none;box-shadow:0 10px 30px rgba(222,142,51,.4);transition:.2s}
+.cta-btn:hover{transform:translateY(-2px)}
+footer{background:var(--primary-d);color:#9FBDB4;padding:34px 0;font-size:12.5px}
+.foot-in{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
+.foot-in .brand{color:#fff}
+.foot-in .brand small{color:#7FA399}
+
+.note-line{font-size:12px;color:var(--ink-faint);margin-top:14px;font-style:italic}
+
+@media(max-width:900px){
+  section{padding:64px 0}
+  .hero-grid,.phone-wrap,.autobox,.secgrid,.road{grid-template-columns:1fr;gap:30px}
+  .ba{grid-template-columns:1fr;gap:14px}
+  .ba-mid{padding:4px;transform:rotate(90deg)}
+  .kpis{grid-template-columns:1fr 1fr}
+  .autobox{gap:14px}.auto-arrow{transform:rotate(90deg)}
+  .road::before{display:none}
+  .phone{margin:0 auto}
+  .matrix{display:block;overflow-x:auto;white-space:nowrap}
+  .cal-head,.cal-row{grid-template-columns:50px repeat(5,minmax(90px,1fr));}
+  .cal{overflow-x:auto}
+}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-in">
+    <div class="brand"><img src="/lp/kaigo/logo.png" alt="AXEON" class="brand-mark" width="60" height="40"><small>AXEON株式会社</small></div>
+    <a href="#cta" class="nav-cta">PoCのご相談</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">障害福祉・訪問看護・訪問診療 DX 提案</div>
+      <h1>現場は<span class="mk">"入力するだけ"。</span><br>報告書づくりと確認は、<br>システムが肩代わりする。</h1>
+      <p class="lead">LINE Worksの報告を内勤が目視で確認し、Excelや書類へ手転記する——その属人的な連鎖を、ひとつの構造化データに集約します。確認もれ・転記ミスをゼロに近づけ、本来向き合うべき利用者さんとの時間を取り戻すための業務基盤です。</p>
+      <div class="who">
+        <span class="chip">障害者GH <b>20拠点</b></span>
+        <span class="chip">精神科訪問看護 <b>1</b></span>
+        <span class="chip">訪問診療 <b>連携予定</b></span>
+      </div>
+    </div>
+    <div>
+      <div class="flowcard">
+        <div class="ftitle">業務の流れ — Before</div>
+        <div class="fnode">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#175E51" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+          <div><h4>現場からLINE Worksで報告</h4><p>自由記述・口頭ベースで届く</p></div>
+        </div>
+        <div class="farrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg></div>
+        <div class="fnode">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#BE5239" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></span>
+          <div><h4>内勤が一件ずつ目視で確認</h4><p>もれ・見落としのリスク</p></div>
+        </div>
+        <div class="farrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg></div>
+        <div class="fnode hl">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></span>
+          <div><h4>報告書・Excelへ手転記</h4><p>時間がかかり、転記ミスも発生</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BEFORE / AFTER -->
+<section style="background:var(--surface)">
+  <div class="wrap">
+    <div class="eyebrow">解決する課題</div>
+    <h2 class="serif">"人の目と手"が律速になっている業務を、<br>仕組みで置き換える。</h2>
+    <div class="ba">
+      <div class="ba-col before">
+        <span class="ba-tag">現状 / AS-IS</span>
+        <div class="ba-li"><span class="x"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18M6 6l12 12"/></svg></span>報告の形式がバラバラで、確認に手間がかかる</div>
+        <div class="ba-li"><span class="x"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18M6 6l12 12"/></svg></span>未報告・未確認が一覧で見えず、もれが起きる</div>
+        <div class="ba-li"><span class="x"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18M6 6l12 12"/></svg></span>報告書への手転記でミスと時間ロスが発生</div>
+        <div class="ba-li"><span class="x"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18M6 6l12 12"/></svg></span>医療者との予定共有が個別連絡頼み</div>
+      </div>
+      <div class="ba-mid"><div class="arc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div></div>
+      <div class="ba-col after">
+        <span class="ba-tag">提案 / TO-BE</span>
+        <div class="ba-li"><span class="x"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg></span>選択式・ワンタップ報告で入力を標準化</div>
+        <div class="ba-li"><span class="x"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg></span>未報告・未確認・アラートを自動ハイライト</div>
+        <div class="ba-li"><span class="x"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg></span>報告から報告書ドラフトを自動生成し承認するだけ</div>
+        <div class="ba-li"><span class="x"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg></span>看護師×医師の予定を1つのカレンダーで共有</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DASHBOARD DEMO -->
+<section id="demo">
+  <div class="wrap">
+    <div class="eyebrow">インタラクティブ・デモ</div>
+    <h2 class="serif">立場ごとに、見える画面も権限も変わる。</h2>
+    <p class="sub">同じシステムでも、現場スタッフ・内勤管理者・外部の医療者では表示と操作できる範囲が異なります。タブを切り替えて、それぞれの体験をご確認ください。</p>
+
+    <div class="roleswitch" role="tablist">
+      <button class="role-btn active" data-view="field" role="tab">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z"/><path d="M12 6v6l4 2"/></svg>現場スタッフ</button>
+      <button class="role-btn" data-view="office" role="tab">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>内勤・管理者</button>
+      <button class="role-btn" data-view="medical" role="tab">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>医療連携（外部）</button>
+    </div>
+
+    <!-- FIELD -->
+    <div class="view active" id="view-field">
+      <div class="role-note"><svg viewBox="0 0 24 24" fill="none" stroke="#8FACA3" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>現場スタッフは自分の担当拠点・利用者のみにアクセス。スマホ前提・大きなボタンで「入力するだけ」。</div>
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="phone-scr">
+            <div class="ph-top">
+              <div class="greet">おつかれさまです</div>
+              <div class="nm">佐藤さん｜さくらホーム</div>
+            </div>
+            <div class="ph-body">
+              <div class="ph-card">
+                <div class="vt">本日の訪問・対応（3件）</div>
+                <div class="visit"><span class="vtime">10:00</span><div class="vinfo"><div class="vu">田中 様</div><div class="vp">服薬確認・バイタル</div></div></div>
+                <div class="visit"><span class="vtime">13:30</span><div class="vinfo"><div class="vu">鈴木 様</div><div class="vp">生活支援・通院同行</div></div></div>
+                <div class="visit"><span class="vtime">16:00</span><div class="vinfo"><div class="vu">山本 様</div><div class="vp">夕食支援</div></div></div>
+              </div>
+              <button class="bigbtn">＋ 今すぐ報告する</button>
+              <div class="tapgrid">
+                <div class="taprep"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>バイタル入力</div>
+                <div class="taprep"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 11 3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>服薬チェック</div>
+                <div class="taprep"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z"/><path d="M12 8v4l3 2"/></svg>特記・ヒヤリ</div>
+                <div class="taprep"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>過去の報告</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-note">
+          <h4>現場の負担を、極限まで減らす。</h4>
+          <p>世話人・生活支援員など、IT操作に不慣れな方でも迷わないことを最優先に設計します。手入力を減らし、選択とワンタップで報告を完結。届いた報告は、内勤側で自動的に整理され、報告書のかたちになります。</p>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>使い慣れたLINE Worksからもそのまま報告できる導線</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>バイタル・服薬は数値/チェック式で転記ミスを防止</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>見えるのは自分の担当範囲のみ（他拠点は非表示）</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- OFFICE -->
+    <div class="view" id="view-office">
+      <div class="role-note"><svg viewBox="0 0 24 24" fill="none" stroke="#8FACA3" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>内勤・管理者は全拠点を俯瞰。「未報告」「要対応」だけが自動で前に出る、確認もれゼロのダッシュボード。</div>
+      <div class="appframe">
+        <div class="appbar">
+          <span class="traffic"><i style="background:#E66"></i><i style="background:#EB4"></i><i style="background:#5C5"></i></span>
+          <span class="url">app.axeon-care.jp / dashboard</span>
+          <span class="role-badge">管理者ビュー</span>
+        </div>
+        <div class="view active" style="display:block;padding:22px">
+          <div class="kpis">
+            <div class="kpi ok"><div class="lab"><span class="d" style="background:var(--ok)"></span>本日の報告</div><div class="num">18<small>/20</small></div></div>
+            <div class="kpi warn"><div class="lab"><span class="d" style="background:var(--accent)"></span>未確認</div><div class="num">2</div></div>
+            <div class="kpi alert"><div class="lab"><span class="d" style="background:var(--alert)"></span>要対応アラート</div><div class="num">1</div></div>
+            <div class="kpi"><div class="lab"><span class="d" style="background:var(--primary)"></span>今月 自動生成した報告書</div><div class="num">142</div></div>
+          </div>
+          <div class="panel">
+            <div class="panel-h"><h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>拠点ステータス（20GH＋訪問看護）</h4><span class="more">リアルタイム更新</span></div>
+            <div class="flist">
+              <div class="frow"><span class="fn"><span class="gh">GH-03</span>さくらホーム<span class="ft">佐藤</span></span><span class="ft">10:42 報告</span><span class="stat done"><span class="pd"></span>報告済</span></div>
+              <div class="frow"><span class="fn"><span class="gh">GH-07</span>あおぞらの家<span class="ft">高橋</span></span><span class="ft">未報告</span><span class="stat wait"><span class="pd"></span>未報告</span></div>
+              <div class="frow"><span class="fn"><span class="gh">GH-11</span>ひだまり荘<span class="ft">伊藤</span></span><span class="ft">09:15 バイタル異常</span><span class="stat alr"><span class="pd"></span>要対応</span></div>
+              <div class="frow"><span class="fn"><span class="gh">VN-01</span>精神科訪問看護<span class="ft">渡辺Ns</span></span><span class="ft">11:30 報告</span><span class="stat done"><span class="pd"></span>報告済</span></div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-h"><h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h4"/></svg>確認・承認キュー｜現場報告 → 報告書ドラフト</h4><span class="more">2件 待ち</span></div>
+            <div class="queue">
+              <div class="qcard"><div><div class="qm"><b>田中 様</b>｜バイタル・服薬の報告から看護記録書IIのドラフトを生成しました</div><div class="qsrc">SRC: LINE Works ＞ 自動構造化 ＞ 報告書ドラフト</div></div><button class="qbtn">内容を確認</button></div>
+              <div class="qcard"><div><div class="qm"><b>ひだまり荘</b>｜血圧上昇を検知。ヒヤリハット報告と医療連携の起票を提案</div><div class="qsrc">SRC: バイタル異常 ＞ アラート ＞ 連携起票</div></div><button class="qbtn">内容を確認</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MEDICAL -->
+    <div class="view" id="view-medical">
+      <div class="role-note"><svg viewBox="0 0 24 24" fill="none" stroke="#8FACA3" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>外部の医師・委託看護師は社内システムに直接入らず、共有された予定と「許可された利用者の許可された情報」だけを閲覧する限定ポータル。</div>
+      <div class="appframe">
+        <div class="appbar">
+          <span class="traffic"><i style="background:#E66"></i><i style="background:#EB4"></i><i style="background:#5C5"></i></span>
+          <span class="url">share.axeon-care.jp / 外部連携ポータル</span>
+          <span class="role-badge" style="background:var(--accent-soft);color:#9C6418">外部・限定ビュー</span>
+        </div>
+        <div style="padding:22px">
+          <div class="share-banner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><div><b>共有範囲は利用者・項目単位で制御されています。</b> 連携先の医療機関には、対象の利用者の医療上必要な情報のみを表示。閲覧操作はすべて監査ログに記録されます。</div></div>
+          <div class="panel">
+            <div class="panel-h"><h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>看護師 × 医師 共有スケジュール</h4><span class="more">今週</span></div>
+            <div class="cal">
+              <div class="cal-head"><div></div><div>月</div><div>火</div><div>水</div><div>木</div><div>金</div></div>
+              <div class="cal-row">
+                <div class="cal-time">AM</div>
+                <div class="cal-cell"><div class="ev nurse">訪問看護 田中様<span class="who">渡辺Ns</span></div></div>
+                <div class="cal-cell"></div>
+                <div class="cal-cell"><div class="ev doc">訪問診療 山本様<span class="who">中村Dr</span></div></div>
+                <div class="cal-cell"><div class="ev nurse">訪問看護 鈴木様<span class="who">渡辺Ns</span></div></div>
+                <div class="cal-cell"></div>
+              </div>
+              <div class="cal-row">
+                <div class="cal-time">PM</div>
+                <div class="cal-cell"></div>
+                <div class="cal-cell"><div class="ev share">合同カンファ<span class="who">Dr＋Ns＋管理者</span></div></div>
+                <div class="cal-cell"></div>
+                <div class="cal-cell"></div>
+                <div class="cal-cell"><div class="ev doc">訪問診療 田中様<span class="who">中村Dr</span></div></div>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-h"><h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>共有された記録・指示書（許可範囲のみ）</h4></div>
+            <div class="flist">
+              <div class="frow"><span class="fn">田中 様｜訪問看護指示書</span><span class="ft">有効期限 残14日</span><span class="stat done"><span class="pd"></span>有効</span></div>
+              <div class="frow"><span class="fn">山本 様｜バイタル推移（直近7日）</span><span class="ft">共有許可済</span><span class="stat done"><span class="pd"></span>閲覧可</span></div>
+              <div class="frow"><span class="fn">鈴木 様｜支援計画 全体</span><span class="ft">共有対象外</span><span class="stat alr"><span class="pd"></span>非表示</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AUTO REPORT -->
+<section style="background:var(--surface)">
+  <div class="wrap">
+    <div class="eyebrow">中核機能 — 報告書の自動生成</div>
+    <h2 class="serif">バラバラな報告を、提出できる書類に。<br>転記の手間を、確認だけに。</h2>
+    <div class="autobox">
+      <div class="chatcard">
+        <div class="ch-h"><span class="lw">LW</span>LINE Works ＞ さくらホーム報告</div>
+        <div class="bubble"><div class="nm">佐藤（さくらホーム）</div>田中さん 10時訪問。血圧132/84、体温36.4。朝の薬きちんと飲めました。体調良好で食欲もあり。特に変わりなしです。<div class="tm">10:42</div></div>
+        <div class="bubble"><div class="nm">佐藤（さくらホーム）</div>少し膝が痛いとおっしゃっていたので様子見ます<div class="tm">10:43</div></div>
+      </div>
+      <div class="auto-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+      <div class="docout">
+        <div class="do-h">看護・支援記録 ドラフト<span class="badge">AI 自動構造化</span></div>
+        <div class="do-b">
+          <div class="field"><span class="fl">利用者</span><span class="fv">田中 様</span></div>
+          <div class="field"><span class="fl">訪問時刻</span><span class="fv">10:00</span></div>
+          <div class="field"><span class="fl">バイタル</span><span class="fv">血圧 <mark>132/84</mark>　体温 <mark>36.4℃</mark></span></div>
+          <div class="field"><span class="fl">服薬</span><span class="fv"><mark>朝食後 確認済</mark></span></div>
+          <div class="field"><span class="fl">状態</span><span class="fv">体調良好・食欲あり</span></div>
+          <div class="field"><span class="fl">特記</span><span class="fv"><mark>左膝痛の訴え</mark> → 経過観察</span></div>
+        </div>
+      </div>
+    </div>
+    <p class="note-line">※ 自動生成はあくまで"ドラフト"です。最終的な記録の確定は、内勤・担当者の確認と承認を経て行う設計とし、責任の所在を明確にします。</p>
+  </div>
+</section>
+
+<!-- PERMISSION MATRIX -->
+<section style="background:var(--paper)">
+  <div class="wrap">
+    <div class="eyebrow">権限設計 — ロールベースアクセス制御</div>
+    <h2 class="serif">「自分に関係する範囲しか見えない」を、原則に。</h2>
+    <table class="matrix">
+      <thead>
+        <tr>
+          <th>機能 / データ</th>
+          <th class="role-h">現場スタッフ</th>
+          <th class="role-h">自社 看護師</th>
+          <th class="role-h">内勤・管理者</th>
+          <th class="role-h">外部 医療者</th>
+          <th class="role-h">経営者</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>報告の入力</td><td><span class="perm full">●</span></td><td><span class="perm full">●</span></td><td><span class="perm part">◐</span></td><td><span class="perm part">◐</span></td><td><span class="perm none">−</span></td></tr>
+        <tr><td>担当拠点の閲覧</td><td><span class="perm part">◐</span></td><td><span class="perm part">◐</span></td><td><span class="perm full">●</span></td><td><span class="perm none">−</span></td><td><span class="perm full">●</span></td></tr>
+        <tr><td>全拠点の俯瞰</td><td><span class="perm none">−</span></td><td><span class="perm none">−</span></td><td><span class="perm full">●</span></td><td><span class="perm none">−</span></td><td><span class="perm full">●</span></td></tr>
+        <tr><td>報告書の承認・確定</td><td><span class="perm none">−</span></td><td><span class="perm part">◐</span></td><td><span class="perm full">●</span></td><td><span class="perm none">−</span></td><td><span class="perm none">−</span></td></tr>
+        <tr><td>医療連携・予定共有</td><td><span class="perm none">−</span></td><td><span class="perm full">●</span></td><td><span class="perm full">●</span></td><td><span class="perm part">◐</span></td><td><span class="perm none">−</span></td></tr>
+        <tr><td>スタッフ・権限管理</td><td><span class="perm none">−</span></td><td><span class="perm none">−</span></td><td><span class="perm full">●</span></td><td><span class="perm none">−</span></td><td><span class="perm part">◐</span></td></tr>
+      </tbody>
+    </table>
+    <p class="note-line">● 全範囲　◐ 限定（担当・許可された範囲のみ）　− 不可。外部医療者は社内システムと分離した「限定ポータル」経由でアクセスします。</p>
+  </div>
+</section>
+
+<!-- SECURITY -->
+<section id="sec">
+  <div class="wrap">
+    <div class="eyebrow">セキュリティ — 要配慮個人情報を扱う前提</div>
+    <h2 class="serif">信頼を預かるシステムとして、設計する。</h2>
+    <div class="sens-banner">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg>
+      <p>本システムが扱う情報の大半は、障害・病歴・診療情報といった<b>「要配慮個人情報」</b>です。法令上の特別な配慮が必要な前提で、医療情報の安全管理に関するガイドラインの考え方に沿って設計します（具体の準拠水準・最新版は正式提案前に再確認します）。</p>
+    </div>
+    <div class="secgrid">
+      <div class="seccard"><span class="tag">ACCESS</span><div class="si"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div><h4>RBAC＋拠点データ分離</h4><p>役割と拠点に応じて、見える情報・操作を厳密に制御。「自分に関係しないデータには到達できない」構造を基盤にします。多要素認証で本人性を担保します。</p></div>
+      <div class="seccard"><span class="tag">LOG</span><div class="si"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 15h6M9 11h6"/></svg></div><h4>全操作の監査ログ</h4><p>誰が・いつ・どの利用者の・どの情報を見た/編集したかを記録。外部医療者の閲覧も含め追跡可能にし、監査や行政対応にも備えます。</p></div>
+      <div class="seccard"><span class="tag">CRYPTO</span><div class="si"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 2 4 5v6c0 5 3.5 8 8 11 4.5-3 8-6 8-11V5z"/></svg></div><h4>通信・保存の暗号化</h4><p>通信経路・保存データの双方を暗号化。スマホ運用を前提に、端末紛失時のリモートアクセス遮断や、退職・異動時の即時権限失効フローを用意します。</p></div>
+      <div class="seccard"><span class="tag">GOVERN</span><div class="si"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-4"/></svg></div><h4>同意・第三者提供の運用</h4><p>利用目的の明示と同意取得、医療機関連携（第三者提供）のルール化、保管リージョン・バックアップ・漏えい時の報告体制まで、運用ルールごと整備します。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section style="background:var(--surface)">
+  <div class="wrap">
+    <div class="eyebrow">導入の進め方 — スモールスタート</div>
+    <h2 class="serif">いきなり全面導入ではなく、<br>低リスクのPoCから始める。</h2>
+    <div class="road">
+      <div class="rstep"><div class="rnum">01</div><div class="rp">2〜3週</div><h4>業務ヒアリング</h4><p>現行のExcel・帳票・報告フローを実物で確認し、最も効果が出る範囲を特定します。</p></div>
+      <div class="rstep"><div class="rnum">02</div><div class="rp">PoC / 1〜2拠点</div><h4>小さく試す</h4><p>1〜2拠点に限定して報告〜報告書自動化を試行。Before/Afterで効果を数値化します。</p></div>
+      <div class="rstep"><div class="rnum">03</div><div class="rp">段階展開</div><h4>横展開</h4><p>効果を確認しながら20拠点へ拡大。権限・医療連携・セキュリティを本格運用に。</p></div>
+      <div class="rstep"><div class="rnum">04</div><div class="rp">継続</div><h4>定着と改善</h4><p>現場の声を反映し継続改善。訪問診療連携など、対象業務を広げていきます。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="wrap">
+    <div class="eyebrow" style="color:var(--accent-soft);justify-content:center">NEXT STEP</div>
+    <h2 class="serif">まずは、現状を見せてください。</h2>
+    <p>今お使いのExcelと報告フローを拝見するところから始めます。1〜2拠点の小さなPoCで、確認・転記にかかる時間がどれだけ減るかを、実際の数字でお示しします。</p>
+    <a href="#" class="cta-btn">PoCについて相談する</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-in">
+    <div class="brand"><img src="/lp/kaigo/logo.png" alt="AXEON" class="brand-mark" width="60" height="40"><small>AXEON株式会社</small></div>
+    <div>AI実装・DXコンサルティング・Web開発　｜　障害福祉・訪問看護・訪問診療 業務DX 提案（サンプル）</div>
+  </div>
+</footer>
+
+<script>
+const btns=document.querySelectorAll('.role-btn');
+const views={field:document.getElementById('view-field'),office:document.getElementById('view-office'),medical:document.getElementById('view-medical')};
+btns.forEach(b=>b.addEventListener('click',()=>{
+  btns.forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  Object.values(views).forEach(v=>v.classList.remove('active'));
+  views[b.dataset.view].classList.add('active');
+}));
+</script>
+</body>
+</html>

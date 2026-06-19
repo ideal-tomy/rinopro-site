@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, permanentRedirect } from "next/navigation";
 import { Suspense } from "react";
+import { CaseStudyDetailView } from "@/components/case-studies/case-study-detail-view";
 import { PageShell } from "@/components/layout/PageShell";
 import { ExperiencePrototypeRunner } from "@/components/experience/ExperiencePrototypeRunner";
 import { DemoExploreStickyRail } from "@/components/experience/DemoExploreStickyRail";
@@ -10,10 +11,24 @@ import {
   ALLOWED_INTERACTIVE_EXPERIENCE_SLUGS,
   isAllowedInteractiveExperienceSlug,
 } from "@/lib/content/experience-gallery";
+import {
+  FLAGSHIP_CASE_STUDY_SLUGS,
+  getImplementationShowcaseBySlug,
+  isFlagshipCaseStudySlug,
+  resolveImplementationDemoHref,
+} from "@/lib/content/implementation-showcase";
+import {
+  getCaseStudyDetail,
+  getCaseStudyOpenGraphImageSrc,
+} from "@/lib/content/case-study-detail";
 import { getExperiencePrototypeBySlug } from "@/lib/experience/prototype-registry";
 
 export function generateStaticParams() {
-  return ALLOWED_INTERACTIVE_EXPERIENCE_SLUGS.map((slug) => ({ slug }));
+  const slugs = new Set<string>([
+    ...FLAGSHIP_CASE_STUDY_SLUGS,
+    ...ALLOWED_INTERACTIVE_EXPERIENCE_SLUGS,
+  ]);
+  return [...slugs].map((slug) => ({ slug }));
 }
 
 export const dynamicParams = true;
@@ -23,32 +38,68 @@ type Props = {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params;
-  const meta = getExperiencePrototypeBySlug(slug);
-  if (!meta) return { title: "体験 | AXEON" };
-  return {
-    title: `${meta.title} | 体験 | AXEON`,
-    description: meta.shortDescription,
-  };
+function isLiveDemoMode(
+  searchParams: Record<string, string | string[] | undefined>
+): boolean {
+  const mode = searchParams.mode;
+  if (mode === "live") return true;
+  if (Array.isArray(mode) && mode.includes("live")) return true;
+  return false;
 }
 
-export default async function ExperiencePrototypePage({
+export async function generateMetadata({
   params,
   searchParams,
-}: Props) {
+}: Props): Promise<Metadata> {
   const { slug } = await params;
-  if (!isAllowedInteractiveExperienceSlug(slug)) {
-    permanentRedirect("/experience");
+  const sp = await searchParams;
+  const liveMode =
+    isAllowedInteractiveExperienceSlug(slug) && isLiveDemoMode(sp);
+
+  if (liveMode) {
+    const meta = getExperiencePrototypeBySlug(slug);
+    if (!meta) return { title: "体験 | AXEON" };
+    return {
+      title: `${meta.title} | 体験 | AXEON`,
+      description: meta.shortDescription,
+    };
   }
 
+  if (isFlagshipCaseStudySlug(slug)) {
+    const detail = getCaseStudyDetail(slug);
+    if (!detail) return { title: "実装事例 | AXEON" };
+    return {
+      title: detail.metaTitle,
+      description: detail.metaDescription,
+      openGraph: {
+        images: [{ url: getCaseStudyOpenGraphImageSrc(detail) }],
+      },
+    };
+  }
+
+  if (isAllowedInteractiveExperienceSlug(slug)) {
+    const meta = getExperiencePrototypeBySlug(slug);
+    if (!meta) return { title: "体験 | AXEON" };
+    return {
+      title: `${meta.title} | 体験 | AXEON`,
+      description: meta.shortDescription,
+    };
+  }
+
+  return { title: "体験 | AXEON" };
+}
+
+async function renderInteractiveExperience(
+  slug: string,
+  searchParams: Record<string, string | string[] | undefined>
+) {
   const meta = getExperiencePrototypeBySlug(slug);
   if (!meta) notFound();
 
-  const sp = await searchParams;
-  const returnHref = parseReturnToFromSearchParams(sp);
+  const returnHref = parseReturnToFromSearchParams(searchParams);
 
-  const tierLabel = meta.tier === "track3" ? "③ プロダクト寄り" : "② 画面体験";
+  const tierLabel =
+    meta.tier === "track3" ? "③ プロダクト寄り" : "② 画面体験";
   const exploreSuggestions = ALLOWED_INTERACTIVE_EXPERIENCE_SLUGS.filter(
     (s) => s !== slug
   )
@@ -114,4 +165,43 @@ export default async function ExperiencePrototypePage({
       />
     </PageShell>
   );
+}
+
+export default async function ExperienceSlugPage({
+  params,
+  searchParams,
+}: Props) {
+  const { slug } = await params;
+  const sp = await searchParams;
+  const liveMode = isLiveDemoMode(sp);
+
+  if (isAllowedInteractiveExperienceSlug(slug) && liveMode) {
+    return renderInteractiveExperience(slug, sp);
+  }
+
+  if (isFlagshipCaseStudySlug(slug)) {
+    const detail = getCaseStudyDetail(slug);
+    const showcase = getImplementationShowcaseBySlug(slug);
+    if (!detail || !showcase) {
+      permanentRedirect("/experience");
+    }
+
+    const demoHref = resolveImplementationDemoHref(showcase);
+
+    return (
+      <PageShell>
+        <CaseStudyDetailView
+          detail={detail}
+          demoHref={demoHref}
+          demoOpenInNewTab={true}
+        />
+      </PageShell>
+    );
+  }
+
+  if (isAllowedInteractiveExperienceSlug(slug)) {
+    return renderInteractiveExperience(slug, sp);
+  }
+
+  permanentRedirect("/experience");
 }

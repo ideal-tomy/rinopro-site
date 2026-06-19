@@ -8,7 +8,6 @@ import { HomeLandingSectionHeading } from "@/components/home/HomeLandingSectionH
 import { ImplementationShowcaseCard } from "@/components/home/ImplementationShowcaseCard";
 import {
   IMPLEMENTATION_SHOWCASE_ITEMS,
-  resolveImplementationShowcaseHref,
 } from "@/lib/content/implementation-showcase";
 import { homeLandingCopy } from "@/lib/content/home-landing";
 import { homeLandingCtaButtonClass } from "@/lib/content/home-landing-styles";
@@ -43,14 +42,7 @@ export function HomeImplementationShowcaseSection() {
             data-dot-target
             className="w-[min(82vw,calc(100vw-2rem))] min-w-[min(82vw,calc(100vw-2rem))] shrink-0 snap-center md:w-auto md:min-w-0 md:snap-none"
           >
-            <ImplementationShowcaseCard
-              item={item}
-              href={resolveImplementationShowcaseHref(item)}
-              priorityImage={false}
-              ctaLabel={
-                item.internalPath ? "体験を開く" : "体験する"
-              }
-            />
+            <ImplementationShowcaseCard item={item} priorityImage={false} />
           </div>
         ))}
       </div>

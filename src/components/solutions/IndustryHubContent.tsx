@@ -4,10 +4,7 @@ import { Button } from "@/components/ui/button";
 import { PageSectionDivider } from "@/components/layout/PageSectionDivider";
 import { ImplementationShowcaseCard } from "@/components/home/ImplementationShowcaseCard";
 import type { IndustryShowcaseItemWithPath } from "@/lib/content/industry-showcase";
-import {
-  getImplementationShowcaseBySlug,
-  resolveImplementationShowcaseHref,
-} from "@/lib/content/implementation-showcase";
+import { getImplementationShowcaseBySlug } from "@/lib/content/implementation-showcase";
 
 interface IndustryHubContentProps {
   item: IndustryShowcaseItemWithPath;
@@ -104,13 +101,7 @@ export function IndustryHubContent({ item }: IndustryHubContentProps) {
                 if (!showcase) return null;
                 return (
                   <li key={slug} className="min-w-0">
-                    <ImplementationShowcaseCard
-                      item={showcase}
-                      href={resolveImplementationShowcaseHref(showcase)}
-                      ctaLabel={
-                        showcase.internalPath ? "体験を開く" : "体験する"
-                      }
-                    />
+                    <ImplementationShowcaseCard item={showcase} />
                   </li>
                 );
               })}

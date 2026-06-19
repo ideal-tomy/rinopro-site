@@ -3,6 +3,7 @@
 import { useState } from "react";
 import dynamic from "next/dynamic";
 import { AnimatePresence, motion } from "framer-motion";
+import { Code2, Lightbulb } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import {
   PageSectionWithScroll,
@@ -66,6 +67,7 @@ export function ServicesPageContent() {
               );
             }}
           >
+            <Code2 className="mb-3 size-6 text-accent" aria-hidden />
             <h2 className="mb-2 font-semibold text-text">
               {servicesCopy.development.title}
             </h2>
@@ -92,6 +94,7 @@ export function ServicesPageContent() {
               );
             }}
           >
+            <Lightbulb className="mb-3 size-6 text-accent" aria-hidden />
             <h2 className="mb-2 font-semibold text-text">
               {servicesCopy.consulting.title}
             </h2>

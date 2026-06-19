@@ -191,36 +191,53 @@ export function ConsultingDetailPageContent({
         )}
       >
         {sections.map((section, i) => (
-          <motion.article
-            key={section.kicker}
-            className={cn(
-              "relative overflow-hidden rounded-2xl text-text md:backdrop-blur-sm transition-[background-color,border-color] duration-500 md:px-12 md:py-14",
-              embedded
-                ? "border-0 bg-transparent px-5 py-8 shadow-none md:px-8"
-                : "border border-[var(--color-border-light)] bg-[var(--color-bg-pure)] px-8 py-12 shadow-none"
-            )}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-50px" }}
-            variants={v}
-            transition={{ delay: reduce ? 0 : 0.08 + i * 0.06 }}
-          >
-            <SectionWatermark n={String(i + 1).padStart(2, "0")} />
-            <div className="relative z-[1] mx-auto max-w-2xl text-center md:max-w-none">
-              <p className="mb-4 text-xs font-medium tracking-[0.2em] text-accent/90 md:text-[0.7rem]">
-                {section.kicker}
-              </p>
-              <h2
-                className={cn(
-                  "font-semibold leading-snug tracking-[0.18em] text-text md:text-2xl md:tracking-[0.22em]",
-                  embedded ? "mb-6 text-lg md:mb-8" : "mb-8 text-xl"
-                )}
+          <div key={section.kicker} className="space-y-8 md:space-y-10">
+            <motion.article
+              className={cn(
+                "relative overflow-hidden rounded-2xl text-text md:backdrop-blur-sm transition-[background-color,border-color] duration-500 md:px-12 md:py-14",
+                embedded
+                  ? "border-0 bg-transparent px-5 py-8 shadow-none md:px-8"
+                  : "border border-[var(--color-border-light)] bg-[var(--color-bg-pure)] px-8 py-12 shadow-none"
+              )}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-50px" }}
+              variants={v}
+              transition={{ delay: reduce ? 0 : 0.08 + i * 0.06 }}
+            >
+              <SectionWatermark n={String(i + 1).padStart(2, "0")} />
+              <div className="relative z-[1] mx-auto max-w-2xl text-center md:max-w-none">
+                <p className="mb-4 text-xs font-medium tracking-[0.2em] text-accent/90 md:text-[0.7rem]">
+                  {section.kicker}
+                </p>
+                <h2
+                  className={cn(
+                    "font-semibold leading-snug tracking-tight text-text md:text-2xl",
+                    embedded ? "mb-6 text-lg md:mb-8" : "mb-8 text-xl"
+                  )}
+                >
+                  {section.heading}
+                </h2>
+                {renderSectionBody(section.kicker, section.body)}
+              </div>
+            </motion.article>
+            {!embedded && i === 3 ? (
+              <motion.aside
+                className="mx-auto max-w-2xl rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-neutral)] px-6 py-7 text-center md:px-8"
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-80px" }}
+                variants={v}
               >
-                {section.heading}
-              </h2>
-              {renderSectionBody(section.kicker, section.body)}
-            </div>
-          </motion.article>
+                <p className="text-[15px] leading-[1.8] text-[var(--color-text-secondary)] md:text-[16px]">
+                  ここまで読んで「自社に当てはめて整理したい」と感じたら、状況を短く共有ください。
+                </p>
+                <Button asChild className="mt-5" size="sm">
+                  <Link href="/contact">{consultingDetailPageCopy.cta}</Link>
+                </Button>
+              </motion.aside>
+            ) : null}
+          </div>
         ))}
       </div>
 
