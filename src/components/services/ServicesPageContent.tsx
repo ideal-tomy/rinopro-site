@@ -58,33 +58,6 @@ export function ServicesPageContent() {
             type="button"
             className="clickable-element flex flex-1 flex-col items-center px-6 py-6 text-center transition-[transform,opacity] duration-100"
             onClick={() => {
-              writeServicesFlowPick("development");
-              recordVisitorEntryIntent("consult");
-              openConcierge(
-                developmentEntry.mode,
-                developmentEntry.entrySource,
-                developmentEntry.signals
-              );
-            }}
-          >
-            <Code2 className="mb-3 size-6 text-accent" aria-hidden />
-            <h2 className="mb-2 font-semibold text-text">
-              {servicesCopy.development.title}
-            </h2>
-            <p className="text-sm text-text-sub">
-              {servicesCopy.development.desc}
-            </p>
-            <span className="mt-4 text-sm font-medium text-accent">
-              チャットで相談する
-            </span>
-          </button>
-        </Card>
-
-        <Card className="flex flex-col overflow-hidden border-[var(--color-border-light)] p-0 transition-colors hover:border-accent/50">
-          <button
-            type="button"
-            className="clickable-element flex flex-1 flex-col items-center px-6 py-6 text-center transition-[transform,opacity] duration-100"
-            onClick={() => {
               writeServicesFlowPick("consulting");
               recordVisitorEntryIntent("consult");
               openConcierge(
@@ -107,29 +80,39 @@ export function ServicesPageContent() {
           </button>
         </Card>
 
+        <Card className="flex flex-col overflow-hidden border-[var(--color-border-light)] p-0 transition-colors hover:border-accent/50">
+          <button
+            type="button"
+            className="clickable-element flex flex-1 flex-col items-center px-6 py-6 text-center transition-[transform,opacity] duration-100"
+            onClick={() => {
+              writeServicesFlowPick("development");
+              recordVisitorEntryIntent("consult");
+              openConcierge(
+                developmentEntry.mode,
+                developmentEntry.entrySource,
+                developmentEntry.signals
+              );
+            }}
+          >
+            <Code2 className="mb-3 size-6 text-accent" aria-hidden />
+            <h2 className="mb-2 font-semibold text-text">
+              {servicesCopy.development.title}
+            </h2>
+            <p className="text-sm text-text-sub">
+              {servicesCopy.development.desc}
+            </p>
+            <span className="mt-4 text-sm font-medium text-accent">
+              チャットで相談する
+            </span>
+          </button>
+        </Card>
+
         <div className="scroll-mt-24 rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-pure)] p-5 sm:p-6 md:p-6">
             <nav
               role="tablist"
               aria-label="サービス詳細の切り替え"
               className="mb-5 flex flex-wrap gap-2 md:mb-6 md:justify-center"
             >
-              <button
-                type="button"
-                id="services-tab-development"
-                role="tab"
-                aria-selected={activeDetail === "development"}
-                aria-controls={DETAIL_PANEL_ID}
-                tabIndex={activeDetail === "development" ? 0 : -1}
-                className={cn(
-                  "clickable-element min-h-10 flex-1 rounded-lg border px-4 py-2 text-xs font-medium tracking-wide transition-[color,background-color,border-color,transform,opacity] sm:flex-none md:text-[0.8125rem]",
-                  activeDetail === "development"
-                    ? "border-action/70 bg-action/15 text-action shadow-[0_0_16px_-4px_rgba(0,103,192,0.35)]"
-                    : "border-[var(--color-border-light)] bg-[var(--color-bg-base)] text-text/80 hover:border-action/35 hover:text-text"
-                )}
-                onClick={() => setActiveDetail("development")}
-              >
-                開発の流れ
-              </button>
               <button
                 type="button"
                 id="services-tab-consulting"
@@ -146,6 +129,23 @@ export function ServicesPageContent() {
                 onClick={() => setActiveDetail("consulting")}
               >
                 コンサルティング
+              </button>
+              <button
+                type="button"
+                id="services-tab-development"
+                role="tab"
+                aria-selected={activeDetail === "development"}
+                aria-controls={DETAIL_PANEL_ID}
+                tabIndex={activeDetail === "development" ? 0 : -1}
+                className={cn(
+                  "clickable-element min-h-10 flex-1 rounded-lg border px-4 py-2 text-xs font-medium tracking-wide transition-[color,background-color,border-color,transform,opacity] sm:flex-none md:text-[0.8125rem]",
+                  activeDetail === "development"
+                    ? "border-action/70 bg-action/15 text-action shadow-[0_0_16px_-4px_rgba(0,103,192,0.35)]"
+                    : "border-[var(--color-border-light)] bg-[var(--color-bg-base)] text-text/80 hover:border-action/35 hover:text-text"
+                )}
+                onClick={() => setActiveDetail("development")}
+              >
+                開発の流れ
               </button>
             </nav>
 

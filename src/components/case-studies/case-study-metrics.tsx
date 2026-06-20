@@ -1,5 +1,5 @@
 import type { CaseStudyMetric } from "@/lib/content/case-study-detail";
-import { CaseStudyArrowRight } from "@/components/case-studies/case-study-icons";
+import { CaseStudyArrowUpRight } from "@/components/case-studies/case-study-icons";
 
 type CaseStudyMetricsProps = {
   metrics: readonly CaseStudyMetric[];
@@ -10,38 +10,44 @@ export function CaseStudyMetrics({ metrics }: CaseStudyMetricsProps) {
 
   return (
     <div>
-      <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--color-text-tertiary)] md:text-[12px]">
-        想定例 — 数値はイメージです。実際の効果は要件・運用により異なります。
-      </p>
-      <ul className="mt-8 divide-y divide-[var(--color-border-light)] border-y border-[var(--color-border-light)]">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {metrics.map((m) => (
-          <li
+          <div
             key={m.label}
-            className="grid gap-4 py-8 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:items-center md:gap-8 md:py-10"
+            className="group relative overflow-hidden rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-pure)] p-6 transition-shadow duration-300 hover:shadow-[0_18px_40px_-24px_rgba(38,65,142,0.45)] md:p-7"
           >
-            <div>
-              <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--color-text-tertiary)]">
-                {m.label}
-              </p>
-              <p className="mt-2 font-mono text-[clamp(1.35rem,3vw,2rem)] font-bold tabular-nums leading-none text-[var(--color-text-secondary)]">
-                {m.before}
-              </p>
-            </div>
-            <CaseStudyArrowRight
-              className="mx-auto size-5 shrink-0 text-[var(--color-accent-primary)] md:mx-0"
-              aria-hidden
-            />
-            <div className="md:text-right">
-              <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--color-text-tertiary)] md:invisible">
-                {m.label}
-              </p>
-              <p className="mt-2 font-mono text-[clamp(1.35rem,3vw,2rem)] font-bold tabular-nums leading-none text-[var(--color-accent-primary)]">
+            <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--color-text-tertiary)]">
+              {m.label}
+            </p>
+
+            <div className="mt-5 flex items-baseline gap-2">
+              <span className="font-mono text-[clamp(2rem,5vw,2.85rem)] font-bold leading-none tabular-nums text-[var(--color-accent-primary)]">
                 {m.after}
-              </p>
+              </span>
             </div>
-          </li>
+
+            <div className="mt-4 flex items-center gap-2 text-[13px] text-[var(--color-text-tertiary)]">
+              <span
+                className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 font-mono text-[11px] font-semibold"
+                style={{
+                  color: "var(--color-warm-strong)",
+                  backgroundColor: "color-mix(in srgb, var(--color-warm) 22%, transparent)",
+                }}
+              >
+                <CaseStudyArrowUpRight className="size-3.5" aria-hidden />
+                改善
+              </span>
+              <span>
+                従来 <span className="line-through">{m.before}</span> から
+              </span>
+            </div>
+          </div>
         ))}
-      </ul>
+      </div>
+
+      <p className="mt-5 font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--color-text-tertiary)] md:text-[12px]">
+        ※ 想定例 — 数値はイメージです。実際の効果は要件・運用により異なります。
+      </p>
     </div>
   );
 }

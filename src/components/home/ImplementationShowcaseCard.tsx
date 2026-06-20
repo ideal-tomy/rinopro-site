@@ -28,6 +28,14 @@ function isAbsoluteHttpUrl(url: string): boolean {
   return url.startsWith("http://") || url.startsWith("https://");
 }
 
+/**
+ * 静的HTMLの提案LP（/lp/...）や外部URLは Next の <Link>（クライアント遷移）だと
+ * RSC を取得できず白画面になるため、フルページ遷移（<a>）が必要。
+ */
+function needsHardNavigation(url: string): boolean {
+  return isAbsoluteHttpUrl(url) || url.startsWith("/lp/");
+}
+
 export function ImplementationShowcaseCard({
   item,
   priorityImage = false,
@@ -121,7 +129,11 @@ export function ImplementationShowcaseCard({
             </a>
           </Button>
           <Button asChild variant="outline" size="sm" className="min-h-10 flex-1">
-            <Link href={detailHref}>詳細</Link>
+            {needsHardNavigation(detailHref) ? (
+              <a href={detailHref}>詳細</a>
+            ) : (
+              <Link href={detailHref}>詳細</Link>
+            )}
           </Button>
         </div>
       </div>
