@@ -47,6 +47,19 @@ export type ImplementationShowcaseItem = {
   flagship?: boolean;
 };
 
+/** v1 リリース: クライアント指定のおすすめ6本（トップ・/experience 冒頭） */
+export const V1_FLAGSHIP_SHOWCASE_SLUGS = [
+  "shift-auto",
+  "smart-agri-copilot",
+  "kaigo-care-dx",
+  "ma-dd-valueup",
+  "gempo",
+  "hr-evaluation-support",
+] as const;
+
+export type V1FlagshipShowcaseSlug =
+  (typeof V1_FLAGSHIP_SHOWCASE_SLUGS)[number];
+
 /** サイト内LP（CaseStudyDetailView）を出す slug */
 export const FLAGSHIP_CASE_STUDY_SLUGS = [
   "restaurant-ops-dashboard-demo",
@@ -136,6 +149,19 @@ export function getGalleryShowcaseItems(): readonly ImplementationShowcaseItem[]
   return IMPLEMENTATION_SHOWCASE_ITEMS.filter((i) => !i.featured);
 }
 
+/** v1 おすすめ6本（定義順） */
+export function getV1FlagshipShowcaseItems(): readonly ImplementationShowcaseItem[] {
+  return V1_FLAGSHIP_SHOWCASE_SLUGS.map(
+    (slug) => getImplementationShowcaseBySlug(slug)!
+  ).filter(Boolean);
+}
+
+/** v1 ギャラリー（6本以外） */
+export function getV1GalleryShowcaseItems(): readonly ImplementationShowcaseItem[] {
+  const flagship = new Set<string>(V1_FLAGSHIP_SHOWCASE_SLUGS);
+  return IMPLEMENTATION_SHOWCASE_ITEMS.filter((i) => !flagship.has(i.slug));
+}
+
 export type ExperienceGalleryCategory = {
   id: ExperienceIndustryCategoryId | "all";
   label: string;
@@ -164,52 +190,53 @@ const FARM_SLIDES = [
   "/images/demo_images/farm_demo03.png",
 ] as const;
 
-/** 表示順固定（注目 + ギャラリー） */
+/** 表示順固定（v1おすすめ6本 → その他） */
 export const IMPLEMENTATION_SHOWCASE_ITEMS: readonly ImplementationShowcaseItem[] =
   [
     {
-      slug: "restaurant-ops-dashboard-demo",
+      slug: "shift-auto",
       industryCategory: "food",
-      brandName: "Restaurant Ops",
-      productTitle: "飲食店オペレーション・ダッシュボード",
-      catchCopy:
-        "売上・シフト・入金などオペレーションを、業務UIで短時間に体感",
+      brandName: "SHIFT AUTO",
+      productTitle: "シフト自動くん",
+      catchCopy: "スタッフの希望から最適シフトを生成",
       industryLabel: "飲食・サービス",
-      thumbnailSrc: "/images/top07_restauland.png",
-      thumbnailAlt: "飲食店オペレーション・ダッシュボードの画面イメージ",
-      internalPath: "/experience/restaurant-ops-dashboard-demo",
-      openInNewTab: false,
-      liveDemo: true,
-      featured: true,
-      flagship: true,
-    },
-    {
-      slug: "internal-knowledge-bot",
-      industryCategory: "cross",
-      brandName: "AI Knowledge Bot",
-      productTitle: "社内ナレッジ共有BOT",
-      catchCopy: "業種別ナレッジに即答するAI",
-      industryLabel: "横断（AIアシスタント）",
-      thumbnailSrc: "/media/showcase/internal-knowledge-share-bot.mp4",
-      thumbnailAlt: "社内ナレッジ共有BOTのデモ動画",
-      internalPath: "/experience/internal-knowledge-bot",
-      openInNewTab: false,
-      liveDemo: true,
-      featured: true,
-      flagship: true,
-    },
-    {
-      slug: "gempo",
-      industryCategory: "construction",
-      brandName: "GEMPO",
-      productTitle: "建設業向け 現場ポケット",
-      catchCopy: "現場・事務所、どこからでもアクセス",
-      industryLabel: "建設・工事",
-      thumbnailSrc: "/images/genbakanri_admin.webp",
-      thumbnailAlt: "GEMPO 現場ポケットの管理画面スクリーンショット",
-      internalPath: "/experience/gempo",
-      externalEnvKey: "NEXT_PUBLIC_SHOWCASE_GEMPO_URL",
+      thumbnailSrc: "/images/shiftkanri_pc.mp4",
+      thumbnailAlt: "シフト自動くんのデモ動画",
+      internalPath: "/experience/shift-auto",
+      externalEnvKey: "NEXT_PUBLIC_SHOWCASE_SHIFT_URL",
       openInNewTab: true,
+      featured: true,
+      flagship: true,
+    },
+    {
+      slug: "smart-agri-copilot",
+      industryCategory: "agri",
+      brandName: "Oriza Copilot",
+      productTitle: "スマート農業コパイロット",
+      catchCopy: "圃場データと作業記録を、現場で素早く整理",
+      industryLabel: "農業・アグリテック",
+      thumbnailSrc: FARM_SLIDES[0],
+      thumbnailAlt: "スマート農業デモの画面イメージ",
+      thumbnailSlides: FARM_SLIDES,
+      internalPath: "/experience/smart-agri-copilot",
+      externalUrl: "https://oriza-copilot.vercel.app/",
+      openInNewTab: true,
+      featured: true,
+      flagship: true,
+    },
+    {
+      slug: "kaigo-care-dx",
+      industryCategory: "medical",
+      brandName: "ケア記録DX",
+      productTitle: "障害福祉・訪問看護・訪問診療 業務基盤",
+      catchCopy:
+        "現場は入力するだけ。報告書づくりと確認は、システムが肩代わりする。",
+      industryLabel: "医療・介護",
+      thumbnailSrc: "/images/demo_images/kaigo-care-dx.png",
+      thumbnailAlt: "ケア記録DX提案デモの画面イメージ",
+      externalUrl: "https://kaigo-operation-demo.vercel.app/",
+      openInNewTab: true,
+      liveDemo: true,
       featured: true,
       flagship: true,
     },
@@ -231,47 +258,18 @@ export const IMPLEMENTATION_SHOWCASE_ITEMS: readonly ImplementationShowcaseItem[
       flagship: true,
     },
     {
-      slug: "recruit-cockpit",
-      industryCategory: "hr",
-      brandName: "採用コックピット",
-      productTitle: "採用・選考パイプライン管理",
-      catchCopy: "候補者・選考・KPIを1画面で",
-      industryLabel: "人事・採用",
-      thumbnailSrc: "/images/saiyoumaching_pc.webp",
-      thumbnailAlt: "採用・選考パイプライン管理のスクリーンショット",
-      internalPath: "/experience/recruit-cockpit",
-      externalEnvKey: "NEXT_PUBLIC_SHOWCASE_RECRUIT_URL",
+      slug: "gempo",
+      industryCategory: "construction",
+      brandName: "GEMPO",
+      productTitle: "建設業向け 現場ポケット",
+      catchCopy: "現場・事務所、どこからでもアクセス",
+      industryLabel: "建設・工事",
+      thumbnailSrc: "/images/genbakanri_admin.webp",
+      thumbnailAlt: "GEMPO 現場ポケットの管理画面スクリーンショット",
+      internalPath: "/experience/gempo",
+      externalEnvKey: "NEXT_PUBLIC_SHOWCASE_GEMPO_URL",
       openInNewTab: true,
       featured: true,
-      flagship: true,
-    },
-    {
-      slug: "shift-auto",
-      industryCategory: "food",
-      brandName: "SHIFT AUTO",
-      productTitle: "シフト自動くん",
-      catchCopy: "スタッフの希望から最適シフトを生成",
-      industryLabel: "飲食・サービス",
-      thumbnailSrc: "/images/shiftkanri_pc.mp4",
-      thumbnailAlt: "シフト自動くんのデモ動画",
-      internalPath: "/experience/shift-auto",
-      externalEnvKey: "NEXT_PUBLIC_SHOWCASE_SHIFT_URL",
-      openInNewTab: true,
-      flagship: true,
-    },
-    {
-      slug: "smart-agri-copilot",
-      industryCategory: "agri",
-      brandName: "Oriza Copilot",
-      productTitle: "スマート農業コパイロット",
-      catchCopy: "圃場データと作業記録を、現場で素早く整理",
-      industryLabel: "農業・アグリテック",
-      thumbnailSrc: FARM_SLIDES[0],
-      thumbnailAlt: "スマート農業デモの画面イメージ",
-      thumbnailSlides: FARM_SLIDES,
-      internalPath: "/experience/smart-agri-copilot",
-      externalUrl: "https://oriza-copilot.vercel.app/",
-      openInNewTab: true,
       flagship: true,
     },
     {
@@ -284,6 +282,50 @@ export const IMPLEMENTATION_SHOWCASE_ITEMS: readonly ImplementationShowcaseItem[
       thumbnailSrc: "/images/hyouka_pc.png",
       thumbnailAlt: "人事評価サポートAIツールの画面イメージ",
       externalUrl: "https://kouken-demo.vercel.app/",
+      openInNewTab: true,
+      featured: true,
+      flagship: true,
+    },
+    {
+      slug: "restaurant-ops-dashboard-demo",
+      industryCategory: "food",
+      brandName: "Restaurant Ops",
+      productTitle: "飲食店オペレーション・ダッシュボード",
+      catchCopy:
+        "売上・シフト・入金などオペレーションを、業務UIで短時間に体感",
+      industryLabel: "飲食・サービス",
+      thumbnailSrc: "/images/top07_restauland.png",
+      thumbnailAlt: "飲食店オペレーション・ダッシュボードの画面イメージ",
+      internalPath: "/experience/restaurant-ops-dashboard-demo",
+      openInNewTab: false,
+      liveDemo: true,
+      flagship: true,
+    },
+    {
+      slug: "internal-knowledge-bot",
+      industryCategory: "cross",
+      brandName: "AI Knowledge Bot",
+      productTitle: "社内ナレッジ共有BOT",
+      catchCopy: "業種別ナレッジに即答するAI",
+      industryLabel: "横断（AIアシスタント）",
+      thumbnailSrc: "/media/showcase/internal-knowledge-share-bot.mp4",
+      thumbnailAlt: "社内ナレッジ共有BOTのデモ動画",
+      internalPath: "/experience/internal-knowledge-bot",
+      openInNewTab: false,
+      liveDemo: true,
+      flagship: true,
+    },
+    {
+      slug: "recruit-cockpit",
+      industryCategory: "hr",
+      brandName: "採用コックピット",
+      productTitle: "採用・選考パイプライン管理",
+      catchCopy: "候補者・選考・KPIを1画面で",
+      industryLabel: "人事・採用",
+      thumbnailSrc: "/images/saiyoumaching_pc.webp",
+      thumbnailAlt: "採用・選考パイプライン管理のスクリーンショット",
+      internalPath: "/experience/recruit-cockpit",
+      externalEnvKey: "NEXT_PUBLIC_SHOWCASE_RECRUIT_URL",
       openInNewTab: true,
       flagship: true,
     },
@@ -298,21 +340,6 @@ export const IMPLEMENTATION_SHOWCASE_ITEMS: readonly ImplementationShowcaseItem[
       thumbnailAlt: "申し送りAI（自動カルテ作成）の画面イメージ",
       externalUrl: "https://lambent-smakager-7bcf0a.netlify.app/",
       openInNewTab: true,
-      flagship: true,
-    },
-    {
-      slug: "kaigo-care-dx",
-      industryCategory: "medical",
-      brandName: "ケア記録DX",
-      productTitle: "障害福祉・訪問看護・訪問診療 業務基盤",
-      catchCopy:
-        "現場は入力するだけ。報告書づくりと確認は、システムが肩代わりする。",
-      industryLabel: "医療・介護",
-      thumbnailSrc: "/images/demo_images/kaigo-care-dx.png",
-      thumbnailAlt: "ケア記録DX提案デモの画面イメージ",
-      externalUrl: "https://kaigo-operation-demo.vercel.app/",
-      openInNewTab: true,
-      liveDemo: true,
       flagship: true,
     },
     {

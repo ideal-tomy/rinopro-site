@@ -91,7 +91,7 @@ function renderSectionBody(kicker: string, body: string) {
           {bulletLines.map((line) => (
             <li
               key={line}
-              className="rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-pure)] px-4 py-3 text-left text-[15px] leading-[1.75] text-[var(--color-text-secondary)] md:px-5 md:py-4 md:text-[16px]"
+              className="rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-pure)] px-4 py-3 text-left text-[15px] leading-[1.75] text-text-sub md:px-5 md:py-4 md:text-[16px]"
             >
               <span className="inline-flex items-start gap-2">
                 <span
@@ -121,10 +121,10 @@ function renderSectionBody(kicker: string, body: string) {
             key={item.q}
             className="rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-pure)] px-5 py-4 text-left md:px-6 md:py-5"
           >
-            <p className="text-[16px] font-semibold leading-[1.65] text-[var(--color-text-primary)]">
+            <p className="text-[16px] font-semibold leading-[1.65] text-text">
               Q. {item.q}
             </p>
-            <p className="mt-2 text-[15px] leading-[1.8] text-[var(--color-text-secondary)] md:text-[16px]">
+            <p className={cn("mt-2", serviceReading.body)}>
               A. {item.a}
             </p>
           </article>
@@ -209,14 +209,21 @@ export function ConsultingDetailPageContent({
               transition={{ delay: reduce ? 0 : 0.08 + i * 0.06 }}
             >
               <SectionWatermark n={String(i + 1).padStart(2, "0")} />
-              <div className="relative z-[1] mx-auto max-w-2xl text-center md:max-w-none">
+              <div
+                className={cn(
+                  "relative z-[1] mx-auto max-w-2xl md:max-w-none",
+                  embedded ? "text-left" : "text-center"
+                )}
+              >
                 <p className="mb-4 text-xs font-medium tracking-[0.2em] text-accent/90 md:text-[0.7rem]">
                   {section.kicker}
                 </p>
                 <h2
                   className={cn(
-                    "font-semibold leading-snug tracking-tight text-text md:text-2xl",
-                    embedded ? "mb-6 text-lg md:mb-8" : "mb-8 text-xl"
+                    "font-semibold leading-snug tracking-tight text-text",
+                    embedded
+                      ? "mb-6 text-xl md:mb-8 md:text-2xl"
+                      : "mb-8 text-xl md:text-2xl"
                   )}
                 >
                   {section.heading}

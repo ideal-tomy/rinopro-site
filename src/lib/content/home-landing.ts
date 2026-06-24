@@ -223,7 +223,8 @@ export const homeLandingCopy = {
     sectionIndex: "03",
     sectionKicker: "INDUSTRY SHOWCASE",
     heading: "業界別、実装demo",
-    intro: "",
+    intro:
+      "飲食・農業・介護・M&A・建設・人事など、業種の異なる6つの実装例です。",
     allCasesLabel: "すべてのdemoを見る",
     allCasesHref: "/experience",
   },

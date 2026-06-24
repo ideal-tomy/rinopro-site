@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>建設業向け｜現場報告のDX 投資対効果シミュレーター（中堅建設会社モデル）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+/* =========================================================================
+   ▼▼▼ ① ブランド／プリセット層（クライアントごとに ここだけ 差し替える）
+   色・社名・初期値は CONFIG（<script>内）でも上書きできます。
+   ======================================================================== */
+:root{
+  --navy:#14264A;      /* 見出し・ヘッダー */
+  --navy2:#1B335F;     /* 濃紺アクセント */
+  --blue:#1E5BE6;      /* 強調・After・効果の線 */
+  --tint:#EAF1FD;      /* 薄藍の塗り */
+  --ink:#3A4250;       /* 本文 */
+  --sub:#6B7686;       /* 補足 */
+  --bg:#F5F7FA;        /* 背景 */
+  --card:#FFFFFF;
+  --line:#E3E8EF;      /* 罫線 */
+  --red:#D64550;       /* Before・問題 */
+  --green:#1F9D5B;     /* 回収済みゾーン */
+  --radius:14px;
+  --shadow:0 1px 2px rgba(20,38,74,.04),0 8px 24px rgba(20,38,74,.06);
+}
+/* ========================================================================= */
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Noto Sans JP",-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Meiryo",sans-serif;
+  color:var(--ink);background:var(--bg);line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+
+/* ---- ヘッダー ---- */
+header.bar{background:var(--navy);color:#fff}
+header.bar .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
+.brand{font-weight:900;font-size:18px;letter-spacing:.02em;display:flex;align-items:center;gap:10px}
+.brand .dot{width:10px;height:10px;border-radius:3px;background:var(--blue);display:inline-block}
+.bar .tag{font-size:12px;font-weight:700;border:1px solid rgba(255,255,255,.35);
+  padding:5px 12px;border-radius:999px;color:#fff;white-space:nowrap}
+
+/* ---- ヒーロー（悩み）---- */
+.hero{background:#fff;border-bottom:1px solid var(--line)}
+.hero .wrap{padding:34px 20px 30px}
+.eyebrow{color:var(--blue);font-weight:700;font-size:13px;letter-spacing:.08em;margin-bottom:10px}
+.hero h1{color:var(--navy);font-weight:900;font-size:clamp(26px,4.2vw,40px);line-height:1.3;letter-spacing:-.01em}
+.hero p.lead{margin-top:12px;color:var(--sub);font-size:15px;max-width:760px}
+
+/* カテゴリ切替タブ */
+.tabs{display:flex;gap:8px;margin-top:22px;flex-wrap:wrap}
+.tab{
+  appearance:none;cursor:pointer;border:1.5px solid var(--line);background:#fff;
+  color:var(--sub);font-family:inherit;font-weight:700;font-size:14px;
+  padding:11px 18px;border-radius:999px;transition:.18s;
+}
+.tab small{display:block;font-weight:500;font-size:11px;color:var(--sub);margin-top:2px}
+.tab[aria-selected="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+.tab[aria-selected="true"] small{color:rgba(255,255,255,.7)}
+.tab:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+
+/* ---- 本体グリッド ---- */
+.main{padding:30px 0 10px}
+.grid{display:grid;grid-template-columns:380px 1fr;gap:22px;align-items:start}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
+
+.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+.panel .ph{padding:16px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}
+.panel .ph .num{width:24px;height:24px;border-radius:7px;background:var(--tint);color:var(--blue);
+  font-weight:900;font-size:13px;display:grid;place-items:center}
+.panel .ph h2{font-size:15px;color:var(--navy);font-weight:700}
+.panel .pb{padding:18px 20px}
+
+/* ---- 入力フィールド ---- */
+.field{margin-bottom:18px}
+.field:last-child{margin-bottom:4px}
+.field .lbl{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:7px}
+.field .lbl .q{font-size:14px;font-weight:700;color:var(--ink)}
+.field .lbl .val{font-weight:900;color:var(--navy);font-size:16px;white-space:nowrap}
+.field .lbl .val .u{font-size:12px;font-weight:700;color:var(--sub);margin-left:2px}
+input[type=range]{
+  -webkit-appearance:none;width:100%;height:6px;border-radius:99px;
+  background:linear-gradient(var(--blue),var(--blue)) no-repeat,var(--line);
+  background-size:var(--fill,50%) 100%;outline:none;cursor:pointer;
+}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;
+  background:#fff;border:5px solid var(--blue);box-shadow:0 1px 4px rgba(20,38,74,.25);cursor:pointer}
+input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;
+  background:#fff;border:5px solid var(--blue);box-shadow:0 1px 4px rgba(20,38,74,.25);cursor:pointer}
+input[type=range]:focus-visible{outline:3px solid var(--blue);outline-offset:4px}
+
+.money{display:flex;align-items:center;border:1.5px solid var(--line);border-radius:10px;overflow:hidden;background:#fff}
+.money:focus-within{border-color:var(--blue)}
+.money input{flex:1;border:0;outline:none;font-family:inherit;font-weight:700;font-size:16px;
+  color:var(--navy);padding:11px 12px;text-align:right;background:transparent;width:100%}
+.money .yen{padding:0 13px;color:var(--sub);font-weight:700;font-size:13px;background:var(--bg);align-self:stretch;display:flex;align-items:center}
+.field .hint{font-size:11.5px;color:var(--sub);margin-top:6px}
+
+/* ---- 右カラム：時間削減 ---- */
+.savebar{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px 22px;margin-bottom:22px}
+.savebar .row{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.savebar .blk{flex:1;min-width:120px}
+.savebar .k{font-size:12px;font-weight:700;color:var(--sub);margin-bottom:4px}
+.savebar .before{font-size:22px;font-weight:900;color:var(--sub);text-decoration:line-through;text-decoration-color:var(--red);text-decoration-thickness:2px}
+.savebar .arrow{font-size:22px;color:var(--blue);font-weight:900}
+.savebar .after{font-size:26px;font-weight:900;color:var(--blue)}
+.savebar .cut{margin-left:auto;text-align:right}
+.savebar .cut .big{font-size:30px;font-weight:900;color:var(--navy);line-height:1}
+.savebar .cut .lab{font-size:12px;font-weight:700;color:var(--sub)}
+@media(max-width:520px){.savebar .cut{margin-left:0;text-align:left;width:100%}}
+
+/* ---- KPIカード ---- */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
+@media(max-width:760px){.kpis{grid-template-columns:repeat(2,1fr)}}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px 16px 18px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.kpi .kl{font-size:12px;font-weight:700;color:var(--sub);margin-bottom:6px}
+.kpi .kv{font-size:clamp(22px,3vw,30px);font-weight:900;color:var(--navy);line-height:1.1}
+.kpi .kv .u{font-size:14px;font-weight:700;color:var(--sub);margin-left:1px}
+.kpi .kn{font-size:11px;color:var(--sub);margin-top:5px}
+.kpi.accent{background:var(--navy);border-color:var(--navy)}
+.kpi.accent .kl{color:rgba(255,255,255,.72)}
+.kpi.accent .kv{color:#fff}
+.kpi.accent .kv .u{color:rgba(255,255,255,.8)}
+.kpi.accent .kn{color:rgba(255,255,255,.7)}
+.kpi.warn .kv{color:var(--red)}
+
+/* ---- 損益分岐グラフ（主役）---- */
+.chartcard{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px 22px 16px}
+.chartcard .ch-head{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:6px}
+.chartcard h3{color:var(--navy);font-size:16px;font-weight:700}
+.legend{display:flex;gap:16px;font-size:12px;font-weight:700;color:var(--sub)}
+.legend i{display:inline-block;width:14px;height:3px;border-radius:2px;vertical-align:middle;margin-right:5px}
+.chartwrap{width:100%;overflow:hidden}
+svg.chart{width:100%;height:auto;display:block}
+.callout{margin-top:12px;background:var(--tint);border:1px solid #cfe0fb;border-radius:10px;
+  padding:13px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.callout .ico{width:30px;height:30px;border-radius:8px;background:var(--blue);color:#fff;
+  display:grid;place-items:center;font-weight:900;flex-shrink:0}
+.callout .ico.no{background:var(--red)}
+.callout .txt{font-size:15px;font-weight:700;color:var(--navy)}
+.callout .txt b{color:var(--blue);font-size:18px}
+
+/* ---- フッターまとめ ---- */
+.summary{background:var(--navy);color:#fff;margin-top:34px}
+.summary .wrap{padding:30px 20px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.summary .msg{font-size:clamp(17px,2.5vw,22px);font-weight:900;line-height:1.5}
+.summary .msg b{color:#8fb6ff}
+.summary .cta{background:#fff;color:var(--navy);font-weight:900;font-size:15px;
+  padding:14px 26px;border-radius:999px;white-space:nowrap;text-decoration:none;display:inline-block}
+.note{color:var(--sub);font-size:11.5px;padding:16px 0 40px;line-height:1.7}
+.note .wrap{padding:16px 20px 0}
+
+@media (prefers-reduced-motion: reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="wrap">
+    <div class="brand"><span class="dot"></span><span id="brandName">AXEON</span></div>
+    <div class="tag" id="brandTag">投資対効果シミュレーター</div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow" id="heroEyebrow">よくある社内の悩み</div>
+    <h1 id="heroTitle">その確認作業、<br>まだ手でやっていませんか？</h1>
+    <p class="lead" id="heroLead">人数・件数・時間を入れるだけ。導入で「いくら得して、何ヶ月で元が取れるか」をその場で試算します。</p>
+    <div class="tabs" role="tablist" aria-label="部署カテゴリ">
+      <button class="tab" role="tab" data-cat="field" aria-selected="true">現場・報告<small>現場報告を簡略化する</small></button>
+      <button class="tab" role="tab" data-cat="internal" aria-selected="false">内勤・作成<small>報告書を自動でつくる</small></button>
+      <button class="tab" role="tab" data-cat="dashboard" aria-selected="false">管理・経営<small>現場と内勤の齟齬をなくす</small></button>
+    </div>
+  </div>
+</section>
+
+<div class="main">
+  <div class="wrap">
+    <div class="grid">
+
+      <!-- 入力 -->
+      <div class="panel" aria-label="条件入力">
+        <div class="ph"><span class="num">1</span><h2>かんたん3ステップで入力</h2></div>
+        <div class="pb">
+          <div class="field">
+            <div class="lbl"><span class="q">この作業をする人は何人？</span><span class="val"><span id="v_people">10</span><span class="u">人</span></span></div>
+            <input type="range" id="people" min="1" max="100" value="10" step="1">
+          </div>
+          <div class="field">
+            <div class="lbl"><span class="q">1人が1ヶ月に何件こなす？</span><span class="val"><span id="v_cases">20</span><span class="u">件</span></span></div>
+            <input type="range" id="cases" min="1" max="200" value="20" step="1">
+          </div>
+          <div class="field">
+            <div class="lbl"><span class="q">1件にだいたい何分かかる？</span><span class="val"><span id="v_min">30</span><span class="u">分</span></span></div>
+            <input type="range" id="minutes" min="1" max="240" value="30" step="1">
+          </div>
+          <div class="field">
+            <div class="lbl"><span class="q">導入でどれくらい速くなる？</span><span class="val"><span id="v_red">80</span><span class="u">%</span></span></div>
+            <input type="range" id="reduction" min="10" max="99" value="80" step="1">
+            <div class="hint">「探す・調べる」時間がどれだけ消えるか。迷ったら70〜80%でOK。</div>
+          </div>
+          <div class="field">
+            <div class="lbl"><span class="q">1時間あたりの人件費</span></div>
+            <div class="money"><input type="number" id="wage" value="3000" min="0" step="100" inputmode="numeric"><span class="yen">円/時</span></div>
+            <div class="hint">月給÷160時間の目安。一般職なら2,000〜3,500円。</div>
+          </div>
+          <div class="field">
+            <div class="lbl"><span class="q" id="otherLabel">ミス・やり直しの削減（年間）</span></div>
+            <div class="money"><input type="number" id="other" value="0" min="0" step="100000" inputmode="numeric"><span class="yen">円/年</span></div>
+            <div class="hint" id="otherHint">作業時間以外の効果。わからなければ0でOK。</div>
+          </div>
+          <div class="field">
+            <div class="lbl"><span class="q">導入の初期費用</span></div>
+            <div class="money"><input type="number" id="initial" value="1200000" min="0" step="100000" inputmode="numeric"><span class="yen">円</span></div>
+          </div>
+          <div class="field">
+            <div class="lbl"><span class="q">毎月の利用料</span></div>
+            <div class="money"><input type="number" id="monthly" value="80000" min="0" step="10000" inputmode="numeric"><span class="yen">円/月</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 結果 -->
+      <div>
+        <div class="savebar">
+          <div class="row">
+            <div class="blk"><div class="k">いまの作業時間</div><div class="before"><span id="hoursBefore">100</span>時間/月</div></div>
+            <div class="arrow">→</div>
+            <div class="blk"><div class="k">導入後</div><div class="after"><span id="hoursAfter">20</span>時間/月</div></div>
+            <div class="cut"><div class="big">−<span id="hoursCut">80</span>時間</div><div class="lab">毎月、これだけ手が空く</div></div>
+          </div>
+        </div>
+
+        <div class="kpis">
+          <div class="kpi"><div class="kl">年間の効果額</div><div class="kv"><span id="kEffect">—</span><span class="u">万円</span></div><div class="kn">浮いた時間＋その他効果</div></div>
+          <div class="kpi"><div class="kl">投資額（初年度）</div><div class="kv"><span id="kInvest">—</span><span class="u">万円</span></div><div class="kn">初期費用＋年間利用料</div></div>
+          <div class="kpi accent" id="paybackCard"><div class="kl">元が取れるまで</div><div class="kv"><span id="kPayback">—</span><span class="u" id="kPaybackU">ヶ月</span></div><div class="kn" id="kPaybackNote">これを過ぎたら利益</div></div>
+          <div class="kpi"><div class="kl">3年の累計利益</div><div class="kv"><span id="kProfit">—</span><span class="u">万円</span></div><div class="kn">投資を引いた手残り</div></div>
+        </div>
+
+        <div class="chartcard">
+          <div class="ch-head">
+            <h3>いつ元が取れるか（損益分岐）</h3>
+            <div class="legend">
+              <span><i style="background:var(--blue)"></i>導入で得する累計</span>
+              <span><i style="background:var(--red)"></i>かかるお金の累計</span>
+            </div>
+          </div>
+          <div class="chartwrap"><svg class="chart" id="chart" viewBox="0 0 720 320" preserveAspectRatio="xMidYMid meet" role="img" aria-label="損益分岐グラフ"></svg></div>
+          <div class="callout" id="callout">
+            <div class="ico" id="calloutIco">✓</div>
+            <div class="txt" id="calloutTxt">—</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<section class="summary">
+  <div class="wrap">
+    <div class="msg" id="summaryMsg">検索や確認に消えていた時間を、<b>利益を生む時間</b>に変える。</div>
+    <a class="cta" href="#" id="ctaBtn">御社の数字で試算する</a>
+  </div>
+</section>
+
+<div class="note"><div class="wrap">
+  ※ 本シミュレーションは入力値にもとづく概算です。実際の効果は業務内容・導入範囲により異なります。具体的な試算は貴社の実データをもとに別途ご提示します。
+</div></div>
+
+<script>
+/* =========================================================================
+   ▼▼▼ ① ブランド／プリセット層（クライアント・業界・部署ごとに ここを差し替える）
+   ・brand：社名/タグ/CTAリンク
+   ・presets：3カテゴリの初期値と文言。数字を入れ替えるだけで各社版になる。
+   ・otherLabel＝カテゴリごとの「効果のレバー」（内勤=工数 / 現場=ミス回避 / 管理=粗利可視化）
+   ======================================================================== */
+const CONFIG = {
+  brand:{ name:"AXEON", tag:"建設業モデル｜従業員300名・売上30億円", ctaText:"自社の数字で試算する", ctaUrl:"#" },
+  presets:{
+    // ① 現場・報告：現場報告の簡略化（音声入力・自動保存・自動ファイル命名）
+    field:{
+      eyebrow:"よくある現場の悩み｜現場・報告",
+      title:"現場が終わってからの報告書作成で、<br>毎日「もうひと仕事」していませんか？",
+      lead:"写真を整理して、日報に転記して、ファイル名を付けて保存。1日の最後のこの30分が、現場80名ぶん積み重なっています。",
+      otherLabel:"撮り直し・差し戻し・記録漏れの回避（年間）",
+      otherHint:"報告のやり直しや「あの写真どこ？」を減らした効果。建設では手戻りが効きます。",
+      summary:'現場が報告に使う時間を、<b>段取りと安全確認の時間</b>に変える。',
+      // 現場担当80名 × 月20件 × 1件25分、簡略化で75%短縮
+      d:{ people:80, cases:20, minutes:25, reduction:75, wage:3500, other:3000000, initial:3000000, monthly:250000 }
+    },
+    // ② 内勤・作成：現場報告→クライアント報告書の自動作成（画像探しの解消）
+    internal:{
+      eyebrow:"よくある内勤の悩み｜内勤・作成",
+      title:"現場の報告を、<br>クライアント用に作り直していませんか？",
+      lead:"送られてきた写真を探し、文章を整え、体裁を組み直す。提出用の報告書づくりが、内勤25名の手を毎日ふさいでいます。",
+      otherLabel:"資料探し・差し戻し対応の削減（年間）",
+      otherHint:"「あの現場の写真は？」「前回の様式は？」の探す時間。0でも構いません。",
+      summary:'報告書を作り直す時間を、<b>顧客対応と提案の時間</b>に変える。',
+      // 内勤25名 × 月15件 × 1件60分、自動作成で80%短縮
+      d:{ people:25, cases:15, minutes:60, reduction:80, wage:3000, other:2000000, initial:2500000, monthly:200000 }
+    },
+    // ③ 管理・経営：自動振り分けによる齟齬解消＋ダッシュボード
+    dashboard:{
+      eyebrow:"よくある経営の悩み｜管理・経営",
+      title:"「現場はそう言ってない」の確認に、<br>時間を取られていませんか？",
+      lead:"報告がバラバラに届き、振り分け・突合・確認に追われる。現場と内勤の齟齬を埋める作業が、管理職12名の判断を遅らせています。",
+      otherLabel:"齟齬による手戻り・トラブル対応の回避（年間）",
+      otherHint:"認識違いから生まれるやり直しや顧客クレーム対応の回避額。経営インパクトの中心です。",
+      summary:'食い違いを正す時間を、<b>早く正しく決める時間</b>に変える。',
+      // 管理職12名 × 月10件 × 1件90分、自動振り分け＋見える化で70%短縮
+      d:{ people:12, cases:10, minutes:90, reduction:70, wage:4500, other:8000000, initial:2000000, monthly:180000 }
+    }
+  }
+};
+/* ===================== ②エンジン層（基本さわらない） ===================== */
+
+const $=id=>document.getElementById(id);
+const ids=["people","cases","minutes","reduction","wage","other","initial","monthly"];
+let cat="internal";
+
+// ブランド反映
+$("brandName").textContent=CONFIG.brand.name;
+$("brandTag").textContent=CONFIG.brand.tag;
+$("ctaBtn").textContent=CONFIG.brand.ctaText;
+$("ctaBtn").href=CONFIG.brand.ctaUrl;
+
+const fmtMan=n=>{ // 円→万円（見やすく丸め）
+  const m=n/10000;
+  if(Math.abs(m)>=1000) return Math.round(m).toLocaleString("ja-JP");
+  if(Math.abs(m)>=100)  return (Math.round(m)).toLocaleString("ja-JP");
+  return (Math.round(m*10)/10).toLocaleString("ja-JP");
+};
+const fmtInt=n=>Math.round(n).toLocaleString("ja-JP");
+
+function setSliderFill(el){
+  const min=+el.min,max=+el.max,v=+el.value;
+  el.style.setProperty("--fill",((v-min)/(max-min)*100)+"%");
+}
+
+function applyPreset(key){
+  const p=CONFIG.presets[key];
+  $("heroEyebrow").textContent=p.eyebrow;
+  $("heroTitle").innerHTML=p.title;
+  $("heroLead").textContent=p.lead;
+  $("otherLabel").textContent=p.otherLabel;
+  $("otherHint").textContent=p.otherHint;
+  $("summaryMsg").innerHTML=p.summary;
+  for(const k in p.d){ const el=$(k); if(el){ el.value=p.d[k]; if(el.type==="range") setSliderFill(el);} }
+  compute();
+}
+
+function readState(){
+  return {
+    people:+$("people").value, cases:+$("cases").value, minutes:+$("minutes").value,
+    reduction:+$("reduction").value, wage:+$("wage").value, other:+$("other").value||0,
+    initial:+$("initial").value||0, monthly:+$("monthly").value||0
+  };
+}
+
+function compute(){
+  const s=readState();
+  // 時間
+  const monthlyCases=s.people*s.cases;
+  const hoursBefore=monthlyCases*s.minutes/60;
+  const hoursSaved=hoursBefore*s.reduction/100;
+  const hoursAfter=hoursBefore-hoursSaved;
+  // お金
+  const monthlyLabor=hoursSaved*s.wage;
+  const monthlyOther=s.other/12;
+  const monthlyGross=monthlyLabor+monthlyOther;       // 月の効果（粗）
+  const monthlyNet=monthlyGross-s.monthly;            // 月の効果（利用料差引）
+  const annualEffect=monthlyGross*12;
+  const investYear=s.initial+s.monthly*12;
+  const payback= monthlyNet>0 ? s.initial/monthlyNet : Infinity;
+  const profit3=monthlyNet*36-s.initial;
+
+  // 時間バー
+  $("hoursBefore").textContent=fmtInt(hoursBefore);
+  $("hoursAfter").textContent=fmtInt(hoursAfter);
+  $("hoursCut").textContent=fmtInt(hoursSaved);
+  // 値ラベル
+  $("v_people").textContent=s.people;
+  $("v_cases").textContent=s.cases;
+  $("v_min").textContent=s.minutes;
+  $("v_red").textContent=s.reduction;
+
+  // KPI
+  $("kEffect").textContent=fmtMan(annualEffect);
+  $("kInvest").textContent=fmtMan(investYear);
+  $("kProfit").textContent=fmtMan(profit3);
+  const pc=$("paybackCard");
+  if(isFinite(payback)){
+    pc.classList.remove("warn");
+    if(payback<1){ $("kPayback").textContent="1"; $("kPaybackU").textContent="ヶ月未満"; }
+    else { $("kPayback").textContent=(Math.round(payback*10)/10); $("kPaybackU").textContent="ヶ月"; }
+    $("kPaybackNote").textContent="これを過ぎたら利益";
+  }else{
+    pc.classList.add("warn");
+    $("kPayback").textContent="—"; $("kPaybackU").textContent="";
+    $("kPaybackNote").textContent="効果が利用料を下回っています";
+  }
+
+  drawChart({initial:s.initial, monthly:s.monthly, monthlyGross, payback});
+  drawCallout(payback);
+}
+
+function drawCallout(payback){
+  const ico=$("calloutIco"), txt=$("calloutTxt");
+  if(isFinite(payback)){
+    ico.classList.remove("no"); ico.textContent="✓";
+    const m=payback<1?"1ヶ月未満":(Math.round(payback*10)/10)+"ヶ月";
+    txt.innerHTML=`導入から <b>${m}</b> で投資を回収。あとは続けるほど利益が積み上がります。`;
+  }else{
+    ico.classList.add("no"); ico.textContent="!";
+    txt.innerHTML=`いまの条件では、毎月の効果が利用料を下回っています。対象人数・件数・速くなる割合を見直してみてください。`;
+  }
+}
+
+/* ---- 損益分岐 折れ線（手書きSVG）---- */
+function drawChart({initial,monthly,monthlyGross,payback}){
+  const W=720,H=320, padL=58,padR=24,padT=22,padB=40;
+  const plotW=W-padL-padR, plotH=H-padT-padB;
+  // 横軸（月）：回収月の1.6倍 or 24ヶ月、上限60
+  let months = isFinite(payback)? Math.max(12, Math.ceil(payback*1.6)) : 24;
+  months=Math.min(months,60);
+  const cost=m=>initial+monthly*m;
+  const benefit=m=>monthlyGross*m;
+  const yMax=Math.max(cost(months),benefit(months),1)*1.08;
+  const X=m=>padL+(m/months)*plotW;
+  const Y=v=>padT+plotH-(v/yMax)*plotH;
+
+  const ticksY=4, gy=[];
+  for(let i=0;i<=ticksY;i++){const v=yMax/ticksY*i; gy.push({y:Y(v),v});}
+  const stepX=Math.ceil(months/6); const gx=[];
+  for(let m=0;m<=months;m+=stepX) gx.push(m);
+  if(gx[gx.length-1]!==months) gx.push(months);
+
+  const costPts=[],benePts=[];
+  for(let m=0;m<=months;m++){costPts.push(`${X(m)},${Y(cost(m))}`);benePts.push(`${X(m)},${Y(benefit(m))}`);}
+
+  // 回収後ゾーン（効果が費用を上回る領域）
+  let shade="";
+  if(isFinite(payback)&&payback<=months){
+    const xb=X(payback);
+    shade=`<rect x="${xb}" y="${padT}" width="${padL+plotW-xb}" height="${plotH}" fill="var(--green)" opacity="0.07"/>`;
+  }
+
+  let gridY=gy.map(g=>`<line x1="${padL}" y1="${g.y}" x2="${padL+plotW}" y2="${g.y}" stroke="var(--line)" stroke-width="1"/>
+    <text x="${padL-10}" y="${g.y+4}" text-anchor="end" font-size="11" fill="var(--sub)">${fmtMan(g.v)}万</text>`).join("");
+  let gridX=gx.map(m=>`<text x="${X(m)}" y="${padT+plotH+22}" text-anchor="middle" font-size="11" fill="var(--sub)">${m}ヶ月</text>`).join("");
+
+  // 回収ポイント
+  let marker="";
+  if(isFinite(payback)&&payback<=months){
+    const px=X(payback),py=Y(cost(payback));
+    const lab=payback<1?"1ヶ月未満で回収":`${Math.round(payback*10)/10}ヶ月で回収`;
+    const lx=Math.min(px+10, padL+plotW-118);
+    marker=`<line x1="${px}" y1="${padT}" x2="${px}" y2="${padT+plotH}" stroke="var(--green)" stroke-width="1.5" stroke-dasharray="4 4"/>
+      <circle cx="${px}" cy="${py}" r="6.5" fill="#fff" stroke="var(--green)" stroke-width="3"/>
+      <g transform="translate(${lx},${padT+8})">
+        <rect x="0" y="0" width="118" height="24" rx="6" fill="var(--green)"/>
+        <text x="59" y="16" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">${lab}</text>
+      </g>`;
+  }
+
+  $("chart").innerHTML=`
+    ${shade}${gridY}${gridX}
+    <line x1="${padL}" y1="${padT}" x2="${padL}" y2="${padT+plotH}" stroke="var(--line)" stroke-width="1.5"/>
+    <line x1="${padL}" y1="${padT+plotH}" x2="${padL+plotW}" y2="${padT+plotH}" stroke="var(--line)" stroke-width="1.5"/>
+    <polyline points="${costPts.join(' ')}" fill="none" stroke="var(--red)" stroke-width="3" stroke-linejoin="round"/>
+    <polyline points="${benePts.join(' ')}" fill="none" stroke="var(--blue)" stroke-width="3.5" stroke-linejoin="round"/>
+    ${marker}`;
+}
+
+/* ---- イベント ---- */
+ids.forEach(id=>{
+  const el=$(id);
+  if(el.type==="range") setSliderFill(el);
+  el.addEventListener("input",()=>{ if(el.type==="range") setSliderFill(el); compute(); });
+});
+document.querySelectorAll(".tab").forEach(t=>{
+  t.addEventListener("click",()=>{
+    document.querySelectorAll(".tab").forEach(x=>x.setAttribute("aria-selected","false"));
+    t.setAttribute("aria-selected","true");
+    cat=t.dataset.cat; applyPreset(cat);
+  });
+});
+
+// 初期化
+applyPreset("field");
+</script>
+</body>
+</html>

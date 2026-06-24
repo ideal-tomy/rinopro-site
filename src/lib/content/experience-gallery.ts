@@ -6,6 +6,7 @@
 import {
   getFeaturedShowcaseItems,
   getGalleryShowcaseItems,
+  getV1FlagshipShowcaseItems,
   type ImplementationShowcaseItem,
 } from "@/lib/content/implementation-showcase";
 
@@ -31,11 +32,18 @@ export const experienceGalleryCopy = {
     kicker: "EXPERIENCE",
     title: "触って探す、AI活用のヒント",
     lead:
-      "業界別の実装プロダクトとデモを一覧でご覧いただけます。気になるものを実際に触って、自社への応用イメージを膨らませてください。",
+      "飲食・農業・介護・M&A・建設・人事など、業種の異なる実装例をご覧いただけます。気になるものを触って、自社への応用イメージを膨らませてください。",
+  },
+  flagshipSection: {
+    title: "おすすめの実装例",
+    lead: "クライアントの現場に近い6つのプロダクト例です。カードからデモ環境へ進めます。",
   },
   listSection: {
-    title: "デモ・実装事例一覧",
-    lead: "業種で絞り込めます。気になるカードからデモ環境へ進めます。",
+    title: "その他の事例",
+    lead: "ほかにも業種・用途の異なるデモをご用意しています。業種で絞り込めます。",
+    filterLabel: "業種で絞り込み",
+    filteredTitle: "絞り込み結果",
+    filteredLead: "選択した業種に該当するデモです。",
   },
   ctaSection: {
     title: "うちの業界でも作れる?",
@@ -46,9 +54,19 @@ export const experienceGalleryCopy = {
   },
 } as const;
 
+/** おすすめ6本の業種バッジ（読み取り専用） */
+export const V1_FLAGSHIP_INDUSTRY_BADGES = [
+  "飲食・サービス",
+  "農業",
+  "介護",
+  "M&A",
+  "建設",
+  "人事",
+] as const;
+
 /** @deprecated LIVE セクションは FEATURED に統合。互換用 */
 export function getExternalShowcaseItemsForGallery(): readonly ImplementationShowcaseItem[] {
   return getGalleryShowcaseItems();
 }
 
-export { getFeaturedShowcaseItems, getGalleryShowcaseItems };
+export { getFeaturedShowcaseItems, getGalleryShowcaseItems, getV1FlagshipShowcaseItems };

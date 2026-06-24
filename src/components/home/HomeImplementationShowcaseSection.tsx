@@ -6,9 +6,7 @@ import { Button } from "@/components/ui/button";
 import { HomeHorizontalDots } from "@/components/home/HomeHorizontalDots";
 import { HomeLandingSectionHeading } from "@/components/home/HomeLandingSectionHeading";
 import { ImplementationShowcaseCard } from "@/components/home/ImplementationShowcaseCard";
-import {
-  IMPLEMENTATION_SHOWCASE_ITEMS,
-} from "@/lib/content/implementation-showcase";
+import { getV1FlagshipShowcaseItems } from "@/lib/content/implementation-showcase";
 import { homeLandingCopy } from "@/lib/content/home-landing";
 import { homeLandingCtaButtonClass } from "@/lib/content/home-landing-styles";
 
@@ -16,7 +14,7 @@ const copy = homeLandingCopy.implementationShowcase;
 
 export function HomeImplementationShowcaseSection() {
   const railRef = useRef<HTMLDivElement | null>(null);
-  const items = IMPLEMENTATION_SHOWCASE_ITEMS;
+  const items = getV1FlagshipShowcaseItems();
 
   return (
     <section

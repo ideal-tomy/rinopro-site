@@ -16,6 +16,7 @@ import {
   serviceShellInset,
 } from "@/lib/ui/service-reading-styles";
 import { ServicesDetailIntroImage } from "@/components/services/ServicesDetailIntroImage";
+import { FlowStepMedia } from "@/components/services/FlowStepMedia";
 import { cn } from "@/lib/utils";
 
 const EASE_MIST = [0.22, 1, 0.36, 1] as const;
@@ -228,16 +229,28 @@ export function FlowTimelinePageContent({
         viewport={{ once: true, margin: "-60px" }}
         variants={v}
       >
-        <p className={cn("text-center", serviceReading.bodyCenter)}>
+        <p
+          className={cn(
+            embedded ? "text-left" : "text-center",
+            embedded ? serviceReading.body : serviceReading.bodyCenter
+          )}
+        >
           <EmphasisText text={activeCopy.intro} />
         </p>
       </motion.div>
 
-      <div className="relative mx-auto max-w-2xl md:max-w-3xl">
+      <div
+        className={cn(
+          "relative mx-auto",
+          embedded ? "max-w-4xl md:max-w-5xl" : "max-w-2xl md:max-w-3xl"
+        )}
+      >
+        {!embedded && (
         <div
         className="absolute bottom-0 left-8 top-0 hidden w-px bg-gradient-to-b from-transparent via-[var(--color-accent-primary)]/35 to-transparent md:left-1/2 md:block md:-translate-x-1/2"
           aria-hidden
         />
+        )}
 
         <ol className="relative m-0 list-none p-0">
           {steps.map((step, i) => (
@@ -250,6 +263,86 @@ export function FlowTimelinePageContent({
               variants={v}
               transition={{ delay: reduce ? 0 : 0.1 + i * 0.08 }}
             >
+              {embedded ? (
+                <>
+                  <div className="relative mx-auto w-full md:hidden">
+                    <div className="relative z-[1] flex flex-col items-start pt-1 text-left">
+                      <TimelineNode label={step.step} reduceMotion={!!reduce} />
+                      <p className="mb-1.5 mt-5 text-[0.65rem] font-medium uppercase tracking-[0.28em] text-accent/75">
+                        Step {step.step}
+                      </p>
+                      <h2 className="mb-1.5 text-[1.125rem] font-semibold leading-snug text-text">
+                        {step.labelJa}
+                      </h2>
+                      <p className="mb-4 text-[0.8125rem] font-medium tracking-[0.18em] text-accent/95">
+                        {step.labelEn}
+                      </p>
+                      <FlowStepMedia step={step.step} className="mb-6 w-full" />
+                      <p className={cn("mb-8 w-full max-w-prose", serviceReading.body)}>
+                        {step.body}
+                      </p>
+                      <div className="w-full max-w-prose">
+                        <p className="mb-3 text-[0.65rem] font-medium uppercase tracking-[0.2em] text-text/55">
+                          成果物
+                        </p>
+                        <ul className="flex flex-wrap gap-2">
+                          {step.deliverables.map((tag) => (
+                            <li key={tag} className="list-none">
+                              <span className={tagClass}>{tag}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="relative hidden md:grid md:grid-cols-2 md:items-center md:gap-10 md:px-2">
+                    <StepWatermarkDesktop n={step.step} />
+                    <div
+                      className={cn(
+                        "relative z-[1] text-left",
+                        i % 2 === 1 ? "md:order-2" : "md:order-1"
+                      )}
+                    >
+                      <TimelineNode label={step.step} reduceMotion={!!reduce} />
+                      <p className="mb-2 mt-6 text-[0.65rem] font-medium uppercase tracking-[0.28em] text-accent/80">
+                        Step {step.step}
+                      </p>
+                      <h2 className="mb-2 text-xl font-semibold leading-snug text-text">
+                        <span>{step.labelJa}</span>
+                        <span className="mx-2 text-text/40">·</span>
+                        <span className="text-lg font-medium text-accent">
+                          {step.labelEn}
+                        </span>
+                      </h2>
+                      <p className={cn("mb-6 max-w-prose", serviceReading.body)}>
+                        {step.body}
+                      </p>
+                      <div>
+                        <p className="mb-3 text-[0.65rem] font-medium uppercase tracking-[0.2em] text-text/55">
+                          成果物
+                        </p>
+                        <ul className="flex flex-wrap gap-2">
+                          {step.deliverables.map((tag) => (
+                            <li key={tag} className="list-none">
+                              <span className={tagClass}>{tag}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                    <div
+                      className={cn(
+                        "relative z-[1]",
+                        i % 2 === 1 ? "md:order-1" : "md:order-2"
+                      )}
+                    >
+                      <FlowStepMedia step={step.step} />
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <>
               {/* スマホ: 縦積み1カラム（読み幅優先。旧左ガイドは撤去） */}
               <div className="relative mx-auto w-full md:hidden">
                 <span
@@ -326,6 +419,8 @@ export function FlowTimelinePageContent({
                   </div>
                 </div>
               </div>
+                </>
+              )}
             </motion.li>
           ))}
         </ol>

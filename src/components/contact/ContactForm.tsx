@@ -55,7 +55,7 @@ export function ContactForm() {
     estimateSubmitBlocked,
   } = useContactHandoff();
 
-  const { status, errors, submit, submitError } = useContactForm();
+  const { status, errors, submit, submitError, resetStatus } = useContactForm();
   const form = contactCopy.form;
 
   const experienceOptions = useMemo(() => buildExperienceOptions(), []);
@@ -132,6 +132,27 @@ export function ContactForm() {
     });
     return () => cancelAnimationFrame(frame);
   }, [searchParams]);
+
+  useEffect(() => {
+    if (status !== "success" && status !== "error") return;
+    if (
+      name.trim() ||
+      email.trim() ||
+      message.trim() ||
+      company.trim() ||
+      closestExperience
+    ) {
+      resetStatus();
+    }
+  }, [
+    name,
+    email,
+    message,
+    company,
+    closestExperience,
+    status,
+    resetStatus,
+  ]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

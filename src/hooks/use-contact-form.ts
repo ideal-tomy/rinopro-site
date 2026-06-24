@@ -10,6 +10,11 @@ export function useContactForm() {
   const [errors, setErrors] = useState<Partial<Record<keyof ContactFormData, string>>>({});
   const [submitError, setSubmitError] = useState("");
 
+  const resetStatus = useCallback(() => {
+    setStatus("idle");
+    setSubmitError("");
+  }, []);
+
   const submit = useCallback(async (data: ContactFormData): Promise<boolean> => {
     const merged = {
       ...data,
@@ -71,5 +76,5 @@ export function useContactForm() {
     }
   }, []);
 
-  return { status, errors, submit, submitError };
+  return { status, errors, submit, submitError, resetStatus };
 }
