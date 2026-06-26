@@ -14,8 +14,6 @@ import {
   readEstimateDetailedIntroDone,
   writeEstimateDetailedIntroDone,
 } from "@/lib/estimate/estimate-detailed-intro-storage";
-import { prepareContactNavigationFromEstimateFlow } from "@/lib/contact/navigate-to-contact-from-estimate";
-import { readEstimateDetailedFlow } from "@/lib/estimate/estimate-detailed-session";
 import { Button } from "@/components/ui/button";
 import { useVisualViewportFrame } from "@/hooks/use-visual-viewport-frame";
 import { scrollChildTopIntoScrollContainer } from "@/lib/dom/scroll-child-into-container";
@@ -85,16 +83,6 @@ export function EstimateDetailedMobileShell({
 
   const leaveEstimate = useCallback(
     (href: string) => {
-      if (href === "/contact") {
-        const flow = readEstimateDetailedFlow();
-        if (flow?.ai) {
-          const contactHref = prepareContactNavigationFromEstimateFlow(flow);
-          if (contactHref) {
-            router.push(contactHref);
-            return;
-          }
-        }
-      }
       router.push(href);
     },
     [router]

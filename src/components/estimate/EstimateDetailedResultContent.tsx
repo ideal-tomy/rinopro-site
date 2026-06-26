@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { useConciergeChat } from "@/components/chat/concierge-chat-context";
 import { estimateDetailedCopy } from "@/lib/content/site-copy";
 import { releaseEstimateProcessingLock } from "@/lib/estimate/estimate-detailed-processing-lock";
 import { readEstimateDetailedFlow, type EstimateDetailedFlowState } from "@/lib/estimate/estimate-detailed-session";
@@ -15,7 +14,6 @@ const copy = estimateDetailedCopy;
 
 export function EstimateDetailedResultContent() {
   const router = useRouter();
-  const { setOpen: setConciergeOpen } = useConciergeChat();
   const [flow, setFlow] = useState<EstimateDetailedFlowState | null>(() =>
     readEstimateDetailedFlow()
   );
@@ -29,10 +27,6 @@ export function EstimateDetailedResultContent() {
     }
     setFlow(f);
   }, [router]);
-
-  useEffect(() => {
-    setConciergeOpen(false);
-  }, [setConciergeOpen]);
 
   if (!flow?.ai) {
     return <p className="text-center text-sm text-text-sub">移動中…</p>;

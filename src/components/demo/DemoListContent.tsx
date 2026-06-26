@@ -20,26 +20,10 @@ import {
   getIndustryTagClass,
   getFunctionTagClass,
 } from "@/lib/demo/demo-taxonomy";
-import {
-  CONCIERGE_DOMAIN_OPTIONS,
-  CONCIERGE_ROLE_OPTIONS,
-  CONCIERGE_ISSUE_OPTIONS,
-  CONCIERGE_DEPTH_OPTIONS,
-  type ConciergeDomainId,
-} from "@/lib/demo/intelligent-concierge";
-import { useConciergeChat } from "@/components/chat/concierge-chat-context";
-import { getConciergeEntryPreset } from "@/lib/chat/concierge-entry-policy";
-import type {
-  AiDemoAudienceRole,
-  AiDemoAutomationDepth,
-  AiDemoIssueTag,
-} from "@/lib/sanity/types";
-import { DemoListRecommendationPopup } from "@/components/demo/DemoListRecommendationPopup";
 import { TypeExperienceSection } from "@/components/demo/TypeExperienceSection";
 import { useCurrentLocationString } from "@/hooks/use-current-location";
 import { buildToolDemoEntryHref } from "@/lib/navigation/experience-entry";
 import { PageSectionDivider } from "@/components/layout/PageSectionDivider";
-import { recordVisitorEntryIntent } from "@/lib/journey/visitor-journey-storage";
 
 function getSlug(demo: AiDemo | DemoItem): string | undefined {
   return typeof demo.slug === "object" ? demo.slug?.current : demo.slug;
@@ -71,7 +55,7 @@ function DemoCard({
 }: {
   demo: AiDemo | DemoItem;
   className?: string;
-  /** コンシェルジュ推薦の一行説明 */
+  /** 推薦の一行説明 */
   reason?: string;
   /** 指定時は `returnTo` 付きなど完全なリンク先 */
   href?: string;
@@ -245,68 +229,12 @@ function HorizontalRail({
   );
 }
 
-function labelForDomain(id: ConciergeDomainId): string {
-  return CONCIERGE_DOMAIN_OPTIONS.find((o) => o.id === id)?.label ?? id;
-}
-function labelForRole(id: AiDemoAudienceRole): string {
-  return CONCIERGE_ROLE_OPTIONS.find((o) => o.id === id)?.label ?? id;
-}
-function labelForIssue(id: AiDemoIssueTag): string {
-  return CONCIERGE_ISSUE_OPTIONS.find((o) => o.id === id)?.label ?? id;
-}
-function labelForDepth(id: AiDemoAutomationDepth): string {
-  return CONCIERGE_DEPTH_OPTIONS.find((o) => o.id === id)?.label ?? id;
-}
-
 interface DemoListContentProps {
   demos: (AiDemo | DemoItem)[];
 }
 
 export function DemoListContent({ demos }: DemoListContentProps) {
   const listReturnSource = useCurrentLocationString();
-  const { demoListWizardSnapshot, requestOpenDemoListPageConcierge } =
-    useConciergeChat();
-  const entry = getConciergeEntryPreset("demoListCompare");
-  const appliedAnswers = demoListWizardSnapshot?.answers ?? null;
-  const conciergePicks = demoListWizardSnapshot?.picks ?? [];
-  const picksSignature = useMemo(() => {
-    const p = demoListWizardSnapshot?.picks;
-    if (!p?.length) return "";
-    return p.map((pick) => pick.demo._id).join("|");
-  }, [demoListWizardSnapshot]);
-  const [recommendPopupOpen, setRecommendPopupOpen] = useState(false);
-  const lastPicksSignatureRef = useRef<string>("");
-  const popupTimerRef = useRef<number | null>(null);
-
-  useEffect(() => {
-    if (picksSignature === "") {
-      if (popupTimerRef.current !== null) {
-        window.clearTimeout(popupTimerRef.current);
-      }
-      lastPicksSignatureRef.current = "";
-      popupTimerRef.current = window.setTimeout(() => {
-        setRecommendPopupOpen(false);
-        popupTimerRef.current = null;
-      }, 0);
-      return;
-    }
-    if (picksSignature === lastPicksSignatureRef.current) return;
-    lastPicksSignatureRef.current = picksSignature;
-    if (popupTimerRef.current !== null) {
-      window.clearTimeout(popupTimerRef.current);
-    }
-    // コンシェルジュのクローズアニメーション直後に重ねて表示し、クロスフェード感を作る
-    popupTimerRef.current = window.setTimeout(() => {
-      setRecommendPopupOpen(true);
-      popupTimerRef.current = null;
-    }, 180);
-    return () => {
-      if (popupTimerRef.current !== null) {
-        window.clearTimeout(popupTimerRef.current);
-        popupTimerRef.current = null;
-      }
-    };
-  }, [picksSignature]);
 
   const categoryOrder = [
     "report",
@@ -347,44 +275,9 @@ export function DemoListContent({ demos }: DemoListContentProps) {
   return (
     <div className="space-y-10 pb-8 md:space-y-12">
       <section className="rounded-xl border border-silver/20 bg-base-dark/70 p-4 md:p-5">
-        <div className="mb-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <div className="space-y-1">
-            <p className="text-sm text-text-sub">
-              その下の形式別で触れる体験を試すか、さらに下のカテゴリから横断して探せます。
-            </p>
-            <p className="text-xs leading-relaxed text-text-sub/85">
-              {appliedAnswers
-                ? "直近の条件は、比較の補助として表示しています。条件なしでも一覧はそのまま見られます。"
-                : "迷う場合だけ、コンシェルジュで条件を選ぶと近い demo を絞り込めます。"}
-            </p>
-          </div>
-          <button
-            type="button"
-            onClick={() => {
-              recordVisitorEntryIntent("compare");
-              requestOpenDemoListPageConcierge(entry.signals);
-            }}
-            className="rounded-md border border-silver/30 px-3 py-1 text-xs text-text-sub transition-colors hover:border-accent/50 hover:text-accent"
-          >
-            {appliedAnswers ? "条件を選び直す" : "条件から相談する"}
-          </button>
-        </div>
-        {appliedAnswers ? (
-          <div className="flex flex-wrap gap-2">
-            <span className="rounded-full border border-accent/40 bg-accent/10 px-2.5 py-1 text-xs text-accent">
-              領域: {labelForDomain(appliedAnswers.domain)}
-            </span>
-            <span className="rounded-full border border-accent/40 bg-accent/10 px-2.5 py-1 text-xs text-accent">
-              立場: {labelForRole(appliedAnswers.audienceRole)}
-            </span>
-            <span className="rounded-full border border-accent/40 bg-accent/10 px-2.5 py-1 text-xs text-accent">
-              課題: {labelForIssue(appliedAnswers.issue)}
-            </span>
-            <span className="rounded-full border border-accent/40 bg-accent/10 px-2.5 py-1 text-xs text-accent">
-              進め方: {labelForDepth(appliedAnswers.automationDepth)}
-            </span>
-          </div>
-        ) : null}
+        <p className="text-sm leading-relaxed text-text-sub">
+          形式別の体験を試すか、カテゴリから横断して探せます。
+        </p>
       </section>
 
       <TypeExperienceSection
@@ -423,12 +316,6 @@ export function DemoListContent({ demos }: DemoListContentProps) {
         );
       })}
 
-      <DemoListRecommendationPopup
-        picks={conciergePicks}
-        open={recommendPopupOpen}
-        onClose={() => setRecommendPopupOpen(false)}
-        returnSource={listReturnSource}
-      />
     </div>
   );
 }

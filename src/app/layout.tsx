@@ -9,6 +9,7 @@ import { ConciergeChatProvider } from "@/components/chat/concierge-chat-context"
 import { ChatContainerLazy } from "@/components/chat/ChatContainerLazy";
 import { VisitorJourneyTracker } from "@/components/journey/VisitorJourneyTracker";
 import { ScrollRestoreOnRoute } from "@/components/navigation/ScrollRestoreOnRoute";
+import { SITE_CONCIERGE_ENABLED } from "@/lib/site-features";
 import "./globals.css";
 
 const geist = Geist({
@@ -52,28 +53,38 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const shell = (
+    <>
+      <NextTopLoader
+        color="#3b82f6"
+        height={3}
+        showSpinner={false}
+        shadow="0 0 12px color-mix(in_srgb, #3b82f6 35%, transparent)"
+      />
+      <Suspense fallback={null}>
+        <ScrollRestoreOnRoute />
+      </Suspense>
+      <VisitorJourneyTracker />
+      <Header />
+      {children}
+      <Footer />
+    </>
+  );
+
   return (
     <html
       lang="ja"
       className={`${geist.variable} ${notoSansJP.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-[var(--color-base)] text-[var(--color-text)]">
-        <ConciergeChatProvider>
-          <NextTopLoader
-            color="#3b82f6"
-            height={3}
-            showSpinner={false}
-            shadow="0 0 12px color-mix(in_srgb, #3b82f6 35%, transparent)"
-          />
-          <Suspense fallback={null}>
-            <ScrollRestoreOnRoute />
-          </Suspense>
-          <VisitorJourneyTracker />
-          <Header />
-          {children}
-          <Footer />
-          <ChatContainerLazy />
-        </ConciergeChatProvider>
+        {SITE_CONCIERGE_ENABLED ? (
+          <ConciergeChatProvider>
+            {shell}
+            <ChatContainerLazy />
+          </ConciergeChatProvider>
+        ) : (
+          shell
+        )}
       </body>
     </html>
   );

@@ -75,7 +75,7 @@ export function AboutPageContent() {
 
       <hr className="mx-auto h-px max-w-6xl border-0 bg-gradient-to-r from-transparent via-[var(--color-border-light)] to-transparent px-4" />
 
-      {/* 代表・技術責任者 */}
+      {/* 代表 */}
       <section
         className={cn(sectionShell, "scroll-mt-32")}
         aria-labelledby="about-leaders-heading"
@@ -86,7 +86,7 @@ export function AboutPageContent() {
           title={leaderProfiles.heading}
           description={leaderProfiles.intro}
         />
-        <div className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-2 lg:gap-8">
+        <div className="mx-auto max-w-2xl">
           {leaderProfiles.profiles.map((profile) => (
             <article key={profile.title} className={cn(cardShell, "flex h-full flex-col")}>
               <p className="text-[13px] font-semibold uppercase tracking-[0.14em] text-[var(--color-accent-primary)] md:text-sm">

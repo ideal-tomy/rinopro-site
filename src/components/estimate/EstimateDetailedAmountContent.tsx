@@ -1,18 +1,12 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { useConciergeChat } from "@/components/chat/concierge-chat-context";
-import { EstimateDetailedInquiryPreparation } from "@/components/estimate/EstimateDetailedInquiryPreparation";
-import { suppressNextChatAutoOpen } from "@/lib/chat/chat-auto-open";
-import { prepareContactNavigationFromEstimateFlow } from "@/lib/contact/navigate-to-contact-from-estimate";
 import { estimateDetailedCopy } from "@/lib/content/site-copy";
-import { buildEstimateSnapshotFromFlow } from "@/lib/estimate/build-estimate-snapshot-from-flow";
 import {
   readEstimateDetailedFlow,
-  writeEstimateDetailedFlow,
   type EstimateDetailedFlowState,
 } from "@/lib/estimate/estimate-detailed-session";
 import {
@@ -21,14 +15,12 @@ import {
 } from "@/lib/estimate/estimate-detailed-budget";
 import { EstimateDetailedPhilosophyFootnote } from "@/components/estimate/EstimateDetailedPhilosophyFootnote";
 import { EstimateDetailedResumeQuestionsButton } from "@/components/estimate/EstimateDetailedResumeQuestionsButton";
-import type { EstimateInquiryPreparation } from "@/lib/inquiry/inquiry-brief";
 import { recordVisitorEstimateAnswers } from "@/lib/journey/visitor-journey-storage";
 
 const copy = estimateDetailedCopy;
 
 export function EstimateDetailedAmountContent() {
   const router = useRouter();
-  const { setOpen: setConciergeOpen } = useConciergeChat();
   const [flow, setFlow] = useState<EstimateDetailedFlowState | null>(() =>
     readEstimateDetailedFlow()
   );
@@ -45,36 +37,9 @@ export function EstimateDetailedAmountContent() {
   }, [router]);
 
   useEffect(() => {
-    setConciergeOpen(false);
-  }, [setConciergeOpen]);
-
-  useEffect(() => {
     if (!flow?.answers) return;
     recordVisitorEstimateAnswers(flow.answers);
   }, [flow?.answers]);
-
-  const snapshot = flow ? buildEstimateSnapshotFromFlow(flow) : null;
-  const goContact = useCallback(() => {
-    if (!flow) return;
-    const href = prepareContactNavigationFromEstimateFlow(flow);
-    if (!href) return;
-    suppressNextChatAutoOpen();
-    setConciergeOpen(false);
-    router.push(href);
-  }, [router, setConciergeOpen, flow]);
-
-  const handlePreparationChange = useCallback(
-    (next: EstimateInquiryPreparation) => {
-      if (!flow?.ai) return;
-      const updatedFlow: EstimateDetailedFlowState = {
-        ...flow,
-        inquiryPreparation: next,
-      };
-      setFlow(updatedFlow);
-      writeEstimateDetailedFlow(updatedFlow);
-    },
-    [flow]
-  );
 
   if (!flow?.ai) {
     return <p className="text-center text-sm text-text-sub">移動中…</p>;
@@ -153,21 +118,9 @@ export function EstimateDetailedAmountContent() {
 
       <EstimateDetailedPhilosophyFootnote />
 
-      {snapshot ? (
-        <EstimateDetailedInquiryPreparation
-          snapshot={snapshot}
-          initialPreparation={flow.inquiryPreparation ?? null}
-          onPreparationChange={handlePreparationChange}
-        />
-      ) : null}
-
       <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:justify-center">
-        <Button
-          type="button"
-          className="min-h-12 w-full px-8 text-[16px] sm:w-auto"
-          onClick={goContact}
-        >
-          {copy.btnContact}
+        <Button type="button" className="min-h-12 w-full px-8 text-[16px] sm:w-auto" asChild>
+          <Link href="/contact">お問い合わせページへ</Link>
         </Button>
         <EstimateDetailedResumeQuestionsButton className="min-h-12 w-full sm:w-auto">
           {copy.btnBackToQuestionsShort}

@@ -17,6 +17,7 @@ import {
 } from "@/lib/ui/service-reading-styles";
 import { ServicesDetailIntroImage } from "@/components/services/ServicesDetailIntroImage";
 import { FlowStepMedia } from "@/components/services/FlowStepMedia";
+import { servicesDevelopmentEmbeddedCopy } from "@/lib/content/services-embedded-copy";
 import { cn } from "@/lib/utils";
 
 const EASE_MIST = [0.22, 1, 0.36, 1] as const;
@@ -92,17 +93,6 @@ function TimelineNode({
   );
 }
 
-function StepWatermarkDesktop({ n }: { n: string }) {
-  return (
-    <span
-      className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 select-none text-[min(42vw,12rem)] font-semibold tabular-nums text-text/[0.055] lg:text-[min(34vw,13.5rem)]"
-      aria-hidden
-    >
-      {n}
-    </span>
-  );
-}
-
 const tagClass =
   "inline-block rounded-md border border-[var(--color-border-light)] bg-[var(--color-bg-base)] px-2.5 py-1.5 text-[0.65rem] leading-tight text-text/85 md:px-3 md:text-xs";
 
@@ -144,9 +134,17 @@ export function FlowTimelinePageContent({
           <p className="mb-4 text-[0.65rem] font-medium uppercase tracking-[0.35em] text-accent/80">
             Development
           </p>
-          <h2 className="mb-0 text-3xl font-semibold tracking-tight text-accent sm:text-4xl md:text-5xl lg:text-[3.25rem] lg:leading-tight">
+          <h2 className="mb-0 text-3xl font-semibold tracking-tight text-accent sm:text-4xl md:text-[2.25rem] md:leading-tight">
             開発について
           </h2>
+          <p
+            className={cn(
+              "mx-auto mt-5 max-w-[48ch] text-center",
+              serviceReading.body
+            )}
+          >
+            {servicesDevelopmentEmbeddedCopy.lead}
+          </p>
         </motion.header>
       )}
 
@@ -217,7 +215,13 @@ export function FlowTimelinePageContent({
         </div>
       </nav>
 
-      <ServicesDetailIntroImage highlight="development" className="mb-8 md:mb-10" />
+      <ServicesDetailIntroImage
+        highlight="development"
+        className={cn(
+          "mb-8 md:mb-10",
+          embedded ? "max-w-4xl" : "max-w-2xl"
+        )}
+      />
 
       <motion.div
         id={flowPanelId}
@@ -256,7 +260,10 @@ export function FlowTimelinePageContent({
           {steps.map((step, i) => (
             <motion.li
               key={`${activeTrack}-${step.step}`}
-              className="relative pb-20 last:pb-10 md:pb-32 md:last:pb-16"
+              className={cn(
+                "relative",
+                embedded ? "pb-12 last:pb-6 md:pb-20 md:last:pb-10" : "pb-20 last:pb-10 md:pb-32 md:last:pb-16"
+              )}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: "-50px" }}
@@ -277,7 +284,7 @@ export function FlowTimelinePageContent({
                       <p className="mb-4 text-[0.8125rem] font-medium tracking-[0.18em] text-accent/95">
                         {step.labelEn}
                       </p>
-                      <FlowStepMedia step={step.step} className="mb-6 w-full" />
+                      <FlowStepMedia track={activeTrack} step={step.step} className="mb-6 w-full" />
                       <p className={cn("mb-8 w-full max-w-prose", serviceReading.body)}>
                         {step.body}
                       </p>
@@ -297,7 +304,6 @@ export function FlowTimelinePageContent({
                   </div>
 
                   <div className="relative hidden md:grid md:grid-cols-2 md:items-center md:gap-10 md:px-2">
-                    <StepWatermarkDesktop n={step.step} />
                     <div
                       className={cn(
                         "relative z-[1] text-left",
@@ -337,7 +343,7 @@ export function FlowTimelinePageContent({
                         i % 2 === 1 ? "md:order-1" : "md:order-2"
                       )}
                     >
-                      <FlowStepMedia step={step.step} />
+                      <FlowStepMedia track={activeTrack} step={step.step} />
                     </div>
                   </div>
                 </>
@@ -345,12 +351,6 @@ export function FlowTimelinePageContent({
                 <>
               {/* スマホ: 縦積み1カラム（読み幅優先。旧左ガイドは撤去） */}
               <div className="relative mx-auto w-full md:hidden">
-                <span
-                  className="pointer-events-none absolute left-1/2 top-[4%] -translate-x-1/2 select-none text-[4.25rem] font-semibold tabular-nums leading-none text-text/[0.045]"
-                  aria-hidden
-                >
-                  {step.step}
-                </span>
                 <div className="relative z-[1] flex flex-col items-start pt-1 text-left">
                   <TimelineNode label={step.step} reduceMotion={!!reduce} />
                   <p className="mb-1.5 mt-5 text-[0.65rem] font-medium uppercase tracking-[0.28em] text-accent/75">
@@ -387,7 +387,6 @@ export function FlowTimelinePageContent({
 
               {/* PC：ノード・見出し・本文・タグをすべて中央揃え */}
               <div className="relative hidden md:block md:px-6">
-                <StepWatermarkDesktop n={step.step} />
                 <div className="relative z-[1] flex flex-col items-center pb-2 pt-2">
                   <div className="mb-8 flex justify-center">
                     <TimelineNode label={step.step} reduceMotion={!!reduce} />
@@ -427,7 +426,10 @@ export function FlowTimelinePageContent({
       </div>
 
       <motion.div
-        className="mx-auto mt-28 max-w-2xl text-center md:mt-36"
+        className={cn(
+          "mx-auto max-w-2xl text-center",
+          embedded ? "mt-16 md:mt-20" : "mt-28 md:mt-36"
+        )}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-60px" }}
