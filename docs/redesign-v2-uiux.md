@@ -1866,7 +1866,7 @@ INDUSTRY SHOWCASE
 [カードデータ方針]
 {
   slug: 'gempo',
-  title: '現場ポケット',
+  title: '現場管理アプリ',
   industry: '建設・工事',
   href: 'https://[デプロイ済みURL]',
   isExternal: true,
@@ -3620,12 +3620,12 @@ LPの「Our Solutions」カードからクリックされるページ。
 ```
 1. 建設・工事
    特有課題: 協力会社、現場/本社、安全衛生
-   関連事例: 現場ポケット(GEMPO)
+   関連事例: 現場管理アプリ(GEMPO)
    関連サービス: AI駆動開発、運用伴走
 
 2. 飲食・サービス
    特有課題: シフト、勤怠、店舗オペレーション
-   関連事例: シフト自動くん
+   関連事例: シフト管理自動システム
    関連サービス: 業務システム開発、PoC
 
 3. 小売・卸・メーカー現場
@@ -3708,11 +3708,11 @@ LP の Industry Showcase からリンクされる。
 サブコピー: 別ウィンドウで開いて、自由にお試しください。
 
 [3 × 2 グリッド(PC)/ 横スクロール(モバイル)]
-1. 現場ポケット(GEMPO) - 建設・工事
+1. 現場管理アプリ(GEMPO) - 建設・工事
 2. AI評価会議・公正評価支援 - 人事・採用
 3. 採用コックピット - 人事・採用
 4. 士業向けミニSFA - 士業・専門事務
-5. シフト自動くん - 飲食・サービス
+5. シフト管理自動システム - 飲食・サービス
 6. Shaken Notify(車検管理) - 整備・車両管理
 
 [Section 3: CTA]
@@ -3964,9 +3964,9 @@ LP・各下層ページのCTAから到達する。
 
 ```
 ✅ salesdashboard_pc.png - 営業パイプライン PC画面
-✅ shiftkanri_pc.png - シフト自動くん PC画面
-✅ genbakanri_admin.png - 現場ポケット 管理者画面
-✅ genbakanri_mobile.png - 現場ポケット モバイル画面
+✅ shiftkanri_pc.png - シフト管理自動システム PC画面
+✅ genbakanri_admin.png - 現場管理アプリ 管理者画面
+✅ genbakanri_mobile.png - 現場管理アプリ モバイル画面
 ✅ jinji_pc.png - 人事評価 PC画面 (使わない予定)
 ✅ kurumakanri_mobile.png - 車検管理 モバイル画面
 ✅ kurumakanri_pc.png - 車検管理 PC画面

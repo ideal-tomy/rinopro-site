@@ -99,15 +99,24 @@ const tagClass =
 export type FlowTimelinePageContentProps = {
   /** `/services` 埋め込み時: 余白・見出し階層・sticky・クロスリンクを調整 */
   embedded?: boolean;
+  /** 概要ページ内統合時: ページ見出しを非表示 */
+  hideHeader?: boolean;
+  /** 概要ページ内統合時: トラック固定・タブ/全体図を非表示 */
+  offeringEmbed?: { fixedTrack: FlowTrackKey };
 };
 
 export function FlowTimelinePageContent({
   embedded = false,
+  hideHeader = false,
+  offeringEmbed,
 }: FlowTimelinePageContentProps) {
   const reduce = useReducedMotion();
   const v = mistVariants(!!reduce);
-  const [activeTrack, setActiveTrack] = useState<FlowTrackKey>("common");
-  const activeCopy = flowDetailPageCopyByTrack[activeTrack];
+  const [activeTrack, setActiveTrack] = useState<FlowTrackKey>(
+    offeringEmbed?.fixedTrack ?? "common"
+  );
+  const track = offeringEmbed?.fixedTrack ?? activeTrack;
+  const activeCopy = flowDetailPageCopyByTrack[track];
   const { steps } = activeCopy;
   const idSuffix = useId().replace(/:/g, "");
   const flowPanelId = embedded ? `flow-track-panel-${idSuffix}` : "flow-track-panel";
@@ -119,11 +128,14 @@ export function FlowTimelinePageContent({
       className={cn(
         "mx-auto max-w-3xl md:px-10 lg:max-w-5xl",
         embedded
-          ? cn(serviceShellInset.embeddedX, serviceShellInset.embeddedY)
+          ? cn(
+              serviceShellInset.embeddedX,
+              !offeringEmbed && serviceShellInset.embeddedY
+            )
           : "px-6 py-24 md:py-32 lg:py-40"
       )}
     >
-      {embedded && (
+      {embedded && !hideHeader ? (
         <motion.header
           className="mx-auto mb-8 max-w-3xl text-center md:mb-10"
           initial="hidden"
@@ -146,7 +158,7 @@ export function FlowTimelinePageContent({
             {servicesDevelopmentEmbeddedCopy.lead}
           </p>
         </motion.header>
-      )}
+      ) : null}
 
       {!embedded && (
         <motion.header
@@ -171,7 +183,7 @@ export function FlowTimelinePageContent({
         </motion.header>
       )}
 
-      {/* 単体ページ: ヘッダー直下に sticky。埋め込み時は二重 sticky を避け通常フロー */}
+      {!offeringEmbed ? (
       <nav
         className={cn(
           "border-b border-[var(--color-border-light)] bg-[var(--color-bg-pure)]/95 py-3 md:backdrop-blur-md supports-[backdrop-filter]:bg-[var(--color-bg-pure)]/80",
@@ -188,7 +200,7 @@ export function FlowTimelinePageContent({
             aria-orientation="horizontal"
           >
             {FLOW_TRACK_ORDER.map((key) => {
-              const selected = activeTrack === key;
+              const selected = track === key;
               const { tabLabel } = flowDetailPageCopyByTrack[key];
               return (
                 <button
@@ -214,7 +226,9 @@ export function FlowTimelinePageContent({
           </div>
         </div>
       </nav>
+      ) : null}
 
+      {!offeringEmbed ? (
       <ServicesDetailIntroImage
         highlight="development"
         className={cn(
@@ -222,11 +236,12 @@ export function FlowTimelinePageContent({
           embedded ? "max-w-4xl" : "max-w-2xl"
         )}
       />
+      ) : null}
 
       <motion.div
         id={flowPanelId}
         role="tabpanel"
-        aria-labelledby={tabId(activeTrack)}
+        aria-labelledby={tabId(track)}
         className="mx-auto mb-12 max-w-2xl md:mb-24"
         initial="hidden"
         whileInView="visible"
@@ -259,7 +274,7 @@ export function FlowTimelinePageContent({
         <ol className="relative m-0 list-none p-0">
           {steps.map((step, i) => (
             <motion.li
-              key={`${activeTrack}-${step.step}`}
+              key={`${track}-${step.step}`}
               className={cn(
                 "relative",
                 embedded ? "pb-12 last:pb-6 md:pb-20 md:last:pb-10" : "pb-20 last:pb-10 md:pb-32 md:last:pb-16"
@@ -284,7 +299,7 @@ export function FlowTimelinePageContent({
                       <p className="mb-4 text-[0.8125rem] font-medium tracking-[0.18em] text-accent/95">
                         {step.labelEn}
                       </p>
-                      <FlowStepMedia track={activeTrack} step={step.step} className="mb-6 w-full" />
+                      <FlowStepMedia track={track} step={step.step} className="mb-6 w-full" />
                       <p className={cn("mb-8 w-full max-w-prose", serviceReading.body)}>
                         {step.body}
                       </p>
@@ -343,7 +358,7 @@ export function FlowTimelinePageContent({
                         i % 2 === 1 ? "md:order-1" : "md:order-2"
                       )}
                     >
-                      <FlowStepMedia track={activeTrack} step={step.step} />
+                      <FlowStepMedia track={track} step={step.step} />
                     </div>
                   </div>
                 </>

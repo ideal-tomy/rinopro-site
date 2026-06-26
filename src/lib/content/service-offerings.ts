@@ -165,7 +165,7 @@ const OFFERINGS: readonly ServiceOfferingDetail[] = [
     relatedLinks: {
       heading: "関連する入口",
       links: [
-        { href: "/services/consulting", label: "コンサルティングの詳細プロセス" },
+        { href: "/services/ai-apps", label: "AI業務アプリ開発" },
         { href: "/experience", label: "体験・demo一覧" },
         { href: "/services", label: "サービスハブ" },
       ],
@@ -264,7 +264,7 @@ const OFFERINGS: readonly ServiceOfferingDetail[] = [
     relatedLinks: {
       heading: "関連する入口",
       links: [
-        { href: "/services/development", label: "開発の進め方（詳細タブ）" },
+        { href: "/services/dx-strategy", label: "DX戦略設計" },
         { href: "/experience", label: "体験ギャラリー" },
       ],
     },
@@ -461,7 +461,7 @@ const OFFERINGS: readonly ServiceOfferingDetail[] = [
     relatedLinks: {
       heading: "関連する入口",
       links: [
-        { href: "/services/development", label: "開発プロセス詳細" },
+        { href: "/services/ai-apps", label: "開発プロセス詳細" },
         { href: "/about", label: "チーム体制について" },
         { href: "/contact", label: "相談フォーム" },
       ],

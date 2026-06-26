@@ -79,7 +79,9 @@ export function getConciergePanelDerivedState(
   const isServiceWizardPage =
     pathname === "/services" ||
     pathname === "/flow" ||
-    pathname === "/consulting";
+    pathname === "/consulting" ||
+    pathname === "/services/dx-strategy" ||
+    pathname === "/services/ai-apps";
   const showServiceCardStartFlow =
     isServiceWizardPage &&
     servicesIntroComplete &&

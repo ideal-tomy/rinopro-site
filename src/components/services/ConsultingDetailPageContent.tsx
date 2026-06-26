@@ -35,10 +35,16 @@ function mistVariants(reduce: boolean) {
 export type ConsultingDetailPageContentProps = {
   /** `/services` 埋め込み時: 余白・見出し階層・クロスリンクを調整 */
   embedded?: boolean;
+  /** 概要ページ内統合時: ページ見出しを非表示 */
+  hideHeader?: boolean;
+  /** 概要ページ内統合時: 全体図・重複ブロック・footer CTA を非表示 */
+  offeringEmbed?: boolean;
 };
 
 export function ConsultingDetailPageContent({
   embedded = false,
+  hideHeader = false,
+  offeringEmbed = false,
 }: ConsultingDetailPageContentProps) {
   const reduce = useReducedMotion();
   const v = mistVariants(!!reduce);
@@ -48,34 +54,40 @@ export function ConsultingDetailPageContent({
       className={cn(
         "mx-auto max-w-6xl md:px-10",
         embedded
-          ? cn(serviceShellInset.embeddedX, serviceShellInset.embeddedY)
+          ? cn(
+              serviceShellInset.embeddedX,
+              !offeringEmbed && serviceShellInset.embeddedY
+            )
           : "px-6 py-24 md:py-32 lg:py-40"
       )}
     >
-      <motion.header
-        className={cn(
-          "mx-auto max-w-3xl text-center",
-          embedded ? "mb-8 md:mb-10" : "mb-12 md:mb-16"
-        )}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-80px" }}
-        variants={v}
-      >
-        <p className="mb-4 text-[0.65rem] font-medium uppercase tracking-[0.35em] text-accent/80">
-          Consulting
-        </p>
-        {embedded ? (
-          <h2 className="text-3xl font-semibold tracking-tight text-accent sm:text-4xl md:text-[2.25rem] md:leading-tight">
-            {consultingDetailPageCopy.title}
-          </h2>
-        ) : (
-          <h1 className="text-4xl font-semibold tracking-tight text-accent md:text-5xl lg:text-[3.25rem] lg:leading-tight">
-            {consultingDetailPageCopy.title}
-          </h1>
-        )}
-      </motion.header>
+      {!hideHeader ? (
+        <motion.header
+          className={cn(
+            "mx-auto max-w-3xl text-center",
+            embedded ? "mb-8 md:mb-10" : "mb-12 md:mb-16"
+          )}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-80px" }}
+          variants={v}
+        >
+          <p className="mb-4 text-[0.65rem] font-medium uppercase tracking-[0.35em] text-accent/80">
+            Consulting
+          </p>
+          {embedded ? (
+            <h2 className="text-3xl font-semibold tracking-tight text-accent sm:text-4xl md:text-[2.25rem] md:leading-tight">
+              {consultingDetailPageCopy.title}
+            </h2>
+          ) : (
+            <h1 className="text-4xl font-semibold tracking-tight text-accent md:text-5xl lg:text-[3.25rem] lg:leading-tight">
+              {consultingDetailPageCopy.title}
+            </h1>
+          )}
+        </motion.header>
+      ) : null}
 
+      {!offeringEmbed ? (
       <ServicesDetailIntroImage
         highlight="consulting"
         className={cn(
@@ -83,9 +95,11 @@ export function ConsultingDetailPageContent({
           embedded ? "max-w-4xl" : "max-w-2xl"
         )}
       />
+      ) : null}
 
-      <ServiceConsultingBlocks />
+      <ServiceConsultingBlocks variant={offeringEmbed ? "offering" : "full"} />
 
+      {!offeringEmbed ? (
       <motion.footer
         className={cn(
           "mx-auto flex max-w-2xl flex-col items-center gap-8 text-center",
@@ -104,6 +118,7 @@ export function ConsultingDetailPageContent({
           <Link href="/contact">{consultingDetailPageCopy.cta}</Link>
         </Button>
       </motion.footer>
+      ) : null}
 
       {!embedded && <ServiceCrossLinks current="consulting" />}
     </div>

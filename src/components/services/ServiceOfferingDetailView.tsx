@@ -9,6 +9,7 @@ import { INDUSTRY_SHOWCASE_ITEMS } from "@/lib/content/industry-showcase";
 import { ServiceOfferingImprovementCycleDiagram } from "@/components/illustrations/service-offering-improvement-cycle";
 import { ServiceOfferingDataStackDiagram } from "@/components/illustrations/service-offering-data-stack";
 import { ServiceJourneyDiagram } from "@/components/services/ServiceJourneyDiagram";
+import { ServiceOfferingProcessDetail } from "@/components/services/ServiceOfferingProcessDetail";
 
 type ServiceOfferingDetailViewProps = {
   offering: ServiceOfferingDetail;
@@ -242,6 +243,25 @@ export function ServiceOfferingDetailView({ offering }: ServiceOfferingDetailVie
           </p>
         </section>
       </HomeSectionShell>
+
+      {offering.slug === "dx-strategy" || offering.slug === "ai-apps" ? (
+        <HomeSectionShell tone="pure">
+          <section
+            className="container mx-auto max-w-6xl px-4 py-16 md:px-6 md:py-24"
+            aria-labelledby="offering-process-detail-heading"
+          >
+            <h2
+              id="offering-process-detail-heading"
+              className="text-center text-[clamp(1.35rem,3vw,1.85rem)] font-bold text-[var(--color-text-primary)]"
+            >
+              詳しい進め方
+            </h2>
+            <div className="mt-10 md:mt-12">
+              <ServiceOfferingProcessDetail slug={offering.slug} />
+            </div>
+          </section>
+        </HomeSectionShell>
+      ) : null}
 
       {offering.showIndustryGrid ? (
         <HomeSectionShell tone="pure">

@@ -54,18 +54,20 @@ function renderBlock(block: ConsultingBlockCopy) {
       return (
         <>
           <BlockHeader kicker={block.kicker} heading={block.heading} />
-          <ul className="grid list-none gap-3 md:grid-cols-2 md:gap-4">
+          <ul className="mx-auto grid max-w-3xl list-none gap-4 md:gap-5">
             {block.items.map((line) => (
               <li
                 key={line}
-                className="rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-pure)] px-4 py-3 text-left text-[15px] leading-[1.75] text-text-sub md:px-5 md:py-4 md:text-[16px]"
+                className="rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-pure)] px-5 py-4 text-left md:px-6 md:py-5"
               >
-                <span className="inline-flex items-start gap-2">
+                <span className="inline-flex items-start gap-3">
                   <span
-                    className="mt-[0.55em] size-1.5 shrink-0 rounded-full bg-[var(--color-accent-primary)]"
+                    className="mt-[0.6em] size-2 shrink-0 rounded-full bg-[var(--color-accent-primary)]"
                     aria-hidden
                   />
-                  <span>{line}</span>
+                  <span className="text-[17px] font-bold leading-[1.75] text-text md:text-[19px] md:leading-[1.8]">
+                    {line}
+                  </span>
                 </span>
               </li>
             ))}
@@ -130,17 +132,27 @@ function renderBlock(block: ConsultingBlockCopy) {
   }
 }
 
+const OFFERING_BLOCK_IDS = new Set(["process", "thumbnails", "assurance"]);
+
 type ServiceConsultingBlocksProps = {
   className?: string;
+  variant?: "full" | "offering";
 };
 
-export function ServiceConsultingBlocks({ className }: ServiceConsultingBlocksProps) {
+export function ServiceConsultingBlocks({
+  className,
+  variant = "full",
+}: ServiceConsultingBlocksProps) {
   const reduce = useReducedMotion();
   const v = mistVariants(!!reduce);
+  const blocks =
+    variant === "offering"
+      ? consultingBlocksCopy.filter((block) => OFFERING_BLOCK_IDS.has(block.id))
+      : consultingBlocksCopy;
 
   return (
     <div className={cn("flex flex-col gap-10 md:gap-14", className)}>
-      {consultingBlocksCopy.map((block, i) => (
+      {blocks.map((block, i) => (
         <motion.section
           key={block.id}
           initial="hidden"

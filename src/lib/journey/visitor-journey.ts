@@ -126,8 +126,11 @@ export function detectVisitorJourneyPageKind(
   if (pathname === "/demo/list") return "demo_list";
   if (/^\/demo\/[^/]+$/.test(pathname)) return "demo_detail";
   if (pathname === "/services") return "services";
-  if (pathname === "/consulting") return "consulting";
-  if (pathname === "/flow") return "flow";
+  if (pathname === "/services/dx-strategy" || pathname === "/consulting") {
+    return "consulting";
+  }
+  if (pathname === "/services/ai-apps" || pathname === "/flow") return "flow";
+  if (pathname.startsWith("/services/")) return "services";
   if (pathname.startsWith("/estimate-detailed")) return "estimate";
   if (pathname === "/contact") return "contact";
   return "other";

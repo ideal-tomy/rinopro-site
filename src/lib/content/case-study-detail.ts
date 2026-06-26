@@ -60,11 +60,11 @@ export type CaseStudyDetail = {
 const DETAILS: readonly CaseStudyDetail[] = [
   {
     slug: "gempo",
-    metaTitle: "現場ポケット（GEMPO）| 実装事例 | AXEON",
+    metaTitle: "現場管理アプリ（GEMPO）| 実装事例 | AXEON",
     metaDescription:
       "建設・工事向け。現場と本社の情報分断を減らし、報告・配員・書類を一つのハブにまとめる実装サンプルの紹介です。",
     heroEyebrow: "GEMPO",
-    heroTitle: "建設業向け 現場ポケット",
+    heroTitle: "建設業向け 現場管理アプリ",
     heroSubtitle: "現場でも事務所でも、今日の現場がひと目でわかる。",
     industryTag: "建設・工事",
     whoFor: "施工会社・サブコン（従業員50〜500名、複数現場を抱える現場監督・工事部門）",
@@ -82,14 +82,14 @@ const DETAILS: readonly CaseStudyDetail[] = [
         "入力は現場のやり方に合わせて軽く、記録は一覧で追える形に寄せます。誰がどこで何をしているかがダッシュボードに集約され、必要な書類や履歴にもすぐたどれます。",
     },
     overviewParagraphs: [
-      "このサンプルは、協力会社・本社・現場の間で散らばりがちな「報告・連絡・記録」を、ひとつの現場ポケットとしてまとめることをイメージした画面構成です。現場監督がスマホから短く入力し、事務所側がPCで全体を見渡す、という役割分担を前提にしています。",
+      "このサンプルは、協力会社・本社・現場の間で散らばりがちな「報告・連絡・記録」を、ひとつの現場管理アプリとしてまとめることをイメージした画面構成です。現場監督がスマホから短く入力し、事務所側がPCで全体を見渡す、という役割分担を前提にしています。",
       "配員や締切が迫る案件はアラートで浮かび、報告のたたき台を支援することで、転記や書式調整にかける時間を削ります。現場の一次情報を起点に、承認や共有の流れまでを短く設計できるようにしています。",
       "実際の運用では、御社の協力会社ルール・安全基準・帳票様式に合わせて項目や権限を調整します。ここでは「動く画面」として、入力→確認→共有のリズムをイメージしていただくことを目的としています。",
     ],
     overviewMedia: {
       kind: "image",
       src: "/images/genbakanri_admin.webp",
-      alt: "現場ポケット管理画面のスクリーンショット",
+      alt: "現場管理アプリ管理画面のスクリーンショット",
     },
     flowSteps: [
       { number: "01", title: "現場から入力", duration: "記録" },
@@ -162,8 +162,8 @@ const DETAILS: readonly CaseStudyDetail[] = [
     ],
     relatedSolutionsSlug: "construction",
     relatedLinks: [
-      { label: "AI業務アプリ開発", href: "/services/development" },
-      { label: "DX戦略設計", href: "/services/consulting" },
+      { label: "AI業務アプリ開発", href: "/services/ai-apps" },
+      { label: "DX戦略設計", href: "/services/dx-strategy" },
     ],
   },
   {
@@ -261,17 +261,17 @@ const DETAILS: readonly CaseStudyDetail[] = [
     ],
     relatedSolutionsSlug: "professional-services",
     relatedLinks: [
-      { label: "AI業務アプリ開発", href: "/services/development" },
-      { label: "コンサルティング", href: "/services/consulting" },
+      { label: "AI業務アプリ開発", href: "/services/ai-apps" },
+      { label: "コンサルティング", href: "/services/dx-strategy" },
     ],
   },
   {
     slug: "shift-auto",
-    metaTitle: "シフト自動くん（SHIFT AUTO）| 実装事例 | AXEON",
+    metaTitle: "シフト管理自動システム（SHIFT AUTO）| 実装事例 | AXEON",
     metaDescription:
       "飲食・サービス向け。スタッフの希望を取り込み、シフト案を素早く作成・調整するオペレーションの実装サンプルです。",
     heroEyebrow: "SHIFT AUTO",
-    heroTitle: "シフト自動くん",
+    heroTitle: "シフト管理自動システム",
     heroSubtitle: "希望と法令・稼働を踏まえたシフト案を、短時間で。",
     industryTag: "飲食・サービス",
     whoFor: "飲食・サービスチェーンの店長・シフト担当（5〜30名/店舗）",
@@ -296,7 +296,7 @@ const DETAILS: readonly CaseStudyDetail[] = [
     overviewMedia: {
       kind: "video",
       src: "/images/shiftkanri_pc.mp4",
-      ariaLabel: "シフト自動くんの操作デモ動画",
+      ariaLabel: "シフト管理自動システムの操作デモ動画",
     },
     flowSteps: [
       { number: "01", title: "希望の収集", duration: "入力" },
@@ -355,7 +355,7 @@ const DETAILS: readonly CaseStudyDetail[] = [
     ],
     relatedSolutionsSlug: "hospitality-food",
     relatedLinks: [
-      { label: "AI業務アプリ開発", href: "/services/development" },
+      { label: "AI業務アプリ開発", href: "/services/ai-apps" },
       { label: "サービス一覧", href: "/services" },
     ],
   },
@@ -459,17 +459,17 @@ const DETAILS: readonly CaseStudyDetail[] = [
     ],
     relatedSolutionsSlug: "professional-services",
     relatedLinks: [
-      { label: "DX戦略設計", href: "/services/consulting" },
-      { label: "AI業務アプリ開発", href: "/services/development" },
+      { label: "DX戦略設計", href: "/services/dx-strategy" },
+      { label: "AI業務アプリ開発", href: "/services/ai-apps" },
     ],
   },
   {
     slug: "smart-agri-copilot",
-    metaTitle: "スマート農業コパイロット | 実装事例 | AXEON",
+    metaTitle: "スマート農業AI | 実装事例 | AXEON",
     metaDescription:
       "農業・アグリテック向け。圃場データと作業記録を現場で素早く整理し、栽培判断を支援するデモの実装サンプルです。",
     heroEyebrow: "Oriza Copilot",
-    heroTitle: "スマート農業コパイロット",
+    heroTitle: "スマート農業AI",
     heroSubtitle: "圃場の状況と作業を、現場で記録・共有する。",
     industryTag: "農業・アグリテック",
     whoFor: "農業法人・JA関連の生産管理担当（圃場・作付を複数管理する現場リーダー）",
@@ -563,7 +563,7 @@ const DETAILS: readonly CaseStudyDetail[] = [
     ],
     relatedSolutionsSlug: "retail-distribution",
     relatedLinks: [
-      { label: "AI業務アプリ開発", href: "/services/development" },
+      { label: "AI業務アプリ開発", href: "/services/ai-apps" },
       { label: "サービス一覧", href: "/services" },
     ],
   },
@@ -658,7 +658,7 @@ const DETAILS: readonly CaseStudyDetail[] = [
     ],
     relatedSolutionsSlug: "hospitality-food",
     relatedLinks: [
-      { label: "AI業務アプリ開発", href: "/services/development" },
+      { label: "AI業務アプリ開発", href: "/services/ai-apps" },
       { label: "サービス一覧", href: "/services" },
     ],
   },
@@ -668,7 +668,7 @@ const DETAILS: readonly CaseStudyDetail[] = [
     metaDescription:
       "人事・組織開発向け。評価コメントや面談準備を整理し、判断のムラを減らすAI支援ツールの実装サンプルです。",
     heroEyebrow: "人事評価サポートAI",
-    heroTitle: "評価コメント・面談準備サポート",
+    heroTitle: "FairHR",
     heroSubtitle: "評価プロセスを整理し、記録と対話の質を上げる。",
     industryTag: "人事・組織開発",
     whoFor: "人事部・各事業部の評価担当（従業員200〜3000名規模の評価シーズン運用）",
@@ -752,8 +752,8 @@ const DETAILS: readonly CaseStudyDetail[] = [
     ],
     relatedSolutionsSlug: "professional-services",
     relatedLinks: [
-      { label: "AI業務アプリ開発", href: "/services/development" },
-      { label: "コンサルティング", href: "/services/consulting" },
+      { label: "AI業務アプリ開発", href: "/services/ai-apps" },
+      { label: "コンサルティング", href: "/services/dx-strategy" },
     ],
   },
   {
@@ -846,7 +846,7 @@ const DETAILS: readonly CaseStudyDetail[] = [
     ],
     relatedSolutionsSlug: "healthcare-public",
     relatedLinks: [
-      { label: "AI業務アプリ開発", href: "/services/development" },
+      { label: "AI業務アプリ開発", href: "/services/ai-apps" },
       { label: "サービス一覧", href: "/services" },
     ],
   },
@@ -940,7 +940,7 @@ const DETAILS: readonly CaseStudyDetail[] = [
     ],
     relatedSolutionsSlug: "professional-services",
     relatedLinks: [
-      { label: "AI業務アプリ開発", href: "/services/development" },
+      { label: "AI業務アプリ開発", href: "/services/ai-apps" },
       { label: "サービス一覧", href: "/services" },
     ],
   },
@@ -1042,8 +1042,8 @@ const DETAILS: readonly CaseStudyDetail[] = [
     ],
     relatedSolutionsSlug: "professional-services",
     relatedLinks: [
-      { label: "AI業務アプリ開発", href: "/services/development" },
-      { label: "コンサルティング", href: "/services/consulting" },
+      { label: "AI業務アプリ開発", href: "/services/ai-apps" },
+      { label: "コンサルティング", href: "/services/dx-strategy" },
     ],
   },
 ];

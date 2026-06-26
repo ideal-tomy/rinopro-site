@@ -10,9 +10,9 @@ export const homeLandingCopy = {
     serviceSectionKicker: "ー Service ー",
     serviceOfferCards: [
       {
-        title: "コンサルティング",
+        title: "DX戦略設計",
         description: "コンサル&開発、運用保守",
-        href: "/services/consulting",
+        href: "/services/dx-strategy",
       },
       {
         title: "IT部門半内製化",

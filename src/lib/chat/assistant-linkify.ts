@@ -35,10 +35,8 @@ const PATH_CORE =
   "|demo/[a-z0-9]+(?:-[a-z0-9]+)*" +
   "|experience/[a-z0-9]+(?:-[a-z0-9]+)*" +
   "|estimate-detailed(?:/[a-z0-9-]+)?" +
-  "|services(?:/(?:development|consulting))?" +
+  "|services(?:/(?:dx-strategy|ai-apps|data-platform|insourcing-enablement|industry-solutions|continuous-improvement))?" +
   "|contact" +
-  "|flow" +
-  "|consulting" +
   "|about";
 
 const BARE_INTERNAL_PATH_RE = new RegExp(
@@ -50,12 +48,10 @@ const FIXED_LABELS: Record<string, string> = {
   "/demo/list": "demo一覧",
   "/contact": "お問い合わせ",
   "/estimate-detailed": "詳細見積もり",
-  "/flow": "開発の進め方（/flow）",
-  "/consulting": "コンサルティング（/consulting）",
   "/about": "会社情報（/about）",
   "/services": "サービス一覧",
-  "/services/development": "開発サービス",
-  "/services/consulting": "コンサルティングサービス",
+  "/services/dx-strategy": "DX戦略設計",
+  "/services/ai-apps": "AI業務アプリ開発",
 };
 
 function linkLabelForPath(path: string): string {

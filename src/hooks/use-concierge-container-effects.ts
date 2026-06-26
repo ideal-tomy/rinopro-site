@@ -41,7 +41,9 @@ export function useConciergeServicesIntroSync(
       setServicesIntroComplete(readServicesFlowPick() !== null);
     } else if (
       (pathname === "/flow" && mode === "development") ||
-      (pathname === "/consulting" && mode === "consulting")
+      (pathname === "/consulting" && mode === "consulting") ||
+      (pathname === "/services/ai-apps" && mode === "development") ||
+      (pathname === "/services/dx-strategy" && mode === "consulting")
     ) {
       setServicesIntroComplete(true);
     } else {
@@ -98,11 +100,16 @@ export function useConciergePathnameModeSync(
   setMode: (m: ConciergeMode) => void
 ) {
   useEffect(() => {
-    if (pathname === "/flow" || pathname === "/services/development") {
+    if (
+      pathname === "/flow" ||
+      pathname === "/services/development" ||
+      pathname === "/services/ai-apps"
+    ) {
       setMode("development");
     } else if (
       pathname === "/consulting" ||
-      pathname === "/services/consulting"
+      pathname === "/services/consulting" ||
+      pathname === "/services/dx-strategy"
     ) {
       setMode("consulting");
     } else if (pathname === "/services") {
