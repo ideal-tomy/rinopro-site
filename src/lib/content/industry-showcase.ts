@@ -211,7 +211,7 @@ const INDUSTRY_SHOWCASE_ITEMS_RAW: readonly IndustryShowcaseItem[] = [
       approachSectionTitle: "解決の考え方（概要）",
       approachBody:
         "予約・販促・在庫に近いデータから「今日の注意点」を短く出し、接客・厨房・本部で同じ画面を見られるようにします。対外メッセージはトーンと注意事項をテンプレ化し、最終文面は人が調整する前提です。",
-      relatedCaseStudySlugs: ["shift-auto"],
+      relatedCaseStudySlugs: ["restaurant-ops-dashboard-demo"],
       relatedDemos: [
         { slug: "restaurant-prep-list-from-bookings", title: "予約状況から仕込みリスト草案" },
         { slug: "shift-handover-summary", title: "シフト引継ぎサマリ生成" },

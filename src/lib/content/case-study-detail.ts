@@ -88,7 +88,7 @@ const DETAILS: readonly CaseStudyDetail[] = [
     ],
     overviewMedia: {
       kind: "image",
-      src: "/images/genbakanri_admin.webp",
+      src: "/images/genbakanri_pc01.png",
       alt: "現場管理アプリ管理画面のスクリーンショット",
     },
     flowSteps: [
@@ -139,19 +139,19 @@ const DETAILS: readonly CaseStudyDetail[] = [
     ],
     gallery: [
       {
-        src: "/images/genbakanri_admin.webp",
+        src: "/images/genbakanri_pc01.png",
         alt: "管理画面の一覧ビュー",
         caption: "本社・管理者向け：複数現場の状況を一覧で把握",
       },
       {
-        src: "/images/genbakanri_pc.webp",
-        alt: "PC向け詳細画面",
-        caption: "PCでもチャートやテーブルでじっくり確認できるレイアウト",
+        src: "/images/genbakanri_pc02.png",
+        alt: "進捗・日報の現場画面",
+        caption: "現場向け：進捗更新や日報入力をスマホから実施",
       },
       {
-        src: "/images/genbakanri_mobile.webp",
-        alt: "モバイル向け画面",
-        caption: "現場向け：移動中でも必要な操作に絞った画面",
+        src: "/images/genbakanri_pc03.png",
+        alt: "日報作成画面",
+        caption: "音声入力やテキストから日報を素早く作成",
       },
     ],
     techHighlights: [
@@ -1064,5 +1064,5 @@ export function getCaseStudyOpenGraphImageSrc(detail: CaseStudyDetail): string {
     return detail.overviewMedia.src;
   }
   const first = detail.gallery[0];
-  return first?.src ?? "/images/genbakanri_admin.webp";
+  return first?.src ?? "/images/genbakanri_pc01.png";
 }

@@ -28,9 +28,11 @@ export function HomeCeoMessageSection() {
           <h3 className="text-[28px] font-bold leading-tight text-[var(--color-text-primary)]">
             {ceo.messageHeading}
           </h3>
-          <p className="mt-4 text-[16px] leading-[1.9] text-[var(--color-text-secondary)] md:text-[17px]">
-            {ceo.message}
-          </p>
+          <div className="mt-4 space-y-5 text-[16px] leading-[1.9] text-[var(--color-text-secondary)] md:text-[17px]">
+            {ceo.message.map((paragraph) => (
+              <p key={paragraph.slice(0, 24)}>{paragraph}</p>
+            ))}
+          </div>
           <Button asChild variant="outline" className="mt-7">
             <Link href={ceo.profileHref}>{ceo.profileLabel}</Link>
           </Button>

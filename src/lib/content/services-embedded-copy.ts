@@ -185,7 +185,7 @@ export const consultingBlocksCopy = [
       {
         label: "共有資料の型",
         caption: "社内説明に使える形",
-        src: "/images/demo_images/kaigo-care-dx.png",
+        src: "/images/demo_images/kaigo-operation-demo01.png",
         alt: "ステークホルダー向け共有資料のイメージ",
       },
     ],

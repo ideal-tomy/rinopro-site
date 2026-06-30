@@ -32,7 +32,7 @@ export const experienceGalleryCopy = {
     kicker: "EXPERIENCE",
     title: "触って探す、AI活用のヒント",
     lead:
-      "飲食・農業・介護・M&A・建設・人事など、業種の異なる実装例をご覧いただけます。気になるものを触って、自社への応用イメージを膨らませてください。",
+      "ビル管理・農業・介護・M&A・建設・不動産など、業種の異なる実装例をご覧いただけます。気になるものを触って、自社への応用イメージを膨らませてください。",
   },
   flagshipSection: {
     title: "おすすめの実装例",
@@ -56,12 +56,12 @@ export const experienceGalleryCopy = {
 
 /** おすすめ6本の業種バッジ（読み取り専用） */
 export const V1_FLAGSHIP_INDUSTRY_BADGES = [
-  "飲食・サービス",
+  "ビル管理",
   "農業",
   "介護",
   "M&A",
   "建設",
-  "人事",
+  "不動産",
 ] as const;
 
 /** @deprecated LIVE セクションは FEATURED に統合。互換用 */

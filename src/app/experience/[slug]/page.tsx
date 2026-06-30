@@ -167,12 +167,22 @@ async function renderInteractiveExperience(
   );
 }
 
+/** 旧おすすめデモ slug → 後継の外部デモ URL */
+const LEGACY_SHOWCASE_REDIRECTS: Record<string, string> = {
+  "shift-auto": "https://obs-demo.vercel.app/",
+  "hr-evaluation-support": "https://openestate-demo.gembashift.com/",
+};
+
 export default async function ExperienceSlugPage({
   params,
   searchParams,
 }: Props) {
   const { slug } = await params;
   const sp = await searchParams;
+  const legacyRedirect = LEGACY_SHOWCASE_REDIRECTS[slug];
+  if (legacyRedirect) {
+    permanentRedirect(legacyRedirect);
+  }
   const liveMode = isLiveDemoMode(sp);
 
   if (isAllowedInteractiveExperienceSlug(slug) && liveMode) {

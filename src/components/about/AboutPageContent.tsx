@@ -4,6 +4,7 @@ import { AboutFactsSection } from "@/components/about/AboutFactsSection";
 import { AboutPrinciplesSection } from "@/components/about/AboutPrinciplesSection";
 import { AboutSectionHeader } from "@/components/about/AboutSectionHeader";
 import { AboutStorySection } from "@/components/about/AboutStorySection";
+import { AboutTeamFusionDiagram } from "@/components/about/AboutTeamFusionDiagram";
 import { HomeSectionShell } from "@/components/home/HomeSectionShell";
 import { Button } from "@/components/ui/button";
 import { aboutCopy } from "@/lib/content/site-copy";
@@ -69,7 +70,11 @@ export function AboutPageContent() {
                 <p className="mt-3 text-lg font-bold text-[var(--color-text-primary)] md:text-xl">
                   {profile.name}
                 </p>
-                <p className={cn(aboutReading.body, "mt-5")}>{profile.body}</p>
+                <div className={cn(aboutReading.body, "mt-5 space-y-5")}>
+                  {profile.body.map((paragraph) => (
+                    <p key={paragraph.slice(0, 24)}>{paragraph}</p>
+                  ))}
+                </div>
               </article>
             ))}
           </div>
@@ -98,57 +103,7 @@ export function AboutPageContent() {
             title={teamModel.heading}
             description={teamModel.intro}
           />
-          <div className="flex flex-col gap-8 lg:flex-row lg:items-stretch lg:justify-center lg:gap-0 lg:divide-x lg:divide-[var(--color-border-light)]">
-            <div className="flex-1 lg:max-w-md lg:pr-10">
-              <h3 className="text-lg font-bold text-[var(--color-text-primary)] md:text-xl">
-                {teamModel.strategyLead.title}
-              </h3>
-              <ul className="mt-6 space-y-3">
-                {teamModel.strategyLead.bullets.map((bullet) => (
-                  <li key={bullet} className="flex gap-2">
-                    <span
-                      className="text-[var(--color-accent-primary)]/80"
-                      aria-hidden
-                    >
-                      ・
-                    </span>
-                    <span className={aboutReading.body}>{bullet}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="flex shrink-0 flex-col items-center justify-center gap-2 px-4 py-3 lg:w-44 lg:py-0">
-              <div
-                className="hidden lg:block lg:h-full lg:min-h-[48px] lg:w-px lg:bg-gradient-to-b lg:from-transparent lg:via-accent/35 lg:to-transparent"
-                aria-hidden
-              />
-              <p className="text-center text-[13px] font-semibold leading-snug tracking-wide text-[var(--color-accent-primary)] md:text-[14px]">
-                {teamModel.fusionLabel}
-              </p>
-              <div
-                className="hidden lg:block lg:h-full lg:min-h-[48px] lg:w-px lg:bg-gradient-to-b lg:from-transparent lg:via-accent/35 lg:to-transparent"
-                aria-hidden
-              />
-            </div>
-            <div className="flex-1 lg:max-w-md lg:pl-10">
-              <h3 className="text-lg font-bold text-[var(--color-text-primary)] md:text-xl">
-                {teamModel.aiEngineeringLead.title}
-              </h3>
-              <ul className="mt-6 space-y-3">
-                {teamModel.aiEngineeringLead.bullets.map((bullet) => (
-                  <li key={bullet} className="flex gap-2">
-                    <span
-                      className="text-[var(--color-accent-primary)]/80"
-                      aria-hidden
-                    >
-                      ・
-                    </span>
-                    <span className={aboutReading.body}>{bullet}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
+          <AboutTeamFusionDiagram teamModel={teamModel} />
           <p className={cn(aboutReading.body, "mx-auto mt-10 max-w-2xl text-center md:mt-14")}>
             {teamModel.footnote}
           </p>

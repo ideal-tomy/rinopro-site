@@ -49,12 +49,12 @@ export type ImplementationShowcaseItem = {
 
 /** v1 リリース: クライアント指定のおすすめ6本（トップ・/experience 冒頭） */
 export const V1_FLAGSHIP_SHOWCASE_SLUGS = [
-  "shift-auto",
+  "building-os",
   "smart-agri-copilot",
   "kaigo-care-dx",
   "ma-dd-valueup",
   "gempo",
-  "hr-evaluation-support",
+  "openestate",
 ] as const;
 
 export type V1FlagshipShowcaseSlug =
@@ -65,11 +65,9 @@ export const FLAGSHIP_CASE_STUDY_SLUGS = [
   "restaurant-ops-dashboard-demo",
   "gempo",
   "recruit-cockpit",
-  "shift-auto",
   "internal-knowledge-bot",
   "ma-dd-valueup",
   "smart-agri-copilot",
-  "hr-evaluation-support",
   "handover-ai-charting",
   "property-matching",
 ] as const;
@@ -90,7 +88,6 @@ function pickExternalUrl(
   if (v) return v;
   if (slug === "gempo") return "https://kanri-kensetsu.vercel.app/";
   if (slug === "recruit-cockpit") return "https://saiyou-demo0420.vercel.app/";
-  if (slug === "shift-auto") return "https://thunderous-crepe-b5a4e3.netlify.app/";
   return `/experience#demo-${slug}`;
 }
 
@@ -123,6 +120,12 @@ export function resolveImplementationDetailHref(
 ): string {
   if (item.slug === "kaigo-care-dx") {
     return "/lp/kaigo-care-dx";
+  }
+  if (item.slug === "building-os") {
+    return "https://obs-demo.vercel.app/";
+  }
+  if (item.slug === "openestate") {
+    return "https://openestate-demo.gembashift.com/";
   }
   return `/experience/${item.slug}`;
 }
@@ -190,21 +193,45 @@ const FARM_SLIDES = [
   "/images/demo_images/farm_demo03.png",
 ] as const;
 
+const OBS_SLIDES = [
+  "/images/demo_images/obs-demo01.png",
+  "/images/demo_images/obs-demo02.png",
+  "/images/demo_images/obs-demo03.png",
+] as const;
+
+const OPENESTATE_SLIDES = [
+  "/images/demo_images/openestate-demo01.png",
+  "/images/demo_images/openestate-demo02.png",
+] as const;
+
+const KAIGO_SLIDES = [
+  "/images/demo_images/kaigo-operation-demo01.png",
+  "/images/demo_images/kaigo-operation-demo02.png",
+  "/images/demo_images/kaigo-operation-demo03.png",
+] as const;
+
+const GEMPO_SLIDES = [
+  "/images/genbakanri_pc01.png",
+  "/images/genbakanri_pc02.png",
+  "/images/genbakanri_pc03.png",
+] as const;
+
 /** 表示順固定（v1おすすめ6本 → その他） */
 export const IMPLEMENTATION_SHOWCASE_ITEMS: readonly ImplementationShowcaseItem[] =
   [
     {
-      slug: "shift-auto",
-      industryCategory: "food",
-      brandName: "SHIFT AUTO",
-      productTitle: "シフト管理自動システム",
-      catchCopy: "スタッフの希望から最適シフトを生成",
-      industryLabel: "飲食・サービス",
-      thumbnailSrc: "/images/shiftkanri_pc.mp4",
-      thumbnailAlt: "シフト管理自動システムのデモ動画",
-      internalPath: "/experience/shift-auto",
-      externalEnvKey: "NEXT_PUBLIC_SHOWCASE_SHIFT_URL",
+      slug: "building-os",
+      industryCategory: "realestate",
+      brandName: "Building OS CONSOLE",
+      productTitle: "建物OS",
+      catchCopy: "建物の「いま」を、ひとつの画面に。",
+      industryLabel: "ビル管理・スマートビル",
+      thumbnailSrc: OBS_SLIDES[0],
+      thumbnailAlt: "建物OSコンソールの画面イメージ",
+      thumbnailSlides: OBS_SLIDES,
+      externalUrl: "https://obs-demo.vercel.app/",
       openInNewTab: true,
+      liveDemo: true,
       featured: true,
       flagship: true,
     },
@@ -232,8 +259,9 @@ export const IMPLEMENTATION_SHOWCASE_ITEMS: readonly ImplementationShowcaseItem[
       catchCopy:
         "現場は入力するだけ。報告書づくりと確認は、システムが肩代わりする。",
       industryLabel: "医療・介護",
-      thumbnailSrc: "/images/demo_images/kaigo-care-dx.png",
+      thumbnailSrc: KAIGO_SLIDES[0],
       thumbnailAlt: "ケア記録DX提案デモの画面イメージ",
+      thumbnailSlides: KAIGO_SLIDES,
       externalUrl: "https://kaigo-operation-demo.vercel.app/",
       openInNewTab: true,
       liveDemo: true,
@@ -264,8 +292,9 @@ export const IMPLEMENTATION_SHOWCASE_ITEMS: readonly ImplementationShowcaseItem[
       productTitle: "建設業向け 現場管理アプリ",
       catchCopy: "現場・事務所、どこからでもアクセス",
       industryLabel: "建設・工事",
-      thumbnailSrc: "/images/genbakanri_admin.webp",
+      thumbnailSrc: GEMPO_SLIDES[0],
       thumbnailAlt: "GEMPO 現場管理アプリの管理画面スクリーンショット",
+      thumbnailSlides: GEMPO_SLIDES,
       internalPath: "/experience/gempo",
       externalEnvKey: "NEXT_PUBLIC_SHOWCASE_GEMPO_URL",
       openInNewTab: true,
@@ -273,16 +302,18 @@ export const IMPLEMENTATION_SHOWCASE_ITEMS: readonly ImplementationShowcaseItem[
       flagship: true,
     },
     {
-      slug: "hr-evaluation-support",
-      industryCategory: "hr",
-      brandName: "人事評価サポートAIツール",
-      productTitle: "FairHR",
-      catchCopy: "評価プロセスを整理して、判断のムラを減らす",
-      industryLabel: "人事・組織開発",
-      thumbnailSrc: "/images/hyouka_pc.png",
-      thumbnailAlt: "人事評価サポートAIツールの画面イメージ",
-      externalUrl: "https://kouken-demo.vercel.app/",
+      slug: "openestate",
+      industryCategory: "realestate",
+      brandName: "OpenEstate",
+      productTitle: "ブロックチェーン×不動産",
+      catchCopy: "1万円から、デジタル大家に。",
+      industryLabel: "不動産・投資",
+      thumbnailSrc: OPENESTATE_SLIDES[0],
+      thumbnailAlt: "OpenEstateの画面イメージ",
+      thumbnailSlides: OPENESTATE_SLIDES,
+      externalUrl: "https://openestate-demo.gembashift.com/",
       openInNewTab: true,
+      liveDemo: true,
       featured: true,
       flagship: true,
     },

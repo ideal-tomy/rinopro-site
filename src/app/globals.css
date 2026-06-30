@@ -395,3 +395,55 @@
     animation: none;
   }
 }
+
+/* About: 標準体制 — 中央ハブの同心円リップル（中心から外へ） */
+@keyframes fusion-hub-ripple {
+  0% {
+    transform: scale(0.38);
+    opacity: 0.72;
+  }
+  65% {
+    opacity: 0.18;
+  }
+  100% {
+    transform: scale(1.05);
+    opacity: 0;
+  }
+}
+
+@keyframes fusion-hub-core-glow {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .fusion-hub-ripple {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: fusion-hub-ripple 3.2s ease-out infinite;
+  }
+
+  .fusion-hub-ripple--2 {
+    animation-delay: 1.05s;
+  }
+
+  .fusion-hub-ripple--3 {
+    animation-delay: 2.1s;
+  }
+
+  .fusion-hub-core-glow {
+    animation: fusion-hub-core-glow 3.2s ease-in-out infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fusion-hub-ripple,
+  .fusion-hub-core-glow {
+    animation: none;
+  }
+}
