@@ -41,11 +41,24 @@ export const metadata: Metadata = {
     template: "%s | AXEON",
   },
   description: "ビジネスを再設計するDXツール・AIツールの開発とコンサルティング。",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://AXEON.example.com"),
   openGraph: {
     type: "website",
     locale: "ja_JP",
+    siteName: "AXEON",
+    images: [
+      {
+        url: "/og.png",
+        width: 1200,
+        height: 630,
+        alt: "AXEON",
+      },
+    ],
   },
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://AXEON.example.com"),
+  twitter: {
+    card: "summary_large_image",
+    images: ["/og.png"],
+  },
 };
 
 export default function RootLayout({
