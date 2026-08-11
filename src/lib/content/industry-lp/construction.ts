@@ -5,7 +5,7 @@ const hubUrl = INDUSTRY_EXTERNAL_DEMOS.construction;
 const reportUrl = INDUSTRY_EXTERNAL_DEMOS.ocrConstruction;
 const opsUrl = INDUSTRY_EXTERNAL_DEMOS.constructionOps;
 
-/** ideal construction-record 移植。ROI 数値は初期値試算（年間 344万円） */
+/** ideal construction-record 移植 */
 export const constructionIndustryLp: IndustryLpConfig = {
   slug: "construction",
   demoName: "建設の記録デモ",
@@ -26,8 +26,8 @@ export const constructionIndustryLp: IndustryLpConfig = {
     body: "写真を撮る方法や、現在の保存先を大きく変える必要はありません。まずは1現場から、実際の写真を使って試すことができます。",
     ctas: [
       {
-        label: "お問い合わせ",
-        href: "/contact",
+        label: "削減できる時間を試算する",
+        href: "#roi",
         variant: "primary",
       },
       {
@@ -63,6 +63,7 @@ export const constructionIndustryLp: IndustryLpConfig = {
     label: "いま発生している作業",
     headline: "同じ現場の情報を、何度も入力していませんか。",
     lead: "現場では、すでに必要な写真や情報が記録されています。しかし事務所では、その写真を確認して名前を付け、日報へ入力し、工事写真台帳へ貼り付ける作業が発生します。",
+    cardHiddenItemNos: ["01", "02", "03", "04"],
     diagram: {
       src: "/images/lp/construction/transcribe-cost.svg",
       alt: "同じ内容を、三度入力している（写真1枚からファイル名・日報・工事写真台帳へ）",
@@ -188,18 +189,22 @@ export const constructionIndustryLp: IndustryLpConfig = {
         name: "写真整理",
         body: "現場から集まった写真を分類し、名前を付けて整理します。写真整理だけで利用することもできます。",
         demoUrl: hubUrl,
+        standalone: true,
       },
       {
         no: "02",
         name: "報告書作成",
         body: "整理した写真から、日報・朝礼資料・工事写真台帳などの下書きを作成します。写真を貼り直したり、同じ内容を入力し直したりする作業を減らします。",
         demoUrl: reportUrl,
+        standalone: false,
+        dependsOn: ["写真整理"],
       },
       {
         no: "03",
         name: "進捗管理",
         body: "現場ごとの提出状況と担当者を一覧で確認します。どの現場で確認や提出が止まっているかを確認できます。",
         demoUrl: opsUrl,
+        standalone: true,
       },
     ],
   },
@@ -300,15 +305,29 @@ export const constructionIndustryLp: IndustryLpConfig = {
     closing:
       "使い始めたあとも、御社の現場の言い方や運用に合わせて調整できます。",
   },
-  roiSummary: {
+  roi: {
     label: "削減できる時間を試算",
-    headline: "現在の作業時間から、削減効果の目安を確認できます。",
-    lead: "会社や現場によって写真整理や報告書作成にかかる時間は異なります。初期値の試算では次の規模感になります。",
-    figureValue: "年間 344万円",
-    basis:
-      "計算根拠（初期値）: 1現場・1日あたり整理や入力40分 × 5現場 × 240営業日 × 時間単価4,000円（差し戻し15%を加算）",
-    disclaimer:
-      "※初期値にもとづく試算であり、効果を保証するものではありません。実態に合わせた試算はお問い合わせください。",
+    headline: "現在の作業時間から、削減効果を確認できます。",
+    lead: "会社や現場によって、写真整理や報告書作成にかかる時間は異なります。そのため、固定された数字ではなく、現在の状況を入力して試算できます。",
+    spec: {
+      kind: "workflow-site",
+      defaults: {
+        sites: 5,
+        minutesPerSiteDay: 40,
+        hourlyYen: 4000,
+        reworkRatePercent: 15,
+        workDays: 240,
+        recoverRate: 0.5,
+        reworkFactor: 0.5,
+        devLow: 2_000_000,
+        devHigh: 6_000_000,
+      },
+      cta: {
+        label: "削減できる時間を試算する",
+        href: "/contact",
+        variant: "primary",
+      },
+    },
   },
   process: {
     label: "導入方法",

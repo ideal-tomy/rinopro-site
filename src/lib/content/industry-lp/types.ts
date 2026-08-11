@@ -1,3 +1,5 @@
+import type { IndustryRoiSpec } from "./roi-factory";
+
 /** 業種ワークフロー LP（ideal W型移植・AXEON 向け） */
 
 export type IndustryLpSlug = "construction" | "manufacturing";
@@ -41,6 +43,8 @@ export type IndustryLpConfig = {
     headline: string;
     lead: string;
     diagram?: AssetRef;
+    /** 図で説明するためカード表示を省略する項目番号 */
+    cardHiddenItemNos?: string[];
     items: { no: string; title: string; body: string }[];
     summary: { headline: string; body: string };
   };
@@ -87,6 +91,8 @@ export type IndustryLpConfig = {
       name: string;
       body: string;
       demoUrl?: string;
+      standalone?: boolean;
+      dependsOn?: string[];
     }[];
   };
   resultTabs: {
@@ -115,14 +121,12 @@ export type IndustryLpConfig = {
     cycles: { no: string; title: string; body: string }[];
     closing: string;
   };
-  /** インタラクティブ ROI は置かず、要約のみ */
-  roiSummary: {
+  /** インタラクティブ ROI（シリアライズ可能な仕様のみ。計算は Client で復元） */
+  roi: {
     label: string;
     headline: string;
     lead: string;
-    figureValue: string;
-    basis: string;
-    disclaimer: string;
+    spec: IndustryRoiSpec;
   };
   process: {
     label: string;

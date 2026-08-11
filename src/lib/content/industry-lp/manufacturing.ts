@@ -4,7 +4,7 @@ import { INDUSTRY_EXTERNAL_DEMOS } from "./external-demos";
 const hubUrl = INDUSTRY_EXTERNAL_DEMOS.manufacturing;
 const knowledgeUrl = INDUSTRY_EXTERNAL_DEMOS.internalKnowledge;
 
-/** ideal manufacturing-judgment 移植。ROI 数値は初期値試算（年間 1,960万円） */
+/** ideal manufacturing-judgment 移植 */
 export const manufacturingIndustryLp: IndustryLpConfig = {
   slug: "manufacturing",
   demoName: "製造の判断デモ",
@@ -25,8 +25,8 @@ export const manufacturingIndustryLp: IndustryLpConfig = {
     body: "現場や部門からの質問に、回答だけでなく根拠の文書箇所まで添えて返せます。版ずれや窓口の違いで止まる時間を短くすることを目指します。",
     ctas: [
       {
-        label: "お問い合わせ",
-        href: "/contact",
+        label: "削減できる時間を試算する",
+        href: "#roi",
         variant: "primary",
       },
       {
@@ -62,6 +62,7 @@ export const manufacturingIndustryLp: IndustryLpConfig = {
     label: "いま発生している作業",
     headline: "正解はあるのに、たどり着くまでが仕事になっていませんか。",
     lead: "フォルダを開き、詳しい人に聞き、根拠のページが共有されないまま同じ質問が繰り返されます。",
+    cardHiddenItemNos: ["01", "02", "03", "04"],
     diagram: {
       src: "/images/lp/manufacturing/search-maze-cost.svg",
       alt: "答えは文書にあるのに、たどり着くまでが仕事",
@@ -183,18 +184,21 @@ export const manufacturingIndustryLp: IndustryLpConfig = {
         name: "製造の判断（ハブ）",
         body: "製造ハブで、現場判断・手順・変更影響をまとめて触れます。",
         demoUrl: hubUrl,
+        standalone: true,
       },
       {
         no: "02",
         name: "社内ナレッジAI",
         body: "規程・マニュアルへの質問を、業務画面寄りに確認できます。",
         demoUrl: knowledgeUrl,
+        standalone: true,
       },
       {
         no: "03",
         name: "相談・設計",
         body: "対象文書・権限・載せ方を、AXEONがヒアリングして設計します。",
         demoUrl: undefined,
+        standalone: true,
       },
     ],
   },
@@ -291,15 +295,27 @@ export const manufacturingIndustryLp: IndustryLpConfig = {
     ],
     closing: "運用しながら、御社の文書と権限に合わせて育てます。",
   },
-  roiSummary: {
+  roi: {
     label: "削減できる時間を試算",
-    headline: "探索・確認の時間から、効果の目安を確認できます。",
-    lead: "人数と1日あたりの探索時間により規模は変わります。初期値の試算では次の規模感になります。",
-    figureValue: "年間 1,960万円",
-    basis:
-      "計算根拠（初期値）: 1人35分/日 × 時給3,500円 × 240営業日 × 40人",
-    disclaimer:
-      "※初期値にもとづく試算であり、効果を保証するものではありません。実態に合わせた試算はお問い合わせください。",
+    headline: "探索・確認の時間から、効果を試せます。",
+    lead: "人数と1日あたりの探索時間を動かして、近い数字を確認できます。",
+    spec: {
+      kind: "labor",
+      defaults: {
+        people: 40,
+        minutesPerDay: 35,
+        hourlyYen: 3500,
+        workDays: 240,
+        recoverRate: 0.5,
+        devLow: 2_500_000,
+        devHigh: 6_000_000,
+      },
+      cta: {
+        label: "削減できる時間を試算する",
+        href: "/contact",
+        variant: "primary",
+      },
+    },
   },
   process: {
     label: "導入方法",

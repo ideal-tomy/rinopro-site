@@ -15,13 +15,16 @@ alwaysApply: true
 - `--color-text: #1a1a1a`（**黒系**） / `--color-text-sub: #4a4a4a`（**ダークグレー**）
 - `--color-accent-primary: #26418e`（深いブルー） / `--color-accent-primary-light: #dbeafe`
 
-**ルール**
+**ルール（コントラスト事故の再発防止）**
 
-- **本文は `text-text` または `text-text-sub` を基本**。`text-white` の直書きは原則禁止（**明背景に白文字＝不可視**）。`text-white` を使うのは、**ソリッドな濃色背景（`bg-[var(--color-accent-primary)]` などの上）に乗っているとき限定**。
-- **`text-base` ユーティリティは使わない**（`globals.css` の `--color-base` と衝突する）。本文の 1rem 相当は **`text-[16px]`** や **`text-[1rem]`** を使う。
-- **ガラス系背景（`bg-white/[0.06]` / `bg-base/40` など半透明＋ブラー）は使わない**。明背景上で輪郭が消える。明背景前提のカードは `bg-[var(--color-bg-pure)]` / `bg-[var(--color-bg-neutral)]`、強調パネルは `bg-accent-primary-light/40` を使う。
+- **明背景（白・薄いグレー・薄いブルー）の上では、本文・見出しに必ず濃色を使う。** 推奨: `text-slate-900` / `text-slate-700` / `text-slate-600`、または `text-text` / `text-text-sub` / `text-[var(--color-text-primary)]`。
+- **`text-white` の直書きは原則禁止**（明背景に白文字＝不可視）。使うのは **ソリッドな濃色背景**（`bg-[var(--color-accent-primary)]`・`bg-slate-900`・`bg-[var(--lp-ink)]` など）の上だけ。
+- **背景と同系統のフォントカラーは絶対に使わない**（例: 白背景×白文字、薄い青背景×薄い青文字、`bg-white`×`text-base`）。レビュー時に「背景を消しても文字が読めるか」を確認する。
+- **`text-base` ユーティリティは使わない**。このリポジトリでは `@theme` の `--color-base: #fafaf8` と衝突し、**フォントサイズではなくほぼ白の文字色**になる。本文の 1rem 相当は **`text-[16px]`** や **`text-[1rem]`** を使う。
+- 業種LP（`IndustryLpPage` 等）の FAQ・比較表・カード本文も同様。`text-[var(--lp-ink)]` だけに頼らず、明背景セクションでは `text-slate-900` を明示してよい。
+- ガラス系背景（`bg-white/[0.06]` / `bg-base/40` など半透明＋ブラー）は使わない。明背景上で輪郭が消える。
 - 半透明枠の `border-white/15` 等は `border-silver/30` または `border-[var(--color-border-light)]` に置換する。
-- 既存コードで `text-white` を見かけたら、それは **ダーク時代の残り**である可能性が高い。`text-text` / `text-text-sub` への置換を検討する。
+- 既存コードで `text-white` や `text-base`（文字色用途）を見かけたら、ダーク時代／トークン衝突の残りとして修正する。
 
 ### 1.1 命名規則
 

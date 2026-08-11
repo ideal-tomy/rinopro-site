@@ -1,0 +1,23 @@
+---
+description: 明背景で文字が消えないようコントラストを強制する
+globs: src/components/**/*.{tsx,ts,css}
+alwaysApply: false
+---
+
+# 文字コントラスト（AXEON）
+
+## 禁止
+
+- 明背景（白・薄いグレー・薄いブルー）の上で `text-white` / `text-white/*` を使うこと
+- **`text-base` を使うこと**（このリポジトリでは `--color-base: #fafaf8` と衝突し、ほぼ白文字になる）
+- 背景と同系統の薄い文字色（例: 白×白、`bg-[#eaf3fb]`×薄い青文字のみ）
+
+## 必須
+
+- 明背景の本文・見出しは `text-slate-900` / `text-slate-700` / `text-slate-600`、または `text-text` / `text-[var(--color-text-primary)]`
+- フォントサイズ 1rem 相当は `text-[16px]` または `text-[1rem]`
+- `text-white` はソリッドな濃色背景の上だけ
+
+## 確認
+
+実装後に「背景を白にしても文字が読めるか」を目視する。FAQ・VALUES・業種LPは特に注意。
