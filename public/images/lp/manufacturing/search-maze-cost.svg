@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" style="width:100%;height:auto;display:block" viewBox="0 0 880 480" role="img" aria-labelledby="smcTitle smcDesc">
+  <title id="smcTitle">答えは文書にあるのに、たどり着くまでが仕事</title>
+  <desc id="smcDesc">質問1件がフォルダ・チャット・紙の迷路に入り、行き止まりの末に口頭の薄い答えへ至る様子。</desc>
+  <style>
+    svg{
+      --ink:#1F2A33; --line:#3A4650; --muted:#6B7780;
+      --soft:#F4F6F7; --edge:#C4CBD1;
+      --loss:#A8574B;
+      color-scheme: light only;
+      font-family:"Noto Sans CJK JP","Noto Sans JP",system-ui,sans-serif;
+    }
+    .t{fill:var(--ink)} .t-mut{fill:var(--muted)} .t-w{fill:#FFFFFF} .t-loss{fill:var(--loss)}
+    .wire{stroke:var(--edge);stroke-width:2.4;fill:none}
+    .box{fill:#FFFFFF;stroke:var(--line);stroke-width:1.6}
+    .gate{fill:var(--loss)}
+</style>
+  <defs>
+    <marker id="smcAh" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#C4CBD1"/>
+    </marker>
+  </defs>
+  <text class="t-mut" x="120" y="52" text-anchor="middle" font-size="14">質問は1件</text>
+  <text class="t-loss" x="400" y="52" text-anchor="middle" font-size="15" font-weight="700">探索の迷路</text>
+  <text class="t-mut" x="700" y="52" text-anchor="middle" font-size="14">たどりつく先</text>
+  <rect x="48" y="160" width="150" height="110" rx="3" fill="var(--soft)" stroke="var(--line)" stroke-width="1.6"/>
+  <text class="t" x="123" y="210" text-anchor="middle" font-size="15" font-weight="700">質問 1件</text>
+  <text class="t-mut" x="123" y="236" text-anchor="middle" font-size="12.5">答えは文書にある</text>
+  <path class="wire" d="M198,190 C260,120 300,110 340,120"/>
+  <path class="wire" d="M198,215 C250,215 300,215 340,215"/>
+  <path class="wire" d="M198,240 C260,300 300,320 340,310"/>
+  <rect class="box" x="340" y="100" width="120" height="40" rx="3"/>
+  <text class="t" x="400" y="125" text-anchor="middle" font-size="13">フォルダ探し</text>
+  <rect class="box" x="340" y="195" width="120" height="40" rx="3"/>
+  <text class="t" x="400" y="220" text-anchor="middle" font-size="13">チャット遡り</text>
+  <rect class="box" x="340" y="290" width="120" height="40" rx="3"/>
+  <text class="t" x="400" y="315" text-anchor="middle" font-size="13">紙の棚</text>
+  <g stroke="var(--loss)" stroke-width="2.6" stroke-linecap="round">
+    <line x1="478" y1="110" x2="498" y2="130"/><line x1="498" y1="110" x2="478" y2="130"/>
+    <line x1="478" y1="205" x2="498" y2="225"/><line x1="498" y1="205" x2="478" y2="225"/>
+    <line x1="478" y1="300" x2="498" y2="320"/><line x1="498" y1="300" x2="478" y2="320"/>
+  </g>
+  <text class="t-loss" x="488" y="148" text-anchor="middle" font-size="11">行き止まり</text>
+  <text class="t-loss" x="488" y="243" text-anchor="middle" font-size="11">行き止まり</text>
+  <text class="t-loss" x="488" y="338" text-anchor="middle" font-size="11">行き止まり</text>
+  <path class="wire" d="M510,215 C560,215 580,215 600,215"/>
+  <rect class="gate" x="600" y="170" width="200" height="90" rx="3"/>
+  <text class="t-w" x="700" y="205" text-anchor="middle" font-size="14" font-weight="700">詳しい人に口頭</text>
+  <text class="t-w" x="700" y="232" text-anchor="middle" font-size="13">出典なしの薄い答え</text>
+  <line x1="48" y1="380" x2="820" y2="380" stroke="var(--edge)" stroke-width="1.2"/>
+  <text class="t" x="440" y="418" text-anchor="middle" font-size="19" font-weight="700">答えはそこにあるのに、たどり着くまでが仕事になっている。</text>
+  <text class="t-mut" x="440" y="448" text-anchor="middle" font-size="13.5">探索の行き止まりが、人への口頭確認を生む</text>
+</svg>

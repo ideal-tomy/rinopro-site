@@ -157,7 +157,10 @@ export function CaseStudyDetailView({
   const isLive =
     detail.demoFormat === "live" || (detail.demoFormat == null && showcase?.liveDemo);
   const demoFormatLabel = isLive ? "LIVE（サイト内）" : "外部デモ";
-  const solutionsHref = `/solutions/${detail.relatedSolutionsSlug}`;
+  const solutionsHref =
+    detail.relatedSolutionsSlug === "construction"
+      ? "/industries/construction"
+      : `/solutions/${detail.relatedSolutionsSlug}`;
 
   const hasMetrics = !!(detail.metrics && detail.metrics.length > 0);
   const sectionOrder = [

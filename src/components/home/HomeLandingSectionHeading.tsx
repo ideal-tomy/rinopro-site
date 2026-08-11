@@ -36,7 +36,7 @@ export function HomeLandingSectionHeading({
       <h2
         id={id}
         className={cn(
-          "text-balance text-[clamp(1.75rem,4.6vw,3rem)] font-bold leading-[1.18] tracking-tight text-[var(--color-text-primary)] md:text-[clamp(2rem,4vw,3rem)] lg:text-[clamp(2.25rem,3.6vw,3rem)]",
+          "whitespace-pre-line text-balance text-[clamp(1.75rem,4.6vw,3rem)] font-bold leading-[1.18] tracking-tight text-[var(--color-text-primary)] md:text-[clamp(2rem,4vw,3rem)] lg:text-[clamp(2.25rem,3.6vw,3rem)]",
           kicker ? "mt-2" : "mt-3"
         )}
       >

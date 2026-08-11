@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { ALLOWED_INTERACTIVE_EXPERIENCE_SLUGS } from "@/lib/content/experience-gallery";
+import { getAllIndustryLpSlugs } from "@/lib/content/industry-lp";
 import { getAllIndustryShowcaseSlugs } from "@/lib/content/industry-showcase";
 import { getAllServiceOfferingSlugs } from "@/lib/content/service-offerings";
 import { fetchDemosForDisplay } from "@/lib/sanity/fetch";
@@ -37,11 +38,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })),
     { url: `${BASE_URL}/about`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
     { url: `${BASE_URL}/contact`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },
-    ...getAllIndustryShowcaseSlugs().map((slug) => ({
-      url: `${BASE_URL}/solutions/${slug}`,
+    ...getAllIndustryShowcaseSlugs()
+      .filter((slug) => slug !== "construction")
+      .map((slug) => ({
+        url: `${BASE_URL}/solutions/${slug}`,
+        lastModified: new Date(),
+        changeFrequency: "weekly" as const,
+        priority: 0.88,
+      })),
+    ...getAllIndustryLpSlugs().map((slug) => ({
+      url: `${BASE_URL}/industries/${slug}`,
       lastModified: new Date(),
       changeFrequency: "weekly" as const,
-      priority: 0.88,
+      priority: 0.9,
     })),
   ];
 }

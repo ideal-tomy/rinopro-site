@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" style="width:100%;height:auto;display:block" viewBox="0 0 880 480" role="img" aria-labelledby="tcTitle tcDesc">
+  <title id="tcTitle">同じ内容を、三度書き直している</title>
+  <desc id="tcDesc">現場で撮った1枚の写真が、ファイル名・日報・写真台帳という3つの提出物になるまでに、人の手で三度書き直されている様子。</desc>
+
+  <style>
+    svg{
+      --ink:#1F2A33; --line:#3A4650; --muted:#6B7780;
+      --soft:#F4F6F7; --edge:#C4CBD1;
+      --loss:#A8574B;
+      color-scheme: light only;
+      font-family:"Noto Sans CJK JP","Noto Sans JP",system-ui,sans-serif;
+    }
+    .t{fill:var(--ink)} .t-mut{fill:var(--muted)} .t-w{fill:#FFFFFF} .t-loss{fill:var(--loss)}
+    .wire{stroke:var(--edge);stroke-width:2.4;fill:none}
+    .box{fill:#FFFFFF;stroke:var(--line);stroke-width:1.6}
+    .gate{fill:var(--loss)}
+  </style>
+
+  <defs>
+    <marker id="tcAh" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#C4CBD1"/>
+    </marker>
+  </defs>
+
+  <!-- 列見出し -->
+  <text class="t-mut" x="132" y="56" text-anchor="middle" font-size="14">現場で撮る</text>
+  <text class="t-loss" x="415" y="56" text-anchor="middle" font-size="15" font-weight="700">人の手で書き直す</text>
+  <text class="t-mut" x="677" y="56" text-anchor="middle" font-size="14">出すもの</text>
+
+  <!-- 元の写真 -->
+  <rect x="62" y="168" width="140" height="100" rx="3" fill="var(--soft)" stroke="var(--line)" stroke-width="1.6"/>
+  <path d="M78,248 L116,204 L142,238 L160,218 L186,248 Z" fill="var(--edge)"/>
+  <circle cx="166" cy="192" r="10" fill="var(--edge)"/>
+  <text class="t" x="132" y="292" text-anchor="middle" font-size="14.5" font-weight="700">写真 1枚</text>
+  <text class="t-mut" x="132" y="312" text-anchor="middle" font-size="12.5">中身は、これだけ</text>
+
+  <!-- 分岐ワイヤー -->
+  <path class="wire" d="M204,218 C262,218 262,120 322,120"/>
+  <path class="wire" d="M204,218 L322,218"/>
+  <path class="wire" d="M204,218 C262,218 262,316 322,316"/>
+  <path class="wire" d="M508,120 L568,120" marker-end="url(#tcAh)"/>
+  <path class="wire" d="M508,218 L568,218" marker-end="url(#tcAh)"/>
+  <path class="wire" d="M508,316 L568,316" marker-end="url(#tcAh)"/>
+
+  <!-- 手作業のブロック（幅＝かかる時間） -->
+  <g>
+    <rect class="gate" x="322" y="98" width="186" height="44" rx="3"/>
+    <text class="t-w" x="415" y="118" text-anchor="middle" font-size="14" font-weight="700">手で名前を付け直す</text>
+    <text class="t-w" x="415" y="135" text-anchor="middle" font-size="12" opacity="0.85">約10分／日</text>
+  </g>
+  <g>
+    <rect class="gate" x="322" y="196" width="186" height="44" rx="3"/>
+    <text class="t-w" x="415" y="216" text-anchor="middle" font-size="14" font-weight="700">手で日報に書き写す</text>
+    <text class="t-w" x="415" y="233" text-anchor="middle" font-size="12" opacity="0.85">約20分／日</text>
+  </g>
+  <g>
+    <rect class="gate" x="322" y="294" width="186" height="44" rx="3"/>
+    <text class="t-w" x="415" y="314" text-anchor="middle" font-size="14" font-weight="700">手で台帳に貼り直す</text>
+    <text class="t-w" x="415" y="331" text-anchor="middle" font-size="12" opacity="0.85">約10分／日</text>
+  </g>
+
+  <!-- 提出物 -->
+  <g>
+    <rect class="box" x="572" y="94" width="206" height="52" rx="3"/>
+    <text class="t" x="675" y="126" text-anchor="middle" font-size="15">ファイル名</text>
+  </g>
+  <g>
+    <rect class="box" x="572" y="192" width="206" height="52" rx="3"/>
+    <text class="t" x="675" y="224" text-anchor="middle" font-size="15">日報・朝礼資料</text>
+  </g>
+  <g>
+    <rect class="box" x="572" y="290" width="206" height="52" rx="3"/>
+    <text class="t" x="675" y="322" text-anchor="middle" font-size="15">工事写真台帳</text>
+  </g>
+
+  <!-- 締め -->
+  <line x1="62" y1="380" x2="818" y2="380" stroke="var(--edge)" stroke-width="1.2"/>
+  <text class="t" x="440" y="418" text-anchor="middle" font-size="19" font-weight="700">中身は同じなのに、出す先が変わるたびに人が書き直している。</text>
+  <text class="t-mut" x="440" y="448" text-anchor="middle" font-size="13.5">1現場あたり 約40分／日の整理や入力（試算は下のスライダーで調整）</text>
+</svg>

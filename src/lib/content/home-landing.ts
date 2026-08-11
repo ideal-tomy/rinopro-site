@@ -2,24 +2,21 @@
 
 export const homeLandingCopy = {
   firstView: {
+    eyebrow: "AXEON",
     headlineLine1: "AIという最先端技術で",
     headlineLine2: "人にしかできないことに集中できる社会へ",
     subheadline: "",
     body:
       "手作業や定型業務を自動化し、\n人は、人にしか生み出せない価値へ。\n\nAXEONは、業務効率化のその先にある企業の本質的な変革を支援します。",
-    serviceSectionKicker: "ー Service ー",
-    serviceOfferCards: [
-      {
-        title: "DX戦略設計",
-        description: "コンサル&開発、運用保守",
-        href: "/services/dx-strategy",
-      },
-      {
-        title: "IT部門半内製化",
-        description: "月額、3か月毎更新",
-        href: "/services/insourcing-enablement",
-      },
-    ],
+    /** ideal 活用イメージ系ビジュアルを流用 */
+    heroImage: {
+      src: "/images/cases/cases-hero-visual01.png",
+      alt: "現場管理ダッシュボードとスマートフォンの操作画面",
+    },
+    primaryCta: {
+      label: "業種デモを見る",
+      href: "#industry",
+    },
     servicesCta: "サービス詳細を見る",
     servicesHref: "/services",
   },
@@ -65,32 +62,22 @@ export const homeLandingCopy = {
   values: {
     sectionIndex: "04",
     sectionKicker: "VALUES",
-    heading: "私たちの、5つの約束。",
+    heading: "提案書で終わらせず、\n触れるものから始める理由。",
     items: [
       {
         iconKey: "user",
-        title: "01. 人を中心に、設計する。",
-        body: "AIの都合ではなく、人の働き方の都合から仕組みを考えます。",
+        title: "01. 先に触れる。だからズレない。",
+        body: "要件定義書を何往復もする代わりに、まず動くデモを作って一緒に触ります。「思っていたのと違う」が起きるのは開発の後ではなく、契約の前。だから手戻りがありません。",
       },
       {
         iconKey: "sprout",
-        title: "02. 派手さより、続くもの。",
-        body: "使い続けられることを最優先に、定着する仕組みをつくります。",
+        title: "02. 意思決定の仕組みを作る。",
+        body: "チャットボットや管理画面はあくまで入口です。AXEONが作るのは、現場の知恵とデータを取り込み、「なぜその判断なのか」まで返す業務の背骨。だから使われ続けます。",
       },
       {
         iconKey: "arrowLeftRight",
-        title: "03. 翻訳の品質に、こだわる。",
-        body: "経営の言葉と現場の言葉と技術の言葉。その間にある翻訳を最も大切にします。",
-      },
-      {
-        iconKey: "hourglass",
-        title: "04. 短期成果と、長期視点。",
-        body: "早く効果を出しながら、3年後10年後の社会も見据えます。",
-      },
-      {
-        iconKey: "bookOpen",
-        title: "05. 知見を、隠さない。",
-        body: "ノウハウは渡すもの。お客様が自走できる状態こそ、私たちの目標です。",
+        title: "03. 土台作りから育てていく。",
+        body: "一度に大きく作るほど、外したときの損失も大きくなります。小さく出して反応を見て、良かったものだけを本実装へ。低コストで、確実に定着する順番で進めます。",
       },
     ],
   },
@@ -223,7 +210,18 @@ export const homeLandingCopy = {
     ],
   },
 
-  /** About 直下：実装事例6カード（Industry Showcase） */
+  /** トップ 03：建設・製造の2業種カード */
+  industryShowcase: {
+    sectionIndex: "03",
+    sectionKicker: "INDUSTRY SHOWCASE",
+    heading: "業界別、動くデモ",
+    intro:
+      "代表2業種から、現場に近い体験と詳しい説明へ進めます。デモは外部サイトで、そのまま触れます。",
+    detailLabel: "詳しく見る",
+    tryLabel: "デモを開く ↗",
+  },
+
+  /** About 直下（互換・他参照用）：実装事例6カード */
   implementationShowcase: {
     sectionIndex: "03",
     sectionKicker: "INDUSTRY SHOWCASE",

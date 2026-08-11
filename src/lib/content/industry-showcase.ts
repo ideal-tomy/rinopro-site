@@ -36,6 +36,9 @@ export type IndustryShowcaseItem = {
 };
 
 function solutionsPath(slug: string): string {
+  if (slug === "construction") {
+    return "/industries/construction";
+  }
   return `/solutions/${slug}`;
 }
 

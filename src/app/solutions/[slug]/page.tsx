@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { PageShell } from "@/components/layout/PageShell";
 import { IndustryHubContent } from "@/components/solutions/IndustryHubContent";
 import {
@@ -17,6 +17,9 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
+  if (slug === "construction") {
+    return { title: "建設の記録デモ | AXEON" };
+  }
   const item = getIndustryShowcaseBySlug(slug);
   if (!item) {
     return { title: "ページが見つかりません | AXEON" };
@@ -29,6 +32,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function SolutionsIndustryPage({ params }: Props) {
   const { slug } = await params;
+  if (slug === "construction") {
+    permanentRedirect("/industries/construction");
+  }
   const item = getIndustryShowcaseBySlug(slug);
   if (!item) notFound();
 
