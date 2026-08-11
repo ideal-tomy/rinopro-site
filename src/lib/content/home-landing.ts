@@ -219,6 +219,8 @@ export const homeLandingCopy = {
       "代表2業種から、現場に近い体験と詳しい説明へ進めます。デモは外部サイトで、そのまま触れます。",
     detailLabel: "詳しく見る",
     tryLabel: "デモを開く ↗",
+    allDemosLabel: "すべてのdemoを見る",
+    allDemosHref: "/experience",
   },
 
   /** About 直下（互換・他参照用）：実装事例6カード */

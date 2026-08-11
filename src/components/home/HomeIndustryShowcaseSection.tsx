@@ -74,6 +74,18 @@ export function HomeIndustryShowcaseSection() {
           </li>
         ))}
       </ul>
+
+      <div className="mt-14 flex justify-center md:mt-16">
+        <Link
+          href={copy.allDemosHref}
+          className={cn(
+            homeLandingCtaButtonClass,
+            "inline-flex items-center justify-center border border-[var(--color-border-light)] bg-[var(--color-bg-pure)] text-[var(--color-text-primary)] shadow-[0_1px_2px_rgb(0_0_0_/_0.04)] motion-safe:transition-[transform,border-color,box-shadow] motion-safe:duration-300 motion-safe:hover:scale-[1.02] hover:border-[var(--color-accent-primary)]/50"
+          )}
+        >
+          {copy.allDemosLabel}
+        </Link>
+      </div>
     </section>
   );
 }
