@@ -3,9 +3,9 @@ import { PageShell } from "@/components/layout/PageShell";
 import { ServicesPageContent } from "@/components/services/ServicesPageContent";
 
 export const metadata: Metadata = {
-  title: "サービス | AXEON",
+  title: "ご支援内容",
   description:
-    "開発とコンサルティング。プロセスを透明にし、判断の根拠を共有。段階的な検証で進めます。",
+    "コンサルと半内製化。課題の整理から実装・社内への移管まで、必要な範囲を同じチームで進めます。",
 };
 
 export default function ServicesPage() {

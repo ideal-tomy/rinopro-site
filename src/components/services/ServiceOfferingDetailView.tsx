@@ -10,6 +10,7 @@ import { ServiceOfferingImprovementCycleDiagram } from "@/components/illustratio
 import { ServiceOfferingDataStackDiagram } from "@/components/illustrations/service-offering-data-stack";
 import { ServiceJourneyDiagram } from "@/components/services/ServiceJourneyDiagram";
 import { ServiceOfferingProcessDetail } from "@/components/services/ServiceOfferingProcessDetail";
+import { ServiceCrossLinks } from "@/components/layout/CrossServiceNav";
 
 type ServiceOfferingDetailViewProps = {
   offering: ServiceOfferingDetail;
@@ -58,13 +59,13 @@ export function ServiceOfferingDetailView({ offering }: ServiceOfferingDetailVie
             <Button asChild className={homeLandingCtaButtonClass}>
               <Link href={contactHref(hero.contactQuery)}>
                 <span className="inline-flex items-center gap-2">
-                  このサービスについて相談する
+                  このご支援について相談する
                   <ArrowRight className="size-5" aria-hidden />
                 </span>
               </Link>
             </Button>
             <Button asChild variant="outline" className={homeLandingCtaButtonClass}>
-              <Link href="/services">サービスハブへ</Link>
+              <Link href="/services">ご支援内容へ</Link>
             </Button>
           </div>
         </header>
@@ -105,6 +106,48 @@ export function ServiceOfferingDetailView({ offering }: ServiceOfferingDetailVie
           ) : null}
         </section>
       </HomeSectionShell>
+
+      {offering.workAreas ? (
+        <HomeSectionShell tone="pure">
+          <section
+            className="container mx-auto max-w-6xl px-4 py-16 md:px-6 md:py-24"
+            aria-labelledby="offering-work-areas-heading"
+          >
+            <h2
+              id="offering-work-areas-heading"
+              className="text-center text-[clamp(1.35rem,3vw,1.85rem)] font-bold text-[var(--color-text-primary)]"
+            >
+              {offering.workAreas.heading}
+            </h2>
+            <p className="mx-auto mt-6 max-w-3xl text-center text-[16px] leading-[1.85] text-[var(--color-text-secondary)] md:mt-8 md:text-[17px]">
+              {offering.workAreas.intro}
+            </p>
+            <ul className="mt-10 grid list-none gap-5 md:mt-12 md:grid-cols-3">
+              {offering.workAreas.items.map((item) => (
+                <li
+                  key={item.id}
+                  id={item.id}
+                  className="rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-pure)] p-6 shadow-[0_1px_2px_rgb(0_0_0_/_0.04)] md:p-7"
+                >
+                  <h3 className="text-[18px] font-semibold text-[var(--color-text-primary)] md:text-[19px]">
+                    {item.title}
+                  </h3>
+                  <p className="mt-3 text-[15px] leading-[1.85] text-[var(--color-text-secondary)] md:text-[16px]">
+                    {item.body}
+                  </p>
+                  {item.bullets?.length ? (
+                    <ul className="mt-4 list-disc space-y-2 pl-5 text-[14px] leading-[1.75] text-[var(--color-text-secondary)] marker:text-[var(--color-accent-primary)] md:text-[15px]">
+                      {item.bullets.map((line) => (
+                        <li key={line}>{line}</li>
+                      ))}
+                    </ul>
+                  ) : null}
+                </li>
+              ))}
+            </ul>
+          </section>
+        </HomeSectionShell>
+      ) : null}
 
       <HomeSectionShell tone="pure">
         <section
@@ -148,7 +191,7 @@ export function ServiceOfferingDetailView({ offering }: ServiceOfferingDetailVie
           <IllustrationReveal className="mt-12 md:mt-14">
             <ServiceJourneyDiagram steps={journey.steps} />
           </IllustrationReveal>
-          {offering.slug === "data-platform" ? (
+          {offering.showDataStack ? (
             <IllustrationReveal className="mx-auto mt-14 max-w-2xl md:mt-16">
               <div className="rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-pure)] p-6 md:p-8">
                 <p className="text-center text-[15px] font-semibold text-[var(--color-text-primary)] md:text-[16px]">
@@ -163,7 +206,7 @@ export function ServiceOfferingDetailView({ offering }: ServiceOfferingDetailVie
               </div>
             </IllustrationReveal>
           ) : null}
-          {offering.slug === "continuous-improvement" ? (
+          {offering.showImprovementCycle ? (
             <IllustrationReveal className="mx-auto mt-14 max-w-2xl md:mt-16">
               <div className="rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-pure)] p-6 md:p-8">
                 <p className="text-center text-[15px] font-semibold text-[var(--color-text-primary)] md:text-[16px]">
@@ -244,7 +287,7 @@ export function ServiceOfferingDetailView({ offering }: ServiceOfferingDetailVie
         </section>
       </HomeSectionShell>
 
-      {offering.slug === "dx-strategy" || offering.slug === "ai-apps" ? (
+      {offering.showDevelopmentFlow ? (
         <HomeSectionShell tone="pure">
           <section
             className="container mx-auto max-w-6xl px-4 py-16 md:px-6 md:py-24"
@@ -254,10 +297,10 @@ export function ServiceOfferingDetailView({ offering }: ServiceOfferingDetailVie
               id="offering-process-detail-heading"
               className="text-center text-[clamp(1.35rem,3vw,1.85rem)] font-bold text-[var(--color-text-primary)]"
             >
-              詳しい進め方
+              開発の進め方
             </h2>
             <div className="mt-10 md:mt-12">
-              <ServiceOfferingProcessDetail slug={offering.slug} />
+              <ServiceOfferingProcessDetail slug="insourcing-enablement" />
             </div>
           </section>
         </HomeSectionShell>
@@ -334,6 +377,9 @@ export function ServiceOfferingDetailView({ offering }: ServiceOfferingDetailVie
           <Button asChild className={homeLandingCtaButtonClass}>
             <Link href={contactHref(hero.contactQuery)}>相談する</Link>
           </Button>
+          {offering.slug === "insourcing-enablement" ? (
+            <ServiceCrossLinks current="insourcing" />
+          ) : null}
         </footer>
       </HomeSectionShell>
     </div>

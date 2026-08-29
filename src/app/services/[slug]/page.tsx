@@ -1,22 +1,30 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { PageShell } from "@/components/layout/PageShell";
 import { ServiceOfferingDetailView } from "@/components/services/ServiceOfferingDetailView";
-import {
-  getAllServiceOfferingSlugs,
-  getServiceOffering,
-} from "@/lib/content/service-offerings";
+import { getServiceOffering } from "@/lib/content/service-offerings";
 
 type Props = {
   params: Promise<{ slug: string }>;
 };
 
+const LEGACY_OFFERING_REDIRECTS: Record<string, string> = {
+  "dx-strategy": "/services/consulting",
+  "industry-solutions": "/services/consulting",
+  "ai-apps": "/services/insourcing-enablement",
+  "data-platform": "/services/insourcing-enablement",
+  "continuous-improvement": "/services/insourcing-enablement",
+};
+
 export function generateStaticParams() {
-  return getAllServiceOfferingSlugs().map((slug) => ({ slug }));
+  return [{ slug: "insourcing-enablement" }];
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
+  if (LEGACY_OFFERING_REDIRECTS[slug]) {
+    return { title: "ご支援内容 | AXEON" };
+  }
   const offering = getServiceOffering(slug);
   if (!offering) {
     return { title: "ページが見つかりません | AXEON" };
@@ -37,6 +45,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ServiceOfferingPage({ params }: Props) {
   const { slug } = await params;
+  const redirectTo = LEGACY_OFFERING_REDIRECTS[slug];
+  if (redirectTo) permanentRedirect(redirectTo);
+
   const offering = getServiceOffering(slug);
   if (!offering) notFound();
 

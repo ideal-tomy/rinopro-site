@@ -11,14 +11,14 @@ const navClass =
 const kickerClass =
   "mb-4 text-[0.65rem] font-medium uppercase tracking-[0.28em] text-text-sub";
 
-type ServiceCurrent = "consulting" | "flow";
+type ServiceCurrent = "consulting" | "insourcing";
 
-/** サービス詳細ページ用：demo と兄弟ページへの控えめな導線 */
+/** ご支援内容の詳細ページ用：兄弟ページへの控えめな導線 */
 export function ServiceCrossLinks({ current }: { current: ServiceCurrent }) {
   const sibling =
     current === "consulting"
-      ? { href: "/services/ai-apps" as const, label: "開発の進め方" }
-      : { href: "/services/dx-strategy" as const, label: "コンサルティング" };
+      ? { href: "/services/insourcing-enablement" as const, label: "半内製化" }
+      : { href: "/services/consulting" as const, label: "コンサル" };
 
   return (
     <nav
@@ -41,7 +41,7 @@ export function ServiceCrossLinks({ current }: { current: ServiceCurrent }) {
         </li>
         <li className="list-none">
           <Link href="/services" className={linkClass}>
-            サービス一覧
+            ご支援内容
           </Link>
         </li>
       </ul>
@@ -49,7 +49,7 @@ export function ServiceCrossLinks({ current }: { current: ServiceCurrent }) {
   );
 }
 
-/** 体験ギャラリー（/experience）：開発・コンサル詳細への導線 */
+/** 体験ギャラリー（/experience）：ご支援内容の詳細への導線 */
 export function DemoCrossServiceLinks() {
   return (
     <nav
@@ -61,13 +61,13 @@ export function DemoCrossServiceLinks() {
       </p>
       <ul className="flex flex-wrap items-center justify-center gap-x-10 gap-y-3">
         <li className="list-none">
-          <Link href="/services/ai-apps" className={linkClass}>
-            開発の進め方
+          <Link href="/services/insourcing-enablement" className={linkClass}>
+            半内製化
           </Link>
         </li>
         <li className="list-none">
-          <Link href="/services/dx-strategy" className={linkClass}>
-            コンサルティング
+          <Link href="/services/consulting" className={linkClass}>
+            コンサル
           </Link>
         </li>
       </ul>

@@ -105,11 +105,11 @@ const POPUP_COPY: Record<
       "音声またはテキストで、いまの課題や聞きたいことを短く送ってください。",
   },
   development: {
-    title: "開発について",
-    description: "要件や実装の進め方について、対話で整理できます。",
+    title: "半内製化について",
+    description: "実装の進め方と、社内へ知見を移す伴走について対話で整理できます。",
   },
   consulting: {
-    title: "コンサルティングについて",
+    title: "コンサルについて",
     description: "業務課題の整理から、検証・開発への道筋まで相談できます。",
   },
 };
@@ -634,7 +634,7 @@ export function ChatContainer({ showLauncher = true }: ChatContainerProps) {
             (mode === "development" || mode === "consulting") && (
               <div className="border-b border-silver/15 px-4 py-3">
                 <p className="text-xs font-medium text-text/70">
-                  {mode === "development" ? "開発" : "コンサルティング"}
+                  {mode === "development" ? "半内製化" : "コンサル"}
                 </p>
               </div>
             )}

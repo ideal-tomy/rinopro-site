@@ -594,7 +594,7 @@ export const SHORTCUT_PANELS: Record<"C" | "D" | "E", ShortcutPanel> = {
     intro:
       "弊社では Next.js や Supabase、最新の LLM を活用し、セキュリティと表示速度を意識した開発を行っています。スタックの詳細とデモで操作感もご確認いただけます。",
     links: [
-      { label: "開発スタックを見る", href: "/services/ai-apps" },
+      { label: "開発スタックを見る", href: "/services/insourcing-enablement" },
       { label: "ツールDemoを見る", href: "/demo/list" },
     ],
   },
@@ -607,8 +607,8 @@ export const SHORTCUT_PANELS: Record<"C" | "D" | "E", ShortcutPanel> = {
     intro:
       "まずは短いヒアリングで要件を言語化し、開発・コンサルのどちらから入るかも一緒に整理できます。流れは各ページでご確認ください。",
     links: [
-      { label: "相談・サービスの流れを見る", href: "/services/dx-strategy" },
-      { label: "開発の流れを見る", href: "/services/ai-apps" },
+      { label: "コンサルの流れを見る", href: "/services/consulting" },
+      { label: "半内製化の流れを見る", href: "/services/insourcing-enablement" },
     ],
   },
 };

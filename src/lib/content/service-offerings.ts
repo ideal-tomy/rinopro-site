@@ -69,6 +69,19 @@ export type ServiceOfferingDetail = {
   };
   /** true のとき /solutions の業種カード一覧を表示（industry-solutions のみ） */
   showIndustryGrid?: boolean;
+  workAreas?: {
+    heading: string;
+    intro: string;
+    items: readonly {
+      id: string;
+      title: string;
+      body: string;
+      bullets?: readonly string[];
+    }[];
+  };
+  showDevelopmentFlow?: boolean;
+  showDataStack?: boolean;
+  showImprovementCycle?: boolean;
 };
 
 const OFFERINGS: readonly ServiceOfferingDetail[] = [
@@ -370,14 +383,14 @@ const OFFERINGS: readonly ServiceOfferingDetail[] = [
   },
   {
     slug: "insourcing-enablement",
-    metaTitle: "内製化支援 | サービス | AXEON",
+    metaTitle: "半内製化 | ご支援内容",
     metaDescription:
-      "ツール導入で終わらせず、設計・実装・運用の知見を組織に移す内製化支援。論点、ロードマップ、よくある障壁と支援内容を整理します。",
+      "開発・データ基盤・運用を一緒に回しながら、知見を社内へ移す半内製化。月額伴走・3か月更新を基本に、自走できる状態まで段階的に移します。",
     hero: {
-      eyebrow: "SERVICE",
-      title: "内製化支援",
+      eyebrow: "ENABLEMENT",
+      title: "半内製化",
       lead:
-        "引き継ぎの粒度はお客様の体制に合わせます。設計レビュー、ペア実装、運用上のトラブル対応の伴走など、自走できる状態まで段階的に移します。",
+        "作って渡して終わりにしない。設計レビュー、ペア実装、運用の伴走を通じて、判断と改善の型をチームへ移します。月額の伴走、3か月ごとの更新が基本です。",
       contactQuery: "topic=insourcing",
     },
     why: {
@@ -458,14 +471,54 @@ const OFFERINGS: readonly ServiceOfferingDetail[] = [
       futureParagraph:
         "外部パートナーは「常駐開発」から「スポットの専門性」へ役割が移り、コストとスピードのバランスが取れる状態を目指します。",
     },
+    workAreas: {
+      heading: "半内製化で進めること",
+      intro:
+        "アプリ開発、データ基盤、導入後の改善まで、同じ伴走のなかで扱います。外注先を増やすのではなく、社内に残る型として積み上げます。",
+      items: [
+        {
+          id: "ai-apps",
+          title: "AI業務アプリ開発",
+          body: "入力・判断・記録のどこにAIを置くかを業務設計から決め、モニタリングと権限まで含めた「使われ続けるアプリ」として実装します。デモで動くことと、現場で止まらないことは別物です。",
+          bullets: [
+            "小さく試してから本実装へ。現場が触れる試作で要件を磨きます",
+            "権限・監査・例外処理を初期から織り込みます",
+            "運用手順と管理者向けの型までセットで渡します",
+          ],
+        },
+        {
+          id: "data-platform",
+          title: "データ活用基盤",
+          body: "ダッシュボードやAIは、入力データの鮮度・定義・系列が揃って初めて信頼されます。出所・更新責任・利用許諾が追える状態をつくり、必要な粒度だけを現場と経営の両方に届けます。",
+          bullets: [
+            "業務領域単位でスコープを切り、早期に価値が出る経路を優先します",
+            "権限・ログ・コストの設計を初期から同居させます",
+            "内製チームへの移管計画とドキュメントをセットで用意します",
+          ],
+        },
+        {
+          id: "continuous-improvement",
+          title: "伴走型改善運用",
+          body: "ローンチは起点です。利用実態・エラー・コスト・現場の声を定例で整理し、優先度付きの改善バックログへ落とします。目的は「ずっと外部依存」ではなく、計測と優先順位付けの型を組織に残すことです。",
+          bullets: [
+            "月額の伴走、3か月ごとの更新を基本にします",
+            "技術指標と業務指標の両方で健全性を見張ります",
+            "定例の振り返りとバックログ整理をテンプレート化します",
+          ],
+        },
+      ],
+    },
     relatedLinks: {
       heading: "関連する入口",
       links: [
-        { href: "/services/ai-apps", label: "開発プロセス詳細" },
+        { href: "/services/consulting", label: "コンサル" },
         { href: "/about", label: "チーム体制について" },
-        { href: "/contact", label: "相談フォーム" },
+        { href: "/services", label: "ご支援内容" },
       ],
     },
+    showDevelopmentFlow: true,
+    showDataStack: true,
+    showImprovementCycle: true,
   },
   {
     slug: "industry-solutions",

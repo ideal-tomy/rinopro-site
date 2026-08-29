@@ -1,5 +1,5 @@
-import Link from "next/link";
 import {
+  ArrowRight,
   BrainCircuit,
   Building2,
   Code,
@@ -8,10 +8,18 @@ import {
   TrendingUp,
   type LucideIcon,
 } from "lucide-react";
+import Link from "next/link";
 import { HomeLandingSectionHeading } from "@/components/home/HomeLandingSectionHeading";
+import { Button } from "@/components/ui/button";
 import { homeLandingCopy } from "@/lib/content/home-landing";
+import { homeLandingCtaButtonClass } from "@/lib/content/home-landing-styles";
 
 const { solutions } = homeLandingCopy;
+
+const PILLAR_LABEL = {
+  consulting: "コンサル",
+  insourcing: "半内製化",
+} as const;
 
 const SOLUTION_ICONS: Record<(typeof solutions.items)[number]["iconKey"], LucideIcon> = {
   brainCircuit: BrainCircuit,
@@ -41,27 +49,34 @@ export function HomeSolutionsSection() {
           const Icon = SOLUTION_ICONS[item.iconKey];
           return (
             <li key={item.title}>
-              <Link
-                href={item.href}
-                className="interactive-card group block h-full rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-pure)] p-6 shadow-[0_1px_2px_rgb(0_0_0_/_0.04)] transition-colors hover:border-[var(--color-accent-primary)] md:p-7"
-              >
+              <article className="h-full rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-pure)] p-6 shadow-[0_1px_2px_rgb(0_0_0_/_0.04)] md:p-7">
                 <div className="flex size-14 items-center justify-center rounded-full bg-[var(--color-accent-primary-light)] text-[var(--color-accent-primary)]">
                   <Icon className="size-7" strokeWidth={1.5} aria-hidden />
                 </div>
-                <h3 className="mt-5 text-[20px] font-semibold leading-snug text-[var(--color-text-primary)]">
+                <p className="mt-5 text-[12px] font-semibold tracking-[0.12em] text-[var(--color-accent-primary)] md:text-[13px]">
+                  {PILLAR_LABEL[item.pillar]}
+                </p>
+                <h3 className="mt-2 text-[20px] font-semibold leading-snug text-[var(--color-text-primary)]">
                   {item.title}
                 </h3>
                 <p className="mt-3 text-[16px] leading-[1.8] text-[var(--color-text-secondary)]">
                   {item.body}
                 </p>
-                <p className="mt-5 text-[15px] font-semibold text-[var(--color-accent-primary)] underline-offset-4 group-hover:underline">
-                  詳しく見る
-                </p>
-              </Link>
+              </article>
             </li>
           );
         })}
       </ul>
+      <div className="mt-10 flex justify-center md:mt-14">
+        <Button asChild className={homeLandingCtaButtonClass}>
+          <Link href={solutions.sectionCta.href}>
+            <span className="inline-flex items-center gap-2">
+              {solutions.sectionCta.label}
+              <ArrowRight className="size-5" aria-hidden />
+            </span>
+          </Link>
+        </Button>
+      </div>
     </section>
   );
 }

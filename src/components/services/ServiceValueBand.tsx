@@ -8,7 +8,7 @@ type ServiceValueBandProps = {
 };
 
 export function ServiceValueBand({ className }: ServiceValueBandProps) {
-  const { title, lead, pillars, journeySteps } = servicesValueBandCopy;
+  const { title, lead, journeySteps } = servicesValueBandCopy;
 
   return (
     <section
@@ -32,19 +32,6 @@ export function ServiceValueBand({ className }: ServiceValueBandProps) {
       >
         {lead}
       </p>
-      <div
-        className="mt-5 flex flex-wrap justify-center gap-2"
-        aria-label="サービスの3つの柱"
-      >
-        {pillars.map((pillar) => (
-          <span
-            key={pillar}
-            className="rounded-full border border-[var(--color-border-light)] bg-[var(--color-bg-pure)] px-3 py-1 text-[13px] font-medium text-text-sub md:text-[14px]"
-          >
-            {pillar}
-          </span>
-        ))}
-      </div>
       <div className="mt-8 md:mt-10">
         <ServiceJourneyDiagram steps={journeySteps} />
       </div>

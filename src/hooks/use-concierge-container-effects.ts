@@ -42,8 +42,8 @@ export function useConciergeServicesIntroSync(
     } else if (
       (pathname === "/flow" && mode === "development") ||
       (pathname === "/consulting" && mode === "consulting") ||
-      (pathname === "/services/ai-apps" && mode === "development") ||
-      (pathname === "/services/dx-strategy" && mode === "consulting")
+      (pathname === "/services/insourcing-enablement" && mode === "development") ||
+      (pathname === "/services/consulting" && mode === "consulting")
     ) {
       setServicesIntroComplete(true);
     } else {
@@ -103,13 +103,12 @@ export function useConciergePathnameModeSync(
     if (
       pathname === "/flow" ||
       pathname === "/services/development" ||
-      pathname === "/services/ai-apps"
+      pathname === "/services/insourcing-enablement"
     ) {
       setMode("development");
     } else if (
       pathname === "/consulting" ||
-      pathname === "/services/consulting" ||
-      pathname === "/services/dx-strategy"
+      pathname === "/services/consulting"
     ) {
       setMode("consulting");
     } else if (pathname === "/services") {

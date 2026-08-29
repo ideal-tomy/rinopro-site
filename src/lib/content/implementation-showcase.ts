@@ -212,7 +212,6 @@ const KAIGO_SLIDES = [
 
 const GEMPO_SLIDES = [
   "/images/genbakanri_pc01.png",
-  "/images/genbakanri_pc02.png",
   "/images/genbakanri_pc03.png",
 ] as const;
 
@@ -225,7 +224,7 @@ export const IMPLEMENTATION_SHOWCASE_ITEMS: readonly ImplementationShowcaseItem[
       brandName: "Building OS CONSOLE",
       productTitle: "建物OS",
       catchCopy: "建物の「いま」を、ひとつの画面に。",
-      industryLabel: "ビル管理・スマートビル",
+      industryLabel: "ビル管理",
       thumbnailSrc: OBS_SLIDES[0],
       thumbnailAlt: "建物OSコンソールの画面イメージ",
       thumbnailSlides: OBS_SLIDES,
@@ -241,7 +240,7 @@ export const IMPLEMENTATION_SHOWCASE_ITEMS: readonly ImplementationShowcaseItem[
       brandName: "Oriza Copilot",
       productTitle: "スマート農業AI",
       catchCopy: "圃場データと作業記録を、現場で素早く整理",
-      industryLabel: "農業・アグリテック",
+      industryLabel: "農業",
       thumbnailSrc: FARM_SLIDES[0],
       thumbnailAlt: "スマート農業デモの画面イメージ",
       thumbnailSlides: FARM_SLIDES,

@@ -47,6 +47,31 @@ const nextConfig: NextConfig = {
         destination: "/lp/kaigo-care-dx",
         permanent: false,
       },
+      {
+        source: "/services/dx-strategy",
+        destination: "/services/consulting",
+        permanent: true,
+      },
+      {
+        source: "/services/industry-solutions",
+        destination: "/services/consulting",
+        permanent: true,
+      },
+      {
+        source: "/services/ai-apps",
+        destination: "/services/insourcing-enablement",
+        permanent: true,
+      },
+      {
+        source: "/services/data-platform",
+        destination: "/services/insourcing-enablement",
+        permanent: true,
+      },
+      {
+        source: "/services/continuous-improvement",
+        destination: "/services/insourcing-enablement",
+        permanent: true,
+      },
     ];
   },
   async headers() {

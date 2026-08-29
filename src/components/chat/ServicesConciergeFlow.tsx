@@ -19,20 +19,20 @@ export function ServicesConciergeFlow({
     <div className={cn("flex min-h-0 flex-1 flex-col overflow-y-auto", className)}>
       <div className="flex-1 space-y-4 p-4">
         <h3 className="text-center text-[16px] font-semibold leading-relaxed tracking-wide text-text/95">
-          どのサービスについて知りたいですか？
+          どのご支援について知りたいですか？
         </h3>
         <div className="flex flex-col gap-3">
           <ConciergeChoiceButton
             type="button"
             order={1}
-            label="開発"
+            label="半内製化"
             disabled={disabled}
             onClick={() => onPickService("development")}
           />
           <ConciergeChoiceButton
             type="button"
             order={2}
-            label="コンサルティング"
+            label="コンサル"
             disabled={disabled}
             onClick={() => onPickService("consulting")}
           />

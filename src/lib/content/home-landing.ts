@@ -17,7 +17,7 @@ export const homeLandingCopy = {
       label: "業種デモを見る",
       href: "#industry",
     },
-    servicesCta: "サービス詳細を見る",
+    servicesCta: "ご支援内容を見る",
     servicesHref: "/services",
   },
 
@@ -137,42 +137,46 @@ export const homeLandingCopy = {
     heading: "戦略から実装まで、必要な支援を一気通貫で。",
     intro:
       "経営課題の整理から実装、運用定着まで。分断しがちな工程を一つのチームで推進します。",
+    sectionCta: {
+      label: "ご支援内容を見る",
+      href: "/services",
+    },
     items: [
       {
         iconKey: "brainCircuit",
         title: "DX戦略設計",
         body: "課題を構造化し、実装可能な戦略に落とし込みます。",
-        href: "/services/dx-strategy",
+        pillar: "consulting",
       },
       {
         iconKey: "code",
         title: "AI業務アプリ開発",
         body: "現場運用を前提にした高速実装で、PoC止まりを防ぎます。",
-        href: "/services/ai-apps",
+        pillar: "insourcing",
       },
       {
         iconKey: "database",
         title: "データ活用基盤構築",
         body: "分散データを整理し、意思決定に使える形に統合します。",
-        href: "/services/data-platform",
+        pillar: "insourcing",
       },
       {
         iconKey: "graduationCap",
         title: "内製化支援",
         body: "ツール導入だけで終わらず、チームに知見を移管します。",
-        href: "/services/insourcing-enablement",
+        pillar: "insourcing",
       },
       {
         iconKey: "building2",
         title: "業界別ソリューション",
         body: "業種固有の制約を踏まえた導入設計を行います。",
-        href: "/services/industry-solutions",
+        pillar: "consulting",
       },
       {
         iconKey: "trendingUp",
         title: "伴走型改善運用",
         body: "導入後の改善サイクルまで伴走し、成果を積み上げます。",
-        href: "/services/continuous-improvement",
+        pillar: "insourcing",
       },
     ],
   },
@@ -300,7 +304,7 @@ export const homeLandingCopy = {
     body: "専門家との対話で、課題の輪郭と次のアクションを整理します。",
     primaryCta: "初回コンサルティングのご相談",
     auxiliaryLinks: [
-      { label: "サービス詳細を見る", href: "/services" },
+      { label: "ご支援内容を見る", href: "/services" },
       { label: "会社情報を見る", href: "/about" },
     ],
   },

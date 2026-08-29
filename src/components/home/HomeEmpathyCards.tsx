@@ -17,7 +17,7 @@ export function HomeEmpathyCards() {
       <article className="relative left-1/2 w-screen -translate-x-1/2 overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: "url('/images/top_about.jpg')" }}
+          style={{ backgroundImage: "url('/images/top/mission.jpg')" }}
           aria-hidden
         />
         <div

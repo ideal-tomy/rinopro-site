@@ -162,8 +162,8 @@ const DETAILS: readonly CaseStudyDetail[] = [
     ],
     relatedSolutionsSlug: "construction",
     relatedLinks: [
-      { label: "AI業務アプリ開発", href: "/services/ai-apps" },
-      { label: "DX戦略設計", href: "/services/dx-strategy" },
+      { label: "半内製化", href: "/services/insourcing-enablement" },
+      { label: "コンサル", href: "/services/consulting" },
     ],
   },
   {
@@ -261,8 +261,8 @@ const DETAILS: readonly CaseStudyDetail[] = [
     ],
     relatedSolutionsSlug: "professional-services",
     relatedLinks: [
-      { label: "AI業務アプリ開発", href: "/services/ai-apps" },
-      { label: "コンサルティング", href: "/services/dx-strategy" },
+      { label: "半内製化", href: "/services/insourcing-enablement" },
+      { label: "コンサル", href: "/services/consulting" },
     ],
   },
   {
@@ -355,8 +355,8 @@ const DETAILS: readonly CaseStudyDetail[] = [
     ],
     relatedSolutionsSlug: "hospitality-food",
     relatedLinks: [
-      { label: "AI業務アプリ開発", href: "/services/ai-apps" },
-      { label: "サービス一覧", href: "/services" },
+      { label: "半内製化", href: "/services/insourcing-enablement" },
+      { label: "ご支援内容", href: "/services" },
     ],
   },
   {
@@ -459,8 +459,8 @@ const DETAILS: readonly CaseStudyDetail[] = [
     ],
     relatedSolutionsSlug: "professional-services",
     relatedLinks: [
-      { label: "DX戦略設計", href: "/services/dx-strategy" },
-      { label: "AI業務アプリ開発", href: "/services/ai-apps" },
+      { label: "コンサル", href: "/services/consulting" },
+      { label: "半内製化", href: "/services/insourcing-enablement" },
     ],
   },
   {
@@ -563,8 +563,8 @@ const DETAILS: readonly CaseStudyDetail[] = [
     ],
     relatedSolutionsSlug: "retail-distribution",
     relatedLinks: [
-      { label: "AI業務アプリ開発", href: "/services/ai-apps" },
-      { label: "サービス一覧", href: "/services" },
+      { label: "半内製化", href: "/services/insourcing-enablement" },
+      { label: "ご支援内容", href: "/services" },
     ],
   },
   {
@@ -658,8 +658,8 @@ const DETAILS: readonly CaseStudyDetail[] = [
     ],
     relatedSolutionsSlug: "hospitality-food",
     relatedLinks: [
-      { label: "AI業務アプリ開発", href: "/services/ai-apps" },
-      { label: "サービス一覧", href: "/services" },
+      { label: "半内製化", href: "/services/insourcing-enablement" },
+      { label: "ご支援内容", href: "/services" },
     ],
   },
   {
@@ -752,8 +752,8 @@ const DETAILS: readonly CaseStudyDetail[] = [
     ],
     relatedSolutionsSlug: "professional-services",
     relatedLinks: [
-      { label: "AI業務アプリ開発", href: "/services/ai-apps" },
-      { label: "コンサルティング", href: "/services/dx-strategy" },
+      { label: "半内製化", href: "/services/insourcing-enablement" },
+      { label: "コンサル", href: "/services/consulting" },
     ],
   },
   {
@@ -846,8 +846,8 @@ const DETAILS: readonly CaseStudyDetail[] = [
     ],
     relatedSolutionsSlug: "healthcare-public",
     relatedLinks: [
-      { label: "AI業務アプリ開発", href: "/services/ai-apps" },
-      { label: "サービス一覧", href: "/services" },
+      { label: "半内製化", href: "/services/insourcing-enablement" },
+      { label: "ご支援内容", href: "/services" },
     ],
   },
   {
@@ -940,8 +940,8 @@ const DETAILS: readonly CaseStudyDetail[] = [
     ],
     relatedSolutionsSlug: "professional-services",
     relatedLinks: [
-      { label: "AI業務アプリ開発", href: "/services/ai-apps" },
-      { label: "サービス一覧", href: "/services" },
+      { label: "半内製化", href: "/services/insourcing-enablement" },
+      { label: "ご支援内容", href: "/services" },
     ],
   },
   {
@@ -1042,8 +1042,8 @@ const DETAILS: readonly CaseStudyDetail[] = [
     ],
     relatedSolutionsSlug: "professional-services",
     relatedLinks: [
-      { label: "AI業務アプリ開発", href: "/services/ai-apps" },
-      { label: "コンサルティング", href: "/services/dx-strategy" },
+      { label: "半内製化", href: "/services/insourcing-enablement" },
+      { label: "コンサル", href: "/services/consulting" },
     ],
   },
 ];

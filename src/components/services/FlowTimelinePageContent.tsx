@@ -523,7 +523,7 @@ export function FlowTimelinePageContent({
         </Link>
       </motion.div>
 
-      {!embedded && <ServiceCrossLinks current="flow" />}
+      {!embedded && <ServiceCrossLinks current="insourcing" />}
     </div>
   );
 }

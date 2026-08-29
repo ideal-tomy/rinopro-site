@@ -3,7 +3,7 @@ import { footerCopy } from "@/lib/content/site-copy";
 
 const FOOTER_LINKS = [
   { href: "/", label: "トップ" },
-  { href: "/services", label: "サービス" },
+  { href: "/services", label: "ご支援内容" },
   { href: "/about", label: "会社紹介" },
   { href: "/contact", label: "問い合わせ" },
   { href: "/experience", label: "体験デモ" },

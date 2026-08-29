@@ -7,6 +7,7 @@ import { ServiceCrossLinks } from "@/components/layout/CrossServiceNav";
 import { ServiceConsultingBlocks } from "@/components/services/ServiceConsultingBlocks";
 import { ServicesDetailIntroImage } from "@/components/services/ServicesDetailIntroImage";
 import { consultingDetailPageCopy } from "@/lib/content/site-copy";
+import { INDUSTRY_SHOWCASE_ITEMS } from "@/lib/content/industry-showcase";
 import {
   serviceReading,
   serviceShellInset,
@@ -98,6 +99,49 @@ export function ConsultingDetailPageContent({
       ) : null}
 
       <ServiceConsultingBlocks variant={offeringEmbed ? "offering" : "full"} />
+
+      {!offeringEmbed ? (
+        <motion.section
+          id="industry"
+          className="mt-14 md:mt-16"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-40px" }}
+          variants={v}
+        >
+          <header className="mb-6 text-center md:mb-8">
+            <p className="mb-2 text-[13px] font-medium tracking-[0.12em] text-accent md:text-[14px]">
+              業種
+            </p>
+            <h2 className="text-balance text-xl font-semibold leading-snug text-text md:text-2xl">
+              業界特有の前提から設計する
+            </h2>
+            <p className={cn("mx-auto mt-4 max-w-2xl", serviceReading.bodyCenter)}>
+              同じ「チャットボット」でも、医療・建設・士業では守るべき境界が違います。現場の制約を先に固定したうえで、各業界ページから事例とデモへ進めます。
+            </p>
+          </header>
+          <ul className="grid list-none gap-4 md:grid-cols-2 lg:grid-cols-3 md:gap-5">
+            {INDUSTRY_SHOWCASE_ITEMS.map((item) => (
+              <li key={item.slug}>
+                <Link
+                  href={item.hubPath}
+                  className="group interactive-card flex h-full flex-col rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-pure)] p-5 transition-colors hover:border-[var(--color-accent-primary)] md:p-6"
+                >
+                  <span className="text-[15px] font-semibold text-[var(--color-accent-primary)] md:text-[16px]">
+                    {item.label}
+                  </span>
+                  <span className="mt-2 text-[15px] leading-[1.75] text-text-sub md:text-[16px]">
+                    {item.tagline}
+                  </span>
+                  <span className="mt-4 text-[14px] font-semibold text-[var(--color-accent-primary)] underline-offset-4 group-hover:underline">
+                    業界ページへ
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </motion.section>
+      ) : null}
 
       {!offeringEmbed ? (
       <motion.footer

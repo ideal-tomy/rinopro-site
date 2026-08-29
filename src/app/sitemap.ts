@@ -6,7 +6,6 @@ import {
 import { ALLOWED_INTERACTIVE_EXPERIENCE_SLUGS } from "@/lib/content/experience-gallery";
 import { getAllIndustryLpSlugs } from "@/lib/content/industry-lp";
 import { getAllIndustryShowcaseSlugs } from "@/lib/content/industry-showcase";
-import { getAllServiceOfferingSlugs } from "@/lib/content/service-offerings";
 import { fetchDemosForDisplay } from "@/lib/sanity/fetch";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://AXEON.example.com";
@@ -34,12 +33,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.88,
     })),
     { url: `${BASE_URL}/services`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
-    ...getAllServiceOfferingSlugs().map((slug) => ({
-      url: `${BASE_URL}/services/${slug}`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.78,
-    })),
+    { url: `${BASE_URL}/services/consulting`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.78 },
+    { url: `${BASE_URL}/services/insourcing-enablement`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.78 },
     { url: `${BASE_URL}/about`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
     { url: `${BASE_URL}/contact`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },
     ...getAllIndustryShowcaseSlugs()

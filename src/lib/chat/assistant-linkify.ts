@@ -35,7 +35,7 @@ const PATH_CORE =
   "|demo/[a-z0-9]+(?:-[a-z0-9]+)*" +
   "|experience/[a-z0-9]+(?:-[a-z0-9]+)*" +
   "|estimate-detailed(?:/[a-z0-9-]+)?" +
-  "|services(?:/(?:dx-strategy|ai-apps|data-platform|insourcing-enablement|industry-solutions|continuous-improvement))?" +
+  "|services(?:/(?:consulting|insourcing-enablement))?" +
   "|contact" +
   "|about";
 
@@ -49,9 +49,9 @@ const FIXED_LABELS: Record<string, string> = {
   "/contact": "お問い合わせ",
   "/estimate-detailed": "詳細見積もり",
   "/about": "会社情報（/about）",
-  "/services": "サービス一覧",
-  "/services/dx-strategy": "DX戦略設計",
-  "/services/ai-apps": "AI業務アプリ開発",
+  "/services": "ご支援内容",
+  "/services/consulting": "コンサル",
+  "/services/insourcing-enablement": "半内製化",
 };
 
 function linkLabelForPath(path: string): string {

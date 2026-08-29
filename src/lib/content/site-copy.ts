@@ -155,7 +155,7 @@ export const homeSelfServeRowCopy = {
   lead: "会話を使わずに見る",
   links: [
     { href: "/experience", label: "体験デモ" },
-    { href: "/services", label: "サービス概要" },
+    { href: "/services", label: "ご支援内容" },
   ],
 } as const;
 
@@ -189,7 +189,7 @@ export const homeDevelopmentSectionCopy = {
   lead: "迷いを断ち切り、ビジネスを加速させる実装力。",
   body: "「何を作るか」が曖昧なまま開発をスタートさせることはありません。\n私たちは、対話を通じて磨き上げた「本当に必要な機能」だけを、確かな技術で形にします。\n一段ずつ、納得感を持って進めるプロセスで、開発にありがちな「認識のズレ」を徹底排除。\nプロフェッショナルの手で、現場が手放せなくなる高品質なシステムを構築します。",
   ctaLabel: "開発の流れ",
-  ctaHref: "/services/ai-apps",
+  ctaHref: "/services/insourcing-enablement",
 } as const;
 
 /** トップページ「コンサルティングについて」セクション */
@@ -197,8 +197,8 @@ export const homeConsultingSectionCopy = {
   sectionTitle: "コンサルティングについて",
   lead: "机上の空論を捨て、現場に結果を。",
   body: "私たちは現場の最前線に飛び込み、ITが「当たり前の道具」として定着するまで並走し続けます。\n過剰な提案でコストを膨らませるのではなく、今の組織にとって最も効果的な「次の一手」を共に実行し、\n自走できる組織へと導きます。",
-  ctaLabel: "コンサルティングを見る",
-  ctaHref: "/services/dx-strategy",
+  ctaLabel: "コンサルを見る",
+  ctaHref: "/services/consulting",
 } as const;
 
 export const demoHubCopy = {
@@ -218,19 +218,19 @@ export const demoHubCopy = {
 
 // --- サービス ---
 export const servicesCopy = {
-  title: "サービス",
+  title: "ご支援内容",
   purpose:
-    "6つのサービス領域と進め方を、見える形で共有します。",
+    "提供の入り口は、コンサルと半内製化の2つです。課題の整理から実装・社内への移管まで、必要な範囲を同じチームで進めます。",
   cta: "相談する",
   development: {
-    title: "開発",
-    desc: "現状整理から要件化、試作、現場検証を経て本実装まで。段階的な検証でリスクを抑える。",
-    href: "/services/ai-apps",
+    title: "半内製化",
+    desc: "開発・データ基盤・運用を一緒に回しながら、知見をチームへ移します。",
+    href: "/services/insourcing-enablement",
   },
   consulting: {
-    title: "コンサルティング",
+    title: "コンサル",
     desc: "業務診断、優先順位設計、PoC設計、定着支援。検証可能な範囲で進める。",
-    href: "/services/dx-strategy",
+    href: "/services/consulting",
   },
 } as const;
 
@@ -261,7 +261,7 @@ export const developmentFlowCopy = {
 
 // --- コンサルティング ---
 export const consultingCopy = {
-  title: "コンサルティング",
+  title: "コンサル",
   purpose: "業務診断から定着支援まで。検証可能な範囲で、過剰提案しない。",
   items: [
     {
@@ -804,7 +804,7 @@ export const aboutCopy = {
       "1時間の初回相談で、課題の輪郭をご一緒に整理します。うまく言語化できなくても問題ありません。",
     primaryLabel: "初回コンサルティングのご相談",
     primaryHref: "/contact",
-    secondaryLabel: "サービス詳細を見る",
+    secondaryLabel: "ご支援内容を見る",
     secondaryHref: "/services",
   },
 } as const;
@@ -857,7 +857,7 @@ export const estimateDetailedCopy = {
   processingVideoHeading: "動画で流れる（設定時のみ）",
   processingVideoEmptyHint:
     "※ 動画が未設定のときは、下のリンクから開発の流れや体験をご覧いただけます。",
-  processingLinkFlow: "開発の流れを読む（別タブ）",
+  processingLinkFlow: "半内製化の進め方を読む（別タブ）",
   processingLinkDemo: "体験・demo を見る（別タブ）",
   processingTips: [
     "いま入力いただいた内容を、わかりやすい文章に整えています。",

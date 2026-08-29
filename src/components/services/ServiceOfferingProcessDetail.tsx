@@ -4,7 +4,7 @@ import { ConsultingDetailPageContent } from "@/components/services/ConsultingDet
 import { FlowTimelinePageContent } from "@/components/services/FlowTimelinePageContent";
 
 type ServiceOfferingProcessDetailProps = {
-  slug: "dx-strategy" | "ai-apps";
+  slug: "dx-strategy" | "ai-apps" | "insourcing-enablement";
 };
 
 export function ServiceOfferingProcessDetail({
@@ -19,7 +19,6 @@ export function ServiceOfferingProcessDetail({
     <FlowTimelinePageContent
       embedded
       hideHeader
-      offeringEmbed={{ fixedTrack: "app" }}
     />
   );
 }

@@ -95,6 +95,28 @@ function renderBlock(block: ConsultingBlockCopy) {
           <ServiceDeliverableGrid items={block.items} note={block.note} />
         </>
       );
+    case "scope":
+      return (
+        <>
+          <BlockHeader kicker={block.kicker} heading={block.heading} />
+          <p className={cn("mx-auto mb-6 max-w-3xl", serviceReading.bodyCenter)}>
+            {block.intro}
+          </p>
+          <ul className="mx-auto grid max-w-4xl list-none gap-4 md:grid-cols-2 md:gap-5">
+            {block.items.map((item) => (
+              <li
+                key={item.title}
+                className="rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-pure)] px-5 py-5 md:px-6 md:py-6"
+              >
+                <h3 className="text-[17px] font-semibold text-text md:text-[18px]">
+                  {item.title}
+                </h3>
+                <p className={cn("mt-3", serviceReading.body)}>{item.body}</p>
+              </li>
+            ))}
+          </ul>
+        </>
+      );
     case "assurance":
       return (
         <>
@@ -155,6 +177,7 @@ export function ServiceConsultingBlocks({
       {blocks.map((block, i) => (
         <motion.section
           key={block.id}
+          id={block.id}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-40px" }}

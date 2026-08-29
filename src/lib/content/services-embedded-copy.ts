@@ -3,7 +3,6 @@ import type { ServiceJourneyStep } from "@/lib/content/service-offerings";
 export const servicesValueBandCopy = {
   title: "成功の大半は、作る前に決まる",
   lead: "課題の抽出と設計を同じチームで行い、開発・定着まで一気通貫で伴走します。",
-  pillars: ["課題抽出", "設計・優先順位", "開発・定着"] as const,
   journeySteps: [
     {
       number: "01",
@@ -105,6 +104,14 @@ export type ConsultingBlockCopy =
       heading: string;
       costCards: readonly ConsultingCostCard[];
       faq: readonly ConsultingFaqItem[];
+    }
+  | {
+      id: string;
+      variant: "scope";
+      kicker: string;
+      heading: string;
+      intro: string;
+      items: readonly { title: string; body: string }[];
     };
 
 export const consultingBlocksCopy = [
@@ -127,6 +134,32 @@ export const consultingBlocksCopy = [
     kicker: "アプローチ",
     heading: "戦略と実装のあいだを、同じチームでつなぐ",
     body: "コンサルティングは「資料を書いて終わり」ではありません。経営が意味を持つ優先順位と、現場で回るスコープを同じテーブルで決めます。AIやシステムが効く場所だけを切り出し、次の一手が実行に移せる粒度まで落とし込みます。",
+  },
+  {
+    id: "scope",
+    variant: "scope",
+    kicker: "提供業務",
+    heading: "コンサルで扱う範囲",
+    intro:
+      "戦略が机上で終わらないよう、優先順位・検証単位・業種の前提まで含めて設計します。",
+    items: [
+      {
+        title: "DX戦略設計",
+        body: "成功の定義、データの所在、権限と監査、組織の承認段取り、既存システムとの関係を先に揃えます。投資判断の材料になるロードマップへ落とします。",
+      },
+      {
+        title: "論点と優先順位",
+        body: "経営が期待するスピードと、現場が守る品質・法令は両立できます。効果と実現性のマトリクスで着手順を可視化し、合意形成まで伴走します。",
+      },
+      {
+        title: "実行・検証計画",
+        body: "PoCと本実装の境界、関係部署の役割、外部への依頼範囲まで会話できる粒度にします。次フェーズで迷わない成果物の形まですり合わせます。",
+      },
+      {
+        title: "業種固有の前提",
+        body: "安全規程・取引慣行・個人情報区分など、業界特有の境界を最初に固定します。一般的な成功パターンの移植ではなく、現場で承認が通る設計から始めます。",
+      },
+    ],
   },
   {
     id: "process",

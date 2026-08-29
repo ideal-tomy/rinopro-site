@@ -100,7 +100,7 @@ export function PatternCaseGrid({
       <div className="mt-10 flex justify-center md:mt-12">
         <Button asChild variant="ghost" className="text-accent">
           <Link className="clickable-element" href="/services">
-            業務改善のサービス詳細を見る →
+            業務改善のご支援内容を見る →
           </Link>
         </Button>
       </div>
