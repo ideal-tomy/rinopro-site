@@ -62,7 +62,7 @@ export const homeLandingCopy = {
   values: {
     sectionIndex: "04",
     sectionKicker: "VALUES",
-    heading: "提案書で終わらせず、\n触れるものから始める理由。",
+    heading: "触れるものから始める理由。",
     items: [
       {
         iconKey: "user",
@@ -210,13 +210,13 @@ export const homeLandingCopy = {
     ],
   },
 
-  /** トップ 03：建設・製造の2業種カード */
+  /** トップ 03：おすすめ実装例6カード */
   industryShowcase: {
     sectionIndex: "03",
     sectionKicker: "INDUSTRY SHOWCASE",
     heading: "業界別、動くデモ",
     intro:
-      "代表2業種から、現場に近い体験と詳しい説明へ進めます。デモは外部サイトで、そのまま触れます。",
+      "ビル管理・農業・介護・M&A・建設・不動産など、業種の異なる6つの実装例です。デモは外部サイトで、そのまま触れます。",
     detailLabel: "詳しく見る",
     tryLabel: "デモを開く ↗",
     allDemosLabel: "すべてのdemoを見る",

@@ -1,4 +1,8 @@
 import type { MetadataRoute } from "next";
+import {
+  getAllArticleSlugs,
+  getAllThemeArticleSlugs,
+} from "@/data/articles";
 import { ALLOWED_INTERACTIVE_EXPERIENCE_SLUGS } from "@/lib/content/experience-gallery";
 import { getAllIndustryLpSlugs } from "@/lib/content/industry-lp";
 import { getAllIndustryShowcaseSlugs } from "@/lib/content/industry-showcase";
@@ -51,6 +55,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(),
       changeFrequency: "weekly" as const,
       priority: 0.9,
+    })),
+    ...getAllArticleSlugs().map((slug) => ({
+      url: `${BASE_URL}/articles/${slug}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.75,
+    })),
+    ...getAllThemeArticleSlugs().map((slug) => ({
+      url: `${BASE_URL}/articles/t/${slug}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.72,
     })),
   ];
 }

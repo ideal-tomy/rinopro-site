@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<style>
+:root{
+  color-scheme: light only;
+  --ink:#222018; --ink-2:#5a564c; --ink-3:#8a8478;
+  --paper:#ece6d8; --win:#f4f0e6; --sel:#d8d0c0;
+  --line:#c8c0b0; --lock:#6a6054; --ok:#3d5a38;
+  --sans:"Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP","Noto Sans CJK JP","Yu Gothic Medium","Yu Gothic",Meiryo,system-ui,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root{ color-scheme:light only; }
+  html,body{ background:#ece6d8 !important; color:#222018 !important; }
+}
+*{ box-sizing:border-box; }
+body{ margin:0; background:var(--paper); color:var(--ink); font-family:var(--sans); font-size:16px; line-height:1.92; }
+h1,h2{ word-break:auto-phrase; margin:0; }
+p{ margin:0 0 1.45em; }
+a{ color:var(--ok); }
+.wrap{ max-width:720px !important; margin:0 auto; padding:0 22px; }
+.col{ max-width:620px; margin:0 auto; }
+
+.cover{ background:#dcd4c4; color:var(--ink); padding:44px 0 36px; margin:0 -22px 0; }
+.cover__in{ max-width:620px; margin:0 auto; padding:0 22px; }
+.cover__tag{ font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; color:var(--ink-3); margin:0 0 14px; }
+.cover h1{ font-size:30px; line-height:1.48; font-weight:800; margin:0 0 16px; max-width:16em; }
+.cover__meta{ font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; color:var(--ink-3); display:flex; gap:14px; flex-wrap:wrap; margin:0 0 20px; }
+
+.tree{
+  background:var(--win); border:1px solid var(--line);
+  font-family:var(--mono); font-size:13px; line-height:1.7;
+  padding:14px 16px 16px; margin:0 0 18px;
+}
+.tree__path{ font-size:10.5px; letter-spacing:.08em; color:var(--ink-3); margin:0 0 10px; border-bottom:1px solid var(--line); padding-bottom:6px; }
+.tree p{ margin:0; font-family:var(--mono); }
+.tree .open{ color:var(--ok); font-weight:700; }
+.tree .shut{ color:var(--lock); opacity:.55; }
+
+.leak-note{ padding:14px 16px; background:#fff; border-left:6px solid var(--lock); margin:0; }
+.leak-note p{ margin:0 0 .35em; font-size:14px; color:var(--ink-2); }
+.leak-note p:last-child{ margin:0; }
+.leak-note .lbl{ font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; color:var(--lock); margin-bottom:8px; }
+
+.body{ padding:38px 0 10px; }
+.lede{ font-size:17px; color:var(--ink-2); }
+
+.path-h{ margin:0 0 2.5em; }
+.path-h h2{
+  font-size:20px; font-weight:800; line-height:1.55; margin:0 0 16px;
+  font-family:var(--mono); letter-spacing:.02em;
+}
+.path-h h2 span{ color:var(--ink-3); font-weight:400; font-size:13px; margin-right:8px; }
+
+.yesno{ margin:0 0 1.4em; display:grid; grid-template-columns:1fr 1fr; gap:0; border:1px solid var(--line); font-size:14.5px; }
+.yesno div{ padding:14px 16px; }
+.yesno .yes{ background:#e8eee4; }
+.yesno .no{ background:#e8e4dc; border-left:1px solid var(--line); }
+.yesno .hd{ font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; color:var(--ink-3); margin:0 0 8px; }
+.yesno ul{ margin:0; padding-left:1.1em; }
+.yesno li{ margin-bottom:.3em; }
+
+.figure{ margin:1.8em 0 2.2em; }
+.figure__lab{ font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; color:var(--ink-3); margin:0 0 10px; }
+.figure__cap{ font-size:12.5px; color:var(--ink-2); margin:12px 0 0; line-height:1.75; }
+.wide-tree{ background:var(--win); border:1px solid var(--line); padding:16px 18px; font-family:var(--mono); font-size:13.5px; line-height:1.85; }
+.wide-tree p{ margin:0; font-family:inherit; }
+.wide-tree .dim{ color:var(--lock); opacity:.5; }
+
+.know{ background:var(--win); border:1px solid var(--line); padding:20px 18px; margin:24px 0; }
+.know p{ margin:0; font-size:15px; color:var(--ink-2); }
+
+.cta{ border-top:1px solid var(--line); margin:44px 0 0; padding:28px 0 0; }
+.linkbtn{ display:inline-block; background:var(--ink); color:#fff; font-weight:700; font-size:15px; text-decoration:none; padding:14px 28px; }
+.disc{ font-size:12.5px; color:var(--ink-3); margin:20px 0 0; }
+
+@media (max-width:640px){
+  .cover h1{ font-size:23px; }
+  .yesno{ grid-template-columns:1fr; }
+  .yesno .no{ border-left:0; border-top:1px solid var(--line); }
+}
+</style>
+</head>
+<body>
+<div class="wrap is-theme">
+
+<section class="cover">
+  <div class="cover__in">
+    <p class="cover__tag">事務所　共有フォルダの範囲</p>
+    <h1>社内の文書を全部入れると、見えないはずのものまで出る。</h1>
+    <p class="cover__meta">
+      <span>読むのに 6分</span>
+      <span>2026.08</span>
+    </p>
+    <div class="tree">
+      <p class="tree__path">共有 \</p>
+      <p>▼ 共有</p>
+      <p>　　<span class="open">▼ 営業（全員）</span></p>
+      <p>　　<span class="shut">▼ 人事（経理のみ）</span></p>
+      <p>　　<span class="shut">▼ 経営会議（役員）</span></p>
+    </div>
+    <div class="leak-note">
+      <p class="lbl">画面では灰色になるもの</p>
+      <p>人事と役員のフォルダは、開く人を限っている。</p>
+      <p><b>全部入れると、閲覧の範囲が検索に残らない。</b></p>
+    </div>
+  </div>
+</section>
+
+<div class="body col">
+
+<p class="lede">共有フォルダには、営業が見てよいものと、人事だけが見るものと、役員だけが開くものが、同じ木の中に並んでいます。検索は、この木の閲覧範囲を知りません。</p>
+
+<section class="path-h">
+<h2><span>共有 \</span>全員が見てよいフォルダを一つ決める</h2>
+<p>よく伺うのが、「社内の資料は一か所にまとめてある」という状態です。まとめてあることと、全員が見てよいことは別です。</p>
+<p>まず、一番上の共有から、<b>誰でも開いてよいフォルダを一つ</b>決めます。規程の公開版、商品の仕様、営業が使うひな形。ここに無いものは、検索の対象にしない。</p>
+<p>ここは社内で揃えてください。フォルダ名のきれいさより、入れる人の範囲です。</p>
+</section>
+
+<section class="path-h">
+<h2><span>共有 \</span>検索は、閲覧の鍵を覚えていない</h2>
+<p>画面のフォルダは、権限で灰色になります。検索の対象にすると、その灰色が消えます。文書の一文が答えに混ざる。開いてはいけないファイルそのものは出なくても、中身の言い回しが出ることがあります。</p>
+<p>正直に申し上げますと、あとから「これは出さないで」と足すより、最初から対象を狭くした方が安全です。出してから消す作業は、残ったコピーを追いきれません。</p>
+
+<figure class="figure">
+  <p class="figure__lab">図　画面の木と、検索に渡す範囲</p>
+  <div class="wide-tree">
+    <p>▼ 共有</p>
+    <p>　　<span style="color:var(--ok);font-weight:700;">■ 公開してよい資料　← ここだけ渡す</span></p>
+    <p class="dim">　　□ 人事　□ 経営会議　← 渡さない</p>
+  </div>
+  <figcaption class="figure__cap">灰色のフォルダは、画面では閉じられます。検索の対象にすると、中身の言い回しが出ることがあります。</figcaption>
+</figure>
+</section>
+
+<section class="path-h">
+<h2><span>共有 \</span>入れてよい文書と、入れてはいけない文書</h2>
+<div class="yesno">
+  <div class="yes">
+    <p class="hd">入れてよい</p>
+    <ul>
+      <li>全員が読む前提の資料</li>
+      <li>公開版の規程</li>
+      <li>営業が使うひな形</li>
+    </ul>
+  </div>
+  <div class="no">
+    <p class="hd">入れない</p>
+    <ul>
+      <li>給与・評価</li>
+      <li>個別の契約条件</li>
+      <li>未公開の金額</li>
+    </ul>
+  </div>
+</div>
+<p>未公開の金額が営業フォルダに混ざっている会社は珍しくありません。営業フォルダだから全員が見てよい、とは限りません。そのファイルだけ、対象の外へ移します。</p>
+</section>
+
+<section class="path-h">
+<h2><span>共有 \</span>社内で話すなら、「全部探せるようにしたい」ではなくていい</h2>
+<p>「全部入れると、人事と役員の文書まで材料になる。全員が見てよいフォルダが決まっていない」と言えば足ります。</p>
+</section>
+
+<section class="path-h">
+<h2><span>共有 \</span>共有の一番上から、一つだけ残す</h2>
+<p>全部の権限を組み直す必要はありません。検索に渡す対象を、いま決めた一つに限定します。そのフォルダに、公開してよい資料だけを移します。移せないものは、移さない。</p>
+<p><b>閲覧の範囲が検索に残らない</b>——この線が先です。探す範囲を広げるのは、範囲が紙に残ってからです。</p>
+
+<div class="know">
+  <p>この記事は知識のみです。デモ画面はありません。まず、全員が見てよいフォルダを一つ決めてください。</p>
+</div>
+</section>
+
+<div class="cta">
+  <p><a class="linkbtn" href="/contact?service=ai-consulting&amp;intent=article&amp;article=folder-rights">相談する</a></p>
+  <p class="disc">社内の閲覧範囲は、会社ごとの決まりです。情報システムと総務で、対象フォルダを揃えてください。</p>
+</div>
+
+</div>
+</div>
+</body>
+</html>

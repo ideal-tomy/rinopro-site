@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<style>
+
+:root{
+  color-scheme: light only;
+  --ink:#171b1f; --ink-2:#4e555b; --ink-3:#838a90;
+  --bg:#f5f6f7; --surface:#ffffff;
+  --rail:#d3d8dc; --rail-2:#e6e9eb;
+  --amber:#b5820a; --amber-b:#f2c94c; --steel:#263038;
+  --sans:"Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP","Noto Sans CJK JP","Yu Gothic Medium","Yu Gothic",Meiryo,system-ui,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    color-scheme: light only;
+    --ink:#171b1f; --ink-2:#4e555b; --ink-3:#838a90;
+    --bg:#f5f6f7; --surface:#ffffff;
+    --rail:#d3d8dc; --rail-2:#e6e9eb;
+    --amber:#b5820a; --amber-b:#f2c94c; --steel:#263038;
+  }
+  html, body{ background:#f5f6f7 !important; color:#171b1f !important; }
+}
+*{ box-sizing:border-box; }
+html{ -webkit-text-size-adjust:100%; }
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:var(--sans); font-size:16px; line-height:1.9;
+  font-feature-settings:"palt" 1;
+}
+h1,h2,h3{ word-break:auto-phrase; line-break:strict; text-wrap:balance; margin:0; }
+p{ margin:0 0 1.5em; }
+a{ color:var(--steel); }
+
+.wrap{ max-width:940px; margin:0 auto; padding:0 22px; }
+.col{ max-width:600px; }
+
+.top{ background:var(--surface); border-bottom:1px solid var(--rail); }
+.top__in{ max-width:900px; margin:0 auto; padding:13px 22px; display:flex; align-items:baseline; gap:14px; }
+.brand{ font-family:var(--mono); font-weight:700; font-size:15px; letter-spacing:.14em; color:var(--steel); text-decoration:none; }
+.crumb{ font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; color:var(--ink-3); }
+
+.hero{ background:var(--surface); border-bottom:3px solid var(--steel); padding:50px 0 40px; }
+.docline{
+  display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap;
+  font-family:var(--mono); font-size:11px; letter-spacing:.1em; color:var(--ink-3);
+  border-bottom:2px solid var(--steel); padding-bottom:14px; margin-bottom:26px;
+  align-items:baseline;
+}
+.docline .title{ font-size:13px; letter-spacing:.08em; color:var(--steel); font-weight:700; }
+.hero h1{ font-size:38px; line-height:1.38; font-weight:800; letter-spacing:-.01em; margin:0 0 18px; max-width:15em; }
+.hero__lead{ font-size:16px; color:var(--ink-2); max-width:33em; margin:0 0 24px; }
+.hero .layer{ margin:0; }
+.hero__cap{ font-size:12.5px; line-height:1.85; color:var(--ink-2); margin:12px 0 0; }
+
+.cite{
+  display:inline-block; margin:0 0 1.2em;
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.1em;
+  color:var(--amber); border:1px solid var(--amber); padding:5px 10px 4px;
+  text-decoration:none;
+}
+.cite:hover{ background:rgba(181,130,10,.08); }
+
+.body{ padding:0 0 10px; }
+.sec{ position:relative; padding:44px 0 0 76px; }
+.sec::before{ content:""; position:absolute; left:23px; top:0; bottom:-44px; width:1px; background:var(--rail); }
+.sec:last-of-type::before{ bottom:auto; height:64px; }
+.sec__no{
+  position:absolute; left:0; top:48px; width:47px; text-align:left;
+  font-family:var(--mono); font-size:11px; letter-spacing:.06em;
+  color:var(--amber); background:var(--bg); padding:4px 0 6px;
+}
+.sec h2{ font-size:26px; line-height:1.5; font-weight:800; letter-spacing:-.005em; margin:0 0 20px; max-width:19em; }
+.sec h3{ font-size:15.5px; font-weight:700; margin:30px 0 8px; }
+.lede{ font-size:17px; }
+.hl{ background:linear-gradient(transparent 62%, rgba(242,201,76,.55) 62%); font-weight:700; }
+
+/* 三層の説明 */
+.layer{ max-width:600px; margin:0 0 1.7em; }
+.layer div{ border:1px solid var(--rail); background:var(--surface); padding:14px 17px 12px; margin-bottom:7px; }
+.layer div.is-hidden{ border-style:dashed; border-color:var(--amber); background:#fdfaf1; }
+.layer b{ display:block; font-size:15.5px; }
+.layer span{ font-size:13.5px; color:var(--ink-2); line-height:1.8; }
+.layer .tag{ float:right; font-family:var(--mono); font-size:9.5px; letter-spacing:.1em; color:var(--amber); }
+
+/* 質問リスト */
+.qs{ max-width:600px; margin:0 0 1.7em; padding:0; list-style:none; counter-reset:q; }
+.qs li{
+  counter-increment:q; position:relative; padding:11px 0 9px 34px;
+  border-top:1px solid var(--rail-2); font-size:15.5px;
+}
+.qs li:last-child{ border-bottom:1px solid var(--rail-2); }
+.qs li::before{
+  content:counter(q); position:absolute; left:6px; top:.85em;
+  font-family:var(--mono); font-size:11px; color:var(--amber); font-weight:700;
+}
+
+.cond{ max-width:600px; margin:0 0 1.7em; }
+.cond div{ border-left:3px solid var(--steel); padding:3px 0 3px 15px; margin-bottom:14px; }
+.cond b{ display:block; font-size:15.5px; }
+.cond span{ font-size:14px; color:var(--ink-2); }
+
+.plain{ margin:0 0 1.6em; padding-left:1.2em; max-width:600px; }
+.plain li{ margin-bottom:9px; }
+
+.warn{ background:var(--surface); border:1px solid var(--rail); padding:20px 22px 17px; margin:0 0 1.7em; max-width:600px; }
+.warn h3{ font-size:15.5px; font-weight:700; margin:0 0 10px; color:var(--amber); }
+.warn p{ font-size:14.5px; line-height:1.85; margin:0 0 .9em; }
+.warn p:last-child{ margin:0; }
+.warn ul{ margin:0 0 .9em; padding-left:1.2em; font-size:14.5px; line-height:1.85; }
+
+/* 目的を伝える言い方 */
+.say{ border-left:4px solid var(--amber); background:var(--surface); padding:16px 18px 14px; margin:0 0 1.6em; max-width:600px; }
+.say p{ margin:0; font-size:16px; line-height:1.95; }
+
+/* 任せられる部分・注意が要る部分 */
+.split{ max-width:600px; margin:0 0 1.7em; }
+.split div{ border:1px solid var(--rail); background:var(--bg); padding:16px 18px 14px; margin-bottom:9px; }
+.split div:first-child{ border-left:4px solid var(--steel); }
+.split div:last-child{ border-left:4px solid var(--amber); }
+.split__k{ font-family:var(--mono); font-size:9.5px; letter-spacing:.14em; color:var(--ink-3); margin:0 0 6px; }
+.split b{ display:block; font-size:16px; margin-bottom:4px; }
+.split div:last-child b{ color:var(--amber); }
+.split span{ font-size:14px; line-height:1.85; color:var(--ink-2); }
+.demo__h3{ font-size:17px; font-weight:800; margin:34px 0 10px; }
+
+/* 図 */
+.figure{ background:transparent; border:0; padding:0; margin:0 0 2.5em; max-width:900px; width:min(900px, calc(100vw - 40px)); }
+.figure svg{ display:block; width:100%; height:auto; }
+.figure__t{ font-family:var(--mono); font-size:10px; letter-spacing:.14em; color:var(--amber); font-weight:700; margin:0 0 10px; }
+.figure figcaption{ font-size:12.5px; line-height:1.85; color:var(--ink-2); margin:12px 0 0; padding-top:10px; border-top:1px solid var(--rail-2); }
+
+/* デモ：機械の注意表示 */
+.demo{
+  background:var(--surface); margin:60px 0 8px;
+  border-top:9px solid transparent;
+  border-image:repeating-linear-gradient(-45deg, var(--steel) 0 10px, var(--amber-b) 10px 20px) 9;
+}
+.demo__in{ max-width:900px; margin:0 auto; padding:38px 22px 40px; }
+.demo__box{ max-width:600px; }
+.demo__k{ font-family:var(--mono); font-size:10.5px; letter-spacing:.16em; color:var(--amber); margin:0 0 14px; }
+.demo h2{ font-size:27px; line-height:1.45; font-weight:800; letter-spacing:-.005em; margin:0 0 16px; }
+.demo p{ color:var(--ink-2); font-size:15px; }
+.btn{ display:inline-block; background:var(--steel); color:#fff; font-weight:700; font-size:15px; text-decoration:none; padding:15px 30px; border-radius:2px; }
+.btn:hover{ background:#101820; }
+.fine{ font-family:var(--mono); font-size:11px; line-height:1.95; letter-spacing:.03em; color:var(--ink-3); margin:18px 0 0; }
+
+.close h2{ font-size:25px; font-weight:800; line-height:1.5; margin:0 0 16px; }
+.linkbtn{ display:inline-block; background:var(--amber); color:#fff; text-decoration:none; font-weight:700; font-size:15px; padding:15px 30px; border-radius:2px; }
+.linkbtn:hover{ background:#8f6708; }
+
+.src{ margin:52px 0 0; padding:24px 0 0; border-top:1px solid var(--rail); max-width:600px; }
+.src h3{ font-family:var(--mono); font-size:10px; letter-spacing:.16em; color:var(--ink-3); margin:0 0 12px; font-weight:700; }
+.src ul{ margin:0; padding-left:1.15em; }
+.src li{ font-size:12.5px; line-height:1.85; color:var(--ink-2); margin-bottom:6px; }
+.src a{ word-break:break-all; }
+
+.foot{ background:var(--steel); color:#9fabb4; margin-top:60px; padding:24px 0 40px; }
+.foot__in{ max-width:900px; margin:0 auto; padding:0 22px; font-family:var(--mono); font-size:11px; letter-spacing:.1em; }
+
+@media (max-width:640px){
+  body{ font-size:15.5px; line-height:1.88; }
+  .wrap{ padding:0 18px; }
+  .top__in{ padding:12px 18px; }
+  .hero{ padding:36px 0 32px; }
+  .hero h1{ font-size:26px; line-height:1.46; }
+  .hero p{ font-size:15px; }
+  .docline{ font-size:9.5px; gap:10px; }
+  .sec{ padding:38px 0 0; }
+  .sec::before{ display:none; }
+  .sec__no{ position:static; width:auto; padding:0 0 8px; background:none; display:block; }
+  .sec h2{ font-size:21px; }
+  .say p{ font-size:15px; }
+  .split div{ padding:14px 14px 12px; }
+  .demo__h3{ font-size:16px; }
+  .figure figcaption{ font-size:12px; }
+  .warn{ padding:17px 16px 15px; }
+  .demo{ margin:48px 0 8px; }
+  .demo__in{ padding:32px 18px 34px; }
+  .demo h2{ font-size:21px; }
+  .close h2{ font-size:20px; }
+  .btn, .linkbtn{ display:block; text-align:center; padding:16px 18px; }
+  .foot__in{ padding:0 18px; }
+}
+a:focus-visible, .btn:focus-visible, .linkbtn:focus-visible{ outline:2px solid var(--amber); outline-offset:3px; }
+
+/* publish overrides */
+.demo-first-step{ font-size:13.5px; line-height:1.85; margin:0 0 14px; opacity:.95; }
+.btn.is-soon,.n__go.is-soon{
+  display:inline-block; opacity:.65; cursor:default; pointer-events:none;
+  font-weight:700; font-size:15px; padding:15px 30px; border-radius:2px;
+  background:#e8e8e8; color:#555; text-decoration:none;
+}
+</style>
+</head>
+<body>
+<section class="hero">
+  <div class="wrap">
+    <div class="docline">
+      <span class="title">製造業　技能の伝え方</span>
+      <span>読むのに 9分</span>
+      <span>2026.08</span>
+    </div>
+    <h1>ベテランの手順を、聞き取って書き残す方法。</h1>
+    <p class="hero__lead">
+      手順書はある。それでも、読んだだけでは新人が作れない。足りないのは文章量ではありません。工程を一つ決め、話してもらい、書き残す——その順番で説明します。
+    </p>
+    <div class="layer">
+      <div>
+        <span class="tag">紙にある</span>
+        <b>主なステップ</b>
+        <span>何をするか。「材料を治具にセットする」</span>
+      </div>
+      <div class="is-hidden">
+        <span class="tag">頭の中</span>
+        <b>急所</b>
+        <span>そのステップを成り立たせている勘やコツ。「奥まで押し込まず、指一本分あけて止める」</span>
+      </div>
+      <div class="is-hidden">
+        <span class="tag">頭の中</span>
+        <b>急所の理由</b>
+        <span>なぜそれが急所なのか。「奥まで入れると熱で膨らんだときに逃げ場がなくなる」</span>
+      </div>
+    </div>
+    <p class="hero__cap">紙にあるのは一番上だけです。下の二つが、聞き取って書き残す部分です。順番に説明します。</p>
+  </div>
+</section>
+
+<main class="body">
+  <div class="wrap">
+
+    <section class="sec">
+      <span class="sec__no">01</span>
+      <div class="col">
+        <h2>聞き取る工程を、一つに決める</h2>
+        <p class="lede">
+          「手順書は整備してあります」という会社は多いです。それでも、新人がその通りにやると不良が出る。結局、ベテランが横について教えることになる。
+        </p>
+        <p>
+          このとき、手順書をもっと細かく書けばいいと考えがちですが、そうではありません。<span class="hl">書かれていないのは、細かさではなく急所です。</span>急所というのは、そのステップを成り立たせている勘やコツのことです。ベテランは体で覚えているので、書くときに省いてしまいます。
+        </p>
+        <p>
+          全工程をいっぺんに書き残そうとすると、まず終わりません。始めるのは、<b>その仕事ができる人が一人しかいない工程</b>です。効果の大きさではなく、失ってしまう可能性のほうで選んでください。
+        </p>
+        <ul class="plain">
+          <li>その方が休むと止まる</li>
+          <li>教えようとしたが、うまく伝わらなかったことがある</li>
+          <li>手順書はあるが、実際はその通りにやっていない</li>
+        </ul>
+        <p>
+          この三つに当てはまる工程から、一つだけ。一時間の聞き取りを二回もやれば、一作業ぶんは形になります。そこで手応えがあれば、次の工程に進んでください。
+        </p>
+      </div>
+    </section>
+
+    <section class="sec">
+      <span class="sec__no">02</span>
+      <div class="col">
+        <h2>書かせない。話してもらう</h2>
+        <h3>聞く前に、何のために聞くのかを伝える</h3>
+        <p>
+          質問より先に、これを言ってください。ここを飛ばすと、七つ用意しても当たり障りのない答えしか返ってきません。
+        </p>
+        <div class="say">
+          <p>
+            これは〇〇さんのやり方を確かめるためではありません。<br>
+            〇〇さんが休んだ日に、他の人が同じ判断をできるようにするためです。
+          </p>
+        </div>
+        <p>
+          目的を伝えないまま聞き取りを始めると、聞かれた側は評価されていると受け取ります。自分のやり方を粗探しされている、これを話したら自分は要らなくなる。そう思われた時点で、いくら質問を用意しても出てきません。
+        </p>
+        <p>
+          手順書が進まない現場の多くは、時間がないのではなく、ここで止まっています。
+        </p>
+        <p>
+          「手順書を書いておいてください」と頼むと、まず進みません。書くのが本業ではありませんし、何を書けばいいかも分からないからです。<span class="hl">書いてもらうのではなく、話してもらいます。</span>聞く側が質問を用意して、それに答えてもらう形にします。
+        </p>
+        <p>
+          ただし「この作業について教えてください」だけでは、話が広がりすぎて止まります。あらかじめ、聞くことを決めておいてください。
+        </p>
+
+        <ol class="qs">
+          <li>この作業の目的は何ですか</li>
+          <li>最初に確認することは何ですか</li>
+          <li>作業の大きな流れを三つに分けるとどうなりますか</li>
+          <li>新人がよく間違えるところはどこですか</li>
+          <li>やってはいけないことはありますか</li>
+          <li>最後に確認することは何ですか</li>
+          <li>この作業でいちばん大事なところはどこですか</li>
+        </ol>
+
+        <figure class="figure">
+          <p class="figure__t">図2　問いの大きさと、返ってくる量</p>
+          <svg viewBox="0 0 360 208" role="img" aria-labelledby="m2t m2d">
+            <title id="m2t">大きな問い一つと、七つに割った問いの比較</title>
+            <desc id="m2d">「全部教えてください」という大きな問い一つでは何も返ってこないが、七つの小さな問いに割ると、それぞれから答えが返ってくる</desc>
+
+            <rect x="18" y="24" width="120" height="48" rx="3" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.4"/>
+            <text x="78" y="53" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="11.5" fill="var(--ink)" text-anchor="middle">全部教えてください</text>
+            <line x1="146" y1="48" x2="196" y2="48" stroke="var(--rail)" stroke-width="1.4" stroke-dasharray="4 4"/>
+            <text x="230" y="52" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="11.5" fill="var(--ink-3)">…出てこない</text>
+
+            <line x1="18" y1="92" x2="342" y2="92" stroke="var(--rail-2)" stroke-width="1"/>
+
+            <g>
+              <rect x="18" y="110" width="120" height="15" rx="2" fill="var(--surface)" stroke="var(--amber)" stroke-width="1.2"/>
+              <rect x="18" y="129" width="120" height="15" rx="2" fill="var(--surface)" stroke="var(--amber)" stroke-width="1.2"/>
+              <rect x="18" y="148" width="120" height="15" rx="2" fill="var(--surface)" stroke="var(--amber)" stroke-width="1.2"/>
+              <rect x="18" y="167" width="120" height="15" rx="2" fill="var(--surface)" stroke="var(--amber)" stroke-width="1.2"/>
+            </g>
+            <text x="78" y="196" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="10.5" fill="var(--ink-3)" text-anchor="middle">七つに割った問い</text>
+
+            <g stroke="var(--amber)" stroke-width="1.4">
+              <line x1="146" y1="117" x2="196" y2="117"/>
+              <line x1="146" y1="136" x2="196" y2="136"/>
+              <line x1="146" y1="155" x2="196" y2="155"/>
+              <line x1="146" y1="174" x2="196" y2="174"/>
+            </g>
+            <g fill="#e6cf94">
+              <rect x="200" y="111" width="86" height="13" rx="2"/>
+              <rect x="200" y="130" width="120" height="13" rx="2"/>
+              <rect x="200" y="149" width="64" height="13" rx="2"/>
+              <rect x="200" y="168" width="104" height="13" rx="2"/>
+            </g>
+          </svg>
+          <figcaption>
+            聞く単位が大きいほど、返ってくる量は減ります。七つに割ると、それぞれから少しずつ出てきます。出てきた量の合計が、そのまま手順書になります。
+          </figcaption>
+        </figure>
+
+        <p>
+          この七つは、思いつきで並べたものではありません。書き残すときに使う三つの条件から作られています。4番と5番は安全、6番は出来栄え、7番はやりやすさに対応しています。工程に合わせて八つ目、九つ目を自分で足せます。三つの条件のどれかを聞く形になっていれば、それは有効な質問です。
+        </p>
+
+        <h3>「どうやるんですか」と聞かない</h3>
+        <p>
+          聞き方を一つ変えるだけで、出てくるものが変わります。「どうやるんですか」と聞くと、返ってくるのは手順です。ベテランにとっては当たり前の流れなので、当たり前のことしか出てきません。
+        </p>
+        <p class="lede">
+          <span class="hl">「どこで失敗しますか」と聞いてください。</span>
+        </p>
+        <p>
+          こちらだと、急所が出てきます。失敗した記憶は、本人の中で言葉になっているからです。「昔これで一度やらかした」という話が出てきたら、それがそのまま急所と、その理由になります。
+        </p>
+        <p>
+          同じ理由で、「新人がよく間違えるところ」も有効です。人に教えた経験がある方なら、必ず答えが出てきます。
+        </p>
+      </div>
+    </section>
+  </div>
+
+  <section class="demo">
+    <div class="demo__in">
+      <div class="demo__box">
+        <p class="demo__k">ここから先の話</p>
+        <h2>聞き取った答えを、整理する</h2>
+        <p>
+          ここまで読んで、「やることは分かったが、うちの工程だと何を聞けばいいのか」と思われたなら、それがいちばん多い止まり方です。七つの質問はあっても、自社の工程に置き換える段で止まります。
+        </p>
+        <p>
+          この二つは、道具に任せられる部分です。
+        </p>
+
+        <div class="split">
+          <div>
+            <p class="split__k">質問を作る</p>
+            <b>機密は要りません</b>
+            <span>工程の名前と、何を残したいかを伝えるだけで、その工程用の質問が出ます。図面も品番も出てきません。ここは安心して任せられる部分です。</span>
+          </div>
+          <div>
+            <p class="split__k">答えをまとめる</p>
+            <b>機密が入ります</b>
+            <span>話してもらった内容を、主なステップ・急所・理由の三つに整理する部分です。ここには現場の情報が入るので、伏せてから入れる、または社内で閉じた形で使う必要があります。</span>
+          </div>
+        </div>
+
+        <p>
+          後半で録音の注意を書いていますが、矛盾はしていません。<b>質問を作る側には機密が要らず、まとめる側には入る。</b>だから扱いを分けます。ここを一緒くたにしている会社の話は、聞かないほうがいいと思います。
+        </p>
+
+        <h3 class="demo__h3">二回目から、聞くことが変わります</h3>
+        <p>
+          一回目に聞き取った内容が入っていると、二回目は同じ七つを最初から聞き直さずに済みます。「この工程は急所が二つ出たが、この工程はまだ空いている」という状態から始められるからです。
+        </p>
+        <p>
+          三回目はさらに絞られます。回を重ねるほど、ベテランの時間を取る量が減っていきます。
+        </p>
+
+        <p style="margin-top:26px;">
+          <p class="demo-first-step">まず、用意された手順書から一つ選んで質問してみてください。新しい画面が開きます。会社名や連絡先を入れる必要はありません。</p><a class="btn" href="https://product-flowideal.vercel.app/manufacturing" data-demo="knowledge" target="_blank" rel="noopener noreferrer">聞き取ったものを引き出してみる</a>
+        </p>
+        <p class="fine">
+          こちらで用意した手順書と検査記録で動きます。<br>
+          3分ほどで終わります ／ 登録は要りません。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+
+    <section class="sec">
+      <span class="sec__no">03</span>
+      <div class="col">
+        <h2>聞き取った内容を、紙に書き残す</h2>
+        <p class="lede">
+          話してもらったあと、聞き取り担当が紙に書き残します。いまの手順書に書かれているのは、たいてい主なステップだけです。下の二つは、人の頭の中にしかありません。だから読んでも作れない。
+        </p>
+        <p>
+          書き残すときは、次の三つに分けます。もともとは戦後から使われている作業分解のやり方で、いまも教育の現場で使われています。
+        </p>
+        <p>
+          <a class="cite" href="https://monozukuri-japan.seesaa.net/article/503875034.html" target="_blank" rel="noopener noreferrer">出典　TWI　作業分解と急所</a>
+        </p>
+
+        <figure class="figure">
+          <p class="figure__t">図1　手順書の一行の下にあるもの</p>
+          <svg viewBox="0 0 360 210" role="img" aria-labelledby="m1t m1d">
+            <title id="m1t">手順書の一行の下に二つの層が隠れている図</title>
+            <desc id="m1d">紙に書かれているのは主なステップの層だけで、その下にある急所と理由の層は人の頭の中にしかない</desc>
+
+            <rect x="20" y="30" width="230" height="34" rx="2" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.4"/>
+            <rect x="30" y="43" width="150" height="7" rx="1" fill="#c3c9cd"/>
+            <text x="264" y="52" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="11" fill="var(--ink-2)">紙にある</text>
+
+            <rect x="20" y="82" width="230" height="46" rx="2" fill="#fdfaf1" stroke="var(--amber)" stroke-width="1.2" stroke-dasharray="4 3"/>
+            <rect x="30" y="97" width="188" height="7" rx="1" fill="#e6cf94"/>
+            <rect x="30" y="110" width="120" height="7" rx="1" fill="#e6cf94"/>
+
+            <rect x="20" y="140" width="230" height="46" rx="2" fill="#fdfaf1" stroke="var(--amber)" stroke-width="1.2" stroke-dasharray="4 3"/>
+            <rect x="30" y="155" width="200" height="7" rx="1" fill="#e6cf94"/>
+            <rect x="30" y="168" width="96" height="7" rx="1" fill="#e6cf94"/>
+
+            <path d="M258 96 L268 96 L268 172 L258 172" fill="none" stroke="var(--amber)" stroke-width="1.2"/>
+            <text x="274" y="130" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="11" fill="var(--amber)">頭の中</text>
+
+            <line x1="20" y1="72" x2="250" y2="72" stroke="var(--rail)" stroke-width="1" stroke-dasharray="2 3"/>
+          </svg>
+          <figcaption>
+            紙に残っているのは一番上の層だけです。下の二層は、その人が辞めた日になくなります。厚みでいうと、書けている部分のほうが薄い。
+          </figcaption>
+        </figure>
+
+        <p>
+          作業を分解していくと、ポイントらしきものがたくさん出てきます。全部を書くと、今度は読まれない手順書になります。急所かどうかは、次の三つのどれかに当てはまるかで決めます。
+        </p>
+
+        <div class="cond">
+          <div>
+            <b>出来栄え</b>
+            <span>そこを外すと、品質の判断基準を満たせなくなるか</span>
+          </div>
+          <div>
+            <b>安全</b>
+            <span>そこを外すと、けがをする恐れがあるか</span>
+          </div>
+          <div>
+            <b>やりやすさ</b>
+            <span>勘やコツの動きが要るか。うまい人と下手な人で差が出るか</span>
+          </div>
+        </div>
+
+        <p>
+          どれにも当てはまらないものは、ただの手順です。急所ではないので、そのまま一段目に書けば済みます。本人にとっては当たり前すぎて、書くほどのことではない——そう思われがちな部分こそ、聞き取って書き残す対象です。
+        </p>
+
+        <h3>文字にしきれない部分がある</h3>
+        <p>
+          正直に申し上げると、聞き取ったことを全部文字にするのは無理です。細かい手の動きや、持ち方の角度は、文章にすると逆に分かりにくくなります。
+        </p>
+        <p>
+          その部分は、写真か短い動画で補ってください。文字と写真を組み合わせるのが、いちばん確実です。
+        </p>
+
+        <h3>教える人が三人いると、新人には三通りが身につく</h3>
+        <p>
+          手順書を作る目的は、記録を残すことだけではありません。教え方をそろえることも同じくらい大事です。
+        </p>
+        <p>
+          同じ作業でも、教える人によって順番も言葉も変わります。すると「Aさんが教えた人はできるが、Bさんが教えた人はミスが多い」ということが起きます。新人からすると、途中で誰の言うことを聞けばいいのか分からなくなります。
+        </p>
+        <p>
+          聞き取って書き残したものは、その人の教え方ではなく、会社の教え方になります。教える人が変わっても、同じ言葉で伝わるようになります。
+        </p>
+      </div>
+    </section>
+
+    <section class="sec">
+      <span class="sec__no">04</span>
+      <div class="col">
+        <h2>録音・撮影する前に決めておくこと</h2>
+        <p>
+          聞き取りのときは、録音や写真を使うと楽になります。ただ、製造の現場では扱いに注意が要ります。
+        </p>
+
+        <div class="warn">
+          <h3>始める前に決めておくこと</h3>
+          <ul>
+            <li>会社のルールを確認する</li>
+            <li>本人の許可を取る</li>
+            <li>図面番号や品番は伏せる</li>
+            <li>必要以上に残さない。社外に出さない</li>
+          </ul>
+          <p>
+            そしてもう一つ。<b>録音した内容を、そのままAIに入れないでください。</b>私たちはAIを扱う側ですが、ここははっきり申し上げます。
+          </p>
+          <p>
+            現場の音声には、図面の情報も、取引先の名前も、そのまま入っています。まず伏せる。そのうえで、どこまで入れていいかを社内で決めてから使う。この順番を飛ばさないでください。
+          </p>
+        </div>
+
+        <p>
+          どの工程から始めるか、誰に何分ずつ時間を取ってもらうか——まだ決まっていなくても構いません。一時間×二回で一作業ぶんを形にする段取りだけ、外から一緒に組み立てることもできます。
+        </p>
+        <p>
+          <a class="linkbtn" href="/contact?service=ai-consulting&intent=article&article=manufacturing">相談する</a>
+        </p>
+
+        <div class="src">
+          <h3>参考</h3>
+          <ul>
+            <li>TWIによる作業の教え方（作業分解と急所の三条件）<br>
+              <a href="https://monozukuri-japan.seesaa.net/article/503875034.html">https://monozukuri-japan.seesaa.net/article/503875034.html</a></li>
+            <li>作業手順書を使った教育と標準化 ／ tebiki<br>
+              <a href="https://media.tebiki.jp/159">https://media.tebiki.jp/159</a></li>
+            <li>ベテランに書かせず、話してもらって手順書を残す方法<br>
+              <a href="https://note.com/large_shark2393/n/n11ddd0664233">https://note.com/large_shark2393/n/n11ddd0664233</a></li>
+            <li>作業要領書とは ／ 改善ライブラリ<br>
+              <a href="https://www.ojt-s.jp/kaizenlibrary/genbaryokukojo/work-instructions/">https://www.ojt-s.jp/kaizenlibrary/genbaryokukojo/work-instructions/</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</main>
+</body>
+</html>

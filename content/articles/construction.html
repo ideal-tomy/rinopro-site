@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<style>
+
+:root{
+  color-scheme: light only;
+  --ink:#14181c; --ink-2:#4a5157; --ink-3:#767d83;
+  --paper:#f1f3f1; --surface:#ffffff;
+  --rule:#c9cec9; --rule-2:#e2e5e2;
+  --navy:#16305c; --navy-ink:#0e2244; --shu:#bf3b26;
+  --sans:"Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP","Noto Sans CJK JP","Yu Gothic Medium","Yu Gothic",Meiryo,system-ui,sans-serif;
+  --mincho:"Hiragino Mincho ProN","Yu Mincho","YuMincho","Noto Serif JP","Noto Serif CJK JP",serif;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    color-scheme: light only;
+    --ink:#14181c; --ink-2:#4a5157; --ink-3:#767d83;
+    --paper:#f1f3f1; --surface:#ffffff;
+    --rule:#c9cec9; --rule-2:#e2e5e2;
+    --navy:#16305c; --navy-ink:#0e2244; --shu:#bf3b26;
+  }
+  html, body{ background:#f1f3f1 !important; color:#14181c !important; }
+}
+*{ box-sizing:border-box; }
+html{ -webkit-text-size-adjust:100%; }
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:var(--sans); font-size:16px; line-height:1.9;
+  font-feature-settings:"palt" 1;
+}
+h1,h2,h3{ word-break:auto-phrase; line-break:strict; text-wrap:balance; margin:0; }
+p{ margin:0 0 1.5em; }
+a{ color:var(--navy); }
+
+.wrap{ max-width:940px; margin:0 auto; padding:0 22px; }
+.col{ max-width:620px; }
+
+.top{ border-bottom:1px solid var(--rule); background:var(--surface); }
+.top__in{ display:flex; align-items:baseline; gap:14px; padding:14px 22px; max-width:940px; margin:0 auto; }
+.brand{ font-family:var(--mono); font-weight:700; letter-spacing:.14em; font-size:15px; color:var(--navy); text-decoration:none; }
+.crumb{ font-size:11px; letter-spacing:.1em; color:var(--ink-3); }
+
+.hero{
+  background:
+    repeating-linear-gradient(to right,  var(--rule-2) 0 1px, transparent 1px 40px),
+    repeating-linear-gradient(to bottom, var(--rule-2) 0 1px, transparent 1px 40px),
+    var(--surface);
+  border-bottom:1px solid var(--rule);
+  padding:56px 0 44px;
+}
+.cover{
+  border-bottom:1px solid var(--rule); padding-bottom:18px; margin:0 0 28px;
+  display:flex; justify-content:space-between; align-items:baseline; gap:16px; flex-wrap:wrap;
+}
+.eyebrow{
+  font-family:var(--mincho); font-size:15px; letter-spacing:.12em; color:var(--shu);
+  font-weight:600; margin:0;
+}
+.meta{ font-family:var(--mono); font-size:11px; letter-spacing:.08em; color:var(--ink-3); display:flex; gap:16px; flex-wrap:wrap; margin:0; }
+.hero h1{ font-family:var(--mincho); font-size:37px; line-height:1.46; font-weight:600; margin:0 0 20px; max-width:16em; }
+.hero__lead{ font-size:16px; color:var(--ink-2); max-width:34em; margin:0 0 28px; }
+
+/* 着工前の撮影箇所一覧（紙一枚） */
+.shotlist{ max-width:620px; background:var(--surface); border:1px solid var(--rule); }
+.shotlist__hd{
+  display:flex; justify-content:space-between; align-items:baseline; gap:12px;
+  padding:10px 14px; border-bottom:1px solid var(--rule);
+  font-family:var(--mono); font-size:11px; letter-spacing:.1em; color:var(--ink-3);
+}
+.shotlist__hd b{ color:var(--navy); font-weight:700; letter-spacing:.06em; }
+.shotlist table{ width:100%; border-collapse:collapse; font-size:13.5px; }
+.shotlist th, .shotlist td{ padding:11px 14px; border-bottom:1px solid var(--rule-2); text-align:left; vertical-align:top; line-height:1.55; }
+.shotlist th{ font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; color:var(--ink-3); font-weight:700; background:#f7f8f7; }
+.shotlist tr:last-child td{ border-bottom:0; }
+.shotlist td.freq{ font-family:var(--mono); font-size:12.5px; white-space:nowrap; color:var(--ink-2); }
+.shotlist tr.is-open td.freq{ color:var(--shu); font-weight:700; }
+.shotlist__cap{ font-size:12.5px; line-height:1.85; color:var(--ink-2); margin:12px 0 0; }
+
+.cite{
+  display:inline-block; margin:0 0 1.2em;
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.1em;
+  color:var(--shu); border:1px solid var(--shu); padding:5px 10px 4px;
+  text-decoration:none;
+}
+.cite:hover{ background:rgba(191,59,38,.06); }
+
+.body{ padding:52px 0 0; }
+.sec{ padding:0 0 8px; }
+.sec + .sec{ padding-top:40px; }
+.sec h2{ font-family:var(--mincho); font-size:26px; line-height:1.5; font-weight:600; margin:0 0 20px; max-width:20em; }
+.lede{ font-size:17px; }
+
+/* 段階の見出し */
+.phase{ margin:76px 0 32px; max-width:620px; border-top:3px solid var(--shu); padding-top:22px; }
+.phase__n{ font-family:var(--mono); font-size:11px; letter-spacing:.16em; color:var(--shu); margin:0 0 6px; }
+.phase h2{ font-family:var(--mincho); font-size:34px; line-height:1.44; font-weight:600; margin:0; }
+
+/* 手順の項目 */
+.item{ max-width:620px; margin:0 0 30px; }
+.item h3{ font-size:17px; font-weight:700; margin:0 0 10px; padding-left:14px; border-left:3px solid var(--navy); }
+.item p:last-child{ margin-bottom:0; }
+
+.mark{ text-decoration:underline; text-decoration-color:var(--shu); text-decoration-thickness:2px; text-underline-offset:.32em; text-decoration-skip-ink:none; }
+
+.note{ border-left:2px solid var(--shu); padding:2px 0 2px 14px; margin:0 0 1.7em; color:var(--shu); font-size:13.5px; line-height:1.85; }
+.note b{ display:block; font-family:var(--mono); font-size:10px; letter-spacing:.14em; font-weight:700; margin-bottom:4px; opacity:.85; }
+
+.warn{ background:var(--surface); border:1px solid var(--rule); padding:20px 22px 18px; margin:0 0 1.7em; max-width:620px; }
+.warn h3{ font-size:15.5px; font-weight:700; margin:0 0 10px; color:var(--shu); }
+.warn p{ font-size:14.5px; line-height:1.85; margin:0 0 .9em; }
+.warn p:last-child{ margin:0; }
+
+.figure{ background:transparent; border:0; padding:0; margin:0 0 2.5em; max-width:900px; width:min(900px, calc(100vw - 40px)); }
+.figure svg{ display:block; width:100%; height:auto; }
+.figure__t{ font-family:var(--mono); font-size:10px; letter-spacing:.14em; color:var(--shu); font-weight:700; margin:0 0 10px; }
+.figure figcaption{ font-size:12.5px; line-height:1.85; color:var(--ink-2); margin:12px 0 0; padding-top:10px; border-top:1px solid var(--rule-2); }
+
+.effect div.is-key{ border-top:2px solid var(--shu); padding-top:17px; }
+.effect div.is-key b{ color:var(--shu); font-weight:700; }
+.effect div.is-key span{ font-size:17.5px; font-weight:700; line-height:1.7; }
+
+.plain{ margin:0 0 1.6em; padding-left:1.2em; max-width:620px; }
+.plain li{ margin-bottom:9px; }
+
+.band{ background:var(--navy); color:#fff; margin:56px 0; padding:48px 0 46px; }
+.band__in{ max-width:940px; margin:0 auto; padding:0 22px; }
+.band__box{ max-width:620px; }
+.band .eyebrow{
+  font-family:var(--mono); font-size:11px; letter-spacing:.18em; color:#8fb3e6;
+  font-weight:400; margin:0 0 20px;
+}
+.band h2{ font-family:var(--mincho); font-size:27px; line-height:1.5; font-weight:600; margin:0 0 18px; color:#fff; }
+.band p{ color:#d3ddec; font-size:15px; }
+.btn{ display:inline-block; background:#fff; color:var(--navy-ink); font-weight:700; font-size:15px; text-decoration:none; padding:15px 30px; border-radius:2px; }
+.btn:hover{ background:#eaf0f9; }
+.band__fine{ font-family:var(--mono); font-size:11px; line-height:1.9; letter-spacing:.04em; color:#9fb4d2; margin:20px 0 0; }
+
+.effect{ max-width:620px; margin:0 0 1.6em; }
+.effect div{ border-top:1px solid var(--rule); padding:15px 0 13px; display:flex; gap:14px; align-items:baseline; }
+.effect div:last-child{ border-bottom:1px solid var(--rule); }
+.effect b{ font-family:var(--mono); font-size:13px; color:var(--shu); white-space:nowrap; flex:none; width:74px; }
+.effect span{ font-size:15px; }
+
+.next{ margin:0 0 8px; max-width:620px; }
+.next a{ display:block; border-top:1px solid var(--rule); padding:17px 0 15px; text-decoration:none; color:var(--ink); }
+.next a:last-child{ border-bottom:1px solid var(--rule); }
+.next .n__t{ font-weight:700; font-size:15.5px; }
+.next .n__d{ font-size:13px; color:var(--ink-2); margin-top:3px; }
+.next .n__go{ font-family:var(--mono); font-size:10px; letter-spacing:.14em; color:var(--navy); margin-top:6px; }
+
+.close h2{ font-family:var(--mincho); font-size:26px; line-height:1.5; font-weight:600; margin:0 0 18px; }
+.linkbtn{ display:inline-block; background:var(--navy); color:#fff; text-decoration:none; font-weight:700; font-size:15px; padding:15px 30px; border-radius:2px; }
+.linkbtn:hover{ background:var(--navy-ink); }
+
+.src{ margin:52px 0 0; padding:24px 0 0; border-top:1px solid var(--rule-2); max-width:620px; }
+.src h3{ font-family:var(--mono); font-size:10px; letter-spacing:.16em; color:var(--ink-3); margin:0 0 12px; font-weight:700; }
+.src ul{ margin:0; padding-left:1.15em; }
+.src li{ font-size:12.5px; line-height:1.85; color:var(--ink-2); margin-bottom:6px; }
+.src a{ word-break:break-all; }
+
+.foot{ border-top:1px solid var(--rule); margin-top:60px; padding:26px 0 44px; background:var(--surface); }
+.foot__in{ max-width:940px; margin:0 auto; padding:0 22px; font-family:var(--mono); font-size:11px; letter-spacing:.08em; color:var(--ink-3); }
+
+@media (min-width:1040px){
+  .note{ float:right; clear:right; width:246px; margin:.35em -320px 1.2em 0; border-left:2px solid var(--shu); }
+}
+@media (max-width:640px){
+  body{ font-size:15.5px; line-height:1.88; }
+  .wrap{ padding:0 18px; }
+  .hero{ padding:40px 0 34px; }
+  .hero h1{ font-size:26px; line-height:1.52; }
+  .hero__lead{ font-size:15px; }
+  .phase{ margin:54px 0 24px; }
+  .phase h2{ font-size:24px; }
+  .sec h2{ font-size:21px; }
+  .item h3{ font-size:16px; }
+  .band{ margin:44px 0; padding:36px 0 36px; }
+  .band__in{ padding:0 18px; }
+  .band h2{ font-size:21px; }
+  .warn{ padding:17px 16px 15px; }
+  .cover{ margin-bottom:22px; padding-bottom:14px; }
+  .eyebrow{ font-size:13.5px; }
+  .shotlist th, .shotlist td{ padding:9px 10px; }
+  .figure figcaption{ font-size:12px; }
+  .effect div{ display:block; }
+  .effect div.is-key span{ font-size:16px; }
+  .effect b{ display:block; width:auto; margin-bottom:2px; }
+  .btn, .linkbtn{ display:block; text-align:center; padding:16px 20px; }
+  .close h2{ font-size:21px; }
+  .foot__in{ padding:0 18px; }
+}
+@media (prefers-reduced-motion:no-preference){
+  .note{ opacity:0; transform:translateY(6px); transition:opacity .5s ease, transform .5s ease; }
+  .note.is-in{ opacity:1; transform:none; }
+}
+a:focus-visible, .btn:focus-visible, .linkbtn:focus-visible{ outline:2px solid var(--shu); outline-offset:3px; }
+
+/* publish overrides */
+.demo-first-step{ font-size:13.5px; line-height:1.85; margin:0 0 14px; opacity:.95; }
+.btn.is-soon,.n__go.is-soon{
+  display:inline-block; opacity:.65; cursor:default; pointer-events:none;
+  font-weight:700; font-size:15px; padding:15px 30px; border-radius:2px;
+  background:#e8e8e8; color:#555; text-decoration:none;
+}
+</style>
+</head>
+<body>
+<section class="hero">
+  <div class="wrap">
+    <div class="col">
+      <div class="cover">
+        <p class="eyebrow">建設業　工事写真の実務</p>
+        <p class="meta">
+          <span>読むのに 10分</span>
+          <span>2026.08 ／ 法令の確認 2026.08</span>
+        </p>
+      </div>
+      <h1>工事写真の整理が終わらない理由と、その直し方。</h1>
+      <p class="hero__lead">
+        事務所に戻ってから写真を整理する。この順番のままだと、何を入れても終わりません。撮る前・撮るとき・撮ったあとに分けて、実際のやり方をまとめました。
+      </p>
+      <div class="shotlist">
+        <div class="shotlist__hd">
+          <b>撮影箇所一覧（着工前）</b>
+          <span>紙一枚で配る</span>
+        </div>
+        <table>
+          <thead>
+            <tr><th>工種</th><th>頻度</th><th>誰が撮るか</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>鉄筋の組立て</td><td class="freq">各工種ごと</td><td>自社</td></tr>
+            <tr><td>コンクリート打設</td><td class="freq">各工種ごと</td><td>自社</td></tr>
+            <tr class="is-open"><td>出来形（隠れる部分）</td><td class="freq">適宜</td><td>未定</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="shotlist__cap">
+        頻度が「適宜」の行は、会社として決めておかないと現場ごとにぶれます。下で順に説明します。
+      </p>
+    </div>
+  </div>
+</section>
+
+<main class="body">
+  <div class="wrap">
+    <div class="col">
+
+      <section class="sec">
+        <p class="lede">
+          1つの現場で撮る工事写真は、数千枚から数万枚になります。従来のやり方だと、小黒板に工種や寸法をチョークで書き直しながら、黒板を持つ人と撮る人の二人で現場を回ります。
+        </p>
+        <p>
+          そして現場の仕事が終わったあと、事務所に戻って整理します。一枚ずつ撮影情報を手で入力して、フォルダに分けていく。この夕方からの作業が、そのまま残業になっています。
+        </p>
+        <p>
+          ここで「早く終わらせよう」と頑張っても、時間は減りません。<span class="mark">終わらない理由は、撮ったあとに整理しているからです。</span>撮るときに情報が揃っていないので、事務所で人が推測して埋めることになります。
+        </p>
+
+        <figure class="figure">
+          <p class="figure__t">図1　なぜ終わらないのか</p>
+          <svg viewBox="0 0 360 200" role="img" aria-labelledby="f1t f1d">
+            <title id="f1t">事務所の入口で写真が詰まる図</title>
+            <desc id="f1d">現場から届く数千枚の写真が、事務所の入口で一枚ずつしか通れず、手前にたまっている様子</desc>
+            <g font-family='Noto Sans CJK JP','Noto Sans JP',sans-serif font-size="11" fill="var(--ink-2)">
+              <text x="20" y="30">現場</text>
+              <text x="300" y="30">事務所</text>
+            </g>
+            <rect x="20" y="52" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="20" y="65" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="20" y="78" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="20" y="91" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="20" y="104" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="20" y="117" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="20" y="130" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="33" y="52" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="33" y="65" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="33" y="78" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="33" y="91" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="33" y="104" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="33" y="117" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="33" y="130" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="46" y="52" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="46" y="65" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="46" y="78" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="46" y="91" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="46" y="104" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="46" y="117" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="46" y="130" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="59" y="52" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="59" y="65" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="59" y="78" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="59" y="91" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="59" y="104" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="59" y="117" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="59" y="130" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="72" y="52" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="72" y="65" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="72" y="78" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="72" y="91" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="72" y="104" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="72" y="117" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="72" y="130" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="85" y="52" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="85" y="65" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="85" y="78" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="85" y="91" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="85" y="104" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="85" y="117" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="85" y="130" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="98" y="52" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="98" y="65" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="98" y="78" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="98" y="91" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="98" y="104" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="98" y="117" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="98" y="130" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="111" y="52" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="111" y="65" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="111" y="78" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="111" y="91" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="111" y="104" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="111" y="117" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="111" y="130" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="124" y="52" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="124" y="65" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="124" y="78" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="124" y="91" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="124" y="104" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="124" y="117" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="124" y="130" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="137" y="52" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="137" y="65" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="137" y="78" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="137" y="91" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="137" y="104" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="137" y="117" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="137" y="130" width="8" height="8" rx="1" fill="#c9cec9"/><rect x="150" y="52" width="8" height="8" rx="1" fill="#8f9891"/><rect x="150" y="65" width="8" height="8" rx="1" fill="#8f9891"/><rect x="150" y="78" width="8" height="8" rx="1" fill="#8f9891"/><rect x="150" y="91" width="8" height="8" rx="1" fill="#8f9891"/><rect x="150" y="104" width="8" height="8" rx="1" fill="#8f9891"/><rect x="150" y="117" width="8" height="8" rx="1" fill="#8f9891"/><rect x="150" y="130" width="8" height="8" rx="1" fill="#8f9891"/><rect x="163" y="52" width="8" height="8" rx="1" fill="#8f9891"/><rect x="163" y="65" width="8" height="8" rx="1" fill="#8f9891"/><rect x="163" y="78" width="8" height="8" rx="1" fill="#8f9891"/><rect x="163" y="91" width="8" height="8" rx="1" fill="#8f9891"/><rect x="163" y="104" width="8" height="8" rx="1" fill="#8f9891"/><rect x="163" y="117" width="8" height="8" rx="1" fill="#8f9891"/><rect x="163" y="130" width="8" height="8" rx="1" fill="#8f9891"/>
+            <path d="M182 44 L238 88" stroke="var(--shu)" stroke-width="2" fill="none"/>
+            <path d="M182 158 L238 112" stroke="var(--shu)" stroke-width="2" fill="none"/>
+            <line x1="238" y1="88" x2="286" y2="88" stroke="var(--shu)" stroke-width="1"/>
+            <line x1="238" y1="112" x2="286" y2="112" stroke="var(--shu)" stroke-width="1"/>
+            <rect x="248" y="94" width="8" height="8" rx="1" fill="#8f9891"/>
+            <rect x="268" y="94" width="8" height="8" rx="1" fill="#c9cec9"/>
+            <rect x="286" y="62" width="60" height="76" rx="2" fill="var(--surface)" stroke="var(--ink-2)" stroke-width="1"/>
+            <rect x="296" y="76" width="8" height="8" rx="1" fill="#c9cec9"/>
+            <rect x="296" y="92" width="8" height="8" rx="1" fill="#c9cec9"/>
+            <g font-family='Noto Sans CJK JP','Noto Sans JP',sans-serif font-size="10.5">
+              <text x="20" y="182" fill="var(--ink-3)">1現場で数千枚</text>
+              <text x="238" y="182" fill="var(--shu)">一枚ずつ</text>
+            </g>
+          </svg>
+          <figcaption>
+            事務所の入口で、写真が一枚ずつしか通れません。一枚ごとに人が撮影情報を打ち込んでいるからです。撮るときに情報が入っていれば、この入口は狭くなりません。
+          </figcaption>
+        </figure>
+        <p>
+          直し方は、撮る前・撮るとき・撮ったあとの三つに分かれます。順番にご説明します。
+        </p>
+      </section>
+
+      <div class="phase">
+        <p class="phase__n">① 着工前</p>
+        <h2>撮る前に決めておくこと</h2>
+      </div>
+
+      <div class="item">
+        <h3>撮影箇所と頻度を、着工前に一覧にする</h3>
+        <p>
+          上の一覧のような紙です。写真管理基準には撮影箇所の一覧表があり、工種ごとに撮影の頻度が決まっています。ただ、頻度の欄に「適宜」と書かれている項目があります。
+        </p>
+        <p>
+          この「適宜」は、設計図書の仕様が写真で確認できる必要最小限の箇所と枚数、という意味です。<b>ここを会社として決めておかないと、現場ごと担当者ごとに判断がぶれます。</b>結果として、撮りすぎる現場と、足りずに撮り直す現場が出ます。着工前に一覧を作って、現場に配ってください。紙一枚で構いません。
+        </p>
+        <p>
+          同じ紙で、あと二つだけ決めておきます。<b>誰が撮るか</b>（自社か協力会社か。曖昧だと「撮っていると思っていた」が起きます。協力会社には撮り方の見本を一枚渡す）。<b>納品用と社内用を分ける</b>（公共工事の台帳には改ざん検知がかかり、社内の報告にはかかりません）。
+        </p>
+        <div class="note">
+          <b>よく伺うお話</b>
+          「撮ってあると思っていたら、誰も撮っていなかった」<br>
+          この確認のために現場へ戻る移動が、いちばん高くつきます。
+        </div>
+      </div>
+
+      <div class="phase">
+        <p class="phase__n">② 現場</p>
+        <h2>撮るときにやること</h2>
+      </div>
+
+      <div class="item">
+        <h3>黒板の情報を、写真そのものに入れる</h3>
+        <p>
+          電子小黒板のことです。撮影と同時に、工種や寸法、立会者といった情報を画面上で写真に入れる仕組みで、国土交通省が平成29年に利用を認めています。現在はほぼすべての公共機関で使えます。
+        </p>
+        <p>
+          <a class="cite" href="https://www.mlit.go.jp/gobuild/content/001589799.pdf" target="_blank" rel="noopener noreferrer">出典　国交省　営繕　平成29年</a>
+        </p>
+        <p>
+          <b>いちばん大きいのは、撮影が一人でできるようになることです。</b>黒板を持つ人が要らなくなります。二人でやっていた作業が一人になるので、人工がそのまま浮きます。
+        </p>
+        <p>
+          そして撮った時点で情報が写真に入っているので、事務所での入力作業がなくなります。
+        </p>
+
+        <figure class="figure">
+          <p class="figure__t">図2　撮影のとき、現場を何本の線が歩いているか</p>
+          <svg viewBox="0 0 360 214" role="img" aria-labelledby="f2t f2d">
+            <title id="f2t">同じ道を二人で歩いている図</title>
+            <desc id="f2d">現場の撮影ポイントを回る道すじが、撮る人と黒板を持つ人の二本で重なって描かれている</desc>
+            <rect x="14" y="26" width="332" height="146" rx="2" fill="none" stroke="var(--rule)" stroke-width="1"/>
+            <rect x="122" y="60" width="116" height="78" rx="2" fill="#eef0ee" stroke="var(--rule)" stroke-width="1"/>
+            <text x="180" y="103" font-family='Noto Sans CJK JP','Noto Sans JP',sans-serif font-size="11" fill="var(--ink-3)" text-anchor="middle">建物</text>
+
+            <polyline points="46,52 46,148 152,162 272,148 316,96 252,44"
+              fill="none" stroke="var(--shu)" stroke-width="2" transform="translate(3,7)" opacity=".95"/>
+            <polyline points="46,52 46,148 152,162 272,148 316,96 252,44"
+              fill="none" stroke="var(--ink)" stroke-width="2"/>
+
+            <g fill="var(--ink)">
+              <circle cx="46" cy="52" r="4"/><circle cx="46" cy="148" r="4"/>
+              <circle cx="152" cy="162" r="4"/><circle cx="272" cy="148" r="4"/>
+              <circle cx="316" cy="96" r="4"/><circle cx="252" cy="44" r="4"/>
+            </g>
+            <g font-family='Noto Sans CJK JP','Noto Sans JP',sans-serif font-size="9.5" fill="var(--ink-3)">
+              <text x="54" y="46">1</text><text x="54" y="146">2</text>
+              <text x="160" y="160">3</text><text x="280" y="146">4</text>
+              <text x="324" y="94">5</text><text x="260" y="42">6</text>
+            </g>
+
+            <g font-family='Noto Sans CJK JP','Noto Sans JP',sans-serif font-size="10.5">
+              <line x1="16" y1="194" x2="42" y2="194" stroke="var(--ink)" stroke-width="2"/>
+              <text x="48" y="198" fill="var(--ink-2)">撮る人</text>
+              <line x1="112" y1="194" x2="138" y2="194" stroke="var(--shu)" stroke-width="2"/>
+              <text x="144" y="198" fill="var(--ink-2)">黒板を持つ人</text>
+            </g>
+          </svg>
+          <figcaption>
+            撮影ポイントを回る道すじです。いまは同じ道を二本が歩いています。電子小黒板にすると、赤い線がまるごとなくなります。減るのは人数だけでなく、その人が歩いていた距離もです。
+          </figcaption>
+        </figure>
+      </div>
+
+      <div class="warn">
+        <h3>ここは必ず確認してください　改ざん検知の要件</h3>
+        <p>
+          電子小黒板を使う場合、<b>改ざん検知（信憑性確認）の機能が付いたソフトを使う必要があります。</b>過去に工事写真の改ざん事件があったため、要件として定められています。
+        </p>
+        <p>
+          納品のときには、信憑性の確認を行った結果も一緒に監督職員へ提出します。使うソフトは、JACIC や J-COMSIA が公開している対応ソフトの一覧から選ぶのが確実です。
+        </p>
+        <p>
+          もう一点。<b>撮ったあとの画像の加工は、一切認められていません。</b>回転も、明るさの補正もできません。だからこそ、撮るときに正しく撮り切る必要があります。
+        </p>
+      </div>
+
+      <div class="item">
+        <h3>撮り直しがいちばん高い</h3>
+        <p>
+          写真業務で最もお金がかかるのは、撮影でも整理でもなく、撮り直しです。現場に戻る移動が発生し、場合によっては足場や埋設のあとで撮れなくなります。
+        </p>
+        <p>
+          防ぐ方法は一つで、現場を離れる前に一覧と照らすことです。①で作った一覧が、ここで効いてきます。
+        </p>
+      </div>
+
+      <div class="phase">
+        <p class="phase__n">③ 事務所</p>
+        <h2>撮ったあとにやること</h2>
+      </div>
+
+      <div class="item">
+        <h3>整理を「分類」から「確認」に変える</h3>
+        <p>
+          撮影のときに情報が入っていれば、分類は自動で終わります。人がやることは、抜けがないかを見るだけになります。
+        </p>
+        <p>
+          この差が大きいです。分類は一枚ずつ判断する作業ですが、確認は一覧を見る作業です。数千枚あっても、かかる時間の桁が変わります。
+        </p>
+      </div>
+
+      <div class="item">
+        <h3>社内の報告と施主への報告は、台帳とは別に作る</h3>
+        <p>
+          納品用の台帳をそのまま社内報告に使おうとすると、かえって手間が増えます。見る人も目的も違うからです。
+        </p>
+        <p>
+          社内の報告や施主への報告は、写真から必要なものを選んで、文章を添えるだけで足ります。ここは自動化しやすい部分です。
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <section class="band">
+    <div class="band__in">
+      <div class="band__box">
+        <p class="eyebrow">実際の画面</p>
+        <h2>③の「報告書を作る」ところを、動かしてみられます</h2>
+        <p>
+          写真を選んで、文章の下書きが出て、直して出すところまで。さきほどご説明した流れが、画面でどう動くかをご覧いただけます。
+        </p>
+        <p>
+          <p class="demo-first-step">まず、青いボタンで写真を3枚ほど選んでください。新しい画面が開きます。会社名や連絡先を入れる必要はありません。</p><a class="btn" href="https://construction-demo-two.vercel.app/report" data-demo="ocr" target="_blank" rel="noopener noreferrer">写真から報告書を作ってみる</a>
+        </p>
+        <p class="band__fine">
+          こちらで用意した写真で動きます。まずは5枚ほどでお試しください。<br>
+          お手元の写真を入れて試すこともできます。<br>
+          2分ほどで終わります ／ 登録は要りません。
+        </p>
+        <p class="band__fine">
+          ※こちらは社内の報告書や朝礼メモを作るためのものです。<br>
+          　公共工事の納品用の写真台帳は、改ざん検知に対応した専用のソフトをお使いください。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="col">
+
+      <section class="sec">
+        <h2>ここまでやると、何が変わるか</h2>
+        <div class="effect">
+          <div><b>現場</b><span>撮影が二人から一人になります。黒板を持つ人が要りません</span></div>
+          <div><b>事務所</b><span>一枚ずつ情報を入力する作業がなくなります</span></div>
+          <div class="is-key"><b>現場と事務所</b><span>確認の電話が、ほとんどなくなります</span></div>
+        </div>
+        <p>
+          三つ目が、いちばん効きます。
+        </p>
+      </section>
+
+      <section class="sec">
+        <h2>現場と事務所が、なぜ毎回もめるのか</h2>
+        <p>
+          写真に情報が入っていないと、事務所は台帳を作れません。この写真はどこの、いつの、何の写真なのか。分からないので現場に電話します。
+        </p>
+        <p>
+          現場は作業中です。手を止めて、記憶をたどって答えることになります。何度も続けば、当然いい顔はしません。事務所のほうも、聞かないと進まないのに嫌な顔をされるので、こちらもつらい。
+        </p>
+        <p class="lede">
+          <span class="mark">どちらも悪くないのに、毎日それが起きています。</span>
+        </p>
+        <div class="note">
+          <b>よく伺うお話</b>
+          「現場が協力してくれない」<br>
+          「事務所は現場を分かっていない」<br>
+          両方から、同じくらい聞きます。
+        </div>
+
+        <figure class="figure">
+          <p class="figure__t">図3　電話が何本かかるかは、空欄の数で決まる</p>
+          <svg viewBox="0 0 360 210" role="img" aria-labelledby="f3t f3d">
+            <title id="f3t">台帳の空欄から現場へ線が伸びる図</title>
+            <desc id="f3d">写真台帳の空いている欄それぞれから、現場へ向かって確認の線が伸びている</desc>
+
+            <rect x="14" y="24" width="180" height="160" rx="2" fill="var(--surface)" stroke="var(--ink-2)" stroke-width="1"/>
+            <rect x="14" y="24" width="180" height="22" fill="#eef0ee"/>
+            <text x="24" y="39" font-family='Noto Sans CJK JP','Noto Sans JP',sans-serif font-size="10.5" fill="var(--ink-2)">写真台帳</text>
+            <g stroke="var(--rule)" stroke-width="1">
+              <line x1="14" y1="46" x2="194" y2="46"/>
+              <line x1="14" y1="80" x2="194" y2="80"/>
+              <line x1="14" y1="114" x2="194" y2="114"/>
+              <line x1="14" y1="148" x2="194" y2="148"/>
+              <line x1="74" y1="46" x2="74" y2="184"/>
+              <line x1="134" y1="46" x2="134" y2="184"/>
+            </g>
+            <g fill="#c9cec9">
+              <rect x="24" y="59" width="40" height="6" rx="1"/>
+              <rect x="84" y="59" width="40" height="6" rx="1"/>
+              <rect x="24" y="93" width="40" height="6" rx="1"/>
+              <rect x="144" y="93" width="40" height="6" rx="1"/>
+              <rect x="24" y="127" width="40" height="6" rx="1"/>
+              <rect x="84" y="127" width="40" height="6" rx="1"/>
+              <rect x="144" y="127" width="40" height="6" rx="1"/>
+              <rect x="24" y="161" width="40" height="6" rx="1"/>
+              <rect x="84" y="161" width="40" height="6" rx="1"/>
+            </g>
+            <g fill="none" stroke="var(--shu)" stroke-width="1.2" stroke-dasharray="3 2">
+              <rect x="140" y="50" width="48" height="24" rx="2"/>
+              <rect x="80" y="84" width="48" height="24" rx="2"/>
+              <rect x="140" y="152" width="48" height="24" rx="2"/>
+            </g>
+            <g font-family='Noto Sans CJK JP','Noto Sans JP',sans-serif font-size="12" fill="var(--shu)" text-anchor="middle">
+              <text x="164" y="67">？</text>
+              <text x="104" y="101">？</text>
+              <text x="164" y="169">？</text>
+            </g>
+
+            <path d="M188 62 C230 62 240 88 278 96" fill="none" stroke="var(--shu)" stroke-width="1.6"/>
+            <path d="M128 96 C210 96 230 100 278 104" fill="none" stroke="var(--shu)" stroke-width="1.6"/>
+            <path d="M188 164 C230 164 246 128 278 112" fill="none" stroke="var(--shu)" stroke-width="1.6"/>
+
+            <rect x="278" y="78" width="68" height="52" rx="2" fill="var(--surface)" stroke="var(--ink-2)" stroke-width="1"/>
+            <text x="312" y="108" font-family='Noto Sans CJK JP','Noto Sans JP',sans-serif font-size="11" fill="var(--ink-2)" text-anchor="middle">現場</text>
+          </svg>
+          <figcaption>
+            空いている欄の数だけ、現場に電話がかかります。欄が埋まっていれば、線は一本も出ません。もめている原因は、人ではなくこの空欄です。
+          </figcaption>
+        </figure>
+        <p>
+          原因は人ではなく、写真の撮り方です。撮るときに情報が入っていれば、この電話がまるごと消えます。仲が悪かったのではなく、聞かないと進まない状態を放置していただけ、ということが多いです。
+        </p>
+        <p>
+          効率化の話をしているつもりが、職場の空気の話になる。工事写真は、そういう仕事です。
+        </p>
+      </section>
+
+      <section class="sec">
+        <h2>2024年4月から、残業で吸収できなくなりました</h2>
+        <p>
+          建設業にも時間外労働の上限規制が適用されています。写真整理を夕方からの残業でこなす、という運用は、制度として続けられなくなりました。
+        </p>
+        <p>
+          つまりこれは「早く帰れたらいいね」という話ではなく、やり方を変えないと成り立たない、という話です。ここは経営の判断が要る部分だと思います。
+        </p>
+      </section>
+
+      <section class="sec">
+        <h2>全社で始めないでください</h2>
+        <p>
+          最後に、進め方について。中小の建設会社では、全社一斉ではなく<b>1つの現場、1つの工種、1社の協力会社</b>から始めるのが現実的です。
+        </p>
+        <ul class="plain">
+          <li>まず1現場で、①の一覧を作って配る</li>
+          <li>その現場だけで電子小黒板を使ってみる</li>
+          <li>1つの工種でうまくいったら、次の工種に広げる</li>
+        </ul>
+        <p>
+          全社でそろえようとすると、決めることが増えて止まります。一つの現場で回れば、それが社内の見本になります。
+        </p>
+
+        <div class="next">
+          <p class="demo-first-step">まず、写真・報告・管理のうち、見たい体験を選んでください。新しい画面が開きます。</p><a href="https://construction-demo-two.vercel.app" data-demo="construction" target="_blank" rel="noopener noreferrer">
+            <div class="n__t">写真・報告・管理を通しで見る</div>
+            <div class="n__d">現場から上がった情報が、管理する側でどう見えるかまで。</div>
+            <div class="n__go">動かしてみる →</div>
+          </a>
+          <p class="demo-first-step">まず、案内に従ってログイン画面から入ってください。新しい画面が開きます。</p><a href="https://kanri-kensetsu.vercel.app/login" data-demo="genpo" target="_blank" rel="noopener noreferrer">
+            <div class="n__t">現場・監督・内勤の3つの立場で動かす</div>
+            <div class="n__d">実際の業務システムに近い形。投稿から書類の出力まで。</div>
+            <div class="n__go">動かしてみる →</div>
+          </a>
+        </div>
+      </section>
+
+      <section class="sec close">
+        <h2>まずは、話してみませんか</h2>
+        <p>
+          決まっていないことがあっても構いません。いま写真の整理を誰が何時からやっているか。そこだけ教えていただければ、どこから手をつけられるかは見当がつきます。
+        </p>
+        <p>
+          <a class="linkbtn" href="/contact?service=ai-consulting&intent=article&article=construction">相談する</a>
+        </p>
+      </section>
+
+                <p style="font-size:12.5px; line-height:1.85; color:#8a8a8a; margin:0 0 14px;">
+            制度の内容は改正されることがあります。実際の対応にあたっては、所管の官公庁や自治体の最新の情報をご確認ください。
+          </p>
+        <div class="src">
+        <h3>参考</h3>
+        <ul>
+          <li>工事写真撮影・管理パック（撮影と整理の負担について） ／ リコー<br>
+            <a href="https://www.ricoh.co.jp/solutions/list/construction-photo-capture-and-management-pack">https://www.ricoh.co.jp/solutions/list/construction-photo-capture-and-management-pack</a></li>
+          <li>小黒板情報電子化とは ／ J-COMSIA<br>
+            <a href="https://www.jcomsia.org/kokuban/">https://www.jcomsia.org/kokuban/</a></li>
+          <li>デジタル工事写真の小黒板情報電子化対応ソフトウェア一覧 ／ JACIC<br>
+            <a href="https://www.cals.jacic.or.jp/CIM/sharing/index_digital.html">https://www.cals.jacic.or.jp/CIM/sharing/index_digital.html</a></li>
+          <li>営繕工事における小黒板情報電子化の取扱い ／ 国土交通省<br>
+            <a href="https://www.mlit.go.jp/gobuild/content/001589799.pdf">https://www.mlit.go.jp/gobuild/content/001589799.pdf</a></li>
+          <li>デジタル工事写真の小黒板情報電子化ガイドライン ／ 水戸市<br>
+            <a href="https://www.city.mito.lg.jp/uploaded/attachment/5927.pdf">https://www.city.mito.lg.jp/uploaded/attachment/5927.pdf</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<script>
+(function(){
+  var notes = document.querySelectorAll('.note');
+  if(!('IntersectionObserver' in window) ||
+     window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    notes.forEach(function(n){ n.classList.add('is-in'); });
+    return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add('is-in'); io.unobserve(e.target); }
+    });
+  }, { rootMargin: '0px 0px -12% 0px' });
+  notes.forEach(function(n){ io.observe(n); });
+})();
+</script>
+</body>
+</html>

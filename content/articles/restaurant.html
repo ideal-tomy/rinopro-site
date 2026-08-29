@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<style>
+
+:root{
+  color-scheme: light only;
+  --ink:#1c1917; --ink-2:#57504b; --ink-3:#8b837c;
+  --paper:#f7f4ef; --surface:#ffffff;
+  --line:#e3ddd3; --line-2:#cfc7ba;
+  --enji:#8c2f39; --enji-d:#6d222b; --wood:#6b4f3a;
+  --sans:"Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP","Noto Sans CJK JP","Yu Gothic Medium","Yu Gothic",Meiryo,system-ui,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    color-scheme: light only;
+    --ink:#1c1917; --ink-2:#57504b; --ink-3:#8b837c;
+    --paper:#f7f4ef; --surface:#ffffff;
+    --line:#e3ddd3; --line-2:#cfc7ba;
+    --enji:#8c2f39; --enji-d:#6d222b; --wood:#6b4f3a;
+  }
+  html, body{ background:#f7f4ef !important; color:#1c1917 !important; }
+}
+*{ box-sizing:border-box; }
+html{ -webkit-text-size-adjust:100%; }
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:var(--sans); font-size:16px; line-height:1.92;
+  font-feature-settings:"palt" 1;
+}
+h1,h2,h3{ word-break:auto-phrase; line-break:strict; text-wrap:balance; margin:0; }
+p{ margin:0 0 1.5em; }
+a{ color:var(--enji); }
+
+.wrap{ max-width:940px; margin:0 auto; padding:0 22px; }
+.col{ max-width:610px; }
+
+.top{ background:var(--surface); border-bottom:1px solid var(--line-2); }
+.top__in{ max-width:880px; margin:0 auto; padding:13px 22px; display:flex; align-items:baseline; gap:14px; }
+.brand{ font-family:var(--mono); font-weight:700; font-size:15px; letter-spacing:.14em; color:var(--enji); text-decoration:none; }
+.crumb{ font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; color:var(--ink-3); }
+
+.hero{ background:var(--surface); border-bottom:1px solid var(--line-2); padding:50px 0 42px; }
+.cover{
+  border-bottom:2px solid var(--enji); padding-bottom:14px; margin:0 0 22px;
+  display:flex; justify-content:space-between; align-items:baseline; gap:14px; flex-wrap:wrap;
+}
+.cover .title{ font-size:13px; letter-spacing:.08em; color:var(--enji); font-weight:700; margin:0; font-family:var(--mono); }
+.meta{ font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; color:var(--ink-3); margin:0; display:flex; gap:12px; flex-wrap:wrap; }
+.hero h1{ font-size:36px; line-height:1.46; font-weight:800; letter-spacing:-.005em; margin:0 0 18px; max-width:15em; }
+.hero__lead{ font-size:16px; color:var(--ink-2); max-width:33em; margin:0 0 28px; }
+
+.cite{
+  display:inline-block; margin:0 0 1.2em;
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.1em;
+  color:var(--enji); border:1px solid var(--enji); padding:5px 10px 4px;
+  text-decoration:none;
+}
+.cite:hover{ background:rgba(140,47,57,.08); }
+
+/* シフト表 */
+.sheet{ max-width:610px; }
+.sheet__hd{
+  display:flex; justify-content:space-between; align-items:baseline;
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; color:var(--ink-3); margin:0 0 8px;
+}
+table.shift{ width:100%; border-collapse:collapse; background:var(--surface); font-size:12.5px; line-height:1.5; }
+table.shift th, table.shift td{ border:1px solid var(--line); padding:8px 4px; text-align:center; font-weight:400; vertical-align:middle; }
+table.shift thead th{ background:#faf7f2; font-family:var(--mono); font-size:11px; letter-spacing:.08em; color:var(--ink-2); }
+table.shift tbody th{ background:#faf7f2; font-size:11.5px; color:var(--ink-2); white-space:nowrap; width:52px; }
+td.cell{ transition:background .4s ease, color .4s ease; }
+td.cell b{ display:block; font-weight:400; }
+td.cell small{ display:block; font-family:var(--mono); font-size:9.5px; color:var(--ink-3); }
+td.is-out{ background:var(--enji); color:#fff; }
+td.is-out b{ font-weight:700; }
+td.is-out small{ color:#f0d2d5; }
+td.is-fix{ background:#fbeaec; }
+td.is-fix small{ color:var(--enji); }
+.sheet__cap{ font-size:12.5px; line-height:1.85; color:var(--ink-2); margin:12px 0 0; }
+
+.body{ padding:52px 0 0; }
+.sec{ padding:0 0 6px; }
+.sec + .sec{ padding-top:42px; }
+.sec h2{
+  font-size:25px; line-height:1.52; font-weight:800; letter-spacing:-.005em;
+  margin:0 0 20px; max-width:19em; padding-top:16px; border-top:2px solid var(--enji);
+}
+.sec h3{ font-size:16px; font-weight:700; margin:28px 0 8px; }
+.lede{ font-size:17px; }
+
+/* もめごと */
+.case{ max-width:610px; margin:0 0 1.6em; }
+.case__v{
+  background:var(--surface); border-left:4px solid var(--enji);
+  padding:15px 18px 13px; font-size:16px; line-height:1.85;
+}
+.case__v b{ display:block; font-family:var(--mono); font-size:9.5px; letter-spacing:.14em; color:var(--enji); margin-bottom:6px; }
+.map{ max-width:610px; margin:0 0 1.4em; }
+.map div{ background:var(--surface); border:1px solid var(--line); border-left:4px solid var(--ink-3); padding:13px 16px 11px; margin-bottom:8px; }
+.map div.is-key{ border-left-color:var(--enji); border-left-width:6px; padding:16px 16px 14px; }
+.map b{ display:block; font-size:15.5px; }
+.map span{ font-size:14px; color:var(--ink-2); line-height:1.8; }
+
+/* 決めておく四つ */
+.four{ max-width:610px; margin:0 0 1.7em; padding:0; list-style:none; counter-reset:n; }
+.four li{ counter-increment:n; position:relative; padding:14px 0 12px 40px; border-top:1px solid var(--line-2); }
+.four li:last-child{ border-bottom:1px solid var(--line-2); }
+.four li::before{
+  content:counter(n); position:absolute; left:8px; top:.95em;
+  font-family:var(--mono); font-size:13px; font-weight:700; color:var(--enji);
+}
+.four b{ display:block; font-size:16.5px; }
+.four span{ font-size:14px; color:var(--ink-2); line-height:1.85; }
+
+.law{ background:var(--surface); border:1px solid var(--line-2); padding:20px 22px 17px; margin:0 0 1.7em; max-width:610px; }
+.law h3{ font-size:15.5px; font-weight:700; margin:0 0 10px; color:var(--enji); }
+.law p{ font-size:14.5px; line-height:1.85; margin:0 0 .9em; }
+.law p:last-child{ margin:0; }
+.law ul{ margin:0 0 .9em; padding-left:1.2em; font-size:14.5px; line-height:1.85; }
+
+.plain{ margin:0 0 1.6em; padding-left:1.2em; max-width:610px; }
+.plain li{ margin-bottom:9px; }
+
+/* 図 */
+.figure{ background:transparent; border:0; padding:0; margin:0 0 2.5em; max-width:900px; width:min(900px, calc(100vw - 40px)); }
+.figure svg{ display:block; width:100%; height:auto; }
+.figure__t{ font-family:var(--mono); font-size:10px; letter-spacing:.14em; color:var(--enji); font-weight:700; margin:0 0 10px; }
+.figure figcaption{ font-size:12.5px; line-height:1.85; color:var(--ink-2); margin:12px 0 0; padding-top:10px; border-top:1px solid var(--line); }
+
+.demo{ background:var(--enji); color:#fff; margin:60px 0; padding:48px 0 46px; }
+.demo__in{ max-width:880px; margin:0 auto; padding:0 22px; }
+.demo__box{ max-width:610px; }
+.demo .kicker{ font-family:var(--mono); font-size:10.5px; letter-spacing:.18em; color:#e9b9be; margin:0 0 14px; }
+.demo h2{ font-size:26px; line-height:1.5; font-weight:800; margin:0 0 16px; color:#fff; border:0; padding:0; }
+.demo p{ color:#f0dcde; font-size:15px; }
+.btn{ display:inline-block; background:#fff; color:var(--enji-d); font-weight:700; font-size:15px; text-decoration:none; padding:15px 30px; border-radius:2px; }
+.btn:hover{ background:#fbeaec; }
+.fine{ font-size:12.5px; line-height:1.95; color:#e4c3c7; margin:18px 0 0; }
+.fine b{ color:#fff; }
+
+.close h2{ font-size:24px; }
+.linkbtn{ display:inline-block; background:var(--ink); color:#fff; text-decoration:none; font-weight:700; font-size:15px; padding:15px 30px; border-radius:2px; }
+.linkbtn:hover{ background:#0f0d0c; }
+
+.src{ margin:50px 0 0; padding:24px 0 0; border-top:1px solid var(--line-2); max-width:610px; }
+.src h3{ font-family:var(--mono); font-size:10px; letter-spacing:.16em; color:var(--ink-3); margin:0 0 12px; font-weight:700; }
+.src ul{ margin:0; padding-left:1.15em; }
+.src li{ font-size:12.5px; line-height:1.85; color:var(--ink-2); margin-bottom:6px; }
+.src a{ word-break:break-all; }
+
+.foot{ background:var(--surface); border-top:1px solid var(--line-2); margin-top:56px; padding:24px 0 42px; }
+.foot__in{ max-width:880px; margin:0 auto; padding:0 22px; font-family:var(--mono); font-size:11px; letter-spacing:.1em; color:var(--ink-3); }
+
+@media (max-width:640px){
+  body{ font-size:15.5px; line-height:1.9; }
+  .wrap{ padding:0 18px; }
+  .top__in{ padding:12px 18px; }
+  .hero{ padding:36px 0 34px; }
+  .hero h1{ font-size:25px; line-height:1.52; }
+  .hero__lead{ font-size:15px; margin-bottom:26px; }
+  table.shift{ font-size:11px; }
+  table.shift th, table.shift td{ padding:6px 2px; }
+  table.shift tbody th{ width:38px; font-size:10.5px; }
+  td.cell small{ font-size:8.5px; }
+  .sec h2{ font-size:20px; }
+  .case__v{ font-size:15px; }
+  .four b{ font-size:15.5px; }
+  .law{ padding:17px 16px 15px; }
+  .figure figcaption{ font-size:12px; }
+  .figure figcaption{ font-size:12px; }
+  .demo{ margin:46px 0; padding:36px 0 36px; }
+  .demo__in{ padding:0 18px; }
+  .demo h2{ font-size:20px; }
+  .close h2{ font-size:19px; }
+  .btn, .linkbtn{ display:block; text-align:center; padding:16px 18px; }
+  .foot__in{ padding:0 18px; }
+}
+a:focus-visible, .btn:focus-visible, .linkbtn:focus-visible{ outline:2px solid var(--enji); outline-offset:3px; }
+@media (prefers-reduced-motion:reduce){ td.cell{ transition:none; } }
+
+/* publish overrides */
+.demo-first-step{ font-size:13.5px; line-height:1.85; margin:0 0 14px; opacity:.95; }
+.btn.is-soon,.n__go.is-soon{
+  display:inline-block; opacity:.65; cursor:default; pointer-events:none;
+  font-weight:700; font-size:15px; padding:15px 30px; border-radius:2px;
+  background:#e8e8e8; color:#555; text-decoration:none;
+}
+</style>
+</head>
+<body>
+<section class="hero">
+  <div class="wrap">
+    <div class="col">
+      <div class="cover">
+        <p class="title">飲食店　シフトの決め方</p>
+        <p class="meta">
+          <span>読むのに 8分</span>
+          <span>2026.08 ／ 法令の確認 2026.08</span>
+        </p>
+      </div>
+      <h1>シフトでもめる理由と、<br>先に決めること。</h1>
+      <p class="hero__lead">
+        雇うときに働く時間の幅を書いて渡す、希望を集めてから組んで表で伝える、一日八時間を超える組み方と当日欠勤の直し方。厚生労働省が出している留意事項をふまえて、順にまとめました。
+      </p>
+    </div>
+
+    <div class="sheet">
+      <div class="sheet__hd">
+        <span>今週のシフト</span>
+        <span id="sheetState">確定ずみ</span>
+      </div>
+      <table class="shift">
+        <thead>
+          <tr><th></th><th>月</th><th>火</th><th>水</th><th>木</th><th>金</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>朝</th>
+            <td class="cell"><b>佐藤</b><small>8-14</small></td>
+            <td class="cell"><b>佐藤</b><small>8-14</small></td>
+            <td class="cell"><b>林</b><small>8-14</small></td>
+            <td class="cell"><b>佐藤</b><small>8-14</small></td>
+            <td class="cell"><b>林</b><small>8-14</small></td>
+          </tr>
+          <tr>
+            <th>昼</th>
+            <td class="cell"><b>田中</b><small>11-16</small></td>
+            <td class="cell" id="c1"><b>田中</b><small>11-16</small></td>
+            <td class="cell" id="c2"><b>森</b><small>11-16</small></td>
+            <td class="cell"><b>田中</b><small>11-16</small></td>
+            <td class="cell" id="c3"><b>森</b><small>11-16</small></td>
+          </tr>
+          <tr>
+            <th>夜</th>
+            <td class="cell"><b>森</b><small>17-23</small></td>
+            <td class="cell"><b>林</b><small>17-23</small></td>
+            <td class="cell" id="c4"><b>田中</b><small>17-23</small></td>
+            <td class="cell"><b>森</b><small>17-23</small></td>
+            <td class="cell"><b>林</b><small>17-23</small></td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="sheet__cap" id="sheetCap">
+        この一枚をめぐって、もめごとが起きます。
+      </p>
+    </div>
+  </div>
+</section>
+
+<main class="body">
+  <div class="wrap">
+    <div class="col">
+
+      <section class="sec" style="padding-top:0">
+        <p class="lede">
+          シフトでもめたことのない店は、ほとんどないと思います。ただ、その原因はたいてい同じで、店長の組み方が下手だからではありません。よくあるのは、この三つです。どれも「決めていなかったこと」から起きます。
+        </p>
+        <div class="map">
+          <div>
+            <b>① シフトを減らされた</b>
+            <span>閑散期に日数を減らしただけでも、スタッフは前月と同じと見て生活を組んでいます。最低どれくらい入れるかの考え方を、先に伝えておく必要があります。会社の都合で労働日をほとんど設定しないとトラブルになりやすい、と厚労省の留意事項にもあります。</span>
+          </div>
+          <div class="is-key">
+            <b>② 聞いていた時間と違う</b>
+            <span>面接では夕方までと言われたのに、閉めまで入っている。労働条件通知書に「シフトによる」とだけ書いてある店で起きやすい。最初の工程で詳しく書きます。</span>
+          </div>
+          <div>
+            <b>③ 休みの希望が通らない</b>
+            <span>休めなかったことより、基準が分からないことに納得できません。先着か、前回落ちた人を優先するか。決まっていて、伝えてあることが大事です。</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="sec">
+        <h2>雇うときに、働く時間の幅を書いて渡す</h2>
+        <div class="case">
+          <div class="case__v">
+            <b>スタッフの言い分</b>
+            「面接では夕方までと言われたのに、閉めまで入っている日がある」
+          </div>
+        </div>
+        <p>
+          ここでよくあるのが、労働条件通知書に「シフトによる」とだけ書いてあるケースです。
+        </p>
+
+        <div class="law">
+          <h3>「シフトによる」だけでは足りません</h3>
+          <p>
+            厚生労働省の留意事項では、労働条件通知書に単に「シフトによる」と書くのでは足りないとされています。次のどちらかが必要です。
+          </p>
+          <ul>
+            <li>労働日ごとの始業・終業の時刻を書く</li>
+            <li>原則的な始業・終業の時刻を書いたうえで、一定期間分のシフト表を一緒に渡す</li>
+          </ul>
+          <p>
+            実務としては後者が現実的です。「始業は6:00〜10:00、終業は20:00〜23:00の範囲」のように幅で書いておいて、具体的な時間はシフト表で伝える形になります。
+          </p>
+        </div>
+        <p>
+          <a class="cite" href="https://www.mhlw.go.jp/content/11200000/001713615.pdf" target="_blank" rel="noopener noreferrer">出典　厚労省　シフト制の留意事項</a>
+        </p>
+        <p>
+          幅で書いておけば、閉めまでの日があることは契約の時点で伝わっています。もめごとの半分は、これで消えます。
+        </p>
+      </section>
+
+      <section class="sec">
+        <h2>希望を集めてから組む。決まったらその表で伝える</h2>
+        <p>
+          三つのもめごとは、全部「決めていなかったこと」から起きています。決めるのはこの四つです。紙一枚で足ります。
+        </p>
+
+        <ol class="four">
+          <li>
+            <b>いつまでに通知するか</b>
+            <span>「前月の25日までに翌月分」「前週の木曜までに翌週分」など。期限を決めて、それを守る。</span>
+          </li>
+          <li>
+            <b>始業・終業をどう書くか</b>
+            <span>幅で書いて、具体的な時間はシフト表で渡す。労働条件通知書に反映する。</span>
+          </li>
+          <li>
+            <b>休日をどう決めるか</b>
+            <span>希望が重なったときの決め方。週に何日以上休みを入れるか。</span>
+          </li>
+          <li>
+            <b>決まったあとに変えるときのやり方</b>
+            <span>誰が誰に言うか。代わりを自分で探すのか、店長が探すのか。</span>
+          </li>
+        </ol>
+
+        <p>
+          この四つを労働条件通知書に書いておけば、毎月の判断が要らなくなります。四つを決めるのは、スタッフを縛るためではありません。決まっていないと、その場で店長が決めることになり、必ず「あの人だけ優遇されている」が出てきます。「決まりでこうなっています」と言えることが、店長を守ります。
+        </p>
+
+        <figure class="figure">
+          <p class="figure__t">図1　決めていないと、毎月同じ判断が起きる</p>
+          <svg viewBox="0 0 360 200" role="img" aria-labelledby="r1t r1d">
+            <title id="r1t">決めていない場合と決めた場合の判断回数の図</title>
+            <desc id="r1d">決めていないと毎月同じ判断が繰り返し発生するが、先に一度決めればその後は判断が要らなくなる</desc>
+
+            <text x="14" y="22" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="11" fill="var(--ink-2)">決めていない</text>
+            <g>
+              <rect x="14" y="34" width="46" height="30" rx="2" fill="var(--surface)" stroke="var(--line-2)"/>
+              <rect x="66" y="34" width="46" height="30" rx="2" fill="var(--surface)" stroke="var(--line-2)"/>
+              <rect x="118" y="34" width="46" height="30" rx="2" fill="var(--surface)" stroke="var(--line-2)"/>
+              <rect x="170" y="34" width="46" height="30" rx="2" fill="var(--surface)" stroke="var(--line-2)"/>
+              <rect x="222" y="34" width="46" height="30" rx="2" fill="var(--surface)" stroke="var(--line-2)"/>
+              <rect x="274" y="34" width="46" height="30" rx="2" fill="var(--surface)" stroke="var(--line-2)"/>
+            </g>
+            <g fill="var(--enji)" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="15" text-anchor="middle">
+              <text x="37" y="55">？</text><text x="89" y="55">？</text><text x="141" y="55">？</text>
+              <text x="193" y="55">？</text><text x="245" y="55">？</text><text x="297" y="55">？</text>
+            </g>
+            <g font-family="ui-monospace,monospace" font-size="9" fill="var(--ink-3)" text-anchor="middle">
+              <text x="37" y="78">4月</text><text x="89" y="78">5月</text><text x="141" y="78">6月</text>
+              <text x="193" y="78">7月</text><text x="245" y="78">8月</text><text x="297" y="78">9月</text>
+            </g>
+
+            <line x1="14" y1="100" x2="346" y2="100" stroke="var(--line)" stroke-width="1"/>
+
+            <text x="14" y="126" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="11" fill="var(--ink-2)">先に決めた</text>
+            <rect x="14" y="138" width="46" height="30" rx="2" fill="#fbeaec" stroke="var(--enji)" stroke-width="1.4"/>
+            <text x="37" y="159" fill="var(--enji)" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="15" text-anchor="middle">！</text>
+            <g>
+              <rect x="66" y="138" width="46" height="30" rx="2" fill="var(--surface)" stroke="var(--line-2)"/>
+              <rect x="118" y="138" width="46" height="30" rx="2" fill="var(--surface)" stroke="var(--line-2)"/>
+              <rect x="170" y="138" width="46" height="30" rx="2" fill="var(--surface)" stroke="var(--line-2)"/>
+              <rect x="222" y="138" width="46" height="30" rx="2" fill="var(--surface)" stroke="var(--line-2)"/>
+              <rect x="274" y="138" width="46" height="30" rx="2" fill="var(--surface)" stroke="var(--line-2)"/>
+            </g>
+            <g font-family="ui-monospace,monospace" font-size="9" fill="var(--ink-3)" text-anchor="middle">
+              <text x="37" y="182">4月</text><text x="89" y="182">5月</text><text x="141" y="182">6月</text>
+              <text x="193" y="182">7月</text><text x="245" y="182">8月</text><text x="297" y="182">9月</text>
+            </g>
+          </svg>
+          <figcaption>
+            決めていないと、毎月おなじことを判断し直すことになります。しかも判断する人が違えば結果も変わるので、そこから不公平感が生まれます。先に一度決めれば、あとの月は判断が要りません。
+          </figcaption>
+        </figure>
+
+        <p>
+          四つのうち、いちばん効くのは一つ目の期限です。シフトが決まらないと、仕込みの計画も発注も何も決まりません。確定が三日遅れれば、その先も三日ずつ遅れます。
+        </p>
+
+        <figure class="figure">
+          <p class="figure__t">図2　確定の日がずれると、どこまでずれるか</p>
+          <svg viewBox="0 0 360 176" role="img" aria-labelledby="r2t r2d">
+            <title id="r2t">シフト確定の遅れが後工程にずれていく図</title>
+            <desc id="r2d">シフトの確定が遅れると、仕込みの計画も発注も同じ幅だけ後ろにずれる</desc>
+
+            <line x1="14" y1="40" x2="346" y2="40" stroke="var(--line-2)" stroke-width="1"/>
+            <g fill="var(--ink)">
+              <circle cx="60" cy="40" r="4"/><circle cx="130" cy="40" r="4"/>
+              <circle cx="200" cy="40" r="4"/><circle cx="270" cy="40" r="4"/>
+            </g>
+            <g font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="10" fill="var(--ink-2)" text-anchor="middle">
+              <text x="60" y="28">希望の締切</text>
+              <text x="130" y="28">確定</text>
+              <text x="200" y="28">仕込みの計画</text>
+              <text x="270" y="28">発注</text>
+            </g>
+            <text x="14" y="62" font-family="ui-monospace,monospace" font-size="9" fill="var(--ink-3)">予定どおり</text>
+
+            <line x1="14" y1="120" x2="346" y2="120" stroke="var(--line-2)" stroke-width="1"/>
+            <circle cx="60" cy="120" r="4" fill="var(--ink)"/>
+            <g fill="var(--enji)">
+              <circle cx="176" cy="120" r="4"/><circle cx="246" cy="120" r="4"/><circle cx="316" cy="120" r="4"/>
+            </g>
+            <g stroke="var(--enji)" stroke-width="1.4" stroke-dasharray="3 3">
+              <line x1="130" y1="120" x2="172" y2="120"/>
+            </g>
+            <g font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="10" fill="var(--enji)" text-anchor="middle">
+              <text x="176" y="108">確定</text>
+              <text x="246" y="108">仕込みの計画</text>
+              <text x="316" y="108">発注</text>
+            </g>
+            <text x="14" y="142" font-family="ui-monospace,monospace" font-size="9" fill="var(--ink-3)">確定が三日遅れると</text>
+            <text x="150" y="160" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="10.5" fill="var(--enji)">遅れた分だけ、その先も全部ずれる</text>
+          </svg>
+          <figcaption>
+            誰が何人入るか決まらないと、仕込みの量も決められません。仕込みが決まらないと発注も決まりません。確定が三日遅れれば、その先も三日ずつ遅れます。
+          </figcaption>
+        </figure>
+      </section>
+    </div>
+  </div>
+
+  <section class="demo">
+    <div class="demo__in">
+      <div class="demo__box">
+        <p class="kicker">実際の画面</p>
+        <h2>希望を集めて、決めて、伝えるまでを通しで動かす</h2>
+        <p>
+          スタッフ、店長、経営の三つの画面があります。希望を出すところから、案が出て、差し替えて、確定して、既読が付くところまで。当日の欠勤を入れて、埋め直すところもお試しいただけます。
+        </p>
+        <p>
+          さきほど決めた四つのうち、期限と変更のやり方は、この画面の中に入れておけます。決めごとを紙に書いて終わりにせず、毎回そのとおりに回るようにする、という使い方です。
+        </p>
+        <p>
+          <span class="btn is-soon" role="status" aria-disabled="true">シフトの画面を動かしてみる（画面は準備中）</span>
+        </p>
+        <p class="fine">
+          こちらで用意した店舗とスタッフで動きます。3分ほどで終わります ／ 登録は要りません。<br>
+          <b>だれをどこに入れるかは、決まったルールで計算しています。AIではありません。</b>そのぶん、同じ条件なら毎回同じ結果になります。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="col">
+
+      <section class="sec" style="padding-top:0">
+        <h2>一日八時間を超える組み方と、当日欠勤の直し方</h2>
+        <p>
+          意外と知られていない部分です。<b>一日八時間を超えるシフトを組むには、変形労働時間制を導入している必要があります。</b>導入していない状態で組むと、超えた分は残業扱いになります。一週間単位で組む場合は、直前の週末までに決めて本人へ通知します。ここも期限が決まっています。
+        </p>
+        <p>
+          もう一つ。飲食店で働く人が十人未満の事業場は、週の法定労働時間が四十四時間です。ただし十人を超えると四十時間になります。<b>人が増えたときに、気づかないまま超えていることがあります。</b>
+        </p>
+        <p>
+          ここまでの四つで、事前のもめごとはかなり減ります。ただし、当日の欠勤だけは決めごとでは防げません。冒頭のシフト表をもう一度ご覧ください。火曜の昼に一人休むと、その一コマだけでは済みません。前後の時間、別の曜日、代わりに入った人の翌日まで動きます。
+        </p>
+        <p>
+          これを店長が電話とLINEで一件ずつ回している間、店の他のことは全部止まっています。ここだけは、決めごとではなく仕組みで減らすしかありません。
+        </p>
+      </section>
+
+      <section class="sec close">
+        <h2>労働条件通知書と確定のタイミングを、一度確認する</h2>
+        <p>
+          いま労働条件通知書に何と書いてあるか、シフトをいつ確定させているか。この二つが分かれば、何を足せばいいかは見えてきます。決まっていないことがあっても構いません。
+        </p>
+        <p>
+          <a class="linkbtn" href="/contact?service=ai-consulting&intent=article&article=restaurant">相談する</a>
+        </p>
+
+                  <p style="font-size:12.5px; line-height:1.85; color:#8a8a8a; margin:0 0 14px;">
+            制度の内容は改正されることがあります。実際の対応にあたっては、所管の官公庁や自治体の最新の情報をご確認ください。
+          </p>
+        <div class="src">
+          <h3>参考</h3>
+          <ul>
+            <li>いわゆる「シフト制」により就業する労働者の適切な雇用管理を行うための留意事項 ／ 厚生労働省<br>
+              <a href="https://www.mhlw.go.jp/content/11200000/001713615.pdf">https://www.mhlw.go.jp/content/11200000/001713615.pdf</a></li>
+            <li>「シフト制」労働者の雇用管理を適切に行うための留意事項（概要） ／ 厚生労働省<br>
+              <a href="https://www.mhlw.go.jp/content/11200000/000870906.pdf">https://www.mhlw.go.jp/content/11200000/000870906.pdf</a></li>
+            <li>シフト勤務に関する労働基準法と注意点<br>
+              <a href="https://www.shifop.jp/column/62">https://www.shifop.jp/column/62</a></li>
+            <li>労働時間・休日の制度（特例措置対象事業場） ／ 佐賀労働局<br>
+              <a href="https://jsite.mhlw.go.jp/saga-roudoukyoku/library/saga-roudoukyoku/seido/seido07_17.pdf">https://jsite.mhlw.go.jp/saga-roudoukyoku/library/saga-roudoukyoku/seido/seido07_17.pdf</a></li>
+          </ul>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</main>
+
+<script>
+(function(){
+  var out  = document.getElementById('c1');
+  var fix  = [document.getElementById('c2'),
+              document.getElementById('c3'),
+              document.getElementById('c4')];
+  var st   = document.getElementById('sheetState');
+  var cap  = document.getElementById('sheetCap');
+  if(!out || !st) return;
+
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function step1(){
+    out.classList.add('is-out');
+    out.innerHTML = '<b>欠</b><small>当日</small>';
+    st.textContent = '当日の欠勤 1件';
+  }
+  function step2(){
+    fix.forEach(function(c){
+      if(!c) return;
+      c.classList.add('is-fix');
+      var s = c.querySelector('small');
+      if(s) s.textContent = '要調整';
+    });
+    cap.textContent = '一人休むと、直すのはその一コマだけでは済みません。';
+  }
+
+  if(reduce){ step1(); step2(); return; }
+  setTimeout(step1, 1400);
+  setTimeout(step2, 2500);
+})();
+</script>
+</body>
+</html>

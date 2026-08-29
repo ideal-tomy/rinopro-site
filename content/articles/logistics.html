@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<style>
+
+:root{
+  color-scheme: light only;
+  --ink:#1b211c; --ink-2:#4f5a51; --ink-3:#87918a;
+  --bg:#f2f4f1; --surface:#ffffff;
+  --line:#dfe4de; --line-2:#c4ccc5;
+  --green:#1e6b3c; --green-d:#144d2b; --red:#b3312c;
+  --sans:"Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP","Noto Sans CJK JP","Yu Gothic Medium","Yu Gothic",Meiryo,system-ui,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    color-scheme: light only;
+    --ink:#1b211c; --ink-2:#4f5a51; --ink-3:#87918a;
+    --bg:#f2f4f1; --surface:#ffffff;
+    --line:#dfe4de; --line-2:#c4ccc5;
+    --green:#1e6b3c; --green-d:#144d2b; --red:#b3312c;
+  }
+  html, body{ background:#f2f4f1 !important; color:#1b211c !important; }
+}
+*{ box-sizing:border-box; }
+html{ -webkit-text-size-adjust:100%; }
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:var(--sans); font-size:16px; line-height:1.9;
+  font-feature-settings:"palt" 1;
+}
+h1,h2,h3{ word-break:auto-phrase; line-break:strict; text-wrap:balance; margin:0; }
+p{ margin:0 0 1.5em; }
+a{ color:var(--green); }
+
+.wrap{ max-width:940px; margin:0 auto; padding:0 22px; }
+.col{ max-width:615px; }
+
+.top{ background:var(--surface); border-bottom:4px solid var(--green); }
+.top__in{ max-width:900px; margin:0 auto; padding:13px 22px; display:flex; align-items:baseline; gap:14px; }
+.brand{ font-family:var(--mono); font-weight:700; font-size:15px; letter-spacing:.14em; color:var(--green); text-decoration:none; }
+.crumb{ font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; color:var(--ink-3); }
+
+.hero{ background:var(--surface); border-bottom:1px solid var(--line-2); padding:48px 0 40px; }
+.cover{
+  border-bottom:2px solid var(--green); padding-bottom:14px; margin:0 0 24px;
+  display:flex; justify-content:space-between; align-items:baseline; gap:14px; flex-wrap:wrap;
+}
+.cover .title{ font-size:13px; letter-spacing:.08em; color:var(--green); font-weight:700; margin:0; font-family:var(--mono); }
+.meta{ font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; color:var(--ink-3); margin:0; display:flex; gap:14px; flex-wrap:wrap; }
+.hero h1{ font-size:35px; line-height:1.46; font-weight:800; letter-spacing:-.01em; margin:0 0 18px; max-width:16em; }
+.hero__lead{ font-size:16px; color:var(--ink-2); max-width:33em; margin:0 0 22px; }
+
+.cite{
+  display:inline-block; margin:0 0 1.2em;
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.1em;
+  color:var(--red); border:1px solid var(--red); padding:5px 10px 4px;
+  text-decoration:none;
+}
+.cite:hover{ background:rgba(179,49,44,.06); }
+
+/* いつ分かるか一覧 */
+.when{ max-width:640px; border:1px solid var(--line-2); background:var(--surface); }
+.when__hd{
+  display:flex; justify-content:space-between; padding:9px 14px; background:var(--green); color:#fff;
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.1em;
+}
+.wrow{ display:flex; align-items:baseline; gap:10px; padding:10px 14px; border-bottom:1px solid var(--line); font-size:13.5px; }
+.wrow:last-child{ border-bottom:0; }
+.wrow .nm{ flex:1; }
+.wrow .vl{ font-family:var(--mono); font-size:12px; color:var(--ink-2); white-space:nowrap; }
+.wrow .wn{ font-family:var(--mono); font-size:11px; white-space:nowrap; width:78px; text-align:right; color:var(--green); }
+.wrow.is-late .wn{ color:var(--red); font-weight:700; }
+
+.body{ padding:50px 0 0; }
+.sec{ padding:0 0 6px; }
+.sec + .sec{ padding-top:56px; }
+.sec h2{ font-size:25px; line-height:1.54; font-weight:800; letter-spacing:-.005em; margin:0 0 20px; max-width:20em; }
+.sec + .sec h2{ padding-top:16px; border-top:2px solid var(--green); }
+.sec h3{ font-size:16px; font-weight:700; margin:28px 0 8px; }
+.lede{ font-size:17px; }
+.hl{ background:linear-gradient(transparent 62%, rgba(30,107,60,.22) 62%); font-weight:700; }
+
+.law{ background:var(--surface); border:1px solid var(--line-2); padding:20px 22px 17px; margin:0 0 1.7em; max-width:615px; }
+.law h3{ font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; color:var(--green); margin:0 0 12px; font-weight:700; }
+.law table{ width:100%; border-collapse:collapse; font-size:14px; }
+.law td{ padding:7px 0; border-bottom:1px solid var(--line); vertical-align:top; line-height:1.75; }
+.law tr:last-child td{ border-bottom:0; }
+.law td.c{ font-family:var(--mono); font-size:13px; color:var(--ink); white-space:nowrap; text-align:right; padding-left:12px; font-weight:700; }
+.law p{ font-size:13.5px; line-height:1.85; color:var(--ink-2); margin:12px 0 0; }
+
+.docs{ max-width:615px; margin:0 0 1.7em; }
+.docs div{ background:var(--surface); border-left:4px solid var(--green); padding:13px 17px 11px; margin-bottom:8px; }
+.docs b{ display:block; font-size:15.5px; }
+.docs span{ font-size:13.5px; color:var(--ink-2); }
+
+.plain{ margin:0 0 1.6em; padding-left:1.2em; max-width:615px; }
+.plain li{ margin-bottom:9px; }
+
+.figure{ background:transparent; border:0; padding:0; margin:0 0 2.5em; max-width:900px; width:min(900px, calc(100vw - 40px)); }
+.figure svg{ display:block; width:100%; height:auto; }
+.figure__t{ font-family:var(--mono); font-size:10px; letter-spacing:.14em; color:var(--green); font-weight:700; margin:0 0 10px; }
+.figure figcaption{ font-size:12.5px; line-height:1.85; color:var(--ink-2); margin:12px 0 0; padding-top:10px; border-top:1px solid var(--line); }
+
+.linkbtn{ display:inline-block; background:var(--green); color:#fff; text-decoration:none; font-weight:700; font-size:15px; padding:15px 30px; border-radius:2px; }
+.linkbtn:hover{ background:var(--green-d); }
+
+.src{ margin:50px 0 0; padding:24px 0 0; border-top:1px solid var(--line-2); max-width:615px; }
+.src h3{ font-family:var(--mono); font-size:10px; letter-spacing:.16em; color:var(--ink-3); margin:0 0 12px; font-weight:700; }
+.src ul{ margin:0; padding-left:1.15em; }
+.src li{ font-size:12.5px; line-height:1.85; color:var(--ink-2); margin-bottom:6px; }
+.src a{ word-break:break-all; }
+
+.foot{ background:var(--surface); border-top:1px solid var(--line-2); margin-top:56px; padding:24px 0 42px; }
+.foot__in{ max-width:900px; margin:0 auto; padding:0 22px; font-family:var(--mono); font-size:11px; letter-spacing:.1em; color:var(--ink-3); }
+
+@media (max-width:640px){
+  body{ font-size:15.5px; line-height:1.88; }
+  .wrap{ padding:0 18px; }
+  .top__in{ padding:12px 18px; }
+  .hero{ padding:34px 0 30px; }
+  .hero h1{ font-size:24px; line-height:1.52; }
+  .hero__lead{ font-size:15px; }
+  .wrow{ font-size:12.5px; gap:8px; padding:9px 11px; flex-wrap:wrap; }
+  .wrow .wn{ width:auto; }
+  .sec h2{ font-size:20px; }
+  .law{ padding:17px 15px 15px; }
+  .law table{ font-size:13px; }
+  .figure figcaption{ font-size:12px; }
+  .linkbtn{ display:block; text-align:center; padding:16px 18px; }
+  .foot__in{ padding:0 18px; }
+}
+a:focus-visible, .linkbtn:focus-visible{ outline:2px solid var(--red); outline-offset:3px; }
+
+/* publish overrides */
+.demo-first-step{ font-size:13.5px; line-height:1.85; margin:0 0 14px; opacity:.95; }
+.btn.is-soon,.n__go.is-soon{
+  display:inline-block; opacity:.65; cursor:default; pointer-events:none;
+  font-weight:700; font-size:15px; padding:15px 30px; border-radius:2px;
+  background:#e8e8e8; color:#555; text-decoration:none;
+}
+</style>
+</head>
+<body>
+<section class="hero">
+  <div class="wrap">
+    <div class="col">
+      <div class="cover">
+        <p class="title">運送・物流　改善基準告示の管理</p>
+        <p class="meta">
+          <span>読むのに 9分</span>
+          <span>2026.08 ／ 法令の確認 2026.08</span>
+        </p>
+      </div>
+      <h1>日報を残し、途中で見て、配車を変える。</h1>
+      <p class="hero__lead">
+        改善基準告示には、その場で分かるものと、月末になるまで分からないものが混ざっています。日報と点呼を残し、月の途中で見て、配車を変える順でまとめました。
+      </p>
+    </div>
+
+    <div class="when">
+      <div class="when__hd">
+        <span>守れているかを判定する単位</span>
+        <span>いつ分かるか</span>
+      </div>
+      <div class="wrow"><span class="nm">連続運転時間</span><span class="vl">4時間以内</span><span class="wn">その場</span></div>
+      <div class="wrow"><span class="nm">1日の拘束時間</span><span class="vl">原則13時間</span><span class="wn">その日</span></div>
+      <div class="wrow"><span class="nm">休息期間</span><span class="vl">継続11時間</span><span class="wn">翌朝</span></div>
+      <div class="wrow is-late"><span class="nm">運転時間（2日平均）</span><span class="vl">1日9時間</span><span class="wn">翌日の終わり</span></div>
+      <div class="wrow is-late"><span class="nm">運転時間（2週平均）</span><span class="vl">1週44時間</span><span class="wn">2週間後</span></div>
+      <div class="wrow is-late"><span class="nm">1か月の拘束時間</span><span class="vl">原則284時間</span><span class="wn">月末</span></div>
+      <div class="wrow is-late"><span class="nm">1年の拘束時間</span><span class="vl">原則3,300時間</span><span class="wn">年度末</span></div>
+    </div>
+  </div>
+</section>
+
+<main class="body">
+  <div class="wrap">
+    <div class="col">
+
+      <section class="sec">
+        <p class="lede">
+          2024年4月から、トラック運転者の改善基準告示が変わりました。数字はすでにご存じだと思います。研修も受けられたと思います。
+        </p>
+        <p>
+          それでも管理が回らない会社が多いのは、数字を知らないからではありません。<span class="hl">数字が七つあって、それぞれ判定できる時期が違うからです。</span>
+        </p>
+        <p>
+          上の表の右の列を見てください。同じ「守らなければならないこと」でも、その場で分かるものと、年度末まで分からないものが混ざっています。
+        </p>
+        <p>
+          直し方は三つです。日報と点呼を残す、月の途中で見る、配車を変える。順番に書きます。
+        </p>
+      </section>
+
+      <section class="sec">
+        <h2>日報と点呼を、その日のうちに残す</h2>
+        <p>
+          あわせて、帳票の話から入ります。貨物自動車運送事業輸送安全規則で、次のものは1年間の保存が決まっています。
+        </p>
+
+        <div class="docs">
+          <div><b>点呼記録簿</b><span>第7条</span></div>
+          <div><b>乗務等の記録（運転日報）</b><span>第8条</span></div>
+          <div><b>運行記録計の記録</b><span>第9条</span></div>
+          <div><b>運行指示書およびその写し</b><span>第9条の3</span></div>
+        </div>
+
+        <h3>点呼で確認するのは、酒気帯びだけではありません</h3>
+        <p>
+          顔色、呼気の臭い、応答の声の調子も確認することとされています。また、平成30年6月1日から、疾病や疲労の状況の確認に<b>睡眠不足</b>が加わりました。
+        </p>
+        <p>
+          2泊3日の運行のように、乗務前も乗務後も対面でできない日については、電話等で乗務前・乗務後の点呼を行うことに加えて、乗務の途中に少なくとも1回の点呼が必要です。
+        </p>
+        <p>
+          これらの記録は、監査のときに見られるだけのものではありません。月の途中で時間を積み上げる元になるのも、この記録です。<b>日報が正確でなければ、月の途中で累計を出すこともできません。</b>
+        </p>
+        <p>
+          事故のあと、最初に見られるのも点呼の記録です。その日の点呼で睡眠不足を確認したか。体調に問題はなかったか。ここが必ず確認されます。
+        </p>
+        <p>
+          きちんと確認していても、記録がなければ確認していないのと同じ扱いになります。逆に、記録が残っていれば、やるべきことをやっていたと示せます。記録がないと、困るのは運行管理者本人です。
+        </p>
+        <p>
+          拘束時間の管理も同じです。月末に超過が分かって、それを承知で配車を続けていたのか、途中で把握して手を打とうとしていたのか。この差は、記録に残っているかどうかで決まります。
+        </p>
+        <h3>日報が正確でないと、先に進めません</h3>
+        <p>
+          積み上げの元になるのは日々の記録です。ここが曖昧なまま仕組みを入れても、出てくる数字が信用できません。まず日報の書き方をそろえる。それから積み上げる。この順番は飛ばせません。
+        </p>
+      </section>
+
+      <section class="sec">
+        <h2>月の途中で、残り時間を見る</h2>
+        <p>
+          先に、基準そのものを並べておきます。
+        </p>
+
+        <div class="law">
+          <h3>改善基準告示　トラック運転者　2024年4月1日適用</h3>
+          <table>
+            <tr><td>1日の拘束時間</td><td class="c">原則13時間・最大15時間</td></tr>
+            <tr><td>（例外）宿泊を伴う長距離貨物運送</td><td class="c">週2回まで16時間</td></tr>
+            <tr><td>1か月の拘束時間</td><td class="c">原則284時間</td></tr>
+            <tr><td>1年の拘束時間</td><td class="c">原則3,300時間</td></tr>
+            <tr><td>休息期間</td><td class="c">継続11時間が基本</td></tr>
+            <tr><td>休息期間の下限</td><td class="c">継続9時間を下回らない</td></tr>
+            <tr><td>運転時間（2日平均）</td><td class="c">1日9時間以内</td></tr>
+            <tr><td>運転時間（2週平均）</td><td class="c">1週44時間以内</td></tr>
+            <tr><td>連続運転時間</td><td class="c">4時間以内</td></tr>
+          </table>
+          <p>2022年12月に改正されましたが、自動車運転の業務には5年の猶予が置かれたため、適用は2024年4月1日からになりました。</p>
+        </div>
+        <p>
+          <a class="cite" href="https://www.miyatokyo.or.jp/wp/wp-content/themes/blankslate/2024/pdf/2024_leaflet02.pdf" target="_blank" rel="noopener noreferrer">出典　改善基準告示　2024年4月適用</a>
+        </p>
+        <p>
+          休息期間が8時間から11時間を基本に変わったこと、1年の拘束時間が3,516時間から3,300時間になったこと。この二つが大きい変更です。
+        </p>
+        <p>
+          連続運転4時間なら、その場で分かります。運転している本人も、運行管理者も気づけます。ですが、2日平均の運転時間は、翌日が終わるまで確定しません。2週平均は2週間後です。1か月の拘束時間にいたっては、月末にならないと出ません。
+        </p>
+
+        <figure class="figure">
+          <p class="figure__t">図1　分かる時期が、階段状に遅れていく</p>
+          <svg viewBox="0 0 360 214" role="img" aria-labelledby="l1t l1d">
+            <title id="l1t">基準ごとに判定できる時期が遅れていく図</title>
+            <desc id="l1d">連続運転はその場で分かるが、1か月や1年の拘束時間は月末や年度末まで判定できない</desc>
+
+            <line x1="14" y1="196" x2="346" y2="196" stroke="var(--line-2)" stroke-width="1"/>
+            <g font-family="ui-monospace,monospace" font-size="8.5" fill="var(--ink-3)">
+              <text x="14" y="210">その場</text>
+              <text x="86" y="210">その日</text>
+              <text x="150" y="210">翌日</text>
+              <text x="212" y="210">2週間後</text>
+              <text x="282" y="210">月末</text>
+            </g>
+
+            <rect x="14" y="26" width="30" height="17" rx="2" fill="var(--green)"/>
+            <text x="50" y="39" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="11" fill="var(--ink-2)">連続運転 4時間</text>
+
+            <rect x="14" y="56" width="76" height="17" rx="2" fill="var(--green)" opacity=".85"/>
+            <text x="96" y="69" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="11" fill="var(--ink-2)">1日の拘束 13時間</text>
+
+            <rect x="14" y="86" width="146" height="17" rx="2" fill="var(--red)" opacity=".55"/>
+            <text x="166" y="99" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="11" fill="var(--ink-2)">運転時間 2日平均</text>
+
+            <rect x="14" y="116" width="216" height="17" rx="2" fill="var(--red)" opacity=".7"/>
+            <text x="236" y="129" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="11" fill="var(--ink-2)">2週平均</text>
+
+            <rect x="14" y="146" width="290" height="17" rx="2" fill="var(--red)" opacity=".85"/>
+            <text x="180" y="159" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="11" fill="#fff" text-anchor="middle">1か月の拘束 284時間</text>
+
+            <rect x="14" y="176" width="332" height="14" rx="2" fill="var(--red)"/>
+            <text x="180" y="187" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="10.5" fill="#fff" text-anchor="middle">1年の拘束 3,300時間（年度末まで確定しない）</text>
+          </svg>
+          <figcaption>
+            上の二つは、その場で止められます。下の四つは、確定した時点でもう過ぎています。長い帯ほど、気づいたときに打てる手が少なくなります。
+          </figcaption>
+        </figure>
+
+        <p>
+          1か月の拘束時間が284時間を超えていたと月末に分かったとして、その月に対してできることはありません。時間は戻せないからです。
+        </p>
+        <p>
+          できるのは、翌月に減らすことだけです。ただ、そうすると翌月の売上が落ちます。荷主との約束もあります。結局、翌月も同じことが起きます。
+        </p>
+        <p class="lede">
+          <span class="hl">月末に集計する運用では、永久に間に合いません。</span>
+        </p>
+        <p>
+          必要なのは、月の途中で「この人はいま何時間まで来ているか」が見えていることです。20日の時点で230時間なら、あと10日で54時間しか使えないと分かります。そこで配車を変えられます。
+        </p>
+        <p>
+          日々の記録は取っているはずです。足りないのは、それを<b>積み上げて見ること</b>だけです。月の途中で見るのは、運転者の健康のためであると同時に、判断した記録を残すためでもあります。
+        </p>
+        <h3>管理を厚くすると、運べる量は減ります</h3>
+        <p>
+          正直なところを申し上げます。改善基準告示を守るほど、運転者一人あたりに運べる量は減ります。これは工夫でどうにかなる部分ではありません。
+        </p>
+        <p>
+          そのうえで管理する人を増やすと、収支は二重に苦しくなります。運べる量が減り、なおかつ人件費が増えるからです。<b>管理側は、人を増やさずに厚くする必要があります。</b>
+        </p>
+        <p class="lede">
+          伸ばすのは、運行管理者一人が見られる台数のほうです。
+        </p>
+        <p>
+          人を増やすのは、毎月かかり続ける固定費です。荷動きが落ちても減らせません。仕組みは、入れるときにまとまった費用がかかりますが、そのあとの毎月は下がります。台数が増えても、増える分がゆるやかです。
+        </p>
+        <p>
+          そして、これは費用の話だけではありません。月の途中で累計が見えていれば、上限に当たりそうな運転者の配車を前もって組み替えられます。<b>ぎりぎりの運行が減れば、事故も減ります。</b>事故が一件起きたときの費用は、管理の費用とは桁が違います。
+        </p>
+      </section>
+
+      <section class="sec">
+        <h2>配車を変える</h2>
+        <p>
+          もう一つ、管理を難しくしているものがあります。一本の運行の中で、複数の基準が同時に進んでいることです。
+        </p>
+
+        <figure class="figure">
+          <p class="figure__t">図2　同じ一日の上に、三つの判定が重なっている</p>
+          <svg viewBox="0 0 360 190" role="img" aria-labelledby="l2t l2d">
+            <title id="l2t">一運行の中で三つの基準が同時に進む図</title>
+            <desc id="l2d">同じ一日の上で、拘束時間、連続運転時間、休息期間の三つの判定が同時に進んでいる</desc>
+
+            <g font-family="ui-monospace,monospace" font-size="8.5" fill="var(--ink-3)">
+              <text x="14" y="18">6:00</text><text x="96" y="18">10:00</text><text x="178" y="18">14:00</text>
+              <text x="260" y="18">18:00</text><text x="316" y="18">22:00</text>
+            </g>
+            <g stroke="var(--line)" stroke-width="1">
+              <line x1="20" y1="24" x2="20" y2="150"/><line x1="102" y1="24" x2="102" y2="150"/>
+              <line x1="184" y1="24" x2="184" y2="150"/><line x1="266" y1="24" x2="266" y2="150"/>
+              <line x1="322" y1="24" x2="322" y2="150"/>
+            </g>
+
+            <text x="14" y="42" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="10.5" fill="var(--ink-2)">拘束時間</text>
+            <rect x="20" y="48" width="286" height="16" rx="2" fill="var(--green)" opacity=".8"/>
+            <text x="163" y="60" font-family="ui-monospace,monospace" font-size="10" fill="#fff" text-anchor="middle">13:30</text>
+            <line x1="286" y1="44" x2="286" y2="68" stroke="var(--red)" stroke-width="1.6"/>
+            <text x="292" y="42" font-family="ui-monospace,monospace" font-size="8.5" fill="var(--red)">13h</text>
+
+            <text x="14" y="88" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="10.5" fill="var(--ink-2)">連続運転</text>
+            <g fill="var(--green)" opacity=".55">
+              <rect x="20" y="94" width="72" height="16" rx="2"/>
+              <rect x="104" y="94" width="76" height="16" rx="2"/>
+              <rect x="192" y="94" width="82" height="16" rx="2"/>
+            </g>
+            <rect x="274" y="94" width="32" height="16" rx="2" fill="var(--red)" opacity=".8"/>
+            <text x="290" y="106" font-family="ui-monospace,monospace" font-size="9" fill="#fff" text-anchor="middle">超</text>
+
+            <text x="14" y="134" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="10.5" fill="var(--ink-2)">休息期間</text>
+            <rect x="306" y="140" width="40" height="16" rx="2" fill="var(--green)" opacity=".35"/>
+            <text x="306" y="176" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="9.5" fill="var(--ink-2)" text-anchor="end">この日の終わりが遅れると、翌日の出発も遅らせないと11時間が取れない</text>
+          </svg>
+          <figcaption>
+            拘束時間はまだ余裕があっても、連続運転のほうが先に上限に当たることがあります。逆に、その日を早く終えても、休息期間が11時間取れなければ翌日の出発を遅らせることになります。三つは別々に見るものではなく、同時に見るものです。
+          </figcaption>
+        </figure>
+
+        <p>
+          配車を組むときに見ているのは、たいてい拘束時間だけです。ですが実際には、連続運転で先に止まったり、休息期間の確保で翌日がずれたりします。<b>一つだけ見ていると、必ずどこかで当たります。</b>
+        </p>
+        <p>
+          月の途中で累計が見えていれば、上限に当たりそうな運転者の配車を前もって組み替えられます。三つの基準を同時に見ながら、運行を組み直す。配車表を書き換える作業は、ここから始まります。
+        </p>
+      </section>
+
+      <section class="sec">
+        <h2>いま拘束時間をいつ集計しているか</h2>
+        <p>
+          日報から月の途中の累計を出せるか。この二つが分かれば、どこから手をつけられるかは見当がつきます。決まっていないことがあっても構いません。
+        </p>
+        <p>
+          <a class="linkbtn" href="/contact?service=ai-consulting&intent=article&article=logistics">相談する</a>
+        </p>
+
+        <p style="font-size:12.5px; line-height:1.85; color:#87918a; margin:26px 0 14px;">
+          制度の内容は改正されることがあります。実際の対応にあたっては、所管の官公庁や事業者団体の最新の情報をご確認ください。
+        </p>
+
+        <div class="src">
+          <h3>参考</h3>
+          <ul>
+            <li>トラック運転者の改善基準告示が変わります（2024年4月適用）<br>
+              <a href="https://www.miyatokyo.or.jp/wp/wp-content/themes/blankslate/2024/pdf/2024_leaflet02.pdf">https://www.miyatokyo.or.jp/wp/wp-content/themes/blankslate/2024/pdf/2024_leaflet02.pdf</a></li>
+            <li>帳票類と根拠法令・保存期間の一覧 ／ 長野県トラック協会<br>
+              <a href="https://www.naganota.or.jp/cms/wp-content/uploads/2021/06/26.pdf">https://www.naganota.or.jp/cms/wp-content/uploads/2021/06/26.pdf</a></li>
+            <li>点呼の解説（確認事項・中間点呼） ／ 長野県トラック協会<br>
+              <a href="https://www.naganota.or.jp/cms/wp-content/uploads/2021/06/tenko_kaisetu.pdf">https://www.naganota.or.jp/cms/wp-content/uploads/2021/06/tenko_kaisetu.pdf</a></li>
+            <li>貨物軽自動車運送事業者の皆様へ（点呼記録簿の例） ／ 国土交通省<br>
+              <a href="https://www.mlit.go.jp/jidosha/jidosha_tk2_000162.html">https://www.mlit.go.jp/jidosha/jidosha_tk2_000162.html</a></li>
+          </ul>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</main>
+</body>
+</html>

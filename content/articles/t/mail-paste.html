@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<style>
+:root{
+  color-scheme: light only;
+  --ink:#1c2430; --ink-2:#4a5464; --ink-3:#7a8494;
+  --paper:#dce4ee; --mail:#f7f9fc; --bar:#3a4a62;
+  --line:#c0cad8; --mark:#f5d9a8; --hold:#2a5080;
+  --sans:"Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP","Noto Sans CJK JP","Yu Gothic Medium","Yu Gothic",Meiryo,system-ui,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root{ color-scheme:light only; }
+  html,body{ background:#dce4ee !important; color:#1c2430 !important; }
+}
+*{ box-sizing:border-box; }
+body{ margin:0; background:var(--paper); color:var(--ink); font-family:var(--sans); font-size:16px; line-height:1.92; }
+h1,h2{ word-break:auto-phrase; margin:0; }
+p{ margin:0 0 1.45em; }
+a{ color:var(--hold); }
+.wrap{ max-width:720px !important; margin:0 auto; padding:0 22px; }
+.col{ max-width:620px; margin:0 auto; }
+
+.cover{ background:#c8d4e4; color:var(--ink); padding:44px 0 36px; margin:0 -22px 0; }
+.cover__in{ max-width:620px; margin:0 auto; padding:0 22px; }
+.cover__tag{ font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; color:var(--ink-3); margin:0 0 14px; }
+.cover h1{ font-size:30px; line-height:1.48; font-weight:800; margin:0 0 16px; max-width:16em; }
+.cover__meta{ font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; color:var(--ink-3); display:flex; gap:14px; flex-wrap:wrap; margin:0 0 20px; }
+
+.mail{
+  background:var(--mail); border:1px solid var(--line);
+  box-shadow:0 1px 0 rgba(28,36,48,.06);
+  margin:0 0 18px;
+}
+.mail__bar{ background:var(--bar); color:#e8eef6; font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; padding:8px 14px; }
+.mail__row{ display:grid; grid-template-columns:4.5em 1fr; gap:8px; padding:8px 14px; border-bottom:1px solid var(--line); font-size:13.5px; }
+.mail__row .k{ color:var(--ink-3); font-family:var(--mono); font-size:11px; }
+.mail__body{ padding:14px 16px 16px; font-size:14.5px; line-height:1.7; }
+.mail__body p{ margin:0 0 .6em; }
+.hi{ background:var(--mark); padding:0 3px; }
+
+.hold{ padding:14px 16px; background:#fff; border:1px solid var(--line); border-top:4px solid var(--hold); margin:0; }
+.hold p{ margin:0 0 .35em; font-size:14px; color:var(--ink-2); }
+.hold p:last-child{ margin:0; }
+.hold .lbl{ font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; color:var(--hold); margin-bottom:8px; }
+
+.body{ padding:38px 0 10px; }
+.lede{ font-size:17px; color:var(--ink-2); }
+
+.msg{ margin:0 0 2.5em; }
+.msg h2{
+  font-size:20px; font-weight:800; line-height:1.55; margin:0 0 16px;
+  background:var(--bar); color:#f0f4fa; padding:8px 14px; max-width:28em;
+}
+
+.hide{ margin:0 0 1.4em; padding:0; list-style:none; counter-reset:h; }
+.hide li{ counter-increment:h; margin:0 0 8px; padding:10px 12px 10px 14px; background:var(--mail); border-left:4px solid var(--mark); font-size:15px; }
+.hide li::before{ content:counter(h) " "; font-family:var(--mono); font-size:11px; color:var(--ink-3); margin-right:6px; }
+
+.quote{ margin:0 0 1.4em; padding:14px 16px; background:var(--mail); border:1px dashed var(--hold); font-size:15px; color:var(--ink-2); }
+.quote p{ margin:0; }
+
+.figure{ margin:1.8em 0 2.2em; }
+.figure__lab{ font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; color:var(--ink-3); margin:0 0 10px; }
+.figure__cap{ font-size:12.5px; color:var(--ink-2); margin:12px 0 0; line-height:1.75; }
+.strip{ display:flex; flex-direction:column; gap:0; font-size:14px; }
+.strip div{ padding:12px 14px; border:1px solid var(--line); }
+.strip .full{ background:#fff; text-decoration:line-through; color:var(--ink-3); }
+.strip .redact{ background:var(--mail); font-weight:700; margin-top:-1px; }
+
+.cite{ display:inline-block; font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; color:var(--hold); border:1px solid var(--hold); padding:5px 10px; text-decoration:none; margin:0 0 1.4em; }
+
+.know{ background:var(--mail); border:1px solid var(--line); padding:20px 18px; margin:24px 0; }
+.know p{ margin:0; font-size:15px; color:var(--ink-2); }
+
+.cta{ border-top:1px solid var(--line); margin:44px 0 0; padding:28px 0 0; }
+.linkbtn{ display:inline-block; background:var(--ink); color:#fff; font-weight:700; font-size:15px; text-decoration:none; padding:14px 28px; }
+.disc{ font-size:12.5px; color:var(--ink-3); margin:20px 0 0; }
+.refs{ margin:28px 0 0; padding-top:18px; border-top:1px solid var(--line); }
+.refs h3{ font-family:var(--mono); font-size:10px; letter-spacing:.14em; color:var(--ink-3); margin:0 0 8px; }
+.refs li{ font-size:13px; line-height:1.8; color:var(--ink-2); margin-bottom:5px; }
+
+@media (max-width:640px){
+  .cover h1{ font-size:23px; }
+  .msg h2{ font-size:17px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap is-theme">
+
+<section class="cover">
+  <div class="cover__in">
+    <p class="cover__tag">営業　受信メールの扱い</p>
+    <h1>返信の下書きは欲しい。本文はそのまま貼れない。</h1>
+    <p class="cover__meta">
+      <span>読むのに 7分</span>
+      <span>法令の確認 2026.08</span>
+    </p>
+    <div class="mail">
+      <div class="mail__bar">受信トレイ　1通</div>
+      <div class="mail__row"><span class="k">From</span><span>田中商事　佐藤</span></div>
+      <div class="mail__row"><span class="k">件名</span><span>見積の件</span></div>
+      <div class="mail__body">
+        <p>先日お話しした <span class="hi">380万円</span> で進めたいと考えています。</p>
+        <p>担当の山田様の携帯 <span class="hi">090-××××-××××</span> へご連絡ください。</p>
+      </div>
+    </div>
+    <div class="hold">
+      <p class="lbl">欲しいものと、貼れないもの</p>
+      <p>返信の下書きは欲しい。</p>
+      <p><b>金額・条件・個人が入った本文は、そのまま貼れない。</b></p>
+    </div>
+  </div>
+</section>
+
+<div class="body col">
+
+<p class="lede">相手から一通届いています。見積の金額、担当者の氏名、携帯番号。条件の書きぶり。全部、本文に入っています。返信の下書きが欲しい。でも、この本文をそのまま外へ貼ると、金額と個人が一緒に出ます。</p>
+
+<section class="msg">
+<h2>貼る前に、伏せる箇所を決める</h2>
+<p>お聞きするのが、「下書きだけ作って、送る前に人が直す」という使い方です。下書きの材料に、元のメールを丸ごと入れると、直す以前に出せない情報まで渡しています。</p>
+<p>貼る前に一度見てください。伏せるのは次の三つで足りることが多いです。</p>
+<ul class="hide">
+  <li>社名（または案件名）</li>
+  <li>金額・単価・割引</li>
+  <li>氏名・電話・メールアドレス</li>
+</ul>
+<p>伏せた文面で「何を聞かれているか」が残っていれば、下書きは作れます。残っていなければ、人が読めば足ります。無理に貼らなくていい案件です。</p>
+</section>
+
+<section class="msg">
+<h2>金額と条件と個人は、下書きの材料にしない</h2>
+<p>個人情報保護法では、氏名や連絡先を、決めた利用目的の範囲で扱います。社外の下書き作成に、受信メール全文を渡すことは、社内の返信作業と同じ目的とは限りません。</p>
+<p>率直に申し上げますと、「あとで消す」は残りません。貼った側に全文が残ることがあります。伏せてから貼る方が、後工程が短いです。</p>
+<p>条件の書きぶりも、金額と同じです。「380万円で進めたい」をそのまま入れる必要はありません。「提示した金額への返答」と書けば、下書きの骨格は出ます。</p>
+<a class="cite" href="https://www.ppc.go.jp/personalinfo/legal/guidelines_tsusoku/">出典　個人情報保護委員会　ガイドライン（通則編）</a>
+</section>
+
+<section class="msg">
+<h2>伏せた文面で、下書きの骨格を作る</h2>
+<div class="quote">
+  <p>先方から、先日提示した金額で進めたい旨。担当者名と連絡先は伏せる。納期の確認だけ返したい。</p>
+</div>
+<p>元メールは社内に残します。外へ出すのは、伏せた要約だけです。細部の数字は、人が元メールを見て足します。</p>
+
+<figure class="figure">
+  <p class="figure__lab">図　貼る文面と、残す文面</p>
+  <div class="strip">
+    <div class="full">先日お話しした 380万円 で進めたい。山田 090-…</div>
+    <div class="redact">提示した金額への返答。納期の確認だけ返す。</div>
+  </div>
+  <figcaption class="figure__cap">下の文面で骨格は足ります。数字は人が元メールを見て足します。</figcaption>
+</figure>
+</section>
+
+<section class="msg">
+<h2>社内で話すなら、「メールを自動返信したい」ではなくていい</h2>
+<p>「下書きは欲しい。金額と個人名が入った本文は、そのまま貼れない」と言えば、止まっている線が伝わります。</p>
+</section>
+
+<section class="msg">
+<h2>いま開いている一通から始める</h2>
+<p>ルールを全部決めてから動き出す必要はありません。いま画面にある一通だけ、社名と金額と氏名を黒く塗ったコピーを作ります。そのコピーで下書きを考えます。元の一通は閉じたままにします。</p>
+<p><b>本文をそのまま貼れないことと、下書きが欲しいことは、同時に成り立ちます。</b> 先に伏せる。下書きはそのあとです。</p>
+
+<div class="know">
+  <p>この記事は知識のみです。問い合わせ画面のデモは、受信メールの伏せ作業には使いません。まず一通、社名と金額を塗ってから下書きを考えてください。</p>
+</div>
+</section>
+
+<div class="cta">
+  <p><a class="linkbtn" href="/contact?service=ai-consulting&amp;intent=article&amp;article=mail-paste">相談する</a></p>
+  <p class="disc">法令の解釈は改正されることがあります。実際の対応にあたっては、所管の官公庁や専門家の最新の情報をご確認ください。</p>
+</div>
+
+<div class="refs">
+  <h3>参考</h3>
+  <ul>
+    <li>個人情報の保護に関する法律についてのガイドライン（通則編） ／ 個人情報保護委員会<br>
+      <a href="https://www.ppc.go.jp/personalinfo/legal/guidelines_tsusoku/">https://www.ppc.go.jp/personalinfo/legal/guidelines_tsusoku/</a></li>
+  </ul>
+</div>
+
+</div>
+</div>
+</body>
+</html>

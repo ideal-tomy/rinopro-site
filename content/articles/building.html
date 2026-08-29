@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<style>
+
+:root{
+  color-scheme: light only;
+  --ink:#1f2730; --ink-2:#525d69; --ink-3:#8a939d;
+  --bg:#eef0f2; --surface:#ffffff;
+  --line:#dce0e4; --line-2:#c3cad1;
+  --navy:#24506e; --navy-d:#173950; --amber:#c8641e;
+  --sans:"Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP","Noto Sans CJK JP","Yu Gothic Medium","Yu Gothic",Meiryo,system-ui,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    color-scheme: light only;
+    --ink:#1f2730; --ink-2:#525d69; --ink-3:#8a939d;
+    --bg:#eef0f2; --surface:#ffffff;
+    --line:#dce0e4; --line-2:#c3cad1;
+    --navy:#24506e; --navy-d:#173950; --amber:#c8641e;
+  }
+  html, body{ background:#eef0f2 !important; color:#1f2730 !important; }
+}
+*{ box-sizing:border-box; }
+html{ -webkit-text-size-adjust:100%; }
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:var(--sans); font-size:16px; line-height:1.9;
+  font-feature-settings:"palt" 1;
+}
+h1,h2,h3{ word-break:auto-phrase; line-break:strict; text-wrap:balance; margin:0; }
+p{ margin:0 0 1.5em; }
+a{ color:var(--navy); }
+
+.wrap{ max-width:940px; margin:0 auto; padding:0 22px; }
+.col{ max-width:615px; }
+
+.top{ background:var(--navy); }
+.top__in{ max-width:900px; margin:0 auto; padding:13px 22px; display:flex; align-items:baseline; gap:14px; }
+.brand{ font-family:var(--mono); font-weight:700; font-size:15px; letter-spacing:.14em; color:#fff; text-decoration:none; }
+.crumb{ font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; color:#9db6c9; }
+
+.hero{ background:var(--surface); border-bottom:1px solid var(--line-2); padding:48px 0 40px; }
+.cover{
+  border-bottom:1px solid var(--line-2); padding-bottom:14px; margin:0 0 24px;
+  display:flex; justify-content:space-between; align-items:baseline; gap:14px; flex-wrap:wrap;
+}
+.stamp{
+  display:inline-block; border:1px solid var(--amber); color:var(--amber);
+  font-family:var(--mono); font-size:11px; letter-spacing:.12em;
+  padding:5px 11px; margin:0; font-weight:700;
+}
+.meta{ font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; color:var(--ink-3); margin:0; display:flex; gap:12px; flex-wrap:wrap; }
+.hero h1{ font-size:35px; line-height:1.46; font-weight:700; margin:0 0 18px; max-width:16em; }
+.hero__lead{ font-size:16px; color:var(--ink-2); max-width:33em; margin:0 0 22px; }
+
+.cite{
+  display:inline-block; margin:0 0 1.2em;
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.1em;
+  color:var(--amber); border:1px solid var(--amber); padding:5px 10px 4px;
+  text-decoration:none;
+}
+.cite:hover{ background:rgba(196,98,28,.08); }
+
+/* 点検一覧 */
+.ledger{ max-width:640px; border:1px solid var(--line-2); background:var(--surface); }
+.ledger__hd{
+  display:flex; justify-content:space-between; padding:9px 14px;
+  background:var(--navy); color:#fff;
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.1em;
+}
+.lrow{ display:flex; align-items:baseline; gap:10px; padding:10px 14px; border-bottom:1px solid var(--line); font-size:13.5px; }
+.lrow:last-child{ border-bottom:0; }
+.lrow .nm{ flex:1; }
+.lrow .cy{ font-family:var(--mono); font-size:12px; color:var(--navy); white-space:nowrap; }
+.lrow .st{ font-family:var(--mono); font-size:10.5px; color:var(--amber); white-space:nowrap; width:96px; text-align:right; }
+
+.body{ padding:50px 0 0; }
+.sec{ padding:0 0 6px; }
+.sec + .sec{ padding-top:56px; }
+.sec h2{ font-size:25px; line-height:1.54; font-weight:700; margin:0 0 20px; max-width:20em; }
+.sec + .sec h2{ padding-top:18px; border-top:2px solid var(--navy); }
+.sec h3{ font-size:16px; font-weight:700; margin:28px 0 8px; }
+.lede{ font-size:17px; }
+
+.law{ background:var(--surface); border:1px solid var(--line-2); padding:20px 22px 17px; margin:0 0 1.7em; max-width:615px; }
+.law h3{ font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; color:var(--amber); margin:0 0 12px; font-weight:700; }
+.law table{ width:100%; border-collapse:collapse; font-size:14px; }
+.law td{ padding:7px 0; border-bottom:1px solid var(--line); vertical-align:top; line-height:1.75; }
+.law tr:last-child td{ border-bottom:0; }
+.law td.c{ font-family:var(--mono); font-size:13px; color:var(--navy); white-space:nowrap; text-align:right; padding-left:12px; }
+.law p{ font-size:13.5px; line-height:1.85; color:var(--ink-2); margin:12px 0 0; }
+
+.origin{ max-width:615px; margin:0 0 1.7em; }
+.origin div{ background:var(--surface); border-left:4px solid var(--amber); padding:14px 18px 12px; margin-bottom:9px; }
+.origin b{ display:block; font-size:16px; }
+.origin span{ font-size:14px; color:var(--ink-2); line-height:1.85; }
+
+.cols{ max-width:615px; margin:0 0 1.7em; padding:0; list-style:none; counter-reset:c; }
+.cols li{ counter-increment:c; position:relative; padding:13px 0 11px 40px; border-top:1px solid var(--line-2); }
+.cols li:last-child{ border-bottom:1px solid var(--line-2); }
+.cols li::before{
+  content:counter(c,decimal-leading-zero); position:absolute; left:4px; top:1.05em;
+  font-family:var(--mono); font-size:11px; color:var(--amber); font-weight:700;
+}
+.cols b{ display:block; font-size:16px; }
+.cols span{ font-size:14px; color:var(--ink-2); line-height:1.85; }
+.cols li.is-key b{ color:var(--amber); }
+
+.plain{ margin:0 0 1.6em; padding-left:1.2em; max-width:615px; }
+.plain li{ margin-bottom:9px; }
+
+.figure{ background:transparent; border:0; padding:0; margin:0 0 2.5em; max-width:900px; width:min(900px, calc(100vw - 40px)); }
+.figure svg{ display:block; width:100%; height:auto; }
+.figure__t{ font-family:var(--mono); font-size:10px; letter-spacing:.14em; color:var(--amber); font-weight:700; margin:0 0 10px; }
+.figure figcaption{ font-size:12.5px; line-height:1.85; color:var(--ink-2); margin:12px 0 0; padding-top:10px; border-top:1px solid var(--line); }
+
+.demo{ background:var(--navy); color:#fff; margin:58px 0; padding:46px 0 44px; }
+.demo__in{ max-width:900px; margin:0 auto; padding:0 22px; }
+.demo__box{ max-width:615px; }
+.demo__k{ font-family:var(--mono); font-size:10.5px; letter-spacing:.16em; color:#eda86f; margin:0 0 14px; }
+.demo h2{ font-size:26px; line-height:1.5; font-weight:700; margin:0 0 16px; color:#fff; border:0; padding:0; }
+.demo p{ color:#c9d7e2; font-size:15px; }
+.btn{ display:inline-block; background:#fff; color:var(--navy-d); font-weight:700; font-size:15px; text-decoration:none; padding:15px 30px; border-radius:2px; }
+.btn:hover{ background:#e6eef4; }
+.honest{ background:#1b3d55; border-radius:4px; padding:18px 20px 16px; margin:22px 0 0; font-size:13.5px; line-height:1.9; color:#c9d7e2; }
+.honest b{ color:#fff; }
+
+.linkbtn{ display:inline-block; background:var(--amber); color:#fff; text-decoration:none; font-weight:700; font-size:15px; padding:15px 30px; border-radius:2px; }
+.linkbtn:hover{ background:#a34e15; }
+
+.src{ margin:50px 0 0; padding:24px 0 0; border-top:1px solid var(--line-2); max-width:615px; }
+.src h3{ font-family:var(--mono); font-size:10px; letter-spacing:.16em; color:var(--ink-3); margin:0 0 12px; font-weight:700; }
+.src ul{ margin:0; padding-left:1.15em; }
+.src li{ font-size:12.5px; line-height:1.85; color:var(--ink-2); margin-bottom:6px; }
+.src a{ word-break:break-all; }
+
+.foot{ background:var(--navy); color:#9db6c9; margin-top:56px; padding:24px 0 42px; }
+.foot__in{ max-width:900px; margin:0 auto; padding:0 22px; font-family:var(--mono); font-size:11px; letter-spacing:.1em; }
+
+@media (max-width:640px){
+  body{ font-size:15.5px; line-height:1.88; }
+  .wrap{ padding:0 18px; }
+  .top__in{ padding:12px 18px; }
+  .hero{ padding:34px 0 30px; }
+  .hero h1{ font-size:24px; line-height:1.52; }
+  .hero__lead{ font-size:15px; }
+  .lrow{ font-size:12.5px; gap:8px; padding:9px 11px; flex-wrap:wrap; }
+  .lrow .st{ width:auto; }
+  .sec h2{ font-size:20px; }
+  .law{ padding:17px 15px 15px; }
+  .law table{ font-size:13px; }
+  .figure figcaption{ font-size:12px; }
+  .figure figcaption{ font-size:12px; }
+  .demo{ margin:44px 0; padding:34px 0 34px; }
+  .demo__in{ padding:0 18px; }
+  .demo h2{ font-size:20px; }
+  .btn, .linkbtn{ display:block; text-align:center; padding:16px 18px; }
+  .foot__in{ padding:0 18px; }
+}
+a:focus-visible, .btn:focus-visible, .linkbtn:focus-visible{ outline:2px solid var(--amber); outline-offset:3px; }
+
+/* publish overrides */
+.demo-first-step{ font-size:13.5px; line-height:1.85; margin:0 0 14px; opacity:.95; }
+.btn.is-soon,.n__go.is-soon{
+  display:inline-block; opacity:.65; cursor:default; pointer-events:none;
+  font-weight:700; font-size:15px; padding:15px 30px; border-radius:2px;
+  background:#e8e8e8; color:#555; text-decoration:none;
+}
+</style>
+</head>
+<body>
+<section class="hero">
+  <div class="wrap">
+    <div class="col">
+      <div class="cover">
+        <p class="stamp">ビルメンテナンス　法定点検の管理</p>
+        <p class="meta">
+          <span>読むのに 9分</span>
+          <span>2026.08 ／ 法令の確認 2026.08</span>
+        </p>
+      </div>
+      <h1>法定点検が漏れる理由と、<br>台帳の作り方。</h1>
+      <p class="hero__lead">
+        一棟の台帳に起点の列を入れる、実施した日に次回期限を書き直す、棟が増えたら件数が掛け算になる前提で見る。周期がバラバラでも、数え始める日を台帳で管理する順番をまとめました。
+      </p>
+    </div>
+
+    <div class="ledger">
+      <div class="ledger__hd">
+        <span>ある一棟の、法定点検</span>
+        <span>年間 15回以上</span>
+      </div>
+      <div class="lrow"><span class="nm">空気環境測定</span><span class="cy">2か月以内ごと</span><span class="st">前回実施日から</span></div>
+      <div class="lrow"><span class="nm">冷却塔・加湿装置の点検</span><span class="cy">1か月以内ごと</span><span class="st">前回実施日から</span></div>
+      <div class="lrow"><span class="nm">受水槽・高置水槽の清掃</span><span class="cy">1年以内ごと</span><span class="st">前回実施日から</span></div>
+      <div class="lrow"><span class="nm">消防設備の機器点検</span><span class="cy">6か月に1回</span><span class="st">前回実施日から</span></div>
+      <div class="lrow"><span class="nm">消防設備の総合点検</span><span class="cy">1年に1回</span><span class="st">前回実施日から</span></div>
+      <div class="lrow"><span class="nm">消防への点検結果の報告</span><span class="cy">1年に1回</span><span class="st">管理開始日から</span></div>
+      <div class="lrow"><span class="nm">ホルムアルデヒドの測定</span><span class="cy">使用開始後に1回</span><span class="st">6月〜9月の間</span></div>
+    </div>
+  </div>
+</section>
+
+<main class="body">
+  <div class="wrap">
+    <div class="col">
+
+      <section class="sec">
+        <p class="lede">
+          一棟の建物にかかる法定点検を並べると、上のようになります。これでも一部です。エレベーター、自家用電気工作物、防火対象物点検が加わる建物もあります。周期は、1か月、2か月、6か月、1年、3年とバラバラです。問題は、右の列です。<b>数え始める日が、項目によって違います。</b>
+        </p>
+      </section>
+
+      <section class="sec">
+        <h2>一棟の台帳に、起点の列を入れる</h2>
+        <p>
+          数え始める日は、大きく三種類あります。
+        </p>
+
+        <div class="origin">
+          <div>
+            <b>前回やった日から数えるもの</b>
+            <span>空気環境測定は2か月以内ごと、貯水槽の清掃は1年以内ごと。前回が遅れれば、次の期限も後ろにずれます。カレンダーの日付では決まりません。</span>
+          </div>
+          <div>
+            <b>建物の管理を開始した日から数えるもの</b>
+            <span>消防への点検結果の報告は、その建物や事業所の管理を開始した日が基準日になります。棟ごとに基準日が違います。</span>
+          </div>
+          <div>
+            <b>時期そのものが決まっているもの</b>
+            <span>ホルムアルデヒドの測定は、使用を開始した時点から直近の6月1日から9月30日までの間に1回。夏に限られています。</span>
+          </div>
+        </div>
+
+        <p>
+          この三つが混ざっているので、<b>「毎年4月にまとめてやる」ができません。</b>できると思って年間計画を組むと、その時点で二つ目と三つ目が外れます。
+        </p>
+
+        <figure class="figure">
+          <p class="figure__t">図1　同じカレンダーの上に、目盛りがそろわない</p>
+          <svg viewBox="0 0 360 200" role="img" aria-labelledby="b1t b1d">
+            <title id="b1t">起点の違う三つの周期がカレンダー上でそろわない図</title>
+            <desc id="b1d">前回実施日から数えるもの、管理開始日から数えるもの、時期が決まっているものが、同じカレンダーの上で刻みの位置がそろわない</desc>
+
+            <g font-family="ui-monospace,monospace" font-size="9" fill="var(--ink-3)">
+              <text x="16" y="22">4月</text><text x="70" y="22">6月</text><text x="124" y="22">8月</text>
+              <text x="178" y="22">10月</text><text x="236" y="22">12月</text><text x="292" y="22">2月</text>
+            </g>
+            <g stroke="var(--line)" stroke-width="1">
+              <line x1="16" y1="28" x2="16" y2="184"/><line x1="70" y1="28" x2="70" y2="184"/>
+              <line x1="124" y1="28" x2="124" y2="184"/><line x1="178" y1="28" x2="178" y2="184"/>
+              <line x1="236" y1="28" x2="236" y2="184"/><line x1="292" y1="28" x2="292" y2="184"/>
+            </g>
+
+            <text x="16" y="52" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="10.5" fill="var(--ink-2)">空気環境測定（前回から2か月）</text>
+            <line x1="16" y1="66" x2="346" y2="66" stroke="var(--line-2)" stroke-width="1"/>
+            <g fill="var(--navy)">
+              <circle cx="38" cy="66" r="4.5"/><circle cx="92" cy="66" r="4.5"/><circle cx="146" cy="66" r="4.5"/>
+              <circle cx="200" cy="66" r="4.5"/><circle cx="254" cy="66" r="4.5"/><circle cx="308" cy="66" r="4.5"/>
+            </g>
+
+            <text x="16" y="106" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="10.5" fill="var(--ink-2)">消防への報告（管理開始日から1年）</text>
+            <line x1="16" y1="120" x2="346" y2="120" stroke="var(--line-2)" stroke-width="1"/>
+            <circle cx="163" cy="120" r="4.5" fill="var(--amber)"/>
+            <text x="172" y="124" font-family="ui-monospace,monospace" font-size="9" fill="var(--amber)">9/14</text>
+
+            <text x="16" y="160" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="10.5" fill="var(--ink-2)">ホルムアルデヒド（6月〜9月のあいだ）</text>
+            <line x1="16" y1="174" x2="346" y2="174" stroke="var(--line-2)" stroke-width="1"/>
+            <rect x="70" y="167" width="100" height="14" rx="2" fill="var(--amber)" opacity=".28"/>
+            <line x1="70" y1="167" x2="70" y2="181" stroke="var(--amber)" stroke-width="1.4"/>
+            <line x1="170" y1="167" x2="170" y2="181" stroke="var(--amber)" stroke-width="1.4"/>
+          </svg>
+          <figcaption>
+            三つとも同じ一年の上にありますが、刻みの位置がそろいません。上は前回の日から等間隔、真ん中は棟ごとに違う一点、下は期間そのものが決まっています。年間計画を一枚のカレンダーで組もうとすると、ここで破綻します。
+          </figcaption>
+        </figure>
+
+        <div class="law">
+          <h3>建築物衛生法（特定建築物）</h3>
+          <table>
+            <tr><td>空気環境測定</td><td class="c">2か月以内ごとに1回</td></tr>
+            <tr><td>冷却塔・加湿装置・空調機の排水受けの点検</td><td class="c">1か月以内ごとに1回</td></tr>
+            <tr><td>冷却塔と冷却水の水管の清掃</td><td class="c">1年以内ごとに1回</td></tr>
+            <tr><td>受水槽・高置水槽の清掃</td><td class="c">1年以内ごとに1回</td></tr>
+            <tr><td>ホルムアルデヒドの測定</td><td class="c">6月1日〜9月30日に1回</td></tr>
+            <tr><td>特定建築物の届出</td><td class="c">使用開始から1か月以内</td></tr>
+          </table>
+          <p>貯水槽の清掃では、清掃作業報告書を作成して保管することも定められています。作業行程や槽の内部の状況、簡易な水質検査の結果を記載します。</p>
+        </div>
+        <p>
+          <a class="cite" href="https://www.mhlw.go.jp/stf/newpage_10747.html" target="_blank" rel="noopener noreferrer">出典　厚労省　建築物衛生法関連</a>
+        </p>
+
+        <div class="law">
+          <h3>消防法</h3>
+          <table>
+            <tr><td>機器点検（外観や簡易な操作で確認）</td><td class="c">6か月に1回</td></tr>
+            <tr><td>総合点検（実際に作動させて確認）</td><td class="c">1年に1回</td></tr>
+            <tr><td>報告（特定防火対象物）</td><td class="c">1年に1回</td></tr>
+            <tr><td>報告（非特定防火対象物）</td><td class="c">3年に1回</td></tr>
+            <tr><td>防火対象物点検</td><td class="c">1年に1回</td></tr>
+          </table>
+          <p>報告の基準日は、その建物や事業所の管理を開始した日です。用途が混ざっている複合ビルでは、特定か非特定かの判定が変わることがあるため、取得時や用途変更のときに所轄の消防へ確認してください。</p>
+          <p>なお、届出のオンライン化が進んでいます。2022年10月の名古屋市を皮切りに、東京消防庁、大阪市、熊本市などが順次対応しています。</p>
+        </div>
+
+        <p>
+          紙でもExcelでも構いません。ただ、次の五つの列は必ず入れてください。三つ目の起点が入っていないと、期限がカレンダーの都合で動いてしまいます。
+        </p>
+
+        <ol class="cols">
+          <li><b>点検の項目</b><span>何をするか。</span></li>
+          <li><b>周期</b><span>1か月、2か月、6か月、1年。</span></li>
+          <li class="is-key"><b>起点</b><span>何から数えるか。前回実施日、管理開始日、決まった時期。ここが抜けている台帳が多いです。</span></li>
+          <li><b>根拠</b><span>どの法令のどの決まりか。担当が代わったときに効きます。</span></li>
+          <li><b>次回の期限</b><span>周期と起点から計算した日。実施したら、その場で次を書き直します。</span></li>
+        </ol>
+      </section>
+
+      <section class="sec">
+        <h2>実施した日に、次回期限を書き直す</h2>
+        <p>
+          「今年は忙しいから来月に」を一度やると、そのあとの期限が全部ずれて、しかもずれたことに誰も気づきません。五つ目の次回期限は、<b>実施した日に書き直すのが大事</b>です。あとでまとめて更新しようとすると、必ず更新されない行が残ります。
+        </p>
+        <p>
+          多くの会社で、期限を本当に把握しているのは一人です。台帳はあっても、更新しているのはその人だけ。「そろそろあの棟の空気環境測定だな」と思い出しているのも、その人です。その人が辞めた翌月から、静かに漏れはじめます。しかも、漏れてもすぐには分かりません。立入検査や、報告の督促が来て初めて気づきます。
+        </p>
+        <p>
+          台帳に起点と根拠を書いておくのは、法令を守るためだけではありません。<b>担当者が一人で抱えている状態を、そのままにしないための作業です。</b>本人にとっても、休みが取りやすくなります。
+        </p>
+      </section>
+
+      <section class="sec">
+        <h2>棟が増えたら、件数が掛け算になる前提で見る</h2>
+        <p>
+          ここまでは一棟の話です。管理している棟が増えると、件数はそのまま掛け算になります。棟ごとに、管理開始日が違います。消防の報告の基準日は建物ごとに別なので、10棟あれば10通りの基準日を持つことになります。
+        </p>
+
+        <figure class="figure">
+          <p class="figure__t">図2　棟数 × 項目数</p>
+          <svg viewBox="0 0 360 178" role="img" aria-labelledby="b2t b2d">
+            <title id="b2t">棟数と点検項目の掛け算の図</title>
+            <desc id="b2d">1棟あたりの点検が7項目でも、棟数が増えると管理する期限の数は掛け算で増える</desc>
+
+            <text x="14" y="22" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="10.5" fill="var(--ink-2)">1棟</text>
+            <g fill="var(--navy)" opacity=".8">
+              <rect x="40" y="12" width="13" height="13" rx="2"/><rect x="57" y="12" width="13" height="13" rx="2"/>
+              <rect x="74" y="12" width="13" height="13" rx="2"/><rect x="91" y="12" width="13" height="13" rx="2"/>
+              <rect x="108" y="12" width="13" height="13" rx="2"/><rect x="125" y="12" width="13" height="13" rx="2"/>
+              <rect x="142" y="12" width="13" height="13" rx="2"/>
+            </g>
+            <text x="166" y="23" font-family="ui-monospace,monospace" font-size="11" fill="var(--navy)">7</text>
+
+            <text x="14" y="60" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="10.5" fill="var(--ink-2)">10棟</text>
+            <g fill="var(--amber)" opacity=".75">
+              <rect x="40" y="70" width="13" height="6" rx="1.5"/><rect x="57" y="70" width="13" height="6" rx="1.5"/><rect x="74" y="70" width="13" height="6" rx="1.5"/><rect x="91" y="70" width="13" height="6" rx="1.5"/><rect x="108" y="70" width="13" height="6" rx="1.5"/><rect x="125" y="70" width="13" height="6" rx="1.5"/><rect x="142" y="70" width="13" height="6" rx="1.5"/>
+              <rect x="40" y="78.5" width="13" height="6" rx="1.5"/><rect x="57" y="78.5" width="13" height="6" rx="1.5"/><rect x="74" y="78.5" width="13" height="6" rx="1.5"/><rect x="91" y="78.5" width="13" height="6" rx="1.5"/><rect x="108" y="78.5" width="13" height="6" rx="1.5"/><rect x="125" y="78.5" width="13" height="6" rx="1.5"/><rect x="142" y="78.5" width="13" height="6" rx="1.5"/>
+              <rect x="40" y="87" width="13" height="6" rx="1.5"/><rect x="57" y="87" width="13" height="6" rx="1.5"/><rect x="74" y="87" width="13" height="6" rx="1.5"/><rect x="91" y="87" width="13" height="6" rx="1.5"/><rect x="108" y="87" width="13" height="6" rx="1.5"/><rect x="125" y="87" width="13" height="6" rx="1.5"/><rect x="142" y="87" width="13" height="6" rx="1.5"/>
+              <rect x="40" y="95.5" width="13" height="6" rx="1.5"/><rect x="57" y="95.5" width="13" height="6" rx="1.5"/><rect x="74" y="95.5" width="13" height="6" rx="1.5"/><rect x="91" y="95.5" width="13" height="6" rx="1.5"/><rect x="108" y="95.5" width="13" height="6" rx="1.5"/><rect x="125" y="95.5" width="13" height="6" rx="1.5"/><rect x="142" y="95.5" width="13" height="6" rx="1.5"/>
+              <rect x="40" y="104" width="13" height="6" rx="1.5"/><rect x="57" y="104" width="13" height="6" rx="1.5"/><rect x="74" y="104" width="13" height="6" rx="1.5"/><rect x="91" y="104" width="13" height="6" rx="1.5"/><rect x="108" y="104" width="13" height="6" rx="1.5"/><rect x="125" y="104" width="13" height="6" rx="1.5"/><rect x="142" y="104" width="13" height="6" rx="1.5"/>
+              <rect x="40" y="112.5" width="13" height="6" rx="1.5"/><rect x="57" y="112.5" width="13" height="6" rx="1.5"/><rect x="74" y="112.5" width="13" height="6" rx="1.5"/><rect x="91" y="112.5" width="13" height="6" rx="1.5"/><rect x="108" y="112.5" width="13" height="6" rx="1.5"/><rect x="125" y="112.5" width="13" height="6" rx="1.5"/><rect x="142" y="112.5" width="13" height="6" rx="1.5"/>
+              <rect x="40" y="121" width="13" height="6" rx="1.5"/><rect x="57" y="121" width="13" height="6" rx="1.5"/><rect x="74" y="121" width="13" height="6" rx="1.5"/><rect x="91" y="121" width="13" height="6" rx="1.5"/><rect x="108" y="121" width="13" height="6" rx="1.5"/><rect x="125" y="121" width="13" height="6" rx="1.5"/><rect x="142" y="121" width="13" height="6" rx="1.5"/>
+              <rect x="40" y="129.5" width="13" height="6" rx="1.5"/><rect x="57" y="129.5" width="13" height="6" rx="1.5"/><rect x="74" y="129.5" width="13" height="6" rx="1.5"/><rect x="91" y="129.5" width="13" height="6" rx="1.5"/><rect x="108" y="129.5" width="13" height="6" rx="1.5"/><rect x="125" y="129.5" width="13" height="6" rx="1.5"/><rect x="142" y="129.5" width="13" height="6" rx="1.5"/>
+              <rect x="40" y="138" width="13" height="6" rx="1.5"/><rect x="57" y="138" width="13" height="6" rx="1.5"/><rect x="74" y="138" width="13" height="6" rx="1.5"/><rect x="91" y="138" width="13" height="6" rx="1.5"/><rect x="108" y="138" width="13" height="6" rx="1.5"/><rect x="125" y="138" width="13" height="6" rx="1.5"/><rect x="142" y="138" width="13" height="6" rx="1.5"/>
+              <rect x="40" y="146.5" width="13" height="6" rx="1.5"/><rect x="57" y="146.5" width="13" height="6" rx="1.5"/><rect x="74" y="146.5" width="13" height="6" rx="1.5"/><rect x="91" y="146.5" width="13" height="6" rx="1.5"/><rect x="108" y="146.5" width="13" height="6" rx="1.5"/><rect x="125" y="146.5" width="13" height="6" rx="1.5"/><rect x="142" y="146.5" width="13" height="6" rx="1.5"/>
+            </g>
+            <text x="14" y="168" font-family="ui-monospace,monospace" font-size="13" fill="var(--amber)" font-weight="bold">70</text>
+            <text x="42" y="168" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="10.5" fill="var(--ink-2)">の期限を、それぞれ別の日付で管理する</text>
+          </svg>
+          <figcaption>
+            1棟で7項目でも、10棟なら70の期限です。しかも起点が棟ごとに違うので、まとめて動かせません。ここまで来ると、頭で覚えるのは無理になります。
+          </figcaption>
+        </figure>
+
+        <p>
+          受託する棟が増えるのは、本来いいことです。ただ、棟数に比例して管理者を増やすと、増えた分の利益がそのまま人件費に消えます。管理費の単価は決まっています。だから伸ばせるのは、<b>一人が見られる棟数のほう</b>です。人を増やすのは毎月かかり続ける固定費です。仕組みは、入れるときにまとまった費用がかかりますが、そのあとの毎月は下がります。
+        </p>
+      </section>
+    </div>
+  </div>
+
+  <section class="demo">
+    <div class="demo__in">
+      <div class="demo__box">
+        <p class="demo__k">実際の画面</p>
+        <h2>棟の情報を、ひとつの画面に集めるとどう見えるか</h2>
+        <p>
+          期限の管理は、突き詰めると「いま何が近いか」を一目で出せるかどうかです。棟の情報を一か所に集めると、どういう見え方になるかをご覧いただけます。
+        </p>
+        <p>
+          <span class="btn is-soon" role="status" aria-disabled="true">建物の画面を動かしてみる（画面は準備中）</span>
+        </p>
+        <div class="honest">
+          <b>この画面は、法定点検の期限管理そのものではありません。</b>いまお見せできるのは、建物の設備や入退館の情報を一つの画面に集めた例です。期限の一覧を出す画面は、これから作るところです。集めた情報がどう見えるかだけ、先にご覧いただければと思います。
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="col">
+
+      <section class="sec">
+        <h2>いまの管理表に、起点の列があるか確認する</h2>
+        <p>
+          いまの管理表に、何から数えるかが書いてあるか。棟ごとの消防の基準日が分かるか。この二つが分かれば、次に何をすればいいかは見えてきます。
+        </p>
+        <h3>入れる前に、台帳を一枚作ってください</h3>
+        <p>
+          さきほどの五つの列で、一棟ぶんだけ作ります。起点の列を埋めるところで、必ず調べ直しが要ります。<b>ここを済ませずに仕組みを入れると、起点が入っていない台帳がそのまま電子になるだけです。</b>
+        </p>
+        <p>
+          <a class="linkbtn" href="/contact?service=ai-consulting&intent=article&article=building">相談する</a>
+        </p>
+
+        <p style="font-size:12.5px; line-height:1.85; color:#8a939d; margin:26px 0 14px;">
+          制度の内容は改正されることがあります。実際の対応にあたっては、所管の官公庁や自治体の最新の情報をご確認ください。
+        </p>
+
+        <div class="src">
+          <h3>参考</h3>
+          <ul>
+            <li>特定建築物の衛生管理基準 ／ 東京都健康安全研究センター<br>
+              <a href="https://www.tmiph.metro.tokyo.lg.jp/k_kenchiku/bldg/kijyun/">https://www.tmiph.metro.tokyo.lg.jp/k_kenchiku/bldg/kijyun/</a></li>
+            <li>建築物衛生法関連Q&amp;A（空気環境測定・貯水槽の清掃） ／ 厚生労働省<br>
+              <a href="https://www.mhlw.go.jp/stf/newpage_10747.html">https://www.mhlw.go.jp/stf/newpage_10747.html</a></li>
+            <li>消防用設備等点検報告制度 ／ 東京消防庁<br>
+              <a href="https://www.tfd.metro.tokyo.lg.jp/lfe/office_adv/tenken_houkoku.html">https://www.tfd.metro.tokyo.lg.jp/lfe/office_adv/tenken_houkoku.html</a></li>
+            <li>点検・報告の期間（基準日の考え方） ／ 東京消防庁<br>
+              <a href="https://www.tfd.metro.tokyo.lg.jp/lfe/office_adv/tenken/p07.html">https://www.tfd.metro.tokyo.lg.jp/lfe/office_adv/tenken/p07.html</a></li>
+            <li>消防用設備等の定期点検について ／ 総務省消防庁<br>
+              <a href="https://www.digital.go.jp/assets/contents/node/basic_page/field_ref_resources/9827593b-9705-4b35-8549-fae2933efef7/20220318_meeting_administrative_research_working_group_outline_01.pdf">https://www.digital.go.jp/assets/contents/node/basic_page/field_ref_resources/9827593b-9705-4b35-8549-fae2933efef7/20220318_meeting_administrative_research_working_group_outline_01.pdf</a></li>
+          </ul>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</main>
+</body>
+</html>

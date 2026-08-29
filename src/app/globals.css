@@ -447,3 +447,14 @@
     animation: none;
   }
 }
+
+/* 記事目次セクション用（ideal から移植、AXEON カラーにマップ） */
+.article-toc-scope {
+  --article-primary: var(--color-accent-primary);
+  --article-primary-hover: var(--color-accent-primary-hover);
+  --article-bg: var(--color-bg-pure);
+  --article-bg-card: var(--color-bg-neutral);
+  --article-text: var(--color-text-primary);
+  --article-text-muted: var(--color-text-secondary);
+  --article-border: var(--color-border-light);
+}

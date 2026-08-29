@@ -1,3 +1,4 @@
+import { HomeArticleToc } from "@/components/home/articles/HomeArticleToc";
 import { HomeCeoMessageSection } from "@/components/home/HomeCeoMessageSection";
 import { HomeEmpathyCards } from "@/components/home/HomeEmpathyCards";
 import { HomeFirstView } from "@/components/home/HomeFirstView";
@@ -17,6 +18,9 @@ export function HeroSection() {
         <HomeFirstView />
         <HomeSectionShell tone="warm">
           <HomeEmpathyCards />
+        </HomeSectionShell>
+        <HomeSectionShell tone="pure">
+          <HomeArticleToc />
         </HomeSectionShell>
         <HomeSectionShell>
           <HomeIndustryShowcaseSection />

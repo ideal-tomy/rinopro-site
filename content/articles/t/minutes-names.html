@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<style>
+:root{
+  color-scheme: light only;
+  --ink:#2c2a18; --ink-2:#5a5640; --ink-3:#8a8468;
+  --pad:#f3e6a8; --sheet:#fff8d6; --rule:#e0d090;
+  --vermilion:#c45a3a;
+  --sans:"Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP","Noto Sans CJK JP","Yu Gothic Medium","Yu Gothic",Meiryo,system-ui,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root{ color-scheme:light only; }
+  html,body{ background:#f3e6a8 !important; color:#2c2a18 !important; }
+}
+*{ box-sizing:border-box; }
+body{ margin:0; background:var(--pad); color:var(--ink); font-family:var(--sans); font-size:16px; line-height:1.95; }
+h1,h2{ word-break:auto-phrase; margin:0; }
+p{ margin:0 0 1.45em; }
+a{ color:var(--vermilion); }
+.wrap{ max-width:720px !important; margin:0 auto; padding:0 22px; }
+.col{ max-width:620px; margin:0 auto; }
+
+.cover{ background:#e8d878; color:var(--ink); padding:44px 0 36px; margin:0 -22px 0; }
+.cover__in{ max-width:620px; margin:0 auto; padding:0 22px; }
+.cover__tag{ font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; color:var(--ink-3); margin:0 0 14px; }
+.cover h1{ font-size:30px; line-height:1.48; font-weight:800; margin:0 0 16px; max-width:15em; }
+.cover__meta{ font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; color:var(--ink-3); display:flex; gap:14px; flex-wrap:wrap; margin:0 0 20px; }
+
+.memo{
+  background:var(--sheet);
+  background-image:repeating-linear-gradient(transparent,transparent 27px,#e8dca0 27px,#e8dca0 28px);
+  border:1px solid #d4c070; padding:18px 22px 20px; margin:0 0 18px;
+  box-shadow:1px 2px 0 rgba(44,42,24,.08);
+}
+.memo__date{ font-family:var(--mono); font-size:11px; color:var(--ink-3); margin:0 0 10px; }
+.memo p{ margin:0 0 8px; font-size:15px; }
+.memo p:last-child{ margin:0; }
+.zhu{ color:var(--vermilion); font-weight:700; text-decoration:underline; text-decoration-thickness:2px; text-underline-offset:3px; }
+
+.cut{ padding:14px 16px; background:var(--sheet); border:1px dashed var(--vermilion); margin:0; }
+.cut p{ margin:0 0 .35em; font-size:14px; color:var(--ink-2); }
+.cut p:last-child{ margin:0; }
+.cut .lbl{ font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; color:var(--vermilion); margin-bottom:8px; }
+
+.body{ padding:38px 0 10px; }
+.lede{ font-size:17px; color:var(--ink-2); }
+
+.ruled{ margin:0 0 2.6em; }
+.ruled h2{
+  font-size:21px; font-weight:800; line-height:1.55; margin:0 0 16px;
+  border-bottom:1px solid #c8b870; padding-bottom:6px;
+  background:linear-gradient(transparent 70%, rgba(196,90,58,.12) 70%);
+}
+
+.paper-list{ margin:0 0 1.4em; padding:14px 18px; background:var(--sheet); border-left:8px solid #d4c070; }
+.paper-list li{ margin-bottom:.4em; font-size:15px; }
+
+.figure{ margin:1.8em 0 2.2em; }
+.figure__lab{ font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; color:var(--ink-3); margin:0 0 10px; }
+.figure__cap{ font-size:12.5px; color:var(--ink-2); margin:12px 0 0; line-height:1.75; }
+.two-col{ display:grid; grid-template-columns:1fr 1fr; gap:0; border:1px solid #d4c070; font-size:14px; }
+.two-col div{ padding:14px 16px; }
+.two-col .keep{ background:var(--sheet); }
+.two-col .drop{ background:#f8e4d8; border-left:1px solid #d4c070; color:var(--vermilion); }
+
+.cite{ display:inline-block; font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; color:var(--vermilion); border:1px solid var(--vermilion); padding:5px 10px; text-decoration:none; margin:0 0 1.4em; }
+
+.know{ background:var(--sheet); border:1px solid #d4c070; padding:20px 18px; margin:24px 0; }
+.know p{ margin:0; font-size:15px; color:var(--ink-2); }
+
+.cta{ border-top:1px solid #d4c070; margin:44px 0 0; padding:28px 0 0; }
+.linkbtn{ display:inline-block; background:var(--ink); color:#fff; font-weight:700; font-size:15px; text-decoration:none; padding:14px 28px; }
+.disc{ font-size:12.5px; color:var(--ink-3); margin:20px 0 0; }
+.refs{ margin:28px 0 0; padding-top:18px; border-top:1px solid #d4c070; }
+.refs h3{ font-family:var(--mono); font-size:10px; letter-spacing:.14em; color:var(--ink-3); margin:0 0 8px; }
+.refs li{ font-size:13px; line-height:1.8; color:var(--ink-2); margin-bottom:5px; }
+
+@media (max-width:640px){
+  .cover h1{ font-size:23px; }
+  .two-col{ grid-template-columns:1fr; }
+  .two-col .drop{ border-left:0; border-top:1px solid #d4c070; }
+}
+</style>
+</head>
+<body>
+<div class="wrap is-theme">
+
+<section class="cover">
+  <div class="cover__in">
+    <p class="cover__tag">事務所　議事の名前の扱い</p>
+    <h1>会議の録音を、そのまま文字にできない。</h1>
+    <p class="cover__meta">
+      <span>読むのに 7分</span>
+      <span>法令の確認 2026.08</span>
+    </p>
+    <div class="memo">
+      <p class="memo__date">3/12　現場打合せ</p>
+      <p>出席：山田、<span class="zhu">田中商事・佐藤様</span></p>
+      <p>決定：工期を1週間延ばす</p>
+      <p>次回：<span class="zhu">佐藤 090-××××</span> へ連絡</p>
+    </div>
+    <div class="cut">
+      <p class="lbl">残すつもりだったもの</p>
+      <p>決まったこと。工期と次回の日付。</p>
+      <p><b>文字にすると、顧客名と個人名が決定の隣に並ぶ。</b></p>
+    </div>
+  </div>
+</section>
+
+<div class="body col">
+
+<p class="lede">残したいのは、決まったことです。録音を文字にすると、顧客の社名と、出席した人の氏名が、決定の隣に並びます。議事として社内に残すつもりでも、外のサービスに入れる段階で止まります。</p>
+
+<section class="ruled">
+<h2>残してよい名前を、会議の前に紙一枚にする</h2>
+<p>よくあるのが、「終わってから消せばいい」という進め方です。消す作業は残ります。消し漏れも残ります。</p>
+<p>会議の前に、一枚だけ書きます。</p>
+<ul class="paper-list">
+  <li>社内に残してよい名前</li>
+  <li>議事から外す名前（顧客の個人名、電話、メール）</li>
+  <li>社名を出すか、伏せるか</li>
+</ul>
+<p>この一枚が無いと、文字にしたあとで毎回判断することになります。</p>
+</section>
+
+<section class="ruled">
+<h2>顧客名と個人名は、決定事項の外に置く</h2>
+<p>個人情報保護法では、氏名など特定の個人を識別できる情報の取扱いに、利用目的と安全管理の決まりがあります。議事に名前が残ること自体が直ちに違法という話ではありません。ただ、<b>録音を外のサービスへ渡す時点で、社内の利用目的を超えることがあります。</b></p>
+<p>ここは先に決めておいてください。決定事項だけ残すのか、出席者名簿も残すのか。顧客の担当者名は、社内の連絡用に別紙へ置くのか。</p>
+<p>正直なところ、録音ボタンを押したあとにこの線を引くのは難しいです。声はそのまま入ります。</p>
+<a class="cite" href="https://www.ppc.go.jp/personalinfo/legal/guidelines_tsusoku/">出典　個人情報保護委員会　ガイドライン（通則編）</a>
+</section>
+
+<section class="ruled">
+<h2>社内の名前と、外の名前を分ける</h2>
+<p>社内の担当名は、あとから仕事を追うときに要ることがあります。顧客側の個人名は、議事の本文に無くても仕事は進みます。この二つを同じ欄に書くと、あとから分けられません。</p>
+
+<figure class="figure">
+  <p class="figure__lab">図　議事の本文と、名前の置き場</p>
+  <div class="two-col">
+    <div class="keep">本文に残す<br>工期を1週間延ばす<br>次回 3/26</div>
+    <div class="drop">別紙へ<br>顧客担当の氏名・電話</div>
+  </div>
+  <figcaption class="figure__cap">紙の段階で分けておくと、文字にする範囲も決まります。</figcaption>
+</figure>
+</section>
+
+<section class="ruled">
+<h2>文字にしたあとで消すより、先に決める</h2>
+<p>起こした文章から氏名を探す作業は、会議のたびに発生します。先に「残す名前の一覧」があれば、起こす範囲そのものを狭められます。</p>
+<p>社内で話すなら、「議事録を自動で作りたい」ではなくて構いません。「録音には顧客の個人名が入る。残してよい名前が決まっていないので、文字にできない」と言えば足ります。</p>
+</section>
+
+<section class="ruled">
+<h2>次の会議の一枚から始める</h2>
+<p>全部の過去議事を直す必要はありません。次の打合せの前に、残してよい名前を五人分だけ書きます。顧客側は社名までにする、と決めても構いません。</p>
+<p>録音はその範囲で残す。範囲の外は、議事に書かない。<b>名前の線が無いと、録音はそのまま文字にできない</b>——ここが先です。起こす道具は、そのあとに選べます。</p>
+
+<div class="know">
+  <p>この記事は知識のみです。デモ画面はありません。次の会議の前に、残してよい名前を紙一枚にしてください。</p>
+</div>
+</section>
+
+<div class="cta">
+  <p><a class="linkbtn" href="/contact?service=ai-consulting&amp;intent=article&amp;article=minutes-names">相談する</a></p>
+  <p class="disc">法令の解釈は改正されることがあります。実際の対応にあたっては、所管の官公庁や専門家の最新の情報をご確認ください。</p>
+</div>
+
+<div class="refs">
+  <h3>参考</h3>
+  <ul>
+    <li>個人情報の保護に関する法律についてのガイドライン（通則編） ／ 個人情報保護委員会<br>
+      <a href="https://www.ppc.go.jp/personalinfo/legal/guidelines_tsusoku/">https://www.ppc.go.jp/personalinfo/legal/guidelines_tsusoku/</a></li>
+  </ul>
+</div>
+
+</div>
+</div>
+</body>
+</html>

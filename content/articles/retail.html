@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<style>
+
+:root{
+  color-scheme: light only;
+  --ink:#1a1f2b; --ink-2:#545c6b; --ink-3:#8b93a1;
+  --bg:#eef1f6; --surface:#ffffff;
+  --line:#dde2ea; --line-2:#c6cddb;
+  --blue:#1668b8; --blue-d:#0f4f8f; --blue-l:#e7f0f9;
+  --alert:#b1442f;
+  --sans:"Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP","Noto Sans CJK JP","Yu Gothic Medium","Yu Gothic",Meiryo,system-ui,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    color-scheme: light only;
+    --ink:#1a1f2b; --ink-2:#545c6b; --ink-3:#8b93a1;
+    --bg:#eef1f6; --surface:#ffffff;
+    --line:#dde2ea; --line-2:#c6cddb;
+    --blue:#1668b8; --blue-d:#0f4f8f; --blue-l:#e7f0f9; --alert:#b1442f;
+  }
+  html, body{ background:#eef1f6 !important; color:#1a1f2b !important; }
+}
+*{ box-sizing:border-box; }
+html{ -webkit-text-size-adjust:100%; }
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:var(--sans); font-size:16px; line-height:1.9;
+  font-feature-settings:"palt" 1;
+}
+h1,h2{ word-break:auto-phrase; line-break:strict; text-wrap:balance; margin:0; }
+p{ margin:0 0 1.5em; }
+a{ color:var(--blue); }
+
+.wrap{ max-width:940px; margin:0 auto; padding:0 22px; }
+.col{ max-width:610px; }
+
+.top{ background:var(--surface); border-bottom:1px solid var(--line-2); }
+.top__in{ max-width:900px; margin:0 auto; padding:13px 22px; display:flex; align-items:baseline; gap:14px; }
+.brand{ font-family:var(--mono); font-weight:700; font-size:15px; letter-spacing:.14em; color:var(--blue); text-decoration:none; }
+.crumb{ font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; color:var(--ink-3); }
+
+.hero{ background:var(--surface); border-bottom:1px solid var(--line-2); padding:50px 0 42px; }
+.cover{
+  border-bottom:1px solid var(--line-2); padding-bottom:14px; margin:0 0 22px;
+  display:flex; justify-content:space-between; align-items:baseline; gap:14px; flex-wrap:wrap;
+}
+.cover .title{ font-size:13px; letter-spacing:.08em; color:var(--blue); font-weight:700; margin:0; font-family:var(--mono); }
+.meta{ font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; color:var(--ink-3); margin:0; display:flex; gap:12px; flex-wrap:wrap; }
+.hero h1{ font-size:34px; line-height:1.5; font-weight:700; margin:0 0 18px; max-width:16em; }
+.hero__lead{ font-size:16px; color:var(--ink-2); max-width:32em; margin:0 0 28px; }
+
+.cite{
+  display:inline-block; margin:0 0 1.2em;
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.1em;
+  color:var(--alert); border:1px solid var(--alert); padding:5px 10px 4px;
+  text-decoration:none;
+}
+.cite:hover{ background:rgba(196,74,54,.08); }
+
+.inbox{ max-width:640px; border:1px solid var(--line-2); background:var(--surface); }
+.inbox__hd{
+  display:flex; justify-content:space-between; align-items:center;
+  padding:10px 14px; border-bottom:1px solid var(--line); background:#f7f9fc;
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; color:var(--ink-2);
+}
+.inbox__count{ color:var(--blue); font-weight:700; }
+.row{ display:flex; align-items:flex-start; gap:11px; padding:11px 14px; border-bottom:1px solid var(--line); font-size:13.5px; line-height:1.6; }
+.row:last-of-type{ border-bottom:0; }
+.row time{ font-family:var(--mono); font-size:11px; color:var(--ink-3); padding-top:2px; white-space:nowrap; width:38px; flex:none; }
+.row p{ margin:0; flex:1; }
+.tag{
+  flex:none; font-size:10.5px; line-height:1.6; padding:1px 8px; border-radius:2px; white-space:nowrap;
+  background:#eef1f6; color:var(--ink-3);
+}
+.inbox.is-tagged .tag{ font-weight:700; }
+.tag.w{ background:#fbeae6; color:var(--alert); font-weight:700; }
+.tag.n{ background:var(--blue-l); color:var(--blue-d); font-weight:700; }
+.tag.f{ background:#eaf3ea; color:#3f6b54; font-weight:700; }
+.inbox__cap{ font-size:12.5px; line-height:1.8; color:var(--ink-2); padding:12px 14px; background:#f7f9fc; border-top:1px solid var(--line); margin:0; }
+
+.body{ padding:50px 0 0; }
+.sec{ padding:0 0 6px; }
+.sec + .sec{ padding-top:56px; }
+.num{ display:flex; align-items:baseline; gap:10px; margin:0 0 8px; }
+.num b{ font-family:var(--mono); font-size:38px; line-height:1.1; font-weight:700; color:var(--blue); letter-spacing:-.02em; }
+.num span{ font-size:13px; color:var(--ink-2); }
+.sec h2{ font-size:25px; line-height:1.54; font-weight:700; margin:0 0 20px; max-width:20em; }
+.sec + .sec h2{ padding-top:16px; border-top:2px solid var(--blue); }
+.sec h3{ font-size:15.5px; font-weight:700; margin:28px 0 8px; }
+.lede{ font-size:17px; }
+
+/* 四つの分け方 */
+.why{ max-width:610px; margin:0 0 1.7em; }
+.why div{ background:var(--surface); border:1px solid var(--line); border-left-width:4px; padding:14px 17px 12px; margin-bottom:9px; }
+.why div:nth-child(1){ border-left-color:var(--alert); }
+.why div:nth-child(2){ border-left-color:var(--blue); }
+.why div:nth-child(3){ border-left-color:#3f6b54; }
+.why div:nth-child(4){ border-left-color:var(--ink-3); }
+.why div.is-key{ padding:18px 17px 16px; border-left-width:6px; }
+.why div.is-key b{ font-size:18px; }
+.why b{ display:block; font-size:16px; }
+.why span{ font-size:14px; color:var(--ink-2); line-height:1.85; }
+
+.law{ background:var(--surface); border:1px solid var(--line-2); padding:20px 22px 17px; margin:0 0 1.7em; max-width:610px; }
+.law h3{ font-size:15.5px; font-weight:700; margin:0 0 10px; color:var(--alert); }
+.law p{ font-size:14.5px; line-height:1.88; margin:0 0 .9em; }
+.law p:last-child{ margin:0; }
+.law ol, .law ul{ margin:0 0 .9em; padding-left:1.3em; font-size:14.5px; line-height:1.88; }
+
+.plain{ margin:0 0 1.6em; padding-left:1.2em; max-width:610px; }
+.plain li{ margin-bottom:9px; }
+
+.figure{ background:transparent; border:0; padding:0; margin:0 0 2.5em; max-width:900px; width:min(900px, calc(100vw - 40px)); }
+.figure svg{ display:block; width:100%; height:auto; }
+.figure__t{ font-family:var(--mono); font-size:10px; letter-spacing:.14em; color:var(--blue); font-weight:700; margin:0 0 10px; }
+.figure figcaption{ font-size:12.5px; line-height:1.85; color:var(--ink-2); margin:12px 0 0; padding-top:10px; border-top:1px solid var(--line); }
+
+.demo{ background:var(--ink); color:#fff; margin:60px 0; padding:48px 0 46px; }
+.demo__in{ max-width:900px; margin:0 auto; padding:0 22px; }
+.demo__box{ max-width:610px; }
+.demo .kicker{ font-family:var(--mono); font-size:10.5px; letter-spacing:.18em; color:#8fb6df; margin:0 0 14px; }
+.demo h2{ font-size:26px; line-height:1.52; font-weight:700; margin:0 0 16px; color:#fff; }
+.demo p{ color:#c6cedb; font-size:15px; }
+.steps3{ margin:0 0 1.4em; padding:0; list-style:none; }
+.steps3 li{ border-top:1px solid #333a49; padding:12px 0 10px; font-size:14.5px; color:#e2e7ef; }
+.steps3 li:last-child{ border-bottom:1px solid #333a49; }
+.steps3 small{ display:block; color:#9aa5b6; font-size:12.5px; }
+.btn{ display:inline-block; background:#fff; color:var(--ink); font-weight:700; font-size:15px; text-decoration:none; padding:15px 30px; border-radius:2px; }
+.btn:hover{ background:#e7f0f9; }
+.fine{ font-size:12.5px; line-height:1.95; color:#9aa5b6; margin:18px 0 0; }
+.fine b{ color:#fff; }
+
+.linkbtn{ display:inline-block; background:var(--blue); color:#fff; text-decoration:none; font-weight:700; font-size:15px; padding:15px 30px; border-radius:2px; }
+.linkbtn:hover{ background:var(--blue-d); }
+
+.src{ margin:50px 0 0; padding:24px 0 0; border-top:1px solid var(--line-2); max-width:610px; }
+.src h3{ font-family:var(--mono); font-size:10px; letter-spacing:.16em; color:var(--ink-3); margin:0 0 12px; font-weight:700; }
+.src ul{ margin:0; padding-left:1.15em; }
+.src li{ font-size:12.5px; line-height:1.85; color:var(--ink-2); margin-bottom:6px; }
+.src a{ word-break:break-all; }
+
+.foot{ background:var(--surface); border-top:1px solid var(--line-2); margin-top:56px; padding:24px 0 42px; }
+.foot__in{ max-width:900px; margin:0 auto; padding:0 22px; font-family:var(--mono); font-size:11px; letter-spacing:.1em; color:var(--ink-3); }
+
+@media (max-width:640px){
+  body{ font-size:15.5px; line-height:1.88; }
+  .wrap{ padding:0 18px; }
+  .top__in{ padding:12px 18px; }
+  .hero{ padding:36px 0 32px; }
+  .hero h1{ font-size:24px; line-height:1.56; }
+  .hero__lead{ font-size:15px; margin-bottom:26px; }
+  .row{ font-size:12.5px; gap:8px; padding:10px 11px; }
+  .row time{ width:34px; font-size:10px; }
+  .tag{ font-size:9.5px; padding:1px 6px; }
+  .num b{ font-size:30px; }
+  .sec h2{ font-size:20px; }
+  .law{ padding:17px 16px 15px; }
+  .figure figcaption{ font-size:12px; }
+  .demo{ margin:46px 0; padding:36px 0 36px; }
+  .demo__in{ padding:0 18px; }
+  .demo h2{ font-size:20px; }
+  .btn, .linkbtn{ display:block; text-align:center; padding:16px 18px; }
+  .foot__in{ padding:0 18px; }
+}
+a:focus-visible, .btn:focus-visible, .linkbtn:focus-visible{ outline:2px solid var(--blue); outline-offset:3px; }
+@media (prefers-reduced-motion:reduce){ .tag{ transition:none; } }
+
+/* publish overrides */
+.demo-first-step{ font-size:13.5px; line-height:1.85; margin:0 0 14px; opacity:.95; }
+.btn.is-soon,.n__go.is-soon{
+  display:inline-block; opacity:.65; cursor:default; pointer-events:none;
+  font-weight:700; font-size:15px; padding:15px 30px; border-radius:2px;
+  background:#e8e8e8; color:#555; text-decoration:none;
+}
+</style>
+</head>
+<body>
+<section class="hero">
+  <div class="wrap">
+    <div class="col">
+      <div class="cover">
+        <p class="title">小売・ネットショップ　問い合わせの減らし方</p>
+        <p class="meta">
+          <span>読むのに 9分</span>
+          <span>2026.08 ／ 法令の確認 2026.08</span>
+        </p>
+      </div>
+      <h1>問い合わせが減らない理由と、その直し方。</h1>
+      <p class="hero__lead">
+        届く問い合わせの多くは、書いていない・届いていない・見つからない、から来ています。返品の表示、発送の通知、置き場所。直す順番をまとめました。
+      </p>
+    </div>
+
+    <div class="inbox" id="inbox">
+      <div class="inbox__hd">
+        <span>問い合わせ　8月17日</span>
+        <span class="inbox__count" id="ic">10件</span>
+      </div>
+
+      <div class="row"><time>09:12</time><p>注文した商品、いつ届きますか</p><span class="tag n">届いていない</span></div>
+      <div class="row"><time>09:40</time><p>サイズが合わないので返品したいです</p><span class="tag w">書いていない</span></div>
+      <div class="row"><time>10:05</time><p>このコート、Mの在庫はありますか</p><span class="tag f">見つからない</span></div>
+      <div class="row"><time>10:33</time><p>返送の送料はどちらが持つのですか</p><span class="tag w">書いていない</span></div>
+      <div class="row"><time>11:02</time><p>領収書を発行してもらえますか</p><span class="tag f">見つからない</span></div>
+      <div class="row"><time>11:47</time><p>先週の商品と同じ生地か知りたいです</p><span class="tag">人が要る</span></div>
+      <div class="row"><time>13:20</time><p>昨日注文したものの発送状況を教えてください</p><span class="tag n">届いていない</span></div>
+      <div class="row"><time>14:05</time><p>いつまでなら交換できますか</p><span class="tag w">書いていない</span></div>
+      <div class="row"><time>15:31</time><p>再入荷の予定はありますか</p><span class="tag f">見つからない</span></div>
+      <div class="row"><time>16:48</time><p>贈り物なので包装をお願いしたいです</p><span class="tag">人が要る</span></div>
+
+      <p class="inbox__cap" id="icap">よくある一日です。</p>
+    </div>
+  </div>
+</section>
+
+<main class="body">
+  <div class="wrap">
+    <div class="col">
+
+      <section class="sec">
+        <p class="lede">
+          冒頭の十件を見ると、返品・送料・交換の期限、いつ届くか、在庫や領収書、生地や包装の相談が混ざっています。内容で分けると担当は割り振れますが、件数は減りません。
+        </p>
+        <p>
+          直し方は三つです。返品の条件を書く。発送を知らせ、在庫と領収書を要る画面に置く。人が答える分だけ残す。順番に書きます。
+        </p>
+      </section>
+
+      <section class="sec">
+        <h2>返品の条件を、商品ページと確認画面に書く</h2>
+        <p>
+          冒頭でいちばん多いのが、返品したい・送料はどちらが持つのか・いつまで交換できるのか、です。サイトに書いていないので聞くしかありません。ここには法令で決まっていることがあります。
+        </p>
+
+        <div class="law">
+          <h3>返品の条件を書いていないと、八日間は返品できます</h3>
+          <p>
+            通信販売では、返品に関する特約を広告と最終確認画面に表示していない場合、<b>商品を受け取った日から八日以内は、お客さまの送料負担で返品や契約の解除ができます。</b>特定商取引法の第15条の3で決まっています。
+          </p>
+          <p>
+            逆に、表示していればその内容が通ります。返品不可でも、七日以内でも、条件つきでも構いません。<b>書いてあるかどうかが分かれ目です。</b>
+          </p>
+          <p>表示する要素は三つあり、どれも省けません。</p>
+          <ol>
+            <li>返品できるかどうか</li>
+            <li>できる場合の期間と条件</li>
+            <li>送料をどちらが負担するか</li>
+          </ol>
+          <p>
+            置き場所にも注意が要ります。目立たない場所や、小さすぎる注記は、表示していない扱いになるおそれがあります。フッターだけ、という状態はよくありません。
+          </p>
+        </div>
+        <p>
+          <a class="cite" href="https://www.no-trouble.caa.go.jp/case/mailorder/case01.html" target="_blank" rel="noopener noreferrer">出典　消費者庁　特商法　返品ルール</a>
+        </p>
+
+        <figure class="figure">
+          <p class="figure__t">図1　同じ「返品したい」でも、結末が分かれます</p>
+          <svg viewBox="0 0 360 200" role="img" aria-labelledby="t1t t1d">
+            <title id="t1t">返品特約の表示があるかないかで結末が分かれる図</title>
+            <desc id="t1d">同じ返品の申し出でも、表示していない場合は八日間の返品に応じることになり、表示していれば自社の条件が適用される</desc>
+
+            <rect x="14" y="82" width="94" height="34" rx="3" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.4"/>
+            <text x="61" y="103" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="11.5" fill="var(--ink)" text-anchor="middle">返品したい</text>
+
+            <path d="M112 96 C150 96 150 50 186 50" fill="none" stroke="var(--alert)" stroke-width="1.6"/>
+            <path d="M112 102 C150 102 150 150 186 150" fill="none" stroke="var(--blue)" stroke-width="1.6"/>
+
+            <rect x="186" y="28" width="160" height="46" rx="3" fill="#fbeae6" stroke="var(--alert)" stroke-width="1.4"/>
+            <text x="196" y="46" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="10.5" fill="var(--alert)">表示していない</text>
+            <text x="196" y="64" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="12" fill="var(--alert)" font-weight="bold">8日以内は返品に応じる</text>
+
+            <rect x="186" y="128" width="160" height="46" rx="3" fill="var(--blue-l)" stroke="var(--blue)" stroke-width="1.4"/>
+            <text x="196" y="146" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="10.5" fill="var(--blue-d)">表示している</text>
+            <text x="196" y="164" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="12" fill="var(--blue-d)" font-weight="bold">書いた条件がそのまま通る</text>
+          </svg>
+          <figcaption>
+            分かれ目は、対応のうまさでも交渉でもありません。書いてあるかどうかだけです。書いていない状態で断ろうとするから、そこで長い話になります。
+          </figcaption>
+        </figure>
+
+        <h3>注文が確定する直前の画面にも書く</h3>
+        <p>
+          2022年6月に施行された改正で、インターネットや申込書面で注文を受ける場合、<b>注文が確定する直前の画面に六つの契約事項を表示することが義務</b>になりました。定期購入だけの話ではなく、すべての通信販売が対象です。
+        </p>
+        <p>
+          商品ページに書いてあっても、最終確認画面に出ていなければ足りません。返品の条件も、ここに含まれます。
+        </p>
+      </section>
+
+      <section class="sec">
+        <h2>発送したら知らせる。在庫と領収書は、要る画面に置く</h2>
+        <p>
+          「いつ届きますか」は、情報がないから聞かれているのではありません。<b>こちらは知っているのに、お客さまに届いていない</b>から聞かれています。発送した時点で通知を出す。追跡番号を載せる。おおよその到着日を注文時点で示しておく。この三つで、かなりの数が消えます。
+        </p>
+        <p>
+          在庫、再入荷、領収書は、書いてあることが多いのですが、お客さまがたどり着けていません。直し方は内容を増やすことではなく、置き場所を変えることです。<b>その情報が必要になる画面に置く</b>のが基本です。
+        </p>
+        <ul class="plain">
+          <li>在庫と再入荷 … 商品ページの、サイズを選ぶすぐ横</li>
+          <li>領収書 … 注文履歴の画面</li>
+          <li>返品の条件 … 商品ページと、最終確認画面</li>
+        </ul>
+
+        <figure class="figure">
+          <p class="figure__t">図2　受信箱に届く前に、三か所で止められます</p>
+          <svg viewBox="0 0 360 178" role="img" aria-labelledby="t2t t2d">
+            <title id="t2t">問い合わせが三か所で減っていく図</title>
+            <desc id="t2d">商品ページ、最終確認画面、発送通知の三か所でそれぞれ一部が解決し、最後まで残ったものだけが問い合わせとして届く</desc>
+
+            <rect x="10" y="60" width="52" height="40" rx="2" fill="var(--blue)" opacity=".85"/>
+            <text x="36" y="118" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="9.5" fill="var(--ink-2)" text-anchor="middle">疑問</text>
+
+            <g stroke="var(--line-2)" stroke-width="1" stroke-dasharray="3 3">
+              <line x1="100" y1="34" x2="100" y2="140"/>
+              <line x1="180" y1="34" x2="180" y2="140"/>
+              <line x1="260" y1="34" x2="260" y2="140"/>
+            </g>
+            <g font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="9.5" fill="var(--ink-2)" text-anchor="middle">
+              <text x="100" y="28">商品ページ</text>
+              <text x="180" y="28">最終確認画面</text>
+              <text x="260" y="28">発送通知</text>
+            </g>
+
+            <rect x="106" y="66" width="52" height="28" rx="2" fill="var(--blue)" opacity=".7"/>
+            <rect x="186" y="70" width="52" height="20" rx="2" fill="var(--blue)" opacity=".55"/>
+            <rect x="266" y="74" width="52" height="12" rx="2" fill="var(--blue)" opacity=".4"/>
+
+            <text x="292" y="118" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="9.5" fill="var(--ink-2)" text-anchor="middle">問い合わせ</text>
+
+            <g fill="var(--ink-3)" font-size="9.5" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif">
+              <text x="72" y="152">返品条件</text>
+              <text x="150" y="152">六つの事項</text>
+              <text x="234" y="152">追跡番号</text>
+            </g>
+            <g stroke="var(--line-2)" stroke-width="1">
+              <line x1="100" y1="140" x2="100" y2="146"/>
+              <line x1="180" y1="140" x2="180" y2="146"/>
+              <line x1="260" y1="140" x2="260" y2="146"/>
+            </g>
+          </svg>
+          <figcaption>
+            疑問は、受信箱に届く前に三か所を通ります。それぞれの場所に必要なことが書いてあれば、そこで解決して終わります。最後まで抜けてきたものだけが、問い合わせになります。
+          </figcaption>
+        </figure>
+      </section>
+
+      <section class="sec">
+        <div class="num"><b>2</b><span>十件のうち、人が対応するしかなかった件数</span></div>
+        <h2>人が答える分だけ残す</h2>
+        <p>
+          返品の表示と、発送の通知と、置き場所を直すと、残るのは「どうしても人が要る」ものだけになります。冒頭の十件では二件でした。生地の質問、贈り物の包装。その場で考えて答える必要があります。
+        </p>
+        <p>
+          いまは八件と二件を同じ人が同じ順番で処理しているので、この二件にも数分しか使えていません。<b>人を減らすためのお話ではなく、この二件に時間を回すためのお話です。</b>
+        </p>
+      </section>
+    </div>
+  </div>
+
+  <section class="demo">
+    <div class="demo__in">
+      <div class="demo__box">
+        <p class="kicker">実際の画面</p>
+        <h2>人が答える分を、どう回すか</h2>
+        <p>
+          表示と通知を直しても、問い合わせがゼロになることはありません。書いてあることを聞かれることもありますし、夜間や休日にも届きます。
+        </p>
+        <p>
+          その分をどう回すかを、画面でご覧いただけます。大事なのは、全部に答えさせないことです。
+        </p>
+        <ul class="steps3">
+          <li>お客さまとして質問してみる<small>実際に届く問い合わせと同じ内容で試せます</small></li>
+          <li>裏側で何を見て答えたのかを表示する<small>どの案内文をもとにしたかが出ます</small></li>
+          <li>よくある質問をまとめた文章を入れて、同じことを試す<small>お手元の文章を貼り付けるだけです</small></li>
+        </ul>
+        <p>
+          <p class="demo-first-step">まず、お客さまの気持ちで質問を一つ打ってみてください。新しい画面が開きます。会社名や連絡先を入れる必要はありません。</p><a class="btn" href="https://customer-support-demo-lime.vercel.app/" data-demo="support" target="_blank" rel="noopener noreferrer">問い合わせの画面を動かしてみる</a>
+        </p>
+        <p class="fine">
+          こちらで用意した商品と案内文で動きます。3分ほどで終わります ／ 登録は要りません。<br>
+          <b>答えられない質問は、答えずに人へ回します。</b>返品の期限や送料の負担を間違えると、そのまま苦情になります。そこもお試しいただけます。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="col">
+
+      <section class="sec">
+        <h2>担当者が謝らなくていい状態を、先に作る</h2>
+        <p>
+          問い合わせ対応は、社内でいちばん消耗する仕事です。理不尽な言われ方をすることもあります。
+        </p>
+        <p>
+          ただ、その中身をよく見てください。「返品できると思っていた」「送料がかかるとは聞いていない」「いつ届くか分からず不安だった」。<b>どれも、書いていなかったことから始まっています。</b>
+        </p>
+        <p class="lede">
+          対応がまずかったのではなく、対応する前から不利な状態でした。
+        </p>
+        <p>
+          担当者が消耗して辞めると、次の人がまた同じ状態で謝ることになります。三か所の表示を直すのに、費用はほとんどかかりません。まずそこからで構わないと思います。
+        </p>
+        <p>
+          商品ページと、最終確認画面。この二か所に、返品の可否と期間と送料の負担が書いてあるか。それだけ確認していただければ、次に何をすればいいかは見えてきます。まだ問い合わせが多いようであれば、そのときに残りの話をさせてください。
+        </p>
+        <p>
+          <a class="linkbtn" href="/contact?service=ai-consulting&intent=article&article=retail">相談する</a>
+        </p>
+
+                  <p style="font-size:12.5px; line-height:1.85; color:#8a8a8a; margin:0 0 14px;">
+            制度の内容は改正されることがあります。実際の対応にあたっては、所管の官公庁や自治体の最新の情報をご確認ください。
+          </p>
+        <div class="src">
+          <h3>参考</h3>
+          <ul>
+            <li>通信販売の返品ルール ／ 消費者庁 特定商取引法ガイド<br>
+              <a href="https://www.no-trouble.caa.go.jp/case/mailorder/case01.html">https://www.no-trouble.caa.go.jp/case/mailorder/case01.html</a></li>
+            <li>EC・通販事業者が押さえるべき表示義務と違反リスク<br>
+              <a href="https://pro-marketing.jp/marketing-law/tokusho-law-ec-guide/">https://pro-marketing.jp/marketing-law/tokusho-law-ec-guide/</a></li>
+            <li>中小EC・小売の問い合わせ傾向<br>
+              <a href="https://dealca.co.jp/blog/retail-ec-ai-chatbot-2026.html">https://dealca.co.jp/blog/retail-ec-ai-chatbot-2026.html</a></li>
+          </ul>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</main>
+
+<script>
+(function(){
+  var inbox = document.getElementById('inbox');
+  var ic    = document.getElementById('ic');
+  var cap   = document.getElementById('icap');
+  if(!inbox) return;
+
+  function tag(){
+    inbox.classList.add('is-tagged');
+    ic.textContent = '人が要るのは 2件';
+    cap.textContent = 'なぜ来たのかを書き足すと、こうなります。';
+  }
+
+  if(!('IntersectionObserver' in window) ||
+     window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    tag(); return;
+  }
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting){ setTimeout(tag, 1200); io.unobserve(e.target); }
+    });
+  }, { rootMargin:'0px 0px -12% 0px' });
+  io.observe(inbox);
+})();
+</script>
+</body>
+</html>
