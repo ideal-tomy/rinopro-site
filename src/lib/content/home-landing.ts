@@ -3,11 +3,11 @@
 export const homeLandingCopy = {
   firstView: {
     eyebrow: "AXEON",
-    headlineLine1: "AIという最先端技術で",
-    headlineLine2: "人にしかできないことに集中できる社会へ",
+    headlineLine1: "仕事の複雑さを",
+    headlineLine2: "シンプルな仕組みへ",
     subheadline: "",
     body:
-      "手作業や定型業務を自動化し、\n人は、人にしか生み出せない価値へ。\n\nAXEONは、業務効率化のその先にある企業の本質的な変革を支援します。",
+      "Web、AI、業務ツール。\n必要な技術を組み合わせて、現場に合った環境をつくります。",
     /** ideal 活用イメージ系ビジュアルを流用 */
     heroImage: {
       src: "/images/cases/cases-hero-visual01.png",
