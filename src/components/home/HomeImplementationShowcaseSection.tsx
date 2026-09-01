@@ -24,8 +24,6 @@ export function HomeImplementationShowcaseSection() {
     >
       <HomeLandingSectionHeading
         id="home-implementation-showcase-heading"
-        index={copy.sectionIndex}
-        kicker={copy.sectionKicker}
         title={copy.heading}
         description={copy.intro}
       />

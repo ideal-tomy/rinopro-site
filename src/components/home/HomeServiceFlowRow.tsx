@@ -23,8 +23,6 @@ export function HomeServiceFlowRow() {
     >
       <HomeLandingSectionHeading
         id="home-flow-heading"
-        index={flow.sectionIndex}
-        kicker={flow.sectionKicker}
         title={flow.heading}
         description={flow.intro}
       />

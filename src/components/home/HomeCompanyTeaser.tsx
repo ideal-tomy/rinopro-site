@@ -13,8 +13,6 @@ export function HomeCompanyTeaser() {
     >
       <HomeLandingSectionHeading
         id="home-company-teaser-heading"
-        index={company.sectionIndex}
-        kicker={company.sectionKicker}
         title={company.heading}
       />
       <div className="rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-pure)] p-6 md:p-8">

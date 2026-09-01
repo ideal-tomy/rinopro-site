@@ -13,9 +13,7 @@ export function HeroSection() {
     <>
       <div className="home-landing-copy">
         <HomeFirstView />
-        <HomeSectionShell tone="warm">
-          <HomeEmpathyCards />
-        </HomeSectionShell>
+        <HomeEmpathyCards />
         <HomeSectionShell tone="pure">
           <HomeDemoFirstShowcase />
         </HomeSectionShell>

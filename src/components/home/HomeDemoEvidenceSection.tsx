@@ -41,8 +41,6 @@ export function HomeDemoEvidenceSection() {
       >
         <HomeLandingSectionHeading
           id="home-demo-evidence-heading"
-          index={copy.sectionIndex}
-          kicker={copy.sectionKicker}
           title={copy.heading}
           description={copy.intro}
         />

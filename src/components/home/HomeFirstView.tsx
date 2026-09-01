@@ -10,12 +10,12 @@ export function HomeFirstView() {
       className="relative isolate overflow-hidden"
       aria-labelledby="home-landing-hero-heading"
     >
-      {/* hero01=640x360 / hero03=639x360 → 16:9。高さ上限を付けると横長になり左右余白が出る */}
-      <div className="relative aspect-[16/9] w-full">
+      {/* スマホは画面高さいっぱい。md+ は hero01/03 の 16:9 */}
+      <div className="relative h-[calc(100dvh-4rem)] w-full md:h-auto md:aspect-[16/9]">
         <HomeHeroSlider slides={c.heroSlides} />
 
-        <div className="pointer-events-none absolute inset-0 z-10 flex items-center px-4 py-10 md:px-8 lg:px-12">
-          <div className="max-w-xl rounded-2xl bg-[var(--color-bg-pure)]/32 px-6 py-7 shadow-[0_8px_32px_rgb(0_0_0_/_0.06)] backdrop-blur-[2px] md:px-9 md:py-9">
+        <div className="pointer-events-none absolute inset-0 z-10 flex items-end px-4 pb-14 pt-8 md:items-center md:px-8 md:py-10 lg:px-12">
+          <div className="w-full max-w-none rounded-sm bg-[var(--color-bg-pure)]/80 px-5 py-6 shadow-[0_8px_32px_rgb(0_0_0_/_0.06)] backdrop-blur-[2px] md:max-w-xl md:rounded-2xl md:bg-[var(--color-bg-pure)]/32 md:px-9 md:py-9">
             {c.eyebrow ? (
               <p className="mb-6 flex items-center gap-3 text-sm font-bold tracking-[0.08em] text-[var(--color-accent-primary)] md:text-[1rem]">
                 <span

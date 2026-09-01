@@ -71,15 +71,9 @@ export function HomeValuesSection() {
 
       <div className="relative mx-auto w-[min(100%-2rem,1080px)] md:w-[min(100%-3rem,1080px)]">
         <header className="mb-12 text-center md:mb-16">
-          <p className="font-mono text-[32px] font-light tabular-nums tracking-[0.2em] text-[#26418e]/50 md:text-[36px]">
-            {values.sectionIndex}
-          </p>
-          <p className="mt-2 text-[13px] font-semibold tracking-[0.15em] text-[#26418e] md:text-sm">
-            {values.sectionKicker}
-          </p>
           <h2
             id="home-values-heading"
-            className="mt-2 whitespace-pre-line text-[clamp(28px,6.2vw,44px)] font-black leading-[1.35]"
+            className="whitespace-pre-line text-[clamp(28px,6.2vw,44px)] font-black leading-[1.35]"
             style={{ color: TEXT }}
           >
             {values.heading}

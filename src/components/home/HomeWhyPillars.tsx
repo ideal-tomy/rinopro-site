@@ -16,8 +16,6 @@ export function HomeWhyPillars() {
     >
       <HomeLandingSectionHeading
         id="home-pillars-heading"
-        index={pillars.sectionIndex}
-        kicker={pillars.sectionKicker}
         title={pillars.heading}
         description={pillars.intro}
       />

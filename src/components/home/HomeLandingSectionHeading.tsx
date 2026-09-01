@@ -1,11 +1,11 @@
 import { cn } from "@/lib/utils";
 
-/** トップ LP 共通：ナンバー・キッカー・大見出し・アクセント下線・リード */
+/** トップ LP 共通：大見出し・アクセント下線・リード。番号・キッカーは任意 */
 export type HomeLandingSectionHeadingProps = {
   id: string;
-  /** 例: "01" */
-  index: string;
-  /** 見出し直上の小さなラベル（アクセント色） */
+  /** 例: "01"。未指定なら出さない */
+  index?: string;
+  /** 見出し直上の小さなラベル。未指定なら出さない */
   kicker?: string;
   title: string;
   description?: string;
@@ -22,14 +22,21 @@ export function HomeLandingSectionHeading({
 }: HomeLandingSectionHeadingProps) {
   return (
     <header className={cn("mx-auto mb-14 max-w-4xl text-center md:mb-20", className)}>
-      <p
-        className="font-mono text-[32px] font-light tabular-nums tracking-[0.2em] text-[var(--color-accent-primary)]/50 md:text-[36px] lg:text-[40px]"
-        aria-hidden="true"
-      >
-        {index}
-      </p>
+      {index ? (
+        <p
+          className="font-mono text-[32px] font-light tabular-nums tracking-[0.2em] text-[var(--color-accent-primary)]/50 md:text-[36px] lg:text-[40px]"
+          aria-hidden="true"
+        >
+          {index}
+        </p>
+      ) : null}
       {kicker ? (
-        <p className="mt-2 text-[13px] font-semibold tracking-[0.15em] text-[var(--color-accent-primary)] md:text-sm">
+        <p
+          className={cn(
+            "text-[13px] font-semibold tracking-[0.15em] text-[var(--color-accent-primary)] md:text-sm",
+            index ? "mt-2" : null
+          )}
+        >
           {kicker}
         </p>
       ) : null}
@@ -37,7 +44,7 @@ export function HomeLandingSectionHeading({
         id={id}
         className={cn(
           "whitespace-pre-line text-balance text-[clamp(1.75rem,4.6vw,3rem)] font-bold leading-[1.18] tracking-tight text-[var(--color-text-primary)] md:text-[clamp(2rem,4vw,3rem)] lg:text-[clamp(2.25rem,3.6vw,3rem)]",
-          kicker ? "mt-2" : "mt-3"
+          index || kicker ? "mt-2" : null
         )}
       >
         {title}

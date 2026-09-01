@@ -61,7 +61,7 @@ export function HomeHeroSlider({ slides }: HomeHeroSliderProps) {
       <div aria-hidden className="absolute inset-0 bg-black/20" />
 
       {slides.length > 1 && !reduceMotion ? (
-        <div className="absolute bottom-5 left-0 right-0 z-20 flex justify-center gap-2">
+        <div className="absolute bottom-4 left-0 right-0 z-20 flex justify-center gap-2 md:bottom-5">
           {slides.map((slide, index) => (
             <button
               key={`dot-${slide.src}`}

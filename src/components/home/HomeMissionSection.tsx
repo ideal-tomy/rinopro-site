@@ -13,8 +13,6 @@ export function HomeMissionSection() {
     >
       <HomeLandingSectionHeading
         id="home-mission-heading"
-        index={mission.sectionIndex}
-        kicker={mission.sectionKicker}
         title={mission.heading}
       />
       <div className="mx-auto max-w-3xl space-y-5 text-[16px] leading-[1.9] text-[var(--color-text-secondary)] md:text-[17px]">

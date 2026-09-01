@@ -19,8 +19,6 @@ export function HomeIndustryShowcaseSection() {
     >
       <HomeLandingSectionHeading
         id="home-industry-showcase-heading"
-        index={copy.sectionIndex}
-        kicker={copy.sectionKicker}
         title={copy.heading}
         description={copy.intro}
       />

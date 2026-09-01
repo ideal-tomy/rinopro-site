@@ -12,8 +12,6 @@ export function HomeFaqSection() {
     >
       <HomeLandingSectionHeading
         id="home-faq-heading"
-        index={faq.sectionIndex}
-        kicker={faq.sectionKicker}
         title={faq.heading}
       />
       <ul className="mx-auto mt-4 max-w-3xl list-none space-y-4">

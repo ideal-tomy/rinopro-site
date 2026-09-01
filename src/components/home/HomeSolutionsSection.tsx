@@ -39,8 +39,6 @@ export function HomeSolutionsSection() {
     >
       <HomeLandingSectionHeading
         id="home-solutions-heading"
-        index={solutions.sectionIndex}
-        kicker={solutions.sectionKicker}
         title={solutions.heading}
         description={solutions.intro}
       />

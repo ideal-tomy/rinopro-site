@@ -14,8 +14,6 @@ export function HomeCeoMessageSection() {
     >
       <HomeLandingSectionHeading
         id="home-ceo-heading"
-        index={ceo.sectionIndex}
-        kicker={ceo.sectionKicker}
         title={ceo.heading}
         description={ceo.intro}
       />

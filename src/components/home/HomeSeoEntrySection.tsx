@@ -22,8 +22,6 @@ export function HomeSeoEntrySection() {
       <div className="container mx-auto max-w-6xl px-4 py-20 md:px-6 md:py-[120px]">
         <HomeLandingSectionHeading
           id="home-seo-entries-heading"
-          index={copy.sectionIndex}
-          kicker={copy.sectionKicker}
           title={copy.heading}
           description={copy.intro}
         />

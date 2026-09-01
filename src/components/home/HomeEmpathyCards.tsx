@@ -1,19 +1,10 @@
-import { HomeLandingSectionHeading } from "@/components/home/HomeLandingSectionHeading";
-
 export function HomeEmpathyCards() {
   return (
     <section
       id="about"
-      className="py-20 md:py-[120px] scroll-mt-32"
+      className="scroll-mt-32"
       aria-labelledby="home-empathy-heading"
     >
-      <HomeLandingSectionHeading
-        id="home-empathy-heading"
-        index="02"
-        kicker="ABOUT NAME / MISSION"
-        title="AXEON という名前に込めた、二つの意味。"
-      />
-
       <article className="relative left-1/2 w-screen -translate-x-1/2 overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center"
@@ -25,7 +16,17 @@ export function HomeEmpathyCards() {
           aria-hidden
         />
         <div className="relative mx-auto max-w-4xl px-6 py-14 text-center md:px-12 md:py-20">
-          <div className="space-y-6 text-[16px] leading-[1.9] text-white md:text-[17px]">
+          <h2
+            id="home-empathy-heading"
+            className="text-balance text-[clamp(1.75rem,4.6vw,3rem)] font-bold leading-[1.18] tracking-tight text-white md:text-[clamp(2rem,4vw,3rem)]"
+          >
+            AXEON という名前に込めた、二つの意味。
+          </h2>
+          <div
+            className="mx-auto mt-6 h-[3px] w-14 rounded-full bg-white/90 md:mt-7"
+            aria-hidden
+          />
+          <div className="mt-10 space-y-6 text-[16px] leading-[1.9] text-white md:mt-12 md:text-[17px]">
             <p className="font-semibold text-white">
               AXEONという名前には、二つの読み方があります。
             </p>
