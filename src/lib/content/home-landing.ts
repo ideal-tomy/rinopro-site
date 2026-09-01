@@ -8,11 +8,20 @@ export const homeLandingCopy = {
     subheadline: "",
     body:
       "Web、AI、業務ツール。\n必要な技術を組み合わせて、現場に合った環境をつくります。",
-    /** ideal 活用イメージ系ビジュアルを流用 */
-    heroImage: {
-      src: "/images/cases/cases-hero-visual01.png",
-      alt: "現場管理ダッシュボードとスマートフォンの操作画面",
-    },
+    heroSlides: [
+      {
+        src: "/images/top/hero01.jpg",
+        alt: "オフィスでデータを見ながら打ち合わせするチーム",
+      },
+      {
+        src: "/images/top/hero02.png",
+        alt: "都市とデータをつなぐネットワークのイメージ",
+      },
+      {
+        src: "/images/top/hero03.jpg",
+        alt: "多様なビジネスパーソンがつながるイメージ",
+      },
+    ],
     primaryCta: {
       label: "業種デモを見る",
       href: "#industry",
@@ -220,7 +229,7 @@ export const homeLandingCopy = {
     sectionKicker: "INDUSTRY SHOWCASE",
     heading: "業界別、動くデモ",
     intro:
-      "ビル管理・農業・介護・M&A・建設・不動産など、業種の異なる6つの実装例です。デモは外部サイトで、そのまま触れます。",
+      "ビル管理・農業・介護・M&A・建設・不動産など、業種の異なる6つの実装例です。デモは外部サイトで体験できます。",
     detailLabel: "詳しく見る",
     tryLabel: "デモを開く ↗",
     allDemosLabel: "すべてのdemoを見る",

@@ -55,7 +55,7 @@ export default async function ThemeArticlePage({ params }: PageProps) {
         <div className="border-b border-[var(--color-border-light)]">
           <div className="mx-auto flex w-[min(100%-40px,940px)] flex-wrap items-center gap-x-2 py-1.5 text-xs text-[var(--color-text-secondary)]">
             <Link
-              href="/#articles"
+              href="/"
               className="no-underline hover:text-[var(--color-accent-primary)] hover:no-underline"
             >
               現場の記事
@@ -106,7 +106,7 @@ export default async function ThemeArticlePage({ params }: PageProps) {
             )}
             <p className="mt-5">
               <Link
-                href="/#articles"
+                href="/"
                 className="text-xs text-[var(--color-text-secondary)] no-underline hover:text-[var(--color-accent-primary)] hover:no-underline"
               >
                 目次に戻る

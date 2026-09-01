@@ -1,15 +1,12 @@
-import { HomeArticleToc } from "@/components/home/articles/HomeArticleToc";
 import { HomeCeoMessageSection } from "@/components/home/HomeCeoMessageSection";
+import { HomeDemoFirstShowcase } from "@/components/home/HomeDemoFirstShowcase";
 import { HomeEmpathyCards } from "@/components/home/HomeEmpathyCards";
-import { HomeFirstView } from "@/components/home/HomeFirstView";
-import { HomeSectionShell } from "@/components/home/HomeSectionShell";
-import { HomeSolutionsSection } from "@/components/home/HomeSolutionsSection";
-import { HomeServiceFlowRow } from "@/components/home/HomeServiceFlowRow";
-import { HomeValuesSection } from "@/components/home/HomeValuesSection";
-import { HomeIndustryShowcaseSection } from "@/components/home/HomeIndustryShowcaseSection";
 import { HomeFaqSection } from "@/components/home/HomeFaqSection";
-import { HomeCompanyTeaser } from "@/components/home/HomeCompanyTeaser";
+import { HomeFirstView } from "@/components/home/HomeFirstView";
+import { HomeIndustryShowcaseSection } from "@/components/home/HomeIndustryShowcaseSection";
 import { HomeClosingCta } from "@/components/home/HomeClosingCta";
+import { HomeSectionShell } from "@/components/home/HomeSectionShell";
+import { HomeValuesSection } from "@/components/home/HomeValuesSection";
 
 export function HeroSection() {
   return (
@@ -20,7 +17,7 @@ export function HeroSection() {
           <HomeEmpathyCards />
         </HomeSectionShell>
         <HomeSectionShell tone="pure">
-          <HomeArticleToc />
+          <HomeDemoFirstShowcase />
         </HomeSectionShell>
         <HomeSectionShell>
           <HomeIndustryShowcaseSection />
@@ -30,16 +27,7 @@ export function HeroSection() {
           <HomeCeoMessageSection />
         </HomeSectionShell>
         <HomeSectionShell tone="pure">
-          <HomeSolutionsSection />
-        </HomeSectionShell>
-        <HomeSectionShell tone="neutral">
-          <HomeServiceFlowRow />
-        </HomeSectionShell>
-        <HomeSectionShell tone="pure">
           <HomeFaqSection />
-        </HomeSectionShell>
-        <HomeSectionShell tone="neutral">
-          <HomeCompanyTeaser />
         </HomeSectionShell>
         <HomeSectionShell>
           <HomeClosingCta />

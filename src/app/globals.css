@@ -458,3 +458,45 @@
   --article-text-muted: var(--color-text-secondary);
   --article-border: var(--color-border-light);
 }
+
+/* Ideal デモショーケース移植用（AXEON トークンにマップ） */
+.home-demo-first {
+  --df-primary: var(--color-accent-primary);
+  --df-primary-hover: var(--color-accent-primary-hover);
+  --df-on-primary: #ffffff;
+  --df-bg-blue: var(--color-accent-primary-light);
+  --df-bg: var(--color-bg-pure);
+  --df-text: var(--color-text-primary);
+  --df-text-muted: var(--color-text-secondary);
+  --site-fg: var(--color-text-primary);
+  --site-fg-muted: var(--color-text-secondary);
+  --site-border: var(--color-border-light);
+}
+
+.home-demo-first .text-brand {
+  color: var(--color-accent-primary);
+}
+
+.home-demo-first .text-brand-deep {
+  color: var(--color-accent-primary-hover);
+}
+
+.home-demo-first .bg-brand {
+  background-color: var(--color-accent-primary);
+}
+
+.home-demo-first .hover\:bg-brand-hover:hover {
+  background-color: var(--color-accent-primary-hover);
+}
+
+.home-demo-first .bg-brand\/10 {
+  background-color: color-mix(in srgb, var(--color-accent-primary) 10%, transparent);
+}
+
+.home-demo-first .bg-brand\/15 {
+  background-color: color-mix(in srgb, var(--color-accent-primary) 15%, transparent);
+}
+
+.home-demo-first .border-brand\/30 {
+  border-color: color-mix(in srgb, var(--color-accent-primary) 30%, transparent);
+}

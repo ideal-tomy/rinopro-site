@@ -1,63 +1,40 @@
-"use client";
-
 import Link from "next/link";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { homeLandingCopy } from "@/lib/content/home-landing";
-import { homeLandingCtaButtonClass } from "@/lib/content/home-landing-styles";
-
-const { closing } = homeLandingCopy;
-
-const motionHover =
-  "motion-safe:transition-[transform,box-shadow] motion-safe:duration-300 motion-reduce:transition-none";
 
 export function HomeClosingCta() {
   return (
     <section
       id="cta"
-      className="container mx-auto max-w-3xl scroll-mt-32 px-4 py-20 md:px-6 md:pb-32 md:pt-[120px]"
+      className="border-t border-[var(--color-border-light)] bg-[var(--color-bg-pure)] py-[clamp(56px,12vw,88px)] text-center text-[var(--color-text-primary)] md:py-[clamp(72px,12vw,112px)]"
       aria-labelledby="home-closing-cta-heading"
     >
-      <p className="text-center text-[13px] font-semibold tracking-[0.12em] text-[var(--color-accent-primary)]">
-        {closing.sectionKicker}
-      </p>
-      <div className="mt-4 rounded-3xl border border-[var(--color-accent-primary)]/25 bg-[var(--color-accent-primary)] px-6 py-12 text-center md:px-12 md:py-16">
+      <div className="container mx-auto max-w-3xl px-4 md:px-6">
         <h2
           id="home-closing-cta-heading"
-          className="text-balance text-[clamp(1.5rem,4vw,2.25rem)] font-bold leading-snug tracking-tight text-white md:text-[clamp(1.75rem,3vw,2.5rem)]"
+          className="mb-6 text-[clamp(28px,6.2vw,44px)] leading-[1.35] font-bold text-[var(--color-text-primary)]"
         >
-          {closing.headline}
+          簡単なお悩みから課題を明確にします。
         </h2>
-        <p className="mx-auto mt-6 max-w-[40ch] text-[17px] leading-[1.8] text-white/[0.85] md:mt-8 md:text-[18px]">
-          {closing.body}
+        <p className="mx-auto mb-10 max-w-[560px] text-[var(--color-text-secondary)]">
+          「なんとなく非効率な気がする」——その段階からで構いません。お話を伺いながら、まずは触れるデモのかたちでご提案します。デモのカスタマイズ相談だけでも歓迎です。
         </p>
-        <div className="mx-auto mt-10 flex max-w-md justify-center md:mt-12">
-          <Button
-            asChild
-            size="lg"
-            className={cn(
-              "mt-0 w-full border-white/35 bg-white text-[var(--color-accent-primary)]",
-              homeLandingCtaButtonClass,
-              motionHover
-            )}
+
+        <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
+          <Link
+            href="/contact"
+            className="inline-flex items-center justify-center gap-2.5 rounded-xl bg-[var(--color-accent-primary)] px-8 py-4 text-lg font-bold text-white transition-transform hover:-translate-y-0.5 hover:bg-[var(--color-accent-primary-hover)]"
           >
-            <Link href="/contact">{closing.primaryCta}</Link>
-          </Button>
+            お問い合わせ
+          </Link>
         </div>
-        <nav
-          className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-[15px] text-white/70 md:mt-12 md:text-[16px]"
-          aria-label="関連ページ"
-        >
-          {closing.auxiliaryLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="underline-offset-4 transition hover:text-white/[0.88] hover:underline"
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
+
+        <p className="mt-8">
+          <Link
+            href="/estimate-detailed"
+            className="text-sm font-bold text-[var(--color-accent-primary)] underline-offset-4 hover:underline"
+          >
+            概算の感触を先に見る →
+          </Link>
+        </p>
       </div>
     </section>
   );
