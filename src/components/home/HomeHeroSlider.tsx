@@ -58,7 +58,7 @@ export function HomeHeroSlider({ slides }: HomeHeroSliderProps) {
         />
       ))}
 
-      <div aria-hidden className="absolute inset-0 bg-black/20" />
+      <div aria-hidden className="absolute inset-0 bg-black/40" />
 
       {slides.length > 1 && !reduceMotion ? (
         <div className="absolute bottom-4 left-0 right-0 z-20 flex justify-center gap-2 md:bottom-5">

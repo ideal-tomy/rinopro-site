@@ -29,7 +29,10 @@ export function Header() {
   return (
     <header className="sticky top-0 z-40 w-full border-b border-[var(--color-border-light)] bg-[var(--color-bg-pure)]/95 backdrop-blur supports-[backdrop-filter]:bg-[var(--color-bg-pure)]/85">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 md:px-6">
-        <Link href="/" className="font-bold text-[var(--color-accent-primary)]">
+        <Link
+          href="/"
+          className="text-[1.625rem] font-bold leading-none tracking-tight text-[var(--color-accent-primary)] md:text-[2rem]"
+        >
           AXEON
         </Link>
 
