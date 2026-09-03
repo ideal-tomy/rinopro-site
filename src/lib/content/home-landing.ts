@@ -10,16 +10,8 @@ export const homeLandingCopy = {
       "Web、AI、業務ツール。\n必要な技術を組み合わせて、現場に合った環境をつくります。",
     heroSlides: [
       {
-        src: "/images/top/hero01.jpg",
-        alt: "オフィスでデータを見ながら打ち合わせするチーム",
-      },
-      {
         src: "/images/top/hero02.png",
         alt: "都市とデータをつなぐネットワークのイメージ",
-      },
-      {
-        src: "/images/top/hero03.jpg",
-        alt: "多様なビジネスパーソンがつながるイメージ",
       },
     ],
     primaryCta: {
