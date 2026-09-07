@@ -1,7 +1,7 @@
 /** 外部デモ URL（Ideal TOP §03 と同型） */
 export const EXTERNAL_DEMO_URLS = {
   construction: "https://construction-demo-two.vercel.app",
-  manufacturingIdeal: "https://product-flowideal.vercel.app/manufacturing",
+  manufacturingIdeal: "https://axeonmanufacturing02.vercel.app/",
   approvalDiagram: "https://approvaldiagram.vercel.app/",
   childcare: "https://childcaredemo.vercel.app/",
 } as const;
