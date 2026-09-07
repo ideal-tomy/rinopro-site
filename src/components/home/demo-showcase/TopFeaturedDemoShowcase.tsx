@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect } from "react";
 import { DemoFrame } from "@/components/home/demo-showcase/DemoFrame";
 import { useDemoProcess } from "@/components/home/demo-showcase/useDemoProcess";
@@ -18,11 +19,22 @@ const approvalSteps = [
   "人の判断待ちへ",
 ];
 
-const childcareSteps = [
-  "事案メモを受領",
-  "園ルールと照合",
-  "妥当性チェック",
-  "報告書下書き生成",
+const childcareShots = [
+  {
+    src: "/images/demo-showcase/childcare/today.png",
+    alt: "今日の様子。園長確認待ちや園児・設備の記録が一覧できる画面",
+    className: "col-span-2 aspect-[16/9]",
+  },
+  {
+    src: "/images/demo-showcase/childcare/report-injury.png",
+    alt: "園庭転倒の報告書。ルール照合と保護者連絡文まで揃った詳細",
+    className: "aspect-[16/10]",
+  },
+  {
+    src: "/images/demo-showcase/childcare/report-slide.png",
+    alt: "すべり台の報告書。写真付きで設備異常と根拠ルールが残る詳細",
+    className: "aspect-[16/10]",
+  },
 ];
 
 function ConstructionShowcase() {
@@ -262,81 +274,24 @@ function ApprovalShowcase() {
 }
 
 function ChildcareShowcase() {
-  const { logs, isComplete, start, reset } = useDemoProcess(400);
-  const { ref, isInView } = useInViewAutoPlay();
-
-  useEffect(() => {
-    if (isInView) start(childcareSteps);
-    else reset();
-  }, [isInView, reset, start]);
-
-  const fields = [
-    { key: "児童", value: "A君（4歳）" },
-    { key: "事象", value: "園庭転倒・擦り傷" },
-    { key: "対応", value: "流水洗浄・絆創膏" },
-    { key: "根拠", value: "安全管理マニュアル 3-2" },
-  ];
-
   return (
-    <section ref={ref as React.RefObject<HTMLElement>}>
-      <DemoFrame title="事案メモ → 報告書">
-        <div className="grid items-center gap-4 lg:grid-cols-[0.95fr_0.2fr_1fr]">
-          <div className="rounded-xl border border-[#D9DDE3] bg-white p-4">
-            <p className="mb-2 text-xs font-medium uppercase tracking-wider text-[var(--site-fg-muted)]">
-              デモシナリオ
-            </p>
-            <p className="text-sm leading-relaxed text-gray-700">
-              10時15分頃、A君が園庭でかけっこ中に転倒し、右膝に擦り傷。水道で洗浄し絆創膏を貼付。その後元気に活動。
-            </p>
-            <div className="mt-3 flex flex-wrap gap-1.5">
-              {childcareSteps.map((step, index) => (
-                <span
-                  key={step}
-                  className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${
-                    isComplete || index < logs.length
-                      ? "bg-brand/15 text-brand-deep"
-                      : "bg-gray-100 text-[var(--site-fg-muted)]"
-                  }`}
-                >
-                  {step}
-                </span>
-              ))}
-            </div>
-          </div>
-          <div className="text-brand hidden items-center justify-center text-2xl lg:flex">
-            ↓ AI
-          </div>
-          <div className="rounded-xl border border-[#D9DDE3] bg-white p-4">
-            <p className="mb-3 text-xs font-medium uppercase tracking-wider text-[var(--site-fg-muted)]">
-              報告書下書き
-            </p>
-            <div className="space-y-2 text-sm">
-              {fields.map((field, index) => (
-                <div
-                  key={field.key}
-                  className={`grid grid-cols-[52px_1fr] gap-3 transition-all duration-500 ${
-                    isComplete || index < logs.length
-                      ? "translate-y-0 opacity-100"
-                      : "translate-y-1 opacity-20"
-                  }`}
-                >
-                  <span className="text-[var(--site-fg-muted)]">{field.key}</span>
-                  <span className="text-gray-800">{field.value}</span>
-                </div>
-              ))}
-            </div>
-            <p
-              className={`mt-3 rounded-lg border px-3 py-2 text-xs ${
-                isComplete
-                  ? "border-emerald-200 bg-emerald-50 text-emerald-800"
-                  : "border-[#D9DDE3] bg-gray-50 text-[var(--site-fg-muted)]"
-              }`}
+    <section>
+      <DemoFrame title="今日の様子 → 報告書">
+        <div className="grid grid-cols-2 gap-2 sm:gap-3">
+          {childcareShots.map((shot) => (
+            <div
+              key={shot.src}
+              className={`relative overflow-hidden rounded-lg border border-[#D9DDE3] bg-white ${shot.className}`}
             >
-              {isComplete
-                ? "根拠ルール照合済・保護者連絡文案まで生成"
-                : "生成中…"}
-            </p>
-          </div>
+              <Image
+                src={shot.src}
+                alt={shot.alt}
+                fill
+                className="object-cover object-left-top"
+                sizes="(max-width: 1024px) 100vw, 560px"
+              />
+            </div>
+          ))}
         </div>
       </DemoFrame>
     </section>

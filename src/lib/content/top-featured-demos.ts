@@ -2,8 +2,8 @@
 export const EXTERNAL_DEMO_URLS = {
   construction: "https://construction-demo-two.vercel.app",
   manufacturingIdeal: "https://axeonmanufacturing02.vercel.app/",
-  approvalDiagram: "https://approvaldiagram.vercel.app/",
-  childcare: "https://childcaredemo.vercel.app/",
+  approvalDiagram: "https://approval-diagram.vercel.app/",
+  childcare: "https://childcare-demonew.vercel.app/",
 } as const;
 
 export type TopFeaturedDemoId =
