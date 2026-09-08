@@ -26,13 +26,13 @@ const childcareShots = [
     className: "col-span-2 aspect-[16/9]",
   },
   {
-    src: "/images/demo-showcase/childcare/report-injury.png",
-    alt: "園庭転倒の報告書。ルール照合と保護者連絡文まで揃った詳細",
+    src: "/images/demo-showcase/childcare/report-slide.png",
+    alt: "すべり台の報告書。写真付きで設備異常と根拠ルールが残る詳細",
     className: "aspect-[16/10]",
   },
   {
-    src: "/images/demo-showcase/childcare/report-slide.png",
-    alt: "すべり台の報告書。写真付きで設備異常と根拠ルールが残る詳細",
+    src: "/images/demo-showcase/childcare/chat.png",
+    alt: "質問・相談。園の決まりに沿って対応を確かめる画面",
     className: "aspect-[16/10]",
   },
 ];
