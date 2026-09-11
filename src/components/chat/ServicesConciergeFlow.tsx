@@ -32,7 +32,7 @@ export function ServicesConciergeFlow({
           <ConciergeChoiceButton
             type="button"
             order={2}
-            label="コンサル"
+            label="コンサルティング"
             disabled={disabled}
             onClick={() => onPickService("consulting")}
           />

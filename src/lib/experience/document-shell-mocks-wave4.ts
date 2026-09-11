@@ -26,7 +26,7 @@ export const subsidyChecklistPreset: DocumentShellPresetDefinition = {
   ],
   samples: [
     "地域活性化事業 店舗改装 従業員3名\n補助率2/3イメージ",
-    "IT導入補助 ソフトとコンサルセット\n見積は2社取った",
+    "IT導入補助 ソフトとコンサルティングセット\n見積は2社取った",
     "創業支援 事業計画はあるがCF表が未整備",
   ],
   build: (input: DocumentShellUserInput): DocumentShellMockResult => {

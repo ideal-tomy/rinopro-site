@@ -3,7 +3,7 @@ import type { FlowSelection } from "@/lib/chat/concierge-flow-definitions";
 /** 業種・文脈テキストから、規制・個人情報まわりで手厚めに見積るべきか */
 export function isRegulatedIndustryText(text: string): boolean {
   if (!text.trim()) return false;
-  return /士業|医療|福祉|コンサル・事務所|弁護|司法書士|税理|会計|行政書士/.test(text);
+  return /士業|医療|福祉|コンサルティング・事務所|弁護|司法書士|税理|会計|行政書士/.test(text);
 }
 
 export function profileFromEstimateAnswers(answers: Record<string, string>): {

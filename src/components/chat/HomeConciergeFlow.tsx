@@ -287,9 +287,9 @@ function ConciergeNextStepsCard({
 function stepTitleFor(step: FlowStepDef): string {
   if (step.stepKey === "CDE_PICK") return "知りたいこと（詳細）";
   if (step.stepKey === "A_SCOPE") return "開発コスト（質問）";
-  if (step.stepKey === "B_SCOPE") return "コンサル費用（質問）";
+  if (step.stepKey === "B_SCOPE") return "コンサルティング費用（質問）";
   if (step.stepKey.startsWith("A")) return "開発コスト（質問）";
-  if (step.stepKey.startsWith("B")) return "コンサル費用（質問）";
+  if (step.stepKey.startsWith("B")) return "コンサルティング費用（質問）";
   if (step.stepKey.startsWith("C")) return "開発技術（質問）";
   if (step.stepKey.startsWith("D")) return "ツール内容（質問）";
   if (step.stepKey.startsWith("E")) return "依頼方法（質問）";
@@ -767,7 +767,7 @@ function doneBodyForDisplay(_track: ConciergeTrack, body: string): string {
   return body.trim();
 }
 
-/** 開発コスト／コンサル：金額・一言説明を上に、前提以降を下に */
+/** 開発コスト／コンサルティング：金額・一言説明を上に、前提以降を下に */
 function splitAbEstimateBody(body: string): {
   headline: string;
   sub: string;

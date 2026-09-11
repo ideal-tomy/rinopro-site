@@ -1,4 +1,4 @@
-/** ご支援内容ハブ：コンサル／半内製化の2本立て */
+/** ご支援内容ハブ：コンサルティング／半内製化の2本立て */
 
 export type SupportPillarId = "consulting" | "insourcing";
 
@@ -22,14 +22,14 @@ export type SupportPillarCopy = {
 export const supportHubCopy = {
   title: "ご支援内容",
   purpose:
-    "提供の入り口は、コンサルと半内製化の2つです。課題の整理から実装・社内への移管まで、必要な範囲を同じチームで進めます。",
+    "提供の入り口は、コンサルティングと半内製化の2つです。課題の整理から実装・社内への移管まで、必要な範囲を同じチームで進めます。",
 } as const;
 
 export const supportPillars: readonly SupportPillarCopy[] = [
   {
     id: "consulting",
     kicker: "CONSULTING",
-    title: "コンサル",
+    title: "コンサルティング",
     href: "/services/consulting",
     audience: "何から着手すべきか、経営と現場で論点が揃っていないときに。",
     lead:
@@ -49,7 +49,7 @@ export const supportPillars: readonly SupportPillarCopy[] = [
         body: "安全規程・取引慣行・個人情報など、業種固有の制約を最初に固定します。",
       },
     ],
-    ctaLabel: "コンサルの詳細を見る",
+    ctaLabel: "コンサルティングの詳細を見る",
   },
   {
     id: "insourcing",

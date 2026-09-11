@@ -13,7 +13,7 @@ export const CHAT_AUTO_OPEN_STORAGE_PREFIX = "AXEON:autoChatOpen:" as const;
 
 export const SUPPRESS_CHAT_AUTO_ONCE_KEY = "AXEON:suppressChatAutoOnce" as const;
 
-/** /services で開発/コンサルを選んだ状態（同一タブセッション） */
+/** /services で開発/コンサルティングを選んだ状態（同一タブセッション） */
 export const SERVICES_FLOW_PICK_KEY = "AXEON:services-flow-picked" as const;
 
 export type ServicesFlowPick = "development" | "consulting";

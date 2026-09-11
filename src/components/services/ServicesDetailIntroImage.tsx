@@ -5,7 +5,7 @@ export type ServicesDetailHighlightMode = "consulting" | "development";
 
 type ServicesDetailIntroImageProps = {
   className?: string;
-  /** コンサル: ①② / 開発: ③④⑤ を枠で強調 */
+  /** コンサルティング: ①② / 開発: ③④⑤ を枠で強調 */
   highlight: ServicesDetailHighlightMode;
 };
 

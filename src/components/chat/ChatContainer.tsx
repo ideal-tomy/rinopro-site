@@ -109,7 +109,7 @@ const POPUP_COPY: Record<
     description: "実装の進め方と、社内へ知見を移す伴走について対話で整理できます。",
   },
   consulting: {
-    title: "コンサルについて",
+    title: "コンサルティングについて",
     description: "業務課題の整理から、検証・開発への道筋まで相談できます。",
   },
 };
@@ -425,7 +425,7 @@ export function ChatContainer({ showLauncher = true }: ChatContainerProps) {
       const topicPrefix =
         mode === "development"
           ? "【開発相談の開始メモ】"
-          : "【コンサル相談の開始メモ】";
+          : "【コンサルティング相談の開始メモ】";
       conciergeSignalsRef.current.postPreset = true;
       conciergeSignalsRef.current.presetLabel = label;
       setDraftInjection({
@@ -634,7 +634,7 @@ export function ChatContainer({ showLauncher = true }: ChatContainerProps) {
             (mode === "development" || mode === "consulting") && (
               <div className="border-b border-silver/15 px-4 py-3">
                 <p className="text-xs font-medium text-text/70">
-                  {mode === "development" ? "半内製化" : "コンサル"}
+                  {mode === "development" ? "半内製化" : "コンサルティング"}
                 </p>
               </div>
             )}

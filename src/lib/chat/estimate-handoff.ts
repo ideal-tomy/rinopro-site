@@ -219,7 +219,7 @@ export function decodeConciergeEstimateContext(
 
 const TRACK_LABELS: Record<ConciergeTrack, string> = {
   A: "開発コスト",
-  B: "契約・コンサル費用",
+  B: "契約・コンサルティング費用",
   C: "開発技術",
   D: "ツール内容",
   E: "依頼方法",

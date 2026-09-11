@@ -163,7 +163,7 @@ const DETAILS: readonly CaseStudyDetail[] = [
     relatedSolutionsSlug: "construction",
     relatedLinks: [
       { label: "半内製化", href: "/services/insourcing-enablement" },
-      { label: "コンサル", href: "/services/consulting" },
+      { label: "コンサルティング", href: "/services/consulting" },
     ],
   },
   {
@@ -262,7 +262,7 @@ const DETAILS: readonly CaseStudyDetail[] = [
     relatedSolutionsSlug: "professional-services",
     relatedLinks: [
       { label: "半内製化", href: "/services/insourcing-enablement" },
-      { label: "コンサル", href: "/services/consulting" },
+      { label: "コンサルティング", href: "/services/consulting" },
     ],
   },
   {
@@ -459,7 +459,7 @@ const DETAILS: readonly CaseStudyDetail[] = [
     ],
     relatedSolutionsSlug: "professional-services",
     relatedLinks: [
-      { label: "コンサル", href: "/services/consulting" },
+      { label: "コンサルティング", href: "/services/consulting" },
       { label: "半内製化", href: "/services/insourcing-enablement" },
     ],
   },
@@ -753,7 +753,7 @@ const DETAILS: readonly CaseStudyDetail[] = [
     relatedSolutionsSlug: "professional-services",
     relatedLinks: [
       { label: "半内製化", href: "/services/insourcing-enablement" },
-      { label: "コンサル", href: "/services/consulting" },
+      { label: "コンサルティング", href: "/services/consulting" },
     ],
   },
   {
@@ -1043,7 +1043,7 @@ const DETAILS: readonly CaseStudyDetail[] = [
     relatedSolutionsSlug: "professional-services",
     relatedLinks: [
       { label: "半内製化", href: "/services/insourcing-enablement" },
-      { label: "コンサル", href: "/services/consulting" },
+      { label: "コンサルティング", href: "/services/consulting" },
     ],
   },
 ];

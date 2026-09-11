@@ -17,7 +17,7 @@ import { homeLandingCtaButtonClass } from "@/lib/content/home-landing-styles";
 const { solutions } = homeLandingCopy;
 
 const PILLAR_LABEL = {
-  consulting: "コンサル",
+  consulting: "コンサルティング",
   insourcing: "半内製化",
 } as const;
 

@@ -20,7 +20,7 @@ function industrySuggestsRegulatoryOverhead(industry: string | undefined): boole
     s.includes("士業") ||
     s.includes("医療") ||
     s.includes("福祉") ||
-    s.includes("コンサル・事務所")
+    s.includes("コンサルティング・事務所")
   );
 }
 

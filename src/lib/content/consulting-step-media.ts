@@ -6,7 +6,7 @@ export type ConsultingStepMediaConfig = {
 
 const CONSULTING_BASE = "/images/services/consulting";
 
-/** コンサル③進め方ブロック用（3ステップ） */
+/** コンサルティング③進め方ブロック用（3ステップ） */
 export const CONSULTING_STEP_MEDIA_BY_KEY: Record<
   string,
   ConsultingStepMediaConfig

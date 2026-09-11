@@ -47,7 +47,7 @@ export const conciergeFabNudgeByPageId: Record<
     regionAriaLabel: "AIコンシェルジュからの案内",
     lines: [
       "経営課題がまだ言葉になっていなくても、初回相談から整理できます。",
-      "コンサルと開発を分けずに話せるので、提案書だけで終わりにくい進め方です。",
+      "コンサルティングと開発を分けずに話せるので、提案書だけで終わりにくい進め方です。",
       "状況が固まっていない段階でも、お気軽にご相談ください。",
     ],
   },
@@ -78,7 +78,7 @@ export const conciergeFabNudgeByPageId: Record<
   services: {
     regionAriaLabel: "サービス案内",
     lines: [
-      "開発とコンサル、どちらに近い相談か、迷っていても構いません。",
+      "開発とコンサルティング、どちらに近い相談か、迷っていても構いません。",
       "今の制約（期日感・社内合意のしやすさなど）は、ざっくりで大丈夫です。",
       "文書を読んでも整理が難しければ、会話の方が早いこともあります。",
     ],
@@ -197,7 +197,7 @@ export const homeConsultingSectionCopy = {
   sectionTitle: "コンサルティングについて",
   lead: "机上の空論を捨て、現場に結果を。",
   body: "私たちは現場の最前線に飛び込み、ITが「当たり前の道具」として定着するまで並走し続けます。\n過剰な提案でコストを膨らませるのではなく、今の組織にとって最も効果的な「次の一手」を共に実行し、\n自走できる組織へと導きます。",
-  ctaLabel: "コンサルを見る",
+  ctaLabel: "コンサルティングを見る",
   ctaHref: "/services/consulting",
 } as const;
 
@@ -220,7 +220,7 @@ export const demoHubCopy = {
 export const servicesCopy = {
   title: "ご支援内容",
   purpose:
-    "提供の入り口は、コンサルと半内製化の2つです。課題の整理から実装・社内への移管まで、必要な範囲を同じチームで進めます。",
+    "提供の入り口は、コンサルティングと半内製化の2つです。課題の整理から実装・社内への移管まで、必要な範囲を同じチームで進めます。",
   cta: "相談する",
   development: {
     title: "半内製化",
@@ -228,7 +228,7 @@ export const servicesCopy = {
     href: "/services/insourcing-enablement",
   },
   consulting: {
-    title: "コンサル",
+    title: "コンサルティング",
     desc: "業務診断、優先順位設計、PoC設計、定着支援。検証可能な範囲で進める。",
     href: "/services/consulting",
   },
@@ -261,7 +261,7 @@ export const developmentFlowCopy = {
 
 // --- コンサルティング ---
 export const consultingCopy = {
-  title: "コンサル",
+  title: "コンサルティング",
   purpose: "業務診断から定着支援まで。検証可能な範囲で、過剰提案しない。",
   items: [
     {
@@ -280,7 +280,7 @@ export const consultingCopy = {
   cta: "相談する",
 } as const;
 
-/** コンサル詳細（概要ページ内統合・チャット参照用） */
+/** コンサルティング詳細（概要ページ内統合・チャット参照用） */
 export const consultingDetailPageCopy = {
   title: consultingCopy.title,
   reassurance:
@@ -764,7 +764,7 @@ export const aboutCopy = {
       ],
     },
     footnote:
-      "両Leadが全工程に同伴することを基本とし、「戦略策定はコンサル、実装は別会社」という分断のないプロジェクトを実現します（規模に応じて追加メンバーを編成）。",
+      "両Leadが全工程に同伴することを基本とし、「戦略策定はコンサルティング、実装は別会社」という分断のないプロジェクトを実現します（規模に応じて追加メンバーを編成）。",
   },
   facts: {
     kicker: "COMPANY",
@@ -1017,7 +1017,7 @@ export const estimateDetailedCopy = {
   ],
   industryOptions: [
     { value: "construction", label: "建設・土木・現場系" },
-    { value: "professional", label: "士業・コンサル・事務所" },
+    { value: "professional", label: "士業・コンサルティング・事務所" },
     { value: "medical", label: "医療・福祉" },
     { value: "retail", label: "小売・店舗・ネット販売" },
     { value: "manufacturing", label: "製造・ものづくり" },
@@ -1137,7 +1137,7 @@ export const contactCopy = {
     sectionTitle: "お問い合わせの流れ",
     mobileSwipeHint: "横にスワイプして全体を確認できます",
     footnote:
-      "その後は、内容に応じてオンライン打ち合わせ、コンサル契約、本要件定義のヒアリングなどをご案内します。",
+      "その後は、内容に応じてオンライン打ち合わせ、コンサルティング契約、本要件定義のヒアリングなどをご案内します。",
     steps: [
       {
         title: "質問に回答",

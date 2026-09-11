@@ -6,13 +6,13 @@ export const servicesValueBandCopy = {
   journeySteps: [
     {
       number: "01",
-      title: "戦略コンサル",
+      title: "戦略コンサルティング",
       duration: "課題抽出",
       description: "経営と現場の論点を整理し、どこから手を付けるかを可視化します。",
     },
     {
       number: "02",
-      title: "ITコンサル",
+      title: "ITコンサルティング",
       duration: "設計",
       description: "何を作るか・何を検証するかを決め、過剰な要件膨張を抑えます。",
     },
@@ -139,7 +139,7 @@ export const consultingBlocksCopy = [
     id: "scope",
     variant: "scope",
     kicker: "提供業務",
-    heading: "コンサルで扱う範囲",
+    heading: "コンサルティングで扱う範囲",
     intro:
       "戦略が机上で終わらないよう、優先順位・検証単位・業種の前提まで含めて設計します。",
     items: [

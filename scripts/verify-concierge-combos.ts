@@ -41,7 +41,7 @@ function stepSel(
 }
 
 const TITLE_A = "開発コスト（質問）";
-const TITLE_B = "コンサル費用（質問）";
+const TITLE_B = "コンサルティング費用（質問）";
 const TITLE_C = "開発技術（質問）";
 const TITLE_D = "ツール内容（質問）";
 const TITLE_E = "依頼方法（質問）";

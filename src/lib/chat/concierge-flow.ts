@@ -57,7 +57,7 @@ export function buildEmpathyLineA(path: FlowSelection[]): string {
   return line;
 }
 
-/** B: 契約・コンサルトラックの寄り添い */
+/** B: 契約・コンサルティングトラックの寄り添い */
 export function buildEmpathyLineB(path: FlowSelection[]): string {
   const b2 = selectionByStep(path, "B2");
   const supportId = b2?.optionId ?? "b_other";

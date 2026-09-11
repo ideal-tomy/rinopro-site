@@ -28,7 +28,7 @@ export const INQUIRY_INTENT_LABELS: Record<InquiryIntent, string> = {
   estimate: "費用感を知りたい",
   requirements: "要件を整理したい",
   implementation: "開発の進め方を知りたい",
-  consulting: "コンサル内容を相談したい",
+  consulting: "コンサルティング内容を相談したい",
   fit_check: "相談先として合うか確認したい",
 };
 

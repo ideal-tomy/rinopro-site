@@ -511,7 +511,7 @@ const OFFERINGS: readonly ServiceOfferingDetail[] = [
     relatedLinks: {
       heading: "関連する入口",
       links: [
-        { href: "/services/consulting", label: "コンサル" },
+        { href: "/services/consulting", label: "コンサルティング" },
         { href: "/about", label: "チーム体制について" },
         { href: "/services", label: "ご支援内容" },
       ],

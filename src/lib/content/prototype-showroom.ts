@@ -499,7 +499,7 @@ export const PROTOTYPE_SHOWROOM_COLLABORATION = {
     "業界事業者",
     "中堅企業",
     "スタートアップ",
-    "コンサル会社",
+    "コンサルティング会社",
     "SaaS事業者",
     "開発会社",
     "業界団体",
