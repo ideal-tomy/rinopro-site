@@ -1,0 +1,50 @@
+{
+  "checks": [
+    {
+      "anchor": "consulting",
+      "headingTop": 132.140625,
+      "headerBottom": 57
+    },
+    {
+      "anchor": "insourcing",
+      "headingTop": 131.78125,
+      "headerBottom": 57
+    },
+    {
+      "route": "/services/consulting",
+      "status": "pass"
+    },
+    {
+      "route": "/services/insourcing-enablement",
+      "status": "pass"
+    },
+    {
+      "route": "/contact",
+      "status": "pass"
+    },
+    {
+      "menu": "open/Escape close pass"
+    },
+    {
+      "keyboard": {
+        "text": "AXEON",
+        "outline": "auto"
+      }
+    },
+    {
+      "keyboardAnchor": {
+        "outline": "solid",
+        "width": "2px"
+      },
+      "enter": "target visible",
+      "hash": "#consulting"
+    },
+    {
+      "otherPage": {
+        "headerHeight": 65,
+        "brandDisplay": "none"
+      }
+    }
+  ],
+  "errors": []
+}

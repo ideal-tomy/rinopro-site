@@ -1,0 +1,1532 @@
+[
+  {
+    "width": 375,
+    "scrollWidth": 375,
+    "header": 57,
+    "headings": [
+      {
+        "text": "ご支援内容",
+        "size": "36px",
+        "width": 335,
+        "height": 50.390625
+      },
+      {
+        "text": "コンサルティング",
+        "size": "36px",
+        "width": 335,
+        "height": 50.390625
+      },
+      {
+        "text": "半内製化",
+        "size": "36px",
+        "width": 335,
+        "height": 50.390625
+      },
+      {
+        "text": "成功の大半は、作る前に決まる",
+        "size": "28px",
+        "width": 335,
+        "height": 67.1875
+      },
+      {
+        "text": "戦略コンサルティング",
+        "size": "19px",
+        "width": 299,
+        "height": 28.5
+      },
+      {
+        "text": "ITコンサルティング",
+        "size": "19px",
+        "width": 299,
+        "height": 28.5
+      },
+      {
+        "text": "システム開発",
+        "size": "19px",
+        "width": 299,
+        "height": 28.5
+      },
+      {
+        "text": "導入・展開",
+        "size": "19px",
+        "width": 299,
+        "height": 28.5
+      },
+      {
+        "text": "運用・保守",
+        "size": "19px",
+        "width": 299,
+        "height": 28.5
+      },
+      {
+        "text": "課題の整理から、ご相談ください。",
+        "size": "23px",
+        "width": 335,
+        "height": 57.5
+      }
+    ],
+    "sections": [
+      {
+        "id": "consulting",
+        "y": 332.328125,
+        "height": 673.640625
+      },
+      {
+        "id": "insourcing",
+        "y": 1005.96875,
+        "height": 700.828125
+      },
+      {
+        "id": "",
+        "y": 1706.796875,
+        "height": 714.1875
+      },
+      {
+        "id": "",
+        "y": 2420.984375,
+        "height": 127.5
+      }
+    ],
+    "font": "Geist, \"Geist Fallback\", \"Noto Sans JP\", \"Noto Sans JP Fallback\", sans-serif",
+    "text": "ご支援内容\n\n提供の入り口は、コンサルティングと半内製化の2つです。課題の整理から実装・社内への移管まで、必要な範囲を同じチームで進めます。\n\nコンサルティング ↓\n半内製化 ↓\n\nCONSULTING\n\nコンサルティング\n\n何から着手すべきか、経営と現場で論点が揃っていないときに。\n\n課題の言語化、優先順位、実装可能な戦略まで。資料で終わらせず、次の一手が実行できる粒度に落とします。\n\nDX戦略設計\n経営と現場の認識ギャップを縮め、一期で終える範囲と検証単位を一枚にまとめます。\n優先順位と実行計画\n効果と実現性の両面で着手順を決め、PoCと本実装の境界が会話できる状態にします。\n業界前提の整理\n安全規程・取引慣行・個人情報など、業種固有の制約を最初に固定します。\nコンサルティングの詳細を見る →\n\nENABLEMENT\n\n半内製化\n\n外注のままだと改善が止まってしまう、社内に知見を残したいときに。\n\n作って渡して終わりにしない。開発・データ基盤・運用を一緒に回しながら、判断と改善の型をチームへ移します。月額の伴走、3か月ごとの更新が基本です。\n\nAI業務アプリ開発\n現場運用を前提に、小さく試してから本実装へ。権限・監査まで含めて作ります。\nデータ活用基盤\n分散データを意思決定に使える形へ整え、内製で回せる更新と権限の型を残します。\n伴走型改善運用\n導入後の計測・振り返り・改善バックログまで伴走し、自走できるリズムを残します。\n半内製化の詳細を見る →\n成功の大半は、\n作る前に決まる\n\n課題の抽出と設計を同じチームで行い、開発・定着まで一気通貫で伴走します。\n\n課題抽出\n\n戦略コンサルティング\n\n経営と現場の論点を整理し、どこから手を付けるかを可視化します。\n\n設計\n\nITコンサルティング\n\n何を作るか・何を検証するかを決め、過剰な要件膨張を抑えます。\n\n試作・実装\n\nシステム開発\n\n小さく試してから本実装へ。同じチームがコードまで担います。\n\n定着準備\n\n導入・展開\n\n現場に乗る運用設計と、関係者への共有まで整えます。\n\n継続\n\n運用・保守\n\n監視と改善サイクルを回し、使われ続ける状態を維持します。\n\n課題の整理から、\nご相談ください。\n問い合わせ\n→",
+    "links": [
+      {
+        "text": "コンサルティング ↓",
+        "href": "#consulting"
+      },
+      {
+        "text": "半内製化 ↓",
+        "href": "#insourcing"
+      },
+      {
+        "text": "コンサルティングの詳細を見る →",
+        "href": "/services/consulting"
+      },
+      {
+        "text": "半内製化の詳細を見る →",
+        "href": "/services/insourcing-enablement"
+      },
+      {
+        "text": "問い合わせ →",
+        "href": "/contact"
+      }
+    ],
+    "footerLogo": "block",
+    "headerTop": 0,
+    "headerPosition": "fixed",
+    "container": {
+      "x": 20,
+      "y": 57,
+      "width": 335,
+      "height": 275.328125,
+      "top": 57,
+      "right": 355,
+      "bottom": 332.328125,
+      "left": 20
+    },
+    "footerContainer": {
+      "x": 20,
+      "y": 2549.484375,
+      "width": 335,
+      "height": 35.390625,
+      "top": 2549.484375,
+      "right": 355,
+      "bottom": 2584.875,
+      "left": 20
+    },
+    "errors": [],
+    "platformFonts": {
+      "fonts": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist",
+          "isCustomFont": true,
+          "glyphCount": 1
+        },
+        {
+          "familyName": "Noto Sans JP Thin",
+          "postScriptName": "NotoSansJPThin-Regular",
+          "isCustomFont": true,
+          "glyphCount": 62
+        }
+      ]
+    }
+  },
+  {
+    "width": 390,
+    "scrollWidth": 390,
+    "header": 57,
+    "headings": [
+      {
+        "text": "ご支援内容",
+        "size": "36px",
+        "width": 350,
+        "height": 50.390625
+      },
+      {
+        "text": "コンサルティング",
+        "size": "36px",
+        "width": 350,
+        "height": 50.390625
+      },
+      {
+        "text": "半内製化",
+        "size": "36px",
+        "width": 350,
+        "height": 50.390625
+      },
+      {
+        "text": "成功の大半は、作る前に決まる",
+        "size": "28px",
+        "width": 350,
+        "height": 67.1875
+      },
+      {
+        "text": "戦略コンサルティング",
+        "size": "19px",
+        "width": 314,
+        "height": 28.5
+      },
+      {
+        "text": "ITコンサルティング",
+        "size": "19px",
+        "width": 314,
+        "height": 28.5
+      },
+      {
+        "text": "システム開発",
+        "size": "19px",
+        "width": 314,
+        "height": 28.5
+      },
+      {
+        "text": "導入・展開",
+        "size": "19px",
+        "width": 314,
+        "height": 28.5
+      },
+      {
+        "text": "運用・保守",
+        "size": "19px",
+        "width": 314,
+        "height": 28.5
+      },
+      {
+        "text": "課題の整理から、ご相談ください。",
+        "size": "23px",
+        "width": 350,
+        "height": 57.5
+      }
+    ],
+    "sections": [
+      {
+        "id": "consulting",
+        "y": 305.140625,
+        "height": 673.640625
+      },
+      {
+        "id": "insourcing",
+        "y": 978.78125,
+        "height": 700.828125
+      },
+      {
+        "id": "",
+        "y": 1679.609375,
+        "height": 714.1875
+      },
+      {
+        "id": "",
+        "y": 2393.796875,
+        "height": 127.5
+      }
+    ],
+    "font": "Geist, \"Geist Fallback\", \"Noto Sans JP\", \"Noto Sans JP Fallback\", sans-serif",
+    "text": "ご支援内容\n\n提供の入り口は、コンサルティングと半内製化の2つです。課題の整理から実装・社内への移管まで、必要な範囲を同じチームで進めます。\n\nコンサルティング ↓\n半内製化 ↓\n\nCONSULTING\n\nコンサルティング\n\n何から着手すべきか、経営と現場で論点が揃っていないときに。\n\n課題の言語化、優先順位、実装可能な戦略まで。資料で終わらせず、次の一手が実行できる粒度に落とします。\n\nDX戦略設計\n経営と現場の認識ギャップを縮め、一期で終える範囲と検証単位を一枚にまとめます。\n優先順位と実行計画\n効果と実現性の両面で着手順を決め、PoCと本実装の境界が会話できる状態にします。\n業界前提の整理\n安全規程・取引慣行・個人情報など、業種固有の制約を最初に固定します。\nコンサルティングの詳細を見る →\n\nENABLEMENT\n\n半内製化\n\n外注のままだと改善が止まってしまう、社内に知見を残したいときに。\n\n作って渡して終わりにしない。開発・データ基盤・運用を一緒に回しながら、判断と改善の型をチームへ移します。月額の伴走、3か月ごとの更新が基本です。\n\nAI業務アプリ開発\n現場運用を前提に、小さく試してから本実装へ。権限・監査まで含めて作ります。\nデータ活用基盤\n分散データを意思決定に使える形へ整え、内製で回せる更新と権限の型を残します。\n伴走型改善運用\n導入後の計測・振り返り・改善バックログまで伴走し、自走できるリズムを残します。\n半内製化の詳細を見る →\n成功の大半は、\n作る前に決まる\n\n課題の抽出と設計を同じチームで行い、開発・定着まで一気通貫で伴走します。\n\n課題抽出\n\n戦略コンサルティング\n\n経営と現場の論点を整理し、どこから手を付けるかを可視化します。\n\n設計\n\nITコンサルティング\n\n何を作るか・何を検証するかを決め、過剰な要件膨張を抑えます。\n\n試作・実装\n\nシステム開発\n\n小さく試してから本実装へ。同じチームがコードまで担います。\n\n定着準備\n\n導入・展開\n\n現場に乗る運用設計と、関係者への共有まで整えます。\n\n継続\n\n運用・保守\n\n監視と改善サイクルを回し、使われ続ける状態を維持します。\n\n課題の整理から、\nご相談ください。\n問い合わせ\n→",
+    "links": [
+      {
+        "text": "コンサルティング ↓",
+        "href": "#consulting"
+      },
+      {
+        "text": "半内製化 ↓",
+        "href": "#insourcing"
+      },
+      {
+        "text": "コンサルティングの詳細を見る →",
+        "href": "/services/consulting"
+      },
+      {
+        "text": "半内製化の詳細を見る →",
+        "href": "/services/insourcing-enablement"
+      },
+      {
+        "text": "問い合わせ →",
+        "href": "/contact"
+      }
+    ],
+    "footerLogo": "block",
+    "headerTop": 0,
+    "headerPosition": "fixed",
+    "container": {
+      "x": 20,
+      "y": -1567,
+      "width": 350,
+      "height": 248.140625,
+      "top": -1567,
+      "right": 370,
+      "bottom": -1318.859375,
+      "left": 20
+    },
+    "footerContainer": {
+      "x": 20,
+      "y": 898.296875,
+      "width": 350,
+      "height": 35.390625,
+      "top": 898.296875,
+      "right": 370,
+      "bottom": 933.6875,
+      "left": 20
+    },
+    "errors": [],
+    "platformFonts": {
+      "fonts": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist",
+          "isCustomFont": true,
+          "glyphCount": 1
+        },
+        {
+          "familyName": "Noto Sans JP Thin",
+          "postScriptName": "NotoSansJPThin-Regular",
+          "isCustomFont": true,
+          "glyphCount": 62
+        }
+      ]
+    }
+  },
+  {
+    "width": 430,
+    "scrollWidth": 430,
+    "header": 57,
+    "headings": [
+      {
+        "text": "ご支援内容",
+        "size": "36px",
+        "width": 390,
+        "height": 50.390625
+      },
+      {
+        "text": "コンサルティング",
+        "size": "36px",
+        "width": 390,
+        "height": 50.390625
+      },
+      {
+        "text": "半内製化",
+        "size": "36px",
+        "width": 390,
+        "height": 50.390625
+      },
+      {
+        "text": "成功の大半は、作る前に決まる",
+        "size": "28px",
+        "width": 390,
+        "height": 67.1875
+      },
+      {
+        "text": "戦略コンサルティング",
+        "size": "19px",
+        "width": 354,
+        "height": 28.5
+      },
+      {
+        "text": "ITコンサルティング",
+        "size": "19px",
+        "width": 354,
+        "height": 28.5
+      },
+      {
+        "text": "システム開発",
+        "size": "19px",
+        "width": 354,
+        "height": 28.5
+      },
+      {
+        "text": "導入・展開",
+        "size": "19px",
+        "width": 354,
+        "height": 28.5
+      },
+      {
+        "text": "運用・保守",
+        "size": "19px",
+        "width": 354,
+        "height": 28.5
+      },
+      {
+        "text": "課題の整理から、ご相談ください。",
+        "size": "23px",
+        "width": 390,
+        "height": 57.5
+      }
+    ],
+    "sections": [
+      {
+        "id": "consulting",
+        "y": 305.140625,
+        "height": 673.640625
+      },
+      {
+        "id": "insourcing",
+        "y": 978.78125,
+        "height": 700.828125
+      },
+      {
+        "id": "",
+        "y": 1679.609375,
+        "height": 714.1875
+      },
+      {
+        "id": "",
+        "y": 2393.796875,
+        "height": 127.5
+      }
+    ],
+    "font": "Geist, \"Geist Fallback\", \"Noto Sans JP\", \"Noto Sans JP Fallback\", sans-serif",
+    "text": "ご支援内容\n\n提供の入り口は、コンサルティングと半内製化の2つです。課題の整理から実装・社内への移管まで、必要な範囲を同じチームで進めます。\n\nコンサルティング ↓\n半内製化 ↓\n\nCONSULTING\n\nコンサルティング\n\n何から着手すべきか、経営と現場で論点が揃っていないときに。\n\n課題の言語化、優先順位、実装可能な戦略まで。資料で終わらせず、次の一手が実行できる粒度に落とします。\n\nDX戦略設計\n経営と現場の認識ギャップを縮め、一期で終える範囲と検証単位を一枚にまとめます。\n優先順位と実行計画\n効果と実現性の両面で着手順を決め、PoCと本実装の境界が会話できる状態にします。\n業界前提の整理\n安全規程・取引慣行・個人情報など、業種固有の制約を最初に固定します。\nコンサルティングの詳細を見る →\n\nENABLEMENT\n\n半内製化\n\n外注のままだと改善が止まってしまう、社内に知見を残したいときに。\n\n作って渡して終わりにしない。開発・データ基盤・運用を一緒に回しながら、判断と改善の型をチームへ移します。月額の伴走、3か月ごとの更新が基本です。\n\nAI業務アプリ開発\n現場運用を前提に、小さく試してから本実装へ。権限・監査まで含めて作ります。\nデータ活用基盤\n分散データを意思決定に使える形へ整え、内製で回せる更新と権限の型を残します。\n伴走型改善運用\n導入後の計測・振り返り・改善バックログまで伴走し、自走できるリズムを残します。\n半内製化の詳細を見る →\n成功の大半は、\n作る前に決まる\n\n課題の抽出と設計を同じチームで行い、開発・定着まで一気通貫で伴走します。\n\n課題抽出\n\n戦略コンサルティング\n\n経営と現場の論点を整理し、どこから手を付けるかを可視化します。\n\n設計\n\nITコンサルティング\n\n何を作るか・何を検証するかを決め、過剰な要件膨張を抑えます。\n\n試作・実装\n\nシステム開発\n\n小さく試してから本実装へ。同じチームがコードまで担います。\n\n定着準備\n\n導入・展開\n\n現場に乗る運用設計と、関係者への共有まで整えます。\n\n継続\n\n運用・保守\n\n監視と改善サイクルを回し、使われ続ける状態を維持します。\n\n課題の整理から、\nご相談ください。\n問い合わせ\n→",
+    "links": [
+      {
+        "text": "コンサルティング ↓",
+        "href": "#consulting"
+      },
+      {
+        "text": "半内製化 ↓",
+        "href": "#insourcing"
+      },
+      {
+        "text": "コンサルティングの詳細を見る →",
+        "href": "/services/consulting"
+      },
+      {
+        "text": "半内製化の詳細を見る →",
+        "href": "/services/insourcing-enablement"
+      },
+      {
+        "text": "問い合わせ →",
+        "href": "/contact"
+      }
+    ],
+    "footerLogo": "block",
+    "headerTop": 0,
+    "headerPosition": "fixed",
+    "container": {
+      "x": 20,
+      "y": 57,
+      "width": 390,
+      "height": 248.140625,
+      "top": 57,
+      "right": 410,
+      "bottom": 305.140625,
+      "left": 20
+    },
+    "footerContainer": {
+      "x": 20,
+      "y": 2522.296875,
+      "width": 390,
+      "height": 35.390625,
+      "top": 2522.296875,
+      "right": 410,
+      "bottom": 2557.6875,
+      "left": 20
+    },
+    "errors": [],
+    "platformFonts": {
+      "fonts": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist",
+          "isCustomFont": true,
+          "glyphCount": 1
+        },
+        {
+          "familyName": "Noto Sans JP Thin",
+          "postScriptName": "NotoSansJPThin-Regular",
+          "isCustomFont": true,
+          "glyphCount": 62
+        }
+      ]
+    }
+  },
+  {
+    "width": 768,
+    "scrollWidth": 768,
+    "header": 57,
+    "headings": [
+      {
+        "text": "ご支援内容",
+        "size": "36px",
+        "width": 728,
+        "height": 50.390625
+      },
+      {
+        "text": "コンサルティング",
+        "size": "36px",
+        "width": 728,
+        "height": 50.390625
+      },
+      {
+        "text": "半内製化",
+        "size": "36px",
+        "width": 728,
+        "height": 50.390625
+      },
+      {
+        "text": "成功の大半は、作る前に決まる",
+        "size": "28px",
+        "width": 728,
+        "height": 67.1875
+      },
+      {
+        "text": "戦略コンサルティング",
+        "size": "19px",
+        "width": 692,
+        "height": 28.5
+      },
+      {
+        "text": "ITコンサルティング",
+        "size": "19px",
+        "width": 692,
+        "height": 28.5
+      },
+      {
+        "text": "システム開発",
+        "size": "19px",
+        "width": 692,
+        "height": 28.5
+      },
+      {
+        "text": "導入・展開",
+        "size": "19px",
+        "width": 692,
+        "height": 28.5
+      },
+      {
+        "text": "運用・保守",
+        "size": "19px",
+        "width": 692,
+        "height": 28.5
+      },
+      {
+        "text": "課題の整理から、ご相談ください。",
+        "size": "23px",
+        "width": 728,
+        "height": 57.5
+      }
+    ],
+    "sections": [
+      {
+        "id": "consulting",
+        "y": 277.953125,
+        "height": 539.953125
+      },
+      {
+        "id": "insourcing",
+        "y": 817.90625,
+        "height": 539.953125
+      },
+      {
+        "id": "",
+        "y": 1357.859375,
+        "height": 567.9375
+      },
+      {
+        "id": "",
+        "y": 1925.796875,
+        "height": 127.5
+      }
+    ],
+    "font": "Geist, \"Geist Fallback\", \"Noto Sans JP\", \"Noto Sans JP Fallback\", sans-serif",
+    "text": "ご支援内容\n\n提供の入り口は、コンサルティングと半内製化の2つです。課題の整理から実装・社内への移管まで、必要な範囲を同じチームで進めます。\n\nコンサルティング ↓\n半内製化 ↓\n\nCONSULTING\n\nコンサルティング\n\n何から着手すべきか、経営と現場で論点が揃っていないときに。\n\n課題の言語化、優先順位、実装可能な戦略まで。資料で終わらせず、次の一手が実行できる粒度に落とします。\n\nDX戦略設計\n経営と現場の認識ギャップを縮め、一期で終える範囲と検証単位を一枚にまとめます。\n優先順位と実行計画\n効果と実現性の両面で着手順を決め、PoCと本実装の境界が会話できる状態にします。\n業界前提の整理\n安全規程・取引慣行・個人情報など、業種固有の制約を最初に固定します。\nコンサルティングの詳細を見る →\n\nENABLEMENT\n\n半内製化\n\n外注のままだと改善が止まってしまう、社内に知見を残したいときに。\n\n作って渡して終わりにしない。開発・データ基盤・運用を一緒に回しながら、判断と改善の型をチームへ移します。月額の伴走、3か月ごとの更新が基本です。\n\nAI業務アプリ開発\n現場運用を前提に、小さく試してから本実装へ。権限・監査まで含めて作ります。\nデータ活用基盤\n分散データを意思決定に使える形へ整え、内製で回せる更新と権限の型を残します。\n伴走型改善運用\n導入後の計測・振り返り・改善バックログまで伴走し、自走できるリズムを残します。\n半内製化の詳細を見る →\n成功の大半は、\n作る前に決まる\n\n課題の抽出と設計を同じチームで行い、開発・定着まで一気通貫で伴走します。\n\n課題抽出\n\n戦略コンサルティング\n\n経営と現場の論点を整理し、どこから手を付けるかを可視化します。\n\n設計\n\nITコンサルティング\n\n何を作るか・何を検証するかを決め、過剰な要件膨張を抑えます。\n\n試作・実装\n\nシステム開発\n\n小さく試してから本実装へ。同じチームがコードまで担います。\n\n定着準備\n\n導入・展開\n\n現場に乗る運用設計と、関係者への共有まで整えます。\n\n継続\n\n運用・保守\n\n監視と改善サイクルを回し、使われ続ける状態を維持します。\n\n課題の整理から、\nご相談ください。\n問い合わせ\n→",
+    "links": [
+      {
+        "text": "コンサルティング ↓",
+        "href": "#consulting"
+      },
+      {
+        "text": "半内製化 ↓",
+        "href": "#insourcing"
+      },
+      {
+        "text": "コンサルティングの詳細を見る →",
+        "href": "/services/consulting"
+      },
+      {
+        "text": "半内製化の詳細を見る →",
+        "href": "/services/insourcing-enablement"
+      },
+      {
+        "text": "問い合わせ →",
+        "href": "/contact"
+      }
+    ],
+    "footerLogo": "block",
+    "headerTop": 0,
+    "headerPosition": "fixed",
+    "container": {
+      "x": 20,
+      "y": 57,
+      "width": 728,
+      "height": 220.953125,
+      "top": 57,
+      "right": 748,
+      "bottom": 277.953125,
+      "left": 20
+    },
+    "footerContainer": {
+      "x": 20,
+      "y": 2054.296875,
+      "width": 728,
+      "height": 35.390625,
+      "top": 2054.296875,
+      "right": 748,
+      "bottom": 2089.6875,
+      "left": 20
+    },
+    "errors": [],
+    "platformFonts": {
+      "fonts": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist",
+          "isCustomFont": true,
+          "glyphCount": 1
+        },
+        {
+          "familyName": "Noto Sans JP Thin",
+          "postScriptName": "NotoSansJPThin-Regular",
+          "isCustomFont": true,
+          "glyphCount": 62
+        }
+      ]
+    }
+  },
+  {
+    "width": 1023,
+    "scrollWidth": 1023,
+    "header": 57,
+    "headings": [
+      {
+        "text": "ご支援内容",
+        "size": "36px",
+        "width": 983,
+        "height": 50.390625
+      },
+      {
+        "text": "コンサルティング",
+        "size": "36px",
+        "width": 983,
+        "height": 50.390625
+      },
+      {
+        "text": "半内製化",
+        "size": "36px",
+        "width": 983,
+        "height": 50.390625
+      },
+      {
+        "text": "成功の大半は、作る前に決まる",
+        "size": "28px",
+        "width": 983,
+        "height": 67.1875
+      },
+      {
+        "text": "戦略コンサルティング",
+        "size": "19px",
+        "width": 947,
+        "height": 28.5
+      },
+      {
+        "text": "ITコンサルティング",
+        "size": "19px",
+        "width": 947,
+        "height": 28.5
+      },
+      {
+        "text": "システム開発",
+        "size": "19px",
+        "width": 947,
+        "height": 28.5
+      },
+      {
+        "text": "導入・展開",
+        "size": "19px",
+        "width": 947,
+        "height": 28.5
+      },
+      {
+        "text": "運用・保守",
+        "size": "19px",
+        "width": 947,
+        "height": 28.5
+      },
+      {
+        "text": "課題の整理から、ご相談ください。",
+        "size": "23px",
+        "width": 983,
+        "height": 57.5
+      }
+    ],
+    "sections": [
+      {
+        "id": "consulting",
+        "y": 277.953125,
+        "height": 512.765625
+      },
+      {
+        "id": "insourcing",
+        "y": 790.71875,
+        "height": 539.953125
+      },
+      {
+        "id": "",
+        "y": 1330.671875,
+        "height": 567.9375
+      },
+      {
+        "id": "",
+        "y": 1898.609375,
+        "height": 127.5
+      }
+    ],
+    "font": "Geist, \"Geist Fallback\", \"Noto Sans JP\", \"Noto Sans JP Fallback\", sans-serif",
+    "text": "ご支援内容\n\n提供の入り口は、コンサルティングと半内製化の2つです。課題の整理から実装・社内への移管まで、必要な範囲を同じチームで進めます。\n\nコンサルティング ↓\n半内製化 ↓\n\nCONSULTING\n\nコンサルティング\n\n何から着手すべきか、経営と現場で論点が揃っていないときに。\n\n課題の言語化、優先順位、実装可能な戦略まで。資料で終わらせず、次の一手が実行できる粒度に落とします。\n\nDX戦略設計\n経営と現場の認識ギャップを縮め、一期で終える範囲と検証単位を一枚にまとめます。\n優先順位と実行計画\n効果と実現性の両面で着手順を決め、PoCと本実装の境界が会話できる状態にします。\n業界前提の整理\n安全規程・取引慣行・個人情報など、業種固有の制約を最初に固定します。\nコンサルティングの詳細を見る →\n\nENABLEMENT\n\n半内製化\n\n外注のままだと改善が止まってしまう、社内に知見を残したいときに。\n\n作って渡して終わりにしない。開発・データ基盤・運用を一緒に回しながら、判断と改善の型をチームへ移します。月額の伴走、3か月ごとの更新が基本です。\n\nAI業務アプリ開発\n現場運用を前提に、小さく試してから本実装へ。権限・監査まで含めて作ります。\nデータ活用基盤\n分散データを意思決定に使える形へ整え、内製で回せる更新と権限の型を残します。\n伴走型改善運用\n導入後の計測・振り返り・改善バックログまで伴走し、自走できるリズムを残します。\n半内製化の詳細を見る →\n成功の大半は、\n作る前に決まる\n\n課題の抽出と設計を同じチームで行い、開発・定着まで一気通貫で伴走します。\n\n課題抽出\n\n戦略コンサルティング\n\n経営と現場の論点を整理し、どこから手を付けるかを可視化します。\n\n設計\n\nITコンサルティング\n\n何を作るか・何を検証するかを決め、過剰な要件膨張を抑えます。\n\n試作・実装\n\nシステム開発\n\n小さく試してから本実装へ。同じチームがコードまで担います。\n\n定着準備\n\n導入・展開\n\n現場に乗る運用設計と、関係者への共有まで整えます。\n\n継続\n\n運用・保守\n\n監視と改善サイクルを回し、使われ続ける状態を維持します。\n\n課題の整理から、\nご相談ください。\n問い合わせ\n→",
+    "links": [
+      {
+        "text": "コンサルティング ↓",
+        "href": "#consulting"
+      },
+      {
+        "text": "半内製化 ↓",
+        "href": "#insourcing"
+      },
+      {
+        "text": "コンサルティングの詳細を見る →",
+        "href": "/services/consulting"
+      },
+      {
+        "text": "半内製化の詳細を見る →",
+        "href": "/services/insourcing-enablement"
+      },
+      {
+        "text": "問い合わせ →",
+        "href": "/contact"
+      }
+    ],
+    "footerLogo": "block",
+    "headerTop": 0,
+    "headerPosition": "fixed",
+    "container": {
+      "x": 20,
+      "y": 57,
+      "width": 983,
+      "height": 220.953125,
+      "top": 57,
+      "right": 1003,
+      "bottom": 277.953125,
+      "left": 20
+    },
+    "footerContainer": {
+      "x": 20,
+      "y": 2027.109375,
+      "width": 983,
+      "height": 35.390625,
+      "top": 2027.109375,
+      "right": 1003,
+      "bottom": 2062.5,
+      "left": 20
+    },
+    "errors": [],
+    "platformFonts": {
+      "fonts": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist",
+          "isCustomFont": true,
+          "glyphCount": 1
+        },
+        {
+          "familyName": "Noto Sans JP Thin",
+          "postScriptName": "NotoSansJPThin-Regular",
+          "isCustomFont": true,
+          "glyphCount": 62
+        }
+      ]
+    }
+  },
+  {
+    "width": 1024,
+    "scrollWidth": 1024,
+    "header": 61,
+    "headings": [
+      {
+        "text": "ご支援内容",
+        "size": "48px",
+        "width": 276.796875,
+        "height": 106.375
+      },
+      {
+        "text": "コンサルティング",
+        "size": "40px",
+        "width": 358.875,
+        "height": 56
+      },
+      {
+        "text": "半内製化",
+        "size": "40px",
+        "width": 358.875,
+        "height": 56
+      },
+      {
+        "text": "成功の大半は、作る前に決まる",
+        "size": "28px",
+        "width": 382.21875,
+        "height": 39.1875
+      },
+      {
+        "text": "戦略コンサルティング",
+        "size": "15px",
+        "width": 160.171875,
+        "height": 22.5
+      },
+      {
+        "text": "ITコンサルティング",
+        "size": "15px",
+        "width": 160.1875,
+        "height": 22.5
+      },
+      {
+        "text": "システム開発",
+        "size": "15px",
+        "width": 160.1875,
+        "height": 22.5
+      },
+      {
+        "text": "導入・展開",
+        "size": "15px",
+        "width": 160.1875,
+        "height": 22.5
+      },
+      {
+        "text": "運用・保守",
+        "size": "15px",
+        "width": 160.171875,
+        "height": 22.5
+      },
+      {
+        "text": "課題の整理から、ご相談ください。",
+        "size": "26px",
+        "width": 892.921875,
+        "height": 32.5
+      }
+    ],
+    "sections": [
+      {
+        "id": "consulting",
+        "y": 250.375,
+        "height": 364
+      },
+      {
+        "id": "insourcing",
+        "y": 614.375,
+        "height": 377.5625
+      },
+      {
+        "id": "",
+        "y": 991.9375,
+        "height": 283.078125
+      },
+      {
+        "id": "",
+        "y": 1275.015625,
+        "height": 134.5
+      }
+    ],
+    "font": "Geist, \"Geist Fallback\", \"Noto Sans JP\", \"Noto Sans JP Fallback\", sans-serif",
+    "text": "ご支援内容\n\n提供の入り口は、コンサルティングと半内製化の2つです。課題の整理から実装・社内への移管まで、必要な範囲を同じチームで進めます。\n\nコンサルティング ↓\n半内製化 ↓\n\nCONSULTING\n\nコンサルティング\n\n何から着手すべきか、経営と現場で論点が揃っていないときに。\n\n課題の言語化、優先順位、実装可能な戦略まで。資料で終わらせず、次の一手が実行できる粒度に落とします。\n\nDX戦略設計\n経営と現場の認識ギャップを縮め、一期で終える範囲と検証単位を一枚にまとめます。\n優先順位と実行計画\n効果と実現性の両面で着手順を決め、PoCと本実装の境界が会話できる状態にします。\n業界前提の整理\n安全規程・取引慣行・個人情報など、業種固有の制約を最初に固定します。\nコンサルティングの詳細を見る →\n\nENABLEMENT\n\n半内製化\n\n外注のままだと改善が止まってしまう、社内に知見を残したいときに。\n\n作って渡して終わりにしない。開発・データ基盤・運用を一緒に回しながら、判断と改善の型をチームへ移します。月額の伴走、3か月ごとの更新が基本です。\n\nAI業務アプリ開発\n現場運用を前提に、小さく試してから本実装へ。権限・監査まで含めて作ります。\nデータ活用基盤\n分散データを意思決定に使える形へ整え、内製で回せる更新と権限の型を残します。\n伴走型改善運用\n導入後の計測・振り返り・改善バックログまで伴走し、自走できるリズムを残します。\n半内製化の詳細を見る →\n成功の大半は、作る前に決まる\n\n課題の抽出と設計を同じチームで行い、開発・定着まで一気通貫で伴走します。\n\n01\n\n課題抽出\n\n戦略コンサルティング\n\n経営と現場の論点を整理し、どこから手を付けるかを可視化します。\n\n02\n\n設計\n\nITコンサルティング\n\n何を作るか・何を検証するかを決め、過剰な要件膨張を抑えます。\n\n03\n\n試作・実装\n\nシステム開発\n\n小さく試してから本実装へ。同じチームがコードまで担います。\n\n04\n\n定着準備\n\n導入・展開\n\n現場に乗る運用設計と、関係者への共有まで整えます。\n\n05\n\n継続\n\n運用・保守\n\n監視と改善サイクルを回し、使われ続ける状態を維持します。\n\n課題の整理から、ご相談ください。\n問い合わせ\n→",
+    "links": [
+      {
+        "text": "コンサルティング ↓",
+        "href": "#consulting"
+      },
+      {
+        "text": "半内製化 ↓",
+        "href": "#insourcing"
+      },
+      {
+        "text": "コンサルティングの詳細を見る →",
+        "href": "/services/consulting"
+      },
+      {
+        "text": "半内製化の詳細を見る →",
+        "href": "/services/insourcing-enablement"
+      },
+      {
+        "text": "問い合わせ →",
+        "href": "/contact"
+      }
+    ],
+    "footerLogo": "block",
+    "headerTop": 0,
+    "headerPosition": "fixed",
+    "container": {
+      "x": 65.53125,
+      "y": 61,
+      "width": 892.921875,
+      "height": 189.375,
+      "top": 61,
+      "right": 958.453125,
+      "bottom": 250.375,
+      "left": 65.53125
+    },
+    "footerContainer": {
+      "x": 65.53125,
+      "y": 1410.515625,
+      "width": 892.921875,
+      "height": 40.59375,
+      "top": 1410.515625,
+      "right": 958.453125,
+      "bottom": 1451.109375,
+      "left": 65.53125
+    },
+    "errors": [],
+    "platformFonts": {
+      "fonts": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist",
+          "isCustomFont": true,
+          "glyphCount": 1
+        },
+        {
+          "familyName": "Noto Sans JP Thin",
+          "postScriptName": "NotoSansJPThin-Regular",
+          "isCustomFont": true,
+          "glyphCount": 62
+        }
+      ]
+    }
+  },
+  {
+    "width": 1025,
+    "scrollWidth": 1025,
+    "header": 61,
+    "headings": [
+      {
+        "text": "ご支援内容",
+        "size": "48px",
+        "width": 277.0625,
+        "height": 106.375
+      },
+      {
+        "text": "コンサルティング",
+        "size": "40px",
+        "width": 359.265625,
+        "height": 56
+      },
+      {
+        "text": "半内製化",
+        "size": "40px",
+        "width": 359.265625,
+        "height": 56
+      },
+      {
+        "text": "成功の大半は、作る前に決まる",
+        "size": "28px",
+        "width": 382.21875,
+        "height": 39.1875
+      },
+      {
+        "text": "戦略コンサルティング",
+        "size": "15px",
+        "width": 160.359375,
+        "height": 22.5
+      },
+      {
+        "text": "ITコンサルティング",
+        "size": "15px",
+        "width": 160.359375,
+        "height": 22.5
+      },
+      {
+        "text": "システム開発",
+        "size": "15px",
+        "width": 160.359375,
+        "height": 22.5
+      },
+      {
+        "text": "導入・展開",
+        "size": "15px",
+        "width": 160.359375,
+        "height": 22.5
+      },
+      {
+        "text": "運用・保守",
+        "size": "15px",
+        "width": 160.359375,
+        "height": 22.5
+      },
+      {
+        "text": "課題の整理から、ご相談ください。",
+        "size": "26px",
+        "width": 893.796875,
+        "height": 32.5
+      }
+    ],
+    "sections": [
+      {
+        "id": "consulting",
+        "y": 250.375,
+        "height": 364
+      },
+      {
+        "id": "insourcing",
+        "y": 614.375,
+        "height": 377.5625
+      },
+      {
+        "id": "",
+        "y": 991.9375,
+        "height": 283.078125
+      },
+      {
+        "id": "",
+        "y": 1275.015625,
+        "height": 134.5
+      }
+    ],
+    "font": "Geist, \"Geist Fallback\", \"Noto Sans JP\", \"Noto Sans JP Fallback\", sans-serif",
+    "text": "ご支援内容\n\n提供の入り口は、コンサルティングと半内製化の2つです。課題の整理から実装・社内への移管まで、必要な範囲を同じチームで進めます。\n\nコンサルティング ↓\n半内製化 ↓\n\nCONSULTING\n\nコンサルティング\n\n何から着手すべきか、経営と現場で論点が揃っていないときに。\n\n課題の言語化、優先順位、実装可能な戦略まで。資料で終わらせず、次の一手が実行できる粒度に落とします。\n\nDX戦略設計\n経営と現場の認識ギャップを縮め、一期で終える範囲と検証単位を一枚にまとめます。\n優先順位と実行計画\n効果と実現性の両面で着手順を決め、PoCと本実装の境界が会話できる状態にします。\n業界前提の整理\n安全規程・取引慣行・個人情報など、業種固有の制約を最初に固定します。\nコンサルティングの詳細を見る →\n\nENABLEMENT\n\n半内製化\n\n外注のままだと改善が止まってしまう、社内に知見を残したいときに。\n\n作って渡して終わりにしない。開発・データ基盤・運用を一緒に回しながら、判断と改善の型をチームへ移します。月額の伴走、3か月ごとの更新が基本です。\n\nAI業務アプリ開発\n現場運用を前提に、小さく試してから本実装へ。権限・監査まで含めて作ります。\nデータ活用基盤\n分散データを意思決定に使える形へ整え、内製で回せる更新と権限の型を残します。\n伴走型改善運用\n導入後の計測・振り返り・改善バックログまで伴走し、自走できるリズムを残します。\n半内製化の詳細を見る →\n成功の大半は、作る前に決まる\n\n課題の抽出と設計を同じチームで行い、開発・定着まで一気通貫で伴走します。\n\n01\n\n課題抽出\n\n戦略コンサルティング\n\n経営と現場の論点を整理し、どこから手を付けるかを可視化します。\n\n02\n\n設計\n\nITコンサルティング\n\n何を作るか・何を検証するかを決め、過剰な要件膨張を抑えます。\n\n03\n\n試作・実装\n\nシステム開発\n\n小さく試してから本実装へ。同じチームがコードまで担います。\n\n04\n\n定着準備\n\n導入・展開\n\n現場に乗る運用設計と、関係者への共有まで整えます。\n\n05\n\n継続\n\n運用・保守\n\n監視と改善サイクルを回し、使われ続ける状態を維持します。\n\n課題の整理から、ご相談ください。\n問い合わせ\n→",
+    "links": [
+      {
+        "text": "コンサルティング ↓",
+        "href": "#consulting"
+      },
+      {
+        "text": "半内製化 ↓",
+        "href": "#insourcing"
+      },
+      {
+        "text": "コンサルティングの詳細を見る →",
+        "href": "/services/consulting"
+      },
+      {
+        "text": "半内製化の詳細を見る →",
+        "href": "/services/insourcing-enablement"
+      },
+      {
+        "text": "問い合わせ →",
+        "href": "/contact"
+      }
+    ],
+    "footerLogo": "block",
+    "headerTop": 0,
+    "headerPosition": "fixed",
+    "container": {
+      "x": 65.59375,
+      "y": 61,
+      "width": 893.796875,
+      "height": 189.375,
+      "top": 61,
+      "right": 959.390625,
+      "bottom": 250.375,
+      "left": 65.59375
+    },
+    "footerContainer": {
+      "x": 65.59375,
+      "y": 1410.515625,
+      "width": 893.796875,
+      "height": 40.59375,
+      "top": 1410.515625,
+      "right": 959.390625,
+      "bottom": 1451.109375,
+      "left": 65.59375
+    },
+    "errors": [],
+    "platformFonts": {
+      "fonts": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist",
+          "isCustomFont": true,
+          "glyphCount": 1
+        },
+        {
+          "familyName": "Noto Sans JP Thin",
+          "postScriptName": "NotoSansJPThin-Regular",
+          "isCustomFont": true,
+          "glyphCount": 62
+        }
+      ]
+    }
+  },
+  {
+    "width": 1122,
+    "scrollWidth": 1122,
+    "header": 61,
+    "headings": [
+      {
+        "text": "ご支援内容",
+        "size": "48px",
+        "width": 303.28125,
+        "height": 106.375
+      },
+      {
+        "text": "コンサルティング",
+        "size": "40px",
+        "width": 396.484375,
+        "height": 56
+      },
+      {
+        "text": "半内製化",
+        "size": "40px",
+        "width": 396.484375,
+        "height": 56
+      },
+      {
+        "text": "成功の大半は、作る前に決まる",
+        "size": "28px",
+        "width": 382.21875,
+        "height": 39.1875
+      },
+      {
+        "text": "戦略コンサルティング",
+        "size": "16px",
+        "width": 177.265625,
+        "height": 24
+      },
+      {
+        "text": "ITコンサルティング",
+        "size": "16px",
+        "width": 177.28125,
+        "height": 24
+      },
+      {
+        "text": "システム開発",
+        "size": "16px",
+        "width": 177.265625,
+        "height": 24
+      },
+      {
+        "text": "導入・展開",
+        "size": "16px",
+        "width": 177.28125,
+        "height": 24
+      },
+      {
+        "text": "運用・保守",
+        "size": "16px",
+        "width": 177.265625,
+        "height": 24
+      },
+      {
+        "text": "課題の整理から、ご相談ください。",
+        "size": "26px",
+        "width": 978.375,
+        "height": 32.5
+      }
+    ],
+    "sections": [
+      {
+        "id": "consulting",
+        "y": 250.375,
+        "height": 351.96875
+      },
+      {
+        "id": "insourcing",
+        "y": 602.34375,
+        "height": 351.96875
+      },
+      {
+        "id": "",
+        "y": 954.3125,
+        "height": 274.265625
+      },
+      {
+        "id": "",
+        "y": 1228.578125,
+        "height": 134.5
+      }
+    ],
+    "font": "Geist, \"Geist Fallback\", \"Noto Sans JP\", \"Noto Sans JP Fallback\", sans-serif",
+    "text": "ご支援内容\n\n提供の入り口は、コンサルティングと半内製化の2つです。課題の整理から実装・社内への移管まで、必要な範囲を同じチームで進めます。\n\nコンサルティング ↓\n半内製化 ↓\n\nCONSULTING\n\nコンサルティング\n\n何から着手すべきか、経営と現場で論点が揃っていないときに。\n\n課題の言語化、優先順位、実装可能な戦略まで。資料で終わらせず、次の一手が実行できる粒度に落とします。\n\nDX戦略設計\n経営と現場の認識ギャップを縮め、一期で終える範囲と検証単位を一枚にまとめます。\n優先順位と実行計画\n効果と実現性の両面で着手順を決め、PoCと本実装の境界が会話できる状態にします。\n業界前提の整理\n安全規程・取引慣行・個人情報など、業種固有の制約を最初に固定します。\nコンサルティングの詳細を見る →\n\nENABLEMENT\n\n半内製化\n\n外注のままだと改善が止まってしまう、社内に知見を残したいときに。\n\n作って渡して終わりにしない。開発・データ基盤・運用を一緒に回しながら、判断と改善の型をチームへ移します。月額の伴走、3か月ごとの更新が基本です。\n\nAI業務アプリ開発\n現場運用を前提に、小さく試してから本実装へ。権限・監査まで含めて作ります。\nデータ活用基盤\n分散データを意思決定に使える形へ整え、内製で回せる更新と権限の型を残します。\n伴走型改善運用\n導入後の計測・振り返り・改善バックログまで伴走し、自走できるリズムを残します。\n半内製化の詳細を見る →\n成功の大半は、作る前に決まる\n\n課題の抽出と設計を同じチームで行い、開発・定着まで一気通貫で伴走します。\n\n01\n\n課題抽出\n\n戦略コンサルティング\n\n経営と現場の論点を整理し、どこから手を付けるかを可視化します。\n\n02\n\n設計\n\nITコンサルティング\n\n何を作るか・何を検証するかを決め、過剰な要件膨張を抑えます。\n\n03\n\n試作・実装\n\nシステム開発\n\n小さく試してから本実装へ。同じチームがコードまで担います。\n\n04\n\n定着準備\n\n導入・展開\n\n現場に乗る運用設計と、関係者への共有まで整えます。\n\n05\n\n継続\n\n運用・保守\n\n監視と改善サイクルを回し、使われ続ける状態を維持します。\n\n課題の整理から、ご相談ください。\n問い合わせ\n→",
+    "links": [
+      {
+        "text": "コンサルティング ↓",
+        "href": "#consulting"
+      },
+      {
+        "text": "半内製化 ↓",
+        "href": "#insourcing"
+      },
+      {
+        "text": "コンサルティングの詳細を見る →",
+        "href": "/services/consulting"
+      },
+      {
+        "text": "半内製化の詳細を見る →",
+        "href": "/services/insourcing-enablement"
+      },
+      {
+        "text": "問い合わせ →",
+        "href": "/contact"
+      }
+    ],
+    "footerLogo": "block",
+    "headerTop": 0,
+    "headerPosition": "fixed",
+    "container": {
+      "x": 71.8125,
+      "y": 61,
+      "width": 978.375,
+      "height": 189.375,
+      "top": 61,
+      "right": 1050.1875,
+      "bottom": 250.375,
+      "left": 71.8125
+    },
+    "footerContainer": {
+      "x": 71.8125,
+      "y": 1364.078125,
+      "width": 978.375,
+      "height": 40.59375,
+      "top": 1364.078125,
+      "right": 1050.1875,
+      "bottom": 1404.671875,
+      "left": 71.8125
+    },
+    "errors": [],
+    "platformFonts": {
+      "fonts": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist",
+          "isCustomFont": true,
+          "glyphCount": 1
+        },
+        {
+          "familyName": "Noto Sans JP Thin",
+          "postScriptName": "NotoSansJPThin-Regular",
+          "isCustomFont": true,
+          "glyphCount": 62
+        }
+      ]
+    }
+  },
+  {
+    "width": 1280,
+    "scrollWidth": 1280,
+    "header": 61,
+    "headings": [
+      {
+        "text": "ご支援内容",
+        "size": "48px",
+        "width": 346,
+        "height": 106.375
+      },
+      {
+        "text": "コンサルティング",
+        "size": "40px",
+        "width": 457.09375,
+        "height": 56
+      },
+      {
+        "text": "半内製化",
+        "size": "40px",
+        "width": 457.09375,
+        "height": 56
+      },
+      {
+        "text": "成功の大半は、作る前に決まる",
+        "size": "28px",
+        "width": 382.21875,
+        "height": 39.1875
+      },
+      {
+        "text": "戦略コンサルティング",
+        "size": "16px",
+        "width": 204.828125,
+        "height": 24
+      },
+      {
+        "text": "ITコンサルティング",
+        "size": "16px",
+        "width": 204.828125,
+        "height": 24
+      },
+      {
+        "text": "システム開発",
+        "size": "16px",
+        "width": 204.828125,
+        "height": 24
+      },
+      {
+        "text": "導入・展開",
+        "size": "16px",
+        "width": 204.828125,
+        "height": 24
+      },
+      {
+        "text": "運用・保守",
+        "size": "16px",
+        "width": 204.84375,
+        "height": 24
+      },
+      {
+        "text": "課題の整理から、ご相談ください。",
+        "size": "26px",
+        "width": 1116.15625,
+        "height": 32.5
+      }
+    ],
+    "sections": [
+      {
+        "id": "consulting",
+        "y": 250.375,
+        "height": 326.375
+      },
+      {
+        "id": "insourcing",
+        "y": 576.75,
+        "height": 351.96875
+      },
+      {
+        "id": "",
+        "y": 928.71875,
+        "height": 274.265625
+      },
+      {
+        "id": "",
+        "y": 1202.984375,
+        "height": 134.5
+      }
+    ],
+    "font": "Geist, \"Geist Fallback\", \"Noto Sans JP\", \"Noto Sans JP Fallback\", sans-serif",
+    "text": "ご支援内容\n\n提供の入り口は、コンサルティングと半内製化の2つです。課題の整理から実装・社内への移管まで、必要な範囲を同じチームで進めます。\n\nコンサルティング ↓\n半内製化 ↓\n\nCONSULTING\n\nコンサルティング\n\n何から着手すべきか、経営と現場で論点が揃っていないときに。\n\n課題の言語化、優先順位、実装可能な戦略まで。資料で終わらせず、次の一手が実行できる粒度に落とします。\n\nDX戦略設計\n経営と現場の認識ギャップを縮め、一期で終える範囲と検証単位を一枚にまとめます。\n優先順位と実行計画\n効果と実現性の両面で着手順を決め、PoCと本実装の境界が会話できる状態にします。\n業界前提の整理\n安全規程・取引慣行・個人情報など、業種固有の制約を最初に固定します。\nコンサルティングの詳細を見る →\n\nENABLEMENT\n\n半内製化\n\n外注のままだと改善が止まってしまう、社内に知見を残したいときに。\n\n作って渡して終わりにしない。開発・データ基盤・運用を一緒に回しながら、判断と改善の型をチームへ移します。月額の伴走、3か月ごとの更新が基本です。\n\nAI業務アプリ開発\n現場運用を前提に、小さく試してから本実装へ。権限・監査まで含めて作ります。\nデータ活用基盤\n分散データを意思決定に使える形へ整え、内製で回せる更新と権限の型を残します。\n伴走型改善運用\n導入後の計測・振り返り・改善バックログまで伴走し、自走できるリズムを残します。\n半内製化の詳細を見る →\n成功の大半は、作る前に決まる\n\n課題の抽出と設計を同じチームで行い、開発・定着まで一気通貫で伴走します。\n\n01\n\n課題抽出\n\n戦略コンサルティング\n\n経営と現場の論点を整理し、どこから手を付けるかを可視化します。\n\n02\n\n設計\n\nITコンサルティング\n\n何を作るか・何を検証するかを決め、過剰な要件膨張を抑えます。\n\n03\n\n試作・実装\n\nシステム開発\n\n小さく試してから本実装へ。同じチームがコードまで担います。\n\n04\n\n定着準備\n\n導入・展開\n\n現場に乗る運用設計と、関係者への共有まで整えます。\n\n05\n\n継続\n\n運用・保守\n\n監視と改善サイクルを回し、使われ続ける状態を維持します。\n\n課題の整理から、ご相談ください。\n問い合わせ\n→",
+    "links": [
+      {
+        "text": "コンサルティング ↓",
+        "href": "#consulting"
+      },
+      {
+        "text": "半内製化 ↓",
+        "href": "#insourcing"
+      },
+      {
+        "text": "コンサルティングの詳細を見る →",
+        "href": "/services/consulting"
+      },
+      {
+        "text": "半内製化の詳細を見る →",
+        "href": "/services/insourcing-enablement"
+      },
+      {
+        "text": "問い合わせ →",
+        "href": "/contact"
+      }
+    ],
+    "footerLogo": "block",
+    "headerTop": 0,
+    "headerPosition": "fixed",
+    "container": {
+      "x": 81.921875,
+      "y": 61,
+      "width": 1116.15625,
+      "height": 189.375,
+      "top": 61,
+      "right": 1198.078125,
+      "bottom": 250.375,
+      "left": 81.921875
+    },
+    "footerContainer": {
+      "x": 81.921875,
+      "y": 1338.484375,
+      "width": 1116.15625,
+      "height": 40.59375,
+      "top": 1338.484375,
+      "right": 1198.078125,
+      "bottom": 1379.078125,
+      "left": 81.921875
+    },
+    "errors": [],
+    "platformFonts": {
+      "fonts": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist",
+          "isCustomFont": true,
+          "glyphCount": 1
+        },
+        {
+          "familyName": "Noto Sans JP Thin",
+          "postScriptName": "NotoSansJPThin-Regular",
+          "isCustomFont": true,
+          "glyphCount": 62
+        }
+      ]
+    }
+  },
+  {
+    "width": 1440,
+    "scrollWidth": 1440,
+    "header": 61,
+    "headings": [
+      {
+        "text": "ご支援内容",
+        "size": "48px",
+        "width": 386.875,
+        "height": 106.375
+      },
+      {
+        "text": "コンサルティング",
+        "size": "40px",
+        "width": 515.109375,
+        "height": 56
+      },
+      {
+        "text": "半内製化",
+        "size": "40px",
+        "width": 515.109375,
+        "height": 56
+      },
+      {
+        "text": "成功の大半は、作る前に決まる",
+        "size": "28px",
+        "width": 382.21875,
+        "height": 39.1875
+      },
+      {
+        "text": "戦略コンサルティング",
+        "size": "16px",
+        "width": 231.1875,
+        "height": 24
+      },
+      {
+        "text": "ITコンサルティング",
+        "size": "16px",
+        "width": 231.203125,
+        "height": 24
+      },
+      {
+        "text": "システム開発",
+        "size": "16px",
+        "width": 231.203125,
+        "height": 24
+      },
+      {
+        "text": "導入・展開",
+        "size": "16px",
+        "width": 231.203125,
+        "height": 24
+      },
+      {
+        "text": "運用・保守",
+        "size": "16px",
+        "width": 231.1875,
+        "height": 24
+      },
+      {
+        "text": "課題の整理から、ご相談ください。",
+        "size": "26px",
+        "width": 1248,
+        "height": 32.5
+      }
+    ],
+    "sections": [
+      {
+        "id": "consulting",
+        "y": 250.375,
+        "height": 326.375
+      },
+      {
+        "id": "insourcing",
+        "y": 576.75,
+        "height": 351.96875
+      },
+      {
+        "id": "",
+        "y": 928.71875,
+        "height": 251.171875
+      },
+      {
+        "id": "",
+        "y": 1179.890625,
+        "height": 134.5
+      }
+    ],
+    "font": "Geist, \"Geist Fallback\", \"Noto Sans JP\", \"Noto Sans JP Fallback\", sans-serif",
+    "text": "ご支援内容\n\n提供の入り口は、コンサルティングと半内製化の2つです。課題の整理から実装・社内への移管まで、必要な範囲を同じチームで進めます。\n\nコンサルティング ↓\n半内製化 ↓\n\nCONSULTING\n\nコンサルティング\n\n何から着手すべきか、経営と現場で論点が揃っていないときに。\n\n課題の言語化、優先順位、実装可能な戦略まで。資料で終わらせず、次の一手が実行できる粒度に落とします。\n\nDX戦略設計\n経営と現場の認識ギャップを縮め、一期で終える範囲と検証単位を一枚にまとめます。\n優先順位と実行計画\n効果と実現性の両面で着手順を決め、PoCと本実装の境界が会話できる状態にします。\n業界前提の整理\n安全規程・取引慣行・個人情報など、業種固有の制約を最初に固定します。\nコンサルティングの詳細を見る →\n\nENABLEMENT\n\n半内製化\n\n外注のままだと改善が止まってしまう、社内に知見を残したいときに。\n\n作って渡して終わりにしない。開発・データ基盤・運用を一緒に回しながら、判断と改善の型をチームへ移します。月額の伴走、3か月ごとの更新が基本です。\n\nAI業務アプリ開発\n現場運用を前提に、小さく試してから本実装へ。権限・監査まで含めて作ります。\nデータ活用基盤\n分散データを意思決定に使える形へ整え、内製で回せる更新と権限の型を残します。\n伴走型改善運用\n導入後の計測・振り返り・改善バックログまで伴走し、自走できるリズムを残します。\n半内製化の詳細を見る →\n成功の大半は、作る前に決まる\n\n課題の抽出と設計を同じチームで行い、開発・定着まで一気通貫で伴走します。\n\n01\n\n課題抽出\n\n戦略コンサルティング\n\n経営と現場の論点を整理し、どこから手を付けるかを可視化します。\n\n02\n\n設計\n\nITコンサルティング\n\n何を作るか・何を検証するかを決め、過剰な要件膨張を抑えます。\n\n03\n\n試作・実装\n\nシステム開発\n\n小さく試してから本実装へ。同じチームがコードまで担います。\n\n04\n\n定着準備\n\n導入・展開\n\n現場に乗る運用設計と、関係者への共有まで整えます。\n\n05\n\n継続\n\n運用・保守\n\n監視と改善サイクルを回し、使われ続ける状態を維持します。\n\n課題の整理から、ご相談ください。\n問い合わせ\n→",
+    "links": [
+      {
+        "text": "コンサルティング ↓",
+        "href": "#consulting"
+      },
+      {
+        "text": "半内製化 ↓",
+        "href": "#insourcing"
+      },
+      {
+        "text": "コンサルティングの詳細を見る →",
+        "href": "/services/consulting"
+      },
+      {
+        "text": "半内製化の詳細を見る →",
+        "href": "/services/insourcing-enablement"
+      },
+      {
+        "text": "問い合わせ →",
+        "href": "/contact"
+      }
+    ],
+    "footerLogo": "block",
+    "headerTop": 0,
+    "headerPosition": "fixed",
+    "container": {
+      "x": 96,
+      "y": 61,
+      "width": 1248,
+      "height": 189.375,
+      "top": 61,
+      "right": 1344,
+      "bottom": 250.375,
+      "left": 96
+    },
+    "footerContainer": {
+      "x": 96,
+      "y": 1315.390625,
+      "width": 1248,
+      "height": 40.59375,
+      "top": 1315.390625,
+      "right": 1344,
+      "bottom": 1355.984375,
+      "left": 96
+    },
+    "errors": [],
+    "platformFonts": {
+      "fonts": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist",
+          "isCustomFont": true,
+          "glyphCount": 1
+        },
+        {
+          "familyName": "Noto Sans JP Thin",
+          "postScriptName": "NotoSansJPThin-Regular",
+          "isCustomFont": true,
+          "glyphCount": 62
+        }
+      ]
+    }
+  }
+]
