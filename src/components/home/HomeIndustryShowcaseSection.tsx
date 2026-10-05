@@ -1,8 +1,9 @@
+import { HOME_INDUSTRY_STYLES } from "./home-presentation";
 import Link from "next/link";
 import { HomeLandingSectionHeading } from "@/components/home/HomeLandingSectionHeading";
 import { ImplementationShowcaseCard } from "@/components/home/ImplementationShowcaseCard";
 import { homeLandingCopy } from "@/lib/content/home-landing";
-import { homeLandingCtaButtonClass } from "@/lib/content/home-landing-styles";
+import { LANDING_CTA_BUTTON_CLASS } from "@/lib/ui/landing-cta-styles";
 import { getV1FlagshipShowcaseItems } from "@/lib/content/implementation-showcase";
 import { cn } from "@/lib/utils";
 
@@ -14,7 +15,7 @@ export function HomeIndustryShowcaseSection() {
   return (
     <section
       id="industry"
-      className="container mx-auto max-w-6xl scroll-mt-32 px-4 py-20 md:px-6 md:py-[120px]"
+      className={HOME_INDUSTRY_STYLES.section}
       aria-labelledby="home-industry-showcase-heading"
     >
       <HomeLandingSectionHeading
@@ -35,7 +36,7 @@ export function HomeIndustryShowcaseSection() {
         <Link
           href={copy.allDemosHref}
           className={cn(
-            homeLandingCtaButtonClass,
+            LANDING_CTA_BUTTON_CLASS,
             "inline-flex items-center justify-center border border-[var(--color-border-light)] bg-[var(--color-bg-pure)] text-[var(--color-text-primary)] shadow-[0_1px_2px_rgb(0_0_0_/_0.04)] motion-safe:transition-[transform,border-color,box-shadow] motion-safe:duration-300 motion-safe:hover:scale-[1.02] hover:border-[var(--color-accent-primary)]/50"
           )}
         >

@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { IllustrationReveal } from "@/components/illustrations/illustration-reveal";
 import { Button } from "@/components/ui/button";
-import { homeLandingCtaButtonClass } from "@/lib/content/home-landing-styles";
+import { LANDING_CTA_BUTTON_CLASS } from "@/lib/ui/landing-cta-styles";
 import {
   PROTOTYPE_SHOWROOM_CONTACT_HREF,
   PROTOTYPE_SHOWROOM_HERO,
@@ -35,7 +35,7 @@ export function ShowcaseHero() {
           <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
             <Button
               asChild
-              className={cn(homeLandingCtaButtonClass, "w-full sm:w-auto")}
+              className={cn(LANDING_CTA_BUTTON_CLASS, "w-full sm:w-auto")}
             >
               <Link href={PROTOTYPE_SHOWROOM_HERO.primaryCtaHref}>
                 {PROTOTYPE_SHOWROOM_HERO.primaryCtaLabel}
@@ -44,7 +44,7 @@ export function ShowcaseHero() {
             <Button
               asChild
               variant="outline"
-              className={cn(homeLandingCtaButtonClass, "w-full sm:w-auto")}
+              className={cn(LANDING_CTA_BUTTON_CLASS, "w-full sm:w-auto")}
             >
               <Link href={PROTOTYPE_SHOWROOM_CONTACT_HREF}>
                 {PROTOTYPE_SHOWROOM_HERO.secondaryCtaLabel}

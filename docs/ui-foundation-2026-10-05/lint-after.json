@@ -1,0 +1,364 @@
+{
+  "errors": 24,
+  "warnings": 14,
+  "files": [
+    {
+      "file": "\\src\\components\\case-studies\\case-study-detail-view.tsx",
+      "errors": 0,
+      "warnings": 1,
+      "rules": [
+        {
+          "line": 529,
+          "rule": "@typescript-eslint/no-unused-vars",
+          "severity": 1
+        }
+      ]
+    },
+    {
+      "file": "\\src\\components\\chat\\ConciergeFabNudge.tsx",
+      "errors": 2,
+      "warnings": 0,
+      "rules": [
+        {
+          "line": 84,
+          "rule": "react-hooks/set-state-in-effect",
+          "severity": 2
+        },
+        {
+          "line": 97,
+          "rule": "react-hooks/set-state-in-effect",
+          "severity": 2
+        }
+      ]
+    },
+    {
+      "file": "\\src\\components\\chat\\ServiceCardConciergeStartFlow.tsx",
+      "errors": 1,
+      "warnings": 0,
+      "rules": [
+        {
+          "line": 33,
+          "rule": "react-hooks/set-state-in-effect",
+          "severity": 2
+        }
+      ]
+    },
+    {
+      "file": "\\src\\components\\demo\\DemoListRecommendationPopup.tsx",
+      "errors": 1,
+      "warnings": 1,
+      "rules": [
+        {
+          "line": 162,
+          "rule": "react-hooks/exhaustive-deps",
+          "severity": 1
+        },
+        {
+          "line": 165,
+          "rule": "react-hooks/set-state-in-effect",
+          "severity": 2
+        }
+      ]
+    },
+    {
+      "file": "\\src\\components\\demo\\DemoRuntimePanel.tsx",
+      "errors": 0,
+      "warnings": 1,
+      "rules": [
+        {
+          "line": 18,
+          "rule": "@typescript-eslint/no-unused-vars",
+          "severity": 1
+        }
+      ]
+    },
+    {
+      "file": "\\src\\components\\estimate\\EstimateDetailedMobileShell.tsx",
+      "errors": 1,
+      "warnings": 0,
+      "rules": [
+        {
+          "line": 65,
+          "rule": "react-hooks/refs",
+          "severity": 2
+        }
+      ]
+    },
+    {
+      "file": "\\src\\components\\estimate\\EstimateDetailedProcessingContent.tsx",
+      "errors": 1,
+      "warnings": 0,
+      "rules": [
+        {
+          "line": 80,
+          "rule": "react-hooks/purity",
+          "severity": 2
+        }
+      ]
+    },
+    {
+      "file": "\\src\\components\\estimate\\EstimateDetailedResultContent.tsx",
+      "errors": 1,
+      "warnings": 0,
+      "rules": [
+        {
+          "line": 28,
+          "rule": "react-hooks/set-state-in-effect",
+          "severity": 2
+        }
+      ]
+    },
+    {
+      "file": "\\src\\components\\experience\\ExperiencePageContent.tsx",
+      "errors": 1,
+      "warnings": 0,
+      "rules": [
+        {
+          "line": 30,
+          "rule": "@next/next/no-html-link-for-pages",
+          "severity": 2
+        }
+      ]
+    },
+    {
+      "file": "\\src\\components\\experience\\FeaturedExperienceVideoCard.tsx",
+      "errors": 1,
+      "warnings": 0,
+      "rules": [
+        {
+          "line": 67,
+          "rule": "react-hooks/set-state-in-effect",
+          "severity": 2
+        }
+      ]
+    },
+    {
+      "file": "\\src\\components\\experience\\prototypes\\InternalKnowledgeBotExperience.tsx",
+      "errors": 1,
+      "warnings": 0,
+      "rules": [
+        {
+          "line": 85,
+          "rule": "react-hooks/set-state-in-effect",
+          "severity": 2
+        }
+      ]
+    },
+    {
+      "file": "\\src\\components\\experience\\prototypes\\LiveSyncTranslationExperience.tsx",
+      "errors": 1,
+      "warnings": 0,
+      "rules": [
+        {
+          "line": 137,
+          "rule": "react-hooks/set-state-in-effect",
+          "severity": 2
+        }
+      ]
+    },
+    {
+      "file": "\\src\\components\\experience\\prototypes\\RestaurantOpsDashboardExperience.tsx",
+      "errors": 4,
+      "warnings": 1,
+      "rules": [
+        {
+          "line": 194,
+          "rule": "react-hooks/set-state-in-effect",
+          "severity": 2
+        },
+        {
+          "line": 264,
+          "rule": "react-hooks/set-state-in-effect",
+          "severity": 2
+        },
+        {
+          "line": 560,
+          "rule": "react-hooks/preserve-manual-memoization",
+          "severity": 2
+        },
+        {
+          "line": 560,
+          "rule": "react-hooks/preserve-manual-memoization",
+          "severity": 2
+        },
+        {
+          "line": 597,
+          "rule": "react-hooks/exhaustive-deps",
+          "severity": 1
+        }
+      ]
+    },
+    {
+      "file": "\\src\\components\\experience\\prototypes\\WorkflowApprovalLiteExperience.tsx",
+      "errors": 0,
+      "warnings": 1,
+      "rules": [
+        {
+          "line": 60,
+          "rule": "@typescript-eslint/no-unused-vars",
+          "severity": 1
+        }
+      ]
+    },
+    {
+      "file": "\\src\\components\\motion\\ScrollSequence.tsx",
+      "errors": 3,
+      "warnings": 0,
+      "rules": [
+        {
+          "line": 81,
+          "rule": "react-hooks/rules-of-hooks",
+          "severity": 2
+        },
+        {
+          "line": 82,
+          "rule": "react-hooks/rules-of-hooks",
+          "severity": 2
+        },
+        {
+          "line": 84,
+          "rule": "react-hooks/rules-of-hooks",
+          "severity": 2
+        }
+      ]
+    },
+    {
+      "file": "\\src\\components\\three\\ParticleBackground.tsx",
+      "errors": 1,
+      "warnings": 0,
+      "rules": [
+        {
+          "line": 21,
+          "rule": "react-hooks/set-state-in-effect",
+          "severity": 2
+        }
+      ]
+    },
+    {
+      "file": "\\src\\components\\three\\ParticleField.tsx",
+      "errors": 3,
+      "warnings": 0,
+      "rules": [
+        {
+          "line": 21,
+          "rule": "react-hooks/purity",
+          "severity": 2
+        },
+        {
+          "line": 22,
+          "rule": "react-hooks/purity",
+          "severity": 2
+        },
+        {
+          "line": 23,
+          "rule": "react-hooks/purity",
+          "severity": 2
+        }
+      ]
+    },
+    {
+      "file": "\\src\\hooks\\use-concierge-chat-transport.ts",
+      "errors": 1,
+      "warnings": 1,
+      "rules": [
+        {
+          "line": 21,
+          "rule": "react-hooks/refs",
+          "severity": 2
+        },
+        {
+          "line": 68,
+          "rule": "react-hooks/exhaustive-deps",
+          "severity": 1
+        }
+      ]
+    },
+    {
+      "file": "\\src\\hooks\\use-page-transition.ts",
+      "errors": 1,
+      "warnings": 0,
+      "rules": [
+        {
+          "line": 10,
+          "rule": "react-hooks/set-state-in-effect",
+          "severity": 2
+        }
+      ]
+    },
+    {
+      "file": "\\src\\hooks\\use-voice-input.ts",
+      "errors": 0,
+      "warnings": 1,
+      "rules": [
+        {
+          "line": 5,
+          "rule": "@typescript-eslint/no-unused-vars",
+          "severity": 1
+        }
+      ]
+    },
+    {
+      "file": "\\src\\lib\\chat\\concierge-analytics.ts",
+      "errors": 0,
+      "warnings": 1,
+      "rules": [
+        {
+          "line": 41,
+          "rule": null,
+          "severity": 1
+        }
+      ]
+    },
+    {
+      "file": "\\src\\lib\\demo\\intelligent-concierge.ts",
+      "errors": 0,
+      "warnings": 1,
+      "rules": [
+        {
+          "line": 360,
+          "rule": "@typescript-eslint/no-unused-vars",
+          "severity": 1
+        }
+      ]
+    },
+    {
+      "file": "\\src\\lib\\experience\\internal-knowledge\\industries\\construction.ts",
+      "errors": 0,
+      "warnings": 1,
+      "rules": [
+        {
+          "line": 2,
+          "rule": "@typescript-eslint/no-unused-vars",
+          "severity": 1
+        }
+      ]
+    },
+    {
+      "file": "\\src\\lib\\sanity\\queries.ts",
+      "errors": 0,
+      "warnings": 4,
+      "rules": [
+        {
+          "line": 1,
+          "rule": "@typescript-eslint/no-unused-vars",
+          "severity": 1
+        },
+        {
+          "line": 1,
+          "rule": "@typescript-eslint/no-unused-vars",
+          "severity": 1
+        },
+        {
+          "line": 1,
+          "rule": "@typescript-eslint/no-unused-vars",
+          "severity": 1
+        },
+        {
+          "line": 1,
+          "rule": "@typescript-eslint/no-unused-vars",
+          "severity": 1
+        }
+      ]
+    }
+  ]
+}

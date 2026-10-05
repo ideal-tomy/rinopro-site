@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { homeLandingCtaButtonClass } from "@/lib/content/home-landing-styles";
+import { LANDING_CTA_BUTTON_CLASS } from "@/lib/ui/landing-cta-styles";
 
 type ServiceOfferCard = {
   title: string;
@@ -57,7 +57,7 @@ export function HomeFirstViewActions({
         href={servicesHref}
         className={cn(
           "clickable-element flex w-full max-w-4xl items-center justify-center rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-pure)] px-6 py-5 text-center text-[17px] font-semibold text-[var(--color-text-primary)] shadow-[0_1px_2px_rgb(0_0_0_/_0.04)] md:rounded-3xl md:py-6 md:text-[18px]",
-          homeLandingCtaButtonClass,
+          LANDING_CTA_BUTTON_CLASS,
           motionHover,
           "hover:border-[var(--color-accent-primary)] hover:text-[var(--color-accent-primary)] motion-safe:hover:scale-[1.02] motion-reduce:hover:scale-100"
         )}

@@ -1,36 +1,38 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AXEON Webサイト
 
-## Getting Started
+Next.js App Router / React / TypeScript / Tailwind CSS の企業サイトです。実際のバージョンとコマンドは package.json を参照してください。
 
-First, run the development server:
+## 起動と確認
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- npm ci: ロックファイルに基づく依存関係のインストール。
+- npm run dev: 開発サーバー（通常 http://localhost:3000）。
+- npm run build: 本番ビルド。
+- npm run start: ビルド済みサイトの起動。
+- npm run lint: プロジェクトのESLintチェック。
+- npx tsc --noEmit --incremental false: 型チェック。
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+外部連携の設定項目は .env.example を参照してください。認証情報はGitへ登録しません。機能別の verify:* コマンドは package.json にあります。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## コードの入口
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- src/app: ページ、レイアウト、API。
+- src/components: 機能・ページ別の表示部品。
+- src/hooks: Reactの状態管理やブラウザ連携。
+- src/lib: コンテンツ、業務ロジック、外部連携、入力検証。
+- src/data / content: 記事などのデータ。
+- public: 画像と静的ページ。
+- scripts: 検証、データ登録、レポート生成。
 
-## Learn More
+トップページの入口は src/app/page.tsx、表示順の管理は src/components/home/HomeLandingPage.tsx です。
 
-To learn more about Next.js, take a look at the following resources:
+[現行トップの構成と旧実装候補](docs/home-top-structure.md) に、セクション、表示ルールの所在、参照確認の結果を記載しています。home フォルダ内の全ファイルが現行トップで使われているわけではありません。
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 変更時の確認
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+AGENTS.md と適用される作業規約を確認してください。この環境のNext.jsは node_modules/next/dist/docs/ のガイドを参照して扱います。
 
-## Deploy on Vercel
+トップのUI変更は、上記の構成文書で現行部品を確認してから行います。共通部品やCSSを変更する場合は下層ページへの影響も確認してください。
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+[トップの変更基盤整理・表示と操作の検証結果](docs/ui-foundation-2026-10-05/verification.md) に、前後画像、管理範囲、既存の表示問題、検証スクリプトを記録しています。
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+トップのUI・UX改善: [変更内容・比較画像・検証結果](docs/uiux-2026-10-06/verification.md)。

@@ -1,0 +1,89 @@
+[
+  {
+    "name": "375",
+    "elements": 66,
+    "geometryTextLinksEqual": true,
+    "overflowBefore": 5,
+    "overflowAfter": 5,
+    "changedPixels": 282177,
+    "pixels": 5076770,
+    "bands": {
+      "0": 146195,
+      "500": 135982
+    }
+  },
+  {
+    "name": "390",
+    "elements": 66,
+    "geometryTextLinksEqual": true,
+    "overflowBefore": 5,
+    "overflowAfter": 5,
+    "changedPixels": 0,
+    "pixels": 5246010,
+    "bands": {}
+  },
+  {
+    "name": "430",
+    "elements": 66,
+    "geometryTextLinksEqual": true,
+    "overflowBefore": 5,
+    "overflowAfter": 5,
+    "changedPixels": 0,
+    "pixels": 5745150,
+    "bands": {}
+  },
+  {
+    "name": "1280",
+    "elements": 66,
+    "geometryTextLinksEqual": true,
+    "overflowBefore": 5,
+    "overflowAfter": 5,
+    "changedPixels": 8379,
+    "pixels": 13170750,
+    "bands": {
+      "3000": 8379
+    }
+  },
+  {
+    "name": "1440",
+    "elements": 66,
+    "geometryTextLinksEqual": true,
+    "overflowBefore": 5,
+    "overflowAfter": 5,
+    "changedPixels": 8993,
+    "pixels": 14968485,
+    "bands": {
+      "3000": 8993
+    }
+  },
+  {
+    "name": "services-consulting",
+    "elements": 3,
+    "geometryTextLinksEqual": true,
+    "overflowBefore": 0,
+    "overflowAfter": 0,
+    "changedPixels": 0,
+    "pixels": 3022900,
+    "bands": {}
+  },
+  {
+    "name": "prototype-showroom",
+    "elements": 2,
+    "geometryTextLinksEqual": true,
+    "overflowBefore": 0,
+    "overflowAfter": 0,
+    "changedPixels": 0,
+    "pixels": 7338940,
+    "bands": {}
+  },
+  {
+    "name": "services-insourcing-enablement",
+    "elements": 43,
+    "geometryTextLinksEqual": true,
+    "overflowBefore": 0,
+    "overflowAfter": 0,
+    "changedPixels": 0,
+    "pixels": 4899720,
+    "bands": {}
+  }
+]

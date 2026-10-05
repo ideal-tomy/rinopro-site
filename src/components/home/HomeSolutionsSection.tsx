@@ -12,7 +12,7 @@ import Link from "next/link";
 import { HomeLandingSectionHeading } from "@/components/home/HomeLandingSectionHeading";
 import { Button } from "@/components/ui/button";
 import { homeLandingCopy } from "@/lib/content/home-landing";
-import { homeLandingCtaButtonClass } from "@/lib/content/home-landing-styles";
+import { LANDING_CTA_BUTTON_CLASS } from "@/lib/ui/landing-cta-styles";
 
 const { solutions } = homeLandingCopy;
 
@@ -66,7 +66,7 @@ export function HomeSolutionsSection() {
         })}
       </ul>
       <div className="mt-10 flex justify-center md:mt-14">
-        <Button asChild className={homeLandingCtaButtonClass}>
+        <Button asChild className={LANDING_CTA_BUTTON_CLASS}>
           <Link href={solutions.sectionCta.href}>
             <span className="inline-flex items-center gap-2">
               {solutions.sectionCta.label}

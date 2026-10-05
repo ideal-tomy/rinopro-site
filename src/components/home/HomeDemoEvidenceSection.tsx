@@ -15,7 +15,7 @@ import { useCurrentLocationString } from "@/hooks/use-current-location";
 import { getFeaturedExperiencePrototypes } from "@/lib/experience/prototype-registry";
 import { FEATURED_SHOWCASE_VIDEO_BY_SLUG } from "@/lib/experience/featured-showcase-media";
 import { homeLandingCopy } from "@/lib/content/home-landing";
-import { homeLandingCtaButtonClass } from "@/lib/content/home-landing-styles";
+import { LANDING_CTA_BUTTON_CLASS } from "@/lib/ui/landing-cta-styles";
 import type { FeaturedExperienceSlug } from "@/lib/experience/prototype-registry";
 
 const copy = homeLandingCopy.demoEvidence;
@@ -85,7 +85,7 @@ export function HomeDemoEvidenceSection() {
         <Button
           asChild
           variant="outline"
-          className={`${homeLandingCtaButtonClass} motion-safe:transition-[transform,box-shadow] motion-safe:duration-300 motion-safe:hover:scale-[1.02]`}
+          className={`${LANDING_CTA_BUTTON_CLASS} motion-safe:transition-[transform,box-shadow] motion-safe:duration-300 motion-safe:hover:scale-[1.02]`}
         >
           <Link href={copy.moreDemosHref}>{copy.moreDemosLabel}</Link>
         </Button>

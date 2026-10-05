@@ -1,4 +1,2 @@
-/** トップ LP 共通。CTA の寸法・字揃えを FV と最終ブロックで一致させる */
-
-export const homeLandingCtaButtonClass =
-  "min-h-[54px] py-[18px] px-10 text-[17px] md:text-[18px] font-semibold rounded-xl";
+/** @deprecated 共用CTAは lib/ui/landing-cta-styles.ts を使用する。旧importとの互換性を維持。 */
+export { LANDING_CTA_BUTTON_CLASS as homeLandingCtaButtonClass } from "@/lib/ui/landing-cta-styles";

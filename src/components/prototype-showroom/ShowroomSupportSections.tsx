@@ -4,7 +4,7 @@ import { IllustrationReveal } from "@/components/illustrations/illustration-reve
 import { HomeLandingSectionHeading } from "@/components/home/HomeLandingSectionHeading";
 import { HomeSectionShell } from "@/components/home/HomeSectionShell";
 import { Button } from "@/components/ui/button";
-import { homeLandingCtaButtonClass } from "@/lib/content/home-landing-styles";
+import { LANDING_CTA_BUTTON_CLASS } from "@/lib/ui/landing-cta-styles";
 import {
   PROTOTYPE_SHOWROOM_COLLABORATION,
   PROTOTYPE_SHOWROOM_CONTACT_HREF,
@@ -222,7 +222,7 @@ export function CollaborationSection() {
         <IllustrationReveal className="mt-12 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <Button
             asChild
-            className={cn(homeLandingCtaButtonClass, "w-full sm:w-auto")}
+            className={cn(LANDING_CTA_BUTTON_CLASS, "w-full sm:w-auto")}
           >
             <Link href={PROTOTYPE_SHOWROOM_CONTACT_HREF}>
               {PROTOTYPE_SHOWROOM_COLLABORATION.primaryCtaLabel}
@@ -231,7 +231,7 @@ export function CollaborationSection() {
           <Button
             asChild
             variant="outline"
-            className={cn(homeLandingCtaButtonClass, "w-full sm:w-auto")}
+            className={cn(LANDING_CTA_BUTTON_CLASS, "w-full sm:w-auto")}
           >
             <Link href={PROTOTYPE_SHOWROOM_CONTACT_HREF}>
               {PROTOTYPE_SHOWROOM_COLLABORATION.secondaryCtaLabel}
@@ -275,7 +275,7 @@ export function FinalCtaSection() {
         <IllustrationReveal className="mt-12 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <Button
             asChild
-            className={cn(homeLandingCtaButtonClass, "w-full sm:w-auto")}
+            className={cn(LANDING_CTA_BUTTON_CLASS, "w-full sm:w-auto")}
           >
             <Link href={PROTOTYPE_SHOWROOM_CONTACT_HREF}>
               {PROTOTYPE_SHOWROOM_FINAL_CTA.primaryCtaLabel}
@@ -284,7 +284,7 @@ export function FinalCtaSection() {
           <Button
             asChild
             variant="outline"
-            className={cn(homeLandingCtaButtonClass, "w-full sm:w-auto")}
+            className={cn(LANDING_CTA_BUTTON_CLASS, "w-full sm:w-auto")}
           >
             <Link href={PROTOTYPE_SHOWROOM_CONTACT_HREF}>
               {PROTOTYPE_SHOWROOM_FINAL_CTA.secondaryCtaLabel}

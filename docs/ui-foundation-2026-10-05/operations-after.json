@@ -1,0 +1,54 @@
+[
+  {
+    "name": "Mobile menu opens by keyboard",
+    "passed": true
+  },
+  {
+    "name": "Mobile menu closes with Escape",
+    "passed": true
+  },
+  {
+    "name": "FAQ expands by keyboard",
+    "passed": true
+  },
+  {
+    "name": "FAQ collapses by keyboard",
+    "passed": true
+  },
+  {
+    "name": "Demo anchor navigates",
+    "passed": true
+  },
+  {
+    "name": "Contact CTA navigates",
+    "passed": true
+  },
+  {
+    "name": "Contact fields are editable",
+    "passed": true
+  },
+  {
+    "name": "Estimate CTA navigates",
+    "passed": true
+  },
+  {
+    "name": "Demo catalogue link navigates",
+    "passed": true
+  },
+  {
+    "name": "Normal motion is reflected in the Hero hook",
+    "passed": true
+  },
+  {
+    "name": "Reduced motion is reflected in the Hero hook",
+    "passed": true
+  },
+  {
+    "name": "Motion setting changes are subscribed",
+    "passed": true
+  },
+  {
+    "name": "No Next error overlay",
+    "passed": true
+  }
+]

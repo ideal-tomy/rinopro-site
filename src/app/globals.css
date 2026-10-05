@@ -500,3 +500,11 @@
 .home-demo-first .border-brand\/30 {
   border-color: color-mix(in srgb, var(--color-accent-primary) 30%, transparent);
 }
+
+/* 現行トップ限定。サービス詳細で使う home-landing-copy には波及させない。 */
+.home-top p,
+.home-top li {
+  word-break: normal;
+  overflow-wrap: break-word;
+  line-break: strict;
+}

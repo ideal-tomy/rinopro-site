@@ -1,3 +1,4 @@
+import { HOME_SECTION_HEADING_STYLES } from "./home-presentation";
 import { cn } from "@/lib/utils";
 
 /** トップ LP 共通：大見出し・アクセント下線・リード。番号・キッカーは任意 */
@@ -21,7 +22,7 @@ export function HomeLandingSectionHeading({
   className,
 }: HomeLandingSectionHeadingProps) {
   return (
-    <header className={cn("mx-auto mb-14 max-w-4xl text-center md:mb-20", className)}>
+    <header className={cn(HOME_SECTION_HEADING_STYLES.container, className)}>
       {index ? (
         <p
           className="font-mono text-[32px] font-light tabular-nums tracking-[0.2em] text-[var(--color-accent-primary)]/50 md:text-[36px] lg:text-[40px]"
@@ -43,7 +44,7 @@ export function HomeLandingSectionHeading({
       <h2
         id={id}
         className={cn(
-          "whitespace-pre-line text-balance text-[clamp(1.75rem,4.6vw,3rem)] font-bold leading-[1.18] tracking-tight text-[var(--color-text-primary)] md:text-[clamp(2rem,4vw,3rem)] lg:text-[clamp(2.25rem,3.6vw,3rem)]",
+          HOME_SECTION_HEADING_STYLES.title,
           index || kicker ? "mt-2" : null
         )}
       >
@@ -54,7 +55,7 @@ export function HomeLandingSectionHeading({
         aria-hidden
       />
       {description ? (
-        <p className="mx-auto mt-8 max-w-[40ch] text-[17px] leading-[1.8] text-[var(--color-text-secondary)] md:mt-10 md:text-[18px]">
+        <p className={HOME_SECTION_HEADING_STYLES.description}>
           {description}
         </p>
       ) : null}

@@ -8,7 +8,7 @@ import { HomeLandingSectionHeading } from "@/components/home/HomeLandingSectionH
 import { ImplementationShowcaseCard } from "@/components/home/ImplementationShowcaseCard";
 import { getV1FlagshipShowcaseItems } from "@/lib/content/implementation-showcase";
 import { homeLandingCopy } from "@/lib/content/home-landing";
-import { homeLandingCtaButtonClass } from "@/lib/content/home-landing-styles";
+import { LANDING_CTA_BUTTON_CLASS } from "@/lib/ui/landing-cta-styles";
 
 const copy = homeLandingCopy.implementationShowcase;
 
@@ -56,7 +56,7 @@ export function HomeImplementationShowcaseSection() {
         <Button
           asChild
           variant="outline"
-          className={`${homeLandingCtaButtonClass} motion-safe:transition-[transform,box-shadow] motion-safe:duration-300 motion-safe:hover:scale-[1.02]`}
+          className={`${LANDING_CTA_BUTTON_CLASS} motion-safe:transition-[transform,box-shadow] motion-safe:duration-300 motion-safe:hover:scale-[1.02]`}
         >
           <Link href={copy.allCasesHref}>{copy.allCasesLabel}</Link>
         </Button>

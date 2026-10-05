@@ -3,7 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { IllustrationReveal } from "@/components/illustrations/illustration-reveal";
 import { HomeSectionShell } from "@/components/home/HomeSectionShell";
 import { Button } from "@/components/ui/button";
-import { homeLandingCtaButtonClass } from "@/lib/content/home-landing-styles";
+import { LANDING_CTA_BUTTON_CLASS } from "@/lib/ui/landing-cta-styles";
 import type { ServiceOfferingDetail } from "@/lib/content/service-offerings";
 import { INDUSTRY_SHOWCASE_ITEMS } from "@/lib/content/industry-showcase";
 import { ServiceOfferingImprovementCycleDiagram } from "@/components/illustrations/service-offering-improvement-cycle";
@@ -56,7 +56,7 @@ export function ServiceOfferingDetailView({ offering }: ServiceOfferingDetailVie
             {hero.lead}
           </p>
           <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row sm:flex-wrap">
-            <Button asChild className={homeLandingCtaButtonClass}>
+            <Button asChild className={LANDING_CTA_BUTTON_CLASS}>
               <Link href={contactHref(hero.contactQuery)}>
                 <span className="inline-flex items-center gap-2">
                   このご支援について相談する
@@ -64,7 +64,7 @@ export function ServiceOfferingDetailView({ offering }: ServiceOfferingDetailVie
                 </span>
               </Link>
             </Button>
-            <Button asChild variant="outline" className={homeLandingCtaButtonClass}>
+            <Button asChild variant="outline" className={LANDING_CTA_BUTTON_CLASS}>
               <Link href="/services">ご支援内容へ</Link>
             </Button>
           </div>
@@ -374,7 +374,7 @@ export function ServiceOfferingDetailView({ offering }: ServiceOfferingDetailVie
 
       <HomeSectionShell>
         <footer className="container mx-auto max-w-3xl px-4 pb-24 pt-4 text-center md:px-6 md:pb-32">
-          <Button asChild className={homeLandingCtaButtonClass}>
+          <Button asChild className={LANDING_CTA_BUTTON_CLASS}>
             <Link href={contactHref(hero.contactQuery)}>相談する</Link>
           </Button>
           {offering.slug === "insourcing-enablement" ? (

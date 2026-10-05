@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { IllustrationReveal } from "@/components/illustrations/illustration-reveal";
 import { Button } from "@/components/ui/button";
-import { homeLandingCtaButtonClass } from "@/lib/content/home-landing-styles";
+import { LANDING_CTA_BUTTON_CLASS } from "@/lib/ui/landing-cta-styles";
 import {
   PROTOTYPE_SHOWROOM_CONTACT_HREF,
   type PrototypeDemo,
@@ -199,7 +199,7 @@ export function PrototypeStorySection({ demo, index }: PrototypeStorySectionProp
         <IllustrationReveal className="mt-12 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
           <Button
             asChild
-            className={cn(homeLandingCtaButtonClass, "w-full sm:w-auto")}
+            className={cn(LANDING_CTA_BUTTON_CLASS, "w-full sm:w-auto")}
           >
             <a
               href={demo.demoUrl}
@@ -212,7 +212,7 @@ export function PrototypeStorySection({ demo, index }: PrototypeStorySectionProp
           <Button
             asChild
             variant="outline"
-            className={cn(homeLandingCtaButtonClass, "w-full sm:w-auto")}
+            className={cn(LANDING_CTA_BUTTON_CLASS, "w-full sm:w-auto")}
           >
             <Link href={PROTOTYPE_SHOWROOM_CONTACT_HREF}>
               {demo.secondaryCtaLabel}

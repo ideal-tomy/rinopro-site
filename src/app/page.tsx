@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { PageShell } from "@/components/layout/PageShell";
-import { HeroSection } from "@/components/home/HeroSection";
+import { HomeLandingPage } from "@/components/home/HomeLandingPage";
 
 export const metadata: Metadata = {
   title:
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <PageShell>
-      <HeroSection />
+      <HomeLandingPage />
     </PageShell>
   );
 }
