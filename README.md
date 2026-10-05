@@ -36,3 +36,5 @@ AGENTS.md と適用される作業規約を確認してください。この環�
 [トップの変更基盤整理・表示と操作の検証結果](docs/ui-foundation-2026-10-05/verification.md) に、前後画像、管理範囲、既存の表示問題、検証スクリプトを記録しています。
 
 トップのUI・UX改善: [変更内容・比較画像・検証結果](docs/uiux-2026-10-06/verification.md)。
+
+全ページ共通のスクロール表示: [仕様・検証結果](docs/scroll-reveal-2026-10-06/verification.md)。

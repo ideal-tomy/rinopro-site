@@ -1,0 +1,8 @@
+{
+  "clientNavigation": true,
+  "dynamicContent": true,
+  "focusCancels": true,
+  "noAttributes": true,
+  "passed": true,
+  "routeAnimation": true
+}

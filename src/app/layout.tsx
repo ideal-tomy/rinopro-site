@@ -8,6 +8,7 @@ import { Footer } from "@/components/layout/Footer";
 import { ConciergeChatProvider } from "@/components/chat/concierge-chat-context";
 import { ChatContainerLazy } from "@/components/chat/ChatContainerLazy";
 import { VisitorJourneyTracker } from "@/components/journey/VisitorJourneyTracker";
+import { ScrollRevealController } from "@/components/navigation/ScrollRevealController";
 import { ScrollRestoreOnRoute } from "@/components/navigation/ScrollRestoreOnRoute";
 import { SITE_CONCIERGE_ENABLED } from "@/lib/site-features";
 import "./globals.css";
@@ -77,6 +78,7 @@ export default function RootLayout({
       <Suspense fallback={null}>
         <ScrollRestoreOnRoute />
       </Suspense>
+      <ScrollRevealController />
       <VisitorJourneyTracker />
       <Header />
       {children}

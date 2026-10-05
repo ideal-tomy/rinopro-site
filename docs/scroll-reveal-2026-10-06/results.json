@@ -1,0 +1,76 @@
+[
+  {
+    "finished": true,
+    "noAttributes": true,
+    "once": true,
+    "opacity": 0.733342,
+    "overflow": 0,
+    "passed": true,
+    "playing": true,
+    "route": "/services"
+  },
+  {
+    "finished": true,
+    "noAttributes": true,
+    "once": true,
+    "opacity": 0.729172,
+    "overflow": 0,
+    "passed": true,
+    "playing": true,
+    "route": "/about"
+  },
+  {
+    "finished": true,
+    "noAttributes": true,
+    "once": true,
+    "opacity": 0.707424,
+    "overflow": 0,
+    "passed": true,
+    "playing": true,
+    "route": "/articles/construction"
+  },
+  {
+    "finished": true,
+    "noAttributes": true,
+    "once": true,
+    "opacity": 0.764027,
+    "overflow": 0,
+    "passed": true,
+    "playing": true,
+    "route": "/contact"
+  },
+  {
+    "finished": true,
+    "noAttributes": true,
+    "once": true,
+    "opacity": 0.733529,
+    "overflow": 0,
+    "passed": true,
+    "playing": true,
+    "route": "/estimate-detailed"
+  },
+  {
+    "finished": true,
+    "noAttributes": true,
+    "once": true,
+    "opacity": 0.741023,
+    "overflow": 0,
+    "passed": true,
+    "playing": true,
+    "route": "/experience"
+  },
+  {
+    "finished": true,
+    "noAttributes": true,
+    "once": true,
+    "opacity": 0.566666,
+    "overflow": 0,
+    "passed": true,
+    "playing": true,
+    "route": "/"
+  },
+  {
+    "passed": true,
+    "route": "reduced-motion"
+  }
+]
