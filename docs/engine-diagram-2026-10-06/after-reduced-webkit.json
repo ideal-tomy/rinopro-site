@@ -1,0 +1,22 @@
+{
+  "opacity": "1",
+  "transform": "none",
+  "rect": {
+    "x": 164.98001098632812,
+    "y": 300.400390625,
+    "width": 69.51998901367188,
+    "height": 63.19921875,
+    "top": 300.400390625,
+    "right": 234.5,
+    "bottom": 363.599609375,
+    "left": 164.98001098632812
+  },
+  "intersection": {
+    "ratio": 1,
+    "intersects": true
+  },
+  "html": "<g opacity=\"1\"><rect x=\"162\" y=\"35\" width=\"88\" height=\"80\" rx=\"12\" fill=\"var(--reason-primary)\"></rect><text x=\"206\" y=\"68\" text-anchor=\"middle\" fill=\"#fff\" font-size=\"12\" font-weight=\"700\" style=\"font-family:inherit\">意思決定</text><text x=\"206\" y=\"86\" text-anchor=\"middle\" fill=\"#fff\" font-size=\"12\" font-weight=\"700\" style=\"font-family:inherit\">エンジン</text></g>",
+  "errors": [
+    "Viewport argument key \"interactive-widget\" not recognized and ignored."
+  ]
+}

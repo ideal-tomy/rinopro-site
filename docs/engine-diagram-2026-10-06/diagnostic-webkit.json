@@ -1,0 +1,23 @@
+{
+  "opacity": "0",
+  "transform": "matrix(0.94, 0, 0, 0.94, 0, 0)",
+  "rect": {
+    "x": 167.0655975341797,
+    "y": 302.2958984375,
+    "width": 65.34880065917969,
+    "height": 59.408203125,
+    "top": 302.2958984375,
+    "right": 232.41439819335938,
+    "bottom": 361.7041015625,
+    "left": 167.0655975341797
+  },
+  "intersection": {
+    "ratio": 0,
+    "intersects": false
+  },
+  "html": "<g style=\"transform-origin:50% 50%;transform:scale(0.94);transform-box:fill-box\" opacity=\"0\"><rect x=\"162\" y=\"35\" width=\"88\" height=\"80\" rx=\"12\" fill=\"var(--reason-primary)\"></rect><text x=\"206\" y=\"68\" text-anchor=\"middle\" fill=\"#fff\" font-size=\"12\" font-weight=\"700\" style=\"font-family:inherit\">意思決定</text><text x=\"206\" y=\"86\" text-anchor=\"middle\" fill=\"#fff\" font-size=\"12\" font-weight=\"700\" style=\"font-family:inherit\">エンジン</text></g>",
+  "withoutTransform": {
+    "ratio": 1,
+    "intersects": true
+  }
+}

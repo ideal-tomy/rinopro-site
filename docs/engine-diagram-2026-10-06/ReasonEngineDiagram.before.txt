@@ -113,12 +113,11 @@ export function ReasonEngineDiagram() {
         ) : null}
 
         <motion.g
-          // WebKit can misreport intersection for a CSS-transformed SVG group.
-          // Keep the reveal opacity-only so the engine enters view reliably.
-          initial={animate ? { opacity: 0 } : false}
-          whileInView={{ opacity: 1 }}
+          initial={animate ? { opacity: 0, scale: 0.94 } : false}
+          whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true, amount: 0.4 }}
           transition={{ duration: 0.4, delay: animate ? 0.55 : 0, ease }}
+          style={{ transformOrigin: "206px 75px" }}
         >
           <rect x={162} y={35} width={88} height={80} rx={12} fill="var(--reason-primary)" />
           <text

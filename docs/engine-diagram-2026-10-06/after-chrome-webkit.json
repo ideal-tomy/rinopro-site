@@ -1,0 +1,20 @@
+{
+  "opacity": "1",
+  "transform": "none",
+  "rect": {
+    "x": 164.98001098632812,
+    "y": 300.5406188964844,
+    "width": 69.51998901367188,
+    "height": 63.20001220703125,
+    "top": 300.5406188964844,
+    "right": 234.5,
+    "bottom": 363.7406311035156,
+    "left": 164.98001098632812
+  },
+  "intersection": {
+    "ratio": 0.9999874234199524,
+    "intersects": true
+  },
+  "html": "<g opacity=\"1\"><rect x=\"162\" y=\"35\" width=\"88\" height=\"80\" rx=\"12\" fill=\"var(--reason-primary)\"></rect><text x=\"206\" y=\"68\" text-anchor=\"middle\" fill=\"#fff\" font-size=\"12\" font-weight=\"700\" style=\"font-family:inherit\">意思決定</text><text x=\"206\" y=\"86\" text-anchor=\"middle\" fill=\"#fff\" font-size=\"12\" font-weight=\"700\" style=\"font-family:inherit\">エンジン</text></g>",
+  "errors": []
+}
