@@ -272,38 +272,90 @@
   white-space: nowrap;
   border: 0;
 }
-.mobileMenu {
-  background: linear-gradient(110deg, #edf7ff, #eef8ff);
-  padding: 20px 20px 27px;
+.desktopMenu {
+  display: block;
+  background: #edf7ff;
+  padding: 20px 0 18px;
 }
-.mobileMenu .eyebrow {
-  font-size: 11px;
+.menuHeading {
+  padding: 0 20px 18px;
 }
-.mobileMenu h2 {
+.menuHeading h2 {
+  margin-top: 8px;
   font-size: 23px;
   font-weight: 750;
-  letter-spacing: -0.035em;
   line-height: 1.65;
-  margin-top: 8px;
+  letter-spacing: -0.035em;
 }
-.smallMenu {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-top: 19px;
-}
-.smallMenu > div {
-  background: white;
-  border: 1px solid #e7eef8;
-  padding: 14px 11px;
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 600;
+.menuGrid {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  gap: 12px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: 20px;
+  padding: 0 20px;
+  scrollbar-width: none;
+  position: relative;
 }
-.desktopMenu,
+.menuGrid::-webkit-scrollbar {
+  display: none;
+}
+.menuGrid::after {
+  content: "";
+  flex: 0 0 calc(20vw - 32px);
+}
+.menuGrid:focus-visible {
+  outline: 3px solid #79a7ed;
+  outline-offset: -3px;
+}
+.menuCard {
+  flex: 0 0 80vw;
+  min-width: 0;
+  background: #fff;
+  border-radius: 10px;
+  padding: 13px 13px 22px;
+  scroll-snap-align: start;
+}
+.menuPhoto {
+  aspect-ratio: 16 / 10;
+  background-size: cover;
+  background-position: center;
+  border-radius: 5px;
+}
+.menuCard h3 {
+  font-size: 19px;
+  font-weight: 750;
+  line-height: 1.5;
+  margin: 13px 2px 9px;
+  letter-spacing: -0.03em;
+}
+.menuCard > p {
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 0 4px;
+}
+.menuDots {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+.menuDots button {
+  width: 44px;
+  height: 44px;
+  background: transparent;
+  display: grid;
+  place-items: center;
+}
+.menuDots button::after {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #b9cde8;
+}
+.menuDots button[aria-pressed="true"]::after {
+  background: #294493;
+}
 .process {
   display: none;
 }
@@ -368,15 +420,6 @@
   }
   .page .playback {
     font-size: 11px;
-  }
-  .mobileMenu {
-    padding: 19px 17px 25px;
-  }
-  .mobileMenu h2 {
-    font-size: 21px;
-  }
-  .smallMenu {
-    grid-template-columns: 1fr;
   }
 }
 @media (min-width: 768px) {
@@ -526,8 +569,7 @@
     position: relative;
     z-index: 1;
   }
-  .flipControls,
-  .mobileMenu {
+  .flipControls {
     display: none;
   }
   .desktopMenu {
@@ -554,6 +596,13 @@
     grid-template-columns: 1fr 1fr;
     gap: 7px;
     align-items: start;
+    overflow: visible;
+    padding: 0;
+    scroll-snap-type: none;
+  }
+  .menuGrid::after,
+  .menuDots {
+    display: none;
   }
   .menuCard {
     background: #fff;

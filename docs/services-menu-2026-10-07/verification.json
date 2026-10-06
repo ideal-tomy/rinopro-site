@@ -1,0 +1,256 @@
+{
+  "results": [
+    {
+      "width": 320,
+      "pageWidth": 320,
+      "cards": [
+        {
+          "x": 20,
+          "width": 256
+        },
+        {
+          "x": 288,
+          "width": 256
+        },
+        {
+          "x": 556,
+          "width": 256
+        },
+        {
+          "x": 824,
+          "width": 256
+        }
+      ],
+      "snap": "x mandatory"
+    },
+    {
+      "width": 375,
+      "pageWidth": 375,
+      "cards": [
+        {
+          "x": 20,
+          "width": 300
+        },
+        {
+          "x": 332,
+          "width": 300
+        },
+        {
+          "x": 644,
+          "width": 300
+        },
+        {
+          "x": 956,
+          "width": 300
+        }
+      ],
+      "snap": "x mandatory"
+    },
+    {
+      "width": 390,
+      "pageWidth": 390,
+      "cards": [
+        {
+          "x": 20,
+          "width": 312
+        },
+        {
+          "x": 344,
+          "width": 312
+        },
+        {
+          "x": 668,
+          "width": 312
+        },
+        {
+          "x": 992,
+          "width": 312
+        }
+      ],
+      "snap": "x mandatory"
+    },
+    {
+      "width": 430,
+      "pageWidth": 430,
+      "cards": [
+        {
+          "x": 20,
+          "width": 344
+        },
+        {
+          "x": 376,
+          "width": 344
+        },
+        {
+          "x": 732,
+          "width": 344
+        },
+        {
+          "x": 1088,
+          "width": 344
+        }
+      ],
+      "snap": "x mandatory"
+    },
+    {
+      "width": 768,
+      "pageWidth": 768,
+      "cards": [
+        {
+          "x": 30,
+          "width": 350.5
+        },
+        {
+          "x": 387.5,
+          "width": 350.5
+        },
+        {
+          "x": 30,
+          "width": 350.5
+        },
+        {
+          "x": 387.5,
+          "width": 350.5
+        }
+      ],
+      "snap": "none"
+    },
+    {
+      "width": 1023,
+      "pageWidth": 1023,
+      "cards": [
+        {
+          "x": 30,
+          "width": 478
+        },
+        {
+          "x": 515,
+          "width": 478
+        },
+        {
+          "x": 30,
+          "width": 478
+        },
+        {
+          "x": 515,
+          "width": 478
+        }
+      ],
+      "snap": "none"
+    },
+    {
+      "width": 1024,
+      "pageWidth": 1024,
+      "cards": [
+        {
+          "x": 30,
+          "width": 235.75
+        },
+        {
+          "x": 272.75,
+          "width": 235.75
+        },
+        {
+          "x": 515.5,
+          "width": 235.75
+        },
+        {
+          "x": 758.25,
+          "width": 235.75
+        }
+      ],
+      "snap": "none"
+    },
+    {
+      "width": 1122,
+      "pageWidth": 1122,
+      "cards": [
+        {
+          "x": 30,
+          "width": 260.25
+        },
+        {
+          "x": 297.25,
+          "width": 260.25
+        },
+        {
+          "x": 564.5,
+          "width": 260.25
+        },
+        {
+          "x": 831.75,
+          "width": 260.25
+        }
+      ],
+      "snap": "none"
+    },
+    {
+      "width": 1280,
+      "pageWidth": 1280,
+      "cards": [
+        {
+          "x": 40,
+          "width": 294.75
+        },
+        {
+          "x": 341.75,
+          "width": 294.75
+        },
+        {
+          "x": 643.5,
+          "width": 294.75
+        },
+        {
+          "x": 945.25,
+          "width": 294.75
+        }
+      ],
+      "snap": "none"
+    },
+    {
+      "width": 1440,
+      "pageWidth": 1440,
+      "cards": [
+        {
+          "x": 120,
+          "width": 294.75
+        },
+        {
+          "x": 421.75,
+          "width": 294.75
+        },
+        {
+          "x": 723.5,
+          "width": 294.75
+        },
+        {
+          "x": 1025.25,
+          "width": 294.75
+        }
+      ],
+      "snap": "none"
+    }
+  ],
+  "calls": [
+    {
+      "className": "services-page-module__566qTG__menuHeading",
+      "options": {
+        "duration": 900,
+        "delay": 0,
+        "fill": "backwards",
+        "easing": "cubic-bezier(0.22, 1, 0.36, 1)"
+      }
+    },
+    {
+      "className": "services-page-module__566qTG__menuGrid",
+      "options": {
+        "duration": 900,
+        "delay": 125,
+        "fill": "backwards",
+        "easing": "cubic-bezier(0.22, 1, 0.36, 1)"
+      }
+    }
+  ],
+  "errors": [],
+  "physicalIPhoneSafari": "未確認"
+}

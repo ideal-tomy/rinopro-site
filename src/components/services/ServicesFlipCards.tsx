@@ -38,7 +38,8 @@ export function ServicesFlipCards() {
         className={styles.service}
         id="service-card"
         aria-label="コンサルティングと半内製化"
-        data-scroll-reveal="off"
+        data-scroll-reveal="target"
+        data-scroll-reveal-duration="900"
       >
         <div
           className={styles.flipStage}
@@ -124,22 +125,6 @@ export function ServicesFlipCards() {
         <span className={styles.srOnly} role="status">
           {display.status}
         </span>
-      </section>
-      <section
-        className={styles.mobileMenu}
-        aria-labelledby="mobile-menu-heading"
-      >
-        <p className={styles.eyebrow}>SERVICE MENU</p>
-        <h2 id="mobile-menu-heading">
-          目的に合わせて、
-          <br />
-          必要な支援を選べます。
-        </h2>
-        <div className={styles.smallMenu}>
-          {cards.map((card) => (
-            <div key={card.label}>{card.title}</div>
-          ))}
-        </div>
       </section>
     </>
   );

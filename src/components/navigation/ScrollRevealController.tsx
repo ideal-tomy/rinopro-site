@@ -4,9 +4,22 @@ import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 
 const TARGETS = [
-  "main section", "main article", "main header", "main form", "main fieldset",
-  "main h1", "main h2", "main h3", "main p", "main ul", "main li",
-  "main figure", "main table", "main dl", "footer",
+  "main section",
+  "main article",
+  "main header",
+  "main form",
+  "main fieldset",
+  "main h1",
+  "main h2",
+  "main h3",
+  "main p",
+  "main ul",
+  "main li",
+  "main figure",
+  "main table",
+  "main dl",
+  "footer",
+  '[data-scroll-reveal="target"]',
 ].join(",");
 
 /** 全ページの本文を初回進入時に表示。SSRの内容は隠さず、DOMの構造も変えない。 */
@@ -22,30 +35,58 @@ export function ScrollRevealController() {
     const animations = new Map<HTMLElement, Animation>();
     let frame = 0;
 
-    const observer = new IntersectionObserver((entries) => {
-      for (const entry of entries) {
-        if (!entry.isIntersecting) continue;
-        const element = entry.target as HTMLElement;
-        observer.unobserve(element);
-        if (revealed.has(element)) continue;
-        revealed.add(element);
-        if (media.matches) continue;
-        const animation = element.animate(
-          [{ opacity: 0, translate: "0 14px" }, { opacity: 1, translate: "0 0" }],
-          { duration: 600, easing: "cubic-bezier(0.22, 1, 0.36, 1)" },
-        );
-        animations.set(element, animation);
-        animation.onfinish = () => animations.delete(element);
-      }
-    }, { rootMargin: "0px 0px -24px 0px", threshold: 0 });
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          const element = entry.target as HTMLElement;
+          observer.unobserve(element);
+          if (revealed.has(element)) continue;
+          revealed.add(element);
+          if (media.matches) continue;
+          const animation = element.animate(
+            [
+              { opacity: 0, translate: "0 14px" },
+              { opacity: 1, translate: "0 0" },
+            ],
+            {
+              duration: Number(element.dataset.scrollRevealDuration) || 600,
+              delay: Number(element.dataset.scrollRevealDelay) || 0,
+              fill: "backwards",
+              easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+            },
+          );
+          animations.set(element, animation);
+          animation.onfinish = () => animations.delete(element);
+        }
+      },
+      { rootMargin: "0px 0px -24px 0px", threshold: 0 },
+    );
 
     function scan() {
       frame = 0;
       for (const element of document.querySelectorAll<HTMLElement>(TARGETS)) {
-        if (tracked.has(element) || element.closest('[data-scroll-reveal="off"]')) continue;
+        if (
+          tracked.has(element) ||
+          element.closest('[data-scroll-reveal="off"]')
+        )
+          continue;
+        const explicit = element.dataset.scrollReveal === "target";
+        if (
+          !explicit &&
+          element.closest(
+            '[data-scroll-reveal="group"], [data-scroll-reveal="target"]',
+          )
+        )
+          continue;
         const rect = element.getBoundingClientRect();
         // 長いセクションは中の見出しやカードを対象にし、二重に動かさない。
-        if (!rect.width || !rect.height || rect.height > window.innerHeight * 0.9) continue;
+        if (
+          !rect.width ||
+          !rect.height ||
+          (!explicit && rect.height > window.innerHeight * 0.9)
+        )
+          continue;
         let parent = element.parentElement;
         while (parent && !tracked.has(parent)) parent = parent.parentElement;
         if (parent) continue;
@@ -82,7 +123,10 @@ export function ScrollRevealController() {
 
     function onFocus(event: FocusEvent) {
       if (!(event.target instanceof Element)) return;
-      let element: HTMLElement | null = event.target instanceof HTMLElement ? event.target : event.target.parentElement;
+      let element: HTMLElement | null =
+        event.target instanceof HTMLElement
+          ? event.target
+          : event.target.parentElement;
       while (element && !tracked.has(element)) element = element.parentElement;
       if (!element) return;
       observer.unobserve(element);

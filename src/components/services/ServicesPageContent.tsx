@@ -1,25 +1,8 @@
 import Link from "next/link";
 import { Search, FileText, CodeXml, Laptop, RefreshCw } from "lucide-react";
 import { ServicesFlipCards } from "./ServicesFlipCards";
+import { ServicesMenu } from "./ServicesMenu";
 import styles from "./services-page.module.css";
-const menu = [
-  {
-    title: "AI業務アプリ開発",
-    body: "現場業務を前提に、小さく試してから本実装へ。",
-  },
-  {
-    title: "データ活用基盤",
-    body: "散在データを意思決定に使える形へ整えます。",
-  },
-  {
-    title: "現場向けシステム開発",
-    body: "建設・製造・介護など業界に合わせた業務ツールを開発。",
-  },
-  {
-    title: "DX戦略設計",
-    body: "経営と現場の認識ギャップを縮め、実行計画に落とします。",
-  },
-];
 const steps = [
   { title: "課題抽出", body: "経営と現場の論点を整理します。", Icon: Search },
   {
@@ -69,43 +52,7 @@ export function ServicesPageContent() {
         </div>
       </section>
       <ServicesFlipCards />
-      <section
-        className={styles.desktopMenu}
-        id="service-menu"
-        aria-labelledby="service-menu-heading"
-      >
-        <div className={styles.menuHeading}>
-          <div>
-            <p className={styles.eyebrow}>SERVICE MENU</p>
-            <h2 id="service-menu-heading">
-              目的に合わせて、必要な支援を選べます。
-            </h2>
-          </div>
-        </div>
-        <div className={styles.menuGrid}>
-          {menu.map((item, i) => (
-            <article className={styles.menuCard} key={item.title}>
-              <div
-                className={styles.menuPhoto}
-                style={{
-                  backgroundImage: `url(/images/services/approved/menu-${i + 1}.jpg)`,
-                }}
-                role="img"
-                aria-label={
-                  [
-                    "工業部品と業務画面",
-                    "グラフのダッシュボード",
-                    "現場のタブレット",
-                    "ノートPCと紙のレポート",
-                  ][i]
-                }
-              />
-              <h3>{item.title}</h3>
-              <p>{item.body}</p>
-            </article>
-          ))}
-        </div>
-      </section>
+      <ServicesMenu />
       <section className={styles.process} aria-labelledby="process-heading">
         <div className={styles.processHeading}>
           <div>
