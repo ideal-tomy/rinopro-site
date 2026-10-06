@@ -1,0 +1,272 @@
+{
+  "url": "http://127.0.0.1:3103",
+  "widths": [
+    {
+      "width": 320,
+      "scrollWidth": 320,
+      "headerHeight": 64,
+      "cards": [
+        {
+          "height": 539.9537353515625,
+          "layoutHeight": 540,
+          "inert": false,
+          "hidden": "false"
+        },
+        {
+          "height": 539.2342529296875,
+          "layoutHeight": 540,
+          "inert": true,
+          "hidden": "true"
+        }
+      ],
+      "menuLinks": [
+        0,
+        0
+      ],
+      "deletedText": false
+    },
+    {
+      "width": 375,
+      "scrollWidth": 375,
+      "headerHeight": 64,
+      "cards": [
+        {
+          "height": 582.622802734375,
+          "layoutHeight": 582,
+          "inert": false,
+          "hidden": "false"
+        },
+        {
+          "height": 581.846435546875,
+          "layoutHeight": 582,
+          "inert": true,
+          "hidden": "true"
+        }
+      ],
+      "menuLinks": [
+        0,
+        0
+      ],
+      "deletedText": false
+    },
+    {
+      "width": 390,
+      "scrollWidth": 390,
+      "headerHeight": 64,
+      "cards": [
+        {
+          "height": 594.9434814453125,
+          "layoutHeight": 595,
+          "inert": false,
+          "hidden": "false"
+        },
+        {
+          "height": 594.1507568359375,
+          "layoutHeight": 595,
+          "inert": true,
+          "hidden": "true"
+        }
+      ],
+      "menuLinks": [
+        0,
+        0
+      ],
+      "deletedText": false
+    },
+    {
+      "width": 430,
+      "scrollWidth": 430,
+      "headerHeight": 64,
+      "cards": [
+        {
+          "height": 627.7935791015625,
+          "layoutHeight": 627,
+          "inert": false,
+          "hidden": "false"
+        },
+        {
+          "height": 626.95703125,
+          "layoutHeight": 627,
+          "inert": true,
+          "hidden": "true"
+        }
+      ],
+      "menuLinks": [
+        0,
+        0
+      ],
+      "deletedText": false
+    },
+    {
+      "width": 767,
+      "scrollWidth": 767,
+      "headerHeight": 64,
+      "cards": [
+        {
+          "height": 904.55615234375,
+          "layoutHeight": 904,
+          "inert": false,
+          "hidden": "false"
+        },
+        {
+          "height": 903.350830078125,
+          "layoutHeight": 904,
+          "inert": true,
+          "hidden": "true"
+        }
+      ],
+      "menuLinks": [
+        0,
+        0
+      ],
+      "deletedText": false
+    },
+    {
+      "width": 768,
+      "scrollWidth": 768,
+      "headerHeight": 64,
+      "cards": [
+        {
+          "height": 345,
+          "layoutHeight": 345,
+          "inert": false,
+          "hidden": "false"
+        },
+        {
+          "height": 345,
+          "layoutHeight": 345,
+          "inert": false,
+          "hidden": "false"
+        }
+      ],
+      "menuLinks": [
+        0,
+        0
+      ],
+      "deletedText": false
+    },
+    {
+      "width": 1023,
+      "scrollWidth": 1023,
+      "headerHeight": 64,
+      "cards": [
+        {
+          "height": 345,
+          "layoutHeight": 345,
+          "inert": false,
+          "hidden": "false"
+        },
+        {
+          "height": 345,
+          "layoutHeight": 345,
+          "inert": false,
+          "hidden": "false"
+        }
+      ],
+      "menuLinks": [
+        0,
+        0
+      ],
+      "deletedText": false
+    },
+    {
+      "width": 1024,
+      "scrollWidth": 1024,
+      "headerHeight": 64,
+      "cards": [
+        {
+          "height": 353,
+          "layoutHeight": 353,
+          "inert": false,
+          "hidden": "false"
+        },
+        {
+          "height": 353,
+          "layoutHeight": 353,
+          "inert": false,
+          "hidden": "false"
+        }
+      ],
+      "menuLinks": [
+        0,
+        0
+      ],
+      "deletedText": false
+    },
+    {
+      "width": 1122,
+      "scrollWidth": 1122,
+      "headerHeight": 64,
+      "cards": [
+        {
+          "height": 353,
+          "layoutHeight": 353,
+          "inert": false,
+          "hidden": "false"
+        },
+        {
+          "height": 353,
+          "layoutHeight": 353,
+          "inert": false,
+          "hidden": "false"
+        }
+      ],
+      "menuLinks": [
+        0,
+        0
+      ],
+      "deletedText": false
+    },
+    {
+      "width": 1280,
+      "scrollWidth": 1280,
+      "headerHeight": 64,
+      "cards": [
+        {
+          "height": 353,
+          "layoutHeight": 353,
+          "inert": false,
+          "hidden": "false"
+        },
+        {
+          "height": 353,
+          "layoutHeight": 353,
+          "inert": false,
+          "hidden": "false"
+        }
+      ],
+      "menuLinks": [
+        0,
+        0
+      ],
+      "deletedText": false
+    },
+    {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "headerHeight": 64,
+      "cards": [
+        {
+          "height": 353,
+          "layoutHeight": 353,
+          "inert": false,
+          "hidden": "false"
+        },
+        {
+          "height": 353,
+          "layoutHeight": 353,
+          "inert": false,
+          "hidden": "false"
+        }
+      ],
+      "menuLinks": [
+        0,
+        0
+      ],
+      "deletedText": false
+    }
+  ],
+  "operations": "dots, inactive-face focus exclusion, breakpoint inert cleanup, menu/Escape, both detail links (including keyboard Enter), contact, other-page header scope, vertical touch scroll, autoplay, pause persistence, left/right swipe: PASS",
+  "webkit": "Windows WebKit emulation: PASS; actual iPhone Safari: unverified",
+  "errors": []
+}

@@ -1,79 +1,141 @@
 import Link from "next/link";
-import { supportHubCopy, supportPillars } from "@/lib/content/support-pillars";
-import { servicesValueBandCopy } from "@/lib/content/services-embedded-copy";
+import { Search, FileText, CodeXml, Laptop, RefreshCw } from "lucide-react";
+import { ServicesFlipCards } from "./ServicesFlipCards";
 import styles from "./services-page.module.css";
-
-const readingTerms = /(?:社内|論点|コード|本実装|権限|範囲|定着|運用|設計|制約|関係者|データ基盤)/;
-
-function ServiceText({ text }: { text: string }) {
-  return text.split(new RegExp(`(${readingTerms.source})`)).map((part, index) =>
-    readingTerms.test(part)
-      ? <span className={styles.phrase} key={index}>{part}</span>
-      : part,
-  );
-}
-
+const menu = [
+  {
+    title: "AI業務アプリ開発",
+    body: "現場業務を前提に、小さく試してから本実装へ。",
+  },
+  {
+    title: "データ活用基盤",
+    body: "散在データを意思決定に使える形へ整えます。",
+  },
+  {
+    title: "現場向けシステム開発",
+    body: "建設・製造・介護など業界に合わせた業務ツールを開発。",
+  },
+  {
+    title: "DX戦略設計",
+    body: "経営と現場の認識ギャップを縮め、実行計画に落とします。",
+  },
+];
+const steps = [
+  { title: "課題抽出", body: "経営と現場の論点を整理します。", Icon: Search },
+  {
+    title: "設計",
+    body: "何を作るか・何を検証するかを決めます。",
+    Icon: FileText,
+  },
+  {
+    title: "試作・実装",
+    body: "小さく試してから本実装へ進めます。",
+    Icon: CodeXml,
+  },
+  {
+    title: "導入・展開",
+    body: "現場に乗る運用設計と関係者への共有まで整えます。",
+    Icon: Laptop,
+  },
+  {
+    title: "運用・保守",
+    body: "監視と改善サイクルを回し、使われ続ける状態を保ちます。",
+    Icon: RefreshCw,
+  },
+];
 export function ServicesPageContent() {
   return (
-    <div className={`services-page ${styles.page}`}>
-      <div className={styles.container}>
-        <header className={styles.intro}>
-          <h1>{supportHubCopy.title}</h1>
-          <div className={styles.introDescription}>
-            <p><ServiceText text={supportHubCopy.purpose} /></p>
-            <nav className={styles.anchors} aria-label="ご支援内容のページ内リンク">
-              {supportPillars.map((pillar) => (
-                <a key={pillar.id} href={`#${pillar.id}`}>
-                  {pillar.title} <span aria-hidden="true">↓</span>
-                </a>
-              ))}
-            </nav>
+    <div className={styles.page}>
+      <section className={styles.hero} aria-labelledby="services-heading">
+        <div className={styles.heroInner}>
+          <div className={styles.heroArt} aria-hidden="true">
+            <svg viewBox="0 0 560 250" preserveAspectRatio="xMidYMid meet">
+              <image
+                href="/images/services/approved/hero.png"
+                width="560"
+                height="250"
+              />
+            </svg>
           </div>
-        </header>
-      </div>
-      {supportPillars.map((pillar) => (
-        <section key={pillar.id} id={pillar.id} className={styles.service}
-          aria-labelledby={`${pillar.id}-heading`}>
-          <div className={`${styles.container} ${styles.serviceGrid}`}>
-            <div className={styles.overview}>
-              <p className={styles.kicker}>{pillar.kicker}</p>
-              <h2 id={`${pillar.id}-heading`}>{pillar.title}</h2>
-              <p className={styles.lead}><ServiceText text={pillar.audience} /></p>
-              <p className={styles.body}><ServiceText text={pillar.lead} /></p>
-            </div>
-            <dl className={styles.workItems}>
-              {pillar.workItems.map((item) => (
-                <div key={item.title} className={styles.workItem}>
-                  <dt>{item.title}</dt>
-                  <dd><ServiceText text={item.body} /></dd>
-                </div>
-              ))}
-            </dl>
-            <Link href={pillar.href} className={styles.detailLink}>
-              {pillar.ctaLabel} <span aria-hidden="true">→</span>
-            </Link>
+          <div className={styles.heroCopy}>
+            <p className={styles.eyebrow}>SERVICE</p>
+            <h1 id="services-heading">ご支援内容</h1>
+            <p>
+              課題の整理から実装・社内への定着まで、
+              <br />
+              必要な範囲を同じチームで進めます。
+            </p>
           </div>
-        </section>
-      ))}
-      <section className={`${styles.container} ${styles.process}`} aria-labelledby="services-process-heading">
-        <div className={styles.processIntro}>
-          <h2 id="services-process-heading">成功の大半は、<br className={styles.mobileBreak} />作る前に決まる</h2>
-          <p><ServiceText text={servicesValueBandCopy.lead} /></p>
+        </div>
+      </section>
+      <ServicesFlipCards />
+      <section
+        className={styles.desktopMenu}
+        id="service-menu"
+        aria-labelledby="service-menu-heading"
+      >
+        <div className={styles.menuHeading}>
+          <div>
+            <p className={styles.eyebrow}>SERVICE MENU</p>
+            <h2 id="service-menu-heading">
+              目的に合わせて、必要な支援を選べます。
+            </h2>
+          </div>
+        </div>
+        <div className={styles.menuGrid}>
+          {menu.map((item, i) => (
+            <article className={styles.menuCard} key={item.title}>
+              <div
+                className={styles.menuPhoto}
+                style={{
+                  backgroundImage: `url(/images/services/approved/menu-${i + 1}.jpg)`,
+                }}
+                role="img"
+                aria-label={
+                  [
+                    "工業部品と業務画面",
+                    "グラフのダッシュボード",
+                    "現場のタブレット",
+                    "ノートPCと紙のレポート",
+                  ][i]
+                }
+              />
+              <h3>{item.title}</h3>
+              <p>{item.body}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+      <section className={styles.process} aria-labelledby="process-heading">
+        <div className={styles.processHeading}>
+          <div>
+            <p className={styles.eyebrow}>PROCESS</p>
+            <h2 id="process-heading">
+              課題の整理から運用まで、
+              <br />
+              一気通貫でサポートします。
+            </h2>
+          </div>
         </div>
         <ol className={styles.steps}>
-          {servicesValueBandCopy.journeySteps.map((step) => (
-            <li key={step.number} className={styles.step}>
-              <span className={styles.stepNumber}>{step.number}</span>
-              <p className={styles.stepLabel}>{step.duration}</p>
-              <h3>{step.title}</h3>
-              <p className={styles.stepDescription}><ServiceText text={step.description} /></p>
+          {steps.map(({ title, body, Icon }, i) => (
+            <li key={title}>
+              <div className={styles.stepMark}>
+                <span>{String(i + 1).padStart(2, "0")}</span>
+                <div>
+                  <Icon aria-hidden="true" size={25} strokeWidth={1.6} />
+                </div>
+              </div>
+              <h3>{title}</h3>
+              <p>{body}</p>
             </li>
           ))}
         </ol>
-      </section>
-      <section className={`${styles.container} ${styles.cta}`} aria-labelledby="services-contact-heading">
-        <h2 id="services-contact-heading">課題の整理から、<br className={styles.mobileBreak} />ご相談ください。</h2>
-        <Link className={styles.contactButton} href="/contact">問い合わせ <span aria-hidden="true">→</span></Link>
+        <div className={styles.bottomCta}>
+          <Link href="/contact">
+            まずはご相談ください <span aria-hidden="true">→</span>
+          </Link>
+        </div>
       </section>
     </div>
   );

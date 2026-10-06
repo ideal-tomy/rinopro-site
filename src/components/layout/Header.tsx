@@ -6,7 +6,7 @@ import { useState } from "react";
 
 const MobileNav = dynamic(
   () => import("./MobileNav").then((mod) => mod.MobileNav),
-  { ssr: false, loading: () => null }
+  { ssr: false, loading: () => null },
 );
 
 const NAV_ITEMS = [
@@ -51,6 +51,10 @@ export function Header() {
             </div>
           ))}
         </nav>
+
+        <Link href="/contact" className="services-header-contact hidden">
+          お問い合わせ <span aria-hidden="true">→</span>
+        </Link>
 
         <button
           type="button"
