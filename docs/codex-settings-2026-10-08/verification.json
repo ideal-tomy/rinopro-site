@@ -1,0 +1,94 @@
+[
+  {
+    "Command": "npm install zod",
+    "Decision": "prompt"
+  },
+  {
+    "Command": "npm ci",
+    "Decision": "prompt"
+  },
+  {
+    "Command": "pnpm add zod",
+    "Decision": "prompt"
+  },
+  {
+    "Command": "yarn add zod",
+    "Decision": "prompt"
+  },
+  {
+    "Command": "bun install",
+    "Decision": "prompt"
+  },
+  {
+    "Command": "npx eslint .",
+    "Decision": "prompt"
+  },
+  {
+    "Command": "winget install Example.Package",
+    "Decision": "prompt"
+  },
+  {
+    "Command": "python -m pip install example",
+    "Decision": "prompt"
+  },
+  {
+    "Command": "git reset --hard HEAD~1",
+    "Decision": "prompt"
+  },
+  {
+    "Command": "git clean -fd",
+    "Decision": "prompt"
+  },
+  {
+    "Command": "git rebase main",
+    "Decision": "prompt"
+  },
+  {
+    "Command": "git commit --amend",
+    "Decision": "prompt"
+  },
+  {
+    "Command": "git push --force",
+    "Decision": "prompt"
+  },
+  {
+    "Command": "git push origin main --force-with-lease",
+    "Decision": "prompt"
+  },
+  {
+    "Command": "Remove-Item -Recurse -Force example",
+    "Decision": "prompt"
+  },
+  {
+    "Command": "npm run build",
+    "Decision": "no-extra-rule"
+  },
+  {
+    "Command": "npm run dev",
+    "Decision": "no-extra-rule"
+  },
+  {
+    "Command": "npm test",
+    "Decision": "no-extra-rule"
+  },
+  {
+    "Command": "git status",
+    "Decision": "no-extra-rule"
+  },
+  {
+    "Command": "git diff",
+    "Decision": "no-extra-rule"
+  },
+  {
+    "Command": "git add .",
+    "Decision": "no-extra-rule"
+  },
+  {
+    "Command": "git commit -m example",
+    "Decision": "no-extra-rule"
+  },
+  {
+    "Command": "git push origin main",
+    "Decision": "no-extra-rule"
+  }
+]

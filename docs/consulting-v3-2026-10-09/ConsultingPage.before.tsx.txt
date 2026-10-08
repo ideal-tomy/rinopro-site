@@ -1,0 +1,302 @@
+import Link from "next/link";
+import Image from "next/image";
+import {
+  ConsultingExamples,
+  ConsultingDocuments,
+} from "./ConsultingInteractions";
+import styles from "./consulting-page.module.css";
+
+const sections = [
+  ["scope", "支援範囲"],
+  ["examples", "相談例"],
+  ["support", "支援内容・成果物"],
+  ["team", "支援体制"],
+  ["contract", "ご相談から契約まで"],
+];
+const support = [
+  [
+    "業務と課題の整理",
+    "業務の流れ、扱う情報、担当者を確認します。二重入力や確認待ちなど、時間がかかっている箇所と原因を整理します。",
+    "業務・課題整理表",
+  ],
+  [
+    "投資と着手順の検討",
+    "見込める効果、費用、現場の負担を比較します。先に取り組むものと、見送るものを、判断理由と一緒にまとめます。",
+    "優先順位と比較表",
+  ],
+  [
+    "システム・データの整理",
+    "現在のシステム、データの保管先、利用者の権限を確認します。既存の仕組みを残す範囲と、連携・入れ替えを検討する範囲を整理します。",
+    "システム・情報の関係図",
+  ],
+  [
+    "実行と検証の計画",
+    "取り組む範囲、担当者、必要な準備を決めます。小さく試す場合は、どの項目を確認して効果を判断するかも決めます。",
+    "実行・検証計画",
+  ],
+];
+const roles = [
+  ["経営・責任者", "目的、投資、着手順を判断する"],
+  ["現場・IT担当", "業務と制約を共有し、計画を実行できるか確認する"],
+  ["AXEON", "課題と対応方法を整理し、計画・共有資料にまとめる"],
+  ["開発担当", "合意した計画をもとに、実装範囲と方法を検討する"],
+];
+const conditions = [
+  ["支援する範囲", "どの業務を対象に、どこまで整理・検討するか"],
+  ["進め方と期間", "確認する時期と、完了までの進め方"],
+  ["担当と成果物", "社内・支援側の役割と、お渡しする資料"],
+  ["費用と条件", "見積りと、契約に含まれる内容"],
+];
+
+export function ConsultingPage() {
+  return (
+    <div className={styles.page} data-scroll-reveal="off">
+      <nav
+        className={`${styles.container} ${styles.breadcrumb}`}
+        aria-label="パンくず"
+      >
+        <Link href="/services">ご支援内容</Link>
+        <span aria-hidden="true">›</span>
+        <span aria-current="page">コンサルティング</span>
+      </nav>
+      <section className={styles.hero} aria-labelledby="consulting-heading">
+        <div className={`${styles.container} ${styles.columns}`}>
+          <div>
+            <p className={styles.eyebrow}>CONSULTING</p>
+            <h1 id="consulting-heading">コンサルティング</h1>
+            <p className={styles.lead}>
+              業務やシステムの見直しを、計画づくりから支援します。
+            </p>
+            <p>
+              経営の方針と現場の状況を確認し、取り組む範囲、優先順位、進め方をまとめます。
+            </p>
+          </div>
+          <figure className={styles.heroFigure}>
+            <div className={styles.imageWrap}>
+              <Image
+                src="/images/services01.jpg"
+                alt="①戦略コンサルティング、②ITコンサルティング、③システム開発、④導入・展開、⑤運用・保守の全体図"
+                width={1672}
+                height={941}
+                sizes="(max-width: 899px) calc(100vw - 40px), 600px"
+              />
+              {[1.2, 20.8].map((left) => (
+                <span
+                  key={left}
+                  className={styles.imageFrame}
+                  style={{ left: `${left}%` }}
+                  aria-hidden="true"
+                />
+              ))}
+            </div>
+            <figcaption>
+              コンサルティングの主な範囲は、①戦略・②ITの計画です。
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+      <nav
+        className={`${styles.container} ${styles.anchorBar}`}
+        aria-label="ページ内リンク"
+      >
+        {sections.map(([id, title]) => (
+          <a key={id} href={`#consulting-${id}`}>
+            {title}
+          </a>
+        ))}
+      </nav>
+      <section
+        id="consulting-scope"
+        className={`${styles.container} ${styles.section} ${styles.columns}`}
+        aria-labelledby="scope-heading"
+      >
+        <div className={styles.copy}>
+          <h2 id="scope-heading">支援範囲</h2>
+          <p className={styles.intro}>
+            業務とシステムを確認し、変更する範囲と、そのまま使う範囲を整理します。
+          </p>
+          <p>
+            経営として実現したいことと、現場で困っていることを確認します。既存システムや社内の体制も踏まえ、対応方法を検討します。
+          </p>
+          <p>
+            そのうえで、着手する順番、費用、担当者、結果の確認方法を、社内で検討できる計画にまとめます。
+          </p>
+        </div>
+        <div>
+          <div
+            className={styles.diagram}
+            role="group"
+            aria-label="経営の方針と現場の状況から計画をまとめる関係図"
+          >
+            <div className={styles.sources}>
+              <div>
+                <h3>経営の方針</h3>
+                <p>
+                  <span className={styles.phrase}>目標・投資・</span>
+                  <span className={styles.phrase}>事業の優先順位</span>
+                </p>
+              </div>
+              <div>
+                <h3>現場の状況</h3>
+                <p>
+                  <span className={styles.phrase}>業務・情報・</span>
+                  <span className={styles.phrase}>既存システム</span>
+                </p>
+              </div>
+            </div>
+            <div className={styles.connector} aria-hidden="true">
+              ↓
+            </div>
+            <div className={styles.diagramCenter}>
+              <h3>AXEON</h3>
+              <p>課題と対応方法を整理</p>
+              <p>見込める効果・費用・実施の難しさを比較</p>
+            </div>
+            <div className={styles.connector} aria-hidden="true">
+              ↓
+            </div>
+            <div className={styles.diagramPlan}>
+              <h3>社内で検討するための計画</h3>
+              <p>取り組む範囲／担当／着手順／確認方法</p>
+            </div>
+          </div>
+          <p className={styles.note}>
+            試作・開発・導入支援は、必要に応じて範囲を相談します。
+          </p>
+        </div>
+      </section>
+      <section
+        id="consulting-examples"
+        className={styles.tinted}
+        aria-labelledby="examples-heading"
+      >
+        <div className={`${styles.container} ${styles.section}`}>
+          <h2 id="examples-heading">相談例</h2>
+          <p className={styles.intro}>
+            ご相談の内容に応じて、何を確認し、どのような対応方法を比べるかをご紹介します。
+          </p>
+          <ConsultingExamples />
+        </div>
+      </section>
+      <section
+        id="consulting-support"
+        className={`${styles.container} ${styles.section}`}
+        aria-labelledby="support-heading"
+      >
+        <div className={styles.columns}>
+          <div>
+            <h2 id="support-heading">支援内容・成果物</h2>
+            <p className={styles.intro}>
+              ご相談の内容に合わせて、必要な支援を組み合わせます。
+            </p>
+            <p className={styles.note}>
+              資料の形式と納品内容は、着手前に合意します。
+            </p>
+          </div>
+          <div className={styles.accordion}>
+            {support.map(([title, body, output], i) => (
+              <details key={title} open={i === 0}>
+                <summary>
+                  {title}
+                  <span aria-hidden="true" />
+                </summary>
+                <div>
+                  <p>{body}</p>
+                  <p className={styles.output}>成果物の例：{output}</p>
+                </div>
+              </details>
+            ))}
+          </div>
+        </div>
+        <div className={styles.samples}>
+          <h3>資料の見本</h3>
+          <p>
+            社内の説明や検討に使う資料です。選ぶと内容を拡大して確認できます。
+          </p>
+          <ConsultingDocuments />
+        </div>
+      </section>
+      <section
+        id="consulting-team"
+        className={`${styles.container} ${styles.section} ${styles.columns} ${styles.bordered}`}
+        aria-labelledby="team-heading"
+      >
+        <div className={styles.copy}>
+          <h2 id="team-heading">支援体制</h2>
+          <p className={styles.intro}>
+            経営・現場・IT担当者の間で、判断に必要な情報を共有します。
+          </p>
+          <p>
+            社内の担当者や開発会社が関わる場合も、決めることと担当を整理します。実行に移る前に、支援範囲と確認する時期を合意します。
+          </p>
+          <p>
+            計画後の開発・導入は、別途範囲を確認します。社内で改善を続けるための支援については、
+            <Link href="/services/insourcing-enablement">半内製化ページ</Link>
+            でご案内します。
+          </p>
+        </div>
+        <div>
+          <dl className={styles.rows}>
+            {roles.map(([title, body]) => (
+              <div key={title}>
+                <dt>{title}</dt>
+                <dd>{body}</dd>
+              </div>
+            ))}
+          </dl>
+          <p className={styles.note}>
+            役割分担の例です。担当者・体制・契約範囲は案件ごとに確認します。
+          </p>
+        </div>
+      </section>
+      <section
+        id="consulting-contract"
+        className={`${styles.container} ${styles.section} ${styles.columns} ${styles.bordered}`}
+        aria-labelledby="contract-heading"
+      >
+        <div className={styles.copy}>
+          <h2 id="contract-heading">ご相談から契約まで</h2>
+          <p className={styles.intro}>
+            まだ計画がまとまっていなくても、現在の状況からお聞かせください。
+          </p>
+          <p>
+            お問い合わせ後、お打ち合わせで現状とご希望を伺います。必要な支援を整理して提案・見積りをお伝えし、内容に合意したうえで契約を結びます。
+          </p>
+        </div>
+        <div className={styles.conditions}>
+          <h3>提案時にお伝えすること</h3>
+          <dl className={styles.rows}>
+            {conditions.map(([title, body]) => (
+              <div key={title}>
+                <dt>{title}</dt>
+                <dd>{body}</dd>
+              </div>
+            ))}
+          </dl>
+          <p className={styles.note}>
+            範囲や条件は、ご相談内容に合わせて決めます。
+          </p>
+        </div>
+      </section>
+      <section
+        className={`${styles.container} ${styles.consultation}`}
+        aria-labelledby="consultation-heading"
+      >
+        <div>
+          <h3 id="consultation-heading">ご相談について</h3>
+          <p>要件が決まっていない段階でも、現在の状況とご希望から伺います。</p>
+        </div>
+        <Link className={styles.button} href="/contact">
+          お問い合わせ <span aria-hidden="true">→</span>
+        </Link>
+      </section>
+      <nav
+        className={`${styles.container} ${styles.related}`}
+        aria-label="関連ページ"
+      >
+        <Link href="/services">← ご支援内容へ戻る</Link>
+        <Link href="/services/insourcing-enablement">半内製化を見る →</Link>
+      </nav>
+    </div>
+  );
+}

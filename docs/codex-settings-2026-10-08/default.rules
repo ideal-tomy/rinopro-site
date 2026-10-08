@@ -1,0 +1,135 @@
+# User-requested approval rules. Prefix rules are not a complete security boundary.
+# Routine editing, build and test commands have no extra prompt rules.
+
+prefix_rule(
+    pattern = ["npm",["install","i","ci","add","update","uninstall","remove"]],
+    decision = "prompt",
+    justification = "依存パッケージのインストール・変更を確認します。",
+)
+
+prefix_rule(
+    pattern = ["pnpm",["install","i","add","update","remove"]],
+    decision = "prompt",
+    justification = "依存パッケージのインストール・変更を確認します。",
+)
+
+prefix_rule(
+    pattern = ["yarn",["install","add","up","remove"]],
+    decision = "prompt",
+    justification = "依存パッケージのインストール・変更を確認します。",
+)
+
+prefix_rule(
+    pattern = ["bun",["install","i","add","update","remove"]],
+    decision = "prompt",
+    justification = "依存パッケージのインストール・変更を確認します。",
+)
+
+prefix_rule(
+    pattern = ["npx"],
+    decision = "prompt",
+    justification = "未導入のパッケージを取得する可能性があるため確認します。",
+)
+
+prefix_rule(
+    pattern = ["pnpm","dlx"],
+    decision = "prompt",
+    justification = "パッケージ取得を確認します。",
+)
+
+prefix_rule(
+    pattern = ["bun","x"],
+    decision = "prompt",
+    justification = "パッケージ取得を確認します。",
+)
+
+prefix_rule(
+    pattern = [["pip","pip3"],["install","uninstall"]],
+    decision = "prompt",
+    justification = "Pythonパッケージの変更を確認します。",
+)
+
+prefix_rule(
+    pattern = [["python","python3","py"],"-m","pip",["install","uninstall"]],
+    decision = "prompt",
+    justification = "Pythonパッケージの変更を確認します。",
+)
+
+prefix_rule(
+    pattern = ["uv",["add","sync","pip","tool"]],
+    decision = "prompt",
+    justification = "Python環境への導入・変更を確認します。",
+)
+
+prefix_rule(
+    pattern = ["winget",["install","upgrade","uninstall"]],
+    decision = "prompt",
+    justification = "OSへのインストール・変更を確認します。",
+)
+
+prefix_rule(
+    pattern = ["choco",["install","upgrade","uninstall"]],
+    decision = "prompt",
+    justification = "OSへのインストール・変更を確認します。",
+)
+
+prefix_rule(
+    pattern = ["scoop",["install","update","uninstall"]],
+    decision = "prompt",
+    justification = "OSへのインストール・変更を確認します。",
+)
+
+prefix_rule(
+    pattern = ["git",["reset","clean","rebase","filter-branch","filter-repo"]],
+    decision = "prompt",
+    justification = "作業データの削除またはGit履歴変更を確認します。",
+)
+
+prefix_rule(
+    pattern = ["git","commit","--amend"],
+    decision = "prompt",
+    justification = "既存コミットの変更を確認します。",
+)
+
+prefix_rule(
+    pattern = ["git","push",["--force","-f","--force-with-lease","--force-if-includes"]],
+    decision = "prompt",
+    justification = "強制pushを確認します。",
+)
+
+prefix_rule(
+    pattern = ["git","push",["origin","upstream"],["--force","-f","--force-with-lease","--force-if-includes"]],
+    decision = "prompt",
+    justification = "強制pushを確認します。",
+)
+
+prefix_rule(
+    pattern = ["git","push",["origin","upstream"],["main","master"],["--force","-f","--force-with-lease","--force-if-includes"]],
+    decision = "prompt",
+    justification = "強制pushを確認します。",
+)
+
+prefix_rule(
+    pattern = ["git","reflog","expire"],
+    decision = "prompt",
+    justification = "Gitの復旧用履歴の破棄を確認します。",
+)
+
+prefix_rule(
+    pattern = ["git","gc","--prune=now"],
+    decision = "prompt",
+    justification = "Gitの復旧用オブジェクトの破棄を確認します。",
+)
+
+prefix_rule(
+    pattern = [["rm","rmdir","Remove-Item","remove-item","ri","del","erase","rd"]],
+    decision = "prompt",
+    justification = "削除対象と復元可能性を確認します。",
+)
+
+prefix_rule(
+    pattern = ["Remove-Item","-Recurse"],
+    decision = "prompt",
+    justification = "再帰削除を確認します。",
+)
+

@@ -1,0 +1,10 @@
+# User-requested defaults. Existing plugin and project settings are preserved.
+approval_policy = "on-request"
+sandbox_mode = "danger-full-access"
+approvals_reviewer = "user"
+developer_instructions = """
+通常の調査、ファイル作成・編集、ビルド、テスト、ローカルプレビューは、依頼範囲内で自律的に進めてください。
+新規パッケージ・依存関係・OSソフトウェアのインストールや変更、Git履歴の書き換えや強制push、復元困難な既存データの削除は、実行前にユーザーへ対象と影響を示して確認してください。
+この確認方針は、オプションの順番、実行ファイルの絶対パス、シェル・スクリプト・別言語経由の実行でも同じです。既にその具体的操作が明示的に承認されている場合は再確認不要です。
+設定上の実行許可は作業範囲の拡張ではありません。個別タスクのpush・公開禁止や作業中の変更を保護する指示を優先してください。
+"""

@@ -1,17 +1,17 @@
 import type { Metadata } from "next";
 import { PageShell } from "@/components/layout/PageShell";
-import { ConsultingDetailPageContent } from "@/components/services/ConsultingDetailPageContent";
+import { ConsultingPage } from "@/components/services/ConsultingPage";
 
 export const metadata: Metadata = {
   title: "コンサルティング | ご支援内容",
   description:
-    "課題の言語化、優先順位、実装可能な戦略まで。資料で終わらせず、次の一手が実行できる粒度に落とします。",
+    "業務やシステムの見直しを、計画づくりから支援します。経営の方針と現場の状況を確認し、取り組む範囲と進め方をまとめます。",
 };
 
 export default function ServicesConsultingPage() {
   return (
     <PageShell>
-      <ConsultingDetailPageContent />
+      <ConsultingPage />
     </PageShell>
   );
 }

@@ -1,0 +1,569 @@
+.page {
+  color: #0b1730;
+  background: #fff;
+  font-family:
+    -apple-system, BlinkMacSystemFont, var(--font-noto-sans-jp), "Yu Gothic",
+    sans-serif;
+  font-size: 16px;
+  line-height: 1.8;
+  word-break: normal;
+  overflow-wrap: break-word;
+}
+.page :is(h1, h2, h3, p, figure) {
+  margin: 0;
+}
+.page h2 {
+  font-size: 28px;
+  line-height: 1.35;
+  font-weight: 750;
+}
+.page h3 {
+  font-size: 20px;
+  line-height: 1.4;
+  font-weight: 700;
+}
+.page a {
+  text-decoration: none;
+}
+.page :is(a, button, [tabindex]):focus-visible {
+  outline: 3px solid #79a7ed;
+  outline-offset: 3px;
+}
+.container {
+  width: calc(100% - 40px);
+  margin-inline: auto;
+}
+.breadcrumb {
+  display: flex;
+  gap: 10px;
+  padding-block: 16px;
+  font-size: 13px;
+}
+.hero {
+  display: grid;
+  gap: 24px;
+  background: #eef7ff;
+  padding: 28px 20px;
+}
+.heroCopy {
+  min-width: 0;
+}
+.eyebrow {
+  color: #1d4ed8;
+  font-size: 12px;
+  font-weight: 650;
+  line-height: 1.4;
+  letter-spacing: 0.16em;
+}
+.hero h1 {
+  font-size: 34px;
+  line-height: 1.25;
+  font-weight: 750;
+  letter-spacing: -0.025em;
+  margin-top: 16px;
+}
+.hero .lead {
+  font-size: 20px;
+  line-height: 1.5;
+  font-weight: 700;
+  margin: 20px 0 12px;
+}
+.heroFigure {
+  width: 100%;
+  max-width: none;
+  border: 0;
+  background: transparent;
+  overflow: visible;
+}
+.heroFigure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+.heroFigure figcaption {
+  border: 0;
+  background: transparent;
+  font-size: 14px;
+  padding: 12px 0 0;
+  text-align: left;
+}
+.anchorBar {
+  border-bottom: 1px solid #dceaf6;
+}
+.anchorBar > div {
+  display: flex;
+  gap: 28px;
+  padding-block: 16px;
+}
+.anchorBar a {
+  color: #1d4ed8;
+  font-size: 14px;
+  font-weight: 650;
+}
+.section {
+  padding-block: 40px;
+  scroll-margin-top: 84px;
+}
+.intro {
+  margin-top: 10px !important;
+  margin-bottom: 20px !important;
+}
+.cardTrack {
+  position: relative;
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.cardTrack::-webkit-scrollbar {
+  display: none;
+}
+.cardTrack::after {
+  content: "";
+  flex: 0 0 calc(14% - 12px);
+}
+.supportCard,
+.deliverableCard {
+  flex: 0 0 86%;
+  min-width: 0;
+  scroll-snap-align: start;
+  border-radius: 12px;
+  padding: 20px;
+}
+.supportCard {
+  background: #eef7ff;
+  text-align: center;
+}
+.supportImage {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 230 / 149;
+  object-fit: contain;
+  margin: 16px 0;
+}
+.supportCard p {
+  text-align: center;
+  text-wrap: pretty;
+}
+.note {
+  font-size: 14px;
+  line-height: 1.7;
+  margin-top: 16px !important;
+}
+.section > .note {
+  text-align: center;
+}
+.dots {
+  display: flex;
+  justify-content: center;
+  margin-top: 4px;
+}
+.dots button {
+  border: 0;
+  background: transparent;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+.dots button::after {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #b9cde8;
+}
+.dots button[aria-pressed="true"]::after {
+  background: #294493;
+}
+.process {
+  background: #eef7ff;
+  padding-block: 40px;
+  scroll-margin-top: 84px;
+}
+.processImage {
+  display: none;
+}
+.steps {
+  list-style: none;
+  margin: 20px 0 0;
+  padding: 0;
+}
+.steps li {
+  display: flex;
+  gap: 16px;
+  padding-block: 24px;
+  border-bottom: 1px solid #dceaf6;
+}
+.steps li:first-child {
+  padding-top: 0;
+}
+.steps li:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+.steps li > div {
+  min-width: 0;
+}
+.number {
+  flex: 0 0 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #1d4ed8;
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+}
+.steps p {
+  margin-top: 6px;
+}
+.deliverableCard {
+  border: 1px solid #dceaf6;
+  background: #fff;
+}
+.documentHeading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.documentHeading > span {
+  font-size: 11px;
+  color: #506783;
+  flex-shrink: 0;
+}
+.document {
+  width: 100%;
+  height: 160px;
+  background: #fbfdff;
+  overflow: hidden;
+  font-size: 8px;
+  line-height: 1.5;
+  border: 1px solid #dceaf6;
+  border-radius: 3px;
+}
+.document table {
+  width: 100%;
+  height: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+.document th,
+.document td {
+  border: 1px solid #dceaf6;
+  padding: 3px;
+  text-align: center;
+}
+.document thead {
+  background: #eaf3fc;
+}
+.document th {
+  font-weight: 600;
+}
+.document table:not(.schedule) th:first-child {
+  width: 22px;
+}
+.document table:not(.schedule) th:nth-child(2) {
+  width: 28%;
+}
+.flowHeaders {
+  display: grid;
+  grid-template-columns: 38% 40% 22%;
+  background: #eaf3fc;
+  font-weight: 600;
+}
+.flowHeaders span {
+  padding: 6px 1px;
+  text-align: center;
+  border-right: 1px solid #dceaf6;
+}
+.flowBody {
+  display: grid;
+  grid-template-columns: 38% 40% 22%;
+  height: calc(100% - 24px);
+}
+.flowDiagram {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  align-items: center;
+  justify-items: center;
+  padding: 12px 8px;
+  border-right: 1px solid #dceaf6;
+}
+.flowDiagram i {
+  width: 24px;
+  height: 18px;
+  border-radius: 2px;
+  background: #7eb6f4;
+}
+.flowDiagram b {
+  color: #6da6e9;
+}
+.documentLines {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 8px;
+  border-right: 1px solid #dceaf6;
+}
+.documentLines span,
+.line {
+  display: block;
+  height: 5px;
+  background: #bfd0e6;
+}
+.documentLines span:nth-child(even) {
+  width: 70%;
+}
+.meter {
+  display: block;
+  height: 6px;
+  width: 90%;
+  background: linear-gradient(90deg, #74b1f4 65%, #e8f2fc 65%);
+  border-radius: 2px;
+}
+.circle,
+.blueCircle {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #a6bdd8;
+}
+.blueCircle {
+  background: #4189df;
+}
+.schedule th:first-child {
+  width: 32%;
+}
+.gantt {
+  display: block;
+  height: 18px;
+  margin-inline: -4px;
+  background: #7eb6f4;
+  border-radius: 2px;
+}
+.deliverableCard > p {
+  text-align: center;
+  margin-top: 16px;
+}
+.consultation {
+  padding: 24px 20px;
+  background: #eef7ff;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.consultation h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+.small {
+  font-size: 14px;
+  line-height: 1.7;
+}
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  background: #1e3a8a;
+  color: #fff;
+  border-radius: 7px;
+  padding: 12px 24px;
+  min-height: 48px;
+  font-weight: 650;
+}
+.related {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding-block: 24px;
+  margin-top: 16px;
+  border-top: 1px solid #dceaf6;
+}
+.related a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #1e3a8a;
+  min-height: 48px;
+  font-weight: 650;
+  font-size: 14px;
+}
+:global(body):has(.page) > :global(header) {
+  background: #fff;
+  backdrop-filter: none;
+}
+:global(body):has(.page) > :global(header) > div:first-child {
+  height: 63px;
+  padding-inline: 19px;
+  max-width: 1296px;
+}
+:global(body):has(.page) > :global(header) > div:first-child > a:first-child {
+  font-size: 31px;
+  letter-spacing: -0.055em;
+  color: #1d4190;
+}
+:global(body):has(.page) > :global(header) nav {
+  display: none;
+}
+:global(body):has(.page) > :global(header) button {
+  display: inline-flex;
+}
+:global(body):has(.page) > :global(header) button svg {
+  width: 34px;
+  height: 28px;
+}
+@media (min-width: 768px) {
+  .container {
+    width: calc(100% - 48px);
+  }
+  .hero {
+    padding: 40px 24px;
+  }
+  .hero h1 {
+    font-size: 48px;
+  }
+  .hero .lead {
+    font-size: 24px;
+  }
+  .page h2 {
+    font-size: 36px;
+    line-height: 1.3;
+  }
+  .section,
+  .process {
+    padding-block: 48px;
+  }
+  .intro {
+    margin-top: 12px !important;
+    margin-bottom: 24px !important;
+  }
+  .cardTrack {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    overflow: visible;
+    scroll-snap-type: none;
+  }
+  .cardTrack::after,
+  .dots {
+    display: none;
+  }
+  .supportCard,
+  .deliverableCard {
+    padding: 16px;
+  }
+  .document {
+    height: 150px;
+  }
+  .consultation {
+    padding: 32px;
+  }
+  .consultation h2 {
+    font-size: 28px;
+  }
+  .related {
+    flex-direction: row;
+    gap: 16px;
+  }
+  .related a {
+    flex: 1;
+    justify-content: center;
+    gap: 12px;
+    padding: 8px;
+    border: 1px solid #294493;
+    border-radius: 6px;
+  }
+}
+@media (min-width: 1024px) {
+  .container {
+    width: min(1200px, calc(100% - 54px));
+  }
+  .hero {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 32px;
+    align-items: center;
+    padding: 40px 0;
+  }
+  .hero h1 {
+    font-size: 58px;
+    line-height: 1.35;
+  }
+  .hero .lead {
+    margin-top: 20px;
+  }
+  .section,
+  .process {
+    padding-block: 56px;
+  }
+  .cardTrack {
+    gap: 20px;
+  }
+  .supportCard,
+  .deliverableCard {
+    padding: 24px;
+  }
+  .supportImage {
+    margin: 20px 0 16px;
+  }
+  .documentHeading {
+    margin-bottom: 20px;
+  }
+  .document {
+    height: 190px;
+    font-size: 10px;
+  }
+  .processInner {
+    display: grid;
+    grid-template-columns: minmax(0, 38fr) minmax(0, 62fr);
+    gap: 32px;
+    align-items: center;
+  }
+  .processImage {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .consultation {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .consultation > div {
+    min-width: 0;
+  }
+  .button {
+    flex-shrink: 0;
+    min-width: 210px;
+  }
+  :global(body):has(.page) > :global(header) nav {
+    display: flex;
+    gap: 24px;
+  }
+  :global(body):has(.page) > :global(header) > div:first-child {
+    padding-inline: 48px;
+  }
+  :global(body):has(.page) > :global(header) > div:first-child > a:first-child {
+    font-size: 36px;
+    font-weight: 800;
+  }
+  :global(body):has(.page) > :global(header) :global(.services-header-contact) {
+    display: flex;
+    color: #fff;
+    background: #173983;
+    border-radius: 8px;
+    padding: 10px 21px;
+    font-size: 14px;
+    gap: 14px;
+  }
+}

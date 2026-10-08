@@ -1,0 +1,306 @@
+import Link from "next/link";
+import Image from "next/image";
+import { ServicesDetailIntroImage } from "./ServicesDetailIntroImage";
+import { ConsultingCardTrack } from "./ConsultingCardTrack";
+import styles from "./consulting-page.module.css";
+
+const support = [
+  {
+    title: "現状・課題の整理",
+    body: "業務の流れと、時間がかかる作業を確認します。",
+    image: "organize",
+    alt: "業務の写真と資料を整理するイラスト",
+  },
+  {
+    title: "優先順位の整理",
+    body: "効果・費用・現場の負担を比べ、着手順を決めます。",
+    image: "prioritize",
+    alt: "一覧と比較軸から優先順位を整理するイラスト",
+  },
+  {
+    title: "実行・検証の計画",
+    body: "試す範囲、確認項目、担当者を具体化します。",
+    image: "plan",
+    alt: "チェックリストとカレンダーで計画するイラスト",
+  },
+];
+const steps = [
+  {
+    title: "現状を確認する",
+    body: "業務・資料・関係者の話から、課題を整理します。",
+  },
+  {
+    title: "着手順を決める",
+    body: "効果と実現しやすさを比べ、取り組む範囲を決めます。",
+  },
+  {
+    title: "計画をまとめる",
+    body: "進め方と確認方法をまとめ、次の判断につなげます。",
+  },
+];
+const deliverables = [
+  { title: "課題整理表", body: "業務と課題を一覧で共有" },
+  { title: "優先順位表", body: "着手順と判断理由を整理" },
+  { title: "実行・検証計画", body: "担当・範囲・確認方法を明確に" },
+];
+
+function DocumentPreview({ index }: { index: number }) {
+  if (index === 0)
+    return (
+      <div className={styles.document} aria-label="課題整理表の見本">
+        <div className={styles.flowHeaders}>
+          <span>業務の流れ</span>
+          <span>主な課題</span>
+          <span>関連部門</span>
+        </div>
+        <div className={styles.flowBody} aria-hidden="true">
+          <div className={styles.flowDiagram}>
+            <i />
+            <b>↓</b>
+            <i />
+            <b>→</b>
+            <i />
+          </div>
+          <div className={styles.documentLines}>
+            {[0, 1, 2, 3].map((i) => (
+              <span key={i} />
+            ))}
+          </div>
+          <div className={styles.documentLines}>
+            {[0, 1, 2, 3].map((i) => (
+              <span key={i} />
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  if (index === 1)
+    return (
+      <div className={styles.document}>
+        <table aria-label="優先順位表の見本">
+          <thead>
+            <tr>
+              {["No", "取り組み内容", "効果", "実現しやすさ", "優先度"].map(
+                (t) => (
+                  <th key={t}>{t}</th>
+                ),
+              )}
+            </tr>
+          </thead>
+          <tbody>
+            {[1, 2, 3].map((n) => (
+              <tr key={n}>
+                <th>{n}</th>
+                <td>
+                  <span className={styles.line} aria-label="項目例" />
+                </td>
+                <td>
+                  <span className={styles.meter} aria-label="比較例" />
+                </td>
+                <td>
+                  <span className={styles.circle} aria-label="比較例" />
+                </td>
+                <td>
+                  <span className={styles.blueCircle} aria-label="比較例" />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  return (
+    <div className={styles.document}>
+      <table className={styles.schedule} aria-label="実行・検証計画の見本">
+        <thead>
+          <tr>
+            {["", "4月", "5月", "6月", "7月"].map((t, i) => (
+              <th key={i}>{t}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {["試す範囲の設定", "開発・確認", "テスト・検証", "運用開始"].map(
+            (t, i) => (
+              <tr key={t}>
+                <th>{t}</th>
+                {[0, 1, 2, 3].map((j) => (
+                  <td key={j}>
+                    {(j === i || (i > 0 && j === i - 1)) && (
+                      <span className={styles.gantt} />
+                    )}
+                  </td>
+                ))}
+              </tr>
+            ),
+          )}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+export function ConsultingPage() {
+  return (
+    <div className={styles.page}>
+      <nav
+        className={`${styles.container} ${styles.breadcrumb}`}
+        aria-label="パンくず"
+      >
+        <Link href="/services">ご支援内容</Link>
+        <span aria-hidden="true">›</span>
+        <span aria-current="page">コンサルティング</span>
+      </nav>
+      <section
+        className={`${styles.container} ${styles.hero}`}
+        aria-labelledby="consulting-heading"
+      >
+        <div className={styles.heroCopy}>
+          <p className={styles.eyebrow}>CONSULTING</p>
+          <h1 id="consulting-heading">コンサルティング</h1>
+          <p className={styles.lead}>
+            何から着手するか、実行までの道筋を整理します。
+          </p>
+          <p>経営と現場の状況を確認し、課題・優先順位・進め方をまとめます。</p>
+        </div>
+        <ServicesDetailIntroImage
+          highlight="consulting"
+          className={styles.heroFigure}
+        />
+      </section>
+      <nav className={styles.anchorBar} aria-label="ページ内リンク">
+        <div className={styles.container}>
+          <a href="#consulting-support">支援内容</a>
+          <a href="#consulting-process">進め方</a>
+          <a href="#consulting-deliverables">成果物</a>
+        </div>
+      </nav>
+      <section
+        id="consulting-support"
+        className={`${styles.container} ${styles.section}`}
+        aria-labelledby="support-heading"
+        data-scroll-reveal="target"
+        data-scroll-reveal-duration="900"
+      >
+        <h2 id="support-heading">支援内容</h2>
+        <p className={styles.intro}>
+          経営の方針と現場の業務を、具体的な計画につなげます。
+        </p>
+        <ConsultingCardTrack
+          label="3つの支援内容"
+          titles={support.map((item) => item.title)}
+        >
+          {support.map((item) => (
+            <article className={styles.supportCard} key={item.title}>
+              <h3>{item.title}</h3>
+              <Image
+                src={`/images/services/consulting/${item.image}.png`}
+                alt={item.alt}
+                width={230}
+                height={149}
+                className={styles.supportImage}
+              />
+              <p>{item.body}</p>
+            </article>
+          ))}
+        </ConsultingCardTrack>
+        <p className={styles.note}>
+          データの扱い・権限・業界ごとの条件も確認します。
+        </p>
+      </section>
+      <section
+        id="consulting-process"
+        className={styles.process}
+        aria-labelledby="process-heading"
+        data-scroll-reveal="target"
+        data-scroll-reveal-duration="900"
+      >
+        <div className={`${styles.container} ${styles.processInner}`}>
+          <Image
+            src="/images/services/consulting/process.png"
+            alt="集めた資料から着手順と確認計画をまとめるイラスト"
+            width={390}
+            height={255}
+            className={styles.processImage}
+          />
+          <div>
+            <h2 id="process-heading">進め方</h2>
+            <ol className={styles.steps}>
+              {steps.map((step, i) => (
+                <li key={step.title}>
+                  <span className={styles.number}>
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <div>
+                    <h3>{step.title}</h3>
+                    <p>{step.body}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+            <p className={styles.note}>
+              試作・開発・導入支援は、必要に応じて別途ご相談いただけます。
+            </p>
+          </div>
+        </div>
+      </section>
+      <section
+        id="consulting-deliverables"
+        className={`${styles.container} ${styles.section}`}
+        aria-labelledby="deliverables-heading"
+        data-scroll-reveal="target"
+        data-scroll-reveal-duration="900"
+      >
+        <h2 id="deliverables-heading">成果物の例</h2>
+        <p className={styles.intro}>判断や社内共有に使える形でまとめます。</p>
+        <ConsultingCardTrack
+          label="3つの成果物の見本"
+          titles={deliverables.map((item) => item.title)}
+        >
+          {deliverables.map((item, i) => (
+            <article className={styles.deliverableCard} key={item.title}>
+              <div className={styles.documentHeading}>
+                <h3>{item.title}</h3>
+                <span>見本</span>
+              </div>
+              <DocumentPreview index={i} />
+              <p>{item.body}</p>
+            </article>
+          ))}
+        </ConsultingCardTrack>
+        <p className={styles.note}>
+          成果物と支援範囲は、ご相談内容に合わせて決めます。
+        </p>
+      </section>
+      <section
+        className={`${styles.container} ${styles.consultation}`}
+        aria-labelledby="consultation-heading"
+        data-scroll-reveal="target"
+        data-scroll-reveal-duration="900"
+      >
+        <div>
+          <h2 id="consultation-heading">ご相談について</h2>
+          <p>状況とご希望を伺い、支援範囲・期間・費用をご提案します。</p>
+          <p className={styles.small}>整理からのご相談も可能です。</p>
+        </div>
+        <Link className={styles.button} href="/contact">
+          お問い合わせ <span aria-hidden="true">→</span>
+        </Link>
+      </section>
+      <nav
+        className={`${styles.container} ${styles.related}`}
+        aria-label="関連ページ"
+      >
+        <Link href="/services">
+          ご支援内容へ戻る <span aria-hidden="true">←</span>
+        </Link>
+        <Link href="/services/insourcing-enablement">
+          半内製化を見る <span aria-hidden="true">→</span>
+        </Link>
+        <Link href="/experience">
+          体験デモを見る <span aria-hidden="true">→</span>
+        </Link>
+      </nav>
+    </div>
+  );
+}

@@ -1,0 +1,12 @@
+{
+  "observedAt": "2026-10-08",
+  "activeExecutor": {"version":"0.157.1", "pid":6156, "mode":"app-server --managed-daemon"},
+  "cliVersions": {"userNpm":"0.160.0", "nvmNpm":"0.157.1"},
+  "sameParentComparison": [
+    {"tty":true, "login":false, "shellPid":39888, "parentPid":6156, "consoleVisible":false, "inputRedirected":false, "outputRedirected":false},
+    {"tty":false, "login":false, "shellPid":22744, "parentPid":6156, "consoleVisible":true, "inputRedirected":true, "outputRedirected":true}
+  ],
+  "existingFeatureFlagsBothVersions": {"unified_exec":true,"unified_exec_tty":true,"daemon_auto_start":true},
+  "method":"GetConsoleWindow + IsWindowVisible; read-only Win32 API inspection",
+  "limitation":"This measures the current conversation executor. The separately reported CLI --no-daemon session has not been reproduced."
+}

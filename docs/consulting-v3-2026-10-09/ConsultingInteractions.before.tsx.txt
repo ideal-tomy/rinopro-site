@@ -1,0 +1,272 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import styles from "./consulting-page.module.css";
+
+const examples = [
+  {
+    label: "部門間の二重入力",
+    title: "同じ情報を、部門ごとに入力している",
+    situation:
+      "営業・製造・管理部門で別々の仕組みを使っています。全体を入れ替えるべきか、今の仕組みを残せるのか判断できていません。",
+    details: [
+      "どの情報を、誰が、何回入力しているかを確認します。確認待ちや転記が発生する箇所と、既存システムの連携条件も調べます。",
+      "全体の入れ替え、既存システムの連携、一部の業務の見直しを比較します。それぞれの費用、移行の負担、見込める効果を確認します。",
+      "残す仕組みと変更する範囲、着手順、担当者を整理し、社内で検討できる計画にまとめます。",
+    ],
+  },
+  {
+    label: "AI導入の検討",
+    title: "AIを使いたいが、対象業務が決まらない",
+    situation:
+      "社内から導入案が出ていますが、どの業務に効果があるか分かりません。情報の取り扱いや、回答の正確さにも不安があります。",
+    details: [
+      "繰り返し発生する作業、使える資料、人が確認すべき内容を整理します。情報の保管先と利用権限も確認します。",
+      "AIの導入、既存ツールの設定変更、作業手順の見直しを比較します。AIに任せる作業と、人が判断する内容を分けます。",
+      "試す業務と資料の範囲、確認する項目を決め、本導入を判断するための検証計画にまとめます。",
+    ],
+  },
+  {
+    label: "既存システムの見直し",
+    title: "システムを更新したいが、影響が分からない",
+    situation:
+      "長年使ってきたシステムに不便があります。業務を止めずに移行できるか、周辺の仕組みに影響しないか判断できていません。",
+    details: [
+      "利用している部門、つながっているシステム、データの移行条件を確認します。残すべき機能と、運用上の制約も整理します。",
+      "全体の更新、段階的な入れ替え、一部の機能の追加を比較します。維持費、移行の手間、業務への影響を確認します。",
+      "更新する範囲と移行の順番を整理し、社内と開発担当が同じ前提で検討できる計画にまとめます。",
+    ],
+  },
+];
+const detailLabels = ["確認すること", "比較する対応方法", "まとめる内容"];
+const documents = [
+  {
+    title: "業務・課題整理表",
+    columns: ["業務", "現在の課題", "確認すること"],
+    row: ["受注情報の登録", "営業と管理で二重入力", "入力内容・頻度・担当者"],
+  },
+  {
+    title: "優先順位と比較表",
+    columns: ["選択肢", "見込める変化", "比較する条件"],
+    row: ["システムの連携", "転記を減らす", "連携条件・費用"],
+  },
+  {
+    title: "システム・情報の関係図",
+    columns: ["情報の流れ", "現在の方法", "確認する条件"],
+    row: ["営業→管理", "受注情報を転記", "同じ項目・更新の頻度"],
+  },
+  {
+    title: "実行・検証計画",
+    columns: ["段階", "実施すること", "確認すること"],
+    row: ["試行", "限定した範囲で運用", "手間・誤り・使いやすさ"],
+  },
+];
+
+export function ConsultingExamples() {
+  const [selected, setSelected] = useState(0);
+  const tabs = useRef<(HTMLButtonElement | null)[]>([]);
+  return (
+    <>
+      <div className={styles.tabs} role="tablist" aria-label="相談内容">
+        {examples.map((example, index) => (
+          <button
+            key={example.label}
+            type="button"
+            role="tab"
+            id={`example-tab-${index}`}
+            aria-selected={selected === index}
+            aria-controls={`example-panel-${index}`}
+            tabIndex={selected === index ? 0 : -1}
+            ref={(node) => {
+              tabs.current[index] = node;
+            }}
+            onClick={() => setSelected(index)}
+            onKeyDown={(event) => {
+              let next: number;
+              if (event.key === "ArrowRight" || event.key === "ArrowDown")
+                next = (index + 1) % examples.length;
+              else if (event.key === "ArrowLeft" || event.key === "ArrowUp")
+                next = (index + examples.length - 1) % examples.length;
+              else if (event.key === "Home") next = 0;
+              else if (event.key === "End") next = examples.length - 1;
+              else return;
+              event.preventDefault();
+              setSelected(next);
+              tabs.current[next]?.focus();
+            }}
+          >
+            {example.label}
+          </button>
+        ))}
+      </div>
+      {examples.map((example, index) => (
+        <div
+          key={example.label}
+          id={`example-panel-${index}`}
+          role="tabpanel"
+          aria-labelledby={`example-tab-${index}`}
+          tabIndex={0}
+          hidden={selected !== index}
+          className={styles.examplePanel}
+        >
+          <div>
+            <p className={styles.situation}>相談の状況</p>
+            <h3>{example.title}</h3>
+            <p>{example.situation}</p>
+            <p className={styles.note}>
+              相談の進め方を示す例です。実績ではありません。
+            </p>
+          </div>
+          <dl className={styles.exampleDetails}>
+            {example.details.map((body, i) => (
+              <div key={detailLabels[i]}>
+                <dt>{detailLabels[i]}</dt>
+                <dd>{body}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      ))}
+    </>
+  );
+}
+
+export function ConsultingDocuments() {
+  const [selected, setSelected] = useState(0);
+  const dialog = useRef<HTMLDialogElement>(null);
+  const closeButton = useRef<HTMLButtonElement>(null);
+  const trigger = useRef<HTMLButtonElement | null>(null);
+  const previousOverflow = useRef("");
+  useEffect(() => {
+    const element = dialog.current;
+    return () => {
+      if (element?.open)
+        window.document.body.style.overflow = previousOverflow.current;
+    };
+  }, []);
+  const document = documents[selected];
+  function close() {
+    dialog.current?.close();
+  }
+  return (
+    <>
+      <div className={styles.documentGrid}>
+        {documents.map((item, i) => (
+          <button
+            key={item.title}
+            type="button"
+            aria-haspopup="dialog"
+            aria-label={`${item.title}を拡大`}
+            onClick={(event) => {
+              trigger.current = event.currentTarget;
+              setSelected(i);
+              previousOverflow.current = window.document.body.style.overflow;
+              window.document.body.style.overflow = "hidden";
+              dialog.current?.showModal();
+              closeButton.current?.focus();
+            }}
+          >
+            <span className={styles.paper} aria-hidden="true">
+              <span className={styles.paperTitle}>
+                <DocumentTitle title={item.title} />
+              </span>
+              <span className={styles.paperGrid}>
+                {Array.from({ length: 9 }, (_, j) => (
+                  <i key={j} />
+                ))}
+              </span>
+            </span>
+            <span className={styles.documentName}>
+              <DocumentTitle title={item.title} />
+            </span>
+            <span className={styles.documentAction}>見本を拡大 ↗</span>
+          </button>
+        ))}
+      </div>
+      <dialog
+        ref={dialog}
+        className={styles.modal}
+        aria-labelledby="document-title"
+        aria-describedby="document-note"
+        onKeyDown={(event) => {
+          if (event.key !== "Tab") return;
+          const targets = event.currentTarget.querySelectorAll<HTMLElement>(
+            'button, [tabindex="0"]',
+          );
+          const first = targets[0];
+          const last = targets[targets.length - 1];
+          if (event.shiftKey && window.document.activeElement === first) {
+            event.preventDefault();
+            last?.focus();
+          } else if (
+            !event.shiftKey &&
+            window.document.activeElement === last
+          ) {
+            event.preventDefault();
+            first?.focus();
+          }
+        }}
+        onClose={() => {
+          window.document.body.style.overflow = previousOverflow.current;
+          trigger.current?.focus();
+        }}
+        onClick={(event) => {
+          if (event.target !== event.currentTarget) return;
+          const bounds = event.currentTarget.getBoundingClientRect();
+          if (
+            event.clientX < bounds.left ||
+            event.clientX > bounds.right ||
+            event.clientY < bounds.top ||
+            event.clientY > bounds.bottom
+          )
+            close();
+        }}
+      >
+        <div className={styles.modalHeader}>
+          <h3 id="document-title">{document.title}</h3>
+          <button type="button" ref={closeButton} onClick={close}>
+            閉じる ×
+          </button>
+        </div>
+        <p id="document-note" className={styles.note}>
+          見本です。実際の納品物・顧客データではありません。
+        </p>
+        <div
+          className={styles.tableScroll}
+          role="region"
+          aria-label={`${document.title}の表`}
+          tabIndex={0}
+        >
+          <table>
+            <thead>
+              <tr>
+                {document.columns.map((column) => (
+                  <th scope="col" key={column}>
+                    {column}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                {document.row.map((cell) => (
+                  <td key={cell}>{cell}</td>
+                ))}
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </dialog>
+    </>
+  );
+}
+
+function DocumentTitle({ title }: { title: string }) {
+  if (title !== "システム・情報の関係図") return title;
+  return (
+    <>
+      <span className={styles.phrase}>システム・</span>
+      <span className={styles.phrase}>情報の関係図</span>
+    </>
+  );
+}
