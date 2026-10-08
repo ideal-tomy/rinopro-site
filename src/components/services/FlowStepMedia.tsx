@@ -7,9 +7,15 @@ type FlowStepMediaProps = {
   track: FlowTrackKey;
   step: string;
   className?: string;
+  sizes?: string;
 };
 
-export function FlowStepMedia({ track, step, className }: FlowStepMediaProps) {
+export function FlowStepMedia({
+  track,
+  step,
+  className,
+  sizes = "(max-width: 768px) 100vw, 420px",
+}: FlowStepMediaProps) {
   const media = getFlowStepMedia(track, step);
   if (!media) return null;
 
@@ -17,7 +23,7 @@ export function FlowStepMedia({ track, step, className }: FlowStepMediaProps) {
     <div
       className={cn(
         "overflow-hidden rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-neutral)]",
-        className
+        className,
       )}
     >
       <div className="relative aspect-[16/10] w-full">
@@ -31,7 +37,7 @@ export function FlowStepMedia({ track, step, className }: FlowStepMediaProps) {
               ? { objectPosition: media.objectPosition }
               : undefined
           }
-          sizes="(max-width: 768px) 100vw, 420px"
+          sizes={sizes}
         />
       </div>
     </div>

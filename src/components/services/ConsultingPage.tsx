@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { ConsultingExamples } from "./ConsultingInteractions";
 import styles from "./consulting-page.module.css";
+import mobileCases from "./consulting-mobile-cases.module.css";
 
 const support = [
   {
@@ -147,7 +148,7 @@ export function ConsultingPage() {
       </section>
       <section
         id="consulting-examples"
-        className={styles.tinted}
+        className={`${styles.tinted} ${mobileCases.section}`}
         aria-labelledby="examples-heading"
       >
         <div className={`${styles.container} ${styles.section}`}>

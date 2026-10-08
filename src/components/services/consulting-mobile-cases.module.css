@@ -1,0 +1,130 @@
+.mobile {
+  display: none;
+}
+@media (max-width: 767px) {
+  .desktop {
+    display: none;
+  }
+  .mobile {
+    display: block;
+    min-width: 0;
+    --edge: 20px;
+  }
+  .section > div {
+    padding-block: 28px;
+  }
+  .mobile .track {
+    position: relative;
+    display: flex;
+    align-items: stretch;
+    gap: 12px;
+    width: calc(100% + var(--edge) * 2);
+    margin: 18px calc(-1 * var(--edge)) 0;
+    padding: 0 calc(52px - var(--edge)) 0 var(--edge);
+    list-style: none;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--edge);
+    scrollbar-width: none;
+  }
+  .track::-webkit-scrollbar {
+    display: none;
+  }
+  .card {
+    flex: 0 0 calc(100vw - 52px);
+    min-width: 0;
+    scroll-snap-align: start;
+    background: #fff;
+    border: 1px solid #d5e2f2;
+    border-radius: 4px;
+    padding: 18px;
+  }
+  .mobile .category {
+    color: #234b9d;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.6;
+  }
+  .mobile h3 {
+    font-size: 21px;
+    line-height: 1.45;
+    margin-top: 8px;
+    text-wrap: balance;
+  }
+  .mobile h3 span {
+    display: inline-block;
+    max-width: 100%;
+  }
+  .mobile .comparison {
+    margin-top: 18px;
+  }
+  .mobile dt {
+    font-size: 14px;
+    line-height: 1.6;
+    font-weight: 700;
+    color: #234b9d;
+    margin-bottom: 6px;
+  }
+  .mobile dd {
+    text-wrap: balance;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+  .mobile .conclusion {
+    padding: 12px;
+    margin-top: 16px;
+    background: #edf7ff;
+    border-radius: 3px;
+  }
+  .mobile .conclusion dd {
+    color: #0b1933;
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.5;
+  }
+  .position {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-block: 8px;
+  }
+  .position > div {
+    display: flex;
+  }
+  .position button {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    cursor: pointer;
+    border: 0;
+    background: transparent;
+  }
+  .position button span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #b6c6dc;
+  }
+  .position button[aria-current="true"] span {
+    width: 10px;
+    height: 10px;
+    background: #234b9d;
+    outline: 1px solid #234b9d;
+    outline-offset: 2px;
+  }
+  .position p {
+    font-size: 14px;
+    font-variant-numeric: tabular-nums;
+  }
+  .mobile .note {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+}
+@media (max-width: 359px) {
+  .mobile {
+    --edge: 16px;
+  }
+}

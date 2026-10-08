@@ -1,4 +1,3 @@
-import { EnablementPage } from "./EnablementPage";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { IllustrationReveal } from "@/components/illustrations/illustration-reveal";
@@ -41,7 +40,6 @@ function EmphasisText({ text }: { text: string }) {
 }
 
 export function ServiceOfferingDetailView({ offering }: ServiceOfferingDetailViewProps) {
-  if (offering.slug === "insourcing-enablement") return <EnablementPage />;
   const { hero, why, issues, journey, pitfalls, outcomes, relatedLinks } = offering;
 
   return (

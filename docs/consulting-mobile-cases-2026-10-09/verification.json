@@ -1,0 +1,38 @@
+{
+  "base": "http://127.0.0.1:3109",
+  "results": [
+    {
+      "width": 320,
+      "passed": true
+    },
+    {
+      "width": 372,
+      "passed": true
+    },
+    {
+      "width": 390,
+      "passed": true
+    },
+    {
+      "width": 430,
+      "passed": true
+    },
+    {
+      "width": 767,
+      "passed": true
+    },
+    {
+      "width": 768,
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "passed": true
+    }
+  ],
+  "textEnlargement": {
+    "before": 371.828125,
+    "after": 526.328125
+  },
+  "errors": []
+}
