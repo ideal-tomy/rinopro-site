@@ -31,8 +31,8 @@ const out = "docs/enablement-v1-2026-10-09";
     assert.equal(await page.locator("main h1").innerText(), "半内製化");
     assert.deepEqual(await page.locator("main h2").allTextContents(), [
       "支援の進め方",
-      "支援を始める前に確認すること",
-      "自社で進める際の課題と支援",
+      "支援を始める前に",
+      "自社で進める際の課題",
       "開発の進め方",
       "ご相談について",
     ]);

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useState } from "react";
+import { SERVICE_DETAIL_LINKS } from "@/lib/ui/service-navigation";
 
 const MobileNav = dynamic(
   () => import("./MobileNav").then((mod) => mod.MobileNav),
@@ -11,7 +12,7 @@ const MobileNav = dynamic(
 
 const NAV_ITEMS = [
   { href: "/", label: "トップ" },
-  { href: "/services", label: "ご支援内容" },
+  { href: "/services", label: "ご支援内容", children: SERVICE_DETAIL_LINKS },
   { href: "/about", label: "会社紹介" },
   { href: "/contact", label: "問い合わせ" },
   { href: "/experience", label: "体験デモ" },
@@ -60,6 +61,9 @@ export function Header() {
           type="button"
           className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-[var(--color-text-primary)] transition-colors hover:bg-[var(--color-accent-primary-light)] hover:text-[var(--color-accent-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-pure)] md:hidden"
           onClick={handleOpenMobileNav}
+          id="mobile-menu-trigger"
+          aria-expanded={mobileOpen}
+          aria-controls="mobile-site-menu"
           aria-label="メニューを開く"
         >
           <svg

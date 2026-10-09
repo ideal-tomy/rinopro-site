@@ -207,6 +207,22 @@
   line-height: 1.8;
   color: #111;
 }
+.development .stepTitle {
+  font-size: 18px;
+  font-weight: 700;
+}
+.development .stepBody {
+  font-size: 16px;
+}
+@media (min-width: 768px) {
+  .development .stepTitle {
+    font-size: 52px;
+    line-height: 1.15;
+  }
+  .development .stepBody {
+    font-size: 20px;
+  }
+}
 .development p > :is(span, strong) {
   color: #111;
 }
@@ -343,4 +359,277 @@
 }
 .development section p {
   margin-top: 16px;
+}
+
+/* Three distinct responsive patterns from the approved enablement mockup. */
+.approachSection {
+  background:
+    radial-gradient(ellipse at 54% 52%, rgb(20 103 232 / 7%), transparent 46%),
+    linear-gradient(130deg, #f4f9ff, #eaf4ff 55%, #f7fbff);
+}
+.page .stages {
+  --stage-gap: 48px;
+  width: calc(100% - 96px);
+  max-width: 1280px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: stretch;
+  gap: var(--stage-gap);
+  margin-top: 28px;
+  padding: 0;
+}
+.stages li,
+.stages li:nth-child(n) {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 220px;
+  margin: 0;
+  padding: 22px 24px;
+  background: linear-gradient(145deg, #fff, #f3f8ff);
+  border: 1px solid #d9e8fa;
+  border-radius: 16px;
+  box-shadow: 0 9px 24px rgb(22 80 145 / 9%);
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+.stages li:nth-child(2) { background: linear-gradient(145deg, #fff, #f1f7ff); }
+.stages li:nth-child(3) { background: linear-gradient(145deg, #fff, #eef6ff); }
+.stages li:last-child {
+  background: linear-gradient(135deg, #071b3a 0%, #082653 100%);
+  border-color: #0c3d83;
+  box-shadow: 0 14px 30px rgb(8 38 83 / 24%);
+}
+.stages li::before,
+.stages li::after { display: none; }
+.stageMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 48px;
+  margin-bottom: 14px;
+}
+.stageMeta svg { width: 42px; height: 42px; color: #1467e8; stroke-width: 1.8; }
+.number { color: #80aef1; font-size: 21px; font-weight: 700; }
+.stages li:last-child .stageMeta svg,
+.stages li:last-child .number { color: #fff; }
+.stageContent { min-width: 0; }
+.stages h3.stageTitle {
+  display: block;
+  min-height: 0;
+  font-size: 20px;
+  line-height: 1.5;
+  color: #071b3a;
+}
+.stages h3.stageTitle > span { display: inline; }
+.stages li:last-child h3.stageTitle { color: #fff; }
+.page .stages p { margin-top: 10px; font-size: 15px; line-height: 1.65; color: #243246; }
+.page .stages li:last-child p { color: rgb(255 255 255 / 82%); }
+.stageArrow {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  right: calc(var(--stage-gap) / -2 - 12px);
+  width: 24px;
+  height: 24px;
+  color: #1467e8;
+  stroke-width: 2.4;
+  transform: translateY(-50%);
+  opacity: 0;
+  transition: opacity 300ms ease;
+}
+.approachSection[data-entered="true"] .stages .stageArrow { opacity: 1; }
+.page .afterDiagram { margin-top: 22px; color: #34445a; }
+.checks {
+  gap: 12px;
+  margin-top: 26px;
+}
+.checks button {
+  min-height: 118px;
+  padding: 16px 12px 13px;
+  gap: 12px;
+  background: linear-gradient(145deg, #f0f6fd, #e7f1fc);
+  border: 1px solid #e2edf9;
+  border-bottom: 3px solid transparent;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgb(28 75 132 / 5%);
+  transition: transform 200ms ease, border-color 200ms ease, background 200ms ease, box-shadow 200ms ease;
+}
+.checks button[aria-pressed="true"] {
+  border-color: #78aaf0;
+  border-bottom: 4px solid #1467e8;
+  background: #fff;
+  box-shadow: 0 8px 20px rgb(20 103 232 / 12%);
+}
+.checks button:hover { transform: translateY(-2px); box-shadow: 0 8px 18px rgb(28 75 132 / 10%); }
+.checks svg { width: 40px; height: 40px; color: #1467e8; }
+.checks button[aria-pressed="true"] svg { color: #0758c4; }
+.description {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  align-items: center;
+  min-height: 116px;
+  margin-top: 14px;
+  padding: 22px 28px;
+  background: linear-gradient(105deg, #fff 0%, #fafdff 68%, #f1f7ff 100%);
+  border: 1px solid #e0ebf8;
+  border-left: 4px solid #1467e8;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgb(31 76 128 / 8%);
+}
+.descriptionContent { display: grid; grid-template-columns: minmax(0, 1fr) 180px; align-items: center; gap: 24px; }
+.descriptionContent h3 { color: #071b3a; font-size: 20px; }
+.descriptionContent p { color: #243246; }
+.descriptionArt { justify-self: center; width: 88px; height: 88px; color: #1467e8; opacity: .12; stroke-width: 1.4; }
+.columnHeads {
+  grid-template-columns: minmax(0, .4fr) 48px minmax(0, .6fr);
+  gap: 0;
+  margin-block: 24px 12px;
+}
+.columnHeads h3 { padding-left: 16px; border-left: 3px solid #f59e0b; font-size: 18px; }
+.columnHeads h3:nth-child(2) { grid-column: 3; border-color: #1467e8; }
+.pairs { gap: 14px; }
+.pairs > div {
+  display: grid;
+  position: relative;
+  grid-template-columns: minmax(0, .4fr) 48px minmax(0, .6fr);
+  grid-template-areas: "problem arrow support";
+  align-items: stretch;
+  gap: 0;
+}
+.pairs > div::before {
+  content: "";
+  grid-area: arrow;
+  align-self: center;
+  justify-self: center;
+  width: 23px;
+  height: 24px;
+  background: #1467e8;
+  clip-path: polygon(0 40%, 62% 40%, 62% 0, 100% 50%, 62% 100%, 62% 60%, 0 60%);
+}
+.pairs dt,
+.pairs dd {
+  min-width: 0;
+  min-height: 80px;
+  border: 1px solid #f4dfb7;
+  border-left: 4px solid #f59e0b;
+  border-radius: 12px;
+  box-shadow: 0 5px 14px rgb(104 79 28 / 6%);
+}
+.pairs dt { grid-area: problem; background: linear-gradient(110deg, #fff8e9, #fff3db); font-size: 18px; }
+.pairs dd {
+  grid-area: support;
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  align-items: center;
+  gap: 14px;
+  background: linear-gradient(110deg, #fff, #eef6ff);
+  border-color: #d7e7f8;
+  border-left: 4px solid #1467e8;
+  box-shadow: 0 7px 18px rgb(20 103 232 / 8%);
+}
+.pairIcon { width: 34px; height: 34px; color: #1467e8; stroke-width: 1.8; }
+.pairSupportCopy { color: #0b1933; font-size: 17px; font-weight: 700; line-height: 1.55; }
+.mobileLabel { display: none; }
+.supportSection { background: linear-gradient(180deg, #fff 0%, #f7fbff 52%, #fff 100%); }
+@media (max-width: 1023px) {
+  .page .stages { width: calc(100% - 96px); grid-template-columns: 1fr; gap: 30px; }
+  .stages li, .stages li:nth-child(n) { min-height: 0; padding: 20px 24px; }
+  .stageMeta { min-height: 40px; margin-bottom: 8px; }
+  .stageMeta svg { width: 34px; height: 34px; }
+  .stageArrow { top: auto; right: auto; left: 50%; bottom: -27px; transform: translateX(-50%) rotate(90deg); width: 22px; height: 22px; }
+  .checks { gap: 10px; }
+  .checks button { min-height: 108px; }
+}
+@media (max-width: 899px) {
+  .checks { display: flex; overflow-x: auto; scroll-snap-type: x proximity; padding: 2px 2px 10px; scrollbar-width: none; }
+  .checks::-webkit-scrollbar { display: none; }
+  .checks button { flex: 0 0 31%; min-height: 104px; scroll-snap-align: start; }
+}
+@media (max-width: 767px) {
+  .approachSection { background: linear-gradient(145deg, #f4f9ff, #eaf4ff); }
+  .page .stages { width: calc(100% - 40px); gap: 30px; margin-top: 22px; }
+  .stages li, .stages li:nth-child(n) { display: grid; grid-template-columns: 46px minmax(0, 1fr); align-items: center; gap: 14px; padding: 16px 18px; border-radius: 14px; }
+  .stageMeta { grid-column: 1; grid-row: 1 / span 2; flex-direction: column; justify-content: center; gap: 8px; min-height: 0; margin: 0; }
+  .number { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; background: #e8f2ff; color: #1467e8; font-size: 15px; }
+  .stages li:last-child .number { color: #fff; background: rgb(255 255 255 / 12%); }
+  .stageMeta svg { width: 30px; height: 30px; }
+  .stageContent { grid-column: 2; }
+  .stages h3.stageTitle { font-size: 17px; line-height: 1.45; }
+  .page .stages p { margin-top: 6px; font-size: 14px; line-height: 1.55; }
+  .stageArrow { bottom: -27px; }
+  .page .afterDiagram { margin-top: 16px; font-size: 14px; }
+  .checks button { flex-basis: 36%; min-height: 96px; padding: 12px 8px 10px; gap: 8px; font-size: 14px; }
+  .checks svg { width: 32px; height: 32px; }
+  .description { min-height: 120px; margin-top: 12px; padding: 18px; }
+  .descriptionContent { grid-template-columns: minmax(0, 1fr) 72px; gap: 12px; }
+  .descriptionContent h3 { font-size: 18px; }
+  .descriptionArt { width: 60px; height: 60px; }
+  .columnHeads { display: none; }
+  .pairs { margin-top: 22px; gap: 24px; }
+  .pairs > div { grid-template-columns: 1fr; grid-template-areas: "problem" "arrow" "support"; gap: 8px; }
+  .pairs > div::before { width: 20px; height: 18px; transform: rotate(90deg); }
+  .pairs dt, .pairs dd { min-height: 0; padding: 16px 18px; font-size: 16px; }
+  .pairs dt { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; }
+  .pairs dd { grid-template-columns: 1fr; gap: 8px; }
+  .mobileLabel { display: block; position: static; width: auto; height: auto; clip-path: none; overflow: visible; margin-bottom: 2px; color: #1467e8; font-size: 13px; font-weight: 700; }
+  .pairIcon { width: 30px; height: 30px; }
+  .pairSupportCopy { font-size: 16px; }
+}
+@media (hover: none) {
+  .stages li:hover, .checks button:hover { transform: none; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .approachSection[data-reveal-ready="true"]:not([data-entered="true"]) .stages li,
+  .checks[data-reveal-ready="true"]:not([data-entered="true"]) button,
+  .checks[data-reveal-ready="true"]:not([data-entered="true"]) + .description,
+  .supportSection[data-reveal-ready="true"]:not([data-entered="true"]) .pairs dt,
+  .supportSection[data-reveal-ready="true"]:not([data-entered="true"]) .pairs dd,
+  .supportSection[data-reveal-ready="true"]:not([data-entered="true"]) .pairs > div::before {
+    opacity: 0;
+  }
+  .approachSection[data-reveal-ready="true"]:not([data-entered="true"]) .stages li,
+  .checks[data-reveal-ready="true"]:not([data-entered="true"]) button,
+  .checks[data-reveal-ready="true"]:not([data-entered="true"]) + .description { transform: translateY(12px); }
+  .supportSection[data-reveal-ready="true"]:not([data-entered="true"]) .pairs dt { transform: translateX(-10px); }
+  .supportSection[data-reveal-ready="true"]:not([data-entered="true"]) .pairs dd { transform: translateX(10px); }
+  .approachSection .stages li,
+  .checks button,
+  .description,
+  .pairs dt,
+  .pairs dd,
+  .pairs > div::before { transition: opacity 450ms ease, transform 450ms cubic-bezier(0.22, 1, 0.36, 1); }
+  .approachSection[data-entered="true"] .stages li,
+  .checks[data-entered="true"] button,
+  .checks[data-entered="true"] + .description,
+  .supportSection[data-entered="true"] .pairs dt,
+  .supportSection[data-entered="true"] .pairs dd,
+  .supportSection[data-entered="true"] .pairs > div::before { opacity: 1; transform: none; }
+  .stages li:nth-child(1) { transition-delay: 0ms; }
+  .stages li:nth-child(1) .stageArrow { transition-delay: 480ms; }
+  .stages li:nth-child(2) { transition-delay: 560ms; }
+  .stages li:nth-child(2) .stageArrow { transition-delay: 1040ms; }
+  .stages li:nth-child(3) { transition-delay: 1120ms; }
+  .stages li:nth-child(3) .stageArrow { transition-delay: 1600ms; }
+  .stages li:nth-child(4) { transition-delay: 1680ms; }
+  .checks button:nth-child(1) { transition-delay: 0ms; }
+  .checks button:nth-child(2) { transition-delay: 80ms; }
+  .checks button:nth-child(3) { transition-delay: 160ms; }
+  .checks button:nth-child(4) { transition-delay: 240ms; }
+  .checks button:nth-child(5) { transition-delay: 320ms; }
+  .checks[data-entered="true"] + .description { transition-delay: 420ms; }
+  .descriptionContent { animation: enablement-detail-in 230ms ease both; }
+  .supportSection .pairs > div:nth-child(1) dt { transition-delay: 0ms; }
+  .supportSection .pairs > div:nth-child(1)::before { transition-delay: 100ms; }
+  .supportSection .pairs > div:nth-child(1) dd { transition-delay: 140ms; }
+  .supportSection .pairs > div:nth-child(2) dt { transition-delay: 600ms; }
+  .supportSection .pairs > div:nth-child(2)::before { transition-delay: 700ms; }
+  .supportSection .pairs > div:nth-child(2) dd { transition-delay: 740ms; }
+  .supportSection .pairs > div:nth-child(3) dt { transition-delay: 1200ms; }
+  .supportSection .pairs > div:nth-child(3)::before { transition-delay: 1300ms; }
+  .supportSection .pairs > div:nth-child(3) dd { transition-delay: 1340ms; }
+  @keyframes enablement-detail-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+}
+@media (prefers-reduced-motion: reduce) {
+  .stages li, .stageArrow, .checks button, .description, .pairs dt, .pairs dd, .pairs > div::before { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .descriptionContent { animation: none !important; }
 }

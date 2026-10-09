@@ -19,6 +19,9 @@ import { ServicesDetailIntroImage } from "@/components/services/ServicesDetailIn
 import { FlowStepMedia } from "@/components/services/FlowStepMedia";
 import { servicesDevelopmentEmbeddedCopy } from "@/lib/content/services-embedded-copy";
 import { cn } from "@/lib/utils";
+import { useServiceTabs } from "./ServicePageNavigation";
+import navigation from "./service-navigation.module.css";
+import enablementStyles from "./enablement-page.module.css";
 
 const EASE_MIST = [0.22, 1, 0.36, 1] as const;
 
@@ -61,41 +64,6 @@ function EmphasisText({ text }: { text: string }) {
   );
 }
 
-function TimelineNode({
-  label,
-  reduceMotion,
-}: {
-  label: string;
-  reduceMotion: boolean;
-}) {
-  return (
-    <div className="relative flex h-14 w-14 shrink-0 items-center justify-center">
-      {!reduceMotion && (
-        <motion.span
-          aria-hidden
-          className="absolute inset-0 rounded-full border border-accent/50"
-          animate={{
-            scale: [1, 1.65],
-            opacity: [0.45, 0],
-          }}
-          transition={{
-            duration: 2.4,
-            repeat: Infinity,
-            ease: "easeOut",
-            repeatDelay: 0.35,
-          }}
-        />
-      )}
-      <span className="relative z-[1] flex h-12 w-12 items-center justify-center rounded-full border-2 border-accent/85 bg-[var(--color-bg-pure)] text-xs font-semibold tabular-nums text-accent shadow-[0_0_20px_-4px_color-mix(in_srgb,var(--color-accent)_40%,transparent)] md:backdrop-blur-sm">
-        {label}
-      </span>
-    </div>
-  );
-}
-
-const tagClass =
-  "inline-block rounded-md border border-[var(--color-border-light)] bg-[var(--color-bg-base)] px-2.5 py-1.5 text-[0.65rem] leading-tight text-text/85 md:px-3 md:text-xs";
-
 export type FlowTimelinePageContentProps = {
   /** `/services` 埋め込み時: 余白・見出し階層・sticky・クロスリンクを調整 */
   embedded?: boolean;
@@ -114,10 +82,11 @@ export function FlowTimelinePageContent({
   offeringEmbed,
 }: FlowTimelinePageContentProps) {
   const reduce = useReducedMotion();
+  const { barRef, revealPanel } = useServiceTabs();
   const v = enablement
     ? { hidden: { opacity: 1 }, visible: { opacity: 1 } }
     : mistVariants(!!reduce);
-  const StepHeading = enablement ? "h3" : "h2";
+  const StepHeading = enablement ? "p" : "h2";
   const mediaSizes = enablement
     ? "(max-width: 767px) calc(100vw - 40px), (max-width: 1375px) calc(50vw - 76px), 616px"
     : undefined;
@@ -196,7 +165,9 @@ export function FlowTimelinePageContent({
 
       {!offeringEmbed ? (
         <nav
+          ref={enablement ? barRef : undefined}
           className={cn(
+            enablement && navigation.stickyTabs,
             "border-b border-[var(--color-border-light)] bg-[var(--color-bg-pure)]/95 py-3 md:backdrop-blur-md supports-[backdrop-filter]:bg-[var(--color-bg-pure)]/80",
             embedded
               ? "relative z-20 -mx-0 mb-8 md:-mx-2 md:mb-10"
@@ -228,7 +199,10 @@ export function FlowTimelinePageContent({
                         ? "border-action/70 bg-action/15 text-action shadow-[0_0_16px_-4px_rgba(0,103,192,0.35)]"
                         : "border-[var(--color-border-light)] bg-[var(--color-bg-base)] text-text/80 hover:border-action/35 hover:text-text",
                     )}
-                    onClick={() => setActiveTrack(key)}
+                    onClick={() => {
+                      setActiveTrack(key);
+                      if (enablement) revealPanel(flowPanelId);
+                    }}
                     onKeyDown={(event) => {
                       if (!enablement) return;
                       const offset =
@@ -255,7 +229,10 @@ export function FlowTimelinePageContent({
                               FLOW_TRACK_ORDER.length;
                       const next = FLOW_TRACK_ORDER[index];
                       setActiveTrack(next);
-                      document.getElementById(tabId(next))?.focus();
+                      document
+                        .getElementById(tabId(next))
+                        ?.focus({ preventScroll: true });
+                      revealPanel(flowPanelId);
                     }}
                   >
                     {tabLabel}
@@ -277,6 +254,7 @@ export function FlowTimelinePageContent({
       <div
         id={enablement ? flowPanelId : undefined}
         role={enablement ? "tabpanel" : undefined}
+        tabIndex={enablement ? 0 : undefined}
         aria-labelledby={enablement ? tabId(track) : undefined}
       >
         <motion.div
@@ -332,25 +310,9 @@ export function FlowTimelinePageContent({
                   <>
                     <div className="relative mx-auto w-full md:hidden">
                       <div className="relative z-[1] flex flex-col items-start pt-1 text-left">
-                        <TimelineNode
-                          label={step.step}
-                          reduceMotion={!!reduce || enablement}
-                        />
-                        <p className="mb-1.5 mt-5 text-[0.65rem] font-medium uppercase tracking-[0.28em] text-accent/75">
-                          Step {step.step}
-                        </p>
                         <StepHeading className="mb-1.5 text-[1.125rem] font-semibold leading-snug text-text">
                           {step.labelJa}
                         </StepHeading>
-                        <p className="mb-4 text-[0.8125rem] font-medium tracking-[0.18em] text-accent/95">
-                          {step.labelEn}
-                        </p>
-                        <FlowStepMedia
-                          sizes={mediaSizes}
-                          track={track}
-                          step={step.step}
-                          className="mb-6 w-full"
-                        />
                         <p
                           className={cn(
                             "mb-8 w-full max-w-prose",
@@ -359,18 +321,12 @@ export function FlowTimelinePageContent({
                         >
                           {step.body}
                         </p>
-                        <div className="w-full max-w-prose">
-                          <p className="mb-3 text-[0.65rem] font-medium uppercase tracking-[0.2em] text-text/55">
-                            成果物
-                          </p>
-                          <ul className="flex flex-wrap gap-2">
-                            {step.deliverables.map((tag) => (
-                              <li key={tag} className="list-none">
-                                <span className={tagClass}>{tag}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
+                        <FlowStepMedia
+                          sizes={mediaSizes}
+                          track={track}
+                          step={step.step}
+                          className="w-full"
+                        />
                       </div>
                     </div>
 
@@ -381,40 +337,19 @@ export function FlowTimelinePageContent({
                           i % 2 === 1 ? "md:order-2" : "md:order-1",
                         )}
                       >
-                        <TimelineNode
-                          label={step.step}
-                          reduceMotion={!!reduce || enablement}
-                        />
-                        <p className="mb-2 mt-6 text-[0.65rem] font-medium uppercase tracking-[0.28em] text-accent/80">
-                          Step {step.step}
-                        </p>
-                        <StepHeading className="mb-2 text-xl font-semibold leading-snug text-text">
+                        <StepHeading className={cn("mb-2 text-xl font-semibold leading-snug text-text md:text-[52px] md:font-bold md:leading-[1.15]", enablement && enablementStyles.stepTitle)}>
                           <span>{step.labelJa}</span>
-                          <span className="mx-2 text-text/40">·</span>
-                          <span className="text-lg font-medium text-accent">
-                            {step.labelEn}
-                          </span>
                         </StepHeading>
                         <p
                           className={cn(
                             "mb-6 max-w-prose",
                             serviceReading.body,
+                            "md:text-[20px]",
+                            enablement && enablementStyles.stepBody,
                           )}
                         >
                           {step.body}
                         </p>
-                        <div>
-                          <p className="mb-3 text-[0.65rem] font-medium uppercase tracking-[0.2em] text-text/55">
-                            成果物
-                          </p>
-                          <ul className="flex flex-wrap gap-2">
-                            {step.deliverables.map((tag) => (
-                              <li key={tag} className="list-none">
-                                <span className={tagClass}>{tag}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
                       </div>
                       <div
                         className={cn(
@@ -435,19 +370,9 @@ export function FlowTimelinePageContent({
                     {/* スマホ: 縦積み1カラム（読み幅優先。旧左ガイドは撤去） */}
                     <div className="relative mx-auto w-full md:hidden">
                       <div className="relative z-[1] flex flex-col items-start pt-1 text-left">
-                        <TimelineNode
-                          label={step.step}
-                          reduceMotion={!!reduce || enablement}
-                        />
-                        <p className="mb-1.5 mt-5 text-[0.65rem] font-medium uppercase tracking-[0.28em] text-accent/75">
-                          Step {step.step}
-                        </p>
                         <h2 className="mb-1.5 max-w-[22rem] text-[1.125rem] font-semibold leading-snug tracking-[0.06em] text-text">
                           {step.labelJa}
                         </h2>
-                        <p className="mb-6 w-full max-w-[22rem] text-[0.8125rem] font-medium tracking-[0.18em] text-accent/95">
-                          {step.labelEn}
-                        </p>
                         <p
                           className={cn(
                             "mb-8 w-full max-w-prose text-left",
@@ -456,57 +381,20 @@ export function FlowTimelinePageContent({
                         >
                           {step.body}
                         </p>
-                        <div className="w-full max-w-prose text-left">
-                          <p className="mb-3 text-[0.65rem] font-medium uppercase tracking-[0.2em] text-text/55">
-                            成果物
-                          </p>
-                          <ul className="flex flex-wrap gap-2">
-                            {step.deliverables.map((tag) => (
-                              <li key={tag} className="list-none">
-                                <span className={tagClass}>{tag}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
                       </div>
                     </div>
 
-                    {/* PC：ノード・見出し・本文・タグをすべて中央揃え */}
+                    {/* PC：見出しと本文を中央に配置 */}
                     <div className="relative hidden md:block md:px-6">
                       <div className="relative z-[1] flex flex-col items-center pb-2 pt-2">
-                        <div className="mb-8 flex justify-center">
-                          <TimelineNode
-                            label={step.step}
-                            reduceMotion={!!reduce || enablement}
-                          />
-                        </div>
-                        <p className="mb-3 text-[0.65rem] font-medium uppercase tracking-[0.28em] text-accent/80">
-                          Step {step.step}
-                        </p>
                         <h2 className="mb-6 flex max-w-3xl flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center text-xl font-semibold leading-snug text-text">
                           <span className="tracking-[0.14em]">
                             {step.labelJa}
-                          </span>
-                          <span className="text-text/40">·</span>
-                          <span className="text-lg font-medium tracking-[0.24em] text-accent">
-                            {step.labelEn}
                           </span>
                         </h2>
                         <p className="mb-10 max-w-2xl text-center text-[1rem] leading-[2.05] text-text/90">
                           {step.body}
                         </p>
-                        <div className="w-full max-w-2xl">
-                          <p className="mb-4 text-center text-[0.65rem] font-medium uppercase tracking-[0.2em] text-text/55">
-                            成果物
-                          </p>
-                          <ul className="flex flex-wrap justify-center gap-2">
-                            {step.deliverables.map((tag) => (
-                              <li key={tag} className="list-none">
-                                <span className={tagClass}>{tag}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
                       </div>
                     </div>
                   </>

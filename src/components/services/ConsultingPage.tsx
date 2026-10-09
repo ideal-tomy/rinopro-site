@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -5,7 +7,8 @@ import {
   UsersRound,
   FileSearch,
   FileText,
-  CircleCheck,
+  Target,
+  ListOrdered,
   Search,
   Scale,
   Database,
@@ -15,6 +18,14 @@ import {
 import { ConsultingExamples } from "./ConsultingInteractions";
 import styles from "./consulting-page.module.css";
 import mobileCases from "./consulting-mobile-cases.module.css";
+import { ServicePageLinks, ServiceSectionNav } from "./ServicePageNavigation";
+import navigation from "./service-navigation.module.css";
+import { useScrollReveal } from "./useScrollReveal";
+const sectionLinks = [
+  ["consulting-scope", "支援範囲"],
+  ["consulting-examples", "相談例"],
+  ["consulting-support", "支援内容"],
+] as const;
 
 const support = [
   {
@@ -44,8 +55,15 @@ const support = [
 ];
 
 export function ConsultingPage() {
+  const scopeReveal = useScrollReveal<HTMLElement>();
+  const examplesReveal = useScrollReveal<HTMLElement>();
   return (
-    <div className={styles.page} data-scroll-reveal="off">
+    <div
+      className={`${styles.page} ${navigation.page}`}
+      data-scroll-reveal="off"
+      data-service-page
+    >
+      <ServicePageLinks current="consulting" />
       <section className={styles.hero} aria-labelledby="consulting-heading">
         <div className={`${styles.container} ${styles.heroColumns}`}>
           <div>
@@ -78,24 +96,18 @@ export function ConsultingPage() {
           </div>
         </div>
       </section>
-      <nav className={styles.anchorBar} aria-label="ページ内リンク">
-        <div className={styles.container}>
-          <a href="#consulting-scope" className={styles.initialAnchor}>
-            支援範囲
-          </a>
-          <a href="#consulting-examples">相談例</a>
-          <a href="#consulting-support">支援内容</a>
-        </div>
-      </nav>
+      <ServiceSectionNav items={sectionLinks} />
       <section
         id="consulting-scope"
-        className={`${styles.container} ${styles.section}`}
+        ref={scopeReveal.ref}
+        className={styles.scopeSection}
         aria-labelledby="scope-heading"
       >
+        <div className={`${styles.container} ${styles.section}`}>
         <h2 id="scope-heading" className={styles.srOnly}>
           支援範囲
         </h2>
-        <div className={styles.diagram}>
+        <div className={styles.diagram} data-reveal-ready={scopeReveal.ready} data-entered={scopeReveal.entered}>
           <div className={styles.sources}>
             <div className={styles.source}>
               <Building2 aria-hidden="true" />
@@ -124,37 +136,44 @@ export function ConsultingPage() {
             preserveAspectRatio="none"
             aria-hidden="true"
           >
-            <path d="M0 52 H18 Q30 52 30 66 V108 Q30 120 42 120 H88 M0 188 H18 Q30 188 30 174 V132 Q30 120 42 120 M72 106 L88 120 72 134" />
+            <path
+              pathLength={1}
+              d="M0 52 H18 Q30 52 30 66 V108 Q30 120 42 120 H88 M0 188 H18 Q30 188 30 174 V132 Q30 120 42 120 M72 106 L88 120 72 134"
+            />
           </svg>
           <div className={styles.diagramCenter}>
             <FileSearch aria-hidden="true" />
             <h3>AXEON</h3>
             <p>課題と対応方法を整理</p>
           </div>
-          <ArrowRight className={styles.planConnector} aria-hidden="true" />
+          <div className={styles.planConnector} aria-hidden="true"><ArrowRight /></div>
           <div className={styles.diagramPlan}>
             <FileText aria-hidden="true" />
             <h3>社内で検討するための計画</h3>
             <ul>
-              {["変更する範囲", "着手する順番", "担当と進め方"].map((label) => (
-                <li key={label}>
-                  <CircleCheck aria-hidden="true" />
-                  {label}
+              {[{ label: "変更する範囲", Icon: Target }, { label: "着手する順番", Icon: ListOrdered }, { label: "担当と進め方", Icon: UsersRound }].map(({ label, Icon }, index) => (
+                <li key={label} data-sequence={index}>
+                  <span className={styles.planItemIcon}><Icon aria-hidden="true" /></span>
+                  <span className={styles.planItemLabel}>{label}</span>
                 </li>
               ))}
             </ul>
           </div>
         </div>
+        </div>
       </section>
       <section
         id="consulting-examples"
+        ref={examplesReveal.ref}
+        data-reveal-ready={examplesReveal.ready}
+        data-entered={examplesReveal.entered}
         className={`${styles.tinted} ${mobileCases.section}`}
         aria-labelledby="examples-heading"
       >
         <div className={`${styles.container} ${styles.section}`}>
-          <h2 id="examples-heading" className={styles.sectionHeading}>
-            相談例
-          </h2>
+        <h2 id="examples-heading" className={styles.sectionHeading}>
+          相談例
+        </h2>
           <ConsultingExamples />
         </div>
       </section>
@@ -202,6 +221,7 @@ export function ConsultingPage() {
           </Link>
         </div>
       </section>
+      <ServicePageLinks current="consulting" bottom />
     </div>
   );
 }

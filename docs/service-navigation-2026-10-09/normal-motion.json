@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "controls": {
+    "x": 20,
+    "y": 136.796875,
+    "width": 350,
+    "height": 120.796875
+  },
+  "panel": {
+    "x": 20,
+    "y": 286.953125,
+    "width": 350,
+    "height": 3575.21875
+  },
+  "currentLinkVisible": true
+}

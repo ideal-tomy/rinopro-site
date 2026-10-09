@@ -27,7 +27,7 @@ export function PageSectionDivider({
       className={cn(
         "mx-auto w-full",
         variant === "padded" && maxW,
-        variant === "padded" && "px-4 md:px-6",
+        variant === "padded" && "px-4 md:px-4",
         className
       )}
       aria-hidden

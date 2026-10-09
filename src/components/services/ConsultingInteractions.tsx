@@ -1,8 +1,12 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { ArrowRight, Building2, ChartNoAxesColumnIncreasing, FileText, Search, Settings, Sparkles } from "lucide-react";
 import styles from "./consulting-page.module.css";
 import mobile from "./consulting-mobile-cases.module.css";
+import { useServiceTabs } from "./ServicePageNavigation";
+import navigation from "./service-navigation.module.css";
+import { useScrollReveal } from "./useScrollReveal";
 
 const examples = [
   {
@@ -62,11 +66,18 @@ const detailLabels = ["確認すること", "比較する対応方法", "まと�
 export function ConsultingExamples() {
   const [selected, setSelected] = useState(0);
   const tabs = useRef<(HTMLButtonElement | null)[]>([]);
+  const examplesReveal = useScrollReveal<HTMLDivElement>();
+  const { barRef, revealPanel } = useServiceTabs();
   return (
     <>
       <MobileExamples />
-      <div className={mobile.desktop}>
-        <div className={styles.tabs} role="tablist" aria-label="相談内容">
+      <div ref={examplesReveal.ref} data-reveal-ready={examplesReveal.ready} data-entered={examplesReveal.entered} className={`${mobile.desktop} ${styles.examplesRoot}`}>
+        <div
+          ref={barRef}
+          className={`${styles.tabs} ${navigation.stickyTabs}`}
+          role="tablist"
+          aria-label="相談内容"
+        >
           {examples.map((example, index) => (
             <button
               key={example.title}
@@ -79,7 +90,10 @@ export function ConsultingExamples() {
               ref={(node) => {
                 tabs.current[index] = node;
               }}
-              onClick={() => setSelected(index)}
+              onClick={() => {
+                setSelected(index);
+                revealPanel(`example-panel-${index}`);
+              }}
               onKeyDown={(event) => {
                 let next: number;
                 if (event.key === "ArrowRight" || event.key === "ArrowDown")
@@ -91,9 +105,11 @@ export function ConsultingExamples() {
                 else return;
                 event.preventDefault();
                 setSelected(next);
-                tabs.current[next]?.focus();
+                tabs.current[next]?.focus({ preventScroll: true });
+                revealPanel(`example-panel-${next}`);
               }}
             >
+              {index === 0 ? <Building2 aria-hidden="true" /> : index === 1 ? <Sparkles aria-hidden="true" /> : <Settings aria-hidden="true" />}
               {example.label.map((phrase) => (
                 <span key={phrase}>{phrase}</span>
               ))}
@@ -108,7 +124,7 @@ export function ConsultingExamples() {
             aria-labelledby={`example-tab-${index}`}
             tabIndex={0}
             hidden={selected !== index}
-            className={styles.examplePanel}
+            className={`${styles.examplePanel} ${selected === index && examplesReveal.entered ? styles.examplePanelActive : ""}`}
           >
             <div className={styles.situationCopy}>
               <p className={styles.situation}>相談の状況</p>
@@ -126,15 +142,28 @@ export function ConsultingExamples() {
               </p>
             </div>
             <dl className={styles.exampleDetails}>
-              {example.details.map((body, i) => (
+              {example.details.slice(0, 2).map((body, i) => (
                 <div
                   key={detailLabels[i]}
-                  className={i === 2 ? styles.conclusion : undefined}
+                  className={styles.detailStep}
                 >
-                  <dt>{detailLabels[i]}</dt>
-                  <dd>{body}</dd>
+                  <span className={styles.detailIcon} aria-hidden="true">
+                    {i === 0 ? <Search /> : <ChartNoAxesColumnIncreasing />}
+                  </span>
+                  <div>
+                    <dt>{detailLabels[i]}</dt>
+                    <dd>{body}</dd>
+                  </div>
                 </div>
               ))}
+              <div className={styles.conclusion}>
+                <FileText aria-hidden="true" />
+                <div>
+                  <dt>{detailLabels[2]}</dt>
+                  <dd>{example.details[2]}</dd>
+                </div>
+                <span className={styles.conclusionArrow} aria-hidden="true"><ArrowRight /></span>
+              </div>
             </dl>
           </div>
         ))}
@@ -144,6 +173,7 @@ export function ConsultingExamples() {
 }
 
 function MobileExamples() {
+  const mobileReveal = useScrollReveal<HTMLDivElement>();
   const [current, setCurrent] = useState(0);
   const currentRef = useRef(0);
   const track = useRef<HTMLOListElement>(null);
@@ -201,11 +231,56 @@ function MobileExamples() {
     };
   }, []);
   return (
-    <div className={mobile.mobile}>
+    <div ref={mobileReveal.ref} data-reveal-ready={mobileReveal.ready} data-entered={mobileReveal.entered} className={mobile.mobile}>
+      <p id="mobile-examples-instructions" className={styles.srOnly}>
+        左右のスワイプ、上の選択ボタン、または一覧にフォーカスして左右の矢印キーで相談例を切り替えられます。
+      </p>
+      <div
+        className={mobile.position}
+      >
+        <div aria-label="相談例を選ぶ">
+          {examples.map((example, index) => (
+            <button
+              key={example.title}
+              type="button"
+              aria-label={`${example.label.join("")}を表示`}
+              aria-current={current === index ? "true" : undefined}
+              onClick={() => move(index)}
+            >
+              {example.label.join("")}
+            </button>
+          ))}
+        </div>
+        <p aria-live="polite" aria-atomic="true">
+          {current + 1} / {examples.length}
+        </p>
+      </div>
       <ol
         ref={track}
         className={mobile.track}
         onScroll={sync}
+        tabIndex={0}
+        aria-describedby="mobile-examples-instructions"
+        onKeyDown={(event) => {
+          if (event.target !== event.currentTarget) return;
+          const direction =
+            event.key === "ArrowRight" ? 1 : event.key === "ArrowLeft" ? -1 : 0;
+          if (!direction && event.key !== "Home" && event.key !== "End") return;
+          event.preventDefault();
+          move(
+            event.key === "Home"
+              ? 0
+              : event.key === "End"
+                ? examples.length - 1
+                : Math.max(
+                    0,
+                    Math.min(
+                      examples.length - 1,
+                      currentRef.current + direction,
+                    ),
+                  ),
+          );
+        }}
         aria-label="相談例の一覧"
       >
         {examples.map((example, index) => (
@@ -237,24 +312,6 @@ function MobileExamples() {
           </li>
         ))}
       </ol>
-      <div className={mobile.position}>
-        <div aria-label="相談例を選ぶ">
-          {examples.map((example, index) => (
-            <button
-              key={example.title}
-              type="button"
-              aria-label={`${example.label.join("")}を表示`}
-              aria-current={current === index ? "true" : undefined}
-              onClick={() => move(index)}
-            >
-              <span aria-hidden="true" />
-            </button>
-          ))}
-        </div>
-        <p aria-live="polite" aria-atomic="true">
-          {current + 1} / {examples.length}
-        </p>
-      </div>
       <p className={mobile.note}>
         相談内容に応じた検討例です。実績ではありません。
       </p>

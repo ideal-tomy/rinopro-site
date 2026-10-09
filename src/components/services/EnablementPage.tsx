@@ -10,10 +10,16 @@ import {
   MessagesSquare,
   Settings,
   Split,
+  FileSearch,
+  ClipboardCheck,
+  ChartNoAxesColumnIncreasing,
 } from "lucide-react";
 import { FlowTimelinePageContent } from "./FlowTimelinePageContent";
 import base from "./consulting-page.module.css";
 import styles from "./enablement-page.module.css";
+import { ServicePageLinks, ServiceSectionNav } from "./ServicePageNavigation";
+import navigation from "./service-navigation.module.css";
+import { useScrollReveal } from "./useScrollReveal";
 
 const stages = [
   [
@@ -39,6 +45,7 @@ const stageTitleParts = [
   ["運用しながら", "引き継ぐ"],
   ["社内で改善できる", "範囲を広げる"],
 ];
+const stageIcons = [FileSearch, ClipboardCheck, Settings, ChartNoAxesColumnIncreasing];
 const checks = [
   {
     title: "社内で担当する範囲",
@@ -80,18 +87,28 @@ const pairs = [
     "実案件を通じて知識を共有し、操作・管理の手順を整えます。",
   ],
 ];
+const pairIcons = [FileSearch, MessagesSquare, BookOpen];
 const anchors = [
   ["approach", "支援の進め方"],
   ["checks", "確認すること"],
   ["support", "課題と支援"],
   ["development", "開発の進め方"],
-];
+] as const;
 
 export function EnablementPage() {
   const [selected, setSelected] = useState(0);
   const id = useId();
+  const approachReveal = useScrollReveal<HTMLElement>();
+  const checksReveal = useScrollReveal<HTMLElement>();
+  const supportReveal = useScrollReveal<HTMLElement>();
+  const DetailIcon = checks[selected].icon;
   return (
-    <div className={`${base.page} ${styles.page}`} data-scroll-reveal="off">
+    <div
+      className={`${base.page} ${styles.page} ${navigation.page}`}
+      data-scroll-reveal="off"
+      data-service-page
+    >
+      <ServicePageLinks current="enablement" />
       <section className={base.hero} aria-labelledby="enablement-title">
         <div className={`${base.container} ${base.heroColumns}`}>
           <div>
@@ -127,25 +144,13 @@ export function EnablementPage() {
           </div>
         </div>
       </section>
-      <nav
-        className={`${base.anchorBar} ${styles.anchors}`}
-        aria-label="半内製化のページ内リンク"
-      >
-        <div className={base.container}>
-          {anchors.map(([key, label], index) => (
-            <a
-              key={key}
-              href={`#${key}`}
-              className={index === 0 ? base.initialAnchor : undefined}
-            >
-              {label}
-            </a>
-          ))}
-        </div>
-      </nav>
+      <ServiceSectionNav items={anchors} label="半内製化のページ内リンク" />
       <section
+        ref={approachReveal.ref}
         id="approach"
-        className={base.section}
+        data-reveal-ready={approachReveal.ready}
+        data-entered={approachReveal.entered}
+        className={`${base.section} ${styles.approachSection}`}
         aria-labelledby="approach-title"
       >
         <div className={base.container}>
@@ -156,20 +161,27 @@ export function EnablementPage() {
             実際の業務を一緒に進めながら、社内で対応できる範囲を広げます。
           </p>
         </div>
-        <ol className={styles.stages}>
-          {stages.map(([title, body], index) => (
-            <li key={title}>
-              <h3>
-                <span className={styles.number}>{index + 1}</span>
-                <span className={styles.stageTitle}>
-                  {stageTitleParts[index].map((part) => (
-                    <span key={part}>{part}</span>
-                  ))}
-                </span>
-              </h3>
-              <p>{body}</p>
-            </li>
-          ))}
+        <ol className={styles.stages} data-reveal-ready={approachReveal.ready} data-entered={approachReveal.entered}>
+          {stages.map(([title, body], index) => {
+            const Icon = stageIcons[index];
+            return (
+              <li key={title}>
+                <div className={styles.stageMeta}>
+                  <span className={styles.number}>{String(index + 1).padStart(2, "0")}</span>
+                  <Icon aria-hidden="true" />
+                </div>
+                <div className={styles.stageContent}>
+                  <h3 className={styles.stageTitle}>
+                    {stageTitleParts[index].map((part) => (
+                      <span key={part}>{part}</span>
+                    ))}
+                  </h3>
+                  <p>{body}</p>
+                </div>
+                {index < stages.length - 1 && <ArrowRight className={styles.stageArrow} aria-hidden="true" />}
+              </li>
+            );
+          })}
         </ol>
         <div className={base.container}>
           <p className={styles.afterDiagram}>
@@ -178,18 +190,21 @@ export function EnablementPage() {
         </div>
       </section>
       <section
+        ref={checksReveal.ref}
         id="checks"
+        data-reveal-ready={checksReveal.ready}
+        data-entered={checksReveal.entered}
         className={`${base.section} ${base.tinted}`}
         aria-labelledby="checks-title"
       >
         <div className={base.container}>
           <h2 id="checks-title" className={base.sectionHeading}>
-            支援を始める前に確認すること
+            支援を始める前に
           </h2>
           <p className={styles.intro}>
             現在の体制や業務に合わせて、担当する範囲と進め方を確認します。
           </p>
-          <div className={styles.checks}>
+          <div className={styles.checks} data-reveal-ready={checksReveal.ready} data-entered={checksReveal.entered}>
             {checks.map(({ title, icon: Icon }, index) => (
               <button
                 key={title}
@@ -211,39 +226,51 @@ export function EnablementPage() {
             aria-labelledby={`${id}-check-${selected}`}
             aria-live="polite"
           >
-            <h3>{checks[selected].title}</h3>
-            <p>{checks[selected].body}</p>
+            <div className={styles.descriptionContent} key={selected}>
+              <div>
+                <h3>{checks[selected].title}</h3>
+                <p>{checks[selected].body}</p>
+              </div>
+              <DetailIcon className={styles.descriptionArt} aria-hidden="true" />
+            </div>
           </div>
         </div>
       </section>
       <section
+        ref={supportReveal.ref}
         id="support"
-        className={base.section}
+        data-reveal-ready={supportReveal.ready}
+        data-entered={supportReveal.entered}
+        className={`${base.section} ${styles.supportSection}`}
         aria-labelledby="support-title"
       >
         <div className={base.container}>
           <h2 id="support-title" className={base.sectionHeading}>
-            自社で進める際の課題と支援
+            自社で進める際の課題
           </h2>
           <div className={styles.columnHeads} aria-hidden="true">
             <h3>自社で進める際の課題</h3>
             <h3>AXEONの支援</h3>
           </div>
           <dl className={styles.pairs}>
-            {pairs.map(([issue, support]) => (
-              <div key={issue}>
-                <dt>
-                  <span className={styles.mobileLabel}>
-                    自社で進める際の課題
-                  </span>
-                  {issue}
-                </dt>
-                <dd>
-                  <span className={styles.mobileLabel}>AXEONの支援</span>
-                  {support}
-                </dd>
-              </div>
-            ))}
+            {pairs.map(([issue, support], index) => {
+              const Icon = pairIcons[index];
+              return (
+                <div key={issue} data-pair={index}>
+                  <dt>
+                    <span className={styles.mobileLabel}>
+                      自社で進める際の課題
+                    </span>
+                    {issue}
+                  </dt>
+                  <dd>
+                    <span className={styles.mobileLabel}>AXEONの支援</span>
+                    <Icon className={styles.pairIcon} aria-hidden="true" />
+                    <span className={styles.pairSupportCopy}>{support}</span>
+                  </dd>
+                </div>
+              );
+            })}
           </dl>
         </div>
       </section>
@@ -274,6 +301,7 @@ export function EnablementPage() {
           </Link>
         </div>
       </section>
+      <ServicePageLinks current="enablement" bottom />
     </div>
   );
 }

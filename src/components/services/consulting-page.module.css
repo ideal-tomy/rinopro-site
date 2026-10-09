@@ -198,6 +198,10 @@
   color: #0758c4;
   stroke-width: 1.7;
 }
+.planConnector svg {
+  width: 100%;
+  height: 100%;
+}
 .diagramPlan {
   padding: 24px 20px;
   background: #0b1933;
@@ -237,6 +241,11 @@
   width: 24px;
   height: 24px;
   flex-shrink: 0;
+}
+.diagramPlan li > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
 }
 .tinted {
   background: #f0f8ff;
@@ -287,6 +296,80 @@
 }
 .examplePanel[hidden] {
   display: none;
+}
+.examplesRoot { min-width: 0; }
+.examplePanelActive > * {
+  animation: example-content-enter 360ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.examplePanelActive > :nth-child(2) {
+  animation-delay: 90ms;
+}
+@keyframes example-content-enter {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .examplePanelActive > *,
+  .examplePanelActive > :nth-child(2) {
+    animation: none;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .diagram[data-reveal-ready="true"]:not([data-entered="true"]) .source,
+  .diagram[data-reveal-ready="true"]:not([data-entered="true"]) .diagramCenter,
+  .diagram[data-reveal-ready="true"]:not([data-entered="true"]) .planConnector,
+  .diagram[data-reveal-ready="true"]:not([data-entered="true"]) .diagramPlan {
+    opacity: 0;
+  }
+  .diagram[data-reveal-ready="true"]:not([data-entered="true"]) .source,
+  .diagram[data-reveal-ready="true"][data-entered="false"] .source,
+  .diagram[data-reveal-ready="true"]:not([data-entered="true"]) .diagramCenter,
+  .diagram[data-reveal-ready="true"]:not([data-entered="true"]) .planConnector,
+  .diagram[data-reveal-ready="true"]:not([data-entered="true"]) .diagramPlan {
+    transform: translateY(14px);
+  }
+  .diagram[data-reveal-ready="true"]:not([data-entered="true"]) .mergeConnector path {
+    stroke-dashoffset: 1;
+  }
+  .diagram[data-entered="true"] .source,
+  .diagram[data-entered="true"] .diagramCenter,
+  .diagram[data-entered="true"] .planConnector,
+  .diagram[data-entered="true"] .diagramPlan {
+    opacity: 1;
+    transform: none;
+  }
+  .sources > .source,
+  .diagramCenter,
+  .planConnector,
+  .diagramPlan,
+  .mergeConnector path,
+  .diagramPlan li {
+    transition-property: opacity, transform, stroke-dashoffset;
+    transition-duration: 480ms;
+    transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .sources > .source:nth-child(2) { transition-delay: 100ms; }
+  .mergeConnector path { stroke-dasharray: 1; transition-delay: 680ms; }
+  .diagramCenter { transition-delay: 980ms; }
+  .planConnector { transition-delay: 1280ms; }
+  .diagramPlan { transition-delay: 1420ms; }
+  .diagramPlan li { opacity: 0; transform: translateY(8px); }
+  .diagram[data-entered="true"] .diagramPlan li { opacity: 1; transform: none; }
+  .diagramPlan li:nth-child(1) { transition-delay: 1680ms; }
+  .diagramPlan li:nth-child(2) { transition-delay: 1770ms; }
+  .diagramPlan li:nth-child(3) { transition-delay: 1860ms; }
+  .tinted[data-reveal-ready="true"]:not([data-entered="true"]) .sectionHeading { opacity: 0; }
+  .tinted[data-entered="true"] .sectionHeading { animation: example-content-enter 420ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+  .examplesRoot[data-reveal-ready="true"]:not([data-entered="true"]) [role="tablist"],
+  .examplesRoot[data-reveal-ready="true"]:not([data-entered="true"]) .examplePanel:not([hidden]) { opacity: 0; }
+  .examplesRoot[data-entered="true"] [role="tablist"] { animation: example-content-enter 280ms cubic-bezier(0.22, 1, 0.36, 1) 80ms both; }
+  .examplesRoot[data-entered="true"] .examplePanel:not([hidden]) { animation: example-content-enter 300ms cubic-bezier(0.22, 1, 0.36, 1) 160ms both; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .diagram .source, .diagram .diagramCenter, .diagram .planConnector, .diagram .diagramPlan,
+  .diagram .diagramPlan li { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .diagram .mergeConnector path { stroke-dashoffset: 0 !important; transition: none !important; }
+  .tinted .sectionHeading, .desktop [role="tablist"], .desktop .examplePanel:not([hidden]) { opacity: 1 !important; animation: none !important; }
 }
 .examplePanel > * {
   min-width: 0;
@@ -752,4 +835,137 @@
     width: 56px;
     height: 56px;
   }
+}
+
+/* Consulting sections rebuilt to match the approved reference composition. */
+.scopeSection {
+  background:
+    radial-gradient(ellipse at 53% 50%, rgb(40 120 255 / 10%), transparent 42%),
+    linear-gradient(180deg, #fff 0%, #f8fbff 55%, #fff 100%);
+}
+.diagram { position: relative; isolation: isolate; }
+.sources { gap: 20px; }
+.source {
+  min-height: 122px;
+  gap: 24px;
+  padding: 24px 28px;
+  background: linear-gradient(145deg, #f4faff, #eaf5ff);
+  border: 1px solid #dceaf8;
+  border-radius: 14px;
+  box-shadow: 0 8px 22px rgb(30 82 143 / 8%);
+  transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+}
+.source:hover { transform: translateY(-2px); border-color: #c3dcf5; box-shadow: 0 12px 26px rgb(30 82 143 / 12%); }
+.source > svg { width: 56px; height: 56px; }
+.source h3 { font-size: 25px; }
+.mergeConnector path { stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 0 2px rgb(7 88 196 / 14%)); }
+.diagramCenter {
+  padding: 28px 16px;
+  border: 2px solid #2877d9;
+  border-radius: 16px;
+  background: rgb(255 255 255 / 94%);
+  box-shadow: 0 12px 30px rgb(28 89 166 / 14%);
+}
+.diagramCenter > svg { width: 72px; height: 72px; }
+.diagramCenter h3 { font-size: 32px; }
+.planConnector { stroke-width: 2; }
+.planConnector svg { width: 100%; height: 100%; }
+.diagramPlan {
+  padding: 26px 24px;
+  background: linear-gradient(135deg, #07172f 0%, #082653 100%);
+  border: 1px solid rgb(120 169 232 / 22%);
+  border-radius: 14px;
+  box-shadow: 0 14px 30px rgb(7 23 47 / 20%);
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+.diagramPlan:hover { transform: translateY(-2px); box-shadow: 0 18px 34px rgb(7 23 47 / 26%); }
+.diagramPlan h3 { font-size: 24px; border-bottom-color: rgb(197 218 246 / 44%); }
+.diagramPlan ul { gap: 12px; }
+.diagramPlan li { min-height: 42px; gap: 12px; }
+.diagramPlan li > .planItemIcon {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  border-radius: 50%;
+  color: #fff;
+  background: linear-gradient(145deg, rgb(52 128 226 / 72%), rgb(23 74 145 / 80%));
+  box-shadow: inset 0 1px 2px rgb(255 255 255 / 22%);
+}
+.planItemIcon svg { width: 20px; height: 20px; }
+.planItemLabel { color: #fff; }
+.tinted { background: linear-gradient(155deg, #f2f8ff 0%, #eaf4ff 56%, #f4f9ff 100%); }
+.tabs button { display: flex; justify-content: center; align-items: center; gap: 10px; box-shadow: 0 3px 10px rgb(24 66 112 / 5%); transition: color 180ms ease, background 180ms ease, box-shadow 180ms ease; }
+.tabs button svg { width: 20px; height: 20px; flex: 0 0 auto; color: #4774ae; }
+.tabs button[aria-selected="true"] { box-shadow: 0 7px 18px rgb(35 75 157 / 12%); }
+.tabs button[aria-selected="true"] svg { color: #0758c4; }
+.examplePanel {
+  padding: 36px;
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 12px 28px rgb(31 76 128 / 9%);
+}
+.examplePanelActive > * { animation-duration: 260ms; }
+.examplePanelActive > :nth-child(2) { animation-delay: 80ms; }
+.examplePanelActive .detailStep:nth-child(1) { animation: example-content-enter 260ms cubic-bezier(0.22, 1, 0.36, 1) 130ms both; }
+.examplePanelActive .detailStep:nth-child(2) { animation: example-content-enter 260ms cubic-bezier(0.22, 1, 0.36, 1) 200ms both; }
+.examplePanelActive .conclusion { animation: example-content-enter 260ms cubic-bezier(0.22, 1, 0.36, 1) 270ms both; }
+.situationCopy { padding-right: 28px; }
+.situationCopy h3 { font-size: 29px; }
+.exampleDetails { display: grid; align-content: start; gap: 16px; padding-left: 30px; }
+.detailStep { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 14px; align-items: start; }
+.detailIcon { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; color: #0758c4; background: linear-gradient(145deg, #f2f8ff, #e4f0ff); box-shadow: inset 0 0 0 1px #e1edfb; }
+.detailIcon svg { width: 22px; height: 22px; }
+.conclusion {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr) 40px;
+  gap: 14px;
+  align-items: center;
+  padding: 16px 18px;
+  background: linear-gradient(110deg, #edf7ff, #dcecff);
+  border: 1px solid #a8cefa;
+  border-radius: 8px;
+  box-shadow: 0 5px 14px rgb(25 93 173 / 8%);
+  transition: border-color 200ms ease, box-shadow 200ms ease;
+}
+.conclusion:hover { border-color: #6aa2e8; box-shadow: 0 8px 20px rgb(25 93 173 / 14%); }
+.conclusion > svg { width: 28px; height: 28px; color: #0758c4; }
+.conclusionArrow { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; color: #fff; background: #0758c4; }
+.conclusionArrow svg { width: 19px; height: 19px; transition: transform 200ms ease; }
+.conclusion:hover .conclusionArrow svg { transform: translateX(3px); }
+@media (max-width: 1023px) {
+  .diagram { grid-template-columns: 1fr; gap: 0; }
+  .sources { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .mergeConnector { width: 42px; height: 48px; justify-self: center; transform: none; }
+  .mergeConnector path { d: path("M50 0 V210 M35 190 L50 210 65 190"); }
+  .diagramCenter { width: 100%; }
+  .planConnector { height: 48px; width: 42px; justify-self: center; transform: rotate(90deg); }
+  .diagramPlan { width: 100%; }
+}
+@media (max-width: 767px) {
+  .sources { grid-template-columns: 1fr; gap: 12px; }
+  .source { min-height: 104px; flex-direction: row; justify-content: flex-start; text-align: left; gap: 18px; padding: 18px 20px; }
+  .source > svg { width: 48px; height: 48px; }
+  .examplePanel { padding: 24px 20px; }
+  .situationCopy h3 { font-size: 24px; }
+  .exampleDetails { border: 0; padding: 0; }
+  .tabs button { flex-direction: column; gap: 4px; }
+  .conclusion { grid-template-columns: 28px minmax(0, 1fr) 34px; gap: 10px; padding: 14px 12px; }
+}
+@media (max-width: 768px) {
+  .sources { grid-template-columns: 1fr; }
+  .source { flex-direction: row; justify-content: flex-start; text-align: left; }
+}
+@media (hover: none) {
+  .source:hover, .diagramPlan:hover { transform: none; }
+  .source:hover { box-shadow: 0 8px 22px rgb(30 82 143 / 8%); }
+  .diagramPlan:hover { box-shadow: 0 14px 30px rgb(7 23 47 / 20%); }
+  .conclusion:hover { border-color: #a8cefa; box-shadow: 0 5px 14px rgb(25 93 173 / 8%); }
+  .conclusion:hover .conclusionArrow svg { transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .source, .diagramPlan, .conclusion, .conclusionArrow svg { transition: none; }
+  .tabs button { transition: none; }
+  .source:hover, .diagramPlan:hover, .conclusion:hover .conclusionArrow svg { transform: none; }
+  .examplePanelActive > *, .examplePanelActive .detailStep, .examplePanelActive .conclusion { animation: none; }
 }

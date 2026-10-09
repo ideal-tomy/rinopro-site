@@ -327,9 +327,7 @@ export const FLOW_TRACK_ORDER: readonly FlowTrackKey[] = [
 export type FlowDetailStepCopy = {
   step: string;
   labelJa: string;
-  labelEn: string;
   body: string;
-  deliverables: readonly string[];
 };
 
 export type FlowDetailPageTrackCopy = {
@@ -367,46 +365,22 @@ export const flowDetailPageCopyByTrack: Record<
       {
         step: "01",
         labelJa: "現状整理",
-        labelEn: "Discovery",
         body: "業務の流れを一枚の地図にし、時間が溶けている箇所と、誰が困っているかを可視化します。ヒアリングだけで終わらせず、現場の実データを見ながら「ここを変えると効く」を特定します。",
-        deliverables: [
-          "業務フロー図",
-          "課題整理メモ",
-          "AI活用の整理",
-        ],
       },
       {
         step: "02",
         labelJa: "要件化",
-        labelEn: "Structuring",
         body: "「何を入れて、何が返ってくると役立つか」を関係者全員で揃えます。連携先・権限・成功の判断基準までここで固定し、開発中の認識ズレを防ぎます。",
-        deliverables: [
-          "入力と出力の整理",
-          "連携方法の整理",
-          "確認したい指標",
-        ],
       },
       {
         step: "03",
         labelJa: "試作・現場検証",
-        labelEn: "Validation",
         body: "完成を待たずに“触れる試作”を先に出します。現場が実際に操作して、速さ・分かりやすさ・抜け漏れをその場で確認。手戻りは本実装前に潰します。",
-        deliverables: [
-          "試作画面",
-          "フィードバックログ",
-          "確認結果のメモ",
-        ],
       },
       {
         step: "04",
         labelJa: "本実装",
-        labelEn: "Integration",
         body: "試作で固めた範囲を本番品質に仕上げ、権限・運用・改善の手順までセットで引き渡します。公開後も直しやすい構成にしておき、改善サイクルを回せる状態にします。",
-        deliverables: [
-          "本番システム",
-          "運用マニュアル",
-          "管理者向けの手順",
-        ],
       },
     ],
     reassurance:
@@ -430,47 +404,22 @@ export const flowDetailPageCopyByTrack: Record<
       {
         step: "01",
         labelJa: "現状整理",
-        labelEn: "Discovery",
         body: "今の導線・流入経路・更新体制を洗い出し、「どのページが成果に効いているか」を把握します。計測の有無と更新の負担もここで見える化し、改善の優先順位を決めます。",
-        deliverables: [
-          "導線の整理",
-          "更新体制メモ",
-          "計測の前提整理",
-        ],
       },
       {
         step: "02",
         labelJa: "要件化",
-        labelEn: "Structuring",
         body: "サイトマップと各ページの役割、CMS・権限・計測イベントを定義します。「誰が・いつ・何を更新するか」まで決め、公開後の運用負荷を先に見積もります。",
-        deliverables: [
-          "サイトマップ",
-          "画面設計",
-          "CMS運用設計",
-          "計測定義",
-        ],
       },
       {
         step: "03",
         labelJa: "試作・検証",
-        labelEn: "Validation",
         body: "ワイヤーやプロトタイプを実機で確認し、読みやすさと表示速度を検証します。スマホ・タブレットでの見え方もこの段階で固め、公開後の手戻りを減らします。",
-        deliverables: [
-          "プロトタイプ",
-          "レビュー記録",
-          "表示速度の確認",
-        ],
       },
       {
         step: "04",
         labelJa: "本実装",
-        labelEn: "Integration",
         body: "本番公開に向け、監視・バックアップ・計測ダッシュボードまで整備します。公開後のコンテンツ更新と数値の見直しが、社内で回せる状態で引き渡します。",
-        deliverables: [
-          "本番サイト",
-          "運用マニュアル",
-          "計測ダッシュボード",
-        ],
       },
     ],
     reassurance:
@@ -494,46 +443,22 @@ export const flowDetailPageCopyByTrack: Record<
       {
         step: "01",
         labelJa: "現状整理",
-        labelEn: "Discovery",
         body: "誰が・いつ・どの端末で使うか、既存システムとの連携前提を洗い出します。オフライン要否や通知のタイミングもここで決め、後工程での仕様変更を抑えます。",
-        deliverables: [
-          "利用シナリオ",
-          "連携一覧",
-          "前提制約",
-        ],
       },
       {
         step: "02",
         labelJa: "要件化",
-        labelEn: "Structuring",
         body: "画面遷移・API・権限・通知・監査ログを一枚の設計図にまとめます。「誰が何を見られるか」を早期に固定し、セキュリティと使いやすさの両立を図ります。",
-        deliverables: [
-          "画面遷移図",
-          "API要件定義",
-          "通知仕様",
-        ],
       },
       {
         step: "03",
         labelJa: "試作・検証",
-        labelEn: "Validation",
         body: "試作ビルドを現場に渡し、操作のしやすさとエラー時の挙動を実機で検証します。負荷の目安もこの段階で把握し、本実装の見通しを立てます。",
-        deliverables: [
-          "試作ビルド",
-          "フィードバックログ",
-          "負荷の目安",
-        ],
       },
       {
         step: "04",
         labelJa: "本実装",
-        labelEn: "Integration",
         body: "本番リリース、監視・アラート、改善のリリースサイクルまで設計します。障害時の切り分け手順と、機能追加の進め方もセットで引き渡します。",
-        deliverables: [
-          "本番アプリ",
-          "運用設計",
-          "リリース手順",
-        ],
       },
     ],
     reassurance:
@@ -557,46 +482,22 @@ export const flowDetailPageCopyByTrack: Record<
       {
         step: "01",
         labelJa: "現状整理",
-        labelEn: "Discovery",
         body: "意思決定の流れと、いまどこで数字を探しているかを洗い出します。Excel・紙・別システムに散らばった指標を一覧化し、本当に必要なKPI候補を絞り込みます。",
-        deliverables: [
-          "業務フロー図",
-          "KPI候補",
-          "データソース一覧",
-        ],
       },
       {
         step: "02",
         labelJa: "要件化",
-        labelEn: "Structuring",
         body: "KPI辞書・データマッピング・更新頻度・権限設計を固めます。「この数字は誰が・いつ・何の根拠で見るか」を定義し、運用でブレない見え方の土台を作ります。",
-        deliverables: [
-          "KPI辞書",
-          "データマッピング",
-          "権限設計",
-        ],
       },
       {
         step: "03",
         labelJa: "試作・検証",
-        labelEn: "Validation",
         body: "試作画面でチャートの見え方とドリルダウン操作を現場検証します。「欲しい数字にたどり着けるか」を実際に触って確認し、本実装前にUIを固めます。",
-        deliverables: [
-          "プロトタイプ",
-          "検証ログ",
-          "改善メモ",
-        ],
       },
       {
         step: "04",
         labelJa: "本実装",
-        labelEn: "Integration",
         body: "本番データ連携・監視・アラートまで整備し、指標の改善サイクルも設計します。データの鮮度が落ちたときに気づける仕組みまで含めて引き渡します。",
-        deliverables: [
-          "本番ダッシュボード",
-          "運用ルール",
-          "管理者向け手順",
-        ],
       },
     ],
     reassurance:
