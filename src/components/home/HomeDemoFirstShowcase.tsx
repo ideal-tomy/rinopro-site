@@ -23,7 +23,7 @@ export function HomeDemoFirstShowcase() {
           動くデモで確かめる。
         </h2>
         <p className={HOME_DEMO_SHOWCASE_STYLES.body}>
-          サンプルデータで完走できるデモです。右の動きはイメージ再生、本編は「サンプルで体験」から辿れます。
+          
         </p>
       </div>
 

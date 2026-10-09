@@ -40,13 +40,17 @@ export function ScrollRevealController() {
         for (const entry of entries) {
           if (!entry.isIntersecting) continue;
           const element = entry.target as HTMLElement;
+          const threshold = Number(element.dataset.scrollRevealThreshold) || 0;
+          if (entry.intersectionRatio < threshold) continue;
           observer.unobserve(element);
           if (revealed.has(element)) continue;
           revealed.add(element);
           if (media.matches) continue;
+          const offset =
+            element.dataset.scrollRevealAxis === "x" ? "14px 0" : "0 14px";
           const animation = element.animate(
             [
-              { opacity: 0, translate: "0 14px" },
+              { opacity: 0, translate: offset },
               { opacity: 1, translate: "0 0" },
             ],
             {
@@ -60,7 +64,7 @@ export function ScrollRevealController() {
           animation.onfinish = () => animations.delete(element);
         }
       },
-      { rootMargin: "0px 0px -24px 0px", threshold: 0 },
+      { rootMargin: "0px 0px -24px 0px", threshold: [0, 0.35] },
     );
 
     function scan() {
@@ -93,8 +97,12 @@ export function ScrollRevealController() {
         // 同じ要素の既存アニメーションを上書きしない。
         if (element.style.opacity || element.style.transform) continue;
         tracked.add(element);
-        // 初期画面・復元した位置の内容はすぐ読める状態を維持する。
-        if (media.matches || rect.top < window.innerHeight - 24) {
+        // 初期画面は通常どおり表示し、明示された要素だけ入場演出を行う。
+        if (
+          media.matches ||
+          (element.dataset.scrollRevealOnLoad !== "true" &&
+            rect.top < window.innerHeight - 24)
+        ) {
           revealed.add(element);
         } else {
           observer.observe(element);

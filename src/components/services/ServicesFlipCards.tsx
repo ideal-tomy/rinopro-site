@@ -38,8 +38,7 @@ export function ServicesFlipCards() {
         className={styles.service}
         id="service-card"
         aria-label="コンサルティングと半内製化"
-        data-scroll-reveal="target"
-        data-scroll-reveal-duration="900"
+        data-scroll-reveal="group"
       >
         <div
           className={styles.flipStage}
@@ -62,6 +61,11 @@ export function ServicesFlipCards() {
                 aria-labelledby={`service-title-${i}`}
                 aria-hidden={display.mobile && display.current !== i}
                 inert={display.mobile && display.current !== i}
+                data-scroll-reveal="target"
+                data-scroll-reveal-on-load="true"
+                data-scroll-reveal-threshold="0.35"
+                data-scroll-reveal-duration="550"
+                data-scroll-reveal-delay={String(i * 120)}
               >
                 <p className={styles.eyebrow}>{card.label}</p>
                 <h2 id={`service-title-${i}`}>{card.title}</h2>

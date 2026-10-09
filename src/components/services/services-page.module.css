@@ -34,7 +34,7 @@
 .hero {
   position: relative;
   min-height: 213px;
-  padding: 25px 20px 30px;
+  padding: 25px 16px 30px;
   overflow: hidden;
   background: linear-gradient(100deg, #f9fcff, #e8f3fd);
   margin-bottom: 18px;
@@ -82,7 +82,8 @@
   max-width: 280px;
 }
 .service {
-  padding: 0 14px 7px;
+  width: 100%;
+  padding: 0 16px 7px;
   position: relative;
   z-index: 2;
   scroll-margin-top: 80px;
@@ -277,6 +278,10 @@
   background: #edf7ff;
   padding: 20px 0 18px;
 }
+.menuInner {
+  width: 100%;
+  margin-inline: auto;
+}
 .menuHeading {
   padding: 0 20px 18px;
 }
@@ -357,7 +362,114 @@
   background: #294493;
 }
 .process {
-  display: none;
+  display: block;
+}
+@media (max-width: 767px) {
+  .process {
+    padding: 28px 0 30px;
+  }
+  .processInner {
+    width: min(calc(100% - 32px), 600px);
+    margin-inline: auto;
+  }
+  .processHeading h2 {
+    margin-top: 8px;
+    font-size: 23px;
+    line-height: 1.5;
+    letter-spacing: -0.03em;
+  }
+  .steps {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 18px;
+    margin: 24px 0 26px;
+    padding: 0;
+    list-style: none;
+  }
+  .steps li {
+    position: relative;
+    display: grid;
+    grid-template-columns: 96px minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    align-items: center;
+    gap: 3px 10px;
+    min-height: 80px;
+  }
+  .steps li:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    left: 16px;
+    top: 56px;
+    bottom: -18px;
+    width: 1px;
+    background: #8ca7d2;
+  }
+  .stepMark {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    align-self: center;
+    position: relative;
+  }
+  .stepMark::after {
+    display: none;
+  }
+  .stepMark > span {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    flex: 0 0 30px;
+    border-radius: 50%;
+    background: #294a98;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .stepMark > div {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+    border: 1px solid #294493;
+    border-radius: 50%;
+    background: #fff;
+    color: #294493;
+  }
+  .steps h3 {
+    grid-column: 2;
+    grid-row: 1;
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.4;
+  }
+  .steps p {
+    grid-column: 2;
+    grid-row: 2;
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.55;
+  }
+  .bottomCta {
+    display: flex;
+    justify-content: center;
+    margin-top: 24px;
+  }
+  .bottomCta > a:first-child {
+    display: block;
+    width: 100%;
+    padding: 14px 18px;
+    font-size: 16px;
+    min-height: 44px;
+    background: linear-gradient(120deg, #173b86, #294a9a);
+    text-align: center;
+    border-radius: 9px;
+    color: #fff;
+    font-weight: 650;
+  }
 }
 :global(body):has(.page) > :global(header) {
   background: #fff;
@@ -426,8 +538,8 @@
   .hero {
     height: auto;
     min-height: 0;
-    width: min(1200px, calc(100% - 54px));
-    padding: 24px 0 0;
+    width: min(calc(100% - 64px), 1240px);
+    padding: 24px 32px 0;
     margin-inline: auto;
     margin-bottom: 28px;
   }
@@ -459,9 +571,10 @@
     display: none;
   }
   .service {
-    padding: 0 27px 20px;
+    width: min(calc(100% - 48px), 1360px);
+    max-width: none;
+    padding: 0 24px 20px;
     margin: 0 auto;
-    max-width: 1254px;
   }
   .flipStage {
     perspective: none;
@@ -469,7 +582,7 @@
   }
   .flipInner {
     grid-template-columns: 1fr 1fr;
-    gap: 18px;
+    gap: 24px;
     transform: none !important;
     transition: none;
     will-change: auto;
@@ -575,14 +688,17 @@
   .desktopMenu {
     display: block;
     background: #edf7ff;
-    padding: 25px max(30px, calc((100% - 1200px) / 2)) 25px;
+    padding: 25px 0;
+  }
+  .menuInner {
+    width: min(calc(100% - 48px), 1240px);
   }
   .menuHeading {
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 20px;
-    padding: 0 18px 12px;
+    padding: 0 0 12px;
   }
   .menuHeading h2 {
     font-size: 30px;
@@ -632,9 +748,13 @@
   }
   .process {
     display: block;
-    padding: 26px max(48px, calc((100% - 1200px) / 2)) 28px;
+    padding: 26px 0 28px;
     position: relative;
     isolation: isolate;
+  }
+  .processInner {
+    width: min(calc(100% - 48px), 1180px);
+    margin-inline: auto;
   }
   .process::before {
     content: "";
@@ -751,8 +871,7 @@
 }
 @media (min-width: 768px) and (max-width: 1023px) {
   .hero {
-    padding-inline: 30px;
-    padding: 24px 0 0;
+    padding: 24px 30px 0;
   }
   .heroCopy h1 {
     font-size: 48px;
@@ -797,6 +916,29 @@
   }
   .face {
     min-height: 345px;
+  }
+}
+@media (min-width: 768px) and (max-width: 899px) {
+  .flipInner {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 720px;
+    margin-inline: auto;
+  }
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  .stepMark::after {
+    right: -20px;
+  }
+}
+@media (min-width: 768px) and (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .face,
+  .back {
+    transition: transform 200ms ease, box-shadow 200ms ease;
+  }
+  .face:hover,
+  .back:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 24px #243e5a16;
   }
 }
 @media (min-width: 1024px) {

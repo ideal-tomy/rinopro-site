@@ -29,9 +29,22 @@ const steps = [
 export function ServicesPageContent() {
   return (
     <div className={styles.page}>
-      <section className={styles.hero} aria-labelledby="services-heading">
+      <section
+        className={styles.hero}
+        aria-labelledby="services-heading"
+        data-scroll-reveal="group"
+      >
         <div className={styles.heroInner}>
-          <div className={styles.heroArt} aria-hidden="true">
+          <div
+            className={styles.heroArt}
+            aria-hidden="true"
+            data-scroll-reveal="target"
+            data-scroll-reveal-on-load="true"
+            data-scroll-reveal-threshold="0.35"
+            data-scroll-reveal-duration="550"
+            data-scroll-reveal-delay="220"
+            data-scroll-reveal-axis="x"
+          >
             <svg viewBox="0 0 560 250" preserveAspectRatio="xMidYMid meet">
               <image
                 href="/images/services/approved/hero.png"
@@ -41,9 +54,31 @@ export function ServicesPageContent() {
             </svg>
           </div>
           <div className={styles.heroCopy}>
-            <p className={styles.eyebrow}>SERVICE</p>
-            <h1 id="services-heading">ご支援内容</h1>
-            <p>
+            <p
+              className={styles.eyebrow}
+              data-scroll-reveal="target"
+              data-scroll-reveal-on-load="true"
+              data-scroll-reveal-threshold="0.35"
+              data-scroll-reveal-duration="500"
+            >
+              SERVICE
+            </p>
+            <h1
+              id="services-heading"
+              data-scroll-reveal="target"
+              data-scroll-reveal-on-load="true"
+              data-scroll-reveal-threshold="0.35"
+              data-scroll-reveal-duration="500"
+            >
+              ご支援内容
+            </h1>
+            <p
+              data-scroll-reveal="target"
+              data-scroll-reveal-on-load="true"
+              data-scroll-reveal-threshold="0.35"
+              data-scroll-reveal-duration="500"
+              data-scroll-reveal-delay="90"
+            >
               課題の整理から実装・社内への定着まで、
               <br />
               必要な範囲を同じチームで進めます。
@@ -53,35 +88,61 @@ export function ServicesPageContent() {
       </section>
       <ServicesFlipCards />
       <ServicesMenu />
-      <section className={styles.process} aria-labelledby="process-heading">
-        <div className={styles.processHeading}>
-          <div>
-            <p className={styles.eyebrow}>PROCESS</p>
-            <h2 id="process-heading">
-              課題の整理から運用まで、
-              <br />
-              一気通貫でサポートします。
-            </h2>
+      <section
+        className={styles.process}
+        aria-labelledby="process-heading"
+        data-scroll-reveal="group"
+      >
+        <div className={styles.processInner}>
+          <div
+            className={styles.processHeading}
+            data-scroll-reveal="target"
+            data-scroll-reveal-on-load="true"
+            data-scroll-reveal-threshold="0.35"
+            data-scroll-reveal-duration="500"
+          >
+            <div>
+              <p className={styles.eyebrow}>PROCESS</p>
+              <h2 id="process-heading">
+                課題の整理から運用まで、
+                <br />
+                一気通貫でサポートします。
+              </h2>
+            </div>
           </div>
-        </div>
-        <ol className={styles.steps}>
-          {steps.map(({ title, body, Icon }, i) => (
-            <li key={title}>
-              <div className={styles.stepMark}>
-                <span>{String(i + 1).padStart(2, "0")}</span>
-                <div>
-                  <Icon aria-hidden="true" size={25} strokeWidth={1.6} />
+          <ol className={styles.steps}>
+            {steps.map(({ title, body, Icon }, i) => (
+              <li
+                key={title}
+                data-scroll-reveal="target"
+                data-scroll-reveal-on-load="true"
+                data-scroll-reveal-threshold="0.35"
+                data-scroll-reveal-duration="450"
+                data-scroll-reveal-delay={String(120 + i * 80)}
+              >
+                <div className={styles.stepMark}>
+                  <span>{String(i + 1).padStart(2, "0")}</span>
+                  <div>
+                    <Icon aria-hidden="true" size={25} strokeWidth={1.6} />
+                  </div>
                 </div>
-              </div>
-              <h3>{title}</h3>
-              <p>{body}</p>
-            </li>
-          ))}
-        </ol>
-        <div className={styles.bottomCta}>
-          <Link href="/contact">
-            まずはご相談ください <span aria-hidden="true">→</span>
-          </Link>
+                <h3>{title}</h3>
+                <p>{body}</p>
+              </li>
+            ))}
+          </ol>
+          <div
+            className={styles.bottomCta}
+            data-scroll-reveal="target"
+            data-scroll-reveal-on-load="true"
+            data-scroll-reveal-threshold="0.35"
+            data-scroll-reveal-duration="400"
+            data-scroll-reveal-delay="600"
+          >
+            <Link href="/contact">
+              まずはご相談ください <span aria-hidden="true">→</span>
+            </Link>
+          </div>
         </div>
       </section>
     </div>
