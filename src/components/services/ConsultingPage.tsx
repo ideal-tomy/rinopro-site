@@ -99,7 +99,6 @@ export function ConsultingPage() {
       <ServiceSectionNav items={sectionLinks} />
       <section
         id="consulting-scope"
-        ref={scopeReveal.ref}
         className={styles.scopeSection}
         aria-labelledby="scope-heading"
       >
@@ -107,7 +106,7 @@ export function ConsultingPage() {
         <h2 id="scope-heading" className={styles.srOnly}>
           支援範囲
         </h2>
-        <div className={styles.diagram} data-reveal-ready={scopeReveal.ready} data-entered={scopeReveal.entered}>
+        <div ref={scopeReveal} className={styles.diagram}>
           <div className={styles.sources}>
             <div className={styles.source}>
               <Building2 aria-hidden="true" />
@@ -164,9 +163,7 @@ export function ConsultingPage() {
       </section>
       <section
         id="consulting-examples"
-        ref={examplesReveal.ref}
-        data-reveal-ready={examplesReveal.ready}
-        data-entered={examplesReveal.entered}
+        ref={examplesReveal}
         className={`${styles.tinted} ${mobileCases.section}`}
         aria-labelledby="examples-heading"
       >

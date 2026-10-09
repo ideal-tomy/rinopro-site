@@ -339,9 +339,9 @@ export type FlowDetailPageTrackCopy = {
   lifecycleSub: string;
   intro: string;
   steps: readonly FlowDetailStepCopy[];
-  reassurance: string;
-  architectureTitle: string;
-  architectureBody: string;
+  reassurance?: string;
+  architectureTitle?: string;
+  architectureBody?: string;
   /** 見積もり導線（本文では金額を明示しない） */
   cta: string;
   ctaHref: string;
@@ -500,11 +500,6 @@ export const flowDetailPageCopyByTrack: Record<
         body: "本番データ連携・監視・アラートまで整備し、指標の改善サイクルも設計します。データの鮮度が落ちたときに気づける仕組みまで含めて引き渡します。",
       },
     ],
-    reassurance:
-      "指標の定義とデータの鮮度を合意し、運用でブレない見え方を維持します。",
-    architectureTitle: "データと権限設計",
-    architectureBody:
-      "**データの出所と更新頻度**を明確にし、権限に応じた表示と監査に耐える構成を設計します。現場の意思決定が止まらないUIを、最初から優先します。",
     cta: "見積もりで要件を整理する",
     ctaHref: "/estimate-detailed",
   },

@@ -406,38 +406,42 @@ export function FlowTimelinePageContent({
 
         {(!enablement || track !== "app") && (
           <>
-            <motion.div
-              className={cn(
-                "mx-auto max-w-2xl text-center",
-                embedded ? "mt-16 md:mt-20" : "mt-28 md:mt-36",
-              )}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-60px" }}
-              variants={v}
-            >
-              <p className={cn("text-center", serviceReading.bodyCenter)}>
-                {activeCopy.reassurance}
-              </p>
-            </motion.div>
+            {activeCopy.reassurance && (
+              <motion.div
+                className={cn(
+                  "mx-auto max-w-2xl text-center",
+                  embedded ? "mt-16 md:mt-20" : "mt-28 md:mt-36",
+                )}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-60px" }}
+                variants={v}
+              >
+                <p className={cn("text-center", serviceReading.bodyCenter)}>
+                  {activeCopy.reassurance}
+                </p>
+              </motion.div>
+            )}
 
-            <motion.section
-              className={cn(
-                "relative mx-auto mt-16 max-w-2xl overflow-hidden rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-pure)] text-center md:backdrop-blur-sm md:mt-20 md:px-12 md:py-12",
-                embedded ? "px-5 py-9 md:py-12" : "px-8 py-10",
-              )}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-40px" }}
-              variants={v}
-            >
-              <h3 className="text-[0.65rem] font-medium uppercase tracking-[0.35em] text-accent/85">
-                {activeCopy.architectureTitle}
-              </h3>
-              <p className={cn("mt-5 text-left", serviceReading.body)}>
-                <EmphasisText text={activeCopy.architectureBody} />
-              </p>
-            </motion.section>
+            {activeCopy.architectureTitle && activeCopy.architectureBody && (
+              <motion.section
+                className={cn(
+                  "relative mx-auto mt-16 max-w-2xl overflow-hidden rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-pure)] text-center md:backdrop-blur-sm md:mt-20 md:px-12 md:py-12",
+                  embedded ? "px-5 py-9 md:py-12" : "px-8 py-10",
+                )}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-40px" }}
+                variants={v}
+              >
+                <h3 className="text-[0.65rem] font-medium uppercase tracking-[0.35em] text-accent/85">
+                  {activeCopy.architectureTitle}
+                </h3>
+                <p className={cn("mt-5 text-left", serviceReading.body)}>
+                  <EmphasisText text={activeCopy.architectureBody} />
+                </p>
+              </motion.section>
+            )}
           </>
         )}
       </div>

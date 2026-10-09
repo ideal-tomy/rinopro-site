@@ -1,30 +1,27 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
 /** One-shot, progressive scroll reveal with a reduced-motion fast path. */
 export function useScrollReveal<T extends HTMLElement>() {
-  const ref = useRef<T | null>(null);
-  const [ready, setReady] = useState(false);
-  const [entered, setEntered] = useState(false);
-
-  useEffect(() => {
-    const element = ref.current;
+  const observer = useRef<IntersectionObserver | null>(null);
+  const ref = useCallback((element: T | null) => {
+    observer.current?.disconnect();
+    observer.current = null;
     if (!element) return;
-    setReady(true);
+    element.setAttribute("data-reveal-ready", "true");
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setEntered(true);
+      element.setAttribute("data-entered", "true");
       return;
     }
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting) return;
-        setEntered(true);
-        observer.disconnect();
-      },
-      { threshold: 0.12 },
-    );
-    observer.observe(element);
-    return () => observer.disconnect();
+    const nextObserver = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      element.setAttribute("data-entered", "true");
+      nextObserver.disconnect();
+      observer.current = null;
+    }, { threshold: 0.12 });
+    observer.current = nextObserver;
+    nextObserver.observe(element);
   }, []);
 
-  return { ref, ready, entered };
+  useEffect(() => () => observer.current?.disconnect(), []);
+  return ref;
 }

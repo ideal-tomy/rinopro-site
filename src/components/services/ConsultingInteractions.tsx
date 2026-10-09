@@ -71,7 +71,7 @@ export function ConsultingExamples() {
   return (
     <>
       <MobileExamples />
-      <div ref={examplesReveal.ref} data-reveal-ready={examplesReveal.ready} data-entered={examplesReveal.entered} className={`${mobile.desktop} ${styles.examplesRoot}`}>
+      <div ref={examplesReveal} className={`${mobile.desktop} ${styles.examplesRoot}`}>
         <div
           ref={barRef}
           className={`${styles.tabs} ${navigation.stickyTabs}`}
@@ -124,7 +124,7 @@ export function ConsultingExamples() {
             aria-labelledby={`example-tab-${index}`}
             tabIndex={0}
             hidden={selected !== index}
-            className={`${styles.examplePanel} ${selected === index && examplesReveal.entered ? styles.examplePanelActive : ""}`}
+            className={`${styles.examplePanel} ${selected === index ? styles.examplePanelActive : ""}`}
           >
             <div className={styles.situationCopy}>
               <p className={styles.situation}>相談の状況</p>
@@ -231,7 +231,7 @@ function MobileExamples() {
     };
   }, []);
   return (
-    <div ref={mobileReveal.ref} data-reveal-ready={mobileReveal.ready} data-entered={mobileReveal.entered} className={mobile.mobile}>
+    <div ref={mobileReveal} className={mobile.mobile}>
       <p id="mobile-examples-instructions" className={styles.srOnly}>
         左右のスワイプ、上の選択ボタン、または一覧にフォーカスして左右の矢印キーで相談例を切り替えられます。
       </p>

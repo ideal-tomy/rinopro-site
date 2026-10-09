@@ -146,10 +146,8 @@ export function EnablementPage() {
       </section>
       <ServiceSectionNav items={anchors} label="半内製化のページ内リンク" />
       <section
-        ref={approachReveal.ref}
+        ref={approachReveal}
         id="approach"
-        data-reveal-ready={approachReveal.ready}
-        data-entered={approachReveal.entered}
         className={`${base.section} ${styles.approachSection}`}
         aria-labelledby="approach-title"
       >
@@ -161,7 +159,7 @@ export function EnablementPage() {
             実際の業務を一緒に進めながら、社内で対応できる範囲を広げます。
           </p>
         </div>
-        <ol className={styles.stages} data-reveal-ready={approachReveal.ready} data-entered={approachReveal.entered}>
+        <ol className={styles.stages}>
           {stages.map(([title, body], index) => {
             const Icon = stageIcons[index];
             return (
@@ -190,11 +188,9 @@ export function EnablementPage() {
         </div>
       </section>
       <section
-        ref={checksReveal.ref}
+        ref={checksReveal}
         id="checks"
-        data-reveal-ready={checksReveal.ready}
-        data-entered={checksReveal.entered}
-        className={`${base.section} ${base.tinted}`}
+        className={`${base.section} ${base.tinted} ${styles.checksSection}`}
         aria-labelledby="checks-title"
       >
         <div className={base.container}>
@@ -204,7 +200,7 @@ export function EnablementPage() {
           <p className={styles.intro}>
             現在の体制や業務に合わせて、担当する範囲と進め方を確認します。
           </p>
-          <div className={styles.checks} data-reveal-ready={checksReveal.ready} data-entered={checksReveal.entered}>
+          <div className={styles.checks}>
             {checks.map(({ title, icon: Icon }, index) => (
               <button
                 key={title}
@@ -237,10 +233,8 @@ export function EnablementPage() {
         </div>
       </section>
       <section
-        ref={supportReveal.ref}
+        ref={supportReveal}
         id="support"
-        data-reveal-ready={supportReveal.ready}
-        data-entered={supportReveal.entered}
         className={`${base.section} ${styles.supportSection}`}
         aria-labelledby="support-title"
       >
