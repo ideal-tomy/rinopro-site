@@ -98,14 +98,14 @@ const anchors = [
 export function EnablementPage() {
   const [selected, setSelected] = useState(0);
   const id = useId();
-  const approachReveal = useScrollReveal<HTMLElement>();
-  const checksReveal = useScrollReveal<HTMLElement>();
-  const supportReveal = useScrollReveal<HTMLElement>();
+  const approachReveal = useScrollReveal<HTMLElement>(`.${styles.stages} > li`);
+  const checksReveal = useScrollReveal<HTMLElement>(`.${styles.checks} > button, .${styles.description}`);
+  const supportReveal = useScrollReveal<HTMLElement>(`.${styles.pairs} > div`);
   const DetailIcon = checks[selected].icon;
   return (
     <div
       className={`${base.page} ${styles.page} ${navigation.page}`}
-      data-scroll-reveal="off"
+      
       data-service-page
     >
       <ServicePageLinks current="enablement" />

@@ -1,36 +1,35 @@
-import { AboutSectionHeader } from "@/components/about/AboutSectionHeader";
+import { FileText, Settings, UsersRound } from "lucide-react";
 import { aboutCopy } from "@/lib/content/site-copy";
-import { aboutReading } from "@/lib/ui/about-reading-styles";
-import { cn } from "@/lib/utils";
+import { AboutSectionHeader } from "./AboutSectionHeader";
+import { aboutReveal } from "./about-presentation";
+import styles from "./about-page.module.css";
 
 const { principles } = aboutCopy;
+const icons = [FileText, Settings, UsersRound];
 
 export function AboutPrinciplesSection() {
   return (
-    <section
-      id="about-principles"
-      className={aboutReading.sectionInset}
-      aria-labelledby="about-principles-heading"
-    >
-      <AboutSectionHeader
-        id="about-principles-heading"
-        kicker={principles.kicker}
-        title={principles.heading}
-      />
-      <ul className="mx-auto mt-2 grid max-w-3xl list-none gap-8 md:gap-10">
-        {principles.items.map((item) => (
-          <li key={item.index}>
-            <p className="font-mono text-[13px] font-medium tabular-nums tracking-widest text-[var(--color-accent-primary)] md:text-sm">
-              {item.index}
-            </p>
-            <h3 className="mt-3 text-[22px] font-bold leading-snug text-text underline decoration-[var(--color-accent-primary)] decoration-2 underline-offset-[6px] md:text-[24px]">
-              {item.title}
-            </h3>
-            <p className={cn(aboutReading.lead, "mt-4 md:mt-5")}>{item.lead}</p>
-            <p className={cn(aboutReading.body, "mt-2 md:mt-3")}>{item.body}</p>
-          </li>
-        ))}
-      </ul>
+    <section id="about-principles" className={styles.section + " " + styles.pale} aria-labelledby="about-principles-heading" data-scroll-reveal="group">
+      <div className={styles.container}>
+        <AboutSectionHeader id="about-principles-heading" kicker={principles.kicker} title={principles.heading} />
+        <ul className={styles.principleGrid}>
+          {principles.items.map((item, index) => {
+            const Icon = icons[index];
+            return (
+              <li key={item.index} className={styles.principleCard} {...aboutReveal(80 + index * 80)}>
+                <div className={styles.principleTop}>
+                  <span className={styles.icon} aria-hidden="true"><Icon /></span>
+                  <div>
+                    <span className={styles.number}>{item.index}</span>
+                    <h3 className={styles.cardTitle}>{item.title}</h3>
+                  </div>
+                </div>
+                <p className={styles.cardBody}>{item.lead}<br />{item.body}</p>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
     </section>
   );
 }

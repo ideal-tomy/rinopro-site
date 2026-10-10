@@ -1,0 +1,429 @@
+{
+  "base": "http://127.0.0.1:3114",
+  "results": [
+    {
+      "width": 1440,
+      "status": 200,
+      "overflow": false,
+      "overflowing": [],
+      "sectionHeights": [
+        451,
+        677,
+        979,
+        496,
+        169,
+        472,
+        581,
+        261
+      ],
+      "principles": [
+        {
+          "x": 112,
+          "y": 2359
+        },
+        {
+          "x": 524,
+          "y": 2359
+        },
+        {
+          "x": 936,
+          "y": 2359
+        }
+      ],
+      "team": [
+        {
+          "x": 112,
+          "y": 3024
+        },
+        {
+          "x": 732,
+          "y": 3024
+        }
+      ],
+      "activeAnimations": 0
+    },
+    {
+      "width": 1920,
+      "status": 200,
+      "overflow": false,
+      "overflowing": [],
+      "sectionHeights": [
+        451,
+        677,
+        979,
+        496,
+        169,
+        472,
+        581,
+        261
+      ],
+      "principles": [
+        {
+          "x": 352,
+          "y": 2359
+        },
+        {
+          "x": 764,
+          "y": 2359
+        },
+        {
+          "x": 1176,
+          "y": 2359
+        }
+      ],
+      "team": [
+        {
+          "x": 352,
+          "y": 3024
+        },
+        {
+          "x": 972,
+          "y": 3024
+        }
+      ],
+      "activeAnimations": 0
+    },
+    {
+      "width": 768,
+      "status": 200,
+      "overflow": false,
+      "overflowing": [],
+      "sectionHeights": [
+        490,
+        914,
+        1180,
+        761,
+        257,
+        444,
+        603,
+        344
+      ],
+      "principles": [
+        {
+          "x": 24,
+          "y": 2806
+        },
+        {
+          "x": 24,
+          "y": 2992
+        },
+        {
+          "x": 24,
+          "y": 3177
+        }
+      ],
+      "team": [
+        {
+          "x": 24,
+          "y": 3827
+        },
+        {
+          "x": 396,
+          "y": 3827
+        }
+      ],
+      "activeAnimations": 0
+    },
+    {
+      "width": 1024,
+      "status": 200,
+      "overflow": false,
+      "overflowing": [],
+      "sectionHeights": [
+        398,
+        677,
+        1115,
+        497,
+        241,
+        445,
+        608,
+        261
+      ],
+      "principles": [
+        {
+          "x": 32,
+          "y": 2427
+        },
+        {
+          "x": 359,
+          "y": 2427
+        },
+        {
+          "x": 685,
+          "y": 2427
+        }
+      ],
+      "team": [
+        {
+          "x": 32,
+          "y": 3165
+        },
+        {
+          "x": 524,
+          "y": 3165
+        }
+      ],
+      "activeAnimations": 0
+    },
+    {
+      "width": 375,
+      "status": 200,
+      "overflow": false,
+      "overflowing": [],
+      "sectionHeights": [
+        631,
+        1067,
+        1751,
+        888,
+        329,
+        705,
+        669,
+        401
+      ],
+      "principles": [
+        {
+          "x": 20,
+          "y": 3654
+        },
+        {
+          "x": 20,
+          "y": 3891
+        },
+        {
+          "x": 20,
+          "y": 4129
+        }
+      ],
+      "team": [
+        {
+          "x": 20,
+          "y": 4946
+        },
+        {
+          "x": 20,
+          "y": 5141
+        }
+      ],
+      "activeAnimations": 0
+    },
+    {
+      "width": 390,
+      "status": 200,
+      "overflow": false,
+      "overflowing": [],
+      "sectionHeights": [
+        631,
+        1067,
+        1624,
+        888,
+        329,
+        680,
+        644,
+        401
+      ],
+      "principles": [
+        {
+          "x": 20,
+          "y": 3526
+        },
+        {
+          "x": 20,
+          "y": 3763
+        },
+        {
+          "x": 20,
+          "y": 4001
+        }
+      ],
+      "team": [
+        {
+          "x": 20,
+          "y": 4818
+        },
+        {
+          "x": 20,
+          "y": 5014
+        }
+      ],
+      "activeAnimations": 0
+    },
+    {
+      "width": 430,
+      "status": 200,
+      "overflow": false,
+      "overflowing": [],
+      "sectionHeights": [
+        631,
+        953,
+        1536,
+        862,
+        329,
+        625,
+        644,
+        401
+      ],
+      "principles": [
+        {
+          "x": 20,
+          "y": 3325
+        },
+        {
+          "x": 20,
+          "y": 3562
+        },
+        {
+          "x": 20,
+          "y": 3800
+        }
+      ],
+      "team": [
+        {
+          "x": 20,
+          "y": 4591
+        },
+        {
+          "x": 20,
+          "y": 4759
+        }
+      ],
+      "activeAnimations": 0
+    }
+  ],
+  "pageErrors": [],
+  "applicationErrors": [],
+  "devErrors": [],
+  "motion": [
+    {
+      "duration": 500,
+      "delay": 0,
+      "iterations": 1
+    },
+    {
+      "duration": 500,
+      "delay": 80,
+      "iterations": 1
+    },
+    {
+      "duration": 500,
+      "delay": 160,
+      "iterations": 1
+    },
+    {
+      "duration": 500,
+      "delay": 240,
+      "iterations": 1
+    },
+    {
+      "duration": 500,
+      "delay": 320,
+      "iterations": 1
+    },
+    {
+      "duration": 500,
+      "delay": 0,
+      "iterations": 1
+    },
+    {
+      "duration": 500,
+      "delay": 80,
+      "iterations": 1
+    },
+    {
+      "duration": 500,
+      "delay": 160,
+      "iterations": 1
+    },
+    {
+      "duration": 500,
+      "delay": 0,
+      "iterations": 1
+    },
+    {
+      "duration": 500,
+      "delay": 80,
+      "iterations": 1
+    },
+    {
+      "duration": 500,
+      "delay": 160,
+      "iterations": 1
+    },
+    {
+      "duration": 500,
+      "delay": 240,
+      "iterations": 1
+    },
+    {
+      "duration": 500,
+      "delay": 0,
+      "iterations": 1
+    },
+    {
+      "duration": 500,
+      "delay": 80,
+      "iterations": 1
+    },
+    {
+      "duration": 500,
+      "delay": 160,
+      "iterations": 1
+    },
+    {
+      "duration": 500,
+      "delay": 0,
+      "iterations": 1
+    },
+    {
+      "duration": 500,
+      "delay": 80,
+      "iterations": 1
+    },
+    {
+      "duration": 500,
+      "delay": 160,
+      "iterations": 1
+    },
+    {
+      "duration": 500,
+      "delay": 240,
+      "iterations": 1
+    },
+    {
+      "duration": 500,
+      "delay": 240,
+      "iterations": 1
+    },
+    {
+      "duration": 500,
+      "delay": 0,
+      "iterations": 1
+    },
+    {
+      "duration": 500,
+      "delay": 80,
+      "iterations": 1
+    },
+    {
+      "duration": 500,
+      "delay": 0,
+      "iterations": 1
+    },
+    {
+      "duration": 500,
+      "delay": 80,
+      "iterations": 1
+    },
+    {
+      "duration": 500,
+      "delay": 160,
+      "iterations": 1
+    }
+  ],
+  "copyUnchanged": true,
+  "links": [
+    "/services",
+    "/contact",
+    "mailto:contact@axeon.jp",
+    "https://axeon.jp"
+  ]
+}

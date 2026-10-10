@@ -77,7 +77,7 @@ export function ServicesPageContent() {
               data-scroll-reveal-on-load="true"
               data-scroll-reveal-threshold="0.35"
               data-scroll-reveal-duration="500"
-              data-scroll-reveal-delay="90"
+              data-scroll-reveal-delay="140"
             >
               課題の整理から実装・社内への定着まで、
               <br />
@@ -118,7 +118,7 @@ export function ServicesPageContent() {
                 data-scroll-reveal-on-load="true"
                 data-scroll-reveal-threshold="0.35"
                 data-scroll-reveal-duration="450"
-                data-scroll-reveal-delay={String(120 + i * 80)}
+                data-scroll-reveal-delay={String(140 + i * 110)}
               >
                 <div className={styles.stepMark}>
                   <span>{String(i + 1).padStart(2, "0")}</span>

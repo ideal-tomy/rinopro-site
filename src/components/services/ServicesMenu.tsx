@@ -90,7 +90,7 @@ export function ServicesMenu() {
               data-scroll-reveal-on-load="true"
               data-scroll-reveal-threshold="0.35"
               data-scroll-reveal-duration="480"
-              data-scroll-reveal-delay={String(i * 55)}
+              data-scroll-reveal-delay={String(i * 110)}
             >
               <div
                 className={styles.menuPhoto}

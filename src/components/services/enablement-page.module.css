@@ -579,56 +579,10 @@
   .stages li:hover, .checks button:hover { transform: none; }
 }
 @media (prefers-reduced-motion: no-preference) {
-  .approachSection[data-reveal-ready="true"]:not([data-entered="true"]) .stages li,
-  .checksSection[data-reveal-ready="true"]:not([data-entered="true"]) .checks button,
-  .checksSection[data-reveal-ready="true"]:not([data-entered="true"]) .description,
-  .supportSection[data-reveal-ready="true"]:not([data-entered="true"]) .pairs dt,
-  .supportSection[data-reveal-ready="true"]:not([data-entered="true"]) .pairs dd,
-  .supportSection[data-reveal-ready="true"]:not([data-entered="true"]) .pairs > div::before,
-  .approachSection[data-reveal-ready="true"]:not([data-entered="true"]) .stageArrow {
-    opacity: 0;
-  }
-  .approachSection[data-reveal-ready="true"]:not([data-entered="true"]) .stages li,
-  .checksSection[data-reveal-ready="true"]:not([data-entered="true"]) .checks button,
-  .checksSection[data-reveal-ready="true"]:not([data-entered="true"]) .description { transform: translateY(12px); }
-  .supportSection[data-reveal-ready="true"]:not([data-entered="true"]) .pairs dt { transform: translateX(-10px); }
-  .supportSection[data-reveal-ready="true"]:not([data-entered="true"]) .pairs dd { transform: translateX(10px); }
-  .approachSection .stages li,
-  .checks button,
-  .description,
-  .pairs dt,
-  .pairs dd,
-  .pairs > div::before { transition: opacity 450ms ease, transform 450ms cubic-bezier(0.22, 1, 0.36, 1); }
-  .approachSection[data-entered="true"] .stages li,
-  .checksSection[data-entered="true"] .checks button,
-  .checksSection[data-entered="true"] .description,
-  .supportSection[data-entered="true"] .pairs dt,
-  .supportSection[data-entered="true"] .pairs dd,
-  .supportSection[data-entered="true"] .pairs > div::before { opacity: 1; transform: none; }
-  .stages li:nth-child(1) { transition-delay: 0ms; }
-  .stages li:nth-child(1) .stageArrow { transition-delay: 480ms; }
-  .stages li:nth-child(2) { transition-delay: 560ms; }
-  .stages li:nth-child(2) .stageArrow { transition-delay: 1040ms; }
-  .stages li:nth-child(3) { transition-delay: 1120ms; }
-  .stages li:nth-child(3) .stageArrow { transition-delay: 1600ms; }
-  .stages li:nth-child(4) { transition-delay: 1680ms; }
-  .checks button:nth-child(1) { transition-delay: 0ms; }
-  .checks button:nth-child(2) { transition-delay: 80ms; }
-  .checks button:nth-child(3) { transition-delay: 160ms; }
-  .checks button:nth-child(4) { transition-delay: 240ms; }
-  .checks button:nth-child(5) { transition-delay: 320ms; }
-  .checksSection[data-entered="true"] .description { transition-delay: 420ms; }
-  .descriptionContent { animation: enablement-detail-in 230ms ease both; }
-  .supportSection .pairs > div:nth-child(1) dt { transition-delay: 0ms; }
-  .supportSection .pairs > div:nth-child(1)::before { transition-delay: 100ms; }
-  .supportSection .pairs > div:nth-child(1) dd { transition-delay: 140ms; }
-  .supportSection .pairs > div:nth-child(2) dt { transition-delay: 600ms; }
-  .supportSection .pairs > div:nth-child(2)::before { transition-delay: 700ms; }
-  .supportSection .pairs > div:nth-child(2) dd { transition-delay: 740ms; }
-  .supportSection .pairs > div:nth-child(3) dt { transition-delay: 1200ms; }
-  .supportSection .pairs > div:nth-child(3)::before { transition-delay: 1300ms; }
-  .supportSection .pairs > div:nth-child(3) dd { transition-delay: 1340ms; }
-  @keyframes enablement-detail-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  .page [data-reveal-individual] [data-reveal-ready="true"] { transition: opacity var(--scroll-reveal-duration) var(--scroll-reveal-easing) var(--reveal-delay, 0ms), translate var(--scroll-reveal-duration) var(--scroll-reveal-easing) var(--reveal-delay, 0ms); }
+  .page [data-reveal-individual] [data-reveal-ready="true"]:not([data-entered="true"]) { opacity: 0; translate: 0 18px; }
+  .descriptionContent { animation: enablement-detail-in var(--scroll-reveal-duration) var(--scroll-reveal-easing) both; }
+  @keyframes enablement-detail-in { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
 }
 @media (prefers-reduced-motion: reduce) {
   .stages li, .stageArrow, .checks button, .description, .pairs dt, .pairs dd, .pairs > div::before { opacity: 1 !important; transform: none !important; transition: none !important; }

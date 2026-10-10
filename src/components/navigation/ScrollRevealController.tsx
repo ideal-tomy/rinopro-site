@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
+import { SCROLL_REVEAL } from "@/lib/motion/scroll-reveal";
 
 const TARGETS = [
   "main section",
@@ -40,31 +41,31 @@ export function ScrollRevealController() {
         for (const entry of entries) {
           if (!entry.isIntersecting) continue;
           const element = entry.target as HTMLElement;
-          const threshold = Number(element.dataset.scrollRevealThreshold) || 0;
+          const threshold = Number(element.dataset.scrollRevealThreshold) || Math.min(SCROLL_REVEAL.threshold, window.innerHeight * 0.18 / entry.boundingClientRect.height);
           if (entry.intersectionRatio < threshold) continue;
           observer.unobserve(element);
           if (revealed.has(element)) continue;
           revealed.add(element);
           if (media.matches) continue;
           const offset =
-            element.dataset.scrollRevealAxis === "x" ? "14px 0" : "0 14px";
+            element.dataset.scrollRevealAxis === "x" ? "18px 0" : "0 18px";
           const animation = element.animate(
             [
               { opacity: 0, translate: offset },
               { opacity: 1, translate: "0 0" },
             ],
             {
-              duration: Number(element.dataset.scrollRevealDuration) || 600,
-              delay: Number(element.dataset.scrollRevealDelay) || 0,
+              duration: window.innerWidth < 768 ? SCROLL_REVEAL.mobileDuration : Math.max(SCROLL_REVEAL.duration, Number(element.dataset.scrollRevealDuration) || 0),
+              delay: (Number(element.dataset.scrollRevealDelay) || 0) * (window.innerWidth < 768 ? SCROLL_REVEAL.mobileStagger / SCROLL_REVEAL.stagger : 1),
               fill: "backwards",
-              easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+              easing: window.innerWidth < 768 ? SCROLL_REVEAL.mobileEasing : SCROLL_REVEAL.easing,
             },
           );
           animations.set(element, animation);
           animation.onfinish = () => animations.delete(element);
         }
       },
-      { rootMargin: "0px 0px -24px 0px", threshold: [0, 0.35] },
+      { rootMargin: SCROLL_REVEAL.rootMargin, threshold: [0, 0.05, 0.1, 0.18, 0.2, 0.35] },
     );
 
     function scan() {
@@ -72,7 +73,8 @@ export function ScrollRevealController() {
       for (const element of document.querySelectorAll<HTMLElement>(TARGETS)) {
         if (
           tracked.has(element) ||
-          element.closest('[data-scroll-reveal="off"]')
+          element.closest('[data-scroll-reveal="off"], [data-reveal-ready="true"]') ||
+          element.querySelector('[data-reveal-ready="true"]')
         )
           continue;
         const explicit = element.dataset.scrollReveal === "target";

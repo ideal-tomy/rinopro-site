@@ -1,160 +1,102 @@
 import Link from "next/link";
-import { AboutApproachSection } from "@/components/about/AboutApproachSection";
-import { AboutFactsSection } from "@/components/about/AboutFactsSection";
-import { AboutPrinciplesSection } from "@/components/about/AboutPrinciplesSection";
-import { AboutSectionHeader } from "@/components/about/AboutSectionHeader";
-import { AboutStorySection } from "@/components/about/AboutStorySection";
-import { AboutTeamFusionDiagram } from "@/components/about/AboutTeamFusionDiagram";
-import { HomeSectionShell } from "@/components/home/HomeSectionShell";
+import { ArrowRight } from "lucide-react";
+import { AboutApproachSection } from "./AboutApproachSection";
+import { AboutFactsSection } from "./AboutFactsSection";
+import { AboutPrinciplesSection } from "./AboutPrinciplesSection";
+import { AboutSectionHeader } from "./AboutSectionHeader";
+import { AboutStorySection } from "./AboutStorySection";
+import { AboutTeamSection } from "./AboutTeamSection";
+import { aboutReveal } from "./about-presentation";
 import { Button } from "@/components/ui/button";
 import { aboutCopy } from "@/lib/content/site-copy";
-import { aboutReading } from "@/lib/ui/about-reading-styles";
-import { cn } from "@/lib/utils";
+import styles from "./about-page.module.css";
 
-const { hero, leaderProfiles, teamModel, cta } = aboutCopy;
+const { hero, leaderProfiles, cta } = aboutCopy;
+const [heroStart, heroEnd] = hero.headline.split("から、");
+const heroSentences = hero.sub.split("。").filter(Boolean);
+
+function HeroDiagram() {
+  return (
+    <div className={styles.heroDiagram} aria-hidden="true" {...aboutReveal(240, true)}>
+      <svg className={styles.diagramLines} viewBox="0 0 500 310" fill="none">
+        <path d="M85 218V141Q85 121 105 121H166V62Q166 43 185 43H357M162 219H273Q296 219 296 196V145M322 139H406Q429 139 429 164V218Q429 238 409 238H338" stroke="#aac3f4" strokeWidth="1.5" />
+        <circle cx="357" cy="43" r="3" fill="currentColor" />
+        <circle cx="273" cy="219" r="3" fill="currentColor" />
+        <circle cx="429" cy="164" r="3" fill="currentColor" />
+      </svg>
+      <span className={styles.diagramCard + " " + styles.diagramFirst} />
+      <span className={styles.diagramCard + " " + styles.diagramSecond} />
+      <span className={styles.diagramCard + " " + styles.diagramThird} />
+      <span className={styles.diagramSquare + " " + styles.squareOne} />
+      <span className={styles.diagramSquare + " " + styles.squareTwo} />
+      <span className={styles.diagramDots} />
+    </div>
+  );
+}
 
 export function AboutPageContent() {
   return (
-    <div className="about-page-content">
-      {/* 1 ヒーロー */}
-      <HomeSectionShell tone="default">
-        <section
-          className={aboutReading.sectionInset}
-          aria-labelledby="about-hero-heading"
-        >
-          <div className="mx-auto max-w-3xl text-left">
-            <p className="text-[12px] font-semibold uppercase tracking-[0.2em] text-[var(--color-accent-primary)] md:text-[13px]">
-              {hero.kicker}
-            </p>
-            <h1
-              id="about-hero-heading"
-              className="mt-4 text-balance font-bold tracking-tight text-[var(--color-text-primary)] text-[clamp(1.875rem,4.2vw,2.75rem)] leading-[1.2]"
-            >
-              {hero.headline}
+    <div className={"about-page-content " + styles.page}>
+      <section className={styles.hero} aria-labelledby="about-hero-heading" data-scroll-reveal="group">
+        <div className={styles.container + " " + styles.heroColumns}>
+          <div>
+            <p className={styles.kicker} {...aboutReveal(0, true)}>{hero.kicker}</p>
+            <h1 id="about-hero-heading" className={styles.heroHeading} {...aboutReveal(80, true)}>
+              <span>{heroStart}から、</span><span>{heroEnd}</span>
             </h1>
-            <div
-              className="mt-6 h-px max-w-[120px] bg-gradient-to-r from-[var(--color-accent-primary)]/55 via-[var(--color-accent-primary)]/35 to-transparent"
-              aria-hidden
-            />
-            <p className={cn("mt-8 max-w-2xl", aboutReading.body)}>{hero.sub}</p>
+            <p className={styles.heroBody + " " + styles.body} {...aboutReveal(160, true)}>
+              {heroSentences.map((sentence) => <span key={sentence}>{sentence}。</span>)}
+            </p>
           </div>
-        </section>
-      </HomeSectionShell>
+          <HeroDiagram />
+        </div>
+      </section>
 
-      {/* 2 OUR STORY */}
-      <HomeSectionShell tone="neutral">
-        <AboutStorySection />
-      </HomeSectionShell>
+      <AboutStorySection />
 
-      {/* 3 代表 */}
-      <HomeSectionShell tone="pure">
-        <section
-          className={aboutReading.sectionInset}
-          aria-labelledby="about-leaders-heading"
-        >
-          <AboutSectionHeader
-            id="about-leaders-heading"
-            kicker={leaderProfiles.kicker}
-            title={leaderProfiles.heading}
-            description={leaderProfiles.intro || undefined}
-          />
-          <div className="mx-auto max-w-2xl">
-            {leaderProfiles.profiles.map((profile) => (
-              <article
-                key={profile.title}
-                className="border-l-4 border-[var(--color-accent-primary)]/45 pl-6 md:pl-8"
-              >
-                <p className="text-[13px] font-semibold uppercase tracking-[0.14em] text-[var(--color-accent-primary)] md:text-sm">
-                  {profile.title}
-                </p>
-                <p className="mt-3 text-lg font-bold text-[var(--color-text-primary)] md:text-xl">
-                  {profile.name}
-                </p>
-                <div className={cn(aboutReading.body, "mt-5 space-y-5")}>
-                  {profile.body.map((paragraph) => (
-                    <p key={paragraph.slice(0, 24)}>{paragraph}</p>
-                  ))}
+      <section className={styles.section} aria-labelledby="about-leaders-heading" data-scroll-reveal="group">
+        <div className={styles.container}>
+          <AboutSectionHeader id="about-leaders-heading" kicker={leaderProfiles.kicker} title={leaderProfiles.heading} />
+          {leaderProfiles.profiles.map((profile) => (
+            <div key={profile.title} className={styles.leaderColumns}>
+              <article {...aboutReveal(80)}>
+                <div className={styles.leaderIdentity}>
+                  <p className={styles.leaderRole}>{profile.title}</p>
+                  <p className={styles.leaderName}>{profile.name}</p>
+                </div>
+                <div className={styles.leaderBody}>
+                  {profile.body.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
                 </div>
               </article>
-            ))}
-          </div>
-        </section>
-      </HomeSectionShell>
+              <blockquote className={styles.quote} {...aboutReveal(160)}>
+                <p className={styles.quoteText}>{profile.body[3]}</p>
+              </blockquote>
+            </div>
+          ))}
+        </div>
+      </section>
 
-      {/* 4 3つの考え方 */}
-      <HomeSectionShell tone="neutral">
-        <AboutPrinciplesSection />
-      </HomeSectionShell>
+      <AboutPrinciplesSection />
+      <AboutApproachSection />
+      <AboutTeamSection />
+      <AboutFactsSection />
 
-      {/* 5 4ステップ */}
-      <HomeSectionShell tone="pure">
-        <AboutApproachSection />
-      </HomeSectionShell>
-
-      {/* 6 標準体制 */}
-      <HomeSectionShell tone="neutral">
-        <section
-          className={aboutReading.sectionInset}
-          aria-labelledby="about-team-heading"
-        >
-          <AboutSectionHeader
-            id="about-team-heading"
-            kicker={teamModel.kicker}
-            title={teamModel.heading}
-            description={teamModel.intro}
-          />
-          <AboutTeamFusionDiagram teamModel={teamModel} />
-          <p className={cn(aboutReading.body, "mx-auto mt-10 max-w-2xl text-center md:mt-14")}>
-            {teamModel.footnote}
-          </p>
-        </section>
-      </HomeSectionShell>
-
-      {/* 7 会社概要・対応領域 */}
-      <HomeSectionShell tone="pure">
-        <AboutFactsSection />
-      </HomeSectionShell>
-
-      {/* 8 CTA */}
-      <HomeSectionShell tone="warm">
-        <section
-          className={cn(aboutReading.sectionInset, "pb-28 md:pb-32")}
-          aria-labelledby="about-cta-heading"
-        >
-          <div className="mx-auto max-w-2xl text-center">
-            <h2
-              id="about-cta-heading"
-              className="text-balance font-bold tracking-tight text-[var(--color-text-primary)] text-[clamp(1.5rem,3.4vw,2.25rem)] leading-snug"
-            >
-              {cta.heading}
-            </h2>
-            <div
-              className="mx-auto mt-6 h-px max-w-[120px] bg-gradient-to-r from-transparent via-[var(--color-accent-primary)]/50 to-transparent md:mt-8"
-              aria-hidden
-            />
-            <p className={cn("mt-8 text-balance md:mt-10", aboutReading.body)}>
-              {cta.sub}
-            </p>
-            <div className="mt-10 flex w-full flex-col justify-center gap-4 sm:flex-row sm:gap-5 md:mt-12">
-              <Button
-                asChild
-                size="lg"
-                className="w-full min-h-11 px-8 sm:w-auto sm:min-w-[260px]"
-              >
-                <Link href={cta.primaryHref}>{cta.primaryLabel}</Link>
+      <section className={styles.contact} aria-labelledby="about-cta-heading" data-scroll-reveal="group">
+        <div className={styles.container + " " + styles.contactColumns}>
+          <AboutSectionHeader id="about-cta-heading" title={cta.heading} />
+          <div className={styles.contactContent}>
+            <p className={styles.body} {...aboutReveal(80)}>{cta.sub}</p>
+            <div className={styles.contactButtons} {...aboutReveal(160)}>
+              <Button asChild className={styles.button + " " + styles.primary}>
+                <Link href={cta.primaryHref}>{cta.primaryLabel}<ArrowRight aria-hidden="true" /></Link>
               </Button>
-              <Button
-                asChild
-                size="lg"
-                variant="outline"
-                className="w-full min-h-11 sm:w-auto sm:min-w-[220px]"
-              >
-                <Link href={cta.secondaryHref}>{cta.secondaryLabel}</Link>
+              <Button asChild variant="outline" className={styles.button + " " + styles.outline}>
+                <Link href={cta.secondaryHref}>{cta.secondaryLabel}<ArrowRight aria-hidden="true" /></Link>
               </Button>
             </div>
           </div>
-        </section>
-      </HomeSectionShell>
+        </div>
+      </section>
     </div>
   );
 }

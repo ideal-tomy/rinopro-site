@@ -1,0 +1,355 @@
+{
+  "errors": [],
+  "results": [
+    {
+      "width": 375,
+      "motion": [
+        {
+          "duration": 980,
+          "easing": "cubic-bezier(0.25, 0.1, 0.25, 1)"
+        },
+        {
+          "duration": 980,
+          "easing": "cubic-bezier(0.25, 0.1, 0.25, 1)"
+        },
+        {
+          "duration": 980,
+          "easing": "cubic-bezier(0.25, 0.1, 0.25, 1)"
+        },
+        {
+          "duration": 980,
+          "easing": "cubic-bezier(0.25, 0.1, 0.25, 1)"
+        }
+      ],
+      "timings": [
+        {
+          "duration": 980,
+          "easing": "cubic-bezier(0.25, 0.1, 0.25, 1)",
+          "delay": 0
+        },
+        {
+          "duration": 980,
+          "easing": "cubic-bezier(0.25, 0.1, 0.25, 1)",
+          "delay": 0
+        },
+        {
+          "duration": 980,
+          "easing": "cubic-bezier(0.25, 0.1, 0.25, 1)",
+          "delay": 120
+        },
+        {
+          "duration": 980,
+          "easing": "cubic-bezier(0.25, 0.1, 0.25, 1)",
+          "delay": 120
+        },
+        {
+          "duration": 980,
+          "easing": "cubic-bezier(0.25, 0.1, 0.25, 1)",
+          "delay": 0
+        }
+      ],
+      "before": [
+        {
+          "text": "経営の方針目標・投資・優先順位",
+          "entered": "true"
+        },
+        {
+          "text": "現場の状況業務・情報・既存システム"
+        },
+        {
+          "text": ""
+        },
+        {
+          "text": "AXEON課題と対応方法を整理"
+        },
+        {
+          "text": ""
+        },
+        {
+          "text": "社内で検討するための計画変更する範囲着手"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "motion": [
+        {
+          "duration": 980,
+          "easing": "cubic-bezier(0.25, 0.1, 0.25, 1)"
+        },
+        {
+          "duration": 980,
+          "easing": "cubic-bezier(0.25, 0.1, 0.25, 1)"
+        },
+        {
+          "duration": 980,
+          "easing": "cubic-bezier(0.25, 0.1, 0.25, 1)"
+        },
+        {
+          "duration": 980,
+          "easing": "cubic-bezier(0.25, 0.1, 0.25, 1)"
+        }
+      ],
+      "timings": [
+        {
+          "duration": 980,
+          "easing": "cubic-bezier(0.25, 0.1, 0.25, 1)",
+          "delay": 0
+        },
+        {
+          "duration": 980,
+          "easing": "cubic-bezier(0.25, 0.1, 0.25, 1)",
+          "delay": 0
+        },
+        {
+          "duration": 980,
+          "easing": "cubic-bezier(0.25, 0.1, 0.25, 1)",
+          "delay": 120
+        },
+        {
+          "duration": 980,
+          "easing": "cubic-bezier(0.25, 0.1, 0.25, 1)",
+          "delay": 120
+        },
+        {
+          "duration": 980,
+          "easing": "cubic-bezier(0.25, 0.1, 0.25, 1)",
+          "delay": 0
+        },
+        {
+          "duration": 980,
+          "easing": "cubic-bezier(0.25, 0.1, 0.25, 1)",
+          "delay": 0
+        }
+      ],
+      "before": [
+        {
+          "text": "経営の方針目標・投資・優先順位",
+          "entered": "true"
+        },
+        {
+          "text": "現場の状況業務・情報・既存システム"
+        },
+        {
+          "text": ""
+        },
+        {
+          "text": "AXEON課題と対応方法を整理"
+        },
+        {
+          "text": ""
+        },
+        {
+          "text": "社内で検討するための計画変更する範囲着手"
+        }
+      ]
+    },
+    {
+      "width": 430,
+      "motion": [
+        {
+          "duration": 980,
+          "easing": "cubic-bezier(0.25, 0.1, 0.25, 1)"
+        },
+        {
+          "duration": 980,
+          "easing": "cubic-bezier(0.25, 0.1, 0.25, 1)"
+        },
+        {
+          "duration": 980,
+          "easing": "cubic-bezier(0.25, 0.1, 0.25, 1)"
+        },
+        {
+          "duration": 980,
+          "easing": "cubic-bezier(0.25, 0.1, 0.25, 1)"
+        }
+      ],
+      "timings": [
+        {
+          "duration": 980,
+          "easing": "cubic-bezier(0.25, 0.1, 0.25, 1)",
+          "delay": 0
+        },
+        {
+          "duration": 980,
+          "easing": "cubic-bezier(0.25, 0.1, 0.25, 1)",
+          "delay": 0
+        },
+        {
+          "duration": 980,
+          "easing": "cubic-bezier(0.25, 0.1, 0.25, 1)",
+          "delay": 120
+        },
+        {
+          "duration": 980,
+          "easing": "cubic-bezier(0.25, 0.1, 0.25, 1)",
+          "delay": 120
+        },
+        {
+          "duration": 980,
+          "easing": "cubic-bezier(0.25, 0.1, 0.25, 1)",
+          "delay": 0
+        },
+        {
+          "duration": 980,
+          "easing": "cubic-bezier(0.25, 0.1, 0.25, 1)",
+          "delay": 0
+        }
+      ],
+      "before": [
+        {
+          "text": "経営の方針目標・投資・優先順位",
+          "entered": "true"
+        },
+        {
+          "text": "現場の状況業務・情報・既存システム"
+        },
+        {
+          "text": ""
+        },
+        {
+          "text": "AXEON課題と対応方法を整理"
+        },
+        {
+          "text": ""
+        },
+        {
+          "text": "社内で検討するための計画変更する範囲着手"
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "motion": [
+        {
+          "duration": 760,
+          "easing": "cubic-bezier(0.22, 1, 0.36, 1)"
+        },
+        {
+          "duration": 760,
+          "easing": "cubic-bezier(0.22, 1, 0.36, 1)"
+        },
+        {
+          "duration": 760,
+          "easing": "cubic-bezier(0.22, 1, 0.36, 1)"
+        },
+        {
+          "duration": 760,
+          "easing": "cubic-bezier(0.22, 1, 0.36, 1)"
+        }
+      ],
+      "timings": [
+        {
+          "duration": 760,
+          "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+          "delay": 0
+        },
+        {
+          "duration": 760,
+          "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+          "delay": 0
+        },
+        {
+          "duration": 760,
+          "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+          "delay": 140
+        },
+        {
+          "duration": 760,
+          "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+          "delay": 140
+        },
+        {
+          "duration": 760,
+          "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+          "delay": 280
+        },
+        {
+          "duration": 760,
+          "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+          "delay": 280
+        },
+        {
+          "duration": 760,
+          "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+          "delay": 420
+        },
+        {
+          "duration": 760,
+          "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+          "delay": 420
+        },
+        {
+          "duration": 760,
+          "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+          "delay": 560
+        },
+        {
+          "duration": 760,
+          "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+          "delay": 560
+        },
+        {
+          "duration": 760,
+          "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+          "delay": 700
+        },
+        {
+          "duration": 760,
+          "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+          "delay": 700
+        },
+        {
+          "duration": 760,
+          "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+          "delay": 820.0000000000001
+        },
+        {
+          "duration": 760,
+          "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+          "delay": 820.0000000000001
+        },
+        {
+          "duration": 760,
+          "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+          "delay": 940.0000000000001
+        },
+        {
+          "duration": 760,
+          "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+          "delay": 940.0000000000001
+        },
+        {
+          "duration": 760,
+          "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+          "delay": 1060
+        },
+        {
+          "duration": 760,
+          "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+          "delay": 1060
+        }
+      ],
+      "before": [
+        {
+          "text": "経営の方針目標・投資・優先順位"
+        },
+        {
+          "text": "現場の状況業務・情報・既存システム"
+        },
+        {
+          "text": ""
+        },
+        {
+          "text": "AXEON課題と対応方法を整理"
+        },
+        {
+          "text": ""
+        },
+        {
+          "text": "社内で検討するための計画変更する範囲着手"
+        }
+      ]
+    }
+  ]
+}

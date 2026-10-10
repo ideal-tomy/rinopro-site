@@ -1,0 +1,70 @@
+{
+  "running": [
+    {
+      "target": "現場の状況業務・情報・既存システム",
+      "type": "CSSTransition",
+      "duration": 720,
+      "delay": 0,
+      "progress": 0.8491962072089364
+    },
+    {
+      "target": "現場の状況業務・情報・既存システム",
+      "type": "CSSTransition",
+      "duration": 720,
+      "delay": 0,
+      "progress": 0.8491962072089364
+    },
+    {
+      "target": "",
+      "type": "CSSTransition",
+      "duration": 720,
+      "delay": 100,
+      "progress": 0.621874943030378
+    },
+    {
+      "target": "",
+      "type": "CSSTransition",
+      "duration": 720,
+      "delay": 100,
+      "progress": 0.621874943030378
+    }
+  ],
+  "reduced": [
+    {
+      "text": "経営の方針目標・投資・優先順位",
+      "opacity": "1",
+      "translate": "none",
+      "animations": 0
+    },
+    {
+      "text": "現場の状況業務・情報・既存システム",
+      "opacity": "1",
+      "translate": "none",
+      "animations": 0
+    },
+    {
+      "text": "",
+      "opacity": "1",
+      "translate": "none",
+      "animations": 0
+    },
+    {
+      "text": "AXEON課題と対応方法を整理",
+      "opacity": "1",
+      "translate": "none",
+      "animations": 0
+    },
+    {
+      "text": "",
+      "opacity": "1",
+      "translate": "none",
+      "animations": 0
+    },
+    {
+      "text": "社内で検討するための計画変更する範囲着手",
+      "opacity": "1",
+      "translate": "none",
+      "animations": 0
+    }
+  ]
+}

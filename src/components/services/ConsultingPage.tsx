@@ -14,6 +14,7 @@ import {
   Database,
   ClipboardCheck,
   ArrowRight,
+  ArrowDown,
 } from "lucide-react";
 import { ConsultingExamples } from "./ConsultingInteractions";
 import styles from "./consulting-page.module.css";
@@ -55,12 +56,11 @@ const support = [
 ];
 
 export function ConsultingPage() {
-  const scopeReveal = useScrollReveal<HTMLElement>();
+  const scopeReveal = useScrollReveal<HTMLElement>("[data-reveal-step]");
   const examplesReveal = useScrollReveal<HTMLElement>();
   return (
     <div
       className={`${styles.page} ${navigation.page}`}
-      data-scroll-reveal="off"
       data-service-page
     >
       <ServicePageLinks current="consulting" />
@@ -108,7 +108,7 @@ export function ConsultingPage() {
         </h2>
         <div ref={scopeReveal} className={styles.diagram}>
           <div className={styles.sources}>
-            <div className={styles.source}>
+            <div className={styles.source} data-reveal-step>
               <Building2 aria-hidden="true" />
               <div>
                 <h3>経営の方針</h3>
@@ -118,7 +118,7 @@ export function ConsultingPage() {
                 </p>
               </div>
             </div>
-            <div className={styles.source}>
+            <div className={styles.source} data-reveal-step>
               <UsersRound aria-hidden="true" />
               <div>
                 <h3>現場の状況</h3>
@@ -130,7 +130,8 @@ export function ConsultingPage() {
             </div>
           </div>
           <svg
-            className={styles.mergeConnector}
+            className={`${styles.mergeConnector} ${styles.desktopConnector}`}
+            data-reveal-step
             viewBox="0 0 100 240"
             preserveAspectRatio="none"
             aria-hidden="true"
@@ -140,13 +141,15 @@ export function ConsultingPage() {
               d="M0 52 H18 Q30 52 30 66 V108 Q30 120 42 120 H88 M0 188 H18 Q30 188 30 174 V132 Q30 120 42 120 M72 106 L88 120 72 134"
             />
           </svg>
-          <div className={styles.diagramCenter}>
+          <div className={styles.mobileConnector} data-reveal-step aria-hidden="true"><ArrowDown /></div>
+          <div className={styles.diagramCenter} data-reveal-step>
             <FileSearch aria-hidden="true" />
             <h3>AXEON</h3>
             <p>課題と対応方法を整理</p>
           </div>
-          <div className={styles.planConnector} aria-hidden="true"><ArrowRight /></div>
-          <div className={styles.diagramPlan}>
+          <div className={`${styles.planConnector} ${styles.desktopConnector}`} data-reveal-step aria-hidden="true"><ArrowRight /></div>
+          <div className={styles.mobileConnector} data-reveal-step aria-hidden="true"><ArrowDown /></div>
+          <div className={styles.diagramPlan} data-reveal-step>
             <FileText aria-hidden="true" />
             <h3>社内で検討するための計画</h3>
             <ul>
