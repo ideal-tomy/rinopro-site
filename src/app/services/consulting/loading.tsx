@@ -1,5 +1,6 @@
 import { PageShell } from "@/components/layout/PageShell";
 import styles from "@/components/services/consulting-page.module.css";
+import { headingAccentRuleClasses } from "@/lib/ui/heading-accent-rule-styles";
 
 export default function Loading() {
   return (
@@ -74,7 +75,7 @@ export default function Loading() {
           id="consulting-support"
           className={`${styles.container} ${styles.section}`}
         >
-          <h2 className={styles.sectionHeading}>支援内容</h2>
+          <h2 className={headingAccentRuleClasses.default}>支援内容</h2>
           <p className={styles.supportIntro}>
             相談内容に応じて、必要な支援を組み合わせます。
           </p>

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight, Building2, ChartNoAxesColumnIncreasing, FileText, Search, Settings, Sparkles } from "lucide-react";
+import { headingAccentRuleClasses } from "@/lib/ui/heading-accent-rule-styles";
 import styles from "./consulting-page.module.css";
 import mobile from "./consulting-mobile-cases.module.css";
 import { useServiceTabs } from "./ServicePageNavigation";
@@ -128,7 +129,7 @@ export function ConsultingExamples() {
           >
             <div className={styles.situationCopy}>
               <p className={styles.situation}>相談の状況</p>
-              <h3>
+              <h3 className={headingAccentRuleClasses.default}>
                 {example.title.split("、").map((phrase, i, parts) => (
                   <span key={phrase}>
                     {phrase}

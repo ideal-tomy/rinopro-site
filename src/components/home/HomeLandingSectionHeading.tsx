@@ -1,4 +1,5 @@
 import { HOME_SECTION_HEADING_STYLES } from "./home-presentation";
+import { headingAccentRuleClasses } from "@/lib/ui/heading-accent-rule-styles";
 import { cn } from "@/lib/utils";
 
 /** トップ LP 共通：大見出し・アクセント下線・リード。番号・キッカーは任意 */
@@ -45,15 +46,12 @@ export function HomeLandingSectionHeading({
         id={id}
         className={cn(
           HOME_SECTION_HEADING_STYLES.title,
+          headingAccentRuleClasses.centered,
           index || kicker ? "mt-2" : null
         )}
       >
         {title}
       </h2>
-      <div
-        className="mx-auto mt-6 h-[3px] w-14 rounded-full bg-[var(--color-accent-primary)] md:mt-7"
-        aria-hidden
-      />
       {description ? (
         <p className={HOME_SECTION_HEADING_STYLES.description}>
           {description}

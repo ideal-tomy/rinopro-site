@@ -23,7 +23,6 @@
 .kicker { color: var(--about-blue); font-size: 12px; font-weight: 700; letter-spacing: .12em; line-height: 1.6; }
 .page .heading { font-size: clamp(26px, 2.5vw, 34px); letter-spacing: -.03em; line-height: 1.45; }
 .kicker + .heading { margin-top: 10px; }
-.header::after { content: ""; display: block; width: 32px; height: 2px; margin-top: 18px; background: var(--about-blue); }
 .body { font-size: 16px; line-height: 1.95; }
 .paragraphs { display: grid; gap: 22px; }
 .chevron { width: 18px; height: 18px; flex-shrink: 0; color: var(--about-blue); transition: transform 200ms ease; }
@@ -73,7 +72,7 @@
 .approach { padding-block: 48px; border-bottom: 1px solid var(--about-border); }
 .approachColumns { display: grid; grid-template-columns: minmax(180px, .7fr) minmax(0, 1.6fr) auto; gap: 36px; align-items: center; }
 .approachColumns .header { margin: 0; padding-right: 24px; border-right: 1px solid var(--about-border); }
-.approachColumns .header::after { display: none; }
+.approachColumns :global(.heading-with-accent-rule)::after { display: none; }
 .approachBody { font-size: 16px; line-height: 1.9; }
 .page .button { min-height: 48px; height: auto; white-space: normal; text-align: center; padding: 12px 24px; font-size: 15px; line-height: 1.5; }
 .page .outline { color: var(--about-blue); background: #fff; border-color: #8fa9dc; }
@@ -169,7 +168,7 @@
   .approach { padding-block: 40px; }
   .approachColumns { grid-template-columns: 1fr; gap: 20px; }
   .approachColumns .header { border-right: 0; padding-right: 0; }
-  .approachColumns .header::after { display: block; }
+  .approachColumns :global(.heading-with-accent-rule)::after { display: block; }
   .approachColumns > :last-child { grid-column: auto; justify-self: stretch; }
   .page .button { width: 100%; }
   .factsTable { font-size: 14px; }

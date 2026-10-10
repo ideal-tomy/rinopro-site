@@ -1,0 +1,247 @@
+.diagram {
+  --ps-blue: #246fc4;
+  --ps-blue-pale: #dcecf9;
+  --ps-blue-dark: #123d6b;
+  --ps-orange: #e98532;
+  --ps-orange-pale: #fff0df;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+
+.split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  width: 100%;
+  height: 100%;
+}
+
+.panelBlue,
+.panelOrange {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 4px;
+  padding: 6px 4px 8px;
+  border-radius: 4px;
+  min-height: 0;
+}
+
+.panelBlue {
+  background: var(--ps-blue-pale);
+}
+
+.panelOrange {
+  background: var(--ps-orange-pale);
+}
+
+.panelLabel {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ps-blue-dark);
+  line-height: 1.3;
+}
+
+.panelList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 11px;
+  line-height: 1.35;
+  color: var(--ps-blue-dark);
+  text-align: center;
+}
+
+.panelList li + li {
+  margin-top: 2px;
+}
+
+.personDesk {
+  width: 56px;
+  height: auto;
+}
+
+.personIcon {
+  width: 28px;
+  height: auto;
+}
+
+.personGroup {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 2px;
+}
+
+.personGroup .personIcon {
+  width: 22px;
+}
+
+.timeRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 16px;
+  width: 100%;
+}
+
+.timeCol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.clock {
+  width: 52px;
+  height: 52px;
+}
+
+.caption {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.3;
+  color: var(--ps-blue-dark);
+  text-align: center;
+}
+
+.knowledge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 4px;
+}
+
+.manual {
+  width: 72%;
+  max-width: 120px;
+  padding: 6px 8px;
+  background: #fff;
+  border-radius: 3px;
+  box-shadow: 0 0 0 1px rgb(36 111 196 / 12%);
+}
+
+.manualTitle {
+  margin: 0 0 4px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ps-blue-dark);
+  text-align: center;
+}
+
+.manualLines {
+  display: grid;
+  gap: 3px;
+}
+
+.manualLines span {
+  display: block;
+  height: 2px;
+  border-radius: 1px;
+  background: var(--ps-blue);
+  opacity: 0.55;
+}
+
+.manualLines span:nth-child(2) {
+  width: 85%;
+}
+
+.manualLines span:nth-child(3) {
+  width: 70%;
+}
+
+.knowledgeArrows {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  width: 88%;
+}
+
+.knowledgeArrows span {
+  display: block;
+  height: 14px;
+  margin-inline: auto;
+  width: 2px;
+  background: linear-gradient(180deg, var(--ps-blue), var(--ps-blue-pale));
+  position: relative;
+}
+
+.knowledgeArrows span::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 6px;
+  height: 6px;
+  border-right: 2px solid var(--ps-blue);
+  border-bottom: 2px solid var(--ps-blue);
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.knowledgePeople {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 4px;
+  width: 100%;
+}
+
+.knowledgePeople > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.envRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+}
+
+.monitorWrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.monitor {
+  width: 72px;
+  height: auto;
+  display: block;
+}
+
+.monitorScreenLabel {
+  position: absolute;
+  left: 50%;
+  top: 38%;
+  transform: translate(-50%, -50%);
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--ps-blue-dark);
+  pointer-events: none;
+}
+
+.envArrow {
+  width: 20px;
+  flex-shrink: 0;
+}
+
+.dbWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.database {
+  width: 36px;
+  height: auto;
+}

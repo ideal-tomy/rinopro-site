@@ -17,7 +17,6 @@ export const HOME_FIRST_VIEW_STYLES = {
 export const HOME_BRAND_STORY_STYLES = {
   "container": "relative mx-auto max-w-4xl px-5 py-14 text-center md:px-12 md:py-20",
   "heading": "text-balance text-[clamp(1.375rem,4.6vw,3rem)] font-bold leading-[1.18] tracking-tight text-white md:text-[clamp(2rem,4vw,3rem)]",
-  "underline": "mx-auto mt-6 h-[3px] w-14 rounded-full bg-white/90 md:mt-7",
   "body": "mt-8 space-y-6 text-left text-[16px] leading-[1.9] text-white md:mt-12 md:text-center md:text-[17px]",
   "closing": "pt-2 text-[18px] font-semibold text-white md:text-[20px]"
 } as const;

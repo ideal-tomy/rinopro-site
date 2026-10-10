@@ -1,4 +1,6 @@
 import { HOME_BRAND_STORY_STYLES } from "./home-presentation";
+import { headingAccentRuleClasses } from "@/lib/ui/heading-accent-rule-styles";
+import { cn } from "@/lib/utils";
 /** AXEONの名前の由来と理念。既存のアンカー・見出しIDは維持する。 */
 export function HomeBrandStorySection() {
   return (
@@ -20,16 +22,15 @@ export function HomeBrandStorySection() {
         <div className={HOME_BRAND_STORY_STYLES.container}>
           <h2
             id="home-empathy-heading"
-            className={HOME_BRAND_STORY_STYLES.heading}
+            className={cn(
+              HOME_BRAND_STORY_STYLES.heading,
+              headingAccentRuleClasses.onDark,
+            )}
           >
             <span className="inline-block">AXEON という名前に込めた、</span>
             <br />
             <span className="inline-block">二つの意味。</span>
           </h2>
-          <div
-            className={HOME_BRAND_STORY_STYLES.underline}
-            aria-hidden
-          />
           <div className={HOME_BRAND_STORY_STYLES.body}>
             <p className="font-semibold text-white">
               AXEONという名前には、二つの読み方があります。

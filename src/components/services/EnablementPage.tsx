@@ -1,15 +1,12 @@
 "use client";
 
-import { useId, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
   BookOpen,
-  CalendarClock,
   MessagesSquare,
   Settings,
-  Split,
   FileSearch,
   ClipboardCheck,
   ChartNoAxesColumnIncreasing,
@@ -20,6 +17,8 @@ import styles from "./enablement-page.module.css";
 import { ServicePageLinks, ServiceSectionNav } from "./ServicePageNavigation";
 import navigation from "./service-navigation.module.css";
 import { useScrollReveal } from "./useScrollReveal";
+import { headingAccentRuleClasses } from "@/lib/ui/heading-accent-rule-styles";
+import { EnablementPreSupportCards } from "./EnablementPreSupportCards";
 
 const stages = [
   [
@@ -46,33 +45,6 @@ const stageTitleParts = [
   ["社内で改善できる", "範囲を広げる"],
 ];
 const stageIcons = [FileSearch, ClipboardCheck, Settings, ChartNoAxesColumnIncreasing];
-const checks = [
-  {
-    title: "社内で担当する範囲",
-    body: "どこまで自社で対応し、どこを外部に任せるかを確認します。",
-    icon: Split,
-  },
-  {
-    title: "担当者と使える時間",
-    body: "誰が参加し、どの程度の時間を確保できるかを確認します。",
-    icon: CalendarClock,
-  },
-  {
-    title: "知識と手順の共有",
-    body: "何を覚え、どんな手順を残す必要があるかを確認します。",
-    icon: BookOpen,
-  },
-  {
-    title: "開発・運用の環境",
-    body: "現在のツールや権限を、どこまで利用できるかを確認します。",
-    icon: Settings,
-  },
-  {
-    title: "開発会社との分担",
-    body: "誰が要件を伝え、確認し、契約や管理を担当するかを確認します。",
-    icon: MessagesSquare,
-  },
-];
 const pairs = [
   [
     "何を開発すべきか決めにくい",
@@ -96,12 +68,9 @@ const anchors = [
 ] as const;
 
 export function EnablementPage() {
-  const [selected, setSelected] = useState(0);
-  const id = useId();
   const approachReveal = useScrollReveal<HTMLElement>(`.${styles.stages} > li`);
-  const checksReveal = useScrollReveal<HTMLElement>(`.${styles.checks} > button, .${styles.description}`);
+  const checksReveal = useScrollReveal<HTMLElement>(`.${styles.preSupportCard}`);
   const supportReveal = useScrollReveal<HTMLElement>(`.${styles.pairs} > div`);
-  const DetailIcon = checks[selected].icon;
   return (
     <div
       className={`${base.page} ${styles.page} ${navigation.page}`}
@@ -152,7 +121,7 @@ export function EnablementPage() {
         aria-labelledby="approach-title"
       >
         <div className={base.container}>
-          <h2 id="approach-title" className={base.sectionHeading}>
+          <h2 id="approach-title" className={headingAccentRuleClasses.default}>
             支援の進め方
           </h2>
           <p className={styles.intro}>
@@ -190,46 +159,17 @@ export function EnablementPage() {
       <section
         ref={checksReveal}
         id="checks"
-        className={`${base.section} ${base.tinted} ${styles.checksSection}`}
+        className={`${base.section} ${styles.checksSection}`}
         aria-labelledby="checks-title"
       >
         <div className={base.container}>
-          <h2 id="checks-title" className={base.sectionHeading}>
+          <h2 id="checks-title" className={headingAccentRuleClasses.default}>
             支援を始める前に
           </h2>
           <p className={styles.intro}>
             現在の体制や業務に合わせて、担当する範囲と進め方を確認します。
           </p>
-          <div className={styles.checks}>
-            {checks.map(({ title, icon: Icon }, index) => (
-              <button
-                key={title}
-                type="button"
-                id={`${id}-check-${index}`}
-                aria-pressed={selected === index}
-                aria-controls={`${id}-description`}
-                onClick={() => setSelected(index)}
-              >
-                <Icon aria-hidden="true" />
-                <span>{title}</span>
-              </button>
-            ))}
-          </div>
-          <div
-            className={styles.description}
-            id={`${id}-description`}
-            role="region"
-            aria-labelledby={`${id}-check-${selected}`}
-            aria-live="polite"
-          >
-            <div className={styles.descriptionContent} key={selected}>
-              <div>
-                <h3>{checks[selected].title}</h3>
-                <p>{checks[selected].body}</p>
-              </div>
-              <DetailIcon className={styles.descriptionArt} aria-hidden="true" />
-            </div>
-          </div>
+          <EnablementPreSupportCards />
         </div>
       </section>
       <section
@@ -239,7 +179,7 @@ export function EnablementPage() {
         aria-labelledby="support-title"
       >
         <div className={base.container}>
-          <h2 id="support-title" className={base.sectionHeading}>
+          <h2 id="support-title" className={headingAccentRuleClasses.default}>
             自社で進める際の課題
           </h2>
           <div className={styles.columnHeads} aria-hidden="true">
@@ -274,7 +214,7 @@ export function EnablementPage() {
         aria-labelledby="development-title"
       >
         <div className={base.container}>
-          <h2 id="development-title" className={base.sectionHeading}>
+          <h2 id="development-title" className={headingAccentRuleClasses.default}>
             開発の進め方
           </h2>
           <div className={styles.development}>
@@ -287,7 +227,9 @@ export function EnablementPage() {
         aria-labelledby="consultation-title"
       >
         <div className={`${base.container} ${base.consultationInner}`}>
-          <h2 id="consultation-title">ご相談について</h2>
+          <h2 id="consultation-title" className={headingAccentRuleClasses.onDarkInline}>
+            ご相談について
+          </h2>
           <p>検討中の内容や、現在困っていることをお聞かせください。</p>
           <Link href="/contact" className={base.button}>
             お問い合わせ

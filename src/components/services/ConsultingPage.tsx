@@ -22,6 +22,7 @@ import mobileCases from "./consulting-mobile-cases.module.css";
 import { ServicePageLinks, ServiceSectionNav } from "./ServicePageNavigation";
 import navigation from "./service-navigation.module.css";
 import { useScrollReveal } from "./useScrollReveal";
+import { headingAccentRuleClasses } from "@/lib/ui/heading-accent-rule-styles";
 const sectionLinks = [
   ["consulting-scope", "支援範囲"],
   ["consulting-examples", "相談例"],
@@ -171,7 +172,7 @@ export function ConsultingPage() {
         aria-labelledby="examples-heading"
       >
         <div className={`${styles.container} ${styles.section}`}>
-        <h2 id="examples-heading" className={styles.sectionHeading}>
+        <h2 id="examples-heading" className={headingAccentRuleClasses.default}>
           相談例
         </h2>
           <ConsultingExamples />
@@ -183,7 +184,7 @@ export function ConsultingPage() {
         aria-labelledby="support-heading"
       >
         <div className={styles.container}>
-          <h2 id="support-heading" className={styles.sectionHeading}>
+          <h2 id="support-heading" className={headingAccentRuleClasses.default}>
             支援内容
           </h2>
           <p className={styles.supportIntro}>
@@ -197,7 +198,7 @@ export function ConsultingPage() {
                 <Icon aria-hidden="true" />
               </div>
               <div className={styles.stepCopy}>
-                <h3>
+                <h3 className={headingAccentRuleClasses.default}>
                   {titleParts.map((part) => (
                     <span key={part}>{part}</span>
                   ))}
@@ -213,7 +214,12 @@ export function ConsultingPage() {
         aria-labelledby="consultation-heading"
       >
         <div className={`${styles.container} ${styles.consultationInner}`}>
-          <h2 id="consultation-heading">ご相談について</h2>
+          <h2
+            id="consultation-heading"
+            className={headingAccentRuleClasses.onDarkInline}
+          >
+            ご相談について
+          </h2>
           <p>検討中の内容や、現在困っていることをお聞かせください。</p>
           <Link className={styles.button} href="/contact">
             お問い合わせ

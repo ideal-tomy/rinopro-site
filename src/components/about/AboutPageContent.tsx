@@ -9,6 +9,8 @@ import { AboutTeamSection } from "./AboutTeamSection";
 import { aboutReveal } from "./about-presentation";
 import { Button } from "@/components/ui/button";
 import { aboutCopy } from "@/lib/content/site-copy";
+import { headingAccentRuleClasses } from "@/lib/ui/heading-accent-rule-styles";
+import { cn } from "@/lib/utils";
 import styles from "./about-page.module.css";
 
 const { hero, cta } = aboutCopy;
@@ -45,7 +47,13 @@ export function AboutPageContent() {
 
       <section className={styles.contact} aria-labelledby="about-cta-heading" data-scroll-reveal="group">
         <div className={styles.container + " " + styles.contactInner}>
-          <h2 id="about-cta-heading" className={styles.contactHeading} {...aboutReveal()}>{cta.heading}</h2>
+          <h2
+            id="about-cta-heading"
+            className={cn(styles.contactHeading, headingAccentRuleClasses.onDarkInline)}
+            {...aboutReveal()}
+          >
+            {cta.heading}
+          </h2>
           <p className={styles.contactBody} {...aboutReveal(80)}>{cta.sub}</p>
           <div {...aboutReveal(160)}>
             <Button asChild variant="outline" className={styles.button + " " + styles.contactButton}>
