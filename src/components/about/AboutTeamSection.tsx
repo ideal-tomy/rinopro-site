@@ -1,42 +1,100 @@
 "use client";
 
-import { useMemo, type CSSProperties } from "react";
-import { Laptop, UserRound, RotateCw } from "lucide-react";
+import type { CSSProperties } from "react";
+import Image from "next/image";
+import { Laptop, UserRound } from "lucide-react";
 import { aboutCopy } from "@/lib/content/site-copy";
-import { useServicesCardRotation } from "../services/useServicesCardRotation";
 import flip from "../services/services-page.module.css";
 import { AboutSectionHeader } from "./AboutSectionHeader";
 import { aboutReveal } from "./about-presentation";
+import { useAboutTeamCardFlip } from "./useAboutTeamCardFlip";
 import styles from "./about-page.module.css";
 
 const { teamModel } = aboutCopy;
 const roles = [
-  { id: "strategy", ...teamModel.strategyLead, Icon: UserRound },
-  { id: "engineering", ...teamModel.aiEngineeringLead, Icon: Laptop },
+  {
+    id: "strategy",
+    ...teamModel.strategyLead,
+    Icon: UserRound,
+    coverSrc: "/images/about/about01.png",
+  },
+  {
+    id: "engineering",
+    ...teamModel.aiEngineeringLead,
+    Icon: Laptop,
+    coverSrc: "/images/about/abput02png.png",
+  },
 ];
 
-/** Content wrapper around the existing services rotation hook and card styles. */
-function TeamRoleCard({ id, title, bullets, Icon }: typeof roles[number]) {
-  const labels = useMemo(() => [title, title + "の担当内容"] as const, [title]);
-  const { display, selectSide, togglePlayback, stage } = useServicesCardRotation({ labels, mobileQuery: "(max-width: 899px)" });
+function TeamRoleCard({
+  id,
+  title,
+  bullets,
+  coverSrc,
+}: (typeof roles)[number]) {
+  const { display, stage } = useAboutTeamCardFlip(title);
   return (
     <div className={styles.mobileTeam} data-team-card={id}>
-      <div className={flip.flipStage + " " + styles.teamFlipStage} ref={stage}>
-        <div className={flip.flipInner + " " + styles.teamFlipInner} style={{ "--team-rotation": `rotateY(${display.angle}deg)`, transition: display.reduced ? "none" : undefined } as CSSProperties}>
-          {[0, 1].map(side => (
-            <div key={side} className={flip.face + " " + (side === 1 ? flip.back + " " : "") + styles.teamFace + " " + (side === 1 ? styles.teamBack : "")} aria-hidden={display.mobile && display.current !== side} inert={display.mobile && display.current !== side}>
-              {side === 0 && <span className={styles.icon} aria-hidden="true"><Icon /></span>}
-              <h3 className={styles.teamTitle}>{title}</h3>
-              {side === 1 && <ul className={styles.teamFlipBody}>{bullets.map(body => <li key={body}>{body}</li>)}</ul>}
-              <button type="button" className={styles.teamFlipAction} aria-label={side === 0 ? title + "の担当内容を表示" : title + "の表面に戻る"} onClick={() => selectSide.current(1 - side)}><RotateCw aria-hidden="true" /></button>
+      <div
+        className={flip.flipStage + " " + styles.teamFlipStage}
+        ref={stage}
+        role="button"
+        tabIndex={display.mobile ? 0 : -1}
+        aria-label={
+          display.current === 0
+            ? `${title}の担当内容を表示`
+            : `${title}の表面に戻る`
+        }
+      >
+        <div
+          className={flip.flipInner + " " + styles.teamFlipInner}
+          style={
+            {
+              "--team-rotation": `rotateY(${display.angle}deg)`,
+              transition: display.reduced ? "none" : undefined,
+            } as CSSProperties
+          }
+        >
+          {[0, 1].map((side) => (
+            <div
+              key={side}
+              className={
+                flip.face +
+                " " +
+                (side === 1 ? flip.back + " " : "") +
+                styles.teamFace +
+                " " +
+                (side === 0 ? styles.teamFaceFront : styles.teamBack)
+              }
+              aria-hidden={display.mobile && display.current !== side}
+              inert={display.mobile && display.current !== side}
+            >
+              {side === 0 ? (
+                <div className={styles.teamCover}>
+                  <Image
+                    src={coverSrc}
+                    alt={title}
+                    fill
+                    className={styles.teamCoverImage}
+                    sizes="(max-width: 899px) 100vw, 400px"
+                    priority={id === "strategy"}
+                  />
+                </div>
+              ) : (
+                <div className={styles.teamFlipBackContent}>
+                  <h3 className={styles.teamTitle + " " + styles.teamFlipBackTitle}>
+                    {title}
+                  </h3>
+                  <ul className={styles.teamFlipBody}>
+                    {bullets.map((body) => (
+                      <li key={body}>{body}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
           ))}
         </div>
-      </div>
-      <div className={flip.flipControls + " " + styles.teamFlipControls}>
-        <span />
-        {[0, 1].map(side => <button key={side} type="button" className={flip.sideDot} aria-label={side === 0 ? title + "の表面を表示" : title + "の担当内容を表示"} aria-pressed={display.current === side} onClick={() => selectSide.current(side)} />)}
-        <button type="button" className={styles.teamPlayback} aria-label={display.paused ? title + "の自動回転を再開" : title + "の自動回転を停止"} onClick={() => togglePlayback.current()}>{display.paused ? "▶ 再生" : "Ⅱ 停止"}</button>
       </div>
       <span className={flip.srOnly} role="status">{display.status}</span>
     </div>

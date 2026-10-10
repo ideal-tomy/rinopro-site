@@ -28,16 +28,6 @@ export function AboutPageContent() {
           <p className={styles.heroBody + " " + styles.body} {...aboutReveal(160, true)}>
             {heroSentences.map((sentence) => <span key={sentence}>{sentence}。</span>)}
           </p>
-          <svg className={styles.mobileHeroArt} viewBox="0 0 335 130" aria-hidden="true" {...aboutReveal(240, true)}>
-            <g fill="none" stroke="#adc5ed" strokeWidth="1.3">
-              <path d="M72 40h42q12 0 12 12v22h26M209 74h31q12 0 12-12V39h24M182 96v13h80" />
-              <rect x="12" y="18" width="60" height="44" rx="8" fill="#fff" />
-              <rect x="152" y="48" width="57" height="48" rx="8" fill="#edf4ff" />
-              <rect x="276" y="18" width="47" height="40" rx="7" fill="#fff" />
-              <path d="M26 32h31M26 42h24M166 63h29M166 73h24M287 31h25M287 41h18" />
-            </g>
-            <g fill="#26418e"><circle cx="126" cy="74" r="2.5" /><circle cx="252" cy="39" r="2.5" /><circle cx="262" cy="109" r="2.5" /></g>
-          </svg>
         </div>
       </section>
 
