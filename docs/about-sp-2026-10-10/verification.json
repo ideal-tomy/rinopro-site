@@ -1,0 +1,95 @@
+{
+  "errors": [],
+  "results": [
+    {
+      "width": 375,
+      "id": "strategy",
+      "height": 240,
+      "tap": true,
+      "bodyTap": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "id": "engineering",
+      "height": 240,
+      "tap": true,
+      "bodyTap": true,
+      "overflow": 0
+    },
+    {
+      "width": 390,
+      "id": "strategy",
+      "height": 240,
+      "tap": true,
+      "bodyTap": true,
+      "overflow": 0
+    },
+    {
+      "width": 390,
+      "id": "engineering",
+      "height": 240,
+      "tap": true,
+      "bodyTap": true,
+      "overflow": 0
+    },
+    {
+      "width": 430,
+      "id": "strategy",
+      "height": 240,
+      "tap": true,
+      "bodyTap": true,
+      "overflow": 0
+    },
+    {
+      "width": 430,
+      "id": "engineering",
+      "height": 240,
+      "tap": true,
+      "bodyTap": true,
+      "overflow": 0
+    },
+    {
+      "width": 820,
+      "id": "strategy",
+      "height": 240,
+      "tap": true,
+      "bodyTap": true,
+      "overflow": 0
+    },
+    {
+      "width": 820,
+      "id": "engineering",
+      "height": 240,
+      "tap": true,
+      "bodyTap": true,
+      "overflow": 0
+    },
+    {
+      "width": 1440,
+      "pcStatic": true,
+      "cols": [
+        {
+          "x": 112,
+          "y": 2636.96875,
+          "w": 276
+        },
+        {
+          "x": 412,
+          "y": 2636.96875,
+          "w": 276
+        }
+      ]
+    },
+    {
+      "normalMotion": true,
+      "animations": [
+        {
+          "duration": 950,
+          "easing": "cubic-bezier(0.4, 0.05, 0.2, 1)"
+        }
+      ],
+      "swipe": true
+    }
+  ]
+}

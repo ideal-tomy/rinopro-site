@@ -1,0 +1,52 @@
+"use client";
+
+import { useState } from "react";
+import { ChevronDown } from "lucide-react";
+import { aboutCopy } from "@/lib/content/site-copy";
+import { AboutSectionHeader } from "./AboutSectionHeader";
+import { aboutReveal } from "./about-presentation";
+import styles from "./about-page.module.css";
+
+const { leaderProfiles } = aboutCopy;
+/** Paragraphs shown on mobile before "全文を読む". Desktop always shows the full text. */
+const PREVIEW_PARAGRAPHS = 2;
+
+export function AboutLeaderSection() {
+  const [expanded, setExpanded] = useState(false);
+
+  return (
+    <section className={styles.section} aria-labelledby="about-leaders-heading" data-scroll-reveal="group">
+      <div className={styles.container}>
+        <AboutSectionHeader id="about-leaders-heading" kicker={leaderProfiles.kicker} title={leaderProfiles.heading} />
+        {leaderProfiles.profiles.map((profile, profileIndex) => {
+          const bodyId = `about-leader-body-${profileIndex}`;
+          return (
+            <div key={profile.title} className={styles.leaderColumns} data-open={expanded}>
+              <article {...aboutReveal(80)}>
+                <div className={styles.leaderIdentity}>
+                  <p className={styles.leaderRole}>{profile.title}</p>
+                  <p className={styles.leaderName}>{profile.name}</p>
+                </div>
+                <div id={bodyId} className={styles.leaderBody}>
+                  {profile.body.map((paragraph, index) => (
+                    <p key={paragraph} className={index >= PREVIEW_PARAGRAPHS ? styles.leaderMore : undefined}>{paragraph}</p>
+                  ))}
+                </div>
+                <button
+                  type="button"
+                  className={styles.leaderToggle}
+                  aria-expanded={expanded}
+                  aria-controls={bodyId}
+                  onClick={() => setExpanded((open) => !open)}
+                >
+                  {expanded ? "閉じる" : "全文を読む"}
+                  <ChevronDown className={styles.chevron} aria-hidden="true" />
+                </button>
+              </article>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+}

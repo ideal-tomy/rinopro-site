@@ -1,0 +1,37 @@
+import { Laptop, UserRound } from "lucide-react";
+import { aboutCopy } from "@/lib/content/site-copy";
+import { AboutDisclosure } from "./AboutDisclosure";
+import { AboutSectionHeader } from "./AboutSectionHeader";
+import { aboutReveal } from "./about-presentation";
+import styles from "./about-page.module.css";
+
+const { teamModel } = aboutCopy;
+const roles = [
+  { id: "strategy", ...teamModel.strategyLead, Icon: UserRound },
+  { id: "engineering", ...teamModel.aiEngineeringLead, Icon: Laptop },
+];
+
+export function AboutTeamSection() {
+  return (
+    <section aria-labelledby="about-team-heading" data-scroll-reveal="group">
+      <AboutSectionHeader id="about-team-heading" kicker={teamModel.kicker} title={teamModel.heading} />
+      <p className={styles.teamIntro} {...aboutReveal(80)}>{teamModel.intro}</p>
+      <ul className={styles.teamGrid}>
+        {roles.map(({ id, title, bullets, Icon }, index) => (
+          <li key={id} className={styles.teamItem} {...aboutReveal(160 + index * 80)}>
+            <AboutDisclosure
+              id={`about-team-${id}`}
+              headingClassName={styles.teamTitle}
+              summary={<><span className={styles.icon} aria-hidden="true"><Icon /></span><span>{title}</span></>}
+            >
+              <ul className={styles.teamBullets}>
+                {bullets.map((body) => <li key={body}>{body}</li>)}
+              </ul>
+            </AboutDisclosure>
+          </li>
+        ))}
+      </ul>
+      <p className={styles.teamFootnote} {...aboutReveal(240)}>{teamModel.footnote}</p>
+    </section>
+  );
+}

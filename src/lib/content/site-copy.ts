@@ -512,7 +512,7 @@ export const flowDetailPageCopy: FlowDetailPageTrackCopy =
 // --- 会社紹介（/about Phase F-1）---
 export const aboutCopy = {
   hero: {
-    kicker: "AXEONについて",
+    kicker: "会社紹介",
     headline: "AXEONは、企業の業務整理から、システムの企画・開発まで支援する会社です。",
     sub: "現在の業務や既存システムを確認し、必要な対応を整理します。開発が必要な部分は、試作から本実装、運用まで対応します。"
   },

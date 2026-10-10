@@ -1,8 +1,11 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-const labels = ["コンサルティング", "半内製化"];
+const defaultLabels = ["コンサルティング", "半内製化"] as const;
 
-export function useServicesCardRotation() {
+export function useServicesCardRotation({
+  labels = defaultLabels,
+  mobileQuery = "(max-width: 767px)",
+}: { labels?: readonly [string, string]; mobileQuery?: string } = {}) {
   const stage = useRef<HTMLDivElement>(null);
   const selectSide = useRef<(side: number) => void>(() => {});
   const togglePlayback = useRef<() => void>(() => {});
@@ -18,7 +21,7 @@ export function useServicesCardRotation() {
   useEffect(() => {
     const element = stage.current!;
     const motion = matchMedia("(prefers-reduced-motion: reduce)");
-    const mobile = matchMedia("(max-width: 767px)");
+    const mobile = matchMedia(mobileQuery);
     let current = 0,
       angle = 0,
       paused = motion.matches,
@@ -125,7 +128,9 @@ export function useServicesCardRotation() {
       if (Date.now() < suppressUntil) {
         e.preventDefault();
         e.stopPropagation();
+        return;
       }
+      if (!(e.target as Element).closest("button,a")) rotate(1, true);
     };
     const enter = (e: PointerEvent) => {
       if (e.pointerType === "mouse") {
@@ -201,7 +206,7 @@ export function useServicesCardRotation() {
       motion.removeEventListener("change", preference);
       mobile.removeEventListener("change", viewport);
     };
-  }, []);
+  }, [labels, mobileQuery]);
 
   return { display, selectSide, togglePlayback, stage };
 }

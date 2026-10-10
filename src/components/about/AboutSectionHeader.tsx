@@ -1,11 +1,12 @@
 import { cn } from "@/lib/utils";
+import type { ReactNode } from "react";
 import { aboutReveal } from "./about-presentation";
 import styles from "./about-page.module.css";
 
 type AboutSectionHeaderProps = {
   id: string;
   kicker?: string;
-  title: string;
+  title: ReactNode;
   className?: string;
 };
 
