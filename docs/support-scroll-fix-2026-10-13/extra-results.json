@@ -1,0 +1,29 @@
+[
+  {
+    "scenario": "CPU4x, JS delayed, early scroll",
+    "SSRExcluded": true,
+    "early": {
+      "opacity": "1",
+      "translate": "none"
+    }
+  },
+  {
+    "scenario": "reduce during fade",
+    "visible": true,
+    "running": 0
+  },
+  {
+    "scenario": "resize preserves selected final card",
+    "widths": [
+      768,
+      1024,
+      1099,
+      1100,
+      390
+    ]
+  },
+  {
+    "scenario": "flip, contact, anchors, contract copy",
+    "passed": true
+  }
+]

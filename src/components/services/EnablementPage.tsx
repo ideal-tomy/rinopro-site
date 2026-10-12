@@ -1,49 +1,18 @@
 "use client";
 
 import Link from "next/link";
-import {
-  ArrowRight,
-  Settings,
-  FileSearch,
-  ClipboardCheck,
-  ChartNoAxesColumnIncreasing,
-} from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { EnablementDevelopmentFlipCards } from "./EnablementDevelopmentFlipCards";
 import { FlowTimelinePageContent } from "./FlowTimelinePageContent";
 import base from "./consulting-page.module.css";
 import styles from "./enablement-page.module.css";
 import { ServicePageLinks } from "./ServicePageNavigation";
 import navigation from "./service-navigation.module.css";
-import { useScrollReveal } from "./useScrollReveal";
+import { useEnablementSectionReveal } from "./useEnablementSectionReveal";
 import { headingAccentRuleClasses } from "@/lib/ui/heading-accent-rule-styles";
 import { EnablementPreSupportCards } from "./EnablementPreSupportCards";
 import { ServiceHeroProcessDiagram } from "./ServiceHeroProcessDiagram";
 
-const stages = [
-  [
-    "課題と担当を整理する",
-    "業務の課題を確認し、社内と外部で担当する範囲を決めます。",
-  ],
-  [
-    "小さく開発して確かめる",
-    "社内メンバーと試作を確認し、必要な機能や手順を具体化します。",
-  ],
-  [
-    "運用しながら引き継ぐ",
-    "実際に使いながら、操作・管理・変更の手順を共有します。",
-  ],
-  [
-    "社内で改善できる範囲を広げる",
-    "社内で対応する業務を増やし、専門的な部分は外部が支援します。",
-  ],
-];
-const stageTitleParts = [
-  ["課題と担当を", "整理する"],
-  ["小さく開発して", "確かめる"],
-  ["運用しながら", "引き継ぐ"],
-  ["社内で改善できる", "範囲を広げる"],
-];
-const stageIcons = [FileSearch, ClipboardCheck, Settings, ChartNoAxesColumnIncreasing];
 const challengePairs = [
   {
     issue: "何を開発すべきか決めにくい",
@@ -65,13 +34,15 @@ const challengePairs = [
   },
 ];
 export function EnablementPage() {
-  const approachReveal = useScrollReveal<HTMLElement>(`.${styles.stages} > li`);
-  const checksReveal = useScrollReveal<HTMLElement>(`.${styles.preSupportCard}`);
-  const supportReveal = useScrollReveal<HTMLElement>(`.${styles.challengeCard}`);
+  const checksReveal = useEnablementSectionReveal();
+  const supportReveal = useEnablementSectionReveal();
+  const developmentReveal = useEnablementSectionReveal();
+  const consultationReveal = useEnablementSectionReveal();
   return (
     <div
       className={`${base.page} ${styles.page} ${navigation.page}`}
       
+      data-scroll-reveal="off"
       data-service-page
     >
       <ServicePageLinks current="enablement" />
@@ -85,51 +56,8 @@ export function EnablementPage() {
             <p className={base.enablementIntro}>
               必要な仕組みを作りながら、知識と手順を共有し、社内で運用・改善できる範囲を広げます。
             </p>
-            <p className={base.note}></p>
           </div>
           <ServiceHeroProcessDiagram pageKey="enablement" />
-        </div>
-      </section>
-      <section
-        ref={approachReveal}
-        id="approach"
-        className={`${base.section} ${styles.approachSection}`}
-        aria-labelledby="approach-title"
-      >
-        <div className={base.container}>
-          <h2 id="approach-title" className={headingAccentRuleClasses.default}>
-            支援の進め方
-          </h2>
-          <p className={styles.intro}>
-            実際の業務を一緒に進めながら、社内で対応できる範囲を広げます。
-          </p>
-        </div>
-        <ol className={styles.stages}>
-          {stages.map(([title, body], index) => {
-            const Icon = stageIcons[index];
-            return (
-              <li key={title}>
-                <div className={styles.stageMeta}>
-                  <span className={styles.number}>{String(index + 1).padStart(2, "0")}</span>
-                  <Icon aria-hidden="true" />
-                </div>
-                <div className={styles.stageContent}>
-                  <h3 className={styles.stageTitle}>
-                    {stageTitleParts[index].map((part) => (
-                      <span key={part}>{part}</span>
-                    ))}
-                  </h3>
-                  <p>{body}</p>
-                </div>
-                {index < stages.length - 1 && <ArrowRight className={styles.stageArrow} aria-hidden="true" />}
-              </li>
-            );
-          })}
-        </ol>
-        <div className={base.container}>
-          <p className={styles.afterDiagram}>
-            必要に応じて、開発会社との打ち合わせにも同席し、要件や進め方の確認を支援します。
-          </p>
         </div>
       </section>
       <section
@@ -177,6 +105,7 @@ export function EnablementPage() {
         </div>
       </section>
       <section
+        ref={developmentReveal}
         id="development"
         className={`${base.section} ${base.tinted}`}
         aria-labelledby="development-title"
@@ -200,6 +129,7 @@ export function EnablementPage() {
         </div>
       </section>
       <section
+        ref={consultationReveal}
         className={base.consultation}
         aria-labelledby="consultation-title"
       >

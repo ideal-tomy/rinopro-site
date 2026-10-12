@@ -943,17 +943,6 @@
 @media (hover: none) {
   .stages li:hover, .checks button:hover { transform: none; }
 }
-@media (prefers-reduced-motion: no-preference) {
-  .page [data-reveal-individual] [data-reveal-ready="true"] { transition: opacity var(--scroll-reveal-duration) var(--scroll-reveal-easing) var(--reveal-delay, 0ms), translate var(--scroll-reveal-duration) var(--scroll-reveal-easing) var(--reveal-delay, 0ms); }
-  .page [data-reveal-individual] [data-reveal-ready="true"]:not([data-entered="true"]) { opacity: 0; translate: 0 18px; }
-  .descriptionContent { animation: enablement-detail-in var(--scroll-reveal-duration) var(--scroll-reveal-easing) both; }
-  @keyframes enablement-detail-in { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
-}
-@media (prefers-reduced-motion: reduce) {
-  .stages li, .stageArrow, .checks button, .description, .challengeCard { opacity: 1 !important; transform: none !important; transition: none !important; }
-  .descriptionContent { animation: none !important; }
-}
-
 /* 支援を始める前に — 図解入りカード（③） */
 .checksSection {
   background: #fff;
@@ -1042,12 +1031,6 @@
   color: #24364b;
 }
 @media (max-width: 1099px) {
-  .checksSection[data-reveal-individual] .preSupportCard[data-reveal-ready="true"] {
-    opacity: 1 !important;
-    translate: none !important;
-    transition: none !important;
-  }
-
   .preSupportTrackFade {
     display: block;
     position: absolute;
@@ -1073,33 +1056,24 @@
     padding-inline: 16px;
   }
 
-  .preSupportSegment,
-  .preSupportSegmentActive {
-    height: 2px;
-    padding: 0;
-    border: none;
-    border-radius: 1px;
-    cursor: pointer;
-    transition:
-      width 0.2s ease,
-      background-color 0.2s ease;
-  }
-
   .preSupportSegment {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+  }
+  .preSupportSegment span {
+    height: 2px;
     width: 6px;
+    border-radius: 1px;
     background: #c5d5e8;
   }
-
-  .preSupportSegmentActive {
-    width: 22px;
-    background: #1b4f86;
-  }
-
-  .preSupportSegment:focus-visible,
-  .preSupportSegmentActive:focus-visible {
-    outline: 2px solid #246fc4;
-    outline-offset: 4px;
-  }
+  .preSupportSegment[aria-current="true"] span { width: 22px; background: #1b4f86; }
+  .preSupportSegment:focus-visible { outline: 2px solid #246fc4; outline-offset: 2px; }
 
   .preSupportTrack {
     display: flex;
@@ -1124,6 +1098,10 @@
   }
   .preSupportTrack::-webkit-scrollbar {
     display: none;
+  }
+  .preSupportTrack::after {
+    content: "";
+    flex: 0 0 calc(12% - 16px);
   }
   .preSupportCard {
     display: flex;
@@ -1154,8 +1132,6 @@
     scroll-behavior: auto;
   }
 
-  .preSupportSegment,
-  .preSupportSegmentActive,
   .preSupportTrackFade {
     transition: none;
   }
@@ -1163,5 +1139,8 @@
 @media (min-width: 768px) and (max-width: 1099px) {
   .preSupportCard {
     flex: 0 0 min(300px, 44vw);
+  }
+  .preSupportTrack::after {
+    flex-basis: calc(100% - min(300px, 44vw) - 16px);
   }
 }
