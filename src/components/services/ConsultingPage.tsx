@@ -128,7 +128,10 @@ export function ConsultingPage() {
           <div className={styles.mobileConnector} data-reveal-step aria-hidden="true"><ArrowDown /></div>
           <div className={styles.diagramPlan} data-reveal-step>
             <FileText aria-hidden="true" />
-            <h3>社内で検討するための計画</h3>
+            <h3 className={styles.planHeading}>
+              <span>社内で</span>
+              <span>検討するための計画</span>
+            </h3>
             <ul>
               {[{ label: "変更する範囲", Icon: Target }, { label: "着手する順番", Icon: ListOrdered }, { label: "担当と進め方", Icon: UsersRound }].map(({ label, Icon }, index) => (
                 <li key={label} data-sequence={index}>
@@ -148,9 +151,12 @@ export function ConsultingPage() {
         aria-labelledby="examples-heading"
       >
         <div className={`${styles.container} ${styles.section}`}>
-        <h2 id="examples-heading" className={headingAccentRuleClasses.default}>
-          相談例
-        </h2>
+          <p className={mobileCases.eyebrow}>相談例</p>
+          <h2 id="examples-heading" className={mobileCases.heading}>
+            <span>何を変えるべきか、</span>
+            <span>まだ決まっていなくても。</span>
+          </h2>
+          <p className={mobileCases.intro}>今の業務や困りごとを確認し、対応方法と、先に取り組む範囲を整理します。</p>
           <ConsultingExamples />
         </div>
       </section>

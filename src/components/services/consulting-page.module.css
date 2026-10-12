@@ -72,7 +72,6 @@
   margin-block: 28px 22px;
 }
 .lead span,
-.situationCopy h3 span,
 .source p span,
 .step h3 span {
   display: inline-block;
@@ -222,6 +221,9 @@
   padding-block: 12px 16px;
   border-bottom: 1px solid #b6c6dc;
 }
+.planHeading span {
+  display: inline;
+}
 .diagramPlan ul {
   list-style: none;
   display: grid;
@@ -250,61 +252,7 @@
 .tinted {
   background: #fff;
 }
-.tabs {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 5px;
-  margin-top: 24px;
-}
-.tabs button {
-  font: inherit;
-  font-size: 18px;
-  font-weight: 700;
-  color: #0b1933;
-  background: #e5eef5;
-  border: 1px solid transparent;
-  border-bottom: 3px solid transparent;
-  padding: 16px 8px;
-  min-height: 56px;
-  cursor: pointer;
-  border-radius: 5px 5px 0 0;
-}
-.tabs button span {
-  display: inline-block;
-}
-.tabs button[aria-selected="true"] {
-  color: #234b9d;
-  background: #fff;
-  border-color: #d5e2f2;
-  border-bottom-color: #234b9d;
-}
-.examplePanel {
-  display: grid;
-  grid-template-columns: minmax(0, 0.4fr) minmax(0, 0.6fr);
-  padding: 32px;
-  background: #fff;
-  border: 1px solid #d5e2f2;
-  border-radius: 0 0 4px 4px;
-}
-.examplePanel[hidden] {
-  display: none;
-}
-.examplesRoot { min-width: 0; }
-.examplePanelActive > * {
-  animation: example-content-enter var(--scroll-reveal-duration) var(--scroll-reveal-easing) both;
-}
-.examplePanelActive > :nth-child(2) {
-  animation-delay: 90ms;
-}
-@keyframes example-content-enter {
-  from { opacity: 0; transform: translateY(18px); }
-  to { opacity: 1; transform: translateY(0); }
-}
 @media (prefers-reduced-motion: reduce) {
-  .examplePanelActive > *,
-  .examplePanelActive > :nth-child(2) {
-    animation: none;
-  }
 }
 @media (prefers-reduced-motion: no-preference) {
   .diagram [data-reveal-step][data-reveal-ready="true"] {
@@ -316,65 +264,16 @@
   .diagramPlan[data-entered="true"] li:nth-child(1) { transition-delay: calc(var(--reveal-delay, 0ms) + 120ms); }
   .diagramPlan[data-entered="true"] li:nth-child(2) { transition-delay: calc(var(--reveal-delay, 0ms) + 240ms); }
   .diagramPlan[data-entered="true"] li:nth-child(3) { transition-delay: calc(var(--reveal-delay, 0ms) + 360ms); }
-  .tinted[data-reveal-ready="true"]:not([data-entered="true"]) :global(.heading-with-accent-rule) { opacity: 0; }
-  .tinted[data-entered="true"] :global(.heading-with-accent-rule) { animation: example-content-enter var(--scroll-reveal-duration) var(--scroll-reveal-easing) both; }
-  .examplesRoot[data-reveal-ready="true"]:not([data-entered="true"]) [role="tablist"],
-  .examplesRoot[data-reveal-ready="true"]:not([data-entered="true"]) .examplePanel:not([hidden]) { opacity: 0; }
-  .examplesRoot[data-entered="true"] [role="tablist"] { animation: example-content-enter var(--scroll-reveal-duration) var(--scroll-reveal-easing) 140ms both; }
-  .examplesRoot[data-entered="true"] .examplePanel:not([hidden]) { animation: example-content-enter var(--scroll-reveal-duration) var(--scroll-reveal-easing) 280ms both; }
-  .examplesRoot[data-entered="true"] .examplePanelActive .situationCopy { animation: example-content-enter var(--scroll-reveal-duration) var(--scroll-reveal-easing) 420ms both; }
-  .examplesRoot[data-entered="true"] .examplePanelActive .detailStep:nth-child(1) { animation: example-content-enter var(--scroll-reveal-duration) var(--scroll-reveal-easing) 560ms both; }
-  .examplesRoot[data-entered="true"] .examplePanelActive .detailStep:nth-child(2) { animation: example-content-enter var(--scroll-reveal-duration) var(--scroll-reveal-easing) 700ms both; }
-  .examplesRoot[data-entered="true"] .examplePanelActive .conclusion { animation: example-content-enter var(--scroll-reveal-duration) var(--scroll-reveal-easing) 840ms both; }
 }
 @media (prefers-reduced-motion: reduce) {
   .diagram .source, .diagram .diagramCenter, .diagram .planConnector, .diagram .diagramPlan,
   .diagram .diagramPlan li { opacity: 1 !important; transform: none !important; transition: none !important; }
   .diagram .mergeConnector path { stroke-dashoffset: 0 !important; transition: none !important; }
-  .tinted :global(.heading-with-accent-rule), .desktop [role="tablist"], .desktop .examplePanel:not([hidden]) { opacity: 1 !important; animation: none !important; }
-}
-.examplePanel > * {
-  min-width: 0;
-}
-.situationCopy {
-  padding-right: 32px;
-}
-.page .situation {
-  font-weight: 700;
-  color: #234b9d;
-}
-.situationCopy h3 {
-  font-size: 27px;
-  line-height: 1.6;
-  margin-block: 10px 22px;
 }
 .page .note {
   font-size: 14px;
   line-height: 1.7;
   margin-top: 16px;
-}
-.exampleDetails {
-  border-left: 1px solid #d5e2f2;
-  padding-left: 32px;
-}
-.exampleDetails > div + div {
-  margin-top: 22px;
-}
-.exampleDetails dt {
-  color: #234b9d;
-  font-weight: 700;
-  margin-bottom: 6px;
-}
-.conclusion {
-  padding: 16px 20px;
-  background: #edf7ff;
-  border-radius: 3px;
-}
-.page .conclusion dd {
-  color: #0b1933;
-  font-size: 22px;
-  font-weight: 700;
-  line-height: 1.6;
 }
 .page .supportIntro {
   margin-top: 12px;
@@ -645,15 +544,6 @@
   .diagramPlan h3 {
     font-size: 24px;
   }
-  .examplePanel {
-    padding: 28px;
-  }
-  .situationCopy {
-    padding-right: 24px;
-  }
-  .exampleDetails {
-    padding-left: 24px;
-  }
 }
 @media (max-width: 899px) {
   .hero .lead.enablementLead {
@@ -710,32 +600,6 @@
   .diagramPlan h3 {
     font-size: 22px;
   }
-  .tabs {
-    gap: 3px;
-  }
-  .tabs button {
-    font-size: 16px;
-    line-height: 1.5;
-    padding: 12px 4px;
-  }
-  .examplePanel {
-    grid-template-columns: 1fr;
-    padding: 24px 20px;
-    gap: 28px;
-  }
-  .situationCopy {
-    padding: 0;
-  }
-  .situationCopy h3 {
-    font-size: 24px;
-  }
-  .exampleDetails {
-    border-left: 0;
-    padding: 0;
-  }
-  .page .conclusion dd {
-    font-size: 20px;
-  }
   .step,
   .step:first-child {
     gap: 18px;
@@ -767,13 +631,6 @@
     flex-direction: row;
     text-align: left;
     justify-content: flex-start;
-  }
-  .tabs button {
-    font-size: 16px;
-    padding-inline: 2px;
-  }
-  .tabs button span {
-    display: inline;
   }
   .step,
   .step:first-child {
@@ -844,44 +701,13 @@
 .planItemIcon svg { width: 20px; height: 20px; }
 .planItemLabel { color: #fff; }
 .tinted { background: #fff; }
-.tabs button { display: flex; justify-content: center; align-items: center; gap: 10px; box-shadow: 0 3px 10px rgb(24 66 112 / 5%); transition: color 180ms ease, background 180ms ease, box-shadow 180ms ease; }
-.tabs button svg { width: 20px; height: 20px; flex: 0 0 auto; color: #4774ae; }
-.tabs button[aria-selected="true"] { box-shadow: 0 7px 18px rgb(35 75 157 / 12%); }
-.tabs button[aria-selected="true"] svg { color: #0758c4; }
-.examplePanel {
-  padding: 36px;
-  border-radius: 0 0 12px 12px;
-  box-shadow: 0 12px 28px rgb(31 76 128 / 9%);
-}
-.examplePanelActive > * { animation-duration: var(--scroll-reveal-duration); }
-.examplePanelActive > :nth-child(2) { animation-delay: var(--scroll-reveal-stagger); }
-.examplePanelActive .detailStep:nth-child(1) { animation: example-content-enter var(--scroll-reveal-duration) var(--scroll-reveal-easing) 140ms both; }
-.examplePanelActive .detailStep:nth-child(2) { animation: example-content-enter var(--scroll-reveal-duration) var(--scroll-reveal-easing) 280ms both; }
-.examplePanelActive .conclusion { animation: example-content-enter var(--scroll-reveal-duration) var(--scroll-reveal-easing) 420ms both; }
-.situationCopy { padding-right: 28px; }
-.situationCopy h3 { font-size: 29px; }
-.exampleDetails { display: grid; align-content: start; gap: 16px; padding-left: 30px; }
-.detailStep { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 14px; align-items: start; }
-.detailIcon { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; color: #0758c4; background: linear-gradient(145deg, #f2f8ff, #e4f0ff); box-shadow: inset 0 0 0 1px #e1edfb; }
-.detailIcon svg { width: 22px; height: 22px; }
-.conclusion {
-  display: grid;
-  grid-template-columns: 36px minmax(0, 1fr) 40px;
-  gap: 14px;
-  align-items: center;
-  padding: 16px 18px;
-  background: linear-gradient(110deg, #edf7ff, #dcecff);
-  border: 1px solid #a8cefa;
-  border-radius: 8px;
-  box-shadow: 0 5px 14px rgb(25 93 173 / 8%);
-  transition: border-color 200ms ease, box-shadow 200ms ease;
-}
-.conclusion:hover { border-color: #6aa2e8; box-shadow: 0 8px 20px rgb(25 93 173 / 14%); }
-.conclusion > svg { width: 28px; height: 28px; color: #0758c4; }
-.conclusionArrow { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; color: #fff; background: #0758c4; }
-.conclusionArrow svg { width: 19px; height: 19px; transition: transform 200ms ease; }
-.conclusion:hover .conclusionArrow svg { transform: translateX(3px); }
 @media (max-width: 1023px) {
+  .diagramPlan .planHeading {
+    text-wrap: unset;
+  }
+  .diagramPlan .planHeading span {
+    display: block;
+  }
   .diagram { grid-template-columns: 1fr; gap: 0; }
   .sources { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .mergeConnector { width: 42px; height: 48px; justify-self: center; transform: none; }
@@ -894,11 +720,6 @@
   .sources { grid-template-columns: 1fr; gap: 12px; }
   .source { min-height: 104px; flex-direction: row; justify-content: flex-start; text-align: left; gap: 18px; padding: 18px 20px; }
   .source > svg { width: 48px; height: 48px; }
-  .examplePanel { padding: 24px 20px; }
-  .situationCopy h3 { font-size: 24px; }
-  .exampleDetails { border: 0; padding: 0; }
-  .tabs button { flex-direction: column; gap: 4px; }
-  .conclusion { grid-template-columns: 28px minmax(0, 1fr) 34px; gap: 10px; padding: 14px 12px; }
 }
 @media (max-width: 768px) {
   .sources { grid-template-columns: 1fr; }
@@ -908,14 +729,10 @@
   .source:hover, .diagramPlan:hover { transform: none; }
   .source:hover { box-shadow: 0 8px 22px rgb(30 82 143 / 8%); }
   .diagramPlan:hover { box-shadow: 0 14px 30px rgb(7 23 47 / 20%); }
-  .conclusion:hover { border-color: #a8cefa; box-shadow: 0 5px 14px rgb(25 93 173 / 8%); }
-  .conclusion:hover .conclusionArrow svg { transform: none; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .source, .diagramPlan, .conclusion, .conclusionArrow svg { transition: none; }
-  .tabs button { transition: none; }
-  .source:hover, .diagramPlan:hover, .conclusion:hover .conclusionArrow svg { transform: none; }
-  .examplePanelActive > *, .examplePanelActive .detailStep, .examplePanelActive .conclusion { animation: none; }
+  .source, .diagramPlan{ transition: none; }
+  .source:hover, .diagramPlan:hover{ transform: none; }
 }
 
 .mobileConnector { display: none; }

@@ -1,183 +1,187 @@
-.mobile {
+.section .eyebrow { color: #234b9d; font-size: 14px; font-weight: 700; }
+.section .heading { margin-top: 10px; font-size: 38px; line-height: 1.5; letter-spacing: -0.025em; }
+.heading span { display: block; }
+.section .intro { margin-top: 16px; font-size: 16px; line-height: 1.8; }
+.examples { margin-top: 32px; min-width: 0; }
+.examples .track { position: relative; padding: 0; margin: 0; list-style: none; }
+.card { border-top: 1px solid #d5e2f2; padding-block: 32px; }
+.card:last-child { border-bottom: 1px solid #d5e2f2; }
+.card article {
+  display: grid;
+  grid-template-columns: minmax(0, 42fr) minmax(0, 58fr);
+  gap: 32px;
+  align-items: center;
+}
+.card article > * { min-width: 0; }
+.problem {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100%;
+}
+.problemAccent,
+.responseDivider,
+.responseEyebrow {
   display: none;
 }
+.section .problem h3 {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.55;
+  color: #0b1933;
+  text-wrap: pretty;
+}
+.titleMobile {
+  display: none;
+}
+.titleDesktop .titleLine {
+  display: inline-block;
+  max-width: 100%;
+}
+.section .conclusion p {
+  margin: 0;
+  color: #0758c4;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.6;
+}
+.conclusionMobile {
+  display: none;
+}
+.section .body {
+  margin-top: 12px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.8;
+  color: #24364b;
+  text-wrap: pretty;
+}
+.section .note { margin-top: 20px; font-size: 13px; line-height: 1.8; text-wrap: pretty; }
+.position { display: none; }
 @media (max-width: 899px) {
-  .desktop {
-    display: none;
-  }
-  .mobile {
-    display: block;
-    min-width: 0;
-    --edge: 20px;
-  }
-  .section > div {
-    padding-block: 28px;
-  }
-  .mobile .track {
-    position: relative;
+  .section > div { width: calc(100% - 40px); padding-block: 40px; }
+  .section .heading { font-size: clamp(24px, 6.4vw, 32px); }
+  .examples { margin-top: 24px; }
+  .examples .track {
     display: flex;
     align-items: stretch;
-    gap: 12px;
-    width: calc(100% + var(--edge) * 2);
-    margin: 18px calc(-1 * var(--edge)) 0;
-    padding: 0 calc(52px - var(--edge)) 0 var(--edge);
-    list-style: none;
+    gap: 14px;
+    width: calc(100% + 40px);
+    margin-inline: -20px;
+    padding: 0 20px;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
-    scroll-padding-inline: var(--edge);
+    scroll-padding-inline: 20px;
     scrollbar-width: none;
   }
-  .track::-webkit-scrollbar {
+  .track::-webkit-scrollbar { display: none; }
+  .track::after { content: ""; flex: 0 0 calc(12% - 14px); }
+  .card,
+  .card:last-child {
+    flex: 0 0 88%;
+    min-width: 0;
+    padding: 0;
+    border: 1px solid #d5e2f2;
+    border-radius: 8px;
+    background: #fff;
+    overflow: hidden;
+    scroll-snap-align: start;
+  }
+  .card article {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    min-height: 100%;
+  }
+  .problem {
+    display: block;
+    min-height: 0;
+    padding: 20px 20px 0;
+    background: #0b1933;
+  }
+  .section .problem h3 {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #fff;
+  }
+  .problemAccent {
+    display: block;
+    height: 4px;
+    margin: 18px -20px 0;
+    background: #0758c4;
+  }
+  .titleDesktop {
     display: none;
   }
-  .card {
-    flex: 0 0 calc(100vw - 52px);
-    min-width: 0;
-    scroll-snap-align: start;
+  .titleMobile {
+    display: block;
+  }
+  .titleMobile {
+    display: grid;
+    grid-template-rows: repeat(2, auto);
+  }
+  .titleMobile .titleLine {
+    display: block;
+    white-space: nowrap;
+  }
+  .response {
+    flex: 1;
+    padding: 20px;
     background: #fff;
-    border: 1px solid #d5e2f2;
-    border-radius: 4px;
-    padding: 18px;
   }
-  .mobile .category {
-    color: #234b9d;
+  .responseEyebrow {
+    display: block;
+    margin: 0 0 10px;
     font-size: 14px;
-    font-weight: 700;
-    line-height: 1.6;
-  }
-  .mobile h3 {
-    font-size: 21px;
-    line-height: 1.45;
-    margin-top: 8px;
-    text-wrap: balance;
-  }
-  .mobile h3 span {
-    display: inline-block;
-    max-width: 100%;
-  }
-  .mobile .comparison {
-    margin-top: 18px;
-  }
-  .mobile dt {
-    font-size: 14px;
-    line-height: 1.6;
-    font-weight: 700;
-    color: #234b9d;
-    margin-bottom: 6px;
-  }
-  .mobile dd {
-    text-wrap: balance;
-    font-size: 16px;
-    line-height: 1.6;
-  }
-  .mobile .conclusion {
-    padding: 12px;
-    margin-top: 16px;
-    background: #edf7ff;
-    border-radius: 3px;
-  }
-  .mobile .conclusion dd {
-    color: #0b1933;
-    font-size: 17px;
     font-weight: 700;
     line-height: 1.5;
-  }
-  .position {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    margin-block: 8px;
-  }
-  .position > div {
-    display: flex;
-  }
-  .position button {
-    display: grid;
-    place-items: center;
-    width: 44px;
-    height: 44px;
-    cursor: pointer;
-    border: 0;
-    background: transparent;
-  }
-  .position button span {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: #b6c6dc;
-  }
-  .position button[aria-current="true"] span {
-    width: 10px;
-    height: 10px;
-    background: #234b9d;
-    outline: 1px solid #234b9d;
-    outline-offset: 2px;
-  }
-  .position p {
-    font-size: 14px;
-    font-variant-numeric: tabular-nums;
-  }
-  .mobile .note {
-    font-size: 14px;
-    line-height: 1.6;
-  }
-}
-@media (max-width: 899px) {
-  .position {
-    display: block;
-    margin: 16px 0 8px;
-  }
-  .position > div {
-    display: flex;
-    gap: 8px;
-    overflow-x: auto;
-    padding: 2px 2px 8px;
-    scrollbar-width: none;
-    scroll-snap-type: x proximity;
-  }
-  .position > div::-webkit-scrollbar { display: none; }
-  .position button {
-    display: block;
-    width: auto;
-    height: 42px;
-    min-height: 42px;
-    flex: 0 0 auto;
-    padding: 0 14px;
-    border: 1px solid #d7e4f2;
-    border-radius: 7px;
-    background: #edf3f8;
-    color: #0b1933;
-    font: inherit;
-    font-size: 14px;
-    font-weight: 700;
-    scroll-snap-align: start;
-  }
-  .position button[aria-current="true"] {
-    border-color: #8bb6e8;
-    background: #fff;
     color: #0758c4;
-    box-shadow: 0 3px 10px rgb(35 75 157 / 12%);
   }
-  .position button span { display: none; }
-  .position p { margin: 0; text-align: right; }
-  .card { flex-basis: calc(100vw - 64px); border-radius: 12px; box-shadow: 0 8px 22px rgb(30 82 143 / 8%); }
-}
-@media (max-width: 359px) {
-  .mobile {
-    --edge: 16px;
+  .conclusion {
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    border-radius: 0;
   }
+  .section .conclusion p {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.5;
+    color: #0b1933;
+  }
+  .conclusionDesktop {
+    display: none;
+  }
+  .conclusionMobile {
+    display: grid;
+    grid-template-rows: repeat(2, auto);
+  }
+  .conclusionMobile .conclusionLine {
+    display: block;
+    white-space: nowrap;
+  }
+  .responseDivider {
+    display: block;
+    margin: 16px 0 0;
+    border: 0;
+    border-top: 1px solid #d5e2f2;
+  }
+  .section .body {
+    margin-top: 16px;
+    font-size: 14px;
+    line-height: 1.75;
+    color: #24364b;
+    word-break: keep-all;
+  }
+  .position { display: flex; justify-content: center; margin-top: 12px; }
+  .position button { display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; background: transparent; cursor: pointer; }
+  .position span { width: 8px; height: 8px; border-radius: 50%; background: #b6c6dc; }
+  .position [aria-current="true"] span { background: #234b9d; outline: 1px solid #234b9d; outline-offset: 3px; }
+  .section .note { margin-top: 8px; }
 }
 @media (prefers-reduced-motion: no-preference) {
-  .mobile[data-reveal-ready="true"]:not([data-entered="true"]) .position,
-  .mobile[data-reveal-ready="true"]:not([data-entered="true"]) .track { opacity: 0; }
-  .mobile[data-entered="true"] .position { animation: mobile-example-enter var(--scroll-reveal-duration) var(--scroll-reveal-easing) 120ms both; }
-  .mobile[data-entered="true"] .track { animation: mobile-example-enter var(--scroll-reveal-duration) var(--scroll-reveal-easing) 240ms both; }
-  @keyframes mobile-example-enter {
-    from { opacity: 0; transform: translateY(18px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .mobile .position, .mobile .track { opacity: 1 !important; animation: none !important; }
+  .section[data-reveal-ready="true"] { transition: opacity var(--scroll-reveal-duration) var(--scroll-reveal-easing); }
+  .section[data-reveal-ready="true"]:not([data-entered="true"]) { opacity: 0; }
 }
