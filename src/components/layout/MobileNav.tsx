@@ -42,7 +42,7 @@ export function MobileNav({ items, open, onOpenChange }: MobileNavProps) {
           <SheetTitle className="text-left">メニュー</SheetTitle>
         </SheetHeader>
         <p id="mobile-menu-description" className="sr-only">
-          ご支援内容の下から、コンサルティングと半内製化の詳細を選べます。
+          ご支援内容の下から、コンサルティングと半内製化（FED）の詳細を選べます。
         </p>
         <nav className="mt-6" aria-label="サイトメニュー">
           <ul className="flex flex-col gap-2">

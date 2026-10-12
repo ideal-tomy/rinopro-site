@@ -4,8 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
-  BookOpen,
-  MessagesSquare,
   Settings,
   FileSearch,
   ClipboardCheck,
@@ -14,7 +12,7 @@ import {
 import { FlowTimelinePageContent } from "./FlowTimelinePageContent";
 import base from "./consulting-page.module.css";
 import styles from "./enablement-page.module.css";
-import { ServicePageLinks, ServiceSectionNav } from "./ServicePageNavigation";
+import { ServicePageLinks } from "./ServicePageNavigation";
 import navigation from "./service-navigation.module.css";
 import { useScrollReveal } from "./useScrollReveal";
 import { headingAccentRuleClasses } from "@/lib/ui/heading-accent-rule-styles";
@@ -45,32 +43,30 @@ const stageTitleParts = [
   ["社内で改善できる", "範囲を広げる"],
 ];
 const stageIcons = [FileSearch, ClipboardCheck, Settings, ChartNoAxesColumnIncreasing];
-const pairs = [
-  [
-    "何を開発すべきか決めにくい",
-    "業務を確認し、開発するものと手順変更で対応するものを整理します。",
-  ],
-  [
-    "開発会社への説明・確認が難しい",
-    "要件整理、打ち合わせへの同席、提案内容の確認を支援します。",
-  ],
-  [
-    "担当者に知識が集中する",
-    "実案件を通じて知識を共有し、操作・管理の手順を整えます。",
-  ],
+const challengePairs = [
+  {
+    issue: "何を開発すべきか決めにくい",
+    supportTitle: "開発と手順変更を切り分ける",
+    supportBody:
+      "業務を確認し、システムで変える部分と、仕事の進め方で変える部分を整理します。",
+  },
+  {
+    issue: "開発会社への説明・確認が難しい",
+    supportTitle: "要件整理と打ち合わせを支援する",
+    supportBody:
+      "依頼内容をまとめ、打ち合わせへの同席や提案内容の確認を支援します。",
+  },
+  {
+    issue: "特定の人しか運用方法がわからない",
+    supportTitle: "操作方法と対応手順を共有する",
+    supportBody:
+      "日々の操作や困ったときの対応を、社内で確認できるようにまとめます。",
+  },
 ];
-const pairIcons = [FileSearch, MessagesSquare, BookOpen];
-const anchors = [
-  ["approach", "支援の進め方"],
-  ["checks", "確認すること"],
-  ["support", "課題と支援"],
-  ["development", "開発の進め方"],
-] as const;
-
 export function EnablementPage() {
   const approachReveal = useScrollReveal<HTMLElement>(`.${styles.stages} > li`);
   const checksReveal = useScrollReveal<HTMLElement>(`.${styles.preSupportCard}`);
-  const supportReveal = useScrollReveal<HTMLElement>(`.${styles.pairs} > div`);
+  const supportReveal = useScrollReveal<HTMLElement>(`.${styles.challengeCard}`);
   return (
     <div
       className={`${base.page} ${styles.page} ${navigation.page}`}
@@ -113,7 +109,6 @@ export function EnablementPage() {
           </div>
         </div>
       </section>
-      <ServiceSectionNav items={anchors} label="半内製化のページ内リンク" />
       <section
         ref={approachReveal}
         id="approach"
@@ -182,30 +177,24 @@ export function EnablementPage() {
           <h2 id="support-title" className={headingAccentRuleClasses.default}>
             自社で進める際の課題
           </h2>
-          <div className={styles.columnHeads} aria-hidden="true">
-            <h3>自社で進める際の課題</h3>
-            <h3>AXEONの支援</h3>
-          </div>
-          <dl className={styles.pairs}>
-            {pairs.map(([issue, support], index) => {
-              const Icon = pairIcons[index];
-              return (
-                <div key={issue} data-pair={index}>
-                  <dt>
-                    <span className={styles.mobileLabel}>
-                      自社で進める際の課題
-                    </span>
-                    {issue}
-                  </dt>
-                  <dd>
-                    <span className={styles.mobileLabel}>AXEONの支援</span>
-                    <Icon className={styles.pairIcon} aria-hidden="true" />
-                    <span className={styles.pairSupportCopy}>{support}</span>
-                  </dd>
+          <ul className={styles.challengeRows}>
+            {challengePairs.map((item) => (
+              <li key={item.issue} className={styles.challengeCard}>
+                <div className={styles.challengeSide}>
+                  <p className={styles.challengeLabel}>課題</p>
+                  <p className={styles.challengeText}>{item.issue}</p>
                 </div>
-              );
-            })}
-          </dl>
+                <span className={styles.challengeArrow} aria-hidden="true">
+                  →
+                </span>
+                <div className={styles.supportSide}>
+                  <p className={styles.supportLabel}>AXEONの支援</p>
+                  <p className={styles.supportHeading}>{item.supportTitle}</p>
+                  <p className={styles.supportBody}>{item.supportBody}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
       <section
@@ -218,7 +207,13 @@ export function EnablementPage() {
             開発の進め方
           </h2>
           <div className={styles.development}>
-            <FlowTimelinePageContent embedded hideHeader enablement />
+            <FlowTimelinePageContent
+              embedded
+              hideHeader
+              enablement
+              offeringEmbed={{ fixedTrack: "common" }}
+              mediaTrack="dashboard"
+            />
           </div>
         </div>
       </section>

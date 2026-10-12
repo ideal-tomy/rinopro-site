@@ -10,7 +10,16 @@ const RESET_RATIO = 0.25;
 /** CSS のフリップ transition と揃える */
 const FLIP_MS = 1500;
 
-export function useAboutTeamCardFlip(title: string) {
+type AboutTeamCardFlipOptions = {
+  /** 「{title}の〇〇を表示」の〇〇。既定は担当内容 */
+  detailPhrase?: string;
+};
+
+export function useAboutTeamCardFlip(
+  title: string,
+  options?: AboutTeamCardFlipOptions,
+) {
+  const detailPhrase = options?.detailPhrase ?? "担当内容";
   const stage = useRef<HTMLDivElement>(null);
   const selectSide = useRef<(side: number) => void>(() => {});
   const [display, setDisplay] = useState({
@@ -58,7 +67,9 @@ export function useAboutTeamCardFlip(title: string) {
       if (next === 0) allowScrollFlip = false;
       flipTo(
         next,
-        next === 0 ? `${title}の表面を表示` : `${title}の担当内容を表示`,
+        next === 0
+          ? `${title}の表面を表示`
+          : `${title}の${detailPhrase}を表示`,
       );
     };
 
@@ -71,7 +82,12 @@ export function useAboutTeamCardFlip(title: string) {
 
     selectSide.current = (side) => {
       if (side === 0) allowScrollFlip = false;
-      flipTo(side, side === 0 ? `${title}の表面を表示` : `${title}の担当内容を表示`);
+      flipTo(
+        side,
+        side === 0
+          ? `${title}の表面を表示`
+          : `${title}の${detailPhrase}を表示`,
+      );
     };
 
     const observer = new IntersectionObserver(
@@ -83,7 +99,7 @@ export function useAboutTeamCardFlip(title: string) {
           return;
         }
         if (ratio >= VISIBLE_RATIO && current === 0 && allowScrollFlip) {
-          flipTo(1, `${title}の担当内容を表示`);
+          flipTo(1, `${title}の${detailPhrase}を表示`);
         }
       },
       { threshold: [0, RESET_RATIO, VISIBLE_RATIO, 1] },
@@ -107,7 +123,7 @@ export function useAboutTeamCardFlip(title: string) {
       mobile.removeEventListener("change", onViewportChange);
       motion.removeEventListener("change", onMotionChange);
     };
-  }, [title]);
+  }, [title, detailPhrase]);
 
   return { display, selectSide, stage };
 }

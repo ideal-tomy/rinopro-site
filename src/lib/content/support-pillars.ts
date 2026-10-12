@@ -1,4 +1,4 @@
-/** ご支援内容ハブ：コンサルティング／半内製化の2本立て */
+/** ご支援内容ハブ：コンサルティング／半内製化（FED）の2本立て */
 
 export type SupportPillarId = "consulting" | "insourcing";
 
@@ -22,7 +22,7 @@ export type SupportPillarCopy = {
 export const supportHubCopy = {
   title: "ご支援内容",
   purpose:
-    "提供の入り口は、コンサルティングと半内製化の2つです。課題の整理から実装・社内への移管まで、必要な範囲を同じチームで進めます。",
+    "提供の入り口は、コンサルティングと半内製化（FED）の2つです。課題の整理から実装・社内への移管まで、必要な範囲を同じチームで進めます。",
 } as const;
 
 export const supportPillars: readonly SupportPillarCopy[] = [
@@ -54,7 +54,7 @@ export const supportPillars: readonly SupportPillarCopy[] = [
   {
     id: "insourcing",
     kicker: "ENABLEMENT",
-    title: "半内製化",
+    title: "半内製化（FED）",
     href: "/services/insourcing-enablement",
     audience: "外注のままだと改善が止まってしまう、社内に知見を残したいときに。",
     lead:
@@ -74,6 +74,6 @@ export const supportPillars: readonly SupportPillarCopy[] = [
         body: "導入後の計測・振り返り・改善バックログまで伴走し、自走できるリズムを残します。",
       },
     ],
-    ctaLabel: "半内製化の詳細を見る",
+    ctaLabel: "半内製化（FED）の詳細を見る",
   },
 ] as const;

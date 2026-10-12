@@ -1,6 +1,8 @@
 .page {
-  --service-section-nav-height: 68px;
   --service-tabs-height: 64px;
+}
+.page[data-service-page] {
+  --service-section-nav-height: 0px;
 }
 .page[data-service-page] [id],
 .page[data-service-page] [tabindex="0"] {
@@ -71,9 +73,6 @@
   background: #f0f8ff;
 }
 @media (max-width: 767px) {
-  .page {
-    --service-section-nav-height: 60px;
-  }
   .pageLinks > div {
     column-gap: 16px;
     row-gap: 0;

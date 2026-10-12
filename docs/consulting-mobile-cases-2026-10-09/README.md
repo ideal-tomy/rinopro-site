@@ -6,7 +6,7 @@
 
 - `src/components/services/ConsultingInteractions.tsx`：SP短縮文、カード、ドット、現在位置の同期、幅変更時の位置調整。PCタブは維持。
 - `src/components/services/ConsultingPage.tsx`：相談例セクションに局所的なスタイルクラスを追加。
-- `src/components/services/consulting-mobile-cases.module.css`：SP相談例専用のスタイル。この相談例改修で共有CSS・他セクション・半内製化は変更していません。追加依頼の半内製化階段修正は[別記録](../enablement-staircase-2026-10-09/README.md)です。
+- `src/components/services/consulting-mobile-cases.module.css`：SP相談例専用のスタイル。この相談例改修で共有CSS・他セクション・半内製化（FED）は変更していません。追加依頼の半内製化（FED）階段修正は[別記録](../enablement-staircase-2026-10-09/README.md)です。
 - `scripts/verify-consulting-mobile-cases.cjs`：表示と操作のブラウザ検証。
 
 ## スクリーンショット

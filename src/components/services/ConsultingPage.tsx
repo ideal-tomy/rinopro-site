@@ -19,16 +19,10 @@ import {
 import { ConsultingExamples } from "./ConsultingInteractions";
 import styles from "./consulting-page.module.css";
 import mobileCases from "./consulting-mobile-cases.module.css";
-import { ServicePageLinks, ServiceSectionNav } from "./ServicePageNavigation";
+import { ServicePageLinks } from "./ServicePageNavigation";
 import navigation from "./service-navigation.module.css";
 import { useScrollReveal } from "./useScrollReveal";
 import { headingAccentRuleClasses } from "@/lib/ui/heading-accent-rule-styles";
-const sectionLinks = [
-  ["consulting-scope", "支援範囲"],
-  ["consulting-examples", "相談例"],
-  ["consulting-support", "支援内容"],
-] as const;
-
 const support = [
   {
     title: "業務と課題の整理",
@@ -97,7 +91,6 @@ export function ConsultingPage() {
           </div>
         </div>
       </section>
-      <ServiceSectionNav items={sectionLinks} />
       <section
         id="consulting-scope"
         className={styles.scopeSection}

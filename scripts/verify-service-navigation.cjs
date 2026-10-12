@@ -50,7 +50,7 @@ async function settle(p) {
         assert.equal(await children.getByRole("link").count(), 2);
         assert.equal(
           await children
-            .getByRole("link", { name: "半内製化", exact: true })
+            .getByRole("link", { name: "半内製化（FED）", exact: true })
             .getAttribute("aria-current"),
           "page",
         );
@@ -79,7 +79,7 @@ async function settle(p) {
         ["/services/consulting", "ページ内リンク", "consulting-support"],
         [
           "/services/insourcing-enablement",
-          "半内製化のページ内リンク",
+          "半内製化（FED）のページ内リンク",
           "development",
         ],
       ]) {
@@ -117,7 +117,7 @@ async function settle(p) {
         );
       }
       const nav = p.getByRole("navigation", {
-        name: "半内製化のページ内リンク",
+        name: "半内製化（FED）のページ内リンク",
         exact: true,
       });
       const tabs = p.getByRole("tab");
@@ -197,7 +197,7 @@ async function settle(p) {
     await p.goto(base + "/services/consulting", { waitUntil: "networkidle" });
     await p
       .getByRole("navigation", { name: "ご支援内容のページ移動", exact: true })
-      .getByRole("link", { name: "半内製化を見る" })
+      .getByRole("link", { name: "半内製化（FED）を見る" })
       .click();
     await p.waitForURL("**/services/insourcing-enablement");
     await p

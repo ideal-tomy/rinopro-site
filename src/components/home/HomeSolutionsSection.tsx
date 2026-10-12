@@ -18,7 +18,7 @@ const { solutions } = homeLandingCopy;
 
 const PILLAR_LABEL = {
   consulting: "コンサルティング",
-  insourcing: "半内製化",
+  insourcing: "半内製化（FED）",
 } as const;
 
 const SOLUTION_ICONS: Record<(typeof solutions.items)[number]["iconKey"], LucideIcon> = {

@@ -36,7 +36,7 @@ export function HomeBrandStorySection() {
               AXEONという名前には、二つの読み方があります。
             </p>
             <p>
-              英語で読めば、Axis On（アクシスオン）。
+              英語で読めば、Axis On。
               <br />
               
               軸を持ち、前へ進む。

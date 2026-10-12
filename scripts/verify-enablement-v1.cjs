@@ -28,7 +28,7 @@ const out = "docs/enablement-v1-2026-10-09";
     });
     assert.equal(res.status(), 200);
     await page.evaluate(() => document.fonts.ready);
-    assert.equal(await page.locator("main h1").innerText(), "半内製化");
+    assert.equal(await page.locator("main h1").innerText(), "半内製化（FED）");
     assert.deepEqual(await page.locator("main h2").allTextContents(), [
       "支援の進め方",
       "支援を始める前に",

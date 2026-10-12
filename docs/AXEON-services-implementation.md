@@ -49,8 +49,8 @@ print(out.resolve())
 
 ### 全体
 
-- 白と淡い水色を基調に、濃紺の文字・ボタンで構成します。半内製化カードのみ淡いコーラル系です。
-- ページ順序は「共通ヘッダー → ヒーロー → コンサルティング／半内製化 → SERVICE MENU → PROCESS → 下部CTA」です。
+- 白と淡い水色を基調に、濃紺の文字・ボタンで構成します。半内製化（FED）カードのみ淡いコーラル系です。
+- ページ順序は「共通ヘッダー → ヒーロー → コンサルティング／半内製化（FED） → SERVICE MENU → PROCESS → 下部CTA」です。
 - 1024px幅の参照画像で配置を合わせてから、1280px／1440px幅へ自然に広げてください。広い画面では中央配置のコンテンツ幅を設け、カードや文字を際限なく引き伸ばさないでください。最大幅約1200pxは初期案であり、既存サイトのコンテナと参照比率に合わせて調整します。
 - セクションを囲う余白を勝手に増やさないでください。特にヒーローと主要カード、主要カードとSERVICE MENUの間に大きな空白を作らないでください。
 - 画像の上に描かれている見出しや本文は、実装では実際のHTMLテキストとしてください。ページ全体を1枚の画像として貼る実装は不可です。
@@ -89,16 +89,16 @@ print(out.resolve())
 
 ### 主要カードの文言（PC／スマホ共通）
 
-| 要素 | コンサルティング | 半内製化 |
+| 要素 | コンサルティング | 半内製化（FED） |
 | --- | --- | --- |
 | 英文ラベル | CONSULTING | ENABLEMENT |
-| 見出し | コンサルティング | 半内製化 |
+| 見出し | コンサルティング | 半内製化（FED） |
 | 説明1行目 | 何から着手すべきか、 | 作って終わらせず、社内で |
 | 説明2行目 | 経営と現場で論点を整理します。 | 改善できる状態へ移行します。 |
 | チェック1 | 課題の見える化 | 社内メンバーと伴走 |
 | チェック2 | 優先順位の整理 | 運用の仕組み作り |
 | チェック3 | 実現可能な計画へ | 継続的な改善サイクル |
-| CTA | コンサルティングを見る → | 半内製化を見る → |
+| CTA | コンサルティングを見る → | 半内製化（FED）を見る → |
 
 ### PC SERVICE MENU
 
@@ -135,14 +135,14 @@ print(out.resolve())
 
 1. 高さ64pxの白いヘッダー。左AXEON、右メニュー。
 2. SERVICE／ご支援内容／説明文と、右側に薄く重なるヒーロー画像。
-3. 1枚のカード枠。最初はコンサルティング、裏側は半内製化。
+3. 1枚のカード枠。最初はコンサルティング、裏側は半内製化（FED）。
 4. カード外側の回転操作欄：横スワイプで回転／2つのドット／停止・再生。
 5. 淡い水色のSERVICE MENUと、2つの小さなサービスリンク。
 6. 共通フッター。
 
 スマホのカードは「ラベル → 見出し → 説明 → 大きなイラスト → チェック3項目 → 全幅CTA」の縦構成です。PCの左右配置をそのまま縮小しないでください。スマホで主要カードを縦に2枚並べる実装も不可です。
 
-スマホのSERVICE MENUは、了承済みHTML通りのコンパクトな構成です。見出しは `目的に合わせて、`／`必要な支援を選べます。`、下は `コンサルティング →` と `半内製化 →` の2リンクです。リンクは該当する表裏を表示してカードまで移動します。PCの4枚の写真カードと5ステップのPROCESSを、このスマホ見本の途中へ追加しないでください。必要な既存サービスへの導線は実際の詳細ページや共通ナビから維持します。
+スマホのSERVICE MENUは、了承済みHTML通りのコンパクトな構成です。見出しは `目的に合わせて、`／`必要な支援を選べます。`、下は `コンサルティング →` と `半内製化（FED） →` の2リンクです。リンクは該当する表裏を表示してカードまで移動します。PCの4枚の写真カードと5ステップのPROCESSを、このスマホ見本の途中へ追加しないでください。必要な既存サービスへの導線は実際の詳細ページや共通ナビから維持します。
 
 見本の簡易フッターはプレビュー用です。実サイトの共通フッターに必要な会社情報・既存リンクがある場合はそれを維持し、この変更を理由に削除しないでください。
 
@@ -163,9 +163,9 @@ print(out.resolve())
 | カード見出し | 29px、weight:750、line-height:1.5、letter-spacing:-.03em |
 | カード説明 | 15px、line-height:1.8、min-height:54px |
 | コンサルティング背景 | linear-gradient(135deg,#edf8ff 0%,#e8f5ff 100%) |
-| 半内製化背景 | linear-gradient(130deg,#fff8f7,#fff4f2) |
+| 半内製化（FED）背景 | linear-gradient(130deg,#fff8f7,#fff4f2) |
 | コンサルティング画像枠 | width:100%、aspect-ratio:447/357、margin:7px 0 6px |
-| 半内製化画像枠 | aspect-ratio:435/357、HTML記載のclip-pathを維持 |
+| 半内製化（FED）画像枠 | aspect-ratio:435/357、HTML記載のclip-pathを維持 |
 | チェック項目 | 15px、line-height:1.5、行間gap:9px、丸23px、文字とのgap:10px |
 | CTA | min-height:47px、全幅、文字15px、角丸7px、濃紺グラデーション |
 | 操作欄 | 高さ45px、margin-top:2px、ドットのタップ領域40×44px |
@@ -205,13 +205,13 @@ print(out.resolve())
 
 コンサルティング：写真・書類・グラフ・吹き出しが矢印で集まり、番号付きの青い計画リストに整理されるイラスト。
 
-半内製化：中央の歯車付きノートPCを4人の人物が囲み、青い循環矢印・オレンジの電球・棒グラフ・書類で改善の循環を示すイラスト。
+半内製化（FED）：中央の歯車付きノートPCを4人の人物が囲み、青い循環矢印・オレンジの電球・棒グラフ・書類で改善の循環を示すイラスト。
 
 **単純な線画・汎用アイコン・CSSで描いた別図・絵文字・新たなAI生成画像に置き換えないでください。** 同じテーマでも、構図・人物・色・質感が異なると今回の要件を満たしません。
 
 既存リポジトリに参照と一致する原画があれば、それを使います。ない場合、了承済みスマホHTMLと同じ画像の切り出しで再現できます。本書の `mobile-reference.png` がその画像です。単体の透明PNGではなく、元の見本画像からイラスト部分をCSSで切り出しています。HTMLの画像倍率・left・top・aspect-ratio・clip-pathはこの画像に依存するため、勝手に画像だけ変更しないでください。
 
-特に半内製化は、上端の不要な元画像テキストが混ざらないようclip-pathで処理しています。この処理を削除して、見出しや説明が二重に出ないようにしてください。両方ともイラストの端や下部を不自然に切らないでください。
+特に半内製化（FED）は、上端の不要な元画像テキストが混ざらないようclip-pathで処理しています。この処理を削除して、見出しや説明が二重に出ないようにしてください。両方ともイラストの端や下部を不自然に切らないでください。
 
 PCのイラストと写真は `desktop-reference.jpeg` を参照し、一致する既存素材を探します。原画がなければ、参照画像から画像部分を切り出して使用できます。ただし見出し・本文・チェック・ボタンが切り出し画像へ混入しないようにしてください。より高解像度の原画が必要な場合は不足素材を報告し、別イラストで埋めずに、提供済み画像で確認できる実装を先に完成させます。
 
@@ -223,7 +223,7 @@ PCのイラストと写真は `desktop-reference.jpeg` を参照し、一致す�
 - タブレット：主要2カードを横並び。サービスメニューは2列にして窮屈さを解消。PROCESSは折返し等で読める構成に調整。1024pxへ切り替わる時に参照PCへつながるようにします。
 - PC：主要2カード横並び、サービスメニュー4列、PROCESS5ステップ横並び。
 
-CTAのリンク先はリポジトリ内で実在するページ・アンカーを確認して設定してください。プレビューHTMLの詳細ダイアログは確認用です。本番の「コンサルティングを見る」「半内製化を見る」は実際の詳細ページ等へのリンクへ接続します。プレビューのダミーメニュー、架空のパス、押しても何も起こらないCTAを本番へ残さないでください。
+CTAのリンク先はリポジトリ内で実在するページ・アンカーを確認して設定してください。プレビューHTMLの詳細ダイアログは確認用です。本番の「コンサルティングを見る」「半内製化（FED）を見る」は実際の詳細ページ等へのリンクへ接続します。プレビューのダミーメニュー、架空のパス、押しても何も起こらないCTAを本番へ残さないでください。
 
 既存のページルート、SEOメタ情報、アクセス解析、お問い合わせ導線、必要な共通フッターを維持します。CSSは対象ページへスコープし、見本の汎用 `h1`・`button`・`body` スタイルが他ページへ漏れないようにしてください。
 
@@ -263,7 +263,7 @@ CTAのリンク先はリポジトリ内で実在するページ・アンカー�
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="AXEONのサービス紹介。コンサルティングと半内製化のスマホ表示と回転カードの見本。">
+<meta name="description" content="AXEONのサービス紹介。コンサルティングと半内製化（FED）のスマホ表示と回転カードの見本。">
 <title>AXEON｜スマホ表示・回転カード見本</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231d3c86'/%3E%3Cpath d='M7 25 14 7h4l7 18h-5l-1.4-4h-6L11 25Zm7-8h3.2L15.6 12Z' fill='white'/%3E%3C/svg%3E">
 <style>
@@ -272,17 +272,17 @@ CTAのリンク先はリポジトリ内で実在するページ・アンカー�
 </head>
 <body>
 <div class="page">
-<header class="header"><a class="logo" href="#top" aria-label="AXEON">AXEON</a><button class="menu-button" type="button" aria-label="メニューを開く" aria-expanded="false" aria-controls="menu-panel"><span class="menu-icon" aria-hidden="true"></span></button><nav class="menu-panel" id="menu-panel" aria-label="ページメニュー" hidden><button type="button" data-side="0">コンサルティング</button><button type="button" data-side="1">半内製化</button><button type="button" data-menu="services">支援メニュー</button></nav></header>
+<header class="header"><a class="logo" href="#top" aria-label="AXEON">AXEON</a><button class="menu-button" type="button" aria-label="メニューを開く" aria-expanded="false" aria-controls="menu-panel"><span class="menu-icon" aria-hidden="true"></span></button><nav class="menu-panel" id="menu-panel" aria-label="ページメニュー" hidden><button type="button" data-side="0">コンサルティング</button><button type="button" data-side="1">半内製化（FED）</button><button type="button" data-menu="services">支援メニュー</button></nav></header>
 <main>
 <section class="hero" id="top"><div class="hero-art" aria-hidden="true"><svg viewBox="464 65 560 250" preserveAspectRatio="xMidYMid slice"><image href="assets/desktop-reference.jpeg" width="1024" height="1536"/></svg></div><div class="hero-copy"><div class="eyebrow">SERVICE</div><h1>ご支援内容</h1><p>課題の整理から実装・社内への定着まで、必要な範囲を同じチームで進めます。</p></div></section>
-<section class="service" aria-label="コンサルティングと半内製化" id="service-card">
+<section class="service" aria-label="コンサルティングと半内製化（FED）" id="service-card">
 <div class="flip-stage" aria-describedby="flip-help"><div class="flip-inner">
 <article class="face front" aria-labelledby="consulting-title"><div class="eyebrow">CONSULTING</div><h2 id="consulting-title">コンサルティング</h2><p class="description">何から着手すべきか、<br>経営と現場で論点を整理します。</p><div class="illustration"><img src="assets/mobile-reference.png" alt="写真や書類、グラフから課題を集め、優先順位のついた実行計画に整理するイラスト" width="1264" height="1244" draggable="false"></div><ul class="benefits"><li><span class="check" aria-hidden="true">✓</span>課題の見える化</li><li><span class="check" aria-hidden="true">✓</span>優先順位の整理</li><li><span class="check" aria-hidden="true">✓</span>実現可能な計画へ</li></ul><button class="service-cta" type="button" data-detail="consulting">コンサルティングを見る<span class="cta-arrow" aria-hidden="true">→</span></button></article>
-<article class="face back" aria-labelledby="enablement-title" aria-hidden="true" inert><div class="eyebrow">ENABLEMENT</div><h2 id="enablement-title">半内製化</h2><p class="description">作って終わらせず、社内で<br>改善できる状態へ移行します。</p><div class="illustration enablement"><img src="assets/mobile-reference.png" alt="社内メンバーがパソコンを囲み、開発・運用・改善を繰り返すイラスト" width="1264" height="1244" draggable="false"></div><ul class="benefits"><li><span class="check" aria-hidden="true">✓</span>社内メンバーと伴走</li><li><span class="check" aria-hidden="true">✓</span>運用の仕組み作り</li><li><span class="check" aria-hidden="true">✓</span>継続的な改善サイクル</li></ul><button class="service-cta" type="button" data-detail="enablement">半内製化を見る<span class="cta-arrow" aria-hidden="true">→</span></button></article>
+<article class="face back" aria-labelledby="enablement-title" aria-hidden="true" inert><div class="eyebrow">ENABLEMENT</div><h2 id="enablement-title">半内製化（FED）</h2><p class="description">作って終わらせず、社内で<br>改善できる状態へ移行します。</p><div class="illustration enablement"><img src="assets/mobile-reference.png" alt="社内メンバーがパソコンを囲み、開発・運用・改善を繰り返すイラスト" width="1264" height="1244" draggable="false"></div><ul class="benefits"><li><span class="check" aria-hidden="true">✓</span>社内メンバーと伴走</li><li><span class="check" aria-hidden="true">✓</span>運用の仕組み作り</li><li><span class="check" aria-hidden="true">✓</span>継続的な改善サイクル</li></ul><button class="service-cta" type="button" data-detail="enablement">半内製化（FED）を見る<span class="cta-arrow" aria-hidden="true">→</span></button></article>
 </div></div>
-<div class="flip-controls"><span class="swipe-hint" id="flip-help">横スワイプで回転</span><button class="side-dot" type="button" data-side="0" aria-label="コンサルティングを表示" aria-pressed="true"></button><button class="side-dot" type="button" data-side="1" aria-label="半内製化を表示" aria-pressed="false"></button><button class="playback" type="button" aria-label="自動回転を停止">Ⅱ 停止</button></div><span class="sr-only" role="status" id="side-status"></span>
+<div class="flip-controls"><span class="swipe-hint" id="flip-help">横スワイプで回転</span><button class="side-dot" type="button" data-side="0" aria-label="コンサルティングを表示" aria-pressed="true"></button><button class="side-dot" type="button" data-side="1" aria-label="半内製化（FED）を表示" aria-pressed="false"></button><button class="playback" type="button" aria-label="自動回転を停止">Ⅱ 停止</button></div><span class="sr-only" role="status" id="side-status"></span>
 </section>
-<section class="service-menu" id="services"><div class="eyebrow">SERVICE MENU</div><h2>目的に合わせて、<br>必要な支援を選べます。</h2><div class="small-menu"><a href="#service-card" data-side="0">コンサルティング <span aria-hidden="true">→</span></a><a href="#service-card" data-side="1">半内製化 <span aria-hidden="true">→</span></a></div></section>
+<section class="service-menu" id="services"><div class="eyebrow">SERVICE MENU</div><h2>目的に合わせて、<br>必要な支援を選べます。</h2><div class="small-menu"><a href="#service-card" data-side="0">コンサルティング <span aria-hidden="true">→</span></a><a href="#service-card" data-side="1">半内製化（FED） <span aria-hidden="true">→</span></a></div></section>
 </main>
 <footer class="footer"><a class="logo" href="#top">AXEON</a><small>© AXEON</small></footer>
 </div>
@@ -291,7 +291,7 @@ CTAのリンク先はリポジトリ内で実在するページ・アンカー�
 (()=>{
 'use strict';
 const stage=document.querySelector('.flip-stage'),inner=document.querySelector('.flip-inner'),faces=[...document.querySelectorAll('.face')],dots=[...document.querySelectorAll('.side-dot')],playback=document.querySelector('.playback'),status=document.querySelector('#side-status'),dialog=document.querySelector('#service-detail'),menuButton=document.querySelector('.menu-button'),menuPanel=document.querySelector('#menu-panel');
-const motion=matchMedia('(prefers-reduced-motion:reduce)'),labels=['コンサルティング','半内製化'];
+const motion=matchMedia('(prefers-reduced-motion:reduce)'),labels=['コンサルティング','半内製化（FED）'];
 let current=0,angle=0,timer=null,finishTimer=null,paused=motion.matches,visible=true,dragging=false,hovered=false,focused=false,busy=false,manualUntil=0,startX=0,startY=0,dx=0,dy=0,suppressClick=false;
 function update(){faces.forEach((face,i)=>{face.inert=i!==current;face.setAttribute('aria-hidden',String(i!==current))});dots.forEach((dot,i)=>dot.setAttribute('aria-pressed',String(i===current)));playback.textContent=paused?'▶ 再生':'Ⅱ 停止';playback.setAttribute('aria-label',paused?'自動回転を再開':'自動回転を停止')}
 function allowed(){return !paused&&!motion.matches&&visible&&!document.hidden&&!dragging&&!hovered&&!focused&&!busy&&!dialog.open&&menuPanel.hidden}
@@ -311,7 +311,7 @@ new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;schedule()}
 document.addEventListener('visibilitychange',schedule);motion.addEventListener('change',()=>{paused=motion.matches;update();schedule()});
 function closeMenu(){menuPanel.hidden=true;menuButton.setAttribute('aria-expanded','false');menuButton.setAttribute('aria-label','メニューを開く')}
 menuButton.addEventListener('click',()=>{menuPanel.hidden=!menuPanel.hidden;menuButton.setAttribute('aria-expanded',String(!menuPanel.hidden));menuButton.setAttribute('aria-label',menuPanel.hidden?'メニューを開く':'メニューを閉じる');schedule()});document.querySelector('[data-menu]').addEventListener('click',()=>{closeMenu();document.querySelector('#services').scrollIntoView({behavior:motion.matches?'instant':'smooth'});schedule()});
-const content={consulting:{label:'CONSULTING',title:'コンサルティング',description:'何から始めるかを、経営と現場で整理します。課題の言語化、優先順位、実行できる計画まで、次に取り組むことを明確にします。',benefits:['課題の見える化','優先順位の整理','実現可能な計画へ']},enablement:{label:'ENABLEMENT',title:'半内製化',description:'作って渡して終わりにせず、開発・データ整備・運用を一緒に進めます。社内メンバーが使いながら改善できるよう、ノウハウと進め方を残します。',benefits:['社内メンバーと伴走','運用の仕組み作り','継続的な改善サイクル']}};
+const content={consulting:{label:'CONSULTING',title:'コンサルティング',description:'何から始めるかを、経営と現場で整理します。課題の言語化、優先順位、実行できる計画まで、次に取り組むことを明確にします。',benefits:['課題の見える化','優先順位の整理','実現可能な計画へ']},enablement:{label:'ENABLEMENT',title:'半内製化（FED）',description:'作って渡して終わりにせず、開発・データ整備・運用を一緒に進めます。社内メンバーが使いながら改善できるよう、ノウハウと進め方を残します。',benefits:['社内メンバーと伴走','運用の仕組み作り','継続的な改善サイクル']}};
 document.querySelectorAll('[data-detail]').forEach(button=>button.addEventListener('click',()=>{const d=content[button.dataset.detail];document.querySelector('#detail-label').textContent=d.label;document.querySelector('#detail-title').textContent=d.title;document.querySelector('#detail-description').textContent=d.description;document.querySelector('#detail-benefits').replaceChildren(...d.benefits.map(text=>{const li=document.createElement('li');const check=document.createElement('span');check.className='check';check.setAttribute('aria-hidden','true');check.textContent='✓';li.append(check,document.createTextNode(text));return li}));dialog.showModal();schedule()}));
 document.querySelector('.dialog-close').addEventListener('click',()=>dialog.close());dialog.addEventListener('close',()=>{manualUntil=Date.now()+12000;schedule()});dialog.addEventListener('click',e=>{if(e.target===dialog){const box=dialog.getBoundingClientRect();if(e.clientX<box.left||e.clientX>box.right||e.clientY<box.top||e.clientY>box.bottom)dialog.close()}});
 update();schedule();

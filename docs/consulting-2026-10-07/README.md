@@ -11,7 +11,7 @@
 - `public/images/services/consulting/{organize,prioritize,plan,process}.png`：添付の見本から文字を含まないイラスト部分のみ切り出した素材。
 - `scripts/verify-consulting-design.cjs`：ブラウザーで表示・操作・枠の座標・演出を検証。
 
-他ページで埋め込まれる `ConsultingDetailPageContent` と共通画像部品は変更していない。旧構成は新しい詳細ページに重複掲載していない。トップ、ご支援内容、半内製化、会社紹介のソース変更なし。
+他ページで埋め込まれる `ConsultingDetailPageContent` と共通画像部品は変更していない。旧構成は新しい詳細ページに重複掲載していない。トップ、ご支援内容、半内製化（FED）、会社紹介のソース変更なし。
 
 ## ヒーロー画像と枠
 
@@ -57,6 +57,6 @@
 
 確認結果は [verification.json](verification.json)。ビルド（TypeScript含む）、変更TSXのESLint、git diff --checkを実行。375／390／430／768／1023／1024／1280／1440pxを検証。実機iPhone Safariは**未確認**。確認はWindows Chromeの画面幅変更とタッチ入力。
 
-初回の遷移確認で半内製化ページにReact hydrationエラー418が出たが、最終確認では再現せず全遷移先のエラーは0。発生の契機は未確定。変更範囲外のページの実装は変更していない。
+初回の遷移確認で半内製化（FED）ページにReact hydrationエラー418が出たが、最終確認では再現せず全遷移先のエラーは0。発生の契機は未確定。変更範囲外のページの実装は変更していない。
 
 本番反映、mainへのマージ、pushは行っていない。

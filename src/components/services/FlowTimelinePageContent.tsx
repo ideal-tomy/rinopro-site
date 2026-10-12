@@ -17,6 +17,7 @@ import {
 } from "@/lib/ui/service-reading-styles";
 import { ServicesDetailIntroImage } from "@/components/services/ServicesDetailIntroImage";
 import { FlowStepMedia } from "@/components/services/FlowStepMedia";
+import { EnablementFlowStepFlipCard } from "@/components/services/EnablementFlowStepFlipCard";
 import { servicesDevelopmentEmbeddedCopy } from "@/lib/content/services-embedded-copy";
 import { cn } from "@/lib/utils";
 import { useServiceTabs } from "./ServicePageNavigation";
@@ -67,12 +68,14 @@ function EmphasisText({ text }: { text: string }) {
 export type FlowTimelinePageContentProps = {
   /** `/services` 埋め込み時: 余白・見出し階層・sticky・クロスリンクを調整 */
   embedded?: boolean;
-  /** 半内製化ページ専用の表示調整。他の埋め込みには適用しない。 */
+  /** 半内製化（FED）ページ専用の表示調整。他の埋め込みには適用しない。 */
   enablement?: boolean;
   /** 概要ページ内統合時: ページ見出しを非表示 */
   hideHeader?: boolean;
   /** 概要ページ内統合時: トラック固定・タブ/全体図を非表示 */
   offeringEmbed?: { fixedTrack: FlowTrackKey };
+  /** ステップ本文と別トラックの画像を組み合わせる（半内製化の開発セクションなど） */
+  mediaTrack?: FlowTrackKey;
 };
 
 export function FlowTimelinePageContent({
@@ -80,6 +83,7 @@ export function FlowTimelinePageContent({
   enablement = false,
   hideHeader = false,
   offeringEmbed,
+  mediaTrack: mediaTrackOverride,
 }: FlowTimelinePageContentProps) {
   const reduce = useReducedMotion();
   const { barRef, revealPanel } = useServiceTabs();
@@ -94,6 +98,7 @@ export function FlowTimelinePageContent({
     offeringEmbed?.fixedTrack ?? "common",
   );
   const track = offeringEmbed?.fixedTrack ?? activeTrack;
+  const mediaTrack = mediaTrackOverride ?? track;
   const activeCopy = flowDetailPageCopyByTrack[track];
   const { steps } = activeCopy;
   const idSuffix = useId().replace(/:/g, "");
@@ -102,6 +107,8 @@ export function FlowTimelinePageContent({
     : "flow-track-panel";
   const tabId = (key: FlowTrackKey) =>
     embedded ? `flow-tab-${key}-${idSuffix}` : `flow-tab-${key}`;
+  /** タブ UI がある半内製化のみ tabpanel（タブなし埋め込みではフォーカス枠が出るため使わない） */
+  const enablementTabPanel = enablement && !offeringEmbed;
 
   return (
     <div
@@ -252,30 +259,32 @@ export function FlowTimelinePageContent({
       ) : null}
 
       <div
-        id={enablement ? flowPanelId : undefined}
-        role={enablement ? "tabpanel" : undefined}
-        tabIndex={enablement ? 0 : undefined}
-        aria-labelledby={enablement ? tabId(track) : undefined}
+        id={enablementTabPanel ? flowPanelId : undefined}
+        role={enablementTabPanel ? "tabpanel" : undefined}
+        tabIndex={enablementTabPanel ? 0 : undefined}
+        aria-labelledby={enablementTabPanel ? tabId(track) : undefined}
       >
-        <motion.div
-          id={enablement ? undefined : flowPanelId}
-          role={enablement ? undefined : "tabpanel"}
-          aria-labelledby={enablement ? undefined : tabId(track)}
-          className="mx-auto mb-12 max-w-2xl md:mb-24"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-60px" }}
-          variants={v}
-        >
-          <p
-            className={cn(
-              embedded ? "text-left" : "text-center",
-              embedded ? serviceReading.body : serviceReading.bodyCenter,
-            )}
+        {!(enablement && embedded) ? (
+          <motion.div
+            id={enablement ? undefined : flowPanelId}
+            role={enablement ? undefined : "tabpanel"}
+            aria-labelledby={enablement ? undefined : tabId(track)}
+            className="mx-auto mb-12 max-w-2xl md:mb-24"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-60px" }}
+            variants={v}
           >
-            <EmphasisText text={activeCopy.intro} />
-          </p>
-        </motion.div>
+            <p
+              className={cn(
+                embedded ? "text-left" : "text-center",
+                embedded ? serviceReading.body : serviceReading.bodyCenter,
+              )}
+            >
+              <EmphasisText text={activeCopy.intro} />
+            </p>
+          </motion.div>
+        ) : null}
 
         <div
           className={cn(
@@ -309,25 +318,36 @@ export function FlowTimelinePageContent({
                 {embedded ? (
                   <>
                     <div className="relative mx-auto w-full md:hidden">
-                      <div className="relative z-[1] flex flex-col items-start pt-1 text-left">
-                        <StepHeading className="mb-1.5 text-[1.125rem] font-semibold leading-snug text-text">
-                          {step.labelJa}
-                        </StepHeading>
-                        <p
-                          className={cn(
-                            "mb-8 w-full max-w-prose",
-                            serviceReading.body,
-                          )}
-                        >
-                          {step.body}
-                        </p>
-                        <FlowStepMedia
-                          sizes={mediaSizes}
-                          track={track}
+                      {enablement ? (
+                        <EnablementFlowStepFlipCard
+                          labelJa={step.labelJa}
+                          body={step.body}
+                          track={mediaTrack}
                           step={step.step}
-                          className="w-full"
+                          sizes={mediaSizes}
+                          priority={i === 0}
                         />
-                      </div>
+                      ) : (
+                        <div className="relative z-[1] flex flex-col items-start pt-1 text-left">
+                          <StepHeading className="mb-1.5 text-[1.125rem] font-semibold leading-snug text-text">
+                            {step.labelJa}
+                          </StepHeading>
+                          <p
+                            className={cn(
+                              "mb-8 w-full max-w-prose",
+                              serviceReading.body,
+                            )}
+                          >
+                            {step.body}
+                          </p>
+                          <FlowStepMedia
+                            sizes={mediaSizes}
+                            track={mediaTrack}
+                            step={step.step}
+                            className="w-full"
+                          />
+                        </div>
+                      )}
                     </div>
 
                     <div className="relative hidden md:grid md:grid-cols-2 md:items-center md:gap-10 md:px-2">
@@ -358,7 +378,7 @@ export function FlowTimelinePageContent({
                         )}
                       >
                         <FlowStepMedia
-                          track={track}
+                          track={mediaTrack}
                           step={step.step}
                           sizes={mediaSizes}
                         />

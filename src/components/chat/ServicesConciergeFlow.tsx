@@ -25,7 +25,7 @@ export function ServicesConciergeFlow({
           <ConciergeChoiceButton
             type="button"
             order={1}
-            label="半内製化"
+            label="半内製化（FED）"
             disabled={disabled}
             onClick={() => onPickService("development")}
           />

@@ -231,7 +231,7 @@ export function ConsultingPage() {
           </p>
           <p>
             計画後の開発・導入は、別途範囲を確認します。社内で改善を続けるための支援については、
-            <Link href="/services/insourcing-enablement">半内製化ページ</Link>
+            <Link href="/services/insourcing-enablement">半内製化（FED）ページ</Link>
             でご案内します。
           </p>
         </div>
@@ -295,7 +295,7 @@ export function ConsultingPage() {
         aria-label="関連ページ"
       >
         <Link href="/services">← ご支援内容へ戻る</Link>
-        <Link href="/services/insourcing-enablement">半内製化を見る →</Link>
+        <Link href="/services/insourcing-enablement">半内製化（FED）を見る →</Link>
       </nav>
     </div>
   );

@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-const defaultLabels = ["コンサルティング", "半内製化"] as const;
+const defaultLabels = ["コンサルティング", "半内製化（FED）"] as const;
 
 export function useServicesCardRotation({
   labels = defaultLabels,

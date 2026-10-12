@@ -17,7 +17,7 @@ type ServiceCurrent = "consulting" | "insourcing";
 export function ServiceCrossLinks({ current }: { current: ServiceCurrent }) {
   const sibling =
     current === "consulting"
-      ? { href: "/services/insourcing-enablement" as const, label: "半内製化" }
+      ? { href: "/services/insourcing-enablement" as const, label: "半内製化（FED）" }
       : { href: "/services/consulting" as const, label: "コンサルティング" };
 
   return (
@@ -62,7 +62,7 @@ export function DemoCrossServiceLinks() {
       <ul className="flex flex-wrap items-center justify-center gap-x-10 gap-y-3">
         <li className="list-none">
           <Link href="/services/insourcing-enablement" className={linkClass}>
-            半内製化
+            半内製化（FED）
           </Link>
         </li>
         <li className="list-none">

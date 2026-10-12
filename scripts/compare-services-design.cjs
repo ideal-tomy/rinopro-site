@@ -10,7 +10,7 @@ const reference='docs/AXEONご支援内容 モバイル3画面ボード-2.png';
       {input:ref,left:0,top:0}, {input:`${dir}/${mode}-sp-${name}.png`,left:390,top:0}
     ]).png().toFile(`${dir}/${mode}-comparison-sp-${name}.png`);
   }
-  const ref='docs/AXEON ご支援内容：コンサルティングと半内製化-1.png';
+  const ref='docs/AXEON ご支援内容：コンサルティングと半内製化（FED）-1.png';
   const metadata=await sharp(`${dir}/${mode}-1122-full.png`).metadata();
   await sharp({create:{width:2244,height:Math.max(1402,metadata.height),channels:3,background:'#fff'}}).composite([
     {input:ref,left:0,top:0},{input:`${dir}/${mode}-1122-full.png`,left:1122,top:0}
