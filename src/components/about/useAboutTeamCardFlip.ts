@@ -13,6 +13,14 @@ const FLIP_MS = 1500;
 type AboutTeamCardFlipOptions = {
   /** 「{title}の〇〇を表示」の〇〇。既定は担当内容 */
   detailPhrase?: string;
+  /** 画面幅に関わらず反転を許可（フリップボタン用） */
+  interactiveOnAllViewports?: boolean;
+  /** カード全体のタップで反転しない（ボタン操作のみ） */
+  flipTriggerButtonOnly?: boolean;
+  /** スクロール連動の自動めくりを無効化 */
+  disableScrollFlip?: boolean;
+  /** 自動めくりの intersectionRatio しきい値（既定 0.88） */
+  scrollFlipVisibleRatio?: number;
 };
 
 export function useAboutTeamCardFlip(
@@ -20,6 +28,12 @@ export function useAboutTeamCardFlip(
   options?: AboutTeamCardFlipOptions,
 ) {
   const detailPhrase = options?.detailPhrase ?? "担当内容";
+  const interactiveOnAllViewports =
+    options?.interactiveOnAllViewports ?? false;
+  const flipTriggerButtonOnly = options?.flipTriggerButtonOnly ?? false;
+  const disableScrollFlip = options?.disableScrollFlip ?? false;
+  const scrollFlipVisibleRatio =
+    options?.scrollFlipVisibleRatio ?? VISIBLE_RATIO;
   const stage = useRef<HTMLDivElement>(null);
   const selectSide = useRef<(side: number) => void>(() => {});
   const [display, setDisplay] = useState({
@@ -49,8 +63,11 @@ export function useAboutTeamCardFlip(
         status,
       });
 
+    const canFlip = () =>
+      interactiveOnAllViewports || mobile.matches;
+
     const flipTo = (side: number, status = "") => {
-      if (busy || !mobile.matches || side === current) return;
+      if (busy || !canFlip() || side === current) return;
       busy = true;
       current = side;
       angle += 180;
@@ -62,7 +79,7 @@ export function useAboutTeamCardFlip(
     };
 
     const onTap = () => {
-      if (!mobile.matches || busy) return;
+      if (flipTriggerButtonOnly || busy || !canFlip()) return;
       const next = 1 - current;
       if (next === 0) allowScrollFlip = false;
       flipTo(
@@ -92,25 +109,35 @@ export function useAboutTeamCardFlip(
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (!mobile.matches || motion.matches) return;
+        if (disableScrollFlip || !mobile.matches || motion.matches) return;
         const ratio = entry.intersectionRatio;
         if (ratio < RESET_RATIO) {
           allowScrollFlip = true;
           return;
         }
-        if (ratio >= VISIBLE_RATIO && current === 0 && allowScrollFlip) {
+        if (
+          ratio >= scrollFlipVisibleRatio &&
+          current === 0 &&
+          allowScrollFlip
+        ) {
           flipTo(1, `${title}の${detailPhrase}を表示`);
         }
       },
-      { threshold: [0, RESET_RATIO, VISIBLE_RATIO, 1] },
+      {
+        threshold: [0, RESET_RATIO, scrollFlipVisibleRatio, 1].filter(
+          (v, i, a) => a.indexOf(v) === i,
+        ),
+      },
     );
 
     const onViewportChange = () => publish();
     const onMotionChange = () => publish();
 
     observer.observe(element);
-    element.addEventListener("click", onTap);
-    element.addEventListener("keydown", onKeyDown);
+    if (!flipTriggerButtonOnly) {
+      element.addEventListener("click", onTap);
+      element.addEventListener("keydown", onKeyDown);
+    }
     mobile.addEventListener("change", onViewportChange);
     motion.addEventListener("change", onMotionChange);
     publish();
@@ -118,12 +145,26 @@ export function useAboutTeamCardFlip(
     return () => {
       clearTimeout(finish);
       observer.disconnect();
-      element.removeEventListener("click", onTap);
-      element.removeEventListener("keydown", onKeyDown);
+      if (!flipTriggerButtonOnly) {
+        element.removeEventListener("click", onTap);
+        element.removeEventListener("keydown", onKeyDown);
+      }
       mobile.removeEventListener("change", onViewportChange);
       motion.removeEventListener("change", onMotionChange);
     };
-  }, [title, detailPhrase]);
+  }, [
+    title,
+    detailPhrase,
+    interactiveOnAllViewports,
+    flipTriggerButtonOnly,
+    disableScrollFlip,
+    scrollFlipVisibleRatio,
+  ]);
 
-  return { display, selectSide, stage };
+  const toggleFlip = () => {
+    const next = 1 - display.current;
+    selectSide.current(next);
+  };
+
+  return { display, selectSide, toggleFlip, stage };
 }

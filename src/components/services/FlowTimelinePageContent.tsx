@@ -17,7 +17,6 @@ import {
 } from "@/lib/ui/service-reading-styles";
 import { ServicesDetailIntroImage } from "@/components/services/ServicesDetailIntroImage";
 import { FlowStepMedia } from "@/components/services/FlowStepMedia";
-import { EnablementFlowStepFlipCard } from "@/components/services/EnablementFlowStepFlipCard";
 import { servicesDevelopmentEmbeddedCopy } from "@/lib/content/services-embedded-copy";
 import { cn } from "@/lib/utils";
 import { useServiceTabs } from "./ServicePageNavigation";
@@ -318,36 +317,25 @@ export function FlowTimelinePageContent({
                 {embedded ? (
                   <>
                     <div className="relative mx-auto w-full md:hidden">
-                      {enablement ? (
-                        <EnablementFlowStepFlipCard
-                          labelJa={step.labelJa}
-                          body={step.body}
+                      <div className="relative z-[1] flex flex-col items-start pt-1 text-left">
+                        <StepHeading className="mb-1.5 text-[1.125rem] font-semibold leading-snug text-text">
+                          {step.labelJa}
+                        </StepHeading>
+                        <p
+                          className={cn(
+                            "mb-8 w-full max-w-prose",
+                            serviceReading.body,
+                          )}
+                        >
+                          {step.body}
+                        </p>
+                        <FlowStepMedia
+                          sizes={mediaSizes}
                           track={mediaTrack}
                           step={step.step}
-                          sizes={mediaSizes}
-                          priority={i === 0}
+                          className="w-full"
                         />
-                      ) : (
-                        <div className="relative z-[1] flex flex-col items-start pt-1 text-left">
-                          <StepHeading className="mb-1.5 text-[1.125rem] font-semibold leading-snug text-text">
-                            {step.labelJa}
-                          </StepHeading>
-                          <p
-                            className={cn(
-                              "mb-8 w-full max-w-prose",
-                              serviceReading.body,
-                            )}
-                          >
-                            {step.body}
-                          </p>
-                          <FlowStepMedia
-                            sizes={mediaSizes}
-                            track={mediaTrack}
-                            step={step.step}
-                            className="w-full"
-                          />
-                        </div>
-                      )}
+                      </div>
                     </div>
 
                     <div className="relative hidden md:grid md:grid-cols-2 md:items-center md:gap-10 md:px-2">

@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import {
   Building2,
   UsersRound,
@@ -23,6 +22,7 @@ import { ServicePageLinks } from "./ServicePageNavigation";
 import navigation from "./service-navigation.module.css";
 import { useScrollReveal } from "./useScrollReveal";
 import { headingAccentRuleClasses } from "@/lib/ui/heading-accent-rule-styles";
+import { ServiceHeroProcessDiagram } from "./ServiceHeroProcessDiagram";
 const support = [
   {
     title: "業務と課題の整理",
@@ -71,24 +71,7 @@ export function ConsultingPage() {
               経営の方針と現場の状況を確認し、取り組む範囲と進め方をまとめます。
             </p>
           </div>
-          <div className={styles.imageWrap}>
-            <Image
-              src="/images/services01.jpg"
-              alt="①戦略コンサルティング、②ITコンサルティング、③システム開発、④導入・展開、⑤運用・保守の全体図。①②がコンサルティングの主な範囲です。"
-              width={1672}
-              height={941}
-              sizes="(max-width: 899px) calc(100vw - 40px), 700px"
-              preload
-            />
-            {[1.2, 20.8].map((left) => (
-              <span
-                key={left}
-                className={styles.imageFrame}
-                style={{ left: `${left}%` }}
-                aria-hidden="true"
-              />
-            ))}
-          </div>
+          <ServiceHeroProcessDiagram pageKey="consulting" />
         </div>
       </section>
       <section

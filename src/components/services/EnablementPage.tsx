@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -9,6 +8,7 @@ import {
   ClipboardCheck,
   ChartNoAxesColumnIncreasing,
 } from "lucide-react";
+import { EnablementDevelopmentFlipCards } from "./EnablementDevelopmentFlipCards";
 import { FlowTimelinePageContent } from "./FlowTimelinePageContent";
 import base from "./consulting-page.module.css";
 import styles from "./enablement-page.module.css";
@@ -17,6 +17,7 @@ import navigation from "./service-navigation.module.css";
 import { useScrollReveal } from "./useScrollReveal";
 import { headingAccentRuleClasses } from "@/lib/ui/heading-accent-rule-styles";
 import { EnablementPreSupportCards } from "./EnablementPreSupportCards";
+import { ServiceHeroProcessDiagram } from "./ServiceHeroProcessDiagram";
 
 const stages = [
   [
@@ -77,36 +78,16 @@ export function EnablementPage() {
       <section className={base.hero} aria-labelledby="enablement-title">
         <div className={`${base.container} ${base.heroColumns}`}>
           <div>
-            <h1 id="enablement-title">半内製化</h1>
-            <p className={base.lead}>
+            <h1 id="enablement-title">半内製化（FED）</h1>
+            <p className={`${base.lead} ${base.enablementLead}`}>
               課題の整理から開発・運用まで、社内メンバーと一緒に進めます。
             </p>
-            <p>
+            <p className={base.enablementIntro}>
               必要な仕組みを作りながら、知識と手順を共有し、社内で運用・改善できる範囲を広げます。
             </p>
-            <p className={base.note}>月額の支援・3か月ごとの更新が基本です。</p>
+            <p className={base.note}></p>
           </div>
-          <div className={base.imageWrap}>
-            <Image
-              src="/images/services01.jpg"
-              width={1672}
-              height={941}
-              alt="AXEONの支援範囲：戦略コンサルティング、ITコンサルティング、システム開発、導入・展開、運用・保守。半内製化では③〜⑤を中心に支援します。"
-              priority
-              sizes="(max-width: 899px) 100vw, 56vw"
-            />
-            {[40.4, 60, 79.6].map((left, index) => (
-              <span
-                key={left}
-                aria-hidden="true"
-                className={base.imageFrame}
-                style={{
-                  left: `${left}%`,
-                  width: index === 2 ? "18.8%" : "18.4%",
-                }}
-              />
-            ))}
-          </div>
+          <ServiceHeroProcessDiagram pageKey="enablement" />
         </div>
       </section>
       <section
@@ -181,14 +162,12 @@ export function EnablementPage() {
             {challengePairs.map((item) => (
               <li key={item.issue} className={styles.challengeCard}>
                 <div className={styles.challengeSide}>
-                  <p className={styles.challengeLabel}>課題</p>
                   <p className={styles.challengeText}>{item.issue}</p>
                 </div>
                 <span className={styles.challengeArrow} aria-hidden="true">
                   →
                 </span>
                 <div className={styles.supportSide}>
-                  <p className={styles.supportLabel}>AXEONの支援</p>
                   <p className={styles.supportHeading}>{item.supportTitle}</p>
                   <p className={styles.supportBody}>{item.supportBody}</p>
                 </div>
@@ -207,13 +186,16 @@ export function EnablementPage() {
             開発の進め方
           </h2>
           <div className={styles.development}>
-            <FlowTimelinePageContent
-              embedded
-              hideHeader
-              enablement
-              offeringEmbed={{ fixedTrack: "common" }}
-              mediaTrack="dashboard"
-            />
+            <EnablementDevelopmentFlipCards />
+            <div className={styles.developmentTimeline}>
+              <FlowTimelinePageContent
+                embedded
+                hideHeader
+                enablement
+                offeringEmbed={{ fixedTrack: "common" }}
+                mediaTrack="dashboard"
+              />
+            </div>
           </div>
         </div>
       </section>

@@ -361,14 +361,109 @@
   margin-top: 16px;
 }
 
-/* 開発の進め方：SP フリップカード（/about 支援体制と同じ挙動） */
-.flowStepFlip {
+/* 開発の進め方：SP のみ反転カード / PC はタイムライン */
+.developmentFlipMobile {
+  display: grid;
+}
+.developmentTimeline {
+  display: none;
+}
+@media (min-width: 900px) {
+  .developmentFlipMobile {
+    display: none;
+  }
+  .developmentTimeline {
+    display: block;
+  }
+}
+.developmentFlipGrid {
+  grid-template-columns: 1fr;
+  gap: 20px;
   width: 100%;
 }
+/* .development p の #111 上書きを防ぐ（現状整理・要件化で同一デザイン） */
+.development .developmentFlipGrid .flowStepFrontHeading {
+  color: #0b1933;
+}
+.development .developmentFlipGrid .flowStepFrontSubtitle {
+  color: #334155;
+}
+.development .developmentFlipGrid .flowStepBackLabel {
+  color: #234b9d;
+}
+.development .developmentFlipGrid .flowStepBackTitle,
+.development .developmentFlipGrid .flowStepBackTerm {
+  color: #0b1933;
+}
+.development .developmentFlipGrid .flowStepBackLead,
+.development .developmentFlipGrid .flowStepBackDetail,
+.development .developmentFlipGrid .flowStepBackList li {
+  color: #334155;
+}
+.development .developmentFlipGrid .flowStepBackSummaryLabel,
+.development .developmentFlipGrid .flowStepBackSummaryText {
+  color: #fff;
+}
+/* .page h3 / .development p より優先（SP 説明側：タイポ・余白・スクロールなし） */
+@media (max-width: 899px) {
+  .development .developmentFlipGrid .flowStepBackMain {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1 1 auto;
+    min-height: 0;
+    padding: 8px 14px;
+    overflow: hidden;
+  }
+  .development .developmentFlipGrid h3.flowStepBackTitle {
+    font-size: 16px;
+    line-height: 1.35;
+  }
+  .development .developmentFlipGrid p.flowStepBackLead {
+    margin-top: 4px;
+    font-size: 14px;
+    line-height: 1.45;
+  }
+  .development .developmentFlipGrid .flowStepBackList {
+    margin-top: 6px;
+  }
+  .development .developmentFlipGrid .flowStepBackList li {
+    margin-top: 3px;
+    font-size: 12px;
+    line-height: 1.4;
+  }
+  .development .developmentFlipGrid .flowStepBackList li:first-child {
+    margin-top: 0;
+  }
+  .development .developmentFlipGrid .flowStepBackTerm,
+  .development .developmentFlipGrid .flowStepBackDetail {
+    font-size: 12px;
+    line-height: 1.4;
+  }
+  .development .developmentFlipGrid .flowStepBackDetail {
+    margin-top: 0;
+  }
+  .development .developmentFlipGrid .flowStepBackSummary {
+    padding: 6px 44px 8px 14px;
+  }
+  .development .developmentFlipGrid p.flowStepBackSummaryLabel,
+  .development .developmentFlipGrid p.flowStepBackSummaryText {
+    font-size: 16px;
+    line-height: 1.35;
+  }
+  .development .developmentFlipGrid p.flowStepBackSummaryText {
+    margin-top: 2px;
+  }
+}
+.flowStepFlip {
+  --flow-step-card-height: 420px;
+  width: 100%;
+  min-width: 0;
+}
 .flowStepFlipStage {
+  position: relative;
   perspective: 1500px;
   touch-action: pan-y;
-  cursor: pointer;
   border: 0;
   padding: 0;
   background: none;
@@ -376,10 +471,8 @@
   text-align: inherit;
   font: inherit;
 }
-.flowStepFlipStage:focus-visible {
-  outline: 2px solid #234b9d;
-  outline-offset: 4px;
-  border-radius: 12px;
+.flowStepFlipStageButtonOnly {
+  cursor: default;
 }
 .flowStepFlipInner {
   transform: var(--flow-step-rotation, rotateY(0deg)) !important;
@@ -388,7 +481,8 @@
   gap: 0;
   max-width: none;
   width: 100%;
-  aspect-ratio: 16 / 10;
+  height: var(--flow-step-card-height);
+  min-height: var(--flow-step-card-height);
   transform-style: preserve-3d;
   transition: transform 1500ms cubic-bezier(0.35, 0.05, 0.15, 1);
   will-change: transform;
@@ -397,12 +491,11 @@
   grid-area: 1/1;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
   width: 100%;
-  aspect-ratio: 16 / 10;
-  min-height: 0;
-  padding: 20px;
+  height: var(--flow-step-card-height);
+  min-height: var(--flow-step-card-height);
+  min-width: 0;
+  padding: 0;
   overflow: hidden;
   border-radius: 12px;
   border: none;
@@ -411,61 +504,194 @@
   -webkit-backface-visibility: hidden;
   transform: rotateY(0deg) translateZ(1px);
   position: relative;
+  background: #fff;
 }
 .flowStepFaceFront {
-  padding: 0;
-  gap: 0;
-  background: transparent;
+  background: #fff;
+  border: 1px solid #d5e2f2;
 }
 .flowStepBack {
   transform: rotateY(180deg) translateZ(1px);
-  padding: 20px 18px;
-  background: #e6f3ff;
+  background: #fff7ef;
+  justify-content: flex-start;
   border: 1px solid #d5e2f2;
+  min-height: 0;
 }
-.flowStepCover {
-  position: absolute;
-  inset: 0;
-  width: 100%;
+.flowStepFront {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
   height: 100%;
+  min-height: 0;
+  padding: 20px 18px 52px;
+  background: transparent;
+  box-sizing: border-box;
 }
-.flowStepCoverImage {
-  object-fit: cover;
+.flowStepFrontBlock {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-block: auto;
+  gap: 8px;
 }
-.flowStepFrontScrim {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgb(11 25 51 / 0%) 35%,
-    rgb(11 25 51 / 0.55) 72%,
-    rgb(11 25 51 / 0.82) 100%
-  );
-  pointer-events: none;
-}
-.flowStepFrontTitle {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 1;
-  margin: 0;
-  padding: 16px 18px 18px;
-  font-size: 1.125rem;
-  font-weight: 700;
-  line-height: 1.45;
-  color: #fff;
-  text-shadow: 0 1px 2px rgb(0 0 0 / 0.35);
+.flowStepFrontHeader {
+  flex-shrink: 0;
+  text-align: left;
   word-break: keep-all;
 }
-.flowStepBackBody {
-  margin: auto;
-  width: 100%;
-  max-width: 28em;
-  font-size: 16px;
-  line-height: 1.85;
-  text-align: center;
+.flowStepFrontHeading {
+  margin: 0;
+  font-size: 1.375rem;
+  font-weight: 700;
+  line-height: 1.35;
   color: #0b1933;
+}
+.flowStepFrontSubtitle {
+  margin: 6px 0 0;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: #334155;
+}
+.flowStepIllustration {
+  position: relative;
+  flex: 0 0 auto;
+  margin-top: 8px;
+  width: 100%;
+  height: 188px;
+  overflow: hidden;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+}
+.flowStepIllustrationImage {
+  object-fit: contain;
+  object-position: top center;
+}
+@media (max-width: 899px) {
+  .flowStepFlip {
+    --flow-step-card-height: 304px;
+  }
+  .flowStepFront {
+    padding: 12px 16px 40px;
+    justify-content: center;
+  }
+  .flowStepFrontBlock {
+    gap: 6px;
+    margin-block: auto;
+  }
+  .flowStepFrontSubtitle {
+    margin-top: 4px;
+  }
+  .flowStepIllustration {
+    height: 158px;
+    margin-top: 0;
+  }
+  .flowStepIllustrationImage {
+    object-position: center center;
+  }
+}
+.flowStepBackMain {
+  flex: 1;
+  min-height: 0;
+  padding: 20px 18px 12px;
+  text-align: left;
+  word-break: keep-all;
+  overflow-y: auto;
+}
+.flowStepBackLabel {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #234b9d;
+}
+.flowStepBackTitle {
+  margin: 0;
+  font-size: 1.0625rem;
+  font-weight: 700;
+  line-height: 1.45;
+  color: #0b1933;
+}
+.flowStepBackLead {
+  margin: 10px 0 0;
+  font-size: 0.875rem;
+  line-height: 1.7;
+  color: #334155;
+}
+.flowStepBackList {
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.flowStepBackList li {
+  margin-top: 10px;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  color: #334155;
+}
+.flowStepBackList li:first-child {
+  margin-top: 0;
+}
+.flowStepBackTerm {
+  display: block;
+  font-weight: 700;
+  color: #0b1933;
+}
+.flowStepBackDetail {
+  display: block;
+  margin-top: 2px;
+}
+.flowStepBackSummary {
+  flex-shrink: 0;
+  width: 100%;
+  margin-top: auto;
+  padding: 14px 56px 14px 18px;
+  border-radius: 0 0 11px 11px;
+  background: #234b9d;
+  border: none;
+  box-shadow: none;
+}
+.flowStepBackSummaryLabel {
+  margin: 0;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: #fff;
+}
+.flowStepBackSummaryText {
+  margin: 4px 0 0;
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: #fff;
+}
+.flowStepFlipButtonOnBand {
+  background: #fff;
+  color: #234b9d;
+}
+.flowStepFlipButton {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  background: #234b9d;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: none;
+}
+.flowStepFlipButton:focus-visible {
+  outline: 2px solid #234b9d;
+  outline-offset: 3px;
+}
+.flowStepFlipButtonIcon {
+  width: 20px;
+  height: 20px;
 }
 @media (prefers-reduced-motion: reduce) {
   .flowStepFlipInner {
@@ -475,9 +701,7 @@
 
 /* Three distinct responsive patterns from the approved enablement mockup. */
 .approachSection {
-  background:
-    radial-gradient(ellipse at 54% 52%, rgb(20 103 232 / 7%), transparent 46%),
-    linear-gradient(130deg, #f4f9ff, #eaf4ff 55%, #f7fbff);
+  background: #fff;
 }
 .page .stages {
   --stage-gap: 48px;
@@ -592,9 +816,12 @@
 .descriptionContent h3 { color: #071b3a; font-size: 20px; }
 .descriptionContent p { color: #243246; }
 .descriptionArt { justify-self: center; width: 88px; height: 88px; color: #1467e8; opacity: .12; stroke-width: 1.4; }
-.supportSection { background: linear-gradient(180deg, #fff 0%, #f7fbff 52%, #fff 100%); }
+.supportSection { background: #fff; }
+.supportSection :global(#support-title)::after {
+  margin-bottom: 10px;
+}
 .challengeRows {
-  margin: 28px 0 0;
+  margin: 38px 0 0;
   padding: 0;
   list-style: none;
   display: grid;
@@ -612,26 +839,15 @@
   background: #fff;
 }
 .challengeSide {
+  display: flex;
+  align-items: center;
+  min-height: 100%;
   background: #fff5ee;
   padding: 22px 40px 24px 28px;
 }
 .supportSide {
   background: #eff6ff;
   padding: 22px 28px 24px 40px;
-}
-.challengeLabel {
-  margin: 0 0 12px;
-  font-size: 13px;
-  font-weight: 700;
-  line-height: 1.4;
-  color: #e98532;
-}
-.supportLabel {
-  margin: 0 0 12px;
-  font-size: 13px;
-  font-weight: 700;
-  line-height: 1.4;
-  color: #246fc4;
 }
 .challengeText {
   margin: 0;
@@ -689,7 +905,7 @@
   .checks button { flex: 0 0 31%; min-height: 104px; scroll-snap-align: start; }
 }
 @media (max-width: 767px) {
-  .approachSection { background: linear-gradient(145deg, #f4f9ff, #eaf4ff); }
+  .approachSection { background: #fff; }
   .page .stages { width: calc(100% - 40px); gap: 30px; margin-top: 22px; }
   .stages li, .stages li:nth-child(n) { display: grid; grid-template-columns: 46px minmax(0, 1fr); align-items: center; gap: 14px; padding: 16px 18px; border-radius: 14px; }
   .stageMeta { grid-column: 1; grid-row: 1 / span 2; flex-direction: column; justify-content: center; gap: 8px; min-height: 0; margin: 0; }
@@ -740,7 +956,7 @@
 
 /* 支援を始める前に — 図解入りカード（③） */
 .checksSection {
-  background: #f2f7fb;
+  background: #fff;
 }
 .checksSection h2 {
   font-size: 32px;
@@ -754,119 +970,198 @@
   color: #24364b;
 }
 .preSupport {
+  position: relative;
   margin-top: 28px;
 }
-.preSupportNav {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  margin-bottom: 16px;
-}
-.preSupportNavBtn {
-  display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
+.preSupportSrOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
   padding: 0;
-  border: 1px solid #dcecf9;
-  border-radius: 50%;
-  background: #fff;
-  color: #246fc4;
-  cursor: pointer;
-  font: inherit;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
-.preSupportNavBtn:disabled {
-  opacity: 0.35;
-  cursor: default;
+.preSupportTrackWrap {
+  position: relative;
+  min-width: 0;
 }
-.preSupportNavBtn:focus-visible {
-  outline: 2px solid #246fc4;
-  outline-offset: 2px;
-}
-.preSupportNavBtn svg {
-  width: 22px;
-  height: 22px;
-}
-.preSupportCounter {
-  margin: 0;
-  min-width: 3.5rem;
-  font-size: 14px;
-  font-weight: 600;
-  text-align: center;
-  color: #24364b;
+.preSupportTrackFade,
+.preSupportProgress {
+  display: none;
 }
 .preSupportTrack {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 12px;
+  grid-template-rows: 150px auto auto;
+  column-gap: 12px;
+  row-gap: 10px;
   align-items: stretch;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 .preSupportCard {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-row: span 3;
+  grid-template-rows: subgrid;
   min-width: 0;
-  padding: 16px;
-  border-radius: 6px;
+  padding: 14px 12px 16px;
+  border: 1px solid #d5e2f2;
+  border-radius: 8px;
   background: #fff;
+  box-shadow: none;
 }
 .preSupportDiagram {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 150px;
-  margin-bottom: 16px;
+  min-height: 0;
+  height: 100%;
+  margin: 0;
 }
 .preSupportCardTitle {
   margin: 0;
-  min-height: calc(1.5em * 2);
+  display: flex;
+  align-items: center;
   font-size: 18px;
   font-weight: 700;
-  line-height: 1.5;
+  line-height: 1.45;
   color: #0b2443;
+  word-break: keep-all;
 }
 .preSupportCardBody {
-  margin: 10px 0 0;
+  margin: 0;
+  display: flex;
+  align-items: flex-start;
   font-size: 16px;
   font-weight: 400;
-  line-height: 1.7;
+  line-height: 1.65;
   color: #24364b;
 }
-@media (min-width: 1100px) {
-  .preSupportNav {
-    display: none;
-  }
-}
 @media (max-width: 1099px) {
+  .checksSection[data-reveal-individual] .preSupportCard[data-reveal-ready="true"] {
+    opacity: 1 !important;
+    translate: none !important;
+    transition: none !important;
+  }
+
+  .preSupportTrackFade {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 32px;
+    background: linear-gradient(to left, #fff 12%, rgb(255 255 255 / 0%));
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
+
+  .preSupportTrackWrap[data-at-end="true"] .preSupportTrackFade {
+    opacity: 0;
+  }
+
+  .preSupportProgress {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 14px;
+    padding-inline: 16px;
+  }
+
+  .preSupportSegment,
+  .preSupportSegmentActive {
+    height: 2px;
+    padding: 0;
+    border: none;
+    border-radius: 1px;
+    cursor: pointer;
+    transition:
+      width 0.2s ease,
+      background-color 0.2s ease;
+  }
+
+  .preSupportSegment {
+    width: 6px;
+    background: #c5d5e8;
+  }
+
+  .preSupportSegmentActive {
+    width: 22px;
+    background: #1b4f86;
+  }
+
+  .preSupportSegment:focus-visible,
+  .preSupportSegmentActive:focus-visible {
+    outline: 2px solid #246fc4;
+    outline-offset: 4px;
+  }
+
   .preSupportTrack {
     display: flex;
+    grid-template-columns: unset;
+    grid-template-rows: unset;
+    row-gap: unset;
     overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    gap: 12px;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+    gap: 16px;
+    padding: 2px 16px;
+    scroll-padding-inline: 16px;
+    scroll-behavior: smooth;
     scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x pan-y;
+  }
+
+  .preSupportDiagram {
+    pointer-events: none;
+    user-select: none;
   }
   .preSupportTrack::-webkit-scrollbar {
     display: none;
   }
   .preSupportCard {
-    flex: 0 0 86%;
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 88%;
+    grid-row: unset;
+    grid-template-rows: unset;
     scroll-snap-align: start;
-    padding: 20px;
+    padding: 16px;
   }
   .preSupportDiagram {
+    flex-shrink: 0;
     height: 160px;
   }
   .preSupportCardTitle {
+    display: block;
+    margin-top: 12px;
     font-size: 20px;
+  }
+  .preSupportCardBody {
+    display: block;
+    margin-top: 8px;
+  }
+}
+
+@media (max-width: 1099px) and (prefers-reduced-motion: reduce) {
+  .preSupportTrack {
+    scroll-behavior: auto;
+  }
+
+  .preSupportSegment,
+  .preSupportSegmentActive,
+  .preSupportTrackFade {
+    transition: none;
   }
 }
 @media (min-width: 768px) and (max-width: 1099px) {
   .preSupportCard {
-    flex: 0 0 min(280px, 42vw);
+    flex: 0 0 min(300px, 44vw);
   }
 }

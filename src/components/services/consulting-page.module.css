@@ -51,13 +51,13 @@
   padding-block: 64px;
 }
 .hero {
-  background: #f0f8ff;
+  background: #fff;
   padding-block: 56px;
 }
 .heroColumns {
   display: grid;
-  grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr);
-  gap: 40px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 32px;
   align-items: center;
 }
 .heroColumns > * {
@@ -248,7 +248,7 @@
   gap: 12px;
 }
 .tinted {
-  background: #f0f8ff;
+  background: #fff;
 }
 .tabs {
   display: grid;
@@ -655,6 +655,15 @@
     padding-left: 24px;
   }
 }
+@media (max-width: 899px) {
+  .hero .lead.enablementLead {
+    font-size: 16px;
+  }
+  .hero .enablementIntro {
+    font-size: 14px;
+    line-height: 1.75;
+  }
+}
 @media (max-width: 767px) {
   .container,
   .page .steps {
@@ -780,9 +789,7 @@
 
 /* Consulting sections rebuilt to match the approved reference composition. */
 .scopeSection {
-  background:
-    radial-gradient(ellipse at 53% 50%, rgb(40 120 255 / 10%), transparent 42%),
-    linear-gradient(180deg, #fff 0%, #f8fbff 55%, #fff 100%);
+  background: #fff;
 }
 .diagram { position: relative; isolation: isolate; }
 .sources { gap: 20px; }
@@ -836,7 +843,7 @@
 }
 .planItemIcon svg { width: 20px; height: 20px; }
 .planItemLabel { color: #fff; }
-.tinted { background: linear-gradient(155deg, #f2f8ff 0%, #eaf4ff 56%, #f4f9ff 100%); }
+.tinted { background: #fff; }
 .tabs button { display: flex; justify-content: center; align-items: center; gap: 10px; box-shadow: 0 3px 10px rgb(24 66 112 / 5%); transition: color 180ms ease, background 180ms ease, box-shadow 180ms ease; }
 .tabs button svg { width: 20px; height: 20px; flex: 0 0 auto; color: #4774ae; }
 .tabs button[aria-selected="true"] { box-shadow: 0 7px 18px rgb(35 75 157 / 12%); }

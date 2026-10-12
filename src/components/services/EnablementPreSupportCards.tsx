@@ -1,9 +1,32 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type KeyboardEvent,
+} from "react";
 import { preSupportCards } from "./enablement-pre-support-cards-data";
 import styles from "./enablement-page.module.css";
+
+const CARD_COUNT = preSupportCards.length;
+
+function scrollTrackTo(
+  track: HTMLUListElement,
+  index: number,
+  behavior: ScrollBehavior,
+) {
+  const first = track.querySelector<HTMLElement>("li");
+  if (!first) return;
+  const gap =
+    Number.parseFloat(getComputedStyle(track).columnGap || getComputedStyle(track).gap) ||
+    12;
+  const step = first.offsetWidth + gap;
+  if (step <= 0) return;
+  const clamped = Math.min(CARD_COUNT - 1, Math.max(0, index));
+  track.scrollTo({ left: step * clamped, behavior });
+}
 
 export function EnablementPreSupportCards() {
   const trackRef = useRef<HTMLUListElement>(null);
@@ -15,11 +38,13 @@ export function EnablementPreSupportCards() {
     if (!track || !carousel) return;
     const first = track.querySelector<HTMLElement>("li");
     if (!first) return;
-    const gap = 12;
+    const gap =
+      Number.parseFloat(getComputedStyle(track).columnGap || getComputedStyle(track).gap) ||
+      12;
     const step = first.offsetWidth + gap;
     if (step <= 0) return;
     const next = Math.round(track.scrollLeft / step);
-    setIndex(Math.min(preSupportCards.length - 1, Math.max(0, next)));
+    setIndex(Math.min(CARD_COUNT - 1, Math.max(0, next)));
   }, [carousel]);
 
   useEffect(() => {
@@ -33,6 +58,7 @@ export function EnablementPreSupportCards() {
     updateMode();
     mq.addEventListener("change", updateMode);
     track.addEventListener("scroll", syncIndexFromScroll, { passive: true });
+    syncIndexFromScroll();
     return () => {
       mq.removeEventListener("change", updateMode);
       track.removeEventListener("scroll", syncIndexFromScroll);
@@ -42,71 +68,77 @@ export function EnablementPreSupportCards() {
   const scrollToIndex = (target: number) => {
     const track = trackRef.current;
     if (!track) return;
-    const first = track.querySelector<HTMLElement>("li");
-    if (!first) return;
-    const gap = 12;
-    const step = first.offsetWidth + gap;
-    const clamped = Math.min(preSupportCards.length - 1, Math.max(0, target));
-    track.scrollTo({ left: step * clamped, behavior: "smooth" });
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const clamped = Math.min(CARD_COUNT - 1, Math.max(0, target));
+    scrollTrackTo(track, clamped, reduce ? "auto" : "smooth");
     setIndex(clamped);
   };
 
+  const onSegmentKeyDown = (
+    event: KeyboardEvent<HTMLButtonElement>,
+    cardIndex: number,
+  ) => {
+    if (!carousel) return;
+    if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      scrollToIndex(cardIndex - 1);
+    }
+    if (event.key === "ArrowRight") {
+      event.preventDefault();
+      scrollToIndex(cardIndex + 1);
+    }
+  };
+
+  const atEnd = index === CARD_COUNT - 1;
+
   return (
     <div className={styles.preSupport}>
-      {carousel ? (
-        <div className={styles.preSupportNav} aria-label="図解カードの移動">
-          <button
-            type="button"
-            className={styles.preSupportNavBtn}
-            aria-label="前のカード"
-            disabled={index === 0}
-            onClick={() => scrollToIndex(index - 1)}
-          >
-            <ChevronLeft aria-hidden />
-          </button>
-          <p className={styles.preSupportCounter} aria-live="polite">
-            {index + 1} / {preSupportCards.length}
-          </p>
-          <button
-            type="button"
-            className={styles.preSupportNavBtn}
-            aria-label="次のカード"
-            disabled={index === preSupportCards.length - 1}
-            onClick={() => scrollToIndex(index + 1)}
-          >
-            <ChevronRight aria-hidden />
-          </button>
-        </div>
-      ) : null}
-      <ul
-        ref={trackRef}
-        className={styles.preSupportTrack}
-        tabIndex={carousel ? 0 : undefined}
-        onKeyDown={
-          carousel
-            ? (e) => {
-                if (e.key === "ArrowLeft") {
-                  e.preventDefault();
-                  scrollToIndex(index - 1);
-                }
-                if (e.key === "ArrowRight") {
-                  e.preventDefault();
-                  scrollToIndex(index + 1);
-                }
-              }
-            : undefined
-        }
+      <p className={styles.preSupportSrOnly}>
+        左右にスワイプ、または下の位置表示でカードを切り替えられます。
+      </p>
+      <div
+        className={styles.preSupportTrackWrap}
+        data-at-end={atEnd ? "true" : "false"}
       >
-        {preSupportCards.map(({ title, body, Diagram }) => (
-          <li key={title} className={styles.preSupportCard}>
-            <div className={styles.preSupportDiagram} aria-hidden>
-              <Diagram />
-            </div>
-            <h3 className={styles.preSupportCardTitle}>{title}</h3>
-            <p className={styles.preSupportCardBody}>{body}</p>
-          </li>
+        <ul
+          ref={trackRef}
+          className={styles.preSupportTrack}
+          aria-label="確認項目の図解カード"
+        >
+          {preSupportCards.map(({ title, body, Diagram }) => (
+            <li key={title} className={styles.preSupportCard}>
+              <div className={styles.preSupportDiagram} aria-hidden>
+                <Diagram />
+              </div>
+              <h3 className={styles.preSupportCardTitle}>{title}</h3>
+              <p className={styles.preSupportCardBody}>{body}</p>
+            </li>
+          ))}
+        </ul>
+        <div className={styles.preSupportTrackFade} aria-hidden="true" />
+      </div>
+      <div
+        className={styles.preSupportProgress}
+        role="tablist"
+        aria-label="カードの位置"
+      >
+        {preSupportCards.map((card, cardIndex) => (
+          <button
+            key={card.title}
+            type="button"
+            role="tab"
+            className={
+              index === cardIndex
+                ? styles.preSupportSegmentActive
+                : styles.preSupportSegment
+            }
+            aria-selected={index === cardIndex}
+            aria-label={card.title}
+            onClick={() => scrollToIndex(cardIndex)}
+            onKeyDown={(event) => onSegmentKeyDown(event, cardIndex)}
+          />
         ))}
-      </ul>
+      </div>
     </div>
   );
 }

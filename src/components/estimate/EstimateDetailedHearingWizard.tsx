@@ -637,9 +637,6 @@ export function EstimateDetailedHearingWizard({
             </Button>
           ) : null}
           <div className="flex items-center justify-between gap-3">
-            <p className="text-xs text-text-sub tabular-nums">
-              {stepIndex + 1} / {totalSteps}
-            </p>
             <Button
               type="button"
               variant="ghost"
@@ -650,6 +647,9 @@ export function EstimateDetailedHearingWizard({
             >
               {isEditingQuestion ? "一覧に戻る" : "戻る"}
             </Button>
+            <p className="text-xs text-text-sub tabular-nums">
+              {stepIndex + 1} / {totalSteps}
+            </p>
           </div>
           </div>
         </div>

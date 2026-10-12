@@ -1,0 +1,285 @@
+.poster {
+  margin: 0;
+  min-width: 0;
+  color: #183654;
+  background: #fff;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.col {
+  min-width: 0;
+  background: #fff;
+  display: grid;
+  grid-row: span 8;
+  grid-template-rows: subgrid;
+  align-items: start;
+}
+
+.colFramed {
+  outline: 2px solid #e67a22;
+  outline-offset: -2px;
+  background: #fff7ef;
+  z-index: 1;
+}
+
+.colHead {
+  align-self: stretch;
+  min-height: 32px;
+  padding: 4px 8px 4px 4px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  background: #1b4f86;
+  color: #fff;
+}
+
+.colHeadArrow {
+  clip-path: polygon(
+    0 0,
+    calc(100% - 7px) 0,
+    100% 50%,
+    calc(100% - 7px) 100%,
+    0 100%
+  );
+  padding-right: 10px;
+}
+
+.num {
+  flex: 0 0 auto;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #fff;
+  color: #1b4f86;
+  font-size: 8px;
+  font-weight: 700;
+  line-height: 13px;
+  text-align: center;
+}
+
+.colTitle {
+  min-width: 0;
+  font-size: 8px;
+  font-weight: 700;
+  line-height: 1.25;
+  color: #fff;
+}
+
+.icon {
+  width: 28px;
+  height: 28px;
+  margin-top: 8px;
+  justify-self: center;
+  color: #2f6fad;
+}
+
+.poster p.label {
+  align-self: stretch;
+  margin: 8px 5px 2px;
+  font-size: 8px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: #1b4f86;
+}
+
+.poster p.body,
+.poster .list {
+  align-self: stretch;
+  margin: 0 5px;
+  font-size: 7.5px;
+  font-weight: 700;
+  line-height: 1.45;
+  color: #24364b;
+}
+
+.poster .list:last-child {
+  margin-bottom: 8px;
+}
+
+.poster p.body {
+  padding-left: 1.1em;
+}
+
+.list {
+  padding-left: 1.1em;
+}
+
+.list li {
+  position: relative;
+}
+
+.list li::before {
+  content: "・";
+  position: absolute;
+  left: -1.1em;
+}
+
+.list li + li {
+  margin-top: 1px;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.trackWrap {
+  position: relative;
+  min-width: 0;
+}
+
+.trackFade,
+.stageProgress {
+  display: none;
+}
+
+@media (max-width: 899px) {
+  .poster {
+    overflow: visible;
+    background: transparent;
+  }
+
+  .trackFade {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 32px;
+    background: linear-gradient(to left, #f0f8ff 12%, rgb(240 248 255 / 0%));
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
+
+  .trackWrap[data-at-end="true"] .trackFade {
+    opacity: 0;
+  }
+
+  .stageProgress {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 14px;
+    padding-inline: 16px;
+  }
+
+  .segment,
+  .segmentActive {
+    height: 2px;
+    padding: 0;
+    border: none;
+    border-radius: 1px;
+    cursor: pointer;
+    transition:
+      width 0.2s ease,
+      background-color 0.2s ease;
+  }
+
+  .segment {
+    width: 6px;
+    background: #c5d5e8;
+  }
+
+  .segmentActive {
+    width: 22px;
+    background: #1b4f86;
+  }
+
+  .segment:focus-visible,
+  .segmentActive:focus-visible {
+    outline: 2px solid #246fc4;
+    outline-offset: 4px;
+  }
+
+  .columns {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    padding: 2px 16px 2px;
+    scroll-padding-inline: 16px;
+    scroll-behavior: smooth;
+  }
+
+  .columns::-webkit-scrollbar {
+    display: none;
+  }
+
+  .col {
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 88%;
+    scroll-snap-align: start;
+    grid-row: auto;
+    grid-template-rows: none;
+  }
+
+  .colHeadArrow {
+    clip-path: none;
+    padding-right: 8px;
+  }
+
+  .num {
+    width: 22px;
+    height: 22px;
+    font-size: 13px;
+    line-height: 22px;
+  }
+
+  .colTitle {
+    font-size: 16px;
+    line-height: 1.4;
+  }
+
+  .poster p.label {
+    margin-inline: 8px;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  .poster p.body,
+  .poster .list {
+    margin-inline: 8px;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+  .icon {
+    display: none;
+  }
+
+  .colHead {
+    min-height: 48px;
+    padding: 8px 10px;
+  }
+}
+
+@media (max-width: 899px) and (prefers-reduced-motion: reduce) {
+  .columns {
+    scroll-behavior: auto;
+  }
+
+  .segment,
+  .segmentActive,
+  .trackFade {
+    transition: none;
+  }
+}

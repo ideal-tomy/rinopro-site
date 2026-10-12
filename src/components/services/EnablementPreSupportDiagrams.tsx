@@ -62,11 +62,14 @@ export function PreSupportDiagramTime() {
     <div className={styles.diagram} aria-hidden>
       <div className={styles.timeRow}>
         <div className={styles.timeCol}>
-          <PersonIcon />
+          <div className={styles.timeIconSlot}>
+            <PersonIcon />
+          </div>
           <p className={styles.caption}>担当者</p>
         </div>
         <div className={styles.timeCol}>
-          <svg className={styles.clock} viewBox="0 0 52 52" aria-hidden>
+          <div className={styles.timeIconSlot}>
+            <svg className={styles.clock} viewBox="0 0 52 52" aria-hidden>
             <circle cx="26" cy="26" r="22" fill="#fff" stroke="var(--ps-blue)" strokeWidth="2" />
             {Array.from({ length: 12 }).map((_, i) => {
               const a = (i / 12) * Math.PI * 2 - Math.PI / 2;
@@ -89,6 +92,7 @@ export function PreSupportDiagramTime() {
             <line x1="26" y1="26" x2="26" y2="14" stroke="var(--ps-blue)" strokeWidth="2" />
             <line x1="26" y1="26" x2="34" y2="30" stroke="var(--ps-orange)" strokeWidth="2" />
           </svg>
+          </div>
           <p className={styles.caption}>使える時間</p>
         </div>
       </div>
