@@ -499,3 +499,10 @@
 :root { --scroll-reveal-duration: 760ms; --scroll-reveal-easing: cubic-bezier(0.22, 1, 0.36, 1); --scroll-reveal-stagger: 140ms; }
 @media (max-width: 767px) { :root { --scroll-reveal-duration: 980ms; --scroll-reveal-stagger: 120ms; --scroll-reveal-easing: cubic-bezier(0.25, 0.1, 0.25, 1); } }
 @media (prefers-reduced-motion: reduce) { [data-reveal-ready="true"] { opacity: 1 !important; translate: none !important; transition: none !important; } }
+/* 画面の外にいるあいだはすぐに隠す。出てくる時間は、表示を始めるときにだけ付ける。 */
+@media (prefers-reduced-motion: no-preference) {
+  [data-scroll-reveal-unit="true"]:not([data-scroll-revealed="true"]) { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-scroll-reveal-unit="true"] { opacity: 1 !important; transition: none !important; }
+}

@@ -4,20 +4,39 @@ import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { SCROLL_REVEAL, afterViewportSettles } from "@/lib/motion/scroll-reveal";
 
-/** 全ページの本文を初回進入時に表示。見出しの塊とカード1枚を、それぞれ1回だけ出す。 */
+/** 見出しの塊とカード1枚を、画面の外にいるあいだ隠しておき、届いたら1回だけ出す。 */
 export function ScrollRevealController() {
   const pathname = usePathname();
 
   useEffect(() => {
-    if (!window.IntersectionObserver || !Element.prototype.animate) return;
+    if (!window.IntersectionObserver) return;
 
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
     const tracked = new Set<HTMLElement>();
-    const revealed = new WeakSet<HTMLElement>();
-    const animations = new Map<HTMLElement, Animation>();
     let frame = 0;
     let settled = false;
     let cancelSettle = () => {};
+
+    function show(element: HTMLElement, animate: boolean) {
+      if (element.dataset.scrollRevealed === "true") return;
+      if (animate && !media.matches) {
+        const mobile = window.innerWidth < 768;
+        const duration = mobile ? SCROLL_REVEAL.mobileDuration : SCROLL_REVEAL.duration;
+        const easing = mobile ? SCROLL_REVEAL.mobileEasing : SCROLL_REVEAL.easing;
+        const delay = (Number(element.dataset.scrollRevealDelay) || 0) * (mobile ? SCROLL_REVEAL.mobileStagger / SCROLL_REVEAL.stagger : 1);
+        element.style.transition = `opacity ${duration}ms ${easing} ${delay}ms`;
+        window.requestAnimationFrame(() => {
+          element.dataset.scrollRevealed = "true";
+        });
+        return;
+      }
+      element.dataset.scrollRevealed = "true";
+    }
+
+    function inView(element: HTMLElement) {
+      const rect = element.getBoundingClientRect();
+      return rect.top < window.innerHeight - 24 && rect.bottom > 0;
+    }
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -27,23 +46,7 @@ export function ScrollRevealController() {
           const threshold = Number(element.dataset.scrollRevealThreshold) || Math.min(SCROLL_REVEAL.threshold, window.innerHeight * 0.18 / entry.boundingClientRect.height);
           if (entry.intersectionRatio < threshold) continue;
           observer.unobserve(element);
-          if (revealed.has(element)) continue;
-          revealed.add(element);
-          if (media.matches) continue;
-          const axis = element.dataset.scrollRevealAxis;
-          const animation = element.animate(
-            axis === "x"
-              ? [{ opacity: 0, translate: "18px 0" }, { opacity: 1, translate: "0 0" }]
-              : [{ opacity: 0 }, { opacity: 1 }],
-            {
-              duration: window.innerWidth < 768 ? SCROLL_REVEAL.mobileDuration : Math.max(SCROLL_REVEAL.duration, Number(element.dataset.scrollRevealDuration) || 0),
-              delay: (Number(element.dataset.scrollRevealDelay) || 0) * (window.innerWidth < 768 ? SCROLL_REVEAL.mobileStagger / SCROLL_REVEAL.stagger : 1),
-              fill: "backwards",
-              easing: window.innerWidth < 768 ? SCROLL_REVEAL.mobileEasing : SCROLL_REVEAL.easing,
-            },
-          );
-          animations.set(element, animation);
-          animation.onfinish = () => animations.delete(element);
+          show(element, true);
         }
       },
       { rootMargin: SCROLL_REVEAL.rootMargin, threshold: [0, 0.05, 0.1, 0.18, 0.2, 0.35] },
@@ -72,6 +75,7 @@ export function ScrollRevealController() {
       const chosen = new Set<HTMLElement>();
       function add(element: HTMLElement | null) {
         if (!element || chosen.has(element) || tracked.has(element) || excluded(element)) return;
+        if (element.dataset.scrollRevealed === "true") return;
         if (element.closest("main") !== main && element.tagName !== "FOOTER") return;
         for (const unit of chosen) {
           if (unit.contains(element) || element.contains(unit)) return;
@@ -102,22 +106,15 @@ export function ScrollRevealController() {
 
       for (const element of units) {
         const rect = element.getBoundingClientRect();
-        if (!rect.width || !rect.height || element.style.opacity || element.style.transform) continue;
+        if (!rect.width || !rect.height) continue;
         tracked.add(element);
-        if (
-          media.matches ||
-          (element.dataset.scrollRevealOnLoad !== "true" && rect.top < window.innerHeight - 24 && rect.bottom > 0)
-        ) {
-          revealed.add(element);
-        } else {
-          observer.observe(element);
-        }
+        if (media.matches || inView(element)) show(element, false);
+        element.dataset.scrollRevealUnit = "true";
+        if (element.dataset.scrollRevealed !== "true") observer.observe(element);
       }
       for (const element of tracked) {
         if (element.isConnected) continue;
         observer.unobserve(element);
-        animations.get(element)?.cancel();
-        animations.delete(element);
         tracked.delete(element);
       }
     }
@@ -139,12 +136,10 @@ export function ScrollRevealController() {
       });
     }
 
-    function cancelMotion() {
+    function revealAll() {
       if (!media.matches) return;
-      animations.forEach((animation) => animation.cancel());
-      animations.clear();
       observer.disconnect();
-      tracked.forEach((element) => revealed.add(element));
+      tracked.forEach((element) => show(element, false));
     }
 
     function onFocus(event: FocusEvent) {
@@ -156,14 +151,12 @@ export function ScrollRevealController() {
       while (element && !tracked.has(element)) element = element.parentElement;
       if (!element) return;
       observer.unobserve(element);
-      animations.get(element)?.cancel();
-      animations.delete(element);
-      revealed.add(element);
+      show(element, false);
     }
 
     const mutations = new MutationObserver(scheduleScan);
     mutations.observe(document.body, { childList: true, subtree: true });
-    media.addEventListener("change", cancelMotion);
+    media.addEventListener("change", revealAll);
     window.addEventListener("resize", startWhenSettled);
     document.addEventListener("focusin", onFocus);
     startWhenSettled();
@@ -173,9 +166,8 @@ export function ScrollRevealController() {
       mutations.disconnect();
       observer.disconnect();
       window.cancelAnimationFrame(frame);
-      animations.forEach((animation) => animation.cancel());
       tracked.clear();
-      media.removeEventListener("change", cancelMotion);
+      media.removeEventListener("change", revealAll);
       window.removeEventListener("resize", startWhenSettled);
       document.removeEventListener("focusin", onFocus);
     };
