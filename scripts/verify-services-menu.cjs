@@ -1,7 +1,7 @@
 const fs = require('fs');
 const assert = require('node:assert/strict');
 const { chromium } = require('C:/Users/ryoji/AppData/Local/npm-cache/_npx/c61c9351a0dbcfa7/node_modules/playwright');
-const out = 'docs/services-menu-2026-10-07';
+const out = 'docs/archive/services-menu-2026-10-07';
 fs.mkdirSync(out, { recursive: true });
 (async () => {
   const browser = await chromium.launch({ executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe', headless: true });

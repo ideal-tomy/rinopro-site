@@ -261,9 +261,9 @@
   .diagram [data-reveal-step][data-reveal-ready="true"]:not([data-entered="true"]) { opacity: 0; translate: 0 18px; }
   .diagramPlan[data-reveal-ready="true"] li { transition: opacity var(--scroll-reveal-duration) var(--scroll-reveal-easing), translate var(--scroll-reveal-duration) var(--scroll-reveal-easing); }
   .diagramPlan[data-reveal-ready="true"]:not([data-entered="true"]) li { opacity: 0; translate: 0 18px; }
-  .diagramPlan[data-entered="true"] li:nth-child(1) { transition-delay: calc(var(--reveal-delay, 0ms) + 120ms); }
-  .diagramPlan[data-entered="true"] li:nth-child(2) { transition-delay: calc(var(--reveal-delay, 0ms) + 240ms); }
-  .diagramPlan[data-entered="true"] li:nth-child(3) { transition-delay: calc(var(--reveal-delay, 0ms) + 360ms); }
+  .diagramPlan[data-reveal-ready="true"] li:nth-child(1) { transition-delay: calc(var(--reveal-delay, 0ms) + 120ms); }
+  .diagramPlan[data-reveal-ready="true"] li:nth-child(2) { transition-delay: calc(var(--reveal-delay, 0ms) + 240ms); }
+  .diagramPlan[data-reveal-ready="true"] li:nth-child(3) { transition-delay: calc(var(--reveal-delay, 0ms) + 360ms); }
 }
 @media (prefers-reduced-motion: reduce) {
   .diagram .source, .diagram .diagramCenter, .diagram .planConnector, .diagram .diagramPlan,

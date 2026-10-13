@@ -10,17 +10,17 @@ Invoke-Browser set viewport $width 900 | Out-Null
 Invoke-Browser open http://127.0.0.1:3000/ | Out-Null
 Invoke-Browser scroll down 20000 | Out-Null
 Invoke-Browser scroll up 20000 | Out-Null
-$measure | & npx --yes --package agent-browser agent-browser --session axeon-refactor eval --stdin | Set-Content -Encoding utf8 "docs/ui-foundation-2026-10-05/$Phase-$width.json"
+$measure | & npx --yes --package agent-browser agent-browser --session axeon-refactor eval --stdin | Set-Content -Encoding utf8 "docs/archive/ui-foundation-2026-10-05/$Phase-$width.json"
 if($LASTEXITCODE -ne 0){throw 'Measure failed'}
-Invoke-Browser screenshot "docs/ui-foundation-2026-10-05/$Phase-$width.png" --full | Out-Null
+Invoke-Browser screenshot "docs/archive/ui-foundation-2026-10-05/$Phase-$width.png" --full | Out-Null
 Write-Output "$Phase $width captured"
 }
 $routes = if($Route){@($Route)}else{@('services/consulting','prototype-showroom','services/insourcing-enablement')}
 foreach($route in $routes){
 Invoke-Browser set viewport 390 900 | Out-Null
 Invoke-Browser open "http://127.0.0.1:3000/$route" | Out-Null
-$measure | & npx --yes --package agent-browser agent-browser --session axeon-refactor eval --stdin | Set-Content -Encoding utf8 "docs/ui-foundation-2026-10-05/$Phase-$($route.Replace('/','-')).json"
+$measure | & npx --yes --package agent-browser agent-browser --session axeon-refactor eval --stdin | Set-Content -Encoding utf8 "docs/archive/ui-foundation-2026-10-05/$Phase-$($route.Replace('/','-')).json"
 if($LASTEXITCODE -ne 0){throw 'Measure failed'}
-Invoke-Browser screenshot "docs/ui-foundation-2026-10-05/$Phase-$($route.Replace('/','-')).png" --full | Out-Null
+Invoke-Browser screenshot "docs/archive/ui-foundation-2026-10-05/$Phase-$($route.Replace('/','-')).png" --full | Out-Null
 Write-Output "$Phase $route captured"
 }

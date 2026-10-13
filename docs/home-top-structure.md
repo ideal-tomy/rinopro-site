@@ -79,9 +79,9 @@ HomeBelowFold が現行のFAQやCTAを参照していても、HomeBelowFold自�
 
 useReducedMotionはuseSyncExternalStoreでブラウザの設定を購読する方式へ変更しました。サーバーおよび初回hydrationの値は従来と同じfalseで、設定変更の購読と解除を維持します。
 
-[整理前後の表示・操作検証](ui-foundation-2026-10-05/verification.md) を参照してください。
+[整理前後の表示・操作検証](archive/ui-foundation-2026-10-05/verification.md) を参照してください。
 
 ## UI・UX変更（2026-10-06）
 
-現行トップに home-top クラスを追加し、本文の自然な折り返しは globals.css の .home-top p / li で管理します。home-landing-copy を使う下層ページへは適用しません。幅・文字・余白の現在値と検証結果は [UI・UX改善報告](uiux-2026-10-06/verification.md) を参照してください。
+現行トップに home-top クラスを追加し、本文の自然な折り返しは globals.css の .home-top p / li で管理します。home-landing-copy を使う下層ページへは適用しません。幅・文字・余白の現在値と検証結果は [UI・UX改善報告](archive/uiux-2026-10-06/verification.md) を参照してください。
 

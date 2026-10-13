@@ -9,4 +9,49 @@ export const SCROLL_REVEAL = {
   mobileEasing: "cubic-bezier(0.25, 0.1, 0.25, 1)",
   rootMargin: "0px 0px -10% 0px",
   threshold: 0.2,
+  settleQuietMs: 150,
+  settleMaxMs: 500,
 } as const;
+
+/** iOS Safari changes the viewport height while the address bar moves; wait until it stops. */
+export function afterViewportSettles(callback: () => void): () => void {
+  const viewport = window.visualViewport;
+  let quiet = 0;
+  let done = false;
+  const finish = () => {
+    if (done) return;
+    done = true;
+    cancel();
+    callback();
+  };
+  const restart = () => {
+    window.clearTimeout(quiet);
+    quiet = window.setTimeout(finish, SCROLL_REVEAL.settleQuietMs);
+  };
+  const limit = window.setTimeout(finish, SCROLL_REVEAL.settleMaxMs);
+  function cancel() {
+    window.clearTimeout(quiet);
+    window.clearTimeout(limit);
+    viewport?.removeEventListener("resize", restart);
+    window.removeEventListener("resize", restart);
+  }
+  viewport?.addEventListener("resize", restart);
+  window.addEventListener("resize", restart);
+  restart();
+  return () => {
+    done = true;
+    cancel();
+  };
+}
+
+/** Height with the mobile address bar collapsed, so size checks do not flip while scrolling. */
+export function stableViewportHeight(): number {
+  const probe = document.createElement("div");
+  probe.style.cssText =
+    "position:fixed;top:0;left:0;width:0;height:100lvh;visibility:hidden;pointer-events:none";
+  // Outside <body>, so body MutationObservers do not react to the probe.
+  document.documentElement.appendChild(probe);
+  const height = probe.getBoundingClientRect().height;
+  probe.remove();
+  return Math.max(height || 0, window.innerHeight);
+}

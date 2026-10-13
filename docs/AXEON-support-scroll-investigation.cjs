@@ -1,6 +1,6 @@
 const fs=require('node:fs');
 const {chromium,webkit}=require('C:/Users/ryoji/AppData/Local/npm-cache/_npx/c61c9351a0dbcfa7/node_modules/playwright');
-const out='docs/support-scroll-investigation-2026-10-13';
+const out='docs/archive/support-scroll-investigation-2026-10-13';
 fs.mkdirSync(out,{recursive:true});
 (async()=>{
  const results=[];

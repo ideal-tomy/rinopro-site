@@ -4,7 +4,7 @@ const {
   chromium,
 } = require("C:/Users/ryoji/AppData/Local/npm-cache/_npx/c61c9351a0dbcfa7/node_modules/playwright");
 const base = process.argv[2] || "http://localhost:3000",
-  out = "docs/service-navigation-2026-10-09";
+  out = "docs/archive/service-navigation-2026-10-09";
 fs.mkdirSync(out, { recursive: true });
 async function settle(p) {
   await p.waitForTimeout(400);

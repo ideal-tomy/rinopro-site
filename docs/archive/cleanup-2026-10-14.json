@@ -1,0 +1,899 @@
+{
+  "date": "2026-10-14",
+  "removedCount": 216,
+  "removedBytes": 122571622,
+  "archivedCount": 120,
+  "folders": [
+    "about-copy-2026-10-10",
+    "about-sp-2026-10-10",
+    "about-uiux-2026-10-10",
+    "consulting-2026-10-07",
+    "consulting-examples-2026-10-13",
+    "consulting-mobile-cases-2026-10-09",
+    "consulting-v2-2026-10-08",
+    "consulting-v2-2026-10-09",
+    "consulting-v3-2026-10-09",
+    "enablement-staircase-2026-10-09",
+    "enablement-v1-2026-10-09",
+    "engine-diagram-2026-10-06",
+    "lighthouse",
+    "scroll-reveal-2026-10-06",
+    "scroll-reveal-2026-10-10",
+    "service-navigation-2026-10-09",
+    "services-approved-2026-10-06",
+    "services-design-2026-10-06",
+    "services-detail-2026-10-07",
+    "services-hero-2026-10-06",
+    "services-menu-2026-10-07",
+    "support-scroll-fix-2026-10-13",
+    "support-scroll-investigation-2026-10-13",
+    "ui-foundation-2026-10-05",
+    "uiux-2026-10-06"
+  ],
+  "removed": [
+    {
+      "path": "docs/about-copy-2026-10-10/about-1440.png",
+      "bytes": 619460
+    },
+    {
+      "path": "docs/about-copy-2026-10-10/about-320.png",
+      "bytes": 504918
+    },
+    {
+      "path": "docs/about-copy-2026-10-10/about-390.png",
+      "bytes": 514216
+    },
+    {
+      "path": "docs/about-sp-2026-10-10/about-1440.png",
+      "bytes": 645478
+    },
+    {
+      "path": "docs/about-sp-2026-10-10/card-engineering-375.png",
+      "bytes": 27931
+    },
+    {
+      "path": "docs/about-sp-2026-10-10/card-engineering-390.png",
+      "bytes": 28297
+    },
+    {
+      "path": "docs/about-sp-2026-10-10/card-engineering-430.png",
+      "bytes": 28376
+    },
+    {
+      "path": "docs/about-sp-2026-10-10/card-engineering-820.png",
+      "bytes": 29233
+    },
+    {
+      "path": "docs/about-sp-2026-10-10/card-strategy-375.png",
+      "bytes": 28973
+    },
+    {
+      "path": "docs/about-sp-2026-10-10/card-strategy-390.png",
+      "bytes": 29337
+    },
+    {
+      "path": "docs/about-sp-2026-10-10/card-strategy-430.png",
+      "bytes": 29770
+    },
+    {
+      "path": "docs/about-sp-2026-10-10/card-strategy-820.png",
+      "bytes": 30617
+    },
+    {
+      "path": "docs/about-sp-2026-10-10/hero-375.png",
+      "bytes": 41369
+    },
+    {
+      "path": "docs/about-sp-2026-10-10/hero-390.png",
+      "bytes": 41448
+    },
+    {
+      "path": "docs/about-sp-2026-10-10/hero-430.png",
+      "bytes": 43774
+    },
+    {
+      "path": "docs/about-sp-2026-10-10/hero-820.png",
+      "bytes": 50219
+    },
+    {
+      "path": "docs/about-sp-2026-10-10/profile-375.png",
+      "bytes": 83716
+    },
+    {
+      "path": "docs/about-sp-2026-10-10/profile-390.png",
+      "bytes": 84622
+    },
+    {
+      "path": "docs/about-sp-2026-10-10/profile-430.png",
+      "bytes": 83985
+    },
+    {
+      "path": "docs/about-sp-2026-10-10/profile-820.png",
+      "bytes": 86717
+    },
+    {
+      "path": "docs/about-sp-2026-10-10/profile-unified-1440.png",
+      "bytes": 196049
+    },
+    {
+      "path": "docs/about-sp-2026-10-10/profile-unified-375.png",
+      "bytes": 82273
+    },
+    {
+      "path": "docs/about-uiux-2026-10-10/about-1024.png",
+      "bytes": 717634
+    },
+    {
+      "path": "docs/about-uiux-2026-10-10/about-1440.png",
+      "bytes": 770887
+    },
+    {
+      "path": "docs/about-uiux-2026-10-10/about-1920.png",
+      "bytes": 800677
+    },
+    {
+      "path": "docs/about-uiux-2026-10-10/about-375.png",
+      "bytes": 671166
+    },
+    {
+      "path": "docs/about-uiux-2026-10-10/about-390.png",
+      "bytes": 674791
+    },
+    {
+      "path": "docs/about-uiux-2026-10-10/about-430.png",
+      "bytes": 676836
+    },
+    {
+      "path": "docs/about-uiux-2026-10-10/about-768.png",
+      "bytes": 712227
+    },
+    {
+      "path": "docs/about-uiux-2026-10-10/hero-1440.png",
+      "bytes": 125226
+    },
+    {
+      "path": "docs/consulting-2026-10-07/after-1024-full.png",
+      "bytes": 631546
+    },
+    {
+      "path": "docs/consulting-2026-10-07/after-1440-full.png",
+      "bytes": 793001
+    },
+    {
+      "path": "docs/consulting-2026-10-07/after-390-full.png",
+      "bytes": 332309
+    },
+    {
+      "path": "docs/consulting-2026-10-07/after-768-full.png",
+      "bytes": 588180
+    },
+    {
+      "path": "docs/consulting-2026-10-07/comparison.png",
+      "bytes": 2424231
+    },
+    {
+      "path": "docs/consulting-2026-10-07/sp-bottom.png",
+      "bytes": 58716
+    },
+    {
+      "path": "docs/consulting-2026-10-07/sp-deliverables.png",
+      "bytes": 68853
+    },
+    {
+      "path": "docs/consulting-2026-10-07/sp-support.png",
+      "bytes": 141403
+    },
+    {
+      "path": "docs/consulting-2026-10-07/sp-top.png",
+      "bytes": 139055
+    },
+    {
+      "path": "docs/consulting-examples-2026-10-13/after-chromium-1280.png",
+      "bytes": 166204
+    },
+    {
+      "path": "docs/consulting-examples-2026-10-13/after-chromium-1440.png",
+      "bytes": 167373
+    },
+    {
+      "path": "docs/consulting-examples-2026-10-13/after-chromium-375.png",
+      "bytes": 78552
+    },
+    {
+      "path": "docs/consulting-examples-2026-10-13/after-chromium-390.png",
+      "bytes": 80322
+    },
+    {
+      "path": "docs/consulting-examples-2026-10-13/after-chromium-430.png",
+      "bytes": 81280
+    },
+    {
+      "path": "docs/consulting-examples-2026-10-13/after-chromium-900.png",
+      "bytes": 165355
+    },
+    {
+      "path": "docs/consulting-examples-2026-10-13/after-webkit-1280.png",
+      "bytes": 140711
+    },
+    {
+      "path": "docs/consulting-examples-2026-10-13/after-webkit-1440.png",
+      "bytes": 142539
+    },
+    {
+      "path": "docs/consulting-examples-2026-10-13/after-webkit-375.png",
+      "bytes": 65129
+    },
+    {
+      "path": "docs/consulting-examples-2026-10-13/after-webkit-390.png",
+      "bytes": 65769
+    },
+    {
+      "path": "docs/consulting-examples-2026-10-13/after-webkit-430.png",
+      "bytes": 68363
+    },
+    {
+      "path": "docs/consulting-examples-2026-10-13/after-webkit-900.png",
+      "bytes": 142514
+    },
+    {
+      "path": "docs/consulting-examples-2026-10-13/before-chromium-1440.png",
+      "bytes": 124271
+    },
+    {
+      "path": "docs/consulting-examples-2026-10-13/before-chromium-390.png",
+      "bytes": 58062
+    },
+    {
+      "path": "docs/consulting-mobile-cases-2026-10-09/desktop-1440.png",
+      "bytes": 69949
+    },
+    {
+      "path": "docs/consulting-mobile-cases-2026-10-09/mobile-372-case-1.png",
+      "bytes": 49492
+    },
+    {
+      "path": "docs/consulting-mobile-cases-2026-10-09/mobile-372-case-2.png",
+      "bytes": 50219
+    },
+    {
+      "path": "docs/consulting-mobile-cases-2026-10-09/mobile-372-case-3.png",
+      "bytes": 51877
+    },
+    {
+      "path": "docs/consulting-mobile-cases-2026-10-09/text-enlarged.png",
+      "bytes": 67227
+    },
+    {
+      "path": "docs/consulting-v2-2026-10-08/full-1440.png",
+      "bytes": 924822
+    },
+    {
+      "path": "docs/consulting-v2-2026-10-08/full-320.png",
+      "bytes": 664551
+    },
+    {
+      "path": "docs/consulting-v2-2026-10-08/full-390.png",
+      "bytes": 704224
+    },
+    {
+      "path": "docs/consulting-v2-2026-10-08/hero-1440.png",
+      "bytes": 333801
+    },
+    {
+      "path": "docs/consulting-v2-2026-10-08/hero-390.png",
+      "bytes": 164084
+    },
+    {
+      "path": "docs/consulting-v2-2026-10-08/support-1440.png",
+      "bytes": 80526
+    },
+    {
+      "path": "docs/consulting-v2-2026-10-08/support-390.png",
+      "bytes": 73710
+    },
+    {
+      "path": "docs/consulting-v2-2026-10-09/full-1440.png",
+      "bytes": 924781
+    },
+    {
+      "path": "docs/consulting-v2-2026-10-09/full-320.png",
+      "bytes": 664551
+    },
+    {
+      "path": "docs/consulting-v2-2026-10-09/full-390.png",
+      "bytes": 704224
+    },
+    {
+      "path": "docs/consulting-v2-2026-10-09/support-1440.png",
+      "bytes": 80526
+    },
+    {
+      "path": "docs/consulting-v2-2026-10-09/support-390.png",
+      "bytes": 73710
+    },
+    {
+      "path": "docs/consulting-v3-2026-10-09/full-1440.png",
+      "bytes": 684017
+    },
+    {
+      "path": "docs/consulting-v3-2026-10-09/full-320.png",
+      "bytes": 380140
+    },
+    {
+      "path": "docs/consulting-v3-2026-10-09/full-390.png",
+      "bytes": 410984
+    },
+    {
+      "path": "docs/consulting-v3-2026-10-09/support-1440.png",
+      "bytes": 133038
+    },
+    {
+      "path": "docs/consulting-v3-2026-10-09/support-390.png",
+      "bytes": 83487
+    },
+    {
+      "path": "docs/enablement-staircase-2026-10-09/approach-1024.png",
+      "bytes": 73148
+    },
+    {
+      "path": "docs/enablement-staircase-2026-10-09/approach-1280.png",
+      "bytes": 71900
+    },
+    {
+      "path": "docs/enablement-staircase-2026-10-09/approach-1440.png",
+      "bytes": 73801
+    },
+    {
+      "path": "docs/enablement-staircase-2026-10-09/approach-390.png",
+      "bytes": 65310
+    },
+    {
+      "path": "docs/enablement-staircase-2026-10-09/text-enlarged.png",
+      "bytes": 136695
+    },
+    {
+      "path": "docs/enablement-v1-2026-10-09/approach-1440.png",
+      "bytes": 76510
+    },
+    {
+      "path": "docs/enablement-v1-2026-10-09/approach-390.png",
+      "bytes": 68278
+    },
+    {
+      "path": "docs/enablement-v1-2026-10-09/checks-1440.png",
+      "bytes": 57245
+    },
+    {
+      "path": "docs/enablement-v1-2026-10-09/checks-390.png",
+      "bytes": 46976
+    },
+    {
+      "path": "docs/enablement-v1-2026-10-09/cta-1440.png",
+      "bytes": 15046
+    },
+    {
+      "path": "docs/enablement-v1-2026-10-09/cta-390.png",
+      "bytes": 12771
+    },
+    {
+      "path": "docs/enablement-v1-2026-10-09/development-1440.png",
+      "bytes": 1110447
+    },
+    {
+      "path": "docs/enablement-v1-2026-10-09/development-390.png",
+      "bytes": 551234
+    },
+    {
+      "path": "docs/enablement-v1-2026-10-09/development-app-1440.png",
+      "bytes": 790494
+    },
+    {
+      "path": "docs/enablement-v1-2026-10-09/development-app-390.png",
+      "bytes": 456531
+    },
+    {
+      "path": "docs/enablement-v1-2026-10-09/development-common-1440.png",
+      "bytes": 1022349
+    },
+    {
+      "path": "docs/enablement-v1-2026-10-09/development-common-390.png",
+      "bytes": 581797
+    },
+    {
+      "path": "docs/enablement-v1-2026-10-09/development-dashboard-1440.png",
+      "bytes": 911337
+    },
+    {
+      "path": "docs/enablement-v1-2026-10-09/development-dashboard-390.png",
+      "bytes": 531076
+    },
+    {
+      "path": "docs/enablement-v1-2026-10-09/development-website-1440.png",
+      "bytes": 881630
+    },
+    {
+      "path": "docs/enablement-v1-2026-10-09/development-website-390.png",
+      "bytes": 524360
+    },
+    {
+      "path": "docs/enablement-v1-2026-10-09/full-1440.png",
+      "bytes": 1639691
+    },
+    {
+      "path": "docs/enablement-v1-2026-10-09/full-390.png",
+      "bytes": 997895
+    },
+    {
+      "path": "docs/enablement-v1-2026-10-09/hero-1440.png",
+      "bytes": 315118
+    },
+    {
+      "path": "docs/enablement-v1-2026-10-09/hero-390.png",
+      "bytes": 118549
+    },
+    {
+      "path": "docs/enablement-v1-2026-10-09/support-1440.png",
+      "bytes": 59526
+    },
+    {
+      "path": "docs/enablement-v1-2026-10-09/support-390.png",
+      "bytes": 61673
+    },
+    {
+      "path": "docs/engine-diagram-2026-10-06/after-webkit.png",
+      "bytes": 26215
+    },
+    {
+      "path": "docs/engine-diagram-2026-10-06/before-webkit.png",
+      "bytes": 20723
+    },
+    {
+      "path": "docs/scroll-reveal-2026-10-10/scope-1440.png",
+      "bytes": 205656
+    },
+    {
+      "path": "docs/scroll-reveal-2026-10-10/scope-375.png",
+      "bytes": 147211
+    },
+    {
+      "path": "docs/scroll-reveal-2026-10-10/scope-390.png",
+      "bytes": 145203
+    },
+    {
+      "path": "docs/scroll-reveal-2026-10-10/scope-430.png",
+      "bytes": 152560
+    },
+    {
+      "path": "docs/service-navigation-2026-10-09/before-development-end.png",
+      "bytes": 119035
+    },
+    {
+      "path": "docs/service-navigation-2026-10-09/before-menu.png",
+      "bytes": 68232
+    },
+    {
+      "path": "docs/service-navigation-2026-10-09/consulting-tabs-1440.png",
+      "bytes": 132830
+    },
+    {
+      "path": "docs/service-navigation-2026-10-09/development-reading-1440.png",
+      "bytes": 308104
+    },
+    {
+      "path": "docs/service-navigation-2026-10-09/development-reading-390.png",
+      "bytes": 77433
+    },
+    {
+      "path": "docs/service-navigation-2026-10-09/development-switched-390.png",
+      "bytes": 64627
+    },
+    {
+      "path": "docs/service-navigation-2026-10-09/menu-390.png",
+      "bytes": 44142
+    },
+    {
+      "path": "docs/services-approved-2026-10-06/after-1024-full.png",
+      "bytes": 830204
+    },
+    {
+      "path": "docs/services-approved-2026-10-06/after-1122-full.png",
+      "bytes": 891347
+    },
+    {
+      "path": "docs/services-approved-2026-10-06/after-1440-full.png",
+      "bytes": 1009167
+    },
+    {
+      "path": "docs/services-approved-2026-10-06/after-390-back.png",
+      "bytes": 233884
+    },
+    {
+      "path": "docs/services-approved-2026-10-06/after-390-full.png",
+      "bytes": 244470
+    },
+    {
+      "path": "docs/services-approved-2026-10-06/after-768-full.png",
+      "bytes": 861852
+    },
+    {
+      "path": "docs/services-approved-2026-10-06/after-sp-bottom.png",
+      "bytes": 131330
+    },
+    {
+      "path": "docs/services-approved-2026-10-06/after-sp-middle.png",
+      "bytes": 139306
+    },
+    {
+      "path": "docs/services-approved-2026-10-06/after-sp-top.png",
+      "bytes": 211464
+    },
+    {
+      "path": "docs/services-approved-2026-10-06/after-text-200-320.png",
+      "bytes": 320074
+    },
+    {
+      "path": "docs/services-approved-2026-10-06/after-text-200-390.png",
+      "bytes": 385166
+    },
+    {
+      "path": "docs/services-approved-2026-10-06/after-text-200-430.png",
+      "bytes": 393850
+    },
+    {
+      "path": "docs/services-approved-2026-10-06/comparison-mobile-back.png",
+      "bytes": 348269
+    },
+    {
+      "path": "docs/services-approved-2026-10-06/comparison-mobile-front.png",
+      "bytes": 364601
+    },
+    {
+      "path": "docs/services-approved-2026-10-06/comparison-pc-overlay.png",
+      "bytes": 2043941
+    },
+    {
+      "path": "docs/services-approved-2026-10-06/comparison-pc.png",
+      "bytes": 2787200
+    },
+    {
+      "path": "docs/services-approved-2026-10-06/quick-1024.png",
+      "bytes": 830185
+    },
+    {
+      "path": "docs/services-approved-2026-10-06/quick-390-back.png",
+      "bytes": 244253
+    },
+    {
+      "path": "docs/services-approved-2026-10-06/quick-390-front.png",
+      "bytes": 244337
+    },
+    {
+      "path": "docs/services-approved-2026-10-06/reference-390-back.png",
+      "bytes": 220647
+    },
+    {
+      "path": "docs/services-approved-2026-10-06/reference-390-front.png",
+      "bytes": 231097
+    },
+    {
+      "path": "docs/services-approved-2026-10-06/webkit-back.png",
+      "bytes": 724550
+    },
+    {
+      "path": "docs/services-approved-2026-10-06/webkit-front.png",
+      "bytes": 725308
+    },
+    {
+      "path": "docs/services-design-2026-10-06/after-1122-full.png",
+      "bytes": 318983
+    },
+    {
+      "path": "docs/services-design-2026-10-06/after-1440-full.png",
+      "bytes": 319873
+    },
+    {
+      "path": "docs/services-design-2026-10-06/after-390-full.png",
+      "bytes": 299230
+    },
+    {
+      "path": "docs/services-design-2026-10-06/after-sp-bottom.png",
+      "bytes": 99122
+    },
+    {
+      "path": "docs/services-design-2026-10-06/after-sp-middle.png",
+      "bytes": 110470
+    },
+    {
+      "path": "docs/services-design-2026-10-06/after-sp-top.png",
+      "bytes": 109392
+    },
+    {
+      "path": "docs/services-design-2026-10-06/navigation-failure.png",
+      "bytes": 105535
+    },
+    {
+      "path": "docs/services-detail-2026-10-07/consulting.png",
+      "bytes": 194240
+    },
+    {
+      "path": "docs/services-detail-2026-10-07/enablement.png",
+      "bytes": 658979
+    },
+    {
+      "path": "docs/services-hero-2026-10-06/after-1024-full.png",
+      "bytes": 851855
+    },
+    {
+      "path": "docs/services-hero-2026-10-06/after-1122-full.png",
+      "bytes": 926480
+    },
+    {
+      "path": "docs/services-hero-2026-10-06/after-1440-full.png",
+      "bytes": 1010451
+    },
+    {
+      "path": "docs/services-hero-2026-10-06/after-390-full.png",
+      "bytes": 208987
+    },
+    {
+      "path": "docs/services-hero-2026-10-06/after-768-full.png",
+      "bytes": 843531
+    },
+    {
+      "path": "docs/services-hero-2026-10-06/after-sp-back.png",
+      "bytes": 198122
+    },
+    {
+      "path": "docs/services-hero-2026-10-06/after-sp-top.png",
+      "bytes": 175287
+    },
+    {
+      "path": "docs/services-menu-2026-10-07/full-1122.png",
+      "bytes": 926480
+    },
+    {
+      "path": "docs/services-menu-2026-10-07/full-1440.png",
+      "bytes": 1009924
+    },
+    {
+      "path": "docs/services-menu-2026-10-07/full-390.png",
+      "bytes": 291124
+    },
+    {
+      "path": "docs/services-menu-2026-10-07/sp-menu.png",
+      "bytes": 146768
+    },
+    {
+      "path": "docs/services-menu-2026-10-07/sp-swiped.png",
+      "bytes": 145199
+    },
+    {
+      "path": "docs/support-scroll-fix-2026-10-13/04e1c550ef94ef3f40dd1884db806873.webm",
+      "bytes": 470314
+    },
+    {
+      "path": "docs/support-scroll-fix-2026-10-13/6af4bfaf1e10d94887bb1120f2471fa1.webm",
+      "bytes": 1687941
+    },
+    {
+      "path": "docs/support-scroll-fix-2026-10-13/after-chromium-1280.png",
+      "bytes": 97007
+    },
+    {
+      "path": "docs/support-scroll-fix-2026-10-13/after-chromium-1440.png",
+      "bytes": 96378
+    },
+    {
+      "path": "docs/support-scroll-fix-2026-10-13/after-chromium-375.png",
+      "bytes": 38457
+    },
+    {
+      "path": "docs/support-scroll-fix-2026-10-13/after-chromium-390.png",
+      "bytes": 35737
+    },
+    {
+      "path": "docs/support-scroll-fix-2026-10-13/after-chromium-390.webm",
+      "bytes": 1687941
+    },
+    {
+      "path": "docs/support-scroll-fix-2026-10-13/after-chromium-430.png",
+      "bytes": 38892
+    },
+    {
+      "path": "docs/support-scroll-fix-2026-10-13/after-webkit-1280.png",
+      "bytes": 78545
+    },
+    {
+      "path": "docs/support-scroll-fix-2026-10-13/after-webkit-1440.png",
+      "bytes": 79485
+    },
+    {
+      "path": "docs/support-scroll-fix-2026-10-13/after-webkit-375.png",
+      "bytes": 31982
+    },
+    {
+      "path": "docs/support-scroll-fix-2026-10-13/after-webkit-390.png",
+      "bytes": 32132
+    },
+    {
+      "path": "docs/support-scroll-fix-2026-10-13/after-webkit-390.webm",
+      "bytes": 470314
+    },
+    {
+      "path": "docs/support-scroll-fix-2026-10-13/after-webkit-430.png",
+      "bytes": 32690
+    },
+    {
+      "path": "docs/support-scroll-fix-2026-10-13/before-1440.png",
+      "bytes": 96371
+    },
+    {
+      "path": "docs/support-scroll-fix-2026-10-13/before-390.png",
+      "bytes": 38511
+    },
+    {
+      "path": "docs/support-scroll-fix-2026-10-13/d5fc7476cb33af83df8c2c2f6262337c.webm",
+      "bytes": 268867
+    },
+    {
+      "path": "docs/support-scroll-investigation-2026-10-13/chromium-1440.png",
+      "bytes": 96367
+    },
+    {
+      "path": "docs/support-scroll-investigation-2026-10-13/chromium-390.png",
+      "bytes": 38507
+    },
+    {
+      "path": "docs/support-scroll-investigation-2026-10-13/webkit-1440.png",
+      "bytes": 79467
+    },
+    {
+      "path": "docs/support-scroll-investigation-2026-10-13/webkit-390.png",
+      "bytes": 30745
+    },
+    {
+      "path": "docs/ui-foundation-2026-10-05/after-1280.png",
+      "bytes": 2986698
+    },
+    {
+      "path": "docs/ui-foundation-2026-10-05/after-1440.png",
+      "bytes": 3313049
+    },
+    {
+      "path": "docs/ui-foundation-2026-10-05/after-375-top.png",
+      "bytes": 415865
+    },
+    {
+      "path": "docs/ui-foundation-2026-10-05/after-375.png",
+      "bytes": 1643088
+    },
+    {
+      "path": "docs/ui-foundation-2026-10-05/after-390.png",
+      "bytes": 1638620
+    },
+    {
+      "path": "docs/ui-foundation-2026-10-05/after-430.png",
+      "bytes": 1749354
+    },
+    {
+      "path": "docs/ui-foundation-2026-10-05/after-prototype-showroom.png",
+      "bytes": 1811434
+    },
+    {
+      "path": "docs/ui-foundation-2026-10-05/after-services-consulting.png",
+      "bytes": 139145
+    },
+    {
+      "path": "docs/ui-foundation-2026-10-05/after-services-insourcing-enablement.png",
+      "bytes": 654285
+    },
+    {
+      "path": "docs/ui-foundation-2026-10-05/before-1280.png",
+      "bytes": 2986739
+    },
+    {
+      "path": "docs/ui-foundation-2026-10-05/before-1440.png",
+      "bytes": 3312966
+    },
+    {
+      "path": "docs/ui-foundation-2026-10-05/before-375-top.png",
+      "bytes": 413522
+    },
+    {
+      "path": "docs/ui-foundation-2026-10-05/before-375.png",
+      "bytes": 1597883
+    },
+    {
+      "path": "docs/ui-foundation-2026-10-05/before-390.png",
+      "bytes": 1638620
+    },
+    {
+      "path": "docs/ui-foundation-2026-10-05/before-430.png",
+      "bytes": 1749354
+    },
+    {
+      "path": "docs/ui-foundation-2026-10-05/before-prototype-showroom.png",
+      "bytes": 1811434
+    },
+    {
+      "path": "docs/ui-foundation-2026-10-05/before-services-consulting.png",
+      "bytes": 139145
+    },
+    {
+      "path": "docs/ui-foundation-2026-10-05/before-services-insourcing-enablement.png",
+      "bytes": 654285
+    },
+    {
+      "path": "docs/ui-foundation-2026-10-05/pc-demo-comparison.png",
+      "bytes": 96092
+    },
+    {
+      "path": "docs/uiux-2026-10-06/after-1280.png",
+      "bytes": 3005118
+    },
+    {
+      "path": "docs/uiux-2026-10-06/after-1440.png",
+      "bytes": 3320241
+    },
+    {
+      "path": "docs/uiux-2026-10-06/after-375.png",
+      "bytes": 1606317
+    },
+    {
+      "path": "docs/uiux-2026-10-06/after-390.png",
+      "bytes": 1625033
+    },
+    {
+      "path": "docs/uiux-2026-10-06/after-430.png",
+      "bytes": 1749467
+    },
+    {
+      "path": "docs/uiux-2026-10-06/after-prototype-showroom.png",
+      "bytes": 1814437
+    },
+    {
+      "path": "docs/uiux-2026-10-06/after-services-consulting.png",
+      "bytes": 957734
+    },
+    {
+      "path": "docs/uiux-2026-10-06/after-services-insourcing-enablement.png",
+      "bytes": 1175717
+    },
+    {
+      "path": "docs/uiux-2026-10-06/before-1280.png",
+      "bytes": 2986698
+    },
+    {
+      "path": "docs/uiux-2026-10-06/before-1440.png",
+      "bytes": 3313049
+    },
+    {
+      "path": "docs/uiux-2026-10-06/before-375-top.png",
+      "bytes": 415865
+    },
+    {
+      "path": "docs/uiux-2026-10-06/before-375.png",
+      "bytes": 1643088
+    },
+    {
+      "path": "docs/uiux-2026-10-06/before-390.png",
+      "bytes": 1638620
+    },
+    {
+      "path": "docs/uiux-2026-10-06/before-430.png",
+      "bytes": 1749354
+    },
+    {
+      "path": "docs/uiux-2026-10-06/before-prototype-showroom.png",
+      "bytes": 1811434
+    },
+    {
+      "path": "docs/uiux-2026-10-06/before-services-consulting.png",
+      "bytes": 139145
+    },
+    {
+      "path": "docs/uiux-2026-10-06/before-services-insourcing-enablement.png",
+      "bytes": 654285
+    }
+  ]
+}

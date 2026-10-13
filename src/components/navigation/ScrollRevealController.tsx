@@ -2,7 +2,11 @@
 
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { SCROLL_REVEAL } from "@/lib/motion/scroll-reveal";
+import {
+  SCROLL_REVEAL,
+  afterViewportSettles,
+  stableViewportHeight,
+} from "@/lib/motion/scroll-reveal";
 
 const TARGETS = [
   "main section",
@@ -32,9 +36,13 @@ export function ScrollRevealController() {
 
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
     const tracked = new Set<HTMLElement>();
+    // Judged once and passed over; never promoted later, or it would replay over its visible children.
+    const skipped = new WeakSet<HTMLElement>();
     const revealed = new WeakSet<HTMLElement>();
     const animations = new Map<HTMLElement, Animation>();
     let frame = 0;
+    let settled = false;
+    let cancelSettle = () => {};
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -70,11 +78,13 @@ export function ScrollRevealController() {
 
     function scan() {
       frame = 0;
+      const viewportHeight = stableViewportHeight();
       for (const element of document.querySelectorAll<HTMLElement>(TARGETS)) {
         if (
           tracked.has(element) ||
+          skipped.has(element) ||
           element.closest('[data-scroll-reveal="off"], [data-reveal-ready="true"]') ||
-          element.querySelector('[data-reveal-ready="true"]')
+          element.querySelector('[data-scroll-reveal="off"], [data-reveal-ready="true"]')
         )
           continue;
         const explicit = element.dataset.scrollReveal === "target";
@@ -87,15 +97,25 @@ export function ScrollRevealController() {
           continue;
         const rect = element.getBoundingClientRect();
         // 長いセクションは中の見出しやカードを対象にし、二重に動かさない。
-        if (
-          !rect.width ||
-          !rect.height ||
-          (!explicit && rect.height > window.innerHeight * 0.9)
-        )
+        if (!rect.width || !rect.height) continue;
+        if (!explicit && rect.height > viewportHeight * 0.9) {
+          skipped.add(element);
           continue;
+        }
         let parent = element.parentElement;
         while (parent && !tracked.has(parent)) parent = parent.parentElement;
         if (parent) continue;
+        let hasTrackedChild = false;
+        for (const child of tracked) {
+          if (element.contains(child)) {
+            hasTrackedChild = true;
+            break;
+          }
+        }
+        if (hasTrackedChild) {
+          skipped.add(element);
+          continue;
+        }
         // 同じ要素の既存アニメーションを上書きしない。
         if (element.style.opacity || element.style.transform) continue;
         tracked.add(element);
@@ -120,7 +140,20 @@ export function ScrollRevealController() {
     }
 
     function scheduleScan() {
-      if (!frame) frame = window.requestAnimationFrame(scan);
+      if (settled && !frame) frame = window.requestAnimationFrame(scan);
+    }
+
+    function startWhenSettled() {
+      cancelSettle();
+      if (media.matches) {
+        settled = true;
+        scheduleScan();
+        return;
+      }
+      cancelSettle = afterViewportSettles(() => {
+        settled = true;
+        scheduleScan();
+      });
     }
 
     function cancelMotion() {
@@ -148,18 +181,19 @@ export function ScrollRevealController() {
     const mutations = new MutationObserver(scheduleScan);
     mutations.observe(document.body, { childList: true, subtree: true });
     media.addEventListener("change", cancelMotion);
-    window.addEventListener("resize", scheduleScan);
+    window.addEventListener("resize", startWhenSettled);
     document.addEventListener("focusin", onFocus);
-    scheduleScan();
+    startWhenSettled();
 
     return () => {
+      cancelSettle();
       mutations.disconnect();
       observer.disconnect();
       window.cancelAnimationFrame(frame);
       animations.forEach((animation) => animation.cancel());
       tracked.clear();
       media.removeEventListener("change", cancelMotion);
-      window.removeEventListener("resize", scheduleScan);
+      window.removeEventListener("resize", startWhenSettled);
       document.removeEventListener("focusin", onFocus);
     };
   }, [pathname]);

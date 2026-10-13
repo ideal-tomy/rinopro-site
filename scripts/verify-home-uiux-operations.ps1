@@ -3,8 +3,8 @@ $ErrorActionPreference='Stop'
 $results=[System.Collections.Generic.List[object]]::new()
 function Invoke-Browser { if($args[0] -eq "click"){ & npx --yes --package agent-browser agent-browser --session axeon-clean scrollintoview $args[1] | Out-Null; if($LASTEXITCODE -ne 0){throw "Scroll failed"} }; & npx --yes --package agent-browser agent-browser --session axeon-clean @args; if($LASTEXITCODE -ne 0){throw "Browser command failed: $args"} }
 function Read-Page([string]$Code) { $output=$Code | & npx --yes --package agent-browser agent-browser --session axeon-clean eval --stdin; if($LASTEXITCODE -ne 0){throw 'Evaluation failed'}; return ($output -join "`n" | ConvertFrom-Json) }
-function Assert-Page([string]$Name,[string]$Code) { $actual=Read-Page $Code; $results.Add([pscustomobject]@{name=$Name;passed=($actual -eq $true)}); $results | ConvertTo-Json | Set-Content -Encoding utf8 docs/uiux-2026-10-06/operations-after.json; if($actual -ne $true){throw "Check failed: $Name"}; Write-Output "PASS: $Name" }
-if($MotionOnly){foreach($r in (Get-Content docs/uiux-2026-10-06/operations-after.json -Raw | ConvertFrom-Json)){if($r.passed){$results.Add($r)}}}
+function Assert-Page([string]$Name,[string]$Code) { $actual=Read-Page $Code; $results.Add([pscustomobject]@{name=$Name;passed=($actual -eq $true)}); $results | ConvertTo-Json | Set-Content -Encoding utf8 docs/archive/uiux-2026-10-06/operations-after.json; if($actual -ne $true){throw "Check failed: $Name"}; Write-Output "PASS: $Name" }
+if($MotionOnly){foreach($r in (Get-Content docs/archive/uiux-2026-10-06/operations-after.json -Raw | ConvertFrom-Json)){if($r.passed){$results.Add($r)}}}
 if(-not $MotionOnly){
 Invoke-Browser set viewport 390 900 | Out-Null
 Invoke-Browser open "$BaseUrl/" | Out-Null
@@ -45,7 +45,7 @@ Assert-Page 'Reduced motion is reflected in the Hero hook' "matchMedia('(prefers
 Invoke-Browser set media light --reduced-motion no-preference | Out-Null
 Assert-Page 'Motion setting changes are subscribed' "!matchMedia('(prefers-reduced-motion: reduce)').matches && ($motionState) === false"
 Assert-Page 'No Next error overlay' "!document.querySelector('[data-nextjs-dialog]')"
-$results | ConvertTo-Json | Set-Content -Encoding utf8 docs/uiux-2026-10-06/operations-after.json
-Invoke-Browser errors --json | Set-Content -Encoding utf8 docs/uiux-2026-10-06/browser-errors.txt
+$results | ConvertTo-Json | Set-Content -Encoding utf8 docs/archive/uiux-2026-10-06/operations-after.json
+Invoke-Browser errors --json | Set-Content -Encoding utf8 docs/archive/uiux-2026-10-06/browser-errors.txt
 
 

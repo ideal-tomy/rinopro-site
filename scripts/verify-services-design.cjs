@@ -1,6 +1,6 @@
 const fs = require('node:fs');
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
-const dir = 'docs/services-design-2026-10-06';
+const dir = 'docs/archive/services-design-2026-10-06';
 const url = process.argv[2] || 'http://127.0.0.1:3000';
 const mode = process.argv[3] || 'after';
 const widths = mode === 'quick' ? [1122,390] : [375,390,430,768,1023,1024,1025,1122,1280,1440];

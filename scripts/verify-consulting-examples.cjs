@@ -3,7 +3,7 @@ const assert = require('node:assert/strict');
 const { chromium, webkit } = require('C:/Users/ryoji/AppData/Local/npm-cache/_npx/c61c9351a0dbcfa7/node_modules/playwright');
 const phase = process.argv[2] || 'after';
 const base = process.argv[3] || 'http://127.0.0.1:3000';
-const out = 'docs/consulting-examples-2026-10-13';
+const out = 'docs/archive/consulting-examples-2026-10-13';
 fs.mkdirSync(out, {recursive:true});
 (async () => {
   const results = [];

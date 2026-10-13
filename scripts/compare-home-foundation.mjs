@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import sharp from 'sharp';
 import assert from 'node:assert/strict';
-const dir='docs/ui-foundation-2026-10-05/';
+const dir='docs/archive/ui-foundation-2026-10-05/';
 const rows=[];
 for(const name of ['375','390','430','1280','1440','services-consulting','prototype-showroom','services-insourcing-enablement']){
 const a=JSON.parse(fs.readFileSync(dir+'before-'+name+'.json','utf8')),b=JSON.parse(fs.readFileSync(dir+'after-'+name+'.json','utf8'));

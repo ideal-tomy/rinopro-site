@@ -3,7 +3,7 @@ const assert=require('node:assert/strict');
 const {chromium,webkit}=require('C:/Users/ryoji/AppData/Local/npm-cache/_npx/c61c9351a0dbcfa7/node_modules/playwright');
 const base=process.argv[2]||'http://127.0.0.1:3105';
 const phase=process.argv[3]||'after';
-const out='docs/support-scroll-fix-2026-10-13';
+const out='docs/archive/support-scroll-fix-2026-10-13';
 fs.mkdirSync(out,{recursive:true});
 const route='/services/insourcing-enablement';
 const results=[];

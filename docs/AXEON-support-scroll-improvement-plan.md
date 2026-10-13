@@ -34,7 +34,7 @@
 
 ローカル本番ビルドの `http://127.0.0.1:3104/services/insourcing-enablement` をChromeとPlaywright WebKitで調査。390pxと1440px、通常モーション設定で記録した。
 
-証拠：[evidence.json](./support-scroll-investigation-2026-10-13/evidence.json)、[初期化完了待ちの追加計測](./support-scroll-investigation-2026-10-13/hydrated-evidence.json)。再実行：[調査スクリプト](./AXEON-support-scroll-investigation.cjs)。
+証拠：[evidence.json](archive/support-scroll-investigation-2026-10-13/evidence.json)、[初期化完了待ちの追加計測](archive/support-scroll-investigation-2026-10-13/hydrated-evidence.json)。再実行：[調査スクリプト](./AXEON-support-scroll-investigation.cjs)。
 
 ### 1. 親の縦移動が実際に残る
 

@@ -10,7 +10,7 @@ const {
 } = require("C:/Users/ryoji/AppData/Local/npm-cache/_npx/c61c9351a0dbcfa7/node_modules/playwright");
 const sharp = require("sharp");
 const base = process.argv[2] || "http://localhost:3000";
-const out = "docs/enablement-v1-2026-10-09";
+const out = "docs/archive/enablement-v1-2026-10-09";
 (async () => {
   const browser = await chromium.launch({
     executablePath: "C:/Program Files/Google/Chrome/Application/chrome.exe",

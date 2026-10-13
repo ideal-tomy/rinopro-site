@@ -1,5 +1,5 @@
 const sharp = require('sharp');
-const dir='docs/services-design-2026-10-06';
+const dir='docs/archive/services-design-2026-10-06';
 const mode=process.argv[2]||'after';
 const reference='docs/AXEONご支援内容 モバイル3画面ボード-2.png';
 (async()=>{

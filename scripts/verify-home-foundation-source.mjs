@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
-const root='docs/ui-foundation-2026-10-05/';
+const root='docs/archive/ui-foundation-2026-10-05/';
 const before=JSON.parse(fs.readFileSync(root+'source-before.json','utf8'));
 const groups={};for(const m of fs.readFileSync('src/components/home/home-presentation.ts','utf8').matchAll(/export const (\w+) = (\{[\s\S]*?\}) as const;/g))groups[m[1]]=JSON.parse(m[2]);
 let checked=0;

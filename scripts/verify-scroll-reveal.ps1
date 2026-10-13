@@ -1,6 +1,6 @@
 param([string]$BaseUrl='http://127.0.0.1:3100', [string[]]$Routes=@('','services','about','articles/construction','contact','estimate-detailed','experience'), [switch]$Append, [string]$BrowserBinary)
 $ErrorActionPreference='Stop'
-$dir='docs/scroll-reveal-2026-10-06'
+$dir='docs/archive/scroll-reveal-2026-10-06'
 $BrowserCommand=if($BrowserBinary){$BrowserBinary}else{'npx'}
 $BrowserPrefix=if($BrowserBinary){@()}else{@('--yes','--package','agent-browser','agent-browser')}
 function Browser { & $BrowserCommand @BrowserPrefix --session sr6 @args; if($LASTEXITCODE -ne 0){throw "Browser failed: $args"} }

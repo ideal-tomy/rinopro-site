@@ -21,8 +21,8 @@ const url=process.argv[2]||'http://127.0.0.1:3102';
     console.log(JSON.stringify({requested:route,url:page.url()}));
     try {await page.waitForURL(`**${route}`,{waitUntil:'domcontentloaded',timeout:60000});}
     catch(error) {
-      await page.screenshot({path:'docs/services-design-2026-10-06/navigation-failure.png'});
-      fs.writeFileSync('docs/services-design-2026-10-06/navigation-failure.json',JSON.stringify({requested:route,url:page.url(),errors,text:await page.locator('body').innerText()},null,2));
+      await page.screenshot({path:'docs/archive/services-design-2026-10-06/navigation-failure.png'});
+      fs.writeFileSync('docs/archive/services-design-2026-10-06/navigation-failure.json',JSON.stringify({requested:route,url:page.url(),errors,text:await page.locator('body').innerText()},null,2));
       throw error;
     }
     if(!await page.locator('main').isVisible())throw Error(`Route missing ${route}`);
@@ -52,6 +52,6 @@ const url=process.argv[2]||'http://127.0.0.1:3102';
   if(other.headerHeight!==65||other.brandDisplay!=='none')throw Error('Services chrome leaked');
   checks.push({otherPage:other});
   if(errors.length)throw Error(JSON.stringify(errors));
-  fs.writeFileSync('docs/services-design-2026-10-06/operations.json',JSON.stringify({checks,errors},null,2));
+  fs.writeFileSync('docs/archive/services-design-2026-10-06/operations.json',JSON.stringify({checks,errors},null,2));
   console.log(JSON.stringify(checks));await browser.close();
 })();

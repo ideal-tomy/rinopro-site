@@ -27,8 +27,8 @@ const { webkit, chromium, devices } = require(process.env.PLAYWRIGHT_MODULE || '
   }
   const tag = process.argv[3] || 'before';
   result.errors = errors;
-  fs.writeFileSync(`docs/engine-diagram-2026-10-06/${tag}-webkit.json`, JSON.stringify(result,null,2));
-  await diagram.screenshot({path:`docs/engine-diagram-2026-10-06/${tag}-webkit.png`});
+  fs.writeFileSync(`docs/archive/engine-diagram-2026-10-06/${tag}-webkit.json`, JSON.stringify(result,null,2));
+  await diagram.screenshot({path:`docs/archive/engine-diagram-2026-10-06/${tag}-webkit.png`});
   console.log(JSON.stringify(result));
   await browser.close();
 })();

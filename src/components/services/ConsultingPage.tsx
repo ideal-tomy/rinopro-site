@@ -83,7 +83,7 @@ export function ConsultingPage() {
         <h2 id="scope-heading" className={styles.srOnly}>
           支援範囲
         </h2>
-        <div ref={scopeReveal} className={styles.diagram}>
+        <div ref={scopeReveal} className={styles.diagram} data-scroll-reveal="off">
           <div className={styles.sources}>
             <div className={styles.source} data-reveal-step>
               <Building2 aria-hidden="true" />
@@ -147,6 +147,7 @@ export function ConsultingPage() {
       <section
         id="consulting-examples"
         ref={examplesReveal}
+        data-scroll-reveal="off"
         className={`${styles.tinted} ${mobileCases.section}`}
         aria-labelledby="examples-heading"
       >

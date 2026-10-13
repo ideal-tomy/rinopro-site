@@ -1,6 +1,6 @@
 const fs=require('node:fs'),assert=require('node:assert/strict');
 const {chromium}=require('C:/Users/ryoji/AppData/Local/npm-cache/_npx/c61c9351a0dbcfa7/node_modules/playwright');
-const base=process.argv[2]||'http://127.0.0.1:3105',out='docs/support-scroll-fix-2026-10-13';
+const base=process.argv[2]||'http://127.0.0.1:3105',out='docs/archive/support-scroll-fix-2026-10-13';
 (async()=>{
  const b=await chromium.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:true});
  const records=[];

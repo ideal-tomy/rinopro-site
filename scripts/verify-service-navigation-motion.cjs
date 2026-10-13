@@ -36,7 +36,7 @@ const {
       v = await nav.boundingBox();
     assert(a.x >= v.x - 1 && a.x + a.width <= v.x + v.width + 1);
     fs.writeFileSync(
-      "docs/service-navigation-2026-10-09/normal-motion.json",
+      "docs/archive/service-navigation-2026-10-09/normal-motion.json",
       JSON.stringify(
         { passed: true, controls, panel, currentLinkVisible: true },
         null,
