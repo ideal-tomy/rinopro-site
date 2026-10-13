@@ -43,15 +43,3 @@ export function afterViewportSettles(callback: () => void): () => void {
     cancel();
   };
 }
-
-/** Height with the mobile address bar collapsed, so size checks do not flip while scrolling. */
-export function stableViewportHeight(): number {
-  const probe = document.createElement("div");
-  probe.style.cssText =
-    "position:fixed;top:0;left:0;width:0;height:100lvh;visibility:hidden;pointer-events:none";
-  // Outside <body>, so body MutationObservers do not react to the probe.
-  document.documentElement.appendChild(probe);
-  const height = probe.getBoundingClientRect().height;
-  probe.remove();
-  return Math.max(height || 0, window.innerHeight);
-}
