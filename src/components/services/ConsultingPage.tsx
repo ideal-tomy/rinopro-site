@@ -57,10 +57,6 @@ export function ConsultingPage() {
       >
         <div className={`${shared.container} ${shared.heroColumns}`}>
           <div>
-            <p className={shared.label}>
-              <span>CONSULTING</span>
-              <span>業務・ITの整理と計画</span>
-            </p>
             <h1
               id="consulting-heading"
               className={`${shared.heroTitle} ${shared.lines}`}
@@ -71,14 +67,6 @@ export function ConsultingPage() {
             <p className={shared.heroBody}>
               経営の方針と現場の状況を確認し、課題を整理します。改善案を比較したうえで、取り組む範囲と進め方を決めます。
             </p>
-            <div className={shared.actions}>
-              <a href="#consulting-details" className={shared.primaryButton}>
-                支援内容を見る
-              </a>
-              <a href="#contact-consulting" className={shared.textLink}>
-                ご相談はこちら<span aria-hidden="true">↗</span>
-              </a>
-            </div>
           </div>
           <ServiceHeroProcessDiagram pageKey="consulting" />
         </div>
@@ -91,10 +79,6 @@ export function ConsultingPage() {
       >
         <div className={`${shared.container} ${shared.split}`}>
           <div>
-            <p className={shared.label}>
-              <span>OUR ROLE</span>
-              <span>どんな支援をするか</span>
-            </p>
             <h2 id="role-heading" className={`${shared.heading} ${shared.lines}`}>
               <span>状況を確認し、</span>
               <span>
@@ -124,10 +108,6 @@ export function ConsultingPage() {
         aria-labelledby="work-heading"
       >
         <div className={shared.container}>
-          <p className={shared.label}>
-            <span>HOW WE WORK</span>
-            <span>検討の進め方</span>
-          </p>
           <h2 id="work-heading" className={`${shared.heading} ${shared.lines}`}>
             <span>整理する。比較する。</span>
             <span className={shared.accent}>進め方を決める。</span>
@@ -153,10 +133,6 @@ export function ConsultingPage() {
         aria-labelledby="examples-heading"
       >
         <div className={shared.container}>
-          <p className={shared.label}>
-            <span>EXAMPLES</span>
-            <span>相談例</span>
-          </p>
           <h2 id="examples-heading" className={shared.heading}>
             例えば、こんなご相談から。
           </h2>
@@ -173,10 +149,6 @@ export function ConsultingPage() {
       >
         <div className={`${shared.container} ${shared.split} ${styles.resultSplit}`}>
           <div>
-            <p className={shared.label}>
-              <span>RESULT</span>
-              <span>検討後に残るもの</span>
-            </p>
             <h2 id="result-heading" className={`${shared.heading} ${shared.lines}`}>
               <span>社内で説明し、</span>
               <span>判断できる資料に。</span>
@@ -197,10 +169,7 @@ export function ConsultingPage() {
         className={shared.contact}
         aria-labelledby="consultation-heading"
       >
-        <div className={shared.container}>
-          <p className={shared.label}>
-            <span>CONTACT</span>
-          </p>
+        <div className={`${shared.container} ${shared.contactInner}`}>
           <h2
             id="consultation-heading"
             className={`${shared.heading} ${shared.lines}`}
@@ -212,8 +181,9 @@ export function ConsultingPage() {
             </span>
             <span>ご相談いただけます。</span>
           </h2>
-          <p className={shared.body}>
-            現在困っていることや、検討中の内容をお聞かせください。開発に進むかどうかも含めて、一緒に考えます。
+          <p className={`${shared.body} ${shared.contactBodyLines}`}>
+            <span>現在困っていることや、検討中の内容をお聞かせください。</span>
+            <span>開発に進むかどうかも含めて、一緒に考えます。</span>
           </p>
           <div className={shared.actions}>
             <Link className={shared.contactButton} href="/contact">

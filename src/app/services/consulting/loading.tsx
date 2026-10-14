@@ -7,10 +7,6 @@ export default function Loading() {
       <div className={shared.page} data-scroll-reveal="off">
         <section className={`${shared.hero} ${shared.heroConsulting}`}>
           <div className={shared.container}>
-            <p className={shared.label}>
-              <span>CONSULTING</span>
-              <span>業務・ITの整理と計画</span>
-            </p>
             <h1 className={`${shared.heroTitle} ${shared.lines}`}>
               <span>何を変えるか。</span>
               <span className={shared.accent}>どこから始めるか。</span>

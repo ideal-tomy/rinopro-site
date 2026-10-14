@@ -85,7 +85,7 @@
   min-width: 0;
 }
 .page .heroTitle {
-  margin-top: 22px;
+  margin-top: 0;
   color: var(--landing-ink);
   font-size: clamp(40px, 4.2vw, 58px);
   font-weight: 800;
@@ -170,7 +170,7 @@
   border-top: 1px solid currentColor;
 }
 .page .heading {
-  margin-top: 18px;
+  margin-top: 0;
   color: var(--landing-ink);
   font-size: clamp(28px, 3.1vw, 40px);
   font-weight: 800;
@@ -276,16 +276,28 @@
   background: var(--contact-bg, #10294f);
   padding-block: 104px;
 }
-.page .contact .label,
-.page .contact .label > span + span {
-  color: #b9cdf0;
+.contactInner {
+  text-align: center;
 }
 .page .contact .heading {
   color: #fff;
+  margin-inline: auto;
 }
 .page .contact .body {
   max-width: 40em;
+  margin-inline: auto;
   color: #e3eaf6;
+}
+.contactBodyLines > span {
+  display: inline;
+}
+@media (min-width: 900px) {
+  .contactBodyLines > span {
+    display: block;
+  }
+}
+.page .contact .actions {
+  justify-content: center;
 }
 .page .contactButton {
   display: inline-flex;

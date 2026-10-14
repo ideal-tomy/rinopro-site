@@ -112,10 +112,6 @@ export function EnablementExternalItSections() {
       >
         <div className={`${shared.container} ${shared.split} ${styles.whySplit}`}>
           <div>
-            <p className={shared.label}>
-              <span>WHY EXTERNAL IT</span>
-              <span>外部に任せる理由</span>
-            </p>
             <h2 id="why-heading" className={`${shared.heading} ${shared.lines}`}>
               <span>採用する前に、</span>
               <span>
@@ -149,10 +145,6 @@ export function EnablementExternalItSections() {
         aria-labelledby="scope-heading"
       >
         <div className={shared.container}>
-          <p className={shared.label}>
-            <span>SCOPE OF SUPPORT</span>
-            <span>任せられる仕事</span>
-          </p>
           <h2 id="scope-heading" className={`${shared.heading} ${shared.lines}`}>
             <span>ITの相談先を、</span>
             <span>社内で探さなくていい。</span>
@@ -177,10 +169,6 @@ export function EnablementExternalItSections() {
 
       <section className={shared.section} aria-labelledby="contract-heading">
         <div className={shared.container}>
-          <p className={shared.label}>
-            <span>CONTRACT MODEL</span>
-            <span>採用と外部契約</span>
-          </p>
           <h2 id="contract-heading" className={`${shared.heading} ${shared.lines}`}>
             <span>社員を採用する方法と、</span>
             <span>何が違うのか。</span>
@@ -221,10 +209,6 @@ export function EnablementExternalItSections() {
         aria-labelledby="flow-heading"
       >
         <div className={shared.container}>
-          <p className={shared.label}>
-            <span>HOW IT WORKS</span>
-            <span>支援の進め方</span>
-          </p>
           <h2 id="flow-heading" className={`${shared.heading} ${shared.lines}`}>
             <span>任せる仕事を決めて、</span>
             <span>
@@ -251,10 +235,6 @@ export function EnablementExternalItSections() {
       <section className={shared.section} aria-labelledby="our-role-heading">
         <div className={`${shared.container} ${shared.split} ${styles.roleSplit}`}>
           <div>
-            <p className={shared.label}>
-              <span>OUR ROLE</span>
-              <span>AXEONが担うこと</span>
-            </p>
             <h2 id="our-role-heading" className={`${shared.heading} ${shared.lines}`}>
               <span>ITの判断を、</span>
               <span>
@@ -288,10 +268,7 @@ export function EnablementExternalItSections() {
         className={`${shared.contact} ${styles.contactBand}`}
         aria-labelledby="external-contact-heading"
       >
-        <div className={shared.container}>
-          <p className={shared.label}>
-            <span>CONTACT</span>
-          </p>
+        <div className={`${shared.container} ${shared.contactInner}`}>
           <h2
             id="external-contact-heading"
             className={`${shared.heading} ${shared.lines}`}
@@ -307,8 +284,9 @@ export function EnablementExternalItSections() {
               ご相談ください。
             </span>
           </h2>
-          <p className={shared.body}>
-            社内のIT担当がいない場合も、兼任の担当者が手いっぱいの場合も。今の状況を伺い、対応できる範囲と進め方をご案内します。
+          <p className={`${shared.body} ${shared.contactBodyLines}`}>
+            <span>社内のIT担当がいない場合も、兼任の担当者が手いっぱいの場合も。</span>
+            <span>今の状況を伺い、対応できる範囲と進め方をご案内します。</span>
           </p>
           <div className={shared.actions}>
             <Link className={shared.contactButton} href="/contact">
