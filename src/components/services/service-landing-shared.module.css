@@ -1,0 +1,378 @@
+/* コンサルティング・半内製化（外部IT部門）ページ共通のレイアウトと文字組み */
+.page {
+  --landing-ink: #132139;
+  --landing-body: #42516a;
+  --landing-accent: #1658c8;
+  --landing-link: #1d63df;
+  --landing-rule: #d9e2ee;
+  --landing-tint: #f6f8fb;
+  color: #111;
+  background: #fff;
+  color-scheme: light;
+  font-family:
+    -apple-system, BlinkMacSystemFont, var(--font-noto-sans-jp), "Yu Gothic",
+    sans-serif;
+  font-size: 16px;
+  line-height: 1.8;
+  word-break: normal;
+  overflow-wrap: break-word;
+}
+.page :is(h1, h2, h3, p, ul, ol, dl, dd) {
+  margin: 0;
+}
+.page :is(h1, h2, h3) {
+  color: #0b1933;
+  font-weight: 700;
+}
+.page p,
+.page dd {
+  color: #111;
+}
+.page h2 {
+  font-size: 38px;
+  line-height: 1.5;
+}
+.page h3 {
+  font-size: 22px;
+  line-height: 1.5;
+}
+.page :is(a, button, [tabindex]):focus-visible {
+  outline: 3px solid #234b9d;
+  outline-offset: 4px;
+}
+.page [id] {
+  scroll-margin-top: 88px;
+}
+
+.container {
+  width: calc(100% - 12.8%);
+  max-width: 1140px;
+  margin-inline: auto;
+}
+.section {
+  padding-block: 116px;
+}
+.tint {
+  background: var(--landing-tint);
+}
+.ruled {
+  border-top: 1px solid #e6ecf3;
+}
+.lines > span {
+  display: block;
+}
+.page .accent {
+  color: var(--landing-accent);
+}
+
+/* Hero */
+.hero {
+  padding-block: 72px 80px;
+}
+.heroConsulting {
+  background: linear-gradient(120deg, #f8faff 0%, #f6f9ff 48%, #eaf2ff 100%);
+}
+.heroExternal {
+  background: linear-gradient(121deg, #f7faff 0%, #f7f9fc 57%, #eaf2fc 100%);
+}
+.heroColumns {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr);
+  column-gap: 4%;
+  align-items: center;
+}
+.heroColumns > * {
+  min-width: 0;
+}
+.page .heroTitle {
+  margin-top: 22px;
+  color: var(--landing-ink);
+  font-size: clamp(40px, 4.2vw, 58px);
+  font-weight: 800;
+  line-height: 1.38;
+  letter-spacing: -0.03em;
+  word-break: keep-all;
+}
+.page .heroBody {
+  margin-top: 28px;
+  color: var(--landing-body);
+  font-size: 17px;
+  line-height: 1.9;
+}
+.page .heroStrong {
+  margin-top: 14px;
+  color: #173d83;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.7;
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 32px;
+  margin-top: 36px;
+}
+.page .primaryButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding: 12px 30px;
+  border-radius: 4px;
+  background: #173d83;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+}
+.page .primaryButton:hover {
+  background: #0f2f6b;
+}
+.page .textLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  color: var(--landing-link);
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+}
+.page .textLink:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* セクション見出し */
+.page .label {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 14px;
+  color: var(--landing-accent);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.6;
+  letter-spacing: 0.14em;
+}
+.page .label > span + span {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--landing-body);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+}
+.page .label > span + span::before {
+  content: "";
+  width: 20px;
+  border-top: 1px solid currentColor;
+}
+.page .heading {
+  margin-top: 18px;
+  color: var(--landing-ink);
+  font-size: clamp(28px, 3.1vw, 40px);
+  font-weight: 800;
+  line-height: 1.5;
+  letter-spacing: -0.02em;
+  word-break: keep-all;
+}
+.page .body {
+  margin-top: 24px;
+  color: var(--landing-body);
+  font-size: 16px;
+  line-height: 1.95;
+}
+.page .body + .body {
+  margin-top: 16px;
+}
+.page .note {
+  margin-top: 28px;
+  color: var(--landing-body);
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+/* 左右分割（--split で左列幅、--split-gap で間隔を指定） */
+.split {
+  display: grid;
+  grid-template-columns: minmax(0, var(--split, 38%)) minmax(0, 1fr);
+  column-gap: var(--split-gap, 9%);
+  align-items: start;
+}
+.split > * {
+  min-width: 0;
+}
+
+/* 横線で区切る項目リスト */
+.lineList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-bottom: 1px solid var(--landing-rule);
+}
+.lineList > li {
+  padding-block: 28px;
+  border-top: 1px solid var(--landing-rule);
+}
+.numbered > li {
+  display: grid;
+  grid-template-columns: var(--line-marker, 56px) minmax(0, 1fr);
+  column-gap: 8px;
+}
+.page .marker {
+  color: var(--landing-accent);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.9;
+  letter-spacing: 0.06em;
+}
+.page .itemTitle {
+  color: var(--landing-ink);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.6;
+}
+.page .itemBody {
+  margin-top: 8px;
+  color: var(--landing-body);
+  font-size: 16px;
+  line-height: 1.85;
+}
+
+/* 上罫線で始まる工程（--steps で列数を指定） */
+.steps {
+  display: grid;
+  grid-template-columns: repeat(var(--steps, 3), minmax(0, 1fr));
+  gap: 40px 36px;
+  padding: 56px 0 0;
+  list-style: none;
+}
+.steps > li {
+  min-width: 0;
+  padding-top: 24px;
+  border-top: 2px solid var(--landing-link);
+}
+.page .stepLabel {
+  color: var(--landing-accent);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+.page .stepNumber {
+  color: var(--landing-accent);
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+.page .steps .itemTitle {
+  margin-top: 12px;
+}
+
+/* 終盤の問い合わせ帯 */
+.contact {
+  background: var(--contact-bg, #10294f);
+  padding-block: 104px;
+}
+.page .contact .label,
+.page .contact .label > span + span {
+  color: #b9cdf0;
+}
+.page .contact .heading {
+  color: #fff;
+}
+.page .contact .body {
+  max-width: 40em;
+  color: #e3eaf6;
+}
+.page .contactButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  min-height: 52px;
+  padding: 12px 32px;
+  border-radius: 4px;
+  background: #fff;
+  color: var(--landing-ink);
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+}
+.page .contactButton svg {
+  width: 18px;
+  height: 18px;
+}
+.page .contact .textLink {
+  color: #fff;
+}
+
+@media (max-width: 1023px) {
+  .steps {
+    grid-template-columns: repeat(var(--steps-tablet, 1), minmax(0, 1fr));
+  }
+}
+@media (max-width: 899px) {
+  .heroColumns {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 48px;
+  }
+  .split {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 40px;
+  }
+}
+@media (max-width: 767px) {
+  .page h2 {
+    font-size: 29px;
+  }
+  .container {
+    width: calc(100% - 12%);
+  }
+  .section {
+    padding-block: 72px;
+  }
+  .hero {
+    padding-block: 44px 56px;
+  }
+  .page .heroTitle {
+    font-size: clamp(32px, 9.4vw, 44px);
+  }
+  .page .heroBody {
+    font-size: 16px;
+  }
+  .page .heroStrong {
+    font-size: 17px;
+  }
+  .page .heading {
+    font-size: clamp(25px, 6.6vw, 30px);
+  }
+  .lineList > li {
+    padding-block: 22px;
+  }
+  .numbered {
+    --line-marker: 44px;
+  }
+  .page .itemTitle {
+    font-size: 18px;
+  }
+  .steps {
+    padding-top: 40px;
+    gap: 32px;
+  }
+  .contact {
+    padding-block: 72px;
+  }
+}
+@media (max-width: 599px) {
+  .steps {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 359px) {
+  .page .heroTitle {
+    font-size: 30px;
+  }
+}

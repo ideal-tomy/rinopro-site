@@ -741,3 +741,162 @@
   .mobileConnector { display: flex; width: 42px; height: 48px; margin-inline: auto; align-items: center; justify-content: center; color: #0758c4; }
   .mobileConnector svg { width: 32px; height: 32px; stroke-width: 1.7; }
 }
+
+/* コンサルティングページ固有（共通部分は service-landing-shared.module.css） */
+.highlight {
+  background-image: linear-gradient(#d3e3fa, #d3e3fa);
+  background-repeat: no-repeat;
+  background-position: 0 88%;
+  background-size: 100% 0.22em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.resultSplit {
+  --split: 39%;
+  --split-gap: 10%;
+  align-items: center;
+}
+
+.examples {
+  padding: 56px 0 0;
+  list-style: none;
+  border-bottom: 1px solid #d9e2ee;
+}
+.examples > li {
+  display: grid;
+  grid-template-columns: minmax(0, 43%) minmax(0, 1fr);
+  column-gap: 6%;
+  padding-block: 40px;
+  border-top: 1px solid #d9e2ee;
+}
+.examples .exampleLabel {
+  color: #42516a;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+.examples .exampleProblem {
+  margin-top: 10px;
+  color: #132139;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.6;
+}
+.examples .exampleFocus {
+  margin-top: 10px;
+  color: #1658c8;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.6;
+}
+.exampleProblem span,
+.exampleFocus span {
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+.exampleProblem span {
+  display: block;
+}
+.examples .exampleBody {
+  margin-top: 12px;
+  color: #42516a;
+  font-size: 16px;
+  line-height: 1.85;
+}
+
+.paper {
+  margin: 0;
+  padding: 36px 36px 32px;
+  background: #fff;
+  border: 1px solid #d9e2ee;
+  box-shadow: 0 18px 40px rgb(19 33 57 / 8%);
+  rotate: 1deg;
+}
+.paperHeader {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 16px;
+  padding-bottom: 14px;
+  border-bottom: 2px solid #132139;
+}
+.paper .paperHeader p {
+  color: #132139;
+  font-size: 15px;
+  font-weight: 700;
+}
+.paper .paperHeader p + p {
+  color: #42516a;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+}
+.paper .paperTitle {
+  margin-top: 24px;
+  color: #132139;
+  font-size: 22px;
+  font-weight: 700;
+}
+.paper .paperMeta {
+  margin-top: 4px;
+  color: #42516a;
+  font-size: 15px;
+}
+.paper .paperRows {
+  margin: 20px 0 0;
+  border-top: 1px solid #d9e2ee;
+}
+.paperRows > div {
+  display: grid;
+  grid-template-columns: minmax(0, 32%) minmax(0, 1fr);
+  column-gap: 20px;
+  padding-block: 14px;
+  border-bottom: 1px solid #d9e2ee;
+}
+.paper .paperRows dt {
+  color: #1658c8;
+  font-size: 15px;
+  font-weight: 700;
+}
+.paper .paperRows dd {
+  color: #132139;
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+@media (max-width: 899px) {
+  .paper {
+    rotate: none;
+  }
+}
+@media (max-width: 767px) {
+  .examples {
+    padding-top: 40px;
+  }
+  .examples > li {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 20px;
+    padding-block: 28px;
+  }
+  .examples .exampleProblem {
+    font-size: clamp(18px, 5vw, 21px);
+  }
+  .examples .exampleFocus {
+    font-size: 18px;
+  }
+  .exampleFocus span {
+    display: block;
+  }
+  .paper {
+    padding: 24px 20px;
+  }
+  .paper .paperTitle {
+    font-size: 20px;
+  }
+}
+@media (max-width: 429px) {
+  .paperRows > div {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 2px;
+  }
+}

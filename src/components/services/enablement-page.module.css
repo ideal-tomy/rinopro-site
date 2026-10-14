@@ -1144,3 +1144,144 @@
     flex-basis: calc(100% - min(300px, 44vw) - 16px);
   }
 }
+
+/* 外部IT部門（WHY〜CONTACT）。共通部分は service-landing-shared.module.css */
+.whySplit {
+  --split: 42%;
+  --split-gap: 12%;
+}
+.roleSplit {
+  --split: 54%;
+  --split-gap: 6%;
+}
+.scopeSection {
+  background: #f7f9fc;
+}
+.scopeGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0 48px;
+  padding: 48px 0 0;
+  list-style: none;
+}
+.scopeGrid > li {
+  min-width: 0;
+  padding: 26px 0 34px;
+  border-top: 1px solid #cfd9e6;
+}
+.page .scopeLabel {
+  margin-bottom: 6px;
+  color: #1658c8;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.compareTable {
+  width: 100%;
+  margin-top: 48px;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+.compareTable th,
+.compareTable td {
+  padding: 22px 24px;
+  border-bottom: 1px solid #d9e2ee;
+  text-align: left;
+  vertical-align: top;
+  font-size: 16px;
+  line-height: 1.75;
+}
+.compareTable thead th {
+  padding-block: 16px;
+  border-bottom: 2px solid #132139;
+  color: #132139;
+  font-size: 15px;
+  font-weight: 700;
+}
+.compareTable thead th:first-child {
+  width: 24%;
+}
+.compareTable tbody th {
+  color: #132139;
+  font-weight: 700;
+}
+.compareTable td {
+  color: #42516a;
+}
+.compareTable .compareExternal {
+  background: #eef4fd;
+  color: #132139;
+}
+.compareTable thead .compareExternal {
+  color: #1658c8;
+}
+
+.flowSteps {
+  --steps: 4;
+  --steps-tablet: 2;
+}
+.contactBand {
+  --contact-bg: #113663;
+}
+
+@media (max-width: 1023px) {
+  .scopeGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 36px;
+  }
+}
+@media (max-width: 767px) {
+  .scopeGrid {
+    grid-template-columns: minmax(0, 1fr);
+    padding-top: 36px;
+  }
+  .scopeGrid > li {
+    padding-block: 22px 26px;
+  }
+  .compareTable {
+    margin-top: 36px;
+  }
+  .compareTable thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .compareTable,
+  .compareTable tbody,
+  .compareTable tr,
+  .compareTable th,
+  .compareTable td {
+    display: block;
+  }
+  .compareTable tbody tr {
+    padding-block: 20px;
+    border-top: 1px solid #d9e2ee;
+  }
+  .compareTable tbody tr:last-child {
+    border-bottom: 1px solid #d9e2ee;
+  }
+  .compareTable tbody th {
+    padding: 0 0 10px;
+    border: 0;
+    font-size: 17px;
+  }
+  .compareTable td {
+    padding: 12px 14px;
+    border: 0;
+  }
+  .compareTable td::before {
+    content: attr(data-label);
+    display: block;
+    margin-bottom: 2px;
+    color: #42516a;
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .compareTable td.compareExternal::before {
+    color: #1658c8;
+  }
+}

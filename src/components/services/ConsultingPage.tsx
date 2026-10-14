@@ -1,213 +1,232 @@
 "use client";
 
 import Link from "next/link";
-import {
-  Building2,
-  UsersRound,
-  FileSearch,
-  FileText,
-  Target,
-  ListOrdered,
-  Search,
-  Scale,
-  Database,
-  ClipboardCheck,
-  ArrowRight,
-  ArrowDown,
-} from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { ConsultingExamples } from "./ConsultingInteractions";
+import { ConsultingResultSample } from "./ConsultingResultSample";
+import shared from "./service-landing-shared.module.css";
 import styles from "./consulting-page.module.css";
-import mobileCases from "./consulting-mobile-cases.module.css";
 import { ServicePageLinks } from "./ServicePageNavigation";
 import navigation from "./service-navigation.module.css";
-import { useScrollReveal } from "./useScrollReveal";
-import { headingAccentRuleClasses } from "@/lib/ui/heading-accent-rule-styles";
 import { ServiceHeroProcessDiagram } from "./ServiceHeroProcessDiagram";
-const support = [
+
+const roles = [
   {
     title: "業務と課題の整理",
-    titleParts: ["業務と", "課題の整理"],
-    body: "業務の流れと、困っている箇所を確認します。",
-    icon: Search,
+    body: "誰が何を担当し、どこで時間がかかっているかを確認します。",
   },
   {
-    title: "投資と着手順の検討",
-    titleParts: ["投資と", "着手順の検討"],
-    body: "効果・費用・実施の難しさを比較します。",
-    icon: Scale,
+    title: "対応方法の比較",
+    body: "運用の変更、既存ツールの活用、システム改修・導入を比較します。",
   },
   {
-    title: "システム・データの整理",
-    titleParts: ["システム・", "データの整理"],
-    body: "既存システムと、情報の受け渡しを整理します。",
-    icon: Database,
+    title: "優先順位の検討",
+    body: "効果、費用、実施の難しさを考え、先に取り組む範囲を決めます。",
   },
   {
-    title: "実行と検証の計画",
-    titleParts: ["実行と", "検証の計画"],
-    body: "担当・進め方・効果の確認方法をまとめます。",
-    icon: ClipboardCheck,
+    title: "実行計画の作成",
+    body: "担当する人、進める順番、成果の確認方法を整理します。",
+  },
+];
+
+const steps = [
+  {
+    label: "STEP 1",
+    title: "現在の業務を確認",
+    body: "担当者から話を聞き、業務の流れや実際に使っている資料・システムを確認します。",
+  },
+  {
+    label: "STEP 2",
+    title: "改善案を比較",
+    body: "対応方法ごとに、費用や効果、導入に必要な作業を比べます。",
+  },
+  {
+    label: "STEP 3",
+    title: "実行計画にまとめる",
+    body: "先に実施する内容と、担当者、確認する項目を決めます。",
   },
 ];
 
 export function ConsultingPage() {
-  const scopeReveal = useScrollReveal<HTMLElement>("[data-reveal-step]");
-  const examplesReveal = useScrollReveal<HTMLElement>();
   return (
-    <div
-      className={`${styles.page} ${navigation.page}`}
-      data-service-page
-    >
+    <div className={`${shared.page} ${navigation.page}`} data-service-page>
       <ServicePageLinks current="consulting" />
-      <section className={styles.hero} aria-labelledby="consulting-heading">
-        <div className={`${styles.container} ${styles.heroColumns}`}>
+      <section
+        className={`${shared.hero} ${shared.heroConsulting}`}
+        aria-labelledby="consulting-heading"
+      >
+        <div className={`${shared.container} ${shared.heroColumns}`}>
           <div>
-            <h1 id="consulting-heading">コンサルティング</h1>
-            <p className={styles.lead}>
-              <span>業務やシステムの見直しを、</span>
-              <span>計画づくりから支援します。</span>
+            <p className={shared.label}>
+              <span>CONSULTING</span>
+              <span>業務・ITの整理と計画</span>
             </p>
-            <p>
-              経営の方針と現場の状況を確認し、取り組む範囲と進め方をまとめます。
+            <h1
+              id="consulting-heading"
+              className={`${shared.heroTitle} ${shared.lines}`}
+            >
+              <span>何を変えるか。</span>
+              <span className={shared.accent}>どこから始めるか。</span>
+            </h1>
+            <p className={shared.heroBody}>
+              経営の方針と現場の状況を確認し、課題を整理します。改善案を比較したうえで、取り組む範囲と進め方を決めます。
             </p>
+            <div className={shared.actions}>
+              <a href="#consulting-details" className={shared.primaryButton}>
+                支援内容を見る
+              </a>
+              <a href="#contact-consulting" className={shared.textLink}>
+                ご相談はこちら<span aria-hidden="true">↗</span>
+              </a>
+            </div>
           </div>
           <ServiceHeroProcessDiagram pageKey="consulting" />
         </div>
       </section>
+
       <section
-        id="consulting-scope"
-        className={styles.scopeSection}
-        aria-labelledby="scope-heading"
+        id="consulting-details"
+        className={shared.section}
+        aria-labelledby="role-heading"
       >
-        <div className={`${styles.container} ${styles.section}`}>
-        <h2 id="scope-heading" className={styles.srOnly}>
-          支援範囲
-        </h2>
-        <div ref={scopeReveal} className={styles.diagram} data-scroll-reveal="off">
-          <div className={styles.sources}>
-            <div className={styles.source} data-reveal-step>
-              <Building2 aria-hidden="true" />
-              <div>
-                <h3>経営の方針</h3>
-                <p>
-                  <span>目標・投資・</span>
-                  <span>優先順位</span>
-                </p>
-              </div>
-            </div>
-            <div className={styles.source} data-reveal-step>
-              <UsersRound aria-hidden="true" />
-              <div>
-                <h3>現場の状況</h3>
-                <p>
-                  <span>業務・情報・</span>
-                  <span>既存システム</span>
-                </p>
-              </div>
-            </div>
+        <div className={`${shared.container} ${shared.split}`}>
+          <div>
+            <p className={shared.label}>
+              <span>OUR ROLE</span>
+              <span>どんな支援をするか</span>
+            </p>
+            <h2 id="role-heading" className={`${shared.heading} ${shared.lines}`}>
+              <span>状況を確認し、</span>
+              <span>
+                <span className={styles.highlight}>判断材料をそろえる。</span>
+              </span>
+            </h2>
+            <p className={shared.body}>
+              システムの導入が最初から答えとは限りません。業務の進め方を変えるだけで改善できる場合もあります。
+            </p>
+            <p className={shared.body}>
+              方法を決めつけず、費用や負担も含めて比較します。
+            </p>
           </div>
-          <svg
-            className={`${styles.mergeConnector} ${styles.desktopConnector}`}
-            data-reveal-step
-            viewBox="0 0 100 240"
-            preserveAspectRatio="none"
-            aria-hidden="true"
-          >
-            <path
-              pathLength={1}
-              d="M0 52 H18 Q30 52 30 66 V108 Q30 120 42 120 H88 M0 188 H18 Q30 188 30 174 V132 Q30 120 42 120 M72 106 L88 120 72 134"
-            />
-          </svg>
-          <div className={styles.mobileConnector} data-reveal-step aria-hidden="true"><ArrowDown /></div>
-          <div className={styles.diagramCenter} data-reveal-step>
-            <FileSearch aria-hidden="true" />
-            <h3>AXEON</h3>
-            <p>課題と対応方法を整理</p>
-          </div>
-          <div className={`${styles.planConnector} ${styles.desktopConnector}`} data-reveal-step aria-hidden="true"><ArrowRight /></div>
-          <div className={styles.mobileConnector} data-reveal-step aria-hidden="true"><ArrowDown /></div>
-          <div className={styles.diagramPlan} data-reveal-step>
-            <FileText aria-hidden="true" />
-            <h3 className={styles.planHeading}>
-              <span>社内で</span>
-              <span>検討するための計画</span>
-            </h3>
-            <ul>
-              {[{ label: "変更する範囲", Icon: Target }, { label: "着手する順番", Icon: ListOrdered }, { label: "担当と進め方", Icon: UsersRound }].map(({ label, Icon }, index) => (
-                <li key={label} data-sequence={index}>
-                  <span className={styles.planItemIcon}><Icon aria-hidden="true" /></span>
-                  <span className={styles.planItemLabel}>{label}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
+          <ul className={shared.lineList}>
+            {roles.map((role) => (
+              <li key={role.title}>
+                <h3 className={shared.itemTitle}>{role.title}</h3>
+                <p className={shared.itemBody}>{role.body}</p>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
+
+      <section
+        className={`${shared.section} ${shared.tint}`}
+        aria-labelledby="work-heading"
+      >
+        <div className={shared.container}>
+          <p className={shared.label}>
+            <span>HOW WE WORK</span>
+            <span>検討の進め方</span>
+          </p>
+          <h2 id="work-heading" className={`${shared.heading} ${shared.lines}`}>
+            <span>整理する。比較する。</span>
+            <span className={shared.accent}>進め方を決める。</span>
+          </h2>
+          <p className={shared.body}>
+            まず現在の仕事を把握し、複数の方法から現実的な案を選びます。検討だけで終了することもできます。
+          </p>
+          <ol className={shared.steps}>
+            {steps.map((step) => (
+              <li key={step.label}>
+                <p className={shared.stepLabel}>{step.label}</p>
+                <h3 className={shared.itemTitle}>{step.title}</h3>
+                <p className={shared.itemBody}>{step.body}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
       <section
         id="consulting-examples"
-        ref={examplesReveal}
-        data-scroll-reveal="off"
-        className={`${styles.tinted} ${mobileCases.section}`}
+        className={shared.section}
         aria-labelledby="examples-heading"
       >
-        <div className={`${styles.container} ${styles.section}`}>
-          <p className={mobileCases.eyebrow}>相談例</p>
-          <h2 id="examples-heading" className={mobileCases.heading}>
-            <span>何を変えるべきか、</span>
-            <span>まだ決まっていなくても。</span>
+        <div className={shared.container}>
+          <p className={shared.label}>
+            <span>EXAMPLES</span>
+            <span>相談例</span>
+          </p>
+          <h2 id="examples-heading" className={shared.heading}>
+            例えば、こんなご相談から。
           </h2>
-          <p className={mobileCases.intro}>今の業務や困りごとを確認し、対応方法と、先に取り組む範囲を整理します。</p>
+          <p className={shared.body}>
+            解決方法が決まっていない段階でも、ご相談いただけます。
+          </p>
           <ConsultingExamples />
         </div>
       </section>
+
       <section
-        id="consulting-support"
-        className={styles.section}
-        aria-labelledby="support-heading"
+        className={`${shared.section} ${shared.tint}`}
+        aria-labelledby="result-heading"
       >
-        <div className={styles.container}>
-          <h2 id="support-heading" className={headingAccentRuleClasses.default}>
-            支援内容
-          </h2>
-          <p className={styles.supportIntro}>
-            相談内容に応じて、必要な支援を組み合わせます。
-          </p>
+        <div className={`${shared.container} ${shared.split} ${styles.resultSplit}`}>
+          <div>
+            <p className={shared.label}>
+              <span>RESULT</span>
+              <span>検討後に残るもの</span>
+            </p>
+            <h2 id="result-heading" className={`${shared.heading} ${shared.lines}`}>
+              <span>社内で説明し、</span>
+              <span>判断できる資料に。</span>
+            </h2>
+            <p className={shared.body}>
+              検討した内容は、関係者が確認できる形にまとめます。相談内容に応じて、業務の整理資料や改善案、実行計画などを作成します。
+            </p>
+            <p className={shared.note}>
+              ※ 右は構成例です。作成する資料は、ご依頼の範囲によって異なります。
+            </p>
+          </div>
+          <ConsultingResultSample />
         </div>
-        <ul className={styles.steps}>
-          {support.map(({ title, titleParts, body, icon: Icon }) => (
-            <li key={title} className={styles.step}>
-              <div className={styles.stepIcon}>
-                <Icon aria-hidden="true" />
-              </div>
-              <div className={styles.stepCopy}>
-                <h3 className={headingAccentRuleClasses.default}>
-                  {titleParts.map((part) => (
-                    <span key={part}>{part}</span>
-                  ))}
-                </h3>
-                <p>{body}</p>
-              </div>
-            </li>
-          ))}
-        </ul>
       </section>
+
       <section
-        className={styles.consultation}
+        id="contact-consulting"
+        className={shared.contact}
         aria-labelledby="consultation-heading"
       >
-        <div className={`${styles.container} ${styles.consultationInner}`}>
+        <div className={shared.container}>
+          <p className={shared.label}>
+            <span>CONTACT</span>
+          </p>
           <h2
             id="consultation-heading"
-            className={headingAccentRuleClasses.onDarkInline}
+            className={`${shared.heading} ${shared.lines}`}
           >
-            ご相談について
+            <span>
+              課題の整理や
+              <wbr />
+              計画づくりだけでも、
+            </span>
+            <span>ご相談いただけます。</span>
           </h2>
-          <p>検討中の内容や、現在困っていることをお聞かせください。</p>
-          <Link className={styles.button} href="/contact">
-            お問い合わせ
-            <ArrowRight aria-hidden="true" />
-          </Link>
+          <p className={shared.body}>
+            現在困っていることや、検討中の内容をお聞かせください。開発に進むかどうかも含めて、一緒に考えます。
+          </p>
+          <div className={shared.actions}>
+            <Link className={shared.contactButton} href="/contact">
+              お問い合わせ
+              <ArrowRight aria-hidden="true" />
+            </Link>
+            <Link
+              className={shared.textLink}
+              href="/services/insourcing-enablement"
+            >
+              開発・運用の伴走を見る<span aria-hidden="true">↗</span>
+            </Link>
+          </div>
         </div>
       </section>
       <ServicePageLinks current="consulting" bottom />
