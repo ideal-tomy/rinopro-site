@@ -54,7 +54,7 @@ export function ServiceOfferingDetailView({ offering }: ServiceOfferingDetailVie
           <h1 className="mt-4 text-balance text-[clamp(1.75rem,4vw,2.75rem)] font-bold leading-snug tracking-tight text-[var(--color-text-primary)]">
             {hero.title}
           </h1>
-          <p className="mx-auto mt-6 max-w-[46ch] text-[17px] leading-[1.8] text-[var(--color-text-secondary)] md:text-[18px]">
+          <p className="mx-auto mt-6 max-w-[46ch] text-[17px] leading-[1.2] text-[var(--color-text-secondary)] md:text-[18px]">
             {hero.lead}
           </p>
           <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row sm:flex-wrap">
@@ -84,7 +84,7 @@ export function ServiceOfferingDetailView({ offering }: ServiceOfferingDetailVie
           >
             {why.heading}
           </h2>
-          <div className="mx-auto mt-8 max-w-3xl space-y-5 text-[16px] leading-[1.85] text-[var(--color-text-secondary)] md:mt-10 md:text-[17px]">
+          <div className="mx-auto mt-8 max-w-3xl space-y-5 text-[16px] leading-[1.2] text-[var(--color-text-secondary)] md:mt-10 md:text-[17px]">
             {why.paragraphs.map((p, i) => (
               <p key={i}>
                 <EmphasisText text={p} />
@@ -101,7 +101,7 @@ export function ServiceOfferingDetailView({ offering }: ServiceOfferingDetailVie
                   <p className="text-[13px] font-semibold uppercase tracking-[0.14em] text-[var(--color-accent-primary)] md:text-sm">
                     {c.label}
                   </p>
-                  <p className="mt-3 text-[16px] leading-[1.8] text-[var(--color-text-secondary)]">{c.text}</p>
+                  <p className="mt-3 text-[16px] leading-[1.2] text-[var(--color-text-secondary)]">{c.text}</p>
                 </li>
               ))}
             </ul>
@@ -121,7 +121,7 @@ export function ServiceOfferingDetailView({ offering }: ServiceOfferingDetailVie
             >
               {offering.workAreas.heading}
             </h2>
-            <p className="mx-auto mt-6 max-w-3xl text-center text-[16px] leading-[1.85] text-[var(--color-text-secondary)] md:mt-8 md:text-[17px]">
+            <p className="mx-auto mt-6 max-w-3xl text-center text-[16px] leading-[1.2] text-[var(--color-text-secondary)] md:mt-8 md:text-[17px]">
               {offering.workAreas.intro}
             </p>
             <ul className="mt-10 grid list-none gap-5 md:mt-12 md:grid-cols-3">
@@ -134,11 +134,11 @@ export function ServiceOfferingDetailView({ offering }: ServiceOfferingDetailVie
                   <h3 className="text-[18px] font-semibold text-[var(--color-text-primary)] md:text-[19px]">
                     {item.title}
                   </h3>
-                  <p className="mt-3 text-[15px] leading-[1.85] text-[var(--color-text-secondary)] md:text-[16px]">
+                  <p className="mt-3 text-[15px] leading-[1.2] text-[var(--color-text-secondary)] md:text-[16px]">
                     {item.body}
                   </p>
                   {item.bullets?.length ? (
-                    <ul className="mt-4 list-disc space-y-2 pl-5 text-[14px] leading-[1.75] text-[var(--color-text-secondary)] marker:text-[var(--color-accent-primary)] md:text-[15px]">
+                    <ul className="mt-4 list-disc space-y-2 pl-5 text-[14px] leading-[1.2] text-[var(--color-text-secondary)] marker:text-[var(--color-accent-primary)] md:text-[15px]">
                       {item.bullets.map((line) => (
                         <li key={line}>{line}</li>
                       ))}
@@ -169,7 +169,7 @@ export function ServiceOfferingDetailView({ offering }: ServiceOfferingDetailVie
                 className="rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-pure)] p-6 shadow-[0_1px_2px_rgb(0_0_0_/_0.04)] md:p-7"
               >
                 <h3 className="text-[17px] font-semibold text-[var(--color-text-primary)] md:text-lg">{card.title}</h3>
-                <p className="mt-3 text-[15px] leading-[1.85] text-[var(--color-text-secondary)] md:text-[16px]">{card.body}</p>
+                <p className="mt-3 text-[15px] leading-[1.2] text-[var(--color-text-secondary)] md:text-[16px]">{card.body}</p>
               </li>
             ))}
           </ul>
@@ -187,7 +187,7 @@ export function ServiceOfferingDetailView({ offering }: ServiceOfferingDetailVie
           >
             {journey.heading}
           </h2>
-          <p className="mx-auto mt-6 max-w-3xl text-center text-[16px] leading-[1.85] text-[var(--color-text-secondary)] md:mt-8 md:text-[17px]">
+          <p className="mx-auto mt-6 max-w-3xl text-center text-[16px] leading-[1.2] text-[var(--color-text-secondary)] md:mt-8 md:text-[17px]">
             {journey.intro}
           </p>
           <IllustrationReveal className="mt-12 md:mt-14">
@@ -199,7 +199,7 @@ export function ServiceOfferingDetailView({ offering }: ServiceOfferingDetailVie
                 <p className="text-center text-[15px] font-semibold text-[var(--color-text-primary)] md:text-[16px]">
                   データの流れと役割のイメージ
                 </p>
-                <p className="mx-auto mt-2 max-w-[40ch] text-center text-[14px] leading-[1.75] text-[var(--color-text-tertiary)] md:text-[15px]">
+                <p className="mx-auto mt-2 max-w-[40ch] text-center text-[14px] leading-[1.2] text-[var(--color-text-tertiary)] md:text-[15px]">
                   実際の構成は御社の既存システムと規制に合わせて設計します。ここは役割の整理用の抽象図です。
                 </p>
                 <div className="mt-6 flex justify-center">
@@ -214,7 +214,7 @@ export function ServiceOfferingDetailView({ offering }: ServiceOfferingDetailVie
                 <p className="text-center text-[15px] font-semibold text-[var(--color-text-primary)] md:text-[16px]">
                   改善サイクル（イメージ）
                 </p>
-                <p className="mx-auto mt-2 max-w-[40ch] text-center text-[14px] leading-[1.75] text-[var(--color-text-tertiary)] md:text-[15px]">
+                <p className="mx-auto mt-2 max-w-[40ch] text-center text-[14px] leading-[1.2] text-[var(--color-text-tertiary)] md:text-[15px]">
                   計測・レビュー・実装・振り返りを回すときの関係性を簡略化しています。
                 </p>
                 <div className="mt-6 flex justify-center">
@@ -240,7 +240,7 @@ export function ServiceOfferingDetailView({ offering }: ServiceOfferingDetailVie
           <div className="mt-10 grid gap-8 md:mt-12 md:grid-cols-2 md:gap-10">
             <div className="rounded-2xl border border-[var(--color-border-light)] border-l-4 border-l-orange-400/60 bg-[var(--color-bg-neutral)] p-6 md:p-8">
               <h3 className="text-[17px] font-semibold text-[var(--color-text-primary)] md:text-lg">{pitfalls.stumblingTitle}</h3>
-              <ul className="mt-5 list-disc space-y-3 pl-5 text-[15px] leading-[1.85] text-[var(--color-text-secondary)] marker:text-[var(--color-accent-primary)] md:text-[16px]">
+              <ul className="mt-5 list-disc space-y-3 pl-5 text-[15px] leading-[1.2] text-[var(--color-text-secondary)] marker:text-[var(--color-accent-primary)] md:text-[16px]">
                 {pitfalls.stumblingItems.map((line) => (
                   <li key={line}>{line}</li>
                 ))}
@@ -248,7 +248,7 @@ export function ServiceOfferingDetailView({ offering }: ServiceOfferingDetailVie
             </div>
             <div className="rounded-2xl border border-[var(--color-border-light)] border-l-4 border-l-accent/60 bg-[var(--color-bg-pure)] p-6 shadow-[0_1px_2px_rgb(0_0_0_/_0.04)] md:p-8">
               <h3 className="text-[17px] font-semibold text-[var(--color-text-primary)] md:text-lg">{pitfalls.supportTitle}</h3>
-              <ul className="mt-5 list-disc space-y-3 pl-5 text-[15px] leading-[1.85] text-[var(--color-text-secondary)] marker:text-[var(--color-accent-primary)] md:text-[16px]">
+              <ul className="mt-5 list-disc space-y-3 pl-5 text-[15px] leading-[1.2] text-[var(--color-text-secondary)] marker:text-[var(--color-accent-primary)] md:text-[16px]">
                 {pitfalls.supportItems.map((line) => (
                   <li key={line}>{line}</li>
                 ))}
@@ -273,7 +273,7 @@ export function ServiceOfferingDetailView({ offering }: ServiceOfferingDetailVie
             {outcomes.bullets.map((line) => (
               <li
                 key={line}
-                className="flex gap-3 rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-pure)] px-5 py-4 text-[15px] leading-[1.85] text-[var(--color-text-secondary)] md:text-[16px]"
+                className="flex gap-3 rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-pure)] px-5 py-4 text-[15px] leading-[1.2] text-[var(--color-text-secondary)] md:text-[16px]"
               >
                 <span className="mt-2 size-2 shrink-0 rounded-full bg-[var(--color-accent-primary)]" aria-hidden />
                 <span>{line}</span>
@@ -283,7 +283,7 @@ export function ServiceOfferingDetailView({ offering }: ServiceOfferingDetailVie
           <p className="mx-auto mt-8 max-w-3xl text-[12px] font-semibold tracking-[0.12em] text-[var(--color-accent-primary)] md:mt-10 md:text-[13px]">
             将来像
           </p>
-          <p className="mx-auto mt-3 max-w-3xl text-[16px] leading-[1.9] text-[var(--color-text-secondary)] md:mt-4 md:text-[17px]">
+          <p className="mx-auto mt-3 max-w-3xl text-[16px] leading-[1.2] text-[var(--color-text-secondary)] md:mt-4 md:text-[17px]">
             {outcomes.futureParagraph}
           </p>
         </section>
@@ -320,7 +320,7 @@ export function ServiceOfferingDetailView({ offering }: ServiceOfferingDetailVie
             >
               業種別のヒントと事例導線
             </h2>
-            <p className="mx-auto mt-6 max-w-3xl text-center text-[16px] leading-[1.85] text-[var(--color-text-secondary)] md:mt-8 md:text-[17px]">
+            <p className="mx-auto mt-6 max-w-3xl text-center text-[16px] leading-[1.2] text-[var(--color-text-secondary)] md:mt-8 md:text-[17px]">
               各業界ページでは、よくある負荷と改善の考え方、関連デモへのリンクをまとめています。
             </p>
             <ul className="mt-10 grid list-none gap-5 md:mt-12 md:grid-cols-2 lg:grid-cols-3">
@@ -333,7 +333,7 @@ export function ServiceOfferingDetailView({ offering }: ServiceOfferingDetailVie
                     <span className="text-[15px] font-semibold text-[var(--color-accent-primary)] md:text-[16px]">
                       {item.label}
                     </span>
-                    <span className="mt-2 text-[15px] leading-[1.75] text-[var(--color-text-secondary)] md:text-[16px]">
+                    <span className="mt-2 text-[15px] leading-[1.2] text-[var(--color-text-secondary)] md:text-[16px]">
                       {item.tagline}
                     </span>
                     <span className="mt-4 text-[15px] font-semibold text-[var(--color-accent-primary)] underline-offset-4 group-hover:underline">

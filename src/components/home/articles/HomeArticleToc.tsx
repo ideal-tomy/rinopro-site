@@ -14,7 +14,7 @@ export function HomeArticleToc() {
       >
         仕事の名前から読む。
       </h2>
-      <p className="mb-6 max-w-[640px] text-[16px] leading-[1.75] text-[var(--color-text-secondary)] md:mb-7 md:text-[17px]">
+      <p className="mb-6 max-w-[640px] text-[16px] leading-[1.2] text-[var(--color-text-secondary)] md:mb-7 md:text-[17px]">
         業界ごとの実務の話です。短い名前をクリックすると、その記事へ飛びます。
       </p>
 

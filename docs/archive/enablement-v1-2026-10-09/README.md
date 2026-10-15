@@ -1,4 +1,4 @@
-# 半内製化（FED）ページ v1 実装・検証記録
+# 半内製化（FDE）ページ v1 実装・検証記録
 
 対象：`/services/insourcing-enablement`。既存URLを維持し、コンサルティングページのCSSを再利用しました。
 
@@ -6,14 +6,14 @@
 
 - `src/components/services/EnablementPage.tsx`：新構成・確認項目の選択操作。
 - `src/components/services/enablement-page.module.css`：段階パネル・アイコン一覧・課題と支援の対比・開発工程の可読性。
-- `src/components/services/ServiceOfferingDetailView.tsx`：半内製化（FED）だけ新構成に切替。
-- `src/components/services/FlowTimelinePageContent.tsx`：半内製化（FED）専用フラグ。4タブと既存データ・工程イラストは再利用。キーボード操作とタブパネルの関連付けを追加。
-- `src/components/services/FlowStepMedia.tsx`：任意の画像サイズ指定を追加。半内製化（FED）だけ実際の表示幅に合わせ、768px境界でも工程イラストが読み込まれるように調整。既存の標準値は保持。
+- `src/components/services/ServiceOfferingDetailView.tsx`：半内製化（FDE）だけ新構成に切替。
+- `src/components/services/FlowTimelinePageContent.tsx`：半内製化（FDE）専用フラグ。4タブと既存データ・工程イラストは再利用。キーボード操作とタブパネルの関連付けを追加。
+- `src/components/services/FlowStepMedia.tsx`：任意の画像サイズ指定を追加。半内製化（FDE）だけ実際の表示幅に合わせ、768px境界でも工程イラストが読み込まれるように調整。既存の標準値は保持。
 - `scripts/verify-enablement-v1.cjs`：ブラウザ検証。
 
 ## 整理した表示
 
-旧「なぜ内製化が…」「半内製化（FED）で進めること」「内製化までの流れ」、独立したデータの流れ・改善サイクルの図と説明、将来像、FAQ、関連する入口、重複CTAを除去しました。指定のアプリ開発の補足文・安定性と安全性ブロックも除去しました。共通コンポーネントを使う他ページには削除を適用していません。既存コンテンツデータと16枚の工程イラストは変更していません。
+旧「なぜ内製化が…」「半内製化（FDE）で進めること」「内製化までの流れ」、独立したデータの流れ・改善サイクルの図と説明、将来像、FAQ、関連する入口、重複CTAを除去しました。指定のアプリ開発の補足文・安定性と安全性ブロックも除去しました。共通コンポーネントを使う他ページには削除を適用していません。既存コンテンツデータと16枚の工程イラストは変更していません。
 
 ## 実画面
 

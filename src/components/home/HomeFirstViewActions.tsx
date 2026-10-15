@@ -47,7 +47,7 @@ export function HomeFirstViewActions({
             <h2 className="text-balance text-[clamp(1.35rem,3.5vw,1.75rem)] font-bold leading-snug tracking-tight text-white">
               {card.title}
             </h2>
-            <p className="mt-4 max-w-[28ch] text-[16px] leading-[1.8] text-white/[0.88] md:mt-5 md:text-[17px]">
+            <p className="mt-4 max-w-[28ch] text-[16px] leading-[1.2] text-white/[0.88] md:mt-5 md:text-[17px]">
               {card.description}
             </p>
           </Link>

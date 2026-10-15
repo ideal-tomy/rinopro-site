@@ -332,7 +332,7 @@ export function LegalMemorySecretaryExperience({
                       {result.lawCheckStatusLabel}
                     </span>
                   </div>
-                  <p className="whitespace-pre-wrap text-sm leading-relaxed text-text-sub md:text-[1rem]">
+                  <p className="whitespace-pre-wrap text-sm leading-[1.2] text-text-sub md:text-[1rem]">
                     {result.integratedAnswer}
                   </p>
 
@@ -357,7 +357,7 @@ export function LegalMemorySecretaryExperience({
                         </button>
                       ))}
                     </div>
-                    <p className="mt-2 text-[11px] leading-relaxed text-text-sub">
+                    <p className="mt-2 text-[11px] leading-[1.2] text-text-sub">
                       {result.lawCheckNote}
                     </p>
                   </div>
@@ -367,7 +367,7 @@ export function LegalMemorySecretaryExperience({
                   <h3 className="mb-2 text-sm font-semibold text-text md:text-[1rem]">
                     対外メモ（要約）
                   </h3>
-                  <div className="text-sm leading-relaxed text-text-sub">
+                  <div className="text-sm leading-[1.2] text-text-sub">
                     {result.summarySegments.map((seg, i) => {
                       if (!seg.hitId) {
                         return <span key={i}>{seg.text}</span>;
@@ -397,7 +397,7 @@ export function LegalMemorySecretaryExperience({
                   <h3 className="mb-2 text-sm font-semibold text-text md:text-[1rem]">
                     社内メモ
                   </h3>
-                  <p className="text-sm leading-relaxed text-text-sub">
+                  <p className="text-sm leading-[1.2] text-text-sub">
                     {result.internal}
                   </p>
                 </div>

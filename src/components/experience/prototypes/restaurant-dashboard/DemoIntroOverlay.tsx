@@ -49,7 +49,7 @@ export function DemoIntroOverlay({
             }}
             className="max-w-md px-4 text-center"
           >
-            <p className="text-lg font-semibold leading-relaxed !text-white drop-shadow-sm sm:text-xl">
+            <p className="text-lg font-semibold leading-[1.2] !text-white drop-shadow-sm sm:text-xl">
               {INTRO_TITLE}
             </p>
           </motion.div>

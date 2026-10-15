@@ -40,7 +40,7 @@ function RoleList({
         {items.map((item) => (
           <li
             key={item}
-            className="flex gap-2 text-[15px] leading-relaxed text-[var(--color-text-secondary)]"
+            className="flex gap-2 text-[15px] leading-[1.2] text-[var(--color-text-secondary)]"
           >
             <span
               className="mt-[0.55rem] h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--color-accent-primary)]"
@@ -82,10 +82,10 @@ export function PrototypeStorySection({ demo, index }: PrototypeStorySectionProp
           >
             {demo.title}
           </h2>
-          <p className="mt-5 max-w-3xl text-[17px] leading-[1.8] text-[var(--color-text-secondary)] md:text-[18px]">
+          <p className="mt-5 max-w-3xl text-[17px] leading-[1.2] text-[var(--color-text-secondary)] md:text-[18px]">
             {demo.oneLineValue}
           </p>
-          <p className="mt-4 text-[14px] leading-relaxed text-[var(--color-text-secondary)]">
+          <p className="mt-4 text-[14px] leading-[1.2] text-[var(--color-text-secondary)]">
             {demo.industries.join(" / ")}
           </p>
         </IllustrationReveal>
@@ -109,7 +109,7 @@ export function PrototypeStorySection({ demo, index }: PrototypeStorySectionProp
             <h3 className="text-[13px] font-semibold tracking-[0.14em] text-[var(--color-accent-primary)]">
               BEFORE
             </h3>
-            <p className="mt-4 text-[16px] leading-[1.85] text-[var(--color-text-secondary)]">
+            <p className="mt-4 text-[16px] leading-[1.2] text-[var(--color-text-secondary)]">
               {demo.before}
             </p>
           </IllustrationReveal>
@@ -122,7 +122,7 @@ export function PrototypeStorySection({ demo, index }: PrototypeStorySectionProp
               {demo.workflow.map((step, stepIndex) => (
                 <li
                   key={step}
-                  className="flex gap-3 text-[15px] leading-relaxed text-[var(--color-text-secondary)]"
+                  className="flex gap-3 text-[15px] leading-[1.2] text-[var(--color-text-secondary)]"
                 >
                   <span className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[var(--color-accent-primary-light)] text-[12px] font-semibold text-[var(--color-accent-primary)]">
                     {stepIndex + 1}
@@ -151,7 +151,7 @@ export function PrototypeStorySection({ demo, index }: PrototypeStorySectionProp
           <h3 className="text-[13px] font-semibold tracking-[0.14em] text-[var(--color-accent-primary)]">
             AFTER
           </h3>
-          <p className="mt-4 max-w-3xl text-[16px] leading-[1.85] text-[var(--color-text-secondary)]">
+          <p className="mt-4 max-w-3xl text-[16px] leading-[1.2] text-[var(--color-text-secondary)]">
             {demo.after}
           </p>
         </IllustrationReveal>
@@ -179,7 +179,7 @@ export function PrototypeStorySection({ demo, index }: PrototypeStorySectionProp
             <h3 className="text-[15px] font-semibold text-[var(--color-text-primary)]">
               業界内応用
             </h3>
-            <p className="mt-3 text-[15px] leading-relaxed text-[var(--color-text-secondary)]">
+            <p className="mt-3 text-[15px] leading-[1.2] text-[var(--color-text-secondary)]">
               {demo.industryApplications.join(" / ")}
             </p>
           </IllustrationReveal>
@@ -187,10 +187,10 @@ export function PrototypeStorySection({ demo, index }: PrototypeStorySectionProp
             <h3 className="text-[15px] font-semibold text-[var(--color-text-primary)]">
               他業界への横展開
             </h3>
-            <p className="mt-3 font-mono text-[13px] leading-relaxed text-[var(--color-accent-primary)]">
+            <p className="mt-3 font-mono text-[13px] leading-[1.2] text-[var(--color-accent-primary)]">
               {demo.crossIndustryPrinciple}
             </p>
-            <p className="mt-3 text-[15px] leading-relaxed text-[var(--color-text-secondary)]">
+            <p className="mt-3 text-[15px] leading-[1.2] text-[var(--color-text-secondary)]">
               {demo.crossIndustryTargets.join(" / ")}
             </p>
           </IllustrationReveal>

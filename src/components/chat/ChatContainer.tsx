@@ -105,7 +105,7 @@ const POPUP_COPY: Record<
       "音声またはテキストで、いまの課題や聞きたいことを短く送ってください。",
   },
   development: {
-    title: "半内製化（FED）について",
+    title: "半内製化（FDE）について",
     description: "実装の進め方と、社内へ知見を移す伴走について対話で整理できます。",
   },
   consulting: {
@@ -634,7 +634,7 @@ export function ChatContainer({ showLauncher = true }: ChatContainerProps) {
             (mode === "development" || mode === "consulting") && (
               <div className="border-b border-silver/15 px-4 py-3">
                 <p className="text-xs font-medium text-text/70">
-                  {mode === "development" ? "半内製化（FED）" : "コンサルティング"}
+                  {mode === "development" ? "半内製化（FDE）" : "コンサルティング"}
                 </p>
               </div>
             )}
@@ -789,7 +789,7 @@ export function ChatContainer({ showLauncher = true }: ChatContainerProps) {
                         mode === "default" &&
                         delayedCtaConfig.textLinkCtas.length > 0 && (
                           <div className="px-4 py-2.5">
-                            <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs leading-relaxed">
+                            <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs leading-[1.2]">
                               {delayedCtaConfig.textLinkCtas.map((cta) => (
                                 <Link
                                   key={cta.key}

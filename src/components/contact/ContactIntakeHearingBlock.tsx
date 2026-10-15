@@ -34,7 +34,7 @@ export function ContactIntakeHearingBlock({
     <div className="space-y-3 rounded-xl border border-accent/25 bg-accent/5 p-4 md:p-5">
       <div>
         <h2 className="text-lg font-semibold text-accent">{copy.sectionHearing}</h2>
-        <p className="mt-1 text-sm leading-relaxed text-text-sub">
+        <p className="mt-1 text-sm leading-[1.2] text-text-sub">
           初回返信で具体的にお返しするため、詳細見積と同じ質問にそろえてください。すでに見積で伺った内容は下にまとまっている場合、ここでは不足分だけ表示されます。
         </p>
       </div>

@@ -170,7 +170,7 @@ export function FeaturedExperienceVideoCard({
           <h3 className="text-[1rem] font-semibold leading-snug text-text md:text-lg">
             {meta.title}
           </h3>
-          <p className="mt-2 text-sm leading-relaxed text-text md:text-[1rem]">
+          <p className="mt-2 text-sm leading-[1.2] text-text md:text-[1rem]">
             {meta.shortDescription}
           </p>
 
@@ -231,7 +231,7 @@ export function FeaturedExperienceVideoCard({
           <h3 className="text-[1rem] font-semibold leading-snug text-text md:text-lg">
             {meta.title}
           </h3>
-          <p className="mt-2 text-sm leading-relaxed text-text md:text-[1rem]">
+          <p className="mt-2 text-sm leading-[1.2] text-text md:text-[1rem]">
             {meta.shortDescription}
           </p>
           <Button

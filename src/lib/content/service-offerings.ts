@@ -383,12 +383,12 @@ const OFFERINGS: readonly ServiceOfferingDetail[] = [
   },
   {
     slug: "insourcing-enablement",
-    metaTitle: "半内製化（FED） | ご支援内容",
+    metaTitle: "半内製化（FDE） | ご支援内容",
     metaDescription:
-      "開発・データ基盤・運用を一緒に回しながら、知見を社内へ移す半内製化（FED）。月額伴走・3か月更新を基本に、自走できる状態まで段階的に移します。",
+      "開発・データ基盤・運用を一緒に回しながら、知見を社内へ移す半内製化（FDE）。月額伴走・3か月更新を基本に、自走できる状態まで段階的に移します。",
     hero: {
       eyebrow: "ENABLEMENT",
-      title: "半内製化（FED）",
+      title: "半内製化（FDE）",
       lead:
         "作って渡して終わりにしない。設計レビュー、ペア実装、運用の伴走を通じて、判断と改善の型をチームへ移します。月額の伴走、3か月ごとの更新が基本です。",
       contactQuery: "topic=insourcing",
@@ -472,7 +472,7 @@ const OFFERINGS: readonly ServiceOfferingDetail[] = [
         "外部パートナーは「常駐開発」から「スポットの専門性」へ役割が移り、コストとスピードのバランスが取れる状態を目指します。",
     },
     workAreas: {
-      heading: "半内製化（FED）で進めること",
+      heading: "半内製化（FDE）で進めること",
       intro:
         "アプリ開発、データ基盤、導入後の改善まで、同じ伴走のなかで扱います。外注先を増やすのではなく、社内に残る型として積み上げます。",
       items: [

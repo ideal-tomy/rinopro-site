@@ -20,7 +20,7 @@ export function ContactFlowSteps() {
       >
         {flow.sectionTitle}
       </h2>
-      <p className="mb-4 text-xs leading-relaxed text-[var(--color-text-secondary)] md:hidden">
+      <p className="mb-4 text-xs leading-[1.2] text-[var(--color-text-secondary)] md:hidden">
         {flow.mobileSwipeHint}
       </p>
 
@@ -40,7 +40,7 @@ export function ContactFlowSteps() {
                 Step {i + 1}
               </p>
               <h3 className="mt-1 text-[16px] font-semibold text-[var(--color-text-primary)]">{step.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-[var(--color-text-secondary)]">{step.body}</p>
+              <p className="mt-2 text-sm leading-[1.2] text-[var(--color-text-secondary)]">{step.body}</p>
             </div>
           </Fragment>
         ))}
@@ -61,12 +61,12 @@ export function ContactFlowSteps() {
               Step {i + 1}
             </p>
             <h3 className="mt-1 text-[16px] font-semibold text-[var(--color-text-primary)]">{step.title}</h3>
-            <p className="mt-2 text-sm leading-relaxed text-[var(--color-text-secondary)]">{step.body}</p>
+            <p className="mt-2 text-sm leading-[1.2] text-[var(--color-text-secondary)]">{step.body}</p>
           </div>
         ))}
       </div>
 
-      <p className="mt-4 text-sm leading-relaxed text-[var(--color-text-secondary)]">{flow.footnote}</p>
+      <p className="mt-4 text-sm leading-[1.2] text-[var(--color-text-secondary)]">{flow.footnote}</p>
     </section>
   );
 }

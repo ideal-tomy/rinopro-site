@@ -38,7 +38,7 @@ export function KnowledgeAnswerCard({
       )}
     >
       <h3 className="mb-2 text-sm font-semibold text-accent">回答</h3>
-      <div className="mb-6 whitespace-pre-wrap rounded-lg border border-accent/20 bg-accent/5 p-4 text-sm leading-relaxed text-text">
+      <div className="mb-6 whitespace-pre-wrap rounded-lg border border-accent/20 bg-accent/5 p-4 text-sm leading-[1.2] text-text">
         {body}
       </div>
 
@@ -51,7 +51,7 @@ export function KnowledgeAnswerCard({
                 [{idx + 1}] {c.title} — {c.section}
               </summary>
               {c.excerpt ? (
-                <p className="border-t border-silver/10 px-3 py-2 text-xs leading-relaxed text-text-sub">
+                <p className="border-t border-silver/10 px-3 py-2 text-xs leading-[1.2] text-text-sub">
                   {c.excerpt}
                 </p>
               ) : null}
@@ -66,7 +66,7 @@ export function KnowledgeAnswerCard({
         <summary className="cursor-pointer px-3 py-2 font-medium text-text">
           このデモについて
         </summary>
-        <p className="border-t border-silver/15 px-3 py-2 leading-relaxed">
+        <p className="border-t border-silver/15 px-3 py-2 leading-[1.2]">
           {DEMO_NOTE}
         </p>
       </details>

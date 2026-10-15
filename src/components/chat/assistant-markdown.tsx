@@ -44,7 +44,7 @@ const assistantMarkdownComponents: Components = {
   },
   p({ children }) {
     return (
-      <p className="mb-2 text-[12px] leading-relaxed text-text last:mb-0 sm:text-sm">{children}</p>
+      <p className="mb-2 text-[12px] leading-[1.2] text-text last:mb-0 sm:text-sm">{children}</p>
     );
   },
   strong({ children }) {
@@ -54,10 +54,10 @@ const assistantMarkdownComponents: Components = {
     return <em className="italic text-text">{children}</em>;
   },
   ul({ children }) {
-    return <ul className="mb-2 list-disc pl-4 text-sm leading-relaxed last:mb-0">{children}</ul>;
+    return <ul className="mb-2 list-disc pl-4 text-sm leading-[1.2] last:mb-0">{children}</ul>;
   },
   ol({ children }) {
-    return <ol className="mb-2 list-decimal pl-4 text-sm leading-relaxed last:mb-0">{children}</ol>;
+    return <ol className="mb-2 list-decimal pl-4 text-sm leading-[1.2] last:mb-0">{children}</ol>;
   },
   li({ children }) {
     return <li className="mb-0.5">{children}</li>;

@@ -65,7 +65,7 @@ function renderBlock(block: ConsultingBlockCopy) {
                     className="mt-[0.6em] size-2 shrink-0 rounded-full bg-[var(--color-accent-primary)]"
                     aria-hidden
                   />
-                  <span className="text-[17px] font-bold leading-[1.75] text-text md:text-[19px] md:leading-[1.8]">
+                  <span className="text-[17px] font-bold leading-[1.2] text-text md:text-[19px] md:leading-[1.2]">
                     {line}
                   </span>
                 </span>

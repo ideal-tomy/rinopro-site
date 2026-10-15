@@ -55,7 +55,7 @@ export function ConciergeChoiceButton({
 
   const labelCls = compact
     ? "text-[10px] font-semibold leading-tight tracking-wide text-text sm:text-[11px]"
-    : "text-[10px] font-semibold leading-relaxed tracking-wide text-text sm:text-[16px]";
+    : "text-[10px] font-semibold leading-[1.2] tracking-wide text-text sm:text-[16px]";
 
   return (
     <button
@@ -83,7 +83,7 @@ export function ConciergeChoiceButton({
             <span className={cn("block", labelCls)}>{label}</span>
           )}
           {description ? (
-            <span className="mt-1 block text-[10px] font-normal leading-relaxed tracking-wide text-text-sub sm:text-xs">
+            <span className="mt-1 block text-[10px] font-normal leading-[1.2] tracking-wide text-text-sub sm:text-xs">
               {description}
             </span>
           ) : null}
@@ -94,7 +94,7 @@ export function ConciergeChoiceButton({
 }
 
 const ctaPrimary =
-  "w-full rounded-2xl border border-transparent bg-[var(--color-accent-primary)] px-4 py-3 font-semibold leading-relaxed tracking-wide " +
+  "w-full rounded-2xl border border-transparent bg-[var(--color-accent-primary)] px-4 py-3 font-semibold leading-[1.2] tracking-wide " +
   "text-white shadow-md " +
   "transition-[transform,box-shadow,background-color,border-color,color] duration-200 ease-out " +
   "hover:bg-[var(--color-accent-primary-hover)] hover:text-white " +
@@ -103,7 +103,7 @@ const ctaPrimary =
   "disabled:pointer-events-none disabled:opacity-50";
 
 const ctaSecondary =
-  "w-full rounded-2xl border border-[var(--color-accent-primary)]/40 bg-[var(--color-bg-pure)] px-4 py-3 font-semibold leading-relaxed tracking-wide " +
+  "w-full rounded-2xl border border-[var(--color-accent-primary)]/40 bg-[var(--color-bg-pure)] px-4 py-3 font-semibold leading-[1.2] tracking-wide " +
   "text-[var(--color-accent-primary)] shadow-sm " +
   "transition-[transform,box-shadow,border-color,background-color,color] duration-200 ease-out " +
   "hover:border-[var(--color-accent-primary)] hover:bg-[var(--color-accent-primary-light)]/35 " +
@@ -112,7 +112,7 @@ const ctaSecondary =
   "disabled:pointer-events-none disabled:opacity-50";
 
 const ctaGhost =
-  "w-full rounded-2xl border border-transparent bg-transparent px-4 py-3 text-sm font-medium leading-relaxed tracking-wide text-[var(--color-accent-primary)]/85 " +
+  "w-full rounded-2xl border border-transparent bg-transparent px-4 py-3 text-sm font-medium leading-[1.2] tracking-wide text-[var(--color-accent-primary)]/85 " +
   "transition-[transform,background-color,color] duration-200 ease-out " +
   "hover:bg-[var(--color-accent-primary-light)]/25 hover:text-[var(--color-accent-primary)] " +
   "active:scale-[0.99] " +

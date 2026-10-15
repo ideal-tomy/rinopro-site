@@ -16,7 +16,7 @@ const cards = [
   },
   {
     label: "ENABLEMENT",
-    title: "半内製化（FED）",
+    title: "半内製化（FDE）",
     description: ["作って終わらせず、社内で", "改善できる状態へ移行します。"],
     benefits: [
       "社内メンバーと伴走",
@@ -37,7 +37,7 @@ export function ServicesFlipCards() {
       <section
         className={styles.service}
         id="service-card"
-        aria-label="コンサルティングと半内製化（FED）"
+        aria-label="コンサルティングと半内製化（FDE）"
         data-scroll-reveal="group"
       >
         <div

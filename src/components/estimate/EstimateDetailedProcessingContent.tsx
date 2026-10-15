@@ -178,7 +178,7 @@ export function EstimateDetailedProcessingContent() {
           </p>
         ) : null}
         <h1 className="text-xl font-bold text-text md:text-2xl">{copy.processingTitle}</h1>
-        <p className="text-sm leading-relaxed text-text-sub">{copy.processingSub}</p>
+        <p className="text-sm leading-[1.2] text-text-sub">{copy.processingSub}</p>
       </header>
 
       <div
@@ -225,7 +225,7 @@ export function EstimateDetailedProcessingContent() {
                 duration: prefersReducedMotion ? 0.15 : 0.85,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="text-[16px] font-semibold leading-relaxed text-text md:text-lg"
+              className="text-[16px] font-semibold leading-[1.2] text-text md:text-lg"
             >
               {copy.processingTips[tipIndex]}
             </motion.div>

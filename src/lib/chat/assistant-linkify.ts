@@ -51,7 +51,7 @@ const FIXED_LABELS: Record<string, string> = {
   "/about": "会社情報（/about）",
   "/services": "ご支援内容",
   "/services/consulting": "コンサルティング",
-  "/services/insourcing-enablement": "半内製化（FED）",
+  "/services/insourcing-enablement": "半内製化（FDE）",
 };
 
 function linkLabelForPath(path: string): string {

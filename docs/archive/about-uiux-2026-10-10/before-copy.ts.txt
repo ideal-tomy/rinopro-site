@@ -220,10 +220,10 @@ export const demoHubCopy = {
 export const servicesCopy = {
   title: "ご支援内容",
   purpose:
-    "提供の入り口は、コンサルティングと半内製化（FED）の2つです。課題の整理から実装・社内への移管まで、必要な範囲を同じチームで進めます。",
+    "提供の入り口は、コンサルティングと半内製化（FDE）の2つです。課題の整理から実装・社内への移管まで、必要な範囲を同じチームで進めます。",
   cta: "相談する",
   development: {
-    title: "半内製化（FED）",
+    title: "半内製化（FDE）",
     desc: "開発・データ基盤・運用を一緒に回しながら、知見をチームへ移します。",
     href: "/services/insourcing-enablement",
   },
@@ -687,7 +687,7 @@ export const estimateDetailedCopy = {
   processingVideoHeading: "動画で流れる（設定時のみ）",
   processingVideoEmptyHint:
     "※ 動画が未設定のときは、下のリンクから開発の流れや体験をご覧いただけます。",
-  processingLinkFlow: "半内製化（FED）の進め方を読む（別タブ）",
+  processingLinkFlow: "半内製化（FDE）の進め方を読む（別タブ）",
   processingLinkDemo: "体験・demo を見る（別タブ）",
   processingTips: [
     "いま入力いただいた内容を、わかりやすい文章に整えています。",

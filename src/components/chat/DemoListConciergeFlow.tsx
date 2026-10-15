@@ -134,7 +134,7 @@ export function DemoListConciergeFlow({
             <div key={i} className={cn("h-0.5 flex-1 rounded-full", cls)} />
           ))}
         </div>
-        <p className="mt-3 text-sm font-medium leading-relaxed tracking-wide text-text/95">
+        <p className="mt-3 text-sm font-medium leading-[1.2] tracking-wide text-text/95">
           {STEP_HEADLINES[step]}
         </p>
         {catalogLoading && (
@@ -239,7 +239,7 @@ export function DemoListConciergeFlow({
             一つ前に戻る
           </ConciergeCtaButton>
         ) : (
-          <p className="text-xs leading-relaxed text-text/95">
+          <p className="text-xs leading-[1.2] text-text/95">
             自由記述を選ぶと、すぐ入力欄から相談できます。
           </p>
         )}

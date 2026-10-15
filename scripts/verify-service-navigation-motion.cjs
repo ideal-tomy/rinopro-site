@@ -28,7 +28,7 @@ const {
         panel.y < controls.y + controls.height + 60,
     );
     const nav = page.getByRole("navigation", {
-      name: "半内製化（FED）のページ内リンク",
+      name: "半内製化（FDE）のページ内リンク",
       exact: true,
     });
     const link = nav.locator('[aria-current="location"]');

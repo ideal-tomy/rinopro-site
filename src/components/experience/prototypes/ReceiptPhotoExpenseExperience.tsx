@@ -64,7 +64,7 @@ function ReceiptImageStage({
             aria-hidden
           >
             <span className="font-medium text-text">領収書プレースホルダ</span>
-            <span className="text-xs leading-relaxed">
+            <span className="text-xs leading-[1.2]">
               画像未設定でも実行できます。下の抽出項目を選ぶと、ここに擬似ハイライトが表示されます。
             </span>
           </div>
@@ -175,7 +175,7 @@ export function ReceiptPhotoExpenseExperience({
         </Button>
         {result ? (
           <div
-            className="mt-4 rounded-lg border border-accent/30 bg-accent/5 px-3 py-3 text-sm leading-relaxed text-text md:px-4"
+            className="mt-4 rounded-lg border border-accent/30 bg-accent/5 px-3 py-3 text-sm leading-[1.2] text-text md:px-4"
             role="status"
           >
             <p>自動で指定の計算シートに振り分けることが可能です。</p>
@@ -273,7 +273,7 @@ export function ReceiptPhotoExpenseExperience({
                 <p className="mt-1 text-sm font-semibold text-text md:text-[1rem]">
                   {result.compliance.label}
                 </p>
-                <p className="mt-1 text-xs leading-relaxed text-text-sub">
+                <p className="mt-1 text-xs leading-[1.2] text-text-sub">
                   {result.compliance.advice}
                 </p>
               </div>
@@ -308,7 +308,7 @@ export function ReceiptPhotoExpenseExperience({
               </ul>
             </div>
             <div
-              className="rounded-lg border border-silver/20 bg-silver/5 px-3 py-2 text-sm leading-relaxed text-text-sub"
+              className="rounded-lg border border-silver/20 bg-silver/5 px-3 py-2 text-sm leading-[1.2] text-text-sub"
               role="status"
               aria-live="polite"
             >

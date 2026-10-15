@@ -116,11 +116,11 @@ export function PurposePickSection({
                 <SheetTitle className="text-[1rem] font-semibold leading-snug text-text md:text-lg">
                   {openGroup.title}
                 </SheetTitle>
-                <SheetDescription className="text-[13px] leading-relaxed text-text-sub md:text-sm">
+                <SheetDescription className="text-[13px] leading-[1.2] text-text-sub md:text-sm">
                   {openGroup.description}
                 </SheetDescription>
               </SheetHeader>
-              <p className="mt-4 text-xs leading-relaxed text-text-sub/85 md:text-sm">
+              <p className="mt-4 text-xs leading-[1.2] text-text-sub/85 md:text-sm">
                 この目的に近い体験だけをまとめています。より広く比べたい場合は、一覧ページで絞り込みもできます。
               </p>
               <ul className="mt-8 grid gap-6 sm:grid-cols-3 sm:gap-8">

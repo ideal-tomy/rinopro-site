@@ -41,7 +41,7 @@ export function ConciergeEmptyPanel({
         <p className="text-xs font-medium uppercase tracking-wide text-text/90">
           {title}
         </p>
-        <p className="mt-1 text-sm leading-relaxed text-text/95">{body}</p>
+        <p className="mt-1 text-sm leading-[1.2] text-text/95">{body}</p>
       </div>
     </div>
   );

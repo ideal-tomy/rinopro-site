@@ -67,7 +67,7 @@ export function ConciergeIndustryStep({
           </div>
         ) : null}
 
-        <h3 className="text-[14px] font-semibold leading-relaxed tracking-wide text-text sm:text-[16px]">
+        <h3 className="text-[14px] font-semibold leading-[1.2] tracking-wide text-text sm:text-[16px]">
           事業領域に近いものを選んでください
         </h3>
 

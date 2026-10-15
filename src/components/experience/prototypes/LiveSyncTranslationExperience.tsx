@@ -417,7 +417,7 @@ export function LiveSyncTranslationExperience({
             </div>
             {showMicDemoScopeNote && speechSupported && (
               <div
-                className="rounded-lg border border-silver/25 bg-silver/5 px-3 py-2.5 text-xs leading-relaxed text-text-sub"
+                className="rounded-lg border border-silver/25 bg-silver/5 px-3 py-2.5 text-xs leading-[1.2] text-text-sub"
                 role="note"
                 aria-live="polite"
               >

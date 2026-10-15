@@ -385,7 +385,7 @@ export function EstimateDetailedFormContent() {
       {isNarrow ? (
         <div className="space-y-6">
           {journeyConfirmLines.length > 0 ? (
-            <p className="px-1 text-[13px] leading-relaxed text-text-sub">
+            <p className="px-1 text-[13px] leading-[1.2] text-text-sub">
               既に整理できている内容は、質問の初期値として反映しています。
             </p>
           ) : null}
@@ -408,16 +408,16 @@ export function EstimateDetailedFormContent() {
           <header className="space-y-3">
             <p className="text-sm font-medium text-accent">{copy.kicker}</p>
             <h1 className="text-2xl font-bold text-text md:text-3xl">{copy.title}</h1>
-            <p className="max-w-2xl text-sm leading-relaxed text-[var(--color-accent-primary)]/90 md:text-[16px]">
+            <p className="max-w-2xl text-sm leading-[1.2] text-[var(--color-accent-primary)]/90 md:text-[16px]">
               {copy.intro}
             </p>
             {decodedCtx?.industryBundle ? (
-              <p className="max-w-2xl text-xs leading-relaxed text-text-sub md:text-sm">
+              <p className="max-w-2xl text-xs leading-[1.2] text-text-sub md:text-sm">
                 {ESTIMATE_PHILOSOPHY_PREFILL_INDUSTRY_NOTE}
               </p>
             ) : null}
             {pathPrefillMeta?.hadPathMapping ? (
-              <p className="max-w-2xl text-xs leading-relaxed text-text-sub md:text-sm">
+              <p className="max-w-2xl text-xs leading-[1.2] text-text-sub md:text-sm">
                 {copy.pathPrefillFromChatNotice}
               </p>
             ) : null}
@@ -428,11 +428,11 @@ export function EstimateDetailedFormContent() {
               <p className="text-sm font-semibold text-[var(--color-accent-primary)]">
                 サイト内で整理できている内容を引き継いでいます
               </p>
-              <p className="mt-2 text-sm leading-relaxed text-[var(--color-accent-primary)]/80">
+              <p className="mt-2 text-sm leading-[1.2] text-[var(--color-accent-primary)]/80">
                 分かっている内容は初期値に反映しています。必要ならこのあと変更できます。
               </p>
               {journeyConfirmLines.length > 0 ? (
-                <ul className="mt-3 space-y-1.5 text-sm leading-relaxed text-[var(--color-accent-primary)]/90">
+                <ul className="mt-3 space-y-1.5 text-sm leading-[1.2] text-[var(--color-accent-primary)]/90">
                   {journeyConfirmLines.map((line) => (
                     <li key={line} className="flex gap-2">
                       <span className="text-accent/80">・</span>
@@ -442,7 +442,7 @@ export function EstimateDetailedFormContent() {
                 </ul>
               ) : null}
               {visitorJourneySummary ? (
-                <p className="mt-3 text-xs leading-relaxed text-[var(--color-accent-primary)]/70">
+                <p className="mt-3 text-xs leading-[1.2] text-[var(--color-accent-primary)]/70">
                   {visitorJourneySummary.journeySummary}
                 </p>
               ) : null}
@@ -454,7 +454,7 @@ export function EstimateDetailedFormContent() {
             aria-label={copy.disclaimerTitle}
           >
             <h2 className="text-sm font-semibold text-accent">{copy.disclaimerTitle}</h2>
-            <p className="mt-2 text-sm leading-relaxed text-text-sub">{copy.disclaimerBody}</p>
+            <p className="mt-2 text-sm leading-[1.2] text-text-sub">{copy.disclaimerBody}</p>
           </section>
 
           <EstimateDetailedHearingWizard

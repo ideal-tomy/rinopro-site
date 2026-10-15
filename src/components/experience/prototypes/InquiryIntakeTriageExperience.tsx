@@ -158,7 +158,7 @@ export function InquiryIntakeTriageExperience({
 
           <div className="rounded-lg border border-silver/20 bg-base-dark/60 p-3">
             <p className="text-xs font-medium text-text-sub">優先度の理由</p>
-            <p className="mt-1 text-sm leading-relaxed text-text md:text-[1rem]">
+            <p className="mt-1 text-sm leading-[1.2] text-text md:text-[1rem]">
               {result.priorityReason}
             </p>
           </div>

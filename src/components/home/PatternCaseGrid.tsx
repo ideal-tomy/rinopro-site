@@ -39,7 +39,7 @@ export function PatternCaseGrid({
           >
             {homeAcquisitionHeroCopy.patternsHeading}
           </HeadingTag>
-          <p className="mx-auto mb-8 max-w-[40ch] text-center text-[17px] leading-[1.8] text-white/[0.85] md:mb-10 md:max-w-2xl md:text-[18px]">
+          <p className="mx-auto mb-8 max-w-[40ch] text-center text-[17px] leading-[1.2] text-white/[0.85] md:mb-10 md:max-w-2xl md:text-[18px]">
             {homeAcquisitionHeroCopy.patternsIntro}
           </p>
         </>
@@ -59,7 +59,7 @@ export function PatternCaseGrid({
                     <span className="block text-[17px] font-semibold leading-snug text-white text-balance md:text-[18px]">
                       {p.title}
                     </span>
-                    <span className="mt-3 block text-[15px] leading-[1.8] text-white/[0.85] md:text-[16px]">
+                    <span className="mt-3 block text-[15px] leading-[1.2] text-white/[0.85] md:text-[16px]">
                       {p.pain}
                     </span>
                   </span>
@@ -72,15 +72,15 @@ export function PatternCaseGrid({
                 </span>
               </summary>
               <div className="border-t border-silver/15 px-5 py-6 md:px-6">
-                <p className="text-[15px] leading-[1.8] text-white/[0.85] md:text-[16px]">
+                <p className="text-[15px] leading-[1.2] text-white/[0.85] md:text-[16px]">
                   <span className="font-semibold text-white">打ち手のイメージ</span>
                   <span className="mt-2 block font-normal">{p.approach}</span>
                 </p>
-                <p className="mt-5 text-[15px] leading-[1.8] text-white/[0.85] md:text-[16px]">
+                <p className="mt-5 text-[15px] leading-[1.2] text-white/[0.85] md:text-[16px]">
                   {p.outcomeHint}
                 </p>
                 {p.exampleLine ? (
-                  <p className="mt-4 text-[13px] leading-[1.7] text-white/75">
+                  <p className="mt-4 text-[13px] leading-[1.2] text-white/75">
                     {p.exampleLine}
                   </p>
                 ) : null}

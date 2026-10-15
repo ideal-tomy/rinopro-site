@@ -4,7 +4,7 @@
   font-family:
     -apple-system, BlinkMacSystemFont, var(--font-noto-sans-jp), "Yu Gothic",
     sans-serif;
-  line-height: 1.65;
+  line-height: var(--line-height-body, 1.2);
 }
 .page h1,
 .page h2,
@@ -77,7 +77,7 @@
 }
 .heroCopy > p:last-child {
   font-size: 14px;
-  line-height: 1.95;
+  line-height: var(--line-height-body, 1.2);
   font-weight: 500;
   max-width: 280px;
 }
@@ -133,7 +133,7 @@
 }
 .description {
   font-size: 15px;
-  line-height: 1.8;
+  line-height: var(--line-height-body, 1.2);
   color: #111b2c;
   min-height: 54px;
 }
@@ -289,7 +289,7 @@
   margin-top: 8px;
   font-size: 23px;
   font-weight: 750;
-  line-height: 1.65;
+  line-height: var(--line-height-body, 1.2);
   letter-spacing: -0.035em;
 }
 .menuGrid {
@@ -336,7 +336,7 @@
 }
 .menuCard > p {
   font-size: 16px;
-  line-height: 1.6;
+  line-height: var(--line-height-body, 1.2);
   margin: 0 4px;
 }
 .menuDots {
@@ -451,7 +451,7 @@
     grid-row: 2;
     margin: 0;
     font-size: 14px;
-    line-height: 1.55;
+    line-height: var(--line-height-body, 1.2);
   }
   .bottomCta {
     display: flex;
@@ -550,7 +550,7 @@
   }
   .heroCopy > p:last-child {
     font-size: 20px;
-    line-height: 1.65;
+    line-height: var(--line-height-body, 1.2);
     max-width: none;
   }
   .heroArt {
@@ -743,7 +743,7 @@
   }
   .menuCard > p {
     font-size: 16px;
-    line-height: 1.6;
+    line-height: var(--line-height-body, 1.2);
     margin: 0 4px;
   }
   .process {
@@ -833,7 +833,7 @@
   }
   .steps p {
     font-size: 16px;
-    line-height: 1.6;
+    line-height: var(--line-height-body, 1.2);
     margin-inline: 5px;
   }
   .bottomCta {

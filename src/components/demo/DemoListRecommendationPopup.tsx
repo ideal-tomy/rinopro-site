@@ -84,12 +84,12 @@ function RecommendationCard({
           </h3>
         </div>
         {reason ? (
-          <p className="mb-2 line-clamp-2 text-xs leading-relaxed text-accent/90">
+          <p className="mb-2 line-clamp-2 text-xs leading-[1.2] text-accent/90">
             {reason}
           </p>
         ) : null}
         {oneLiner ? (
-          <p className="mb-2 line-clamp-2 flex-1 text-xs leading-relaxed text-text-sub">
+          <p className="mb-2 line-clamp-2 flex-1 text-xs leading-[1.2] text-text-sub">
             {oneLiner}
           </p>
         ) : null}

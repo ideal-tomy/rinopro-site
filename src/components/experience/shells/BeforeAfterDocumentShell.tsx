@@ -45,7 +45,7 @@ function BlockHeading({ text }: { text: string }) {
 
 function BlockParagraph({ text }: { text: string }) {
   return (
-    <p className="mt-2 text-sm leading-relaxed text-text md:text-[1rem]">{text}</p>
+    <p className="mt-2 text-sm leading-[1.2] text-text md:text-[1rem]">{text}</p>
   );
 }
 
@@ -475,7 +475,7 @@ export function BeforeAfterDocumentShell({
           </h2>
           {choiceSteps.length > 0 ? (
             <div className="mb-3 space-y-2">
-              <p className="text-xs leading-relaxed text-text-sub md:text-sm">
+              <p className="text-xs leading-[1.2] text-text-sub md:text-sm">
                 {requiredChoicesFilled(choiceSteps, selections)
                   ? "選択項目は埋まっています。必要なら編集できます。"
                   : `選択項目が${choiceSteps.length}つあります。ウィザードで順に選んでください。`}

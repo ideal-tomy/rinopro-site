@@ -51,7 +51,7 @@ export function MockStyleExperienceCard({
             {title}
           </h2>
           {oneLiner ? (
-            <p className="line-clamp-2 text-[13px] leading-relaxed text-text md:text-sm md:leading-relaxed">
+            <p className="line-clamp-2 text-[13px] leading-[1.2] text-text md:text-sm md:leading-[1.2]">
               {oneLiner}
             </p>
           ) : null}
@@ -121,7 +121,7 @@ export function MockStylePurposeCard({
           <h3 className="mb-2 line-clamp-2 text-[15px] font-semibold leading-snug tracking-tight text-text group-hover:text-warm md:text-[1rem]">
             {title}
           </h3>
-          <p className="line-clamp-2 text-[13px] leading-relaxed text-text md:text-sm md:leading-relaxed">
+          <p className="line-clamp-2 text-[13px] leading-[1.2] text-text md:text-sm md:leading-[1.2]">
             {oneLiner}
           </p>
         </div>

@@ -33,7 +33,7 @@ export function IndustryHubContent({ item }: IndustryHubContentProps) {
         <h1 className="mt-2 text-2xl font-bold text-text md:text-3xl">
           {item.label}
         </h1>
-        <p className="mt-6 text-[1rem] leading-relaxed text-text-sub">
+        <p className="mt-6 text-[1rem] leading-[1.2] text-text-sub">
           {hub.lead}
         </p>
       </section>
@@ -52,7 +52,7 @@ export function IndustryHubContent({ item }: IndustryHubContentProps) {
         >
           {hub.painSectionTitle}
         </h2>
-        <p className="mt-4 whitespace-pre-line text-sm leading-relaxed text-text-sub md:mt-6 md:text-[1rem]">
+        <p className="mt-4 whitespace-pre-line text-sm leading-[1.2] text-text-sub md:mt-6 md:text-[1rem]">
           {hub.painBody}
         </p>
       </section>
@@ -71,7 +71,7 @@ export function IndustryHubContent({ item }: IndustryHubContentProps) {
         >
           {hub.approachSectionTitle}
         </h2>
-        <p className="mt-4 whitespace-pre-line text-sm leading-relaxed text-text-sub md:mt-6 md:text-[1rem]">
+        <p className="mt-4 whitespace-pre-line text-sm leading-[1.2] text-text-sub md:mt-6 md:text-[1rem]">
           {hub.approachBody}
         </p>
       </section>
@@ -92,7 +92,7 @@ export function IndustryHubContent({ item }: IndustryHubContentProps) {
             >
               関連する実装事例
             </h2>
-            <p className="mt-3 max-w-3xl text-sm leading-relaxed text-text-sub md:text-[1rem]">
+            <p className="mt-3 max-w-3xl text-sm leading-[1.2] text-text-sub md:text-[1rem]">
               画面構成や進め方のイメージとしてご覧ください。外部デモは別タブで開きます。サイト内で動くdemoは体験ページへ進みます。
             </p>
             <ul className="mt-8 grid list-none gap-6 md:grid-cols-2">

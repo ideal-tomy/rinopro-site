@@ -1,7 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import {
+  ArrowRight,
+  ClipboardCheck,
+  ListOrdered,
+  Scale,
+  ScanSearch,
+} from "lucide-react";
 import { ConsultingExamples } from "./ConsultingInteractions";
 import { ConsultingResultSample } from "./ConsultingResultSample";
 import shared from "./service-landing-shared.module.css";
@@ -14,18 +20,22 @@ const roles = [
   {
     title: "業務と課題の整理",
     body: "誰が何を担当し、どこで時間がかかっているかを確認します。",
+    Icon: ScanSearch,
   },
   {
     title: "対応方法の比較",
     body: "運用の変更、既存ツールの活用、システム改修・導入を比較します。",
+    Icon: Scale,
   },
   {
     title: "優先順位の検討",
     body: "効果、費用、実施の難しさを考え、先に取り組む範囲を決めます。",
+    Icon: ListOrdered,
   },
   {
     title: "実行計画の作成",
     body: "担当する人、進める順番、成果の確認方法を整理します。",
+    Icon: ClipboardCheck,
   },
 ];
 
@@ -92,11 +102,16 @@ export function ConsultingPage() {
               方法を決めつけず、費用や負担も含めて比較します。
             </p>
           </div>
-          <ul className={shared.lineList}>
-            {roles.map((role) => (
-              <li key={role.title}>
-                <h3 className={shared.itemTitle}>{role.title}</h3>
-                <p className={shared.itemBody}>{role.body}</p>
+          <ul className={`${shared.lineList} ${styles.roleList}`}>
+            {roles.map(({ title, body, Icon }) => (
+              <li key={title} className={styles.roleItem}>
+                <span className={styles.roleIcon} aria-hidden="true">
+                  <Icon />
+                </span>
+                <h3 className={`${shared.itemTitle} ${styles.roleTitle}`}>
+                  {title}
+                </h3>
+                <p className={`${shared.itemBody} ${styles.roleBody}`}>{body}</p>
               </li>
             ))}
           </ul>
@@ -129,7 +144,7 @@ export function ConsultingPage() {
 
       <section
         id="consulting-examples"
-        className={shared.section}
+        className={`${shared.section} ${styles.consultingMobileSection}`}
         aria-labelledby="examples-heading"
       >
         <div className={shared.container}>
@@ -144,7 +159,7 @@ export function ConsultingPage() {
       </section>
 
       <section
-        className={`${shared.section} ${shared.tint}`}
+        className={`${shared.section} ${shared.tint} ${styles.resultSection}`}
         aria-labelledby="result-heading"
       >
         <div className={`${shared.container} ${shared.split} ${styles.resultSplit}`}>
@@ -166,7 +181,7 @@ export function ConsultingPage() {
 
       <section
         id="contact-consulting"
-        className={shared.contact}
+        className={`${shared.contact} ${styles.consultingContact} ${styles.consultingMobileSection}`}
         aria-labelledby="consultation-heading"
       >
         <div className={`${shared.container} ${shared.contactInner}`}>
@@ -186,12 +201,15 @@ export function ConsultingPage() {
             <span>開発に進むかどうかも含めて、一緒に考えます。</span>
           </p>
           <div className={shared.actions}>
-            <Link className={shared.contactButton} href="/contact">
+            <Link
+              className={`${shared.contactButton} ${styles.consultingContactPrimary}`}
+              href="/contact"
+            >
               お問い合わせ
               <ArrowRight aria-hidden="true" />
             </Link>
             <Link
-              className={shared.textLink}
+              className={`${shared.textLink} ${styles.consultingContactLink}`}
               href="/services/insourcing-enablement"
             >
               開発・運用の伴走を見る<span aria-hidden="true">↗</span>

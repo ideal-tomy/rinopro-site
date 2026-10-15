@@ -4,7 +4,7 @@
 
 ## 結論
 
-対象は `/services/insourcing-enablement`（半内製化/FED）。「支援を始める前に」は `#checks` にある。`/about` や `/services/consulting` の相談例ではない。
+対象は `/services/insourcing-enablement`（半内製化/FDE）。「支援を始める前に」は `#checks` にある。`/about` や `/services/consulting` の相談例ではない。
 
 現在の実装は、セクション単位の演出へ統一できていない。共通の `ScrollRevealController` によるセクションの縦移動と、`useScrollReveal` によるカード個別の縦移動が同居する。SPでは後者だけCSSで止めており、親の演出は残る。速度や移動量だけを調整しても、この構造は解消しない。
 

@@ -16,10 +16,10 @@ export function HomeCompanyTeaser() {
         title={company.heading}
       />
       <div className="rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-pure)] p-6 md:p-8">
-        <p className="text-[17px] font-medium leading-[1.8] text-[var(--color-text-secondary)] md:text-[18px]">
+        <p className="text-[17px] font-medium leading-[1.2] text-[var(--color-text-secondary)] md:text-[18px]">
           {company.lead}
         </p>
-        <p className="mt-5 text-[16px] leading-[1.8] text-[var(--color-text-secondary)] md:mt-6 md:text-[17px]">
+        <p className="mt-5 text-[16px] leading-[1.2] text-[var(--color-text-secondary)] md:mt-6 md:text-[17px]">
           {company.body}
         </p>
         <Button asChild className="mt-8 md:mt-10" variant="outline" size="lg">

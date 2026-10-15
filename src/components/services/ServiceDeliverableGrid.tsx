@@ -45,7 +45,7 @@ export function ServiceDeliverableGrid({
         ))}
       </ul>
       {note ? (
-        <p className={cn("mt-4 text-left text-[14px] leading-[1.8] text-text-sub md:text-[15px]")}>
+        <p className={cn("mt-4 text-left text-[14px] leading-[1.2] text-text-sub md:text-[15px]")}>
           {note}
         </p>
       ) : null}

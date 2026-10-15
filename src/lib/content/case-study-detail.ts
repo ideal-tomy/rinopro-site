@@ -162,7 +162,7 @@ const DETAILS: readonly CaseStudyDetail[] = [
     ],
     relatedSolutionsSlug: "construction",
     relatedLinks: [
-      { label: "半内製化（FED）", href: "/services/insourcing-enablement" },
+      { label: "半内製化（FDE）", href: "/services/insourcing-enablement" },
       { label: "コンサルティング", href: "/services/consulting" },
     ],
   },
@@ -261,7 +261,7 @@ const DETAILS: readonly CaseStudyDetail[] = [
     ],
     relatedSolutionsSlug: "professional-services",
     relatedLinks: [
-      { label: "半内製化（FED）", href: "/services/insourcing-enablement" },
+      { label: "半内製化（FDE）", href: "/services/insourcing-enablement" },
       { label: "コンサルティング", href: "/services/consulting" },
     ],
   },
@@ -355,7 +355,7 @@ const DETAILS: readonly CaseStudyDetail[] = [
     ],
     relatedSolutionsSlug: "hospitality-food",
     relatedLinks: [
-      { label: "半内製化（FED）", href: "/services/insourcing-enablement" },
+      { label: "半内製化（FDE）", href: "/services/insourcing-enablement" },
       { label: "ご支援内容", href: "/services" },
     ],
   },
@@ -460,7 +460,7 @@ const DETAILS: readonly CaseStudyDetail[] = [
     relatedSolutionsSlug: "professional-services",
     relatedLinks: [
       { label: "コンサルティング", href: "/services/consulting" },
-      { label: "半内製化（FED）", href: "/services/insourcing-enablement" },
+      { label: "半内製化（FDE）", href: "/services/insourcing-enablement" },
     ],
   },
   {
@@ -563,7 +563,7 @@ const DETAILS: readonly CaseStudyDetail[] = [
     ],
     relatedSolutionsSlug: "retail-distribution",
     relatedLinks: [
-      { label: "半内製化（FED）", href: "/services/insourcing-enablement" },
+      { label: "半内製化（FDE）", href: "/services/insourcing-enablement" },
       { label: "ご支援内容", href: "/services" },
     ],
   },
@@ -658,7 +658,7 @@ const DETAILS: readonly CaseStudyDetail[] = [
     ],
     relatedSolutionsSlug: "hospitality-food",
     relatedLinks: [
-      { label: "半内製化（FED）", href: "/services/insourcing-enablement" },
+      { label: "半内製化（FDE）", href: "/services/insourcing-enablement" },
       { label: "ご支援内容", href: "/services" },
     ],
   },
@@ -752,7 +752,7 @@ const DETAILS: readonly CaseStudyDetail[] = [
     ],
     relatedSolutionsSlug: "professional-services",
     relatedLinks: [
-      { label: "半内製化（FED）", href: "/services/insourcing-enablement" },
+      { label: "半内製化（FDE）", href: "/services/insourcing-enablement" },
       { label: "コンサルティング", href: "/services/consulting" },
     ],
   },
@@ -846,7 +846,7 @@ const DETAILS: readonly CaseStudyDetail[] = [
     ],
     relatedSolutionsSlug: "healthcare-public",
     relatedLinks: [
-      { label: "半内製化（FED）", href: "/services/insourcing-enablement" },
+      { label: "半内製化（FDE）", href: "/services/insourcing-enablement" },
       { label: "ご支援内容", href: "/services" },
     ],
   },
@@ -940,7 +940,7 @@ const DETAILS: readonly CaseStudyDetail[] = [
     ],
     relatedSolutionsSlug: "professional-services",
     relatedLinks: [
-      { label: "半内製化（FED）", href: "/services/insourcing-enablement" },
+      { label: "半内製化（FDE）", href: "/services/insourcing-enablement" },
       { label: "ご支援内容", href: "/services" },
     ],
   },
@@ -1042,7 +1042,7 @@ const DETAILS: readonly CaseStudyDetail[] = [
     ],
     relatedSolutionsSlug: "professional-services",
     relatedLinks: [
-      { label: "半内製化（FED）", href: "/services/insourcing-enablement" },
+      { label: "半内製化（FDE）", href: "/services/insourcing-enablement" },
       { label: "コンサルティング", href: "/services/consulting" },
     ],
   },

@@ -295,7 +295,7 @@ export function ConsultingPage() {
           ご支援内容へ戻る <span aria-hidden="true">←</span>
         </Link>
         <Link href="/services/insourcing-enablement">
-          半内製化（FED）を見る <span aria-hidden="true">→</span>
+          半内製化（FDE）を見る <span aria-hidden="true">→</span>
         </Link>
         <Link href="/experience">
           体験デモを見る <span aria-hidden="true">→</span>

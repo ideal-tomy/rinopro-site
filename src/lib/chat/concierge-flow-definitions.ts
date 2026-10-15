@@ -608,7 +608,7 @@ export const SHORTCUT_PANELS: Record<"C" | "D" | "E", ShortcutPanel> = {
       "まずは短いヒアリングで要件を言語化し、開発・コンサルティングのどちらから入るかも一緒に整理できます。流れは各ページでご確認ください。",
     links: [
       { label: "コンサルティングの流れを見る", href: "/services/consulting" },
-      { label: "半内製化（FED）の流れを見る", href: "/services/insourcing-enablement" },
+      { label: "半内製化（FDE）の流れを見る", href: "/services/insourcing-enablement" },
     ],
   },
 };

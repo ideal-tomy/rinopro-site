@@ -16,7 +16,7 @@ export function ShowcaseIndustryBreadth() {
           </span>
         ))}
       </div>
-      <p className="mx-auto mt-4 max-w-[52ch] text-[15px] leading-[1.8] text-[var(--color-text-secondary)] md:text-[16px]">
+      <p className="mx-auto mt-4 max-w-[52ch] text-[15px] leading-[1.2] text-[var(--color-text-secondary)] md:text-[16px]">
         課題の型は業種ごとに違っても、整理→試作→定着の進め方は共通です。
       </p>
     </div>

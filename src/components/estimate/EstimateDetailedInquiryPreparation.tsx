@@ -136,10 +136,10 @@ export function EstimateDetailedInquiryPreparation({
         <h2 className="text-lg font-semibold text-text">
           {copy.inquiryPrepTitle}
         </h2>
-        <p className="text-sm leading-relaxed text-text-sub">
+        <p className="text-sm leading-[1.2] text-text-sub">
           {copy.inquiryPrepIntro}
         </p>
-        <p className="rounded-md border border-accent/20 bg-accent/5 px-3 py-2 text-xs leading-relaxed text-accent">
+        <p className="rounded-md border border-accent/20 bg-accent/5 px-3 py-2 text-xs leading-[1.2] text-accent">
           ここでの整理は任意です。実行しなくても、下の「この内容で問い合わせる」からお進みいただけます。
         </p>
       </div>
@@ -187,7 +187,7 @@ export function EstimateDetailedInquiryPreparation({
       </div>
 
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-sm leading-relaxed text-text-sub">
+        <p className="text-sm leading-[1.2] text-text-sub">
           {questions.length > 0 && missingRequiredCount > 0
             ? copy.inquiryPrepFollowUpHint
             : copy.inquiryPrepPrimaryHint}
@@ -218,7 +218,7 @@ export function EstimateDetailedInquiryPreparation({
                 {question.required ? ` ${copy.inquiryPrepRequiredMark}` : ""}
               </span>
               {question.helpText ? (
-                <span className="block text-xs leading-relaxed text-text-sub">
+                <span className="block text-xs leading-[1.2] text-text-sub">
                   {question.helpText}
                 </span>
               ) : null}
@@ -272,7 +272,7 @@ export function EstimateDetailedInquiryPreparation({
               <dt className="text-xs font-medium uppercase tracking-wide text-text-sub">
                 {copy.inquiryPrepIntentLabel}
               </dt>
-              <dd className="mt-1 text-sm leading-relaxed text-text">
+              <dd className="mt-1 text-sm leading-[1.2] text-text">
                 {brief.inquiryIntentLabel}
               </dd>
             </div>
@@ -280,7 +280,7 @@ export function EstimateDetailedInquiryPreparation({
               <dt className="text-xs font-medium uppercase tracking-wide text-text-sub">
                 {copy.inquiryPrepDesiredReplyLabel}
               </dt>
-              <dd className="mt-1 text-sm leading-relaxed text-text">
+              <dd className="mt-1 text-sm leading-[1.2] text-text">
                 {brief.desiredReplyLabel}
               </dd>
             </div>
@@ -288,7 +288,7 @@ export function EstimateDetailedInquiryPreparation({
               <dt className="text-xs font-medium uppercase tracking-wide text-text-sub">
                 {copy.inquiryPrepProblemTitle}
               </dt>
-              <dd className="mt-1 text-sm leading-relaxed text-text">
+              <dd className="mt-1 text-sm leading-[1.2] text-text">
                 {brief.problemSummary}
               </dd>
             </div>
@@ -296,7 +296,7 @@ export function EstimateDetailedInquiryPreparation({
               <dt className="text-xs font-medium uppercase tracking-wide text-text-sub">
                 {copy.inquiryPrepReplySummaryTitle}
               </dt>
-              <dd className="mt-1 text-sm leading-relaxed text-text">
+              <dd className="mt-1 text-sm leading-[1.2] text-text">
                 {brief.requestedReplySummary}
               </dd>
             </div>
@@ -304,7 +304,7 @@ export function EstimateDetailedInquiryPreparation({
               <dt className="text-xs font-medium uppercase tracking-wide text-text-sub">
                 {copy.inquiryPrepTargetTitle}
               </dt>
-              <dd className="mt-1 text-sm leading-relaxed text-text">
+              <dd className="mt-1 text-sm leading-[1.2] text-text">
                 {brief.targetSummary}
               </dd>
             </div>
@@ -312,7 +312,7 @@ export function EstimateDetailedInquiryPreparation({
               <dt className="text-xs font-medium uppercase tracking-wide text-text-sub">
                 {copy.inquiryPrepTimelineTitle}
               </dt>
-              <dd className="mt-1 text-sm leading-relaxed text-text">
+              <dd className="mt-1 text-sm leading-[1.2] text-text">
                 {brief.timelineSummary}
               </dd>
             </div>
@@ -320,7 +320,7 @@ export function EstimateDetailedInquiryPreparation({
               <dt className="text-xs font-medium uppercase tracking-wide text-text-sub">
                 {copy.inquiryPrepScopeTitle}
               </dt>
-              <dd className="mt-1 text-sm leading-relaxed text-text">
+              <dd className="mt-1 text-sm leading-[1.2] text-text">
                 {brief.scopeSummary}
               </dd>
             </div>
@@ -328,7 +328,7 @@ export function EstimateDetailedInquiryPreparation({
               <dt className="text-xs font-medium uppercase tracking-wide text-text-sub">
                 {copy.inquiryPrepConstraintsTitle}
               </dt>
-              <dd className="mt-1 text-sm leading-relaxed text-text">
+              <dd className="mt-1 text-sm leading-[1.2] text-text">
                 {brief.constraintsSummary}
               </dd>
             </div>
@@ -337,7 +337,7 @@ export function EstimateDetailedInquiryPreparation({
                 <dt className="text-xs font-medium uppercase tracking-wide text-text-sub">
                   サイト内で引き継いだ文脈
                 </dt>
-                <dd className="mt-1 text-sm leading-relaxed text-text">
+                <dd className="mt-1 text-sm leading-[1.2] text-text">
                   {brief.journeySummary}
                 </dd>
               </div>
@@ -349,7 +349,7 @@ export function EstimateDetailedInquiryPreparation({
               <p className="text-xs font-medium uppercase tracking-wide text-text-sub">
                 {copy.inquiryPrepReplyFocusTitle}
               </p>
-              <ul className="mt-2 space-y-1.5 text-sm leading-relaxed text-text">
+              <ul className="mt-2 space-y-1.5 text-sm leading-[1.2] text-text">
                 {brief.replyFocus.map((item) => (
                   <li key={item} className="flex gap-2">
                     <span className="text-accent/80">・</span>
@@ -365,7 +365,7 @@ export function EstimateDetailedInquiryPreparation({
               <p className="text-xs font-medium uppercase tracking-wide text-text-sub">
                 {copy.inquiryPrepUnresolvedTitle}
               </p>
-              <ul className="mt-2 space-y-1.5 text-sm leading-relaxed text-text">
+              <ul className="mt-2 space-y-1.5 text-sm leading-[1.2] text-text">
                 {brief.unresolvedPoints.map((item) => (
                   <li key={item} className="flex gap-2">
                     <span className="text-accent/80">・</span>

@@ -24,7 +24,7 @@ export function LoadingPanel({ streamingText, className }: LoadingPanelProps) {
       </div>
       <p className="text-sm font-medium text-accent">ナレッジを参照して回答を生成しています</p>
       {streamingText && streamingText.length > 0 ? (
-        <div className="mt-4 max-h-40 overflow-y-auto rounded-lg border border-silver/15 bg-silver/5 p-3 text-left text-xs leading-relaxed text-text-sub">
+        <div className="mt-4 max-h-40 overflow-y-auto rounded-lg border border-silver/15 bg-silver/5 p-3 text-left text-xs leading-[1.2] text-text-sub">
           {streamingText}
         </div>
       ) : (

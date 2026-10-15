@@ -50,7 +50,7 @@ export function FieldProblemSection() {
         <ul className="mx-auto grid max-w-4xl gap-3 md:grid-cols-2">
           {PROTOTYPE_SHOWROOM_PROBLEM.painPoints.map((point) => (
             <IllustrationReveal key={point}>
-              <li className="flex gap-3 rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-pure)] px-4 py-4 text-[15px] leading-relaxed text-[var(--color-text-secondary)]">
+              <li className="flex gap-3 rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-pure)] px-4 py-4 text-[15px] leading-[1.2] text-[var(--color-text-secondary)]">
                 <span
                   className="mt-[0.55rem] h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--color-accent-primary)]"
                   aria-hidden
@@ -61,7 +61,7 @@ export function FieldProblemSection() {
           ))}
         </ul>
         <IllustrationReveal>
-          <p className="mx-auto mt-12 max-w-3xl text-center text-[17px] font-semibold leading-[1.8] text-[var(--color-text-primary)] md:text-[18px]">
+          <p className="mx-auto mt-12 max-w-3xl text-center text-[17px] font-semibold leading-[1.2] text-[var(--color-text-primary)] md:text-[18px]">
             {PROTOTYPE_SHOWROOM_PROBLEM.closing}
           </p>
         </IllustrationReveal>
@@ -92,7 +92,7 @@ export function WorkflowPrincipleSection() {
                 <h3 className="mt-2 text-[16px] font-semibold text-[var(--color-text-primary)]">
                   {step.title}
                 </h3>
-                <p className="mt-3 text-[15px] leading-relaxed text-[var(--color-text-secondary)]">
+                <p className="mt-3 text-[15px] leading-[1.2] text-[var(--color-text-secondary)]">
                   {step.description}
                 </p>
               </li>
@@ -100,7 +100,7 @@ export function WorkflowPrincipleSection() {
           ))}
         </ol>
         <IllustrationReveal>
-          <p className="mx-auto mt-12 max-w-3xl text-center text-[17px] font-semibold leading-[1.8] text-[var(--color-text-primary)] md:text-[18px]">
+          <p className="mx-auto mt-12 max-w-3xl text-center text-[17px] font-semibold leading-[1.2] text-[var(--color-text-primary)] md:text-[18px]">
             {PROTOTYPE_SHOWROOM_CORE_FLOW.closing}
           </p>
         </IllustrationReveal>
@@ -128,10 +128,10 @@ export function CrossIndustrySection() {
                 <h3 className="text-[16px] font-semibold text-[var(--color-text-primary)]">
                   {structure.label}
                 </h3>
-                <p className="mt-3 text-[15px] leading-relaxed text-[var(--color-text-secondary)]">
+                <p className="mt-3 text-[15px] leading-[1.2] text-[var(--color-text-secondary)]">
                   {structure.examples.join(" → ")}
                 </p>
-                <p className="mt-4 font-mono text-[13px] leading-relaxed text-[var(--color-accent-primary)]">
+                <p className="mt-4 font-mono text-[13px] leading-[1.2] text-[var(--color-accent-primary)]">
                   {structure.principle}
                 </p>
               </article>
@@ -139,7 +139,7 @@ export function CrossIndustrySection() {
           ))}
         </div>
         <IllustrationReveal>
-          <p className="mx-auto mt-12 max-w-3xl text-center text-[17px] font-semibold leading-[1.8] text-[var(--color-text-primary)] md:text-[18px]">
+          <p className="mx-auto mt-12 max-w-3xl text-center text-[17px] font-semibold leading-[1.2] text-[var(--color-text-primary)] md:text-[18px]">
             {PROTOTYPE_SHOWROOM_CROSS_INDUSTRY.closing}
           </p>
         </IllustrationReveal>
@@ -180,7 +180,7 @@ export function PrototypeToBusinessSection() {
           </div>
         </IllustrationReveal>
         <IllustrationReveal>
-          <p className="mx-auto mt-12 max-w-3xl text-center text-[17px] font-semibold leading-[1.8] text-[var(--color-text-primary)] md:text-[18px]">
+          <p className="mx-auto mt-12 max-w-3xl text-center text-[17px] font-semibold leading-[1.2] text-[var(--color-text-primary)] md:text-[18px]">
             {PROTOTYPE_SHOWROOM_TO_BUSINESS.closing}
           </p>
         </IllustrationReveal>
@@ -203,7 +203,7 @@ export function CollaborationSection() {
           />
         </IllustrationReveal>
         <IllustrationReveal>
-          <p className="mx-auto max-w-3xl text-center text-[16px] leading-[1.85] text-[var(--color-text-secondary)]">
+          <p className="mx-auto max-w-3xl text-center text-[16px] leading-[1.2] text-[var(--color-text-secondary)]">
             {PROTOTYPE_SHOWROOM_COLLABORATION.body}
           </p>
         </IllustrationReveal>
@@ -260,7 +260,7 @@ export function FinalCtaSection() {
             {PROTOTYPE_SHOWROOM_FINAL_CTA.signals.map((signal) => (
               <li
                 key={signal}
-                className="text-[16px] leading-relaxed text-[var(--color-text-secondary)]"
+                className="text-[16px] leading-[1.2] text-[var(--color-text-secondary)]"
               >
                 「{signal}」
               </li>
@@ -268,7 +268,7 @@ export function FinalCtaSection() {
           </ul>
         </IllustrationReveal>
         <IllustrationReveal>
-          <p className="mx-auto mt-8 max-w-2xl text-center text-[16px] leading-relaxed text-[var(--color-text-secondary)]">
+          <p className="mx-auto mt-8 max-w-2xl text-center text-[16px] leading-[1.2] text-[var(--color-text-secondary)]">
             {PROTOTYPE_SHOWROOM_FINAL_CTA.closing}
           </p>
         </IllustrationReveal>

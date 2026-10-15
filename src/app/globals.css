@@ -5,6 +5,7 @@
 
 /* Design Tokens - docs/デザイン要件.md */
 :root {
+  --line-height-body: 1.2;
   --color-base: #fafaf8;
   --color-base-dark: #f4f4f2;
   --color-bg-base: #fafaf8;
@@ -351,9 +352,17 @@
   }
   body {
     @apply bg-background text-foreground;
+    line-height: var(--line-height-body);
   }
   html {
     @apply font-sans;
+  }
+  p,
+  li,
+  dd,
+  figcaption,
+  blockquote {
+    line-height: var(--line-height-body);
   }
 }
 
@@ -505,4 +514,14 @@
 }
 @media (prefers-reduced-motion: reduce) {
   [data-scroll-reveal-unit="true"] { opacity: 1 !important; transition: none !important; }
+}
+
+/* 本文行間 1.2: Tailwind leading-* / CSS Modules の上書き（見出し要素は対象外） */
+p,
+li,
+dd,
+figcaption,
+blockquote,
+td {
+  line-height: var(--line-height-body) !important;
 }

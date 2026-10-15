@@ -78,7 +78,7 @@ export function MiniSfaDealDetail({
 
       <div>
         <p className="text-[11px] font-medium text-text-sub md:text-sm">相談概要</p>
-        <p className="mt-1 text-xs leading-relaxed text-text md:text-[15px]">
+        <p className="mt-1 text-xs leading-[1.2] text-text md:text-[15px]">
           {deal.summary}
         </p>
       </div>

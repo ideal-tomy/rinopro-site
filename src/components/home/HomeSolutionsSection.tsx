@@ -18,7 +18,7 @@ const { solutions } = homeLandingCopy;
 
 const PILLAR_LABEL = {
   consulting: "コンサルティング",
-  insourcing: "半内製化（FED）",
+  insourcing: "半内製化（FDE）",
 } as const;
 
 const SOLUTION_ICONS: Record<(typeof solutions.items)[number]["iconKey"], LucideIcon> = {
@@ -57,7 +57,7 @@ export function HomeSolutionsSection() {
                 <h3 className="mt-2 text-[20px] font-semibold leading-snug text-[var(--color-text-primary)]">
                   {item.title}
                 </h3>
-                <p className="mt-3 text-[16px] leading-[1.8] text-[var(--color-text-secondary)]">
+                <p className="mt-3 text-[16px] leading-[1.2] text-[var(--color-text-secondary)]">
                   {item.body}
                 </p>
               </article>

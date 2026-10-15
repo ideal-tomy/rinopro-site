@@ -27,7 +27,7 @@ export function CaseStudyBeforeAfter({
         <p className="mt-3 text-[13px] font-semibold text-[var(--color-text-tertiary)]">
           {beforeTitle}
         </p>
-        <p className="mt-3 text-[15px] leading-[1.85] text-[var(--color-text-secondary)] md:text-[16px]">
+        <p className="mt-3 text-[15px] leading-[1.2] text-[var(--color-text-secondary)] md:text-[16px]">
           {beforeBody}
         </p>
       </div>
@@ -56,7 +56,7 @@ export function CaseStudyBeforeAfter({
         <p className="mt-3 text-[13px] font-semibold text-[var(--color-accent-primary)]">
           {afterTitle}
         </p>
-        <p className="mt-3 text-[15px] leading-[1.85] text-[var(--color-text-primary)] md:text-[16px]">
+        <p className="mt-3 text-[15px] leading-[1.2] text-[var(--color-text-primary)] md:text-[16px]">
           {afterBody}
         </p>
       </div>

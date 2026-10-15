@@ -468,7 +468,7 @@ export function ConstructionPhotoInspectionExperience({
                 <p className="mb-2 text-xs text-text-sub">
                   写真とピン座標を前提にした、現場所長・安全担当者向けの下書きイメージです。
                 </p>
-                <pre className="max-h-[min(60vh,28rem)] overflow-auto whitespace-pre-wrap break-words rounded-lg border border-silver/20 bg-base-dark/90 p-3 text-[13px] leading-relaxed text-text md:text-sm">
+                <pre className="max-h-[min(60vh,28rem)] overflow-auto whitespace-pre-wrap break-words rounded-lg border border-silver/20 bg-base-dark/90 p-3 text-[13px] leading-[1.2] text-text md:text-sm">
                   {result.inspectionReportDraft}
                 </pre>
               </div>
