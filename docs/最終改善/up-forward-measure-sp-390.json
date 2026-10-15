@@ -1,0 +1,23 @@
+{
+  "measuredAt": "2026-10-16T04:07:38+09:00",
+  "url": "https://upforward.co.jp/service",
+  "viewport": { "width": 390, "height": 844, "clientWidth": 375, "scrollWidth": 375 },
+  "layout": {
+    "headerFixedHeightPx": 68,
+    "headerPadding": "20px 20px 0px",
+    "gutterH1LeftPx": 48,
+    "gutterConceptLeftPx": 20,
+    "stickyLocalMenu": "display:none",
+    "headerCta": "display:none"
+  },
+  "typography": {
+    "h1": { "fontSize": "18px", "lineHeight": "27px", "letterSpacing": "0.72px" },
+    "h2Concept": { "fontSize": "28px", "lineHeight": "42px" },
+    "h3Service": { "fontSize": "28px", "lineHeight": "42px" },
+    "upEngine": { "fontSize": "70.272px", "lineHeight": "63.2448px" },
+    "lead": { "fontSize": "16px", "lineHeight": "33.6px", "fontWeight": "600" },
+    "supportSectionH3": { "fontSize": "20px", "lineHeight": "20px", "letterSpacing": "1.6px" },
+    "serviceNumber": { "fontSize": "40px", "lineHeight": "40px", "color": "rgb(255, 122, 0)" },
+    "testimonial": { "fontSize": "14px", "lineHeight": "25.2px", "fontWeight": "600" }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "measuredAt": "2026-10-16T04:06:52+09:00",
+  "url": "https://upforward.co.jp/service",
+  "viewport": { "width": 1440, "height": 900, "clientWidth": 1425 },
+  "breakpoints": [
+    "screen and (max-width: 1350px)",
+    "screen and (max-width: 540px)"
+  ],
+  "colors": {
+    "bodyBg": "rgb(247, 247, 247)",
+    "textPrimary": "rgb(35, 35, 35)",
+    "accentOrange": "rgb(255, 122, 0)",
+    "flowAccent": "rgb(255, 115, 1)",
+    "beforeBadgeBg": "rgb(93, 93, 93)"
+  },
+  "layout": {
+    "headerFixedHeightPx": 94,
+    "headerPadding": "28px 56px 0px",
+    "gutterH1LeftPx": 88,
+    "gutterConceptLeftPx": 56,
+    "stickyLocalMenuWidthPx": 259,
+    "stickyLocalMenuLeftPx": 56,
+    "servicePortraitDisplayPx": { "width": 255, "height": 351 },
+    "landscape1240Assets": "display:none in DOM",
+    "flowStepsHorizontal": true,
+    "flowStepLabelWidthPx": 153,
+    "beforeAfterBadgePx": 56,
+    "beforeAfterGapPx": 468
+  },
+  "fonts": [
+    "Shippori Antique B1",
+    "Nyghtserif Regular",
+    "Nyghtserif Regularitalic",
+    "Satoshi Bold",
+    "Hiragino Sans"
+  ]
+}

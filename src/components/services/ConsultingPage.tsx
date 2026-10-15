@@ -144,7 +144,7 @@ export function ConsultingPage() {
 
       <section
         id="consulting-examples"
-        className={`${shared.section} ${styles.consultingMobileSection}`}
+        className={`${shared.section} ${styles.consultingMobileSection} ${styles.examplesSection}`}
         aria-labelledby="examples-heading"
       >
         <div className={shared.container}>

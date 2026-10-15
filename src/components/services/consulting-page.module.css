@@ -802,74 +802,132 @@
   align-items: center;
 }
 
-.examples {
-  padding: 56px 0 0;
-  list-style: none;
-  border-bottom: 1px solid #d9e2ee;
+.examplesSection {
+  background: linear-gradient(180deg, #fff 0%, #f8fafc 48%, #fff 100%);
 }
-.examples > li {
+
+.examples {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 840px;
+  margin-top: 48px;
+  padding: 0;
+  list-style: none;
+}
+.exampleItem {
+  display: flex;
+  flex-direction: column;
+  padding: 32px 28px 28px;
+  border: 1px solid #d9e2ee;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 10px 28px rgb(19 33 57 / 5%);
+}
+.exampleCase {
+  color: #1658c8;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: var(--line-height-body, 1.5);
+  letter-spacing: 0.16em;
+}
+.exampleScenario {
+  margin-top: 14px;
+}
+.examples .exampleProblem {
+  color: #132139;
+  font-size: clamp(18px, 2.1vw, 22px);
+  font-weight: 700;
+  line-height: 1.5;
+}
+.exampleProblem span,
+.exampleFocus span {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+.exampleProblem span {
+  display: inline-block;
+}
+.exampleDiagram {
+  width: 100%;
+  margin: 22px 0 0;
+  padding: 18px 16px;
+  border: 1px solid #e2eaf4;
+  border-radius: 12px;
+  background: #f6f8fb;
+}
+.exampleDiagramSteps {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px 16px;
+  padding: 0;
+  list-style: none;
+}
+.exampleDiagramStep {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: #132139;
+  font-size: 15px;
+  line-height: var(--line-height-body, 1.5);
+  white-space: nowrap;
+}
+.exampleDiagramIcon {
   display: grid;
-  grid-template-columns: minmax(0, 43%) minmax(0, 1fr);
-  column-gap: 6%;
-  padding-block: 40px;
-  border-top: 1px solid #d9e2ee;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: 1.5px solid #1658c8;
+  border-radius: 10px;
+  background: #fff;
+  color: #1658c8;
+}
+.exampleDiagramIcon svg {
+  width: 22px;
+  height: 22px;
+}
+.exampleDiagramArrow {
+  display: grid;
+  place-items: center;
+  height: 48px;
+  color: #8aa4c8;
+}
+.exampleDiagramArrow svg {
+  width: 18px;
+  height: 18px;
+}
+.exampleConsider {
+  margin-top: 24px;
+  padding: 22px 20px 20px;
+  border: 1px solid #e8edf4;
+  border-radius: 12px;
+  background: #f6f8fb;
 }
 .examples .exampleLabel {
   color: #42516a;
   font-size: 13px;
   font-weight: 700;
-  letter-spacing: 0.08em;
-}
-.examples .exampleProblem {
-  margin-top: 10px;
-  color: #132139;
-  font-size: 24px;
-  font-weight: 700;
   line-height: var(--line-height-body, 1.5);
+  letter-spacing: 0.06em;
 }
 .examples .exampleFocus {
-  margin-top: 10px;
+  margin-top: 8px;
   color: #1658c8;
-  font-size: 20px;
+  font-size: clamp(17px, 1.9vw, 20px);
   font-weight: 700;
-  line-height: var(--line-height-body, 1.5);
+  line-height: 1.5;
 }
-.exampleProblem span,
 .exampleFocus span {
-  word-break: keep-all;
-  overflow-wrap: anywhere;
-}
-.exampleProblem span {
-  display: block;
+  display: inline-block;
 }
 .examples .exampleBody {
   margin-top: 12px;
   color: #42516a;
   font-size: 16px;
   line-height: var(--line-height-body, 1.5);
-}
-
-@media (min-width: 900px) {
-  .exampleTop {
-    display: contents;
-  }
-  .exampleArrow,
-  .examples .exampleIcon {
-    display: none;
-  }
-  .exampleProblemCol {
-    display: block;
-    grid-column: 1;
-    grid-row: 1;
-  }
-  .exampleConsiderCol {
-    grid-column: 2;
-    grid-row: 1;
-  }
-  .examples .exampleBody {
-    grid-column: 2;
-    grid-row: 2;
-  }
 }
 
 .paper {
@@ -939,16 +997,23 @@
 }
 @media (max-width: 767px) {
   .examples {
-    padding-top: 40px;
+    gap: 16px;
+    margin-top: 36px;
   }
-  .examples .exampleProblem {
-    font-size: clamp(16px, 4.2vw, 18px);
+  .exampleItem {
+    padding: 24px 18px 22px;
+    border-radius: 14px;
   }
-  .examples .exampleFocus {
-    font-size: 15px;
+  .exampleConsider {
+    margin-top: 20px;
+    padding: 18px 16px 16px;
   }
-  .exampleFocus span {
-    display: block;
+  .exampleDiagram {
+    margin-top: 18px;
+    padding: 14px 12px;
+  }
+  .exampleDiagramSteps {
+    gap: 8px 10px;
   }
   .paper {
     padding: 24px 20px;
@@ -964,11 +1029,7 @@
   }
 }
 
-/* ご相談例・資料・CTA のモバイル表示（PCは上の既定スタイルのまま） */
-.exampleIcon,
-.exampleArrow {
-  display: none;
-}
+/* 資料・CTA のモバイル表示（PCは上の既定スタイルのまま） */
 @media (max-width: 899px) {
   .consultingMobileSection h2::before,
   .resultSection h2::before {
@@ -978,82 +1039,6 @@
     height: 3px;
     margin-bottom: 14px;
     background: #1658c8;
-  }
-
-  .examples {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    padding-top: 28px;
-    border-bottom: 0;
-  }
-  .examples > li {
-    display: flex;
-    flex-direction: column;
-    padding: 16px 14px 14px;
-    border: 1px solid #d4e3f5;
-    border-radius: 12px;
-    background: #f3f7fd;
-    box-shadow: 0 4px 14px rgb(22 88 200 / 6%);
-  }
-  .exampleTop {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 24px minmax(0, 1fr);
-    column-gap: 6px;
-    align-items: center;
-  }
-  .exampleProblemCol {
-    display: grid;
-    grid-template-columns: 34px minmax(0, 1fr);
-    column-gap: 8px;
-    align-items: start;
-  }
-  .examples .exampleIcon {
-    display: grid;
-    place-items: center;
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    background: #e8f2ff;
-    color: #1658c8;
-  }
-  .exampleIcon svg {
-    width: 18px;
-    height: 18px;
-  }
-  .examples .exampleLabel {
-    font-size: 12px;
-  }
-  .examples .exampleProblem {
-    margin-top: 4px;
-    font-size: clamp(15px, 3.8vw, 17px);
-    line-height: 1.45;
-  }
-  .examples .exampleArrow {
-    display: flex;
-    justify-content: center;
-    align-self: center;
-    color: #8aa4c8;
-  }
-  .exampleArrow svg {
-    width: 18px;
-    height: 18px;
-  }
-  .examples .exampleFocus {
-    margin-top: 4px;
-    font-size: 15px;
-    line-height: 1.45;
-  }
-  .exampleFocus span {
-    display: block;
-  }
-  .examples .exampleBody {
-    margin-top: 12px;
-    padding-top: 12px;
-    border-top: 1px solid #d9e2ee;
-    color: #334155;
-    font-size: 15px;
-    line-height: var(--line-height-body, 1.5);
   }
 
   .resultSection .resultSplit {

@@ -1,0 +1,68 @@
+{
+  "measuredAt": "2026-10-16T04:20:00+09:00",
+  "url": "https://upforward.co.jp/service",
+  "note": "Text nodes mostly margin:0; spacing from wrapper div margin-top",
+  "pc": {
+    "viewport": { "width": 1440, "clientWidth": 1425 },
+    "textMargins": {
+      "h1": "0",
+      "h2Concept": "-5px 0 0 0",
+      "h3": "0",
+      "leadP": "0",
+      "header": "0"
+    },
+    "visualGapsPx": {
+      "breadcrumb_to_h1": 36,
+      "h1_to_upEngine": 12,
+      "h2Concept_to_lead": 32,
+      "voice_h2_to_quote": 95,
+      "flow_h2_to_step1": 117,
+      "voice_h2_to_flow_h2": 521,
+      "flow_h2_to_contactCta": 836,
+      "cases_h2_to_column_h2": 641
+    },
+    "service01GapsPx": {
+      "h3_to_supportH3": 323,
+      "supportH3_to_firstItem": 63,
+      "concernsH3_to_before": 64
+    },
+    "serviceH3GapsPx": [1375, 1250, 1247, 1295, 845],
+    "wrapperMarginPattern": {
+      "serviceTitleRow_marginTop": "32px",
+      "serviceSummary_marginTop": "40px",
+      "artwork_marginTop": "99px",
+      "supportCluster_margin": "10px 10px 0 0",
+      "columnSpacer_margin": "0 10px",
+      "concernsBlock_marginTop": "64px",
+      "beforeAfter_marginTop": "40px",
+      "beforeAfter_marginBottom": "56px",
+      "localMenu_links_marginTop": "4px",
+      "localMenu_cta_marginTop": "18px"
+    }
+  },
+  "sp": {
+    "viewport": { "width": 390, "clientWidth": 375 },
+    "textMargins": {
+      "h1": "0",
+      "h2Concept": "-5px 0 0 0",
+      "h3": "0",
+      "leadP": "0"
+    },
+    "visualGapsPx": {
+      "breadcrumb_to_h1": 24,
+      "h1_to_upEngine": 8,
+      "h2Concept_to_lead": 24,
+      "voice_h2_to_quote": 68,
+      "flow_h2_to_step1": 201
+    },
+    "service01GapsPx": {
+      "h3_to_supportH3": 246,
+      "supportH3_to_firstItem": 49,
+      "concernsH3_to_before": 38
+    },
+    "serviceH3GapsPx": [1738, 1676, 1532, 1667, 1024],
+    "wrapperMarginPattern": {
+      "concernsBlock_marginTop": "48px"
+    }
+  }
+}
