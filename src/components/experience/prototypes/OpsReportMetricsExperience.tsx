@@ -223,7 +223,7 @@ export function OpsReportMetricsExperience({
             />
           </div>
 
-          <p className="text-sm leading-[1.2] text-text">{result.narrative}</p>
+          <p className="text-sm leading-[1.5] text-text">{result.narrative}</p>
 
           {derived && (
             <>
@@ -231,7 +231,7 @@ export function OpsReportMetricsExperience({
                 <p className="mb-2 text-xs font-medium text-text-sub">
                   今週のトピックス（モック分析）
                 </p>
-                <p className="text-sm leading-[1.2] text-text-sub md:text-[1rem]">
+                <p className="text-sm leading-[1.5] text-text-sub md:text-[1rem]">
                   {derived.topic}
                 </p>
               </div>

@@ -789,7 +789,7 @@ export function ChatContainer({ showLauncher = true }: ChatContainerProps) {
                         mode === "default" &&
                         delayedCtaConfig.textLinkCtas.length > 0 && (
                           <div className="px-4 py-2.5">
-                            <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs leading-[1.2]">
+                            <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs leading-[1.5]">
                               {delayedCtaConfig.textLinkCtas.map((cta) => (
                                 <Link
                                   key={cta.key}

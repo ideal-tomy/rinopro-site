@@ -17,7 +17,7 @@ export function EstimateDetailedRoughEstimateBody({ ctx, className }: Props) {
 
   return (
     <div className={className}>
-      <p className="text-sm leading-[1.2] text-text-sub">{copy.roughEstimateSubtitle}</p>
+      <p className="text-sm leading-[1.5] text-text-sub">{copy.roughEstimateSubtitle}</p>
       <dl className="mt-4 space-y-3 text-sm">
         <div>
           <dt className="font-medium text-text">{copy.roughTrackLabel}</dt>

@@ -581,7 +581,7 @@ export function EstimateDetailedHearingWizard({
                       {reviewAnswerPairs.map(({ question, answer, questionId }) => (
                         <div key={question} className="border-b border-silver/10 pb-3 last:border-b-0">
                           <dt className="text-[15px] font-semibold text-text">{question}</dt>
-                          <dd className="mt-1 whitespace-pre-wrap text-[15px] leading-[1.2] text-[var(--color-text-secondary)]">
+                          <dd className="mt-1 whitespace-pre-wrap text-[15px] leading-[1.5] text-[var(--color-text-secondary)]">
                             {answer}
                           </dd>
                           {questionId ? (
@@ -843,7 +843,7 @@ function HearingAnswerExamples({
       </p>
       <ul
         className={cn(
-          "mt-2.5 list-disc space-y-2 pl-4 leading-[1.2] text-text-sub marker:text-accent/50",
+          "mt-2.5 list-disc space-y-2 pl-4 leading-[1.5] text-text-sub marker:text-accent/50",
           compact ? "text-xs" : "text-sm"
         )}
       >
@@ -878,7 +878,7 @@ function StepBlock({
       ) : null}
       <p className="text-sm font-medium text-text">{title}</p>
       {whyMatters ? (
-        <p className="text-[11px] leading-[1.2] text-accent/90">{whyMatters}</p>
+        <p className="text-[11px] leading-[1.5] text-accent/90">{whyMatters}</p>
       ) : null}
       {hint ? <p className="text-xs text-text-sub">{hint}</p> : null}
       {children}

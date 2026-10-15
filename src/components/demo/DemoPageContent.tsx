@@ -34,7 +34,7 @@ export function DemoPageContent({ demos }: DemoPageContentProps) {
           <p className="mx-auto mt-3 max-w-2xl text-sm text-text-sub md:text-[1rem]">
             {demoHubCopy.intro}
           </p>
-          <p className="mx-auto mt-3 max-w-2xl text-sm leading-[1.2] text-text-sub md:text-[1rem]">
+          <p className="mx-auto mt-3 max-w-2xl text-sm leading-[1.5] text-text-sub md:text-[1rem]">
             {demoHubCopy.guide}
           </p>
           <div className="mx-auto mt-8 flex max-w-2xl justify-center">

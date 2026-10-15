@@ -15,7 +15,7 @@ export function ContactPageContent() {
         <h1 className="mb-4 text-2xl font-bold text-accent md:text-3xl">
           {contactCopy.title}
         </h1>
-        <p className="mb-8 text-[16px] leading-[1.2] text-text-sub">
+        <p className="mb-8 text-[16px] leading-[1.5] text-text-sub">
           {contactCopy.purpose}
         </p>
       </ScrollSequenceItem>
@@ -26,7 +26,7 @@ export function ContactPageContent() {
 
       <ScrollSequenceItem thresholds={[0.24, 0.42]}>
         <aside className="mt-10 rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-pure)] p-5 md:p-6">
-          <p className="text-sm leading-[1.2] text-text-sub">{contactCopy.depthPromptLine}</p>
+          <p className="text-sm leading-[1.5] text-text-sub">{contactCopy.depthPromptLine}</p>
           <p className="mt-3 text-sm">
             <Link
               href="/estimate-detailed"
@@ -34,7 +34,7 @@ export function ContactPageContent() {
             >
               {contactCopy.estimateShortcutCta}
             </Link>
-            <span className="mt-2 block text-xs leading-[1.2] text-text-sub">
+            <span className="mt-2 block text-xs leading-[1.5] text-text-sub">
               {contactCopy.estimateShortcutHint}
             </span>
           </p>

@@ -626,7 +626,7 @@ export function HomeConciergeFlow({
 
           {current.kind === "root" && (
             <div className="space-y-4">
-              <h3 className="text-center text-[14px] font-semibold leading-[1.2] tracking-wide text-text/95 sm:text-[16px]">
+              <h3 className="text-center text-[14px] font-semibold leading-[1.5] tracking-wide text-text/95 sm:text-[16px]">
                 いま一番ほしい状態に近いものを選んでください
               </h3>
               <div className="flex flex-col gap-3">
@@ -655,7 +655,7 @@ export function HomeConciergeFlow({
                   戻る
                 </button>
               </div>
-              <h3 className="text-[14px] font-semibold leading-[1.2] tracking-wide text-text/95 sm:text-[16px]">
+              <h3 className="text-[14px] font-semibold leading-[1.5] tracking-wide text-text/95 sm:text-[16px]">
                 {current.step.question}
               </h3>
               <div
@@ -736,7 +736,7 @@ function FreeformStep({
           戻る
         </button>
       </div>
-      <p className="text-[12px] leading-[1.2] text-text/95 sm:text-sm">
+      <p className="text-[12px] leading-[1.5] text-text/95 sm:text-sm">
         「{choiceLabel}」について、簡単で構いませんのでご記入ください。
       </p>
       <Textarea
@@ -893,7 +893,7 @@ function DoneStep({
               {parseBoldLine(abParts.headline)}
             </p>
             {abParts.sub ? (
-              <p className="mt-3 text-[13px] leading-[1.2] text-text/90 sm:text-[16px]">
+              <p className="mt-3 text-[13px] leading-[1.5] text-text/90 sm:text-[16px]">
                 {parseBoldLine(abParts.sub)}
               </p>
             ) : null}
@@ -907,7 +907,7 @@ function DoneStep({
               />
             ) : null}
             {abParts.detail ? (
-              <div className="mt-6 max-h-[min(38vh,320px)] overflow-y-auto border-t border-silver/15 pt-4 text-[12px] leading-[1.2] text-text/90 sm:text-sm">
+              <div className="mt-6 max-h-[min(38vh,320px)] overflow-y-auto border-t border-silver/15 pt-4 text-[12px] leading-[1.5] text-text/90 sm:text-sm">
                 {abParts.detail.split("\n").map((line, i) => (
                   <p key={`ab-${i}`} className="mb-1.5 last:mb-0">
                     {parseBoldLine(line)}
@@ -918,7 +918,7 @@ function DoneStep({
           </div>
         ) : cdeParts ? (
           <div className="rounded-2xl border border-silver/30 bg-[var(--color-bg-pure)] p-4 sm:p-6">
-            <div className="text-[10px] font-semibold leading-[1.2] tracking-wide text-text/95 sm:text-[16px]">
+            <div className="text-[10px] font-semibold leading-[1.5] tracking-wide text-text/95 sm:text-[16px]">
               {cdeParts.intro.split("\n").map((line, i) => (
                 <p key={`ci-${i}`} className="mb-2 last:mb-0">
                   {parseBoldLine(line)}
@@ -935,7 +935,7 @@ function DoneStep({
               />
             ) : null}
             {cdeParts.selection ? (
-              <div className="mt-6 max-h-[min(32vh,280px)] overflow-y-auto border-t border-silver/15 pt-4 text-[10px] leading-[1.2] text-text/80 sm:text-sm">
+              <div className="mt-6 max-h-[min(32vh,280px)] overflow-y-auto border-t border-silver/15 pt-4 text-[10px] leading-[1.5] text-text/80 sm:text-sm">
                 {cdeParts.selection.split("\n").map((line, i) => (
                   <p key={`cs-${i}`} className="mb-1.5 last:mb-0">
                     {parseBoldLine(line)}

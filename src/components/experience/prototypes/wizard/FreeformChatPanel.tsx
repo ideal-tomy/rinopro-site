@@ -31,7 +31,7 @@ export function FreeformChatPanel({
       <h2 className="mb-3 text-base font-semibold text-accent md:text-lg">
         内容を具体的に書いてください
       </h2>
-      <p className="mb-4 rounded-lg border border-silver/15 bg-silver/5 p-2 text-xs leading-[1.2] text-text-sub">
+      <p className="mb-4 rounded-lg border border-silver/15 bg-silver/5 p-2 text-xs leading-[1.5] text-text-sub">
         選択済み: {contextLine}
       </p>
       <p className="mb-2 text-xs text-text-sub">

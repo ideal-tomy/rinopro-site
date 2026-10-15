@@ -17,7 +17,7 @@ export function HomeQuickStartCards() {
           <h3 className="text-[1rem] font-semibold text-text">
             {homeQuickStartCopy.consult.title}
           </h3>
-          <p className="mt-3 flex-1 whitespace-pre-line text-sm leading-[1.2] text-text-sub">
+          <p className="mt-3 flex-1 whitespace-pre-line text-sm leading-[1.5] text-text-sub">
             {homeQuickStartCopy.consult.body}
           </p>
           <HomeConsultCtaButton label={homeQuickStartCopy.consult.ctaLabel} />
@@ -26,7 +26,7 @@ export function HomeQuickStartCards() {
           <h3 className="text-[1rem] font-semibold text-text">
             {homeQuickStartCopy.experience.title}
           </h3>
-          <p className="mt-3 flex-1 whitespace-pre-line text-sm leading-[1.2] text-text-sub">
+          <p className="mt-3 flex-1 whitespace-pre-line text-sm leading-[1.5] text-text-sub">
             {homeQuickStartCopy.experience.body}
           </p>
           <Button asChild className="mt-5 w-full">
@@ -39,7 +39,7 @@ export function HomeQuickStartCards() {
           <h3 className="text-[1rem] font-semibold text-text">
             {homeQuickStartCopy.estimate.title}
           </h3>
-          <p className="mt-3 flex-1 whitespace-pre-line text-sm leading-[1.2] text-text-sub">
+          <p className="mt-3 flex-1 whitespace-pre-line text-sm leading-[1.5] text-text-sub">
             {homeQuickStartCopy.estimate.body}
           </p>
           <Button asChild className="mt-5 w-full">

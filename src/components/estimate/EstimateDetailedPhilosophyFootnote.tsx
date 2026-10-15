@@ -11,7 +11,7 @@ export function EstimateDetailedPhilosophyFootnote() {
       <p className="text-[16px] font-semibold leading-snug text-[var(--color-accent-primary)] md:text-lg">
         {ESTIMATE_PHILOSOPHY_MARKDOWN_HEADING}
       </p>
-      <p className="mt-3 text-[15px] leading-[1.2] text-[var(--color-accent-primary)]/90 md:text-[16px] md:leading-[1.2]">
+      <p className="mt-3 text-[15px] leading-[1.5] text-[var(--color-accent-primary)]/90 md:text-[16px] md:leading-[1.5]">
         {ESTIMATE_PHILOSOPHY_UI_PARAGRAPH}
       </p>
     </aside>

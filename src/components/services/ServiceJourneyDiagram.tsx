@@ -53,7 +53,7 @@ export function ServiceJourneyDiagram({ steps }: ServiceJourneyDiagramProps) {
                 <p className="mt-1 text-[17px] font-bold leading-snug text-[var(--color-text-primary)]">
                   {step.title}
                 </p>
-                <p className="mx-auto mt-2 max-w-[26ch] text-[14px] leading-[1.2] text-[var(--color-text-secondary)]">
+                <p className="mx-auto mt-2 max-w-[26ch] text-[14px] leading-[1.5] text-[var(--color-text-secondary)]">
                   {step.description}
                 </p>
               </div>
@@ -75,7 +75,7 @@ export function ServiceJourneyDiagram({ steps }: ServiceJourneyDiagramProps) {
               {step.duration}
             </p>
             <p className="mt-1 text-[17px] font-bold text-[var(--color-text-primary)]">{step.title}</p>
-            <p className="mt-2 text-[14px] leading-[1.2] text-[var(--color-text-secondary)]">{step.description}</p>
+            <p className="mt-2 text-[14px] leading-[1.5] text-[var(--color-text-secondary)]">{step.description}</p>
           </div>
         ))}
       </div>

@@ -275,7 +275,7 @@ export function DemoListContent({ demos }: DemoListContentProps) {
   return (
     <div className="space-y-10 pb-8 md:space-y-12">
       <section className="rounded-xl border border-silver/20 bg-base-dark/70 p-4 md:p-5">
-        <p className="text-sm leading-[1.2] text-text-sub">
+        <p className="text-sm leading-[1.5] text-text-sub">
           形式別の体験を試すか、カテゴリから横断して探せます。
         </p>
       </section>

@@ -6,7 +6,7 @@
     -apple-system, BlinkMacSystemFont, var(--font-noto-sans-jp), "Yu Gothic",
     sans-serif;
   font-size: 16px;
-  line-height: var(--line-height-body, 1.2);
+  line-height: var(--line-height-body, 1.5);
   word-break: normal;
   overflow-wrap: break-word;
 }
@@ -67,7 +67,7 @@
   text-wrap: balance;
   font-size: clamp(24px, 2.15vw, 30px);
   font-weight: 700;
-  line-height: var(--line-height-body, 1.2);
+  line-height: var(--line-height-body, 1.5);
   color: #0b1933;
   margin-block: 28px 22px;
 }
@@ -272,7 +272,7 @@
 }
 .page .note {
   font-size: 14px;
-  line-height: var(--line-height-body, 1.2);
+  line-height: var(--line-height-body, 1.5);
   margin-top: 16px;
 }
 .page .supportIntro {
@@ -361,7 +361,7 @@
 .stepCopy p {
   text-wrap: pretty;
   font-size: 17px;
-  line-height: var(--line-height-body, 1.2);
+  line-height: var(--line-height-body, 1.5);
 }
 .consultation {
   background: #0b1933;
@@ -551,7 +551,7 @@
   }
   .hero .enablementIntro {
     font-size: 14px;
-    line-height: var(--line-height-body, 1.2);
+    line-height: var(--line-height-body, 1.5);
   }
 }
 @media (max-width: 767px) {
@@ -793,7 +793,7 @@
     margin-top: 6px;
     color: #334155;
     font-size: 15px;
-    line-height: var(--line-height-body, 1.2);
+    line-height: var(--line-height-body, 1.5);
   }
 }
 .resultSplit {
@@ -825,14 +825,14 @@
   color: #132139;
   font-size: 24px;
   font-weight: 700;
-  line-height: var(--line-height-body, 1.2);
+  line-height: var(--line-height-body, 1.5);
 }
 .examples .exampleFocus {
   margin-top: 10px;
   color: #1658c8;
   font-size: 20px;
   font-weight: 700;
-  line-height: var(--line-height-body, 1.2);
+  line-height: var(--line-height-body, 1.5);
 }
 .exampleProblem span,
 .exampleFocus span {
@@ -846,7 +846,7 @@
   margin-top: 12px;
   color: #42516a;
   font-size: 16px;
-  line-height: var(--line-height-body, 1.2);
+  line-height: var(--line-height-body, 1.5);
 }
 
 @media (min-width: 900px) {
@@ -929,7 +929,7 @@
 .paper .paperRows dd {
   color: #132139;
   font-size: 15px;
-  line-height: var(--line-height-body, 1.2);
+  line-height: var(--line-height-body, 1.5);
 }
 
 @media (max-width: 899px) {
@@ -1053,7 +1053,7 @@
     border-top: 1px solid #d9e2ee;
     color: #334155;
     font-size: 15px;
-    line-height: var(--line-height-body, 1.2);
+    line-height: var(--line-height-body, 1.5);
   }
 
   .resultSection .resultSplit {

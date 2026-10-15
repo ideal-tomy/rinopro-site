@@ -18,7 +18,7 @@ export function ServicesConciergeFlow({
   return (
     <div className={cn("flex min-h-0 flex-1 flex-col overflow-y-auto", className)}>
       <div className="flex-1 space-y-4 p-4">
-        <h3 className="text-center text-[16px] font-semibold leading-[1.2] tracking-wide text-text/95">
+        <h3 className="text-center text-[16px] font-semibold leading-[1.5] tracking-wide text-text/95">
           どのご支援について知りたいですか？
         </h3>
         <div className="flex flex-col gap-3">

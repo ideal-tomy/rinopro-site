@@ -14,7 +14,7 @@ const components: Components = {
     <h4 className="mt-3 text-[16px] font-semibold text-[var(--color-accent-primary)] first:mt-0">{children}</h4>
   ),
   p: ({ children }) => (
-    <p className="mt-2 text-[15px] leading-[1.2] text-[var(--color-accent-primary)]/90 first:mt-0 md:text-[16px]">{children}</p>
+    <p className="mt-2 text-[15px] leading-[1.5] text-[var(--color-accent-primary)]/90 first:mt-0 md:text-[16px]">{children}</p>
   ),
   ul: ({ children }) => (
     <ul className="mt-2 list-inside list-disc space-y-1.5 pl-0.5 text-[15px] text-[var(--color-accent-primary)]/90 md:text-[16px]">
@@ -26,7 +26,7 @@ const components: Components = {
       {children}
     </ol>
   ),
-  li: ({ children }) => <li className="leading-[1.2]">{children}</li>,
+  li: ({ children }) => <li className="leading-[1.5]">{children}</li>,
   strong: ({ children }) => <strong className="font-semibold text-[var(--color-accent-primary)]">{children}</strong>,
 };
 

@@ -5,13 +5,13 @@
  */
 export const serviceReading = {
   /** 本文（左寄せ想定） */
-  body: "text-[16px] leading-[1.2] text-text/90 md:text-[1rem] md:leading-[1.2]",
+  body: "text-[16px] leading-[1.5] text-text/90 md:text-[1rem] md:leading-[1.5]",
   /** 本文（中央） */
   bodyCenter:
-    "text-center text-[16px] leading-[1.2] text-text/90 md:text-[1rem] md:leading-[1.2]",
+    "text-center text-[16px] leading-[1.5] text-text/90 md:text-[1rem] md:leading-[1.5]",
   /** 補助リード */
   leadMuted:
-    "text-sm leading-[1.2] text-text-sub/90 md:text-[1rem] md:leading-[1.2]",
+    "text-sm leading-[1.5] text-text-sub/90 md:text-[1rem] md:leading-[1.5]",
 } as const;
 
 /** 埋め込みコンテナの横余白（モバイル最低 16px 相当） */

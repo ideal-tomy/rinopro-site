@@ -199,7 +199,7 @@ export function ConciergeFabNudge() {
       >
         <p
           className={cn(
-            "w-full text-left text-[13px] leading-[1.2] text-[var(--color-text-secondary)] sm:text-sm",
+            "w-full text-left text-[13px] leading-[1.5] text-[var(--color-text-secondary)] sm:text-sm",
             "line-clamp-3 sm:line-clamp-none",
             rotationActive && "motion-safe:transition-opacity motion-safe:duration-200"
           )}

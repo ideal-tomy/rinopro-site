@@ -163,7 +163,7 @@ export function FlowTimelinePageContent({
           <h1 className="mb-6 text-4xl font-semibold tracking-tight text-accent md:text-5xl lg:text-[3.25rem] lg:leading-tight">
             {activeCopy.title}
           </h1>
-          <p className="mx-auto max-w-2xl text-lg leading-[1.2] text-text/85 md:text-xl">
+          <p className="mx-auto max-w-2xl text-lg leading-[1.5] text-text/85 md:text-xl">
             {activeCopy.purpose}
           </p>
         </motion.header>
@@ -400,7 +400,7 @@ export function FlowTimelinePageContent({
                             {step.labelJa}
                           </span>
                         </h2>
-                        <p className="mb-10 max-w-2xl text-center text-[1rem] leading-[1.2] text-text/90">
+                        <p className="mb-10 max-w-2xl text-center text-[1rem] leading-[1.5] text-text/90">
                           {step.body}
                         </p>
                       </div>
@@ -491,7 +491,7 @@ export function FlowTimelinePageContent({
                   </dt>
                   <dd
                     className={cn(
-                      "mt-3 text-[1rem] leading-[1.2] text-text/90",
+                      "mt-3 text-[1rem] leading-[1.5] text-text/90",
                       serviceReading.body,
                     )}
                   >

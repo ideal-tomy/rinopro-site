@@ -61,7 +61,7 @@ export function EstimateDetailedAmountContent() {
       <header className="space-y-2 text-center">
         <p className="text-sm font-medium text-accent">{copy.amountPageKicker}</p>
         <h1 className="text-2xl font-bold text-text md:text-3xl">{copy.amountPageTitle}</h1>
-        <p className="mx-auto max-w-xl text-sm leading-[1.2] text-text-sub">
+        <p className="mx-auto max-w-xl text-sm leading-[1.5] text-text-sub">
           {copy.amountPageSub}
         </p>
       </header>
@@ -79,7 +79,7 @@ export function EstimateDetailedAmountContent() {
           <span>{estimateHiMan}</span>
         </p>
         <p className="mt-2 text-[16px] font-medium text-text">{copy.amountHeroSuffix}</p>
-        <p className="mt-6 text-left text-sm font-medium leading-[1.2] text-text md:text-[16px]">
+        <p className="mt-6 text-left text-sm font-medium leading-[1.5] text-text md:text-[16px]">
           {copy.rangeDisclaimer}
         </p>
         {budgetVsEstimate === "within" ? (
@@ -98,7 +98,7 @@ export function EstimateDetailedAmountContent() {
           aria-label={copy.estimateDriversTitle}
         >
           <p className="text-sm font-semibold text-text">{copy.estimateDriversTitle}</p>
-          <ul className="mt-3 space-y-3 text-left text-[15px] leading-[1.2] text-text-sub md:text-[16px]">
+          <ul className="mt-3 space-y-3 text-left text-[15px] leading-[1.5] text-text-sub md:text-[16px]">
             {estimateDrivers.map((d, i) => (
               <li key={`${i}-${d.factor.slice(0, 24)}`} className="flex flex-col gap-0.5 border-b border-silver/10 pb-3 last:border-b-0 last:pb-0">
                 <span className="text-text">{d.factor}</span>
@@ -111,7 +111,7 @@ export function EstimateDetailedAmountContent() {
 
       <div className="rounded-xl border border-silver/20 bg-[var(--color-bg-pure)] p-4 md:p-5">
         <p className="text-sm font-semibold text-text">{copy.overviewTitleRecap}</p>
-        <p className="mt-2 text-[16px] leading-[1.2] text-text-sub">
+        <p className="mt-2 text-[16px] leading-[1.5] text-text-sub">
           {flow.ai.plainCustomerSummary}
         </p>
       </div>

@@ -140,7 +140,7 @@ async function renderInteractiveExperience(
             <summary className="cursor-pointer list-none text-sm text-accent underline-offset-2 hover:underline md:text-[16px] [&::-webkit-details-marker]:hidden">
               <span className="underline">この体験の説明（任意）</span>
             </summary>
-            <p className="mt-3 text-sm leading-[1.2] text-text-sub md:text-[16px]">
+            <p className="mt-3 text-sm leading-[1.5] text-text-sub md:text-[16px]">
               {meta.shortDescription}
             </p>
           </details>

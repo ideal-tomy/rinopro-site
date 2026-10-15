@@ -74,7 +74,7 @@ export function ExperienceGalleryPageContent() {
         >
           {hero.title}
         </h1>
-        <p className="mx-auto mt-5 max-w-[48ch] text-[16px] leading-[1.2] text-[var(--color-text-secondary)] md:mt-6 md:text-[17px]">
+        <p className="mx-auto mt-5 max-w-[48ch] text-[16px] leading-[1.5] text-[var(--color-text-secondary)] md:mt-6 md:text-[17px]">
           {hero.lead}
         </p>
       </section>
@@ -90,7 +90,7 @@ export function ExperienceGalleryPageContent() {
           >
             {flagshipSection.title}
           </h2>
-          <p className="mt-3 text-[15px] leading-[1.2] text-[var(--color-text-secondary)] md:text-[16px]">
+          <p className="mt-3 text-[15px] leading-[1.5] text-[var(--color-text-secondary)] md:text-[16px]">
             {flagshipSection.lead}
           </p>
           <ShowcaseGrid items={flagshipItems} />
@@ -111,7 +111,7 @@ export function ExperienceGalleryPageContent() {
         >
           {isFilteredView ? listSection.filteredTitle : listSection.title}
         </h2>
-        <p className="mt-3 text-[15px] leading-[1.2] text-[var(--color-text-secondary)] md:text-[16px]">
+        <p className="mt-3 text-[15px] leading-[1.5] text-[var(--color-text-secondary)] md:text-[16px]">
           {isFilteredView ? listSection.filteredLead : listSection.lead}
         </p>
 
@@ -160,7 +160,7 @@ export function ExperienceGalleryPageContent() {
           >
             {ctaSection.title}
           </h2>
-          <p className="mx-auto mt-5 max-w-[42ch] text-[16px] leading-[1.2] text-[var(--color-text-secondary)] md:text-[17px]">
+          <p className="mx-auto mt-5 max-w-[42ch] text-[16px] leading-[1.5] text-[var(--color-text-secondary)] md:text-[17px]">
             {ctaSection.lead}
           </p>
           <Button asChild size="lg" className="mt-10 gap-2">

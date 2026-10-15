@@ -275,7 +275,7 @@
   .poster .list {
     margin-inline: 8px;
     font-size: 12px;
-    line-height: var(--line-height-body, 1.2);
+    line-height: var(--line-height-body, 1.5);
   }
 
   .icon {

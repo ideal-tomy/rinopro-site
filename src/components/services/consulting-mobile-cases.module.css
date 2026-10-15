@@ -1,7 +1,7 @@
 .section .eyebrow { color: #234b9d; font-size: 14px; font-weight: 700; }
 .section .heading { margin-top: 10px; font-size: 38px; line-height: 1.5; letter-spacing: -0.025em; }
 .heading span { display: block; }
-.section .intro { margin-top: 16px; font-size: 16px; line-height: var(--line-height-body, 1.2); }
+.section .intro { margin-top: 16px; font-size: 16px; line-height: var(--line-height-body, 1.5); }
 .examples { margin-top: 32px; min-width: 0; }
 .examples .track { position: relative; padding: 0; margin: 0; list-style: none; }
 .card { border-top: 1px solid #d5e2f2; padding-block: 32px; }
@@ -28,7 +28,7 @@
   margin: 0;
   font-size: 26px;
   font-weight: 700;
-  line-height: var(--line-height-body, 1.2);
+  line-height: var(--line-height-body, 1.5);
   color: #0b1933;
   text-wrap: pretty;
 }
@@ -44,7 +44,7 @@
   color: #0758c4;
   font-size: 20px;
   font-weight: 700;
-  line-height: var(--line-height-body, 1.2);
+  line-height: var(--line-height-body, 1.5);
 }
 .conclusionMobile {
   display: none;
@@ -53,11 +53,11 @@
   margin-top: 12px;
   font-size: 16px;
   font-weight: 400;
-  line-height: var(--line-height-body, 1.2);
+  line-height: var(--line-height-body, 1.5);
   color: #24364b;
   text-wrap: pretty;
 }
-.section .note { margin-top: 20px; font-size: 13px; line-height: var(--line-height-body, 1.2); text-wrap: pretty; }
+.section .note { margin-top: 20px; font-size: 13px; line-height: var(--line-height-body, 1.5); text-wrap: pretty; }
 .position { display: none; }
 @media (max-width: 899px) {
   .section > div { width: calc(100% - 40px); padding-block: 40px; }
@@ -171,7 +171,7 @@
   .section .body {
     margin-top: 16px;
     font-size: 14px;
-    line-height: var(--line-height-body, 1.2);
+    line-height: var(--line-height-body, 1.5);
     color: #24364b;
     word-break: keep-all;
   }

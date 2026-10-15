@@ -204,7 +204,7 @@
 }
 .development p {
   font-size: 16px;
-  line-height: var(--line-height-body, 1.2);
+  line-height: var(--line-height-body, 1.5);
   color: #111;
 }
 .development .stepTitle {
@@ -258,7 +258,7 @@
 .development ul span {
   font-size: 14px;
   color: #111;
-  line-height: var(--line-height-body, 1.2);
+  line-height: var(--line-height-body, 1.5);
 }
 .development :global(.mt-16) {
   margin-top: 32px;
@@ -549,7 +549,7 @@
 .flowStepFrontSubtitle {
   margin: 6px 0 0;
   font-size: 0.875rem;
-  line-height: var(--line-height-body, 1.2);
+  line-height: var(--line-height-body, 1.5);
   color: #334155;
 }
 .flowStepIllustration {
@@ -615,7 +615,7 @@
 .flowStepBackLead {
   margin: 10px 0 0;
   font-size: 0.875rem;
-  line-height: var(--line-height-body, 1.2);
+  line-height: var(--line-height-body, 1.5);
   color: #334155;
 }
 .flowStepBackList {
@@ -626,7 +626,7 @@
 .flowStepBackList li {
   margin-top: 10px;
   font-size: 0.8125rem;
-  line-height: var(--line-height-body, 1.2);
+  line-height: var(--line-height-body, 1.5);
   color: #334155;
 }
 .flowStepBackList li:first-child {
@@ -660,7 +660,7 @@
 .flowStepBackSummaryText {
   margin: 4px 0 0;
   font-size: 0.8125rem;
-  line-height: var(--line-height-body, 1.2);
+  line-height: var(--line-height-body, 1.5);
   color: #fff;
 }
 .flowStepFlipButtonOnBand {
@@ -757,7 +757,7 @@
 }
 .stages h3.stageTitle > span { display: inline; }
 .stages li:last-child h3.stageTitle { color: #fff; }
-.page .stages p { margin-top: 10px; font-size: 15px; line-height: var(--line-height-body, 1.2); color: #243246; }
+.page .stages p { margin-top: 10px; font-size: 15px; line-height: var(--line-height-body, 1.5); color: #243246; }
 .page .stages li:last-child p { color: rgb(255 255 255 / 82%); }
 .stageArrow {
   position: absolute;
@@ -867,7 +867,7 @@
   margin: 0;
   font-size: 16px;
   font-weight: 400;
-  line-height: var(--line-height-body, 1.2);
+  line-height: var(--line-height-body, 1.5);
   color: #24364b;
 }
 .challengeArrow {
@@ -914,7 +914,7 @@
   .stageMeta svg { width: 30px; height: 30px; }
   .stageContent { grid-column: 2; }
   .stages h3.stageTitle { font-size: 17px; line-height: 1.45; }
-  .page .stages p { margin-top: 6px; font-size: 14px; line-height: var(--line-height-body, 1.2); }
+  .page .stages p { margin-top: 6px; font-size: 14px; line-height: var(--line-height-body, 1.5); }
   .stageArrow { bottom: -27px; }
   .page .afterDiagram { margin-top: 16px; font-size: 14px; }
   .checks button { flex-basis: 36%; min-height: 96px; padding: 12px 8px 10px; gap: 8px; font-size: 14px; }
@@ -958,7 +958,7 @@
 .checksSection .intro {
   margin-top: 16px;
   font-size: 16px;
-  line-height: var(--line-height-body, 1.2);
+  line-height: var(--line-height-body, 1.5);
   color: #24364b;
 }
 .preSupport {
@@ -1030,7 +1030,7 @@
   align-items: flex-start;
   font-size: 16px;
   font-weight: 400;
-  line-height: var(--line-height-body, 1.2);
+  line-height: var(--line-height-body, 1.5);
   color: #24364b;
 }
 @media (max-width: 1099px) {
@@ -1193,7 +1193,7 @@
   text-align: left;
   vertical-align: top;
   font-size: 16px;
-  line-height: var(--line-height-body, 1.2);
+  line-height: var(--line-height-body, 1.5);
 }
 .compareTable thead th {
   padding-block: 16px;

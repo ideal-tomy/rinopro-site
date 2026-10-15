@@ -542,7 +542,7 @@ export function ContactFormLegacy() {
             </span>
             <div className="min-w-0">
               <p className="text-[16px] font-semibold text-[var(--color-text-primary)]">{form.directGuideTitle}</p>
-              <p className="mt-2 text-sm leading-[1.2] text-[var(--color-text-secondary)]">
+              <p className="mt-2 text-sm leading-[1.5] text-[var(--color-text-secondary)]">
                 {form.directGuideBody}
               </p>
             </div>
@@ -570,7 +570,7 @@ export function ContactFormLegacy() {
       {effectiveBrief ? (
         <div className="space-y-3 rounded-xl border border-accent/25 bg-accent/5 p-4">
           <p className="text-sm font-medium text-text">{form.inquirySummaryTitle}</p>
-          <p className="text-sm leading-[1.2] text-text-sub">
+          <p className="text-sm leading-[1.5] text-text-sub">
             {form.inquirySummaryHint}
           </p>
           <dl className="grid gap-3 text-sm text-text md:grid-cols-2">
@@ -617,7 +617,7 @@ export function ContactFormLegacy() {
       ) : (
         <div className="space-y-3 rounded-xl border border-accent/25 bg-accent/5 p-4">
           <p className="text-sm font-medium text-text">{form.inquirySummaryTitle}</p>
-          <p className="text-sm leading-[1.2] text-text-sub">
+          <p className="text-sm leading-[1.5] text-text-sub">
             {form.inquirySummaryHint}
           </p>
           <dl className="grid gap-3 text-sm text-text md:grid-cols-2">
@@ -664,7 +664,7 @@ export function ContactFormLegacy() {
           </dl>
           {estimateSnapshot ? (
             <div className="space-y-2 rounded-lg border border-accent/20 bg-[var(--color-bg-pure)] p-3">
-              <p className="text-xs leading-[1.2] text-text-sub">
+              <p className="text-xs leading-[1.5] text-text-sub">
                 送信前に、この内容をもとに「送信される相談内容の要点」を作成してください。
               </p>
               <Button
@@ -695,7 +695,7 @@ export function ContactFormLegacy() {
                 {question.required ? "（必須）" : "（任意）"}
               </span>
               {question.helpText ? (
-                <span className="block text-xs leading-[1.2] text-text-sub">
+                <span className="block text-xs leading-[1.5] text-text-sub">
                   {question.helpText}
                 </span>
               ) : null}

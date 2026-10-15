@@ -202,7 +202,7 @@ export function EstimateDetailedMobileShell({
                   </h1>
                 ) : null}
                 {introIndex === 1 ? (
-                  <p className="text-[15px] leading-[1.2] text-white/90">
+                  <p className="text-[15px] leading-[1.5] text-white/90">
                     {copy.intro}
                   </p>
                 ) : null}
@@ -211,7 +211,7 @@ export function EstimateDetailedMobileShell({
                     <h2 className="text-center text-lg font-semibold text-accent">
                       {copy.sectionHearing}
                     </h2>
-                    <p className="text-center text-sm leading-[1.2] text-text-sub">
+                    <p className="text-center text-sm leading-[1.5] text-text-sub">
                       {copy.requirementDefinitionNote}
                       を、あとからAIがたたき台としてまとめます。
                     </p>
@@ -261,7 +261,7 @@ export function EstimateDetailedMobileShell({
             </Button>
           </div>
           {showPathPrefillNotice ? (
-            <p className="mb-2 rounded-lg border border-accent/25 bg-accent/10 px-3 py-2 text-[13px] leading-[1.2] text-white/90">
+            <p className="mb-2 rounded-lg border border-accent/25 bg-accent/10 px-3 py-2 text-[13px] leading-[1.5] text-white/90">
               {copy.pathPrefillFromChatNotice}
             </p>
           ) : null}

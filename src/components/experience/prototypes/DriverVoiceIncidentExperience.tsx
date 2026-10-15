@@ -581,7 +581,7 @@ export function DriverVoiceIncidentExperience({
                             : "(Impact)"}
                   </p>
                   {s.body ? (
-                    <p className="mt-1 text-sm leading-[1.2] text-text-sub">
+                    <p className="mt-1 text-sm leading-[1.5] text-text-sub">
                       <TypewriterText
                         key={`${s.laneId}-${typewriterRunId}`}
                         text={s.body}
@@ -603,7 +603,7 @@ export function DriverVoiceIncidentExperience({
             <h3 className="mb-3 text-sm font-semibold text-text md:text-[1rem]">
               荷主連絡メモ
             </h3>
-            <p className="whitespace-pre-wrap text-sm leading-[1.2] text-text-sub">
+            <p className="whitespace-pre-wrap text-sm leading-[1.5] text-text-sub">
               {shipperMemo}
             </p>
           </div>

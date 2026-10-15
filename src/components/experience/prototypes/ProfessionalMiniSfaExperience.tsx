@@ -101,7 +101,7 @@ export function ProfessionalMiniSfaExperience({
           )}
         >
           <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
-            <p className="text-xs leading-[1.2] text-text-sub md:text-[16px]">
+            <p className="text-xs leading-[1.5] text-text-sub md:text-[16px]">
               {DEMO_INTRO}
             </p>
             <div className="flex flex-wrap gap-2">
@@ -115,7 +115,7 @@ export function ProfessionalMiniSfaExperience({
               </Button>
             </div>
           </div>
-          <p className="mt-2 text-[11px] leading-[1.2] text-text-sub md:text-sm">
+          <p className="mt-2 text-[11px] leading-[1.5] text-text-sub md:text-sm">
             {DEMO_RESET_HINT}
           </p>
 
@@ -216,7 +216,7 @@ export function ProfessionalMiniSfaExperience({
       </div>
 
       <MiniSfaIntegrationPreview items={MINI_SFA_INTEGRATION_PREVIEW_ITEMS} />
-      <p className="mt-3 text-xs leading-[1.2] text-text-sub md:text-sm">
+      <p className="mt-3 text-xs leading-[1.5] text-text-sub md:text-sm">
         {DEMO_MODE_NOTE}
       </p>
 

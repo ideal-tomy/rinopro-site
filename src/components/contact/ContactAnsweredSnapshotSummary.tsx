@@ -21,7 +21,7 @@ export function ContactAnsweredSnapshotSummary({
     <div className="space-y-3 rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-base)] p-4">
       <p className="text-sm font-medium text-text">{title}</p>
       {hint ? (
-        <p className="text-sm leading-[1.2] text-text-sub">{hint}</p>
+        <p className="text-sm leading-[1.5] text-text-sub">{hint}</p>
       ) : null}
       <dl className="space-y-2 text-sm text-text">
         {pairs.map(({ question, answer }) => (

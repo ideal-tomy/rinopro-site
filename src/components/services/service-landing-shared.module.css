@@ -13,7 +13,7 @@
     -apple-system, BlinkMacSystemFont, var(--font-noto-sans-jp), "Yu Gothic",
     sans-serif;
   font-size: 16px;
-  line-height: var(--line-height-body, 1.2);
+  line-height: var(--line-height-body, 1.5);
   word-break: normal;
   overflow-wrap: break-word;
 }
@@ -97,14 +97,14 @@
   margin-top: 28px;
   color: var(--landing-body);
   font-size: 17px;
-  line-height: var(--line-height-body, 1.2);
+  line-height: var(--line-height-body, 1.5);
 }
 .page .heroStrong {
   margin-top: 14px;
   color: #173d83;
   font-size: 18px;
   font-weight: 700;
-  line-height: var(--line-height-body, 1.2);
+  line-height: var(--line-height-body, 1.5);
 }
 .actions {
   display: flex;
@@ -153,7 +153,7 @@
   color: var(--landing-accent);
   font-size: 12px;
   font-weight: 700;
-  line-height: var(--line-height-body, 1.2);
+  line-height: var(--line-height-body, 1.5);
   letter-spacing: 0.14em;
 }
 .page .label > span + span {
@@ -182,7 +182,7 @@
   margin-top: 24px;
   color: var(--landing-body);
   font-size: 16px;
-  line-height: var(--line-height-body, 1.2);
+  line-height: var(--line-height-body, 1.5);
 }
 .page .body + .body {
   margin-top: 16px;
@@ -191,7 +191,7 @@
   margin-top: 28px;
   color: var(--landing-body);
   font-size: 15px;
-  line-height: var(--line-height-body, 1.2);
+  line-height: var(--line-height-body, 1.5);
 }
 
 /* 左右分割（--split で左列幅、--split-gap で間隔を指定） */
@@ -225,20 +225,20 @@
   color: var(--landing-accent);
   font-size: 15px;
   font-weight: 700;
-  line-height: var(--line-height-body, 1.2);
+  line-height: var(--line-height-body, 1.5);
   letter-spacing: 0.06em;
 }
 .page .itemTitle {
   color: var(--landing-ink);
   font-size: 20px;
   font-weight: 700;
-  line-height: var(--line-height-body, 1.2);
+  line-height: var(--line-height-body, 1.5);
 }
 .page .itemBody {
   margin-top: 8px;
   color: var(--landing-body);
   font-size: 16px;
-  line-height: var(--line-height-body, 1.2);
+  line-height: var(--line-height-body, 1.5);
 }
 
 /* 上罫線で始まる工程（--steps で列数を指定） */

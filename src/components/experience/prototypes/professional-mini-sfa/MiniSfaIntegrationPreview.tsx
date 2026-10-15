@@ -40,7 +40,7 @@ export function MiniSfaIntegrationPreview({
                 {item.statusLabel}
               </span>
             </div>
-            <p className="mt-2 text-xs leading-[1.2] text-text-sub md:text-sm">
+            <p className="mt-2 text-xs leading-[1.5] text-text-sub md:text-sm">
               {item.description}
             </p>
           </article>

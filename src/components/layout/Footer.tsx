@@ -16,7 +16,7 @@ export function Footer() {
         <Link href="/" className="site-footer-brand hidden">AXEON</Link>
         <div className="text-center md:text-left">
           <p className="text-sm text-[var(--color-text-primary)]">{footerCopy.tagline}</p>
-          <p className="mt-1 text-xs leading-[1.2] text-[var(--color-text-secondary)]">
+          <p className="mt-1 text-xs leading-[1.5] text-[var(--color-text-secondary)]">
             {footerCopy.subline}
           </p>
         </div>

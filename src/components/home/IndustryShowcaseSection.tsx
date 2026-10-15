@@ -31,7 +31,7 @@ export function IndustryShowcaseSection({
           >
             {industryShowcaseSectionCopy.heading}
           </HeadingTag>
-          <p className="mx-auto mb-8 max-w-[40ch] text-center text-[17px] leading-[1.2] text-[var(--color-text-secondary)] md:mb-10 md:max-w-2xl md:text-[18px]">
+          <p className="mx-auto mb-8 max-w-[40ch] text-center text-[17px] leading-[1.5] text-[var(--color-text-secondary)] md:mb-10 md:max-w-2xl md:text-[18px]">
             {industryShowcaseSectionCopy.intro}
           </p>
         </>

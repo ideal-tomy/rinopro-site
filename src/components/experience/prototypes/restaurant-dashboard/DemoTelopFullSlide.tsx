@@ -18,7 +18,7 @@ export function DemoTelopFullSlide({ text, className }: DemoTelopFullSlideProps)
         className
       )}
     >
-      <p className="max-w-md text-center text-sm font-medium leading-[1.2] !text-white sm:text-base">
+      <p className="max-w-md text-center text-sm font-medium leading-[1.5] !text-white sm:text-base">
         {text}
       </p>
       <p className="mt-6 text-[10px] !text-emerald-300/90">次の画面に進みます…</p>

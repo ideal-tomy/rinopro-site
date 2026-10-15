@@ -138,7 +138,7 @@ function ManufacturingShowcase() {
               回答
             </p>
             <p
-              className={`text-sm leading-[1.2] text-gray-800 transition-opacity duration-500 ${
+              className={`text-sm leading-[1.5] text-gray-800 transition-opacity duration-500 ${
                 isComplete || logs.length > 1 ? "opacity-100" : "opacity-25"
               }`}
             >
@@ -157,7 +157,7 @@ function ManufacturingShowcase() {
               {sourceTitle}
             </p>
             <p
-              className={`mt-2 text-xs leading-[1.2] text-[var(--site-fg-muted)] transition-opacity duration-500 ${
+              className={`mt-2 text-xs leading-[1.5] text-[var(--site-fg-muted)] transition-opacity duration-500 ${
                 isComplete ? "opacity-100" : "opacity-25"
               }`}
             >
@@ -340,7 +340,7 @@ function FeaturedText({ demo }: { demo: TopFeaturedDemo }) {
       >
         {demo.title}
       </h3>
-      <p className="mb-3 line-clamp-2 text-sm leading-[1.2] text-[var(--site-fg)]/85 md:mb-6 md:line-clamp-none md:text-lg">
+      <p className="mb-3 line-clamp-2 text-sm leading-[1.5] text-[var(--site-fg)]/85 md:mb-6 md:line-clamp-none md:text-lg">
         {demo.lead}
       </p>
       <div className="hidden space-y-2 text-sm md:block">

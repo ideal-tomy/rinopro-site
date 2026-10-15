@@ -15,7 +15,7 @@ export function HomeMissionSection() {
         id="home-mission-heading"
         title={mission.heading}
       />
-      <div className="mx-auto max-w-3xl space-y-5 text-[16px] leading-[1.2] text-[var(--color-text-secondary)] md:text-[17px]">
+      <div className="mx-auto max-w-3xl space-y-5 text-[16px] leading-[1.5] text-[var(--color-text-secondary)] md:text-[17px]">
         {mission.leadParagraphs.map((paragraph) => (
           <p key={paragraph}>{paragraph}</p>
         ))}
@@ -24,7 +24,7 @@ export function HomeMissionSection() {
       <div className="mt-12">
         <MissionContrastDiagram />
       </div>
-      <div className="mx-auto mt-10 max-w-3xl space-y-4 text-[16px] leading-[1.2] text-[var(--color-text-secondary)] md:text-[17px]">
+      <div className="mx-auto mt-10 max-w-3xl space-y-4 text-[16px] leading-[1.5] text-[var(--color-text-secondary)] md:text-[17px]">
         {mission.footerParagraphs.map((paragraph) => (
           <p key={paragraph}>{paragraph}</p>
         ))}

@@ -76,7 +76,7 @@ function Illustration({
         className="mx-auto w-full max-w-4xl rounded-xl border border-[var(--lp-ink)]/10 bg-white"
       />
       {asset.note ? (
-        <figcaption className="mt-2 text-center text-sm leading-[1.2] text-slate-500">
+        <figcaption className="mt-2 text-center text-sm leading-[1.5] text-slate-500">
           {asset.note}
         </figcaption>
       ) : null}
@@ -131,7 +131,7 @@ export function IndustryLpPage({ config }: { config: IndustryLpConfig }) {
             <p className="mb-3 text-lg font-semibold leading-snug text-[var(--lp-ink)] md:text-xl [text-wrap:balance]">
               {config.hero.subline}
             </p>
-            <p className="mb-6 text-[16px] leading-[1.2] text-slate-600 md:text-lg md:leading-8">
+            <p className="mb-6 text-[16px] leading-[1.5] text-slate-600 md:text-lg md:leading-8">
               {config.hero.body}
             </p>
             <div className="mb-6 flex flex-col gap-3 sm:flex-row">
@@ -153,7 +153,7 @@ export function IndustryLpPage({ config }: { config: IndustryLpConfig }) {
               />
             </div>
             {config.hero.visual.note ? (
-              <p className="mt-2 text-center text-sm leading-[1.2] text-slate-500">
+              <p className="mt-2 text-center text-sm leading-[1.5] text-slate-500">
                 {config.hero.visual.note}
               </p>
             ) : null}
@@ -199,7 +199,7 @@ export function IndustryLpPage({ config }: { config: IndustryLpConfig }) {
           <h2 className="mb-3 text-2xl font-bold tracking-tight text-[var(--lp-ink)] md:text-4xl [text-wrap:balance]">
             {config.problem.headline}
           </h2>
-          <p className="mb-8 max-w-3xl text-lg leading-[1.2] text-slate-700 md:text-xl md:leading-8">
+          <p className="mb-8 max-w-3xl text-lg leading-[1.5] text-slate-700 md:text-xl md:leading-8">
             {config.problem.lead}
           </p>
 
@@ -220,7 +220,7 @@ export function IndustryLpPage({ config }: { config: IndustryLpConfig }) {
                   <h3 className="mb-2 font-bold text-[var(--lp-ink)]">
                     {item.title}
                   </h3>
-                  <p className="text-[16px] leading-[1.2] text-slate-600">
+                  <p className="text-[16px] leading-[1.5] text-slate-600">
                     {item.body}
                   </p>
                 </div>
@@ -232,7 +232,7 @@ export function IndustryLpPage({ config }: { config: IndustryLpConfig }) {
             <p className="text-lg font-bold leading-snug text-[var(--lp-ink)] md:text-xl">
               {config.problem.summary.headline}
             </p>
-            <p className="mt-2 text-[16px] leading-[1.2] text-slate-600">
+            <p className="mt-2 text-[16px] leading-[1.5] text-slate-600">
               {config.problem.summary.body}
             </p>
           </div>
@@ -255,7 +255,7 @@ export function IndustryLpPage({ config }: { config: IndustryLpConfig }) {
               {config.recurringProblems.closing.line1}
             </p>
             {config.recurringProblems.closing.line2 ? (
-              <p className="mt-2 text-[16px] leading-[1.2] text-slate-600">
+              <p className="mt-2 text-[16px] leading-[1.5] text-slate-600">
                 {config.recurringProblems.closing.line2}
               </p>
             ) : null}
@@ -270,11 +270,11 @@ export function IndustryLpPage({ config }: { config: IndustryLpConfig }) {
           <h2 className="mb-3 text-2xl font-bold tracking-tight text-[var(--lp-ink)] md:text-4xl [text-wrap:balance]">
             {config.fit.headline}
           </h2>
-          <p className="mb-8 max-w-3xl text-lg leading-[1.2] text-slate-700 md:text-xl md:leading-8">
+          <p className="mb-8 max-w-3xl text-lg leading-[1.5] text-slate-700 md:text-xl md:leading-8">
             {config.fit.lead}
           </p>
           {config.fit.scopeNote ? (
-            <p className="mb-6 text-sm leading-[1.2] text-slate-500">
+            <p className="mb-6 text-sm leading-[1.5] text-slate-500">
               {config.fit.scopeNote}
             </p>
           ) : null}
@@ -291,16 +291,16 @@ export function IndustryLpPage({ config }: { config: IndustryLpConfig }) {
                 <h3 className="mb-2 font-bold leading-snug text-[var(--lp-ink)]">
                   {c.title}
                 </h3>
-                <p className="text-[16px] leading-[1.2] text-slate-600">
+                <p className="text-[16px] leading-[1.5] text-slate-600">
                   {c.body}
                 </p>
               </div>
             ))}
           </div>
-          <p className="mt-6 text-[16px] font-medium leading-[1.2] text-[var(--lp-ink)]">
+          <p className="mt-6 text-[16px] font-medium leading-[1.5] text-[var(--lp-ink)]">
             {config.fit.affirm}
           </p>
-          <p className="mt-3 text-sm leading-[1.2] text-slate-500">
+          <p className="mt-3 text-sm leading-[1.5] text-slate-500">
             {config.fit.exclude}
           </p>
         </div>
@@ -313,7 +313,7 @@ export function IndustryLpPage({ config }: { config: IndustryLpConfig }) {
           <h2 className="mb-3 text-2xl font-bold tracking-tight text-[var(--lp-ink)] md:text-4xl [text-wrap:balance]">
             {config.usecases.headline}
           </h2>
-          <p className="mb-8 max-w-3xl text-lg leading-[1.2] text-slate-700 md:text-xl md:leading-8">
+          <p className="mb-8 max-w-3xl text-lg leading-[1.5] text-slate-700 md:text-xl md:leading-8">
             {config.usecases.lead}
           </p>
           <div className="grid gap-4 sm:grid-cols-2">
@@ -325,19 +325,19 @@ export function IndustryLpPage({ config }: { config: IndustryLpConfig }) {
                 <p className="text-xs font-semibold uppercase tracking-wide text-[var(--lp-primary)]">
                   {u.industry}
                 </p>
-                <p className="mt-1 text-sm leading-[1.2] text-slate-500">
+                <p className="mt-1 text-sm leading-[1.5] text-slate-500">
                   {u.scope}
                 </p>
-                <p className="mt-3 rounded-xl bg-[var(--lp-primary)]/[0.07] px-4 py-3 text-[16px] font-bold leading-[1.2] text-slate-900 md:text-[17px] md:leading-8">
+                <p className="mt-3 rounded-xl bg-[var(--lp-primary)]/[0.07] px-4 py-3 text-[16px] font-bold leading-[1.5] text-slate-900 md:text-[17px] md:leading-8">
                   「{u.quote}」
                 </p>
-                <p className="mt-3 text-[16px] leading-[1.2] text-slate-600">
+                <p className="mt-3 text-[16px] leading-[1.5] text-slate-600">
                   {u.body}
                 </p>
               </div>
             ))}
           </div>
-          <p className="mt-6 text-sm leading-[1.2] text-slate-500">
+          <p className="mt-6 text-sm leading-[1.5] text-slate-500">
             {config.usecases.more}
           </p>
         </div>
@@ -350,7 +350,7 @@ export function IndustryLpPage({ config }: { config: IndustryLpConfig }) {
           <h2 className="mb-3 text-2xl font-bold tracking-tight text-[var(--lp-ink)] md:text-4xl [text-wrap:balance]">
             {config.partsCatalog.headline}
           </h2>
-          <p className="mb-8 max-w-2xl text-lg leading-[1.2] text-slate-700 md:text-xl md:leading-8">
+          <p className="mb-8 max-w-2xl text-lg leading-[1.5] text-slate-700 md:text-xl md:leading-8">
             {config.partsCatalog.lead}
           </p>
           {config.partsCatalog.diagram ? (
@@ -371,10 +371,10 @@ export function IndustryLpPage({ config }: { config: IndustryLpConfig }) {
                 <h3 className="mt-1 text-lg font-bold text-[var(--lp-ink)]">
                   {part.name}
                 </h3>
-                <p className="mt-2 flex-1 text-[16px] leading-[1.2] text-slate-600">
+                <p className="mt-2 flex-1 text-[16px] leading-[1.5] text-slate-600">
                   {part.body}
                 </p>
-                <p className="mt-2 text-sm leading-[1.2] text-slate-500">
+                <p className="mt-2 text-sm leading-[1.5] text-slate-500">
                   {part.standalone === false
                     ? `先に必要: ${(part.dependsOn ?? []).join("、")}`
                     : "単独で利用できます"}
@@ -401,7 +401,7 @@ export function IndustryLpPage({ config }: { config: IndustryLpConfig }) {
               </article>
             ))}
           </div>
-          <p className="mt-6 text-[16px] font-medium leading-[1.2] text-[var(--lp-ink)]">
+          <p className="mt-6 text-[16px] font-medium leading-[1.5] text-[var(--lp-ink)]">
             {config.partsCatalog.closing}
           </p>
         </div>
@@ -459,7 +459,7 @@ export function IndustryLpPage({ config }: { config: IndustryLpConfig }) {
 
           {activeTab ? (
             <div role="tabpanel" className="text-center">
-              <p className="mb-4 text-[16px] font-medium leading-[1.2] text-[var(--lp-ink)]">
+              <p className="mb-4 text-[16px] font-medium leading-[1.5] text-[var(--lp-ink)]">
                 {activeTab.caption}
               </p>
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -468,7 +468,7 @@ export function IndustryLpPage({ config }: { config: IndustryLpConfig }) {
                 alt={activeTab.image.alt}
                 className="mx-auto w-full rounded-xl border border-[var(--lp-ink)]/10 object-cover shadow-sm"
               />
-              <p className="mt-3 text-sm leading-[1.2] text-slate-500">
+              <p className="mt-3 text-sm leading-[1.5] text-slate-500">
                 {activeTab.image.note ?? config.resultTabs.note}
               </p>
             </div>
@@ -483,7 +483,7 @@ export function IndustryLpPage({ config }: { config: IndustryLpConfig }) {
           <h2 className="mb-3 text-2xl font-bold tracking-tight text-[var(--lp-ink)] md:text-4xl [text-wrap:balance]">
             {config.comparison.headline}
           </h2>
-          <p className="mb-6 max-w-3xl text-lg leading-[1.2] text-slate-700 md:text-xl md:leading-8">
+          <p className="mb-6 max-w-3xl text-lg leading-[1.5] text-slate-700 md:text-xl md:leading-8">
             {config.comparison.lead}
           </p>
           <table className="w-full min-w-[560px] border-collapse text-left text-[16px]">
@@ -517,7 +517,7 @@ export function IndustryLpPage({ config }: { config: IndustryLpConfig }) {
               ))}
             </tbody>
           </table>
-          <p className="mt-4 text-sm leading-[1.2] text-slate-500">
+          <p className="mt-4 text-sm leading-[1.5] text-slate-500">
             {config.comparison.fairnessNote}
           </p>
         </div>
@@ -530,7 +530,7 @@ export function IndustryLpPage({ config }: { config: IndustryLpConfig }) {
           <h2 className="mb-3 text-2xl font-bold tracking-tight text-[var(--lp-ink)] md:text-4xl [text-wrap:balance]">
             {config.growth.headline}
           </h2>
-          <p className="mb-8 max-w-3xl text-lg leading-[1.2] text-slate-700 md:text-xl md:leading-8">
+          <p className="mb-8 max-w-3xl text-lg leading-[1.5] text-slate-700 md:text-xl md:leading-8">
             {config.growth.lead}
           </p>
           <div className="grid gap-4 md:grid-cols-3">
@@ -545,13 +545,13 @@ export function IndustryLpPage({ config }: { config: IndustryLpConfig }) {
                 <h3 className="mt-1 font-bold text-[var(--lp-ink)]">
                   {c.title}
                 </h3>
-                <p className="mt-2 text-[16px] leading-[1.2] text-slate-600">
+                <p className="mt-2 text-[16px] leading-[1.5] text-slate-600">
                   {c.body}
                 </p>
               </div>
             ))}
           </div>
-          <p className="mt-6 text-[16px] leading-[1.2] text-slate-600">
+          <p className="mt-6 text-[16px] leading-[1.5] text-slate-600">
             {config.growth.closing}
           </p>
         </div>
@@ -573,7 +573,7 @@ export function IndustryLpPage({ config }: { config: IndustryLpConfig }) {
           <h2 className="mb-3 text-2xl font-bold tracking-tight text-[var(--lp-ink)] md:text-4xl [text-wrap:balance]">
             {config.process.headline}
           </h2>
-          <p className="mb-8 max-w-3xl text-lg leading-[1.2] text-slate-700 md:text-xl md:leading-8">
+          <p className="mb-8 max-w-3xl text-lg leading-[1.5] text-slate-700 md:text-xl md:leading-8">
             {config.process.lead}
           </p>
           <div className="grid gap-4 md:grid-cols-3">
@@ -591,13 +591,13 @@ export function IndustryLpPage({ config }: { config: IndustryLpConfig }) {
                 <p className="mt-1 text-sm font-semibold text-[var(--lp-primary)]">
                   {s.costLabel}
                 </p>
-                <p className="mt-2 text-[16px] leading-[1.2] text-slate-600">
+                <p className="mt-2 text-[16px] leading-[1.5] text-slate-600">
                   {s.body}
                 </p>
               </div>
             ))}
           </div>
-          <p className="mt-6 text-sm leading-[1.2] text-slate-500">
+          <p className="mt-6 text-sm leading-[1.5] text-slate-500">
             {config.process.exitNote}
           </p>
         </div>
@@ -629,7 +629,7 @@ export function IndustryLpPage({ config }: { config: IndustryLpConfig }) {
                     </span>
                   </button>
                   {isOpen ? (
-                    <p className="pb-4 text-[16px] leading-[1.2] text-slate-600">
+                    <p className="pb-4 text-[16px] leading-[1.5] text-slate-600">
                       {item.a}
                     </p>
                   ) : null}
@@ -649,7 +649,7 @@ export function IndustryLpPage({ config }: { config: IndustryLpConfig }) {
           <h2 className="mb-3 text-2xl font-bold tracking-tight text-white md:text-4xl [text-wrap:balance]">
             {config.finalCta.headline}
           </h2>
-          <p className="mb-6 text-lg leading-[1.2] text-white/90 md:text-xl md:leading-8">
+          <p className="mb-6 text-lg leading-[1.5] text-white/90 md:text-xl md:leading-8">
             {config.finalCta.body}
           </p>
           <ul className="mb-8 flex flex-wrap gap-3 text-[16px] text-white/85">
@@ -672,7 +672,7 @@ export function IndustryLpPage({ config }: { config: IndustryLpConfig }) {
             <h3 className="mb-1 text-lg font-bold text-[var(--lp-primary)]">
               {config.finalCta.contactLabel}
             </h3>
-            <p className="mb-6 text-sm leading-[1.2] text-slate-500">
+            <p className="mb-6 text-sm leading-[1.5] text-slate-500">
               入力は約1分です。1営業日以内にご連絡します。
             </p>
             <Link

@@ -136,7 +136,7 @@ export function ServiceClaimReplyExperience({
               <p className="text-xs font-semibold uppercase tracking-wide text-amber-200/90">
                 AIメモ：いま一番怒っているポイント
               </p>
-              <p className="mt-1 text-sm leading-[1.2] text-text md:text-[1rem]">
+              <p className="mt-1 text-sm leading-[1.5] text-text md:text-[1rem]">
                 {result.angerFocus}
               </p>
             </div>
@@ -201,7 +201,7 @@ export function ServiceClaimReplyExperience({
                         setBodyAt(selectedVariantIndex, e.target.value)
                       }
                       rows={9}
-                      className="min-h-[200px] resize-y text-sm leading-[1.2] text-text md:text-[1rem]"
+                      className="min-h-[200px] resize-y text-sm leading-[1.5] text-text md:text-[1rem]"
                       aria-label={`${selectedLabel}の返信本文`}
                     />
                   </motion.div>
@@ -244,7 +244,7 @@ export function ServiceClaimReplyExperience({
               <h3 className="mb-2 text-sm font-semibold text-text md:text-[1rem]">
                 社内共有メモ
               </h3>
-              <p className="whitespace-pre-wrap text-sm leading-[1.2] text-text-sub md:text-[1rem]">
+              <p className="whitespace-pre-wrap text-sm leading-[1.5] text-text-sub md:text-[1rem]">
                 {result.internal}
               </p>
             </div>

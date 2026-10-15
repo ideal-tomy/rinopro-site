@@ -36,7 +36,7 @@ export function HomeWhyPillars() {
                 <h3 className="mt-6 text-balance text-xl font-semibold leading-snug text-white md:mt-7 md:text-2xl md:leading-snug">
                   {item.title}
                 </h3>
-                <p className="mt-4 flex-1 text-[16px] leading-[1.2] text-white/[0.85] md:text-[17px]">
+                <p className="mt-4 flex-1 text-[16px] leading-[1.5] text-white/[0.85] md:text-[17px]">
                   {item.body}
                 </p>
                 <div className="mt-10 md:mt-12">

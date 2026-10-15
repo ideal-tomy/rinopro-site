@@ -26,10 +26,10 @@ export function ShowcaseHero() {
           >
             {PROTOTYPE_SHOWROOM_HERO.title}
           </h1>
-          <p className="mt-6 max-w-[42ch] text-[17px] leading-[1.2] text-[var(--color-text-secondary)] md:text-[18px]">
+          <p className="mt-6 max-w-[42ch] text-[17px] leading-[1.5] text-[var(--color-text-secondary)] md:text-[18px]">
             {PROTOTYPE_SHOWROOM_HERO.subtitle}
           </p>
-          <p className="mt-6 font-mono text-[11px] leading-[1.2] tracking-[0.08em] text-[var(--color-text-secondary)] md:text-xs">
+          <p className="mt-6 font-mono text-[11px] leading-[1.5] tracking-[0.08em] text-[var(--color-text-secondary)] md:text-xs">
             {PROTOTYPE_SHOWROOM_HERO.flowLine}
           </p>
           <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap">

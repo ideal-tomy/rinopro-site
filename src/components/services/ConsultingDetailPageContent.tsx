@@ -130,7 +130,7 @@ export function ConsultingDetailPageContent({
                   <span className="text-[15px] font-semibold text-[var(--color-accent-primary)] md:text-[16px]">
                     {item.label}
                   </span>
-                  <span className="mt-2 text-[15px] leading-[1.2] text-text-sub md:text-[16px]">
+                  <span className="mt-2 text-[15px] leading-[1.5] text-text-sub md:text-[16px]">
                     {item.tagline}
                   </span>
                   <span className="mt-4 text-[14px] font-semibold text-[var(--color-accent-primary)] underline-offset-4 group-hover:underline">

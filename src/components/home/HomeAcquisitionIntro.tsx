@@ -31,10 +31,10 @@ export function HomeAcquisitionIntro() {
         >
           {homeAcquisitionHeroCopy.empathyHeading}
         </h2>
-        <p className="whitespace-pre-line text-center text-sm leading-[1.2] text-text-sub md:text-[1rem]">
+        <p className="whitespace-pre-line text-center text-sm leading-[1.5] text-text-sub md:text-[1rem]">
           {homeAcquisitionHeroCopy.empathyLead}
         </p>
-        <p className="mt-6 text-center text-sm leading-[1.2] text-text-sub md:mt-8 md:text-[1rem]">
+        <p className="mt-6 text-center text-sm leading-[1.5] text-text-sub md:mt-8 md:text-[1rem]">
           {homeAcquisitionHeroCopy.empathyClosing}
         </p>
       </section>

@@ -89,7 +89,7 @@ export function IndustryLpRoiSection({
         <h2 className="mb-3 text-2xl font-bold tracking-tight text-slate-900 md:text-4xl [text-wrap:balance]">
           {headline}
         </h2>
-        <p className="mb-8 max-w-3xl text-lg leading-[1.2] text-slate-700 md:text-xl md:leading-8">
+        <p className="mb-8 max-w-3xl text-lg leading-[1.5] text-slate-700 md:text-xl md:leading-8">
           {lead}
         </p>
 
@@ -119,7 +119,7 @@ export function IndustryLpRoiSection({
                 }
                 className="w-full accent-[var(--lp-primary)]"
               />
-              <p className="mt-1 text-[14px] leading-[1.2] text-slate-500">
+              <p className="mt-1 text-[14px] leading-[1.5] text-slate-500">
                 {s.note}
               </p>
             </label>
@@ -128,7 +128,7 @@ export function IndustryLpRoiSection({
 
         <div className="mt-10 grid gap-4 sm:grid-cols-2">
           <div className="rounded-xl border border-slate-200 bg-[var(--lp-surface)] p-5">
-            <p className="text-[14px] leading-[1.2] text-slate-500">
+            <p className="text-[14px] leading-[1.5] text-slate-500">
               {config.outputs.lossLabel}
             </p>
             <p className="mt-1 text-2xl font-bold tabular-nums text-slate-900">
@@ -136,7 +136,7 @@ export function IndustryLpRoiSection({
             </p>
           </div>
           <div className="rounded-xl border border-[var(--lp-primary)]/30 bg-[var(--lp-primary)]/5 p-5">
-            <p className="text-[14px] leading-[1.2] text-slate-500">
+            <p className="text-[14px] leading-[1.5] text-slate-500">
               {config.outputs.recoverableLabel}
             </p>
             <p className="mt-1 text-2xl font-bold tabular-nums text-[var(--lp-primary)]">
@@ -145,7 +145,7 @@ export function IndustryLpRoiSection({
           </div>
           {hasLeadTime ? (
             <div className="rounded-xl border border-[var(--lp-primary)]/25 bg-[var(--lp-primary)]/5 p-5 sm:col-span-2">
-              <p className="text-[14px] leading-[1.2] text-slate-500">
+              <p className="text-[14px] leading-[1.5] text-slate-500">
                 {leadTimeLabel}
               </p>
               <p className="mt-1 text-xl font-bold tracking-tight text-[var(--lp-primary)] md:text-2xl">
@@ -155,7 +155,7 @@ export function IndustryLpRoiSection({
           ) : null}
           {payback && config.outputs.paybackLabel ? (
             <div className="rounded-xl border border-slate-200 bg-white p-5 sm:col-span-2">
-              <p className="text-[14px] leading-[1.2] text-slate-500">
+              <p className="text-[14px] leading-[1.5] text-slate-500">
                 {config.outputs.paybackLabel}
               </p>
               <p className="mt-1 text-xl font-semibold text-slate-900">
@@ -165,7 +165,7 @@ export function IndustryLpRoiSection({
           ) : null}
         </div>
 
-        <p className="mt-6 text-[14px] leading-[1.2] text-slate-500">
+        <p className="mt-6 text-[14px] leading-[1.5] text-slate-500">
           {config.disclaimer}
         </p>
 

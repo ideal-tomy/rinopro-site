@@ -34,19 +34,19 @@ export function IndustryShowcaseCard({
           <h3 className="text-balance text-[1rem] font-semibold text-white md:text-lg">
             {item.label}
           </h3>
-          <p className="mt-1 text-[15px] leading-[1.2] text-white/85 md:text-[16px]">{item.tagline}</p>
+          <p className="mt-1 text-[15px] leading-[1.5] text-white/85 md:text-[16px]">{item.tagline}</p>
         </div>
       </div>
       <div className="p-7 md:p-8">
-        <p className="text-[15px] leading-[1.2] text-[var(--color-text-secondary)] md:text-[16px]">
+        <p className="text-[15px] leading-[1.5] text-[var(--color-text-secondary)] md:text-[16px]">
           <span className="font-semibold text-[var(--color-text-primary)]">よくある負荷</span>
           <span className="mt-3 block font-normal">{item.painHint}</span>
         </p>
-        <p className="mt-5 text-[15px] leading-[1.2] text-[var(--color-text-secondary)] md:text-[16px]">
+        <p className="mt-5 text-[15px] leading-[1.5] text-[var(--color-text-secondary)] md:text-[16px]">
           <span className="font-semibold text-[var(--color-text-primary)]">改善のヒント</span>
           <span className="mt-3 block font-normal">{item.solutionHint}</span>
         </p>
-        <p className="mt-5 text-[15px] font-semibold leading-[1.2] text-[var(--color-accent-primary)] underline-offset-4 group-hover:underline md:text-[16px]">
+        <p className="mt-5 text-[15px] font-semibold leading-[1.5] text-[var(--color-accent-primary)] underline-offset-4 group-hover:underline md:text-[16px]">
           詳しく見る
         </p>
       </div>

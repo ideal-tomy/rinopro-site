@@ -81,7 +81,7 @@ export function ServicesDetailIntroImage({
         </div>
       </div>
 
-      <figcaption className="border-t border-[var(--color-border-light)] bg-[var(--color-bg-pure)] px-4 py-3 text-center text-[13px] leading-[1.2] text-[var(--color-text-secondary)] md:px-5 md:text-[14px]">
+      <figcaption className="border-t border-[var(--color-border-light)] bg-[var(--color-bg-pure)] px-4 py-3 text-center text-[13px] leading-[1.5] text-[var(--color-text-secondary)] md:px-5 md:text-[14px]">
         {highlight === "consulting" ? (
           <>
             <span className={HIGHLIGHT_TEXT_CLASS}>

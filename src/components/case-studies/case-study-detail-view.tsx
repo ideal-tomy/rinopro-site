@@ -140,7 +140,7 @@ function SectionHeading({
         {title}
       </h2>
       {lead ? (
-        <p className="mt-4 max-w-[52ch] text-[15px] leading-[1.2] text-[var(--color-text-secondary)] md:text-[16px]">
+        <p className="mt-4 max-w-[52ch] text-[15px] leading-[1.5] text-[var(--color-text-secondary)] md:text-[16px]">
           {lead}
         </p>
       ) : null}
@@ -220,7 +220,7 @@ export function CaseStudyDetailView({
               <h1 className="mt-4 max-w-[16ch] text-balance text-[clamp(2.1rem,5vw,3.4rem)] font-bold leading-[1.1] tracking-tight">
                 {detail.heroTitle}
               </h1>
-              <p className="mt-6 max-w-[40ch] text-[17px] leading-[1.2] text-[var(--color-text-secondary)] md:text-[18px]">
+              <p className="mt-6 max-w-[40ch] text-[17px] leading-[1.5] text-[var(--color-text-secondary)] md:text-[18px]">
                 {detail.heroSubtitle}
               </p>
 
@@ -250,7 +250,7 @@ export function CaseStudyDetailView({
               </ul>
 
               {detail.whoFor ? (
-                <p className="mt-4 max-w-[44ch] text-[14px] leading-[1.2] text-[var(--color-text-tertiary)] md:text-[15px]">
+                <p className="mt-4 max-w-[44ch] text-[14px] leading-[1.5] text-[var(--color-text-tertiary)] md:text-[15px]">
                   <span className="font-semibold text-[var(--color-text-secondary)]">
                     想定ユーザー：
                   </span>
@@ -344,7 +344,7 @@ export function CaseStudyDetailView({
                 kicker="overview"
                 title="プロダクト概要"
               />
-              <div className="max-w-[54ch] space-y-5 text-[16px] leading-[1.2] text-[var(--color-text-secondary)] md:text-[17px]">
+              <div className="max-w-[54ch] space-y-5 text-[16px] leading-[1.5] text-[var(--color-text-secondary)] md:text-[17px]">
                 {detail.overviewParagraphs.map((p, i) => (
                   <p key={`overview-${i}`}>{p}</p>
                 ))}
@@ -411,7 +411,7 @@ export function CaseStudyDetailView({
                     <h3 className="mt-2 text-[16px] font-semibold text-[var(--color-text-primary)] md:text-[17px]">
                       {pain.title}
                     </h3>
-                    <p className="mt-2 text-[14px] leading-[1.2] text-[var(--color-text-secondary)] md:text-[15px]">
+                    <p className="mt-2 text-[14px] leading-[1.5] text-[var(--color-text-secondary)] md:text-[15px]">
                       {pain.body}
                     </p>
                   </li>
@@ -445,7 +445,7 @@ export function CaseStudyDetailView({
                         {f.title}
                       </h3>
                     </div>
-                    <p className="mt-4 text-[14px] leading-[1.2] text-[var(--color-text-secondary)] md:text-[15px]">
+                    <p className="mt-4 text-[14px] leading-[1.5] text-[var(--color-text-secondary)] md:text-[15px]">
                       {f.description}
                     </p>
                   </li>
@@ -466,7 +466,7 @@ export function CaseStudyDetailView({
                 title="画面イメージ"
               />
               {detail.galleryNote ? (
-                <p className="mb-8 max-w-[54ch] text-[14px] leading-[1.2] text-[var(--color-text-tertiary)] md:text-[15px]">
+                <p className="mb-8 max-w-[54ch] text-[14px] leading-[1.5] text-[var(--color-text-tertiary)] md:text-[15px]">
                   {detail.galleryNote}
                 </p>
               ) : null}
@@ -482,7 +482,7 @@ export function CaseStudyDetailView({
                         sizes="(max-width: 768px) 100vw, 900px"
                       />
                     </div>
-                    <figcaption className="border-t border-[var(--color-border-light)] px-5 py-4 text-[14px] leading-[1.2] text-[var(--color-text-secondary)] md:px-6 md:text-[15px]">
+                    <figcaption className="border-t border-[var(--color-border-light)] px-5 py-4 text-[14px] leading-[1.5] text-[var(--color-text-secondary)] md:px-6 md:text-[15px]">
                       {detail.gallery[0].caption}
                     </figcaption>
                   </figure>
@@ -503,7 +503,7 @@ export function CaseStudyDetailView({
                             sizes="(max-width: 768px) 100vw, 45vw"
                           />
                         </div>
-                        <figcaption className="border-t border-[var(--color-border-light)] px-4 py-3 text-[14px] leading-[1.2] text-[var(--color-text-secondary)] md:px-5 md:py-4">
+                        <figcaption className="border-t border-[var(--color-border-light)] px-4 py-3 text-[14px] leading-[1.5] text-[var(--color-text-secondary)] md:px-5 md:py-4">
                           {g.caption}
                         </figcaption>
                       </figure>
@@ -541,7 +541,7 @@ export function CaseStudyDetailView({
                     >
                       <CaseStudyCheck className="size-3.5" />
                     </span>
-                    <p className="text-[15px] leading-[1.2] text-[var(--color-text-secondary)] md:text-[16px]">
+                    <p className="text-[15px] leading-[1.5] text-[var(--color-text-secondary)] md:text-[16px]">
                       {line}
                     </p>
                   </li>
@@ -562,7 +562,7 @@ export function CaseStudyDetailView({
                 title="実際に触ってみる"
               />
               <div className="overflow-hidden rounded-2xl border border-[var(--color-accent-primary)]/25 bg-[var(--color-accent-primary-light)]/40 p-7 md:p-9">
-                <p className="max-w-[46ch] text-[15px] leading-[1.2] text-[var(--color-text-primary)] md:text-[16px]">
+                <p className="max-w-[46ch] text-[15px] leading-[1.5] text-[var(--color-text-primary)] md:text-[16px]">
                   デモ環境は公開URLまたは自サイト内の体験ページから開けます。操作感をご確認いただいたうえで、要件のすり合わせに進めます。
                 </p>
                 <div className="mt-7">
@@ -640,7 +640,7 @@ export function CaseStudyDetailView({
             >
               貴社向けの実装を相談する
             </h2>
-            <p className="mt-5 max-w-[46ch] text-[15px] leading-[1.2] text-[var(--color-bg-pure)]/85 md:text-[16px]">
+            <p className="mt-5 max-w-[46ch] text-[15px] leading-[1.5] text-[var(--color-bg-pure)]/85 md:text-[16px]">
               画面はサンプルです。権限設計・連携・運用まで含めて、構想整理から実装まで一気通貫でご提案します。
             </p>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
