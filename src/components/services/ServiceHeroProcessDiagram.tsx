@@ -149,15 +149,19 @@ export function ServiceHeroProcessDiagram({
                 </div>
                 <ProcessStageIcon stageId={stage.id} className={styles.icon} />
                 <p className={styles.label}>何をするか</p>
-                <ul className={styles.list}>
+                <ul className={`${styles.list} ${styles.listWhatWeDo}`}>
                   {stage.detail.whatWeDo.map((item) => (
                     <li key={item}>{item}</li>
                   ))}
                 </ul>
-                <p className={styles.label}>なぜ必要か</p>
-                <p className={styles.body}>{stage.detail.whyNeeded}</p>
-                <p className={styles.label}>お客様から必要な情報</p>
-                <ul className={styles.list}>
+                <p className={`${styles.label} ${styles.colExtra}`}>なぜ必要か</p>
+                <p className={`${styles.body} ${styles.colExtra}`}>
+                  {stage.detail.whyNeeded}
+                </p>
+                <p className={`${styles.label} ${styles.colExtra}`}>
+                  お客様から必要な情報
+                </p>
+                <ul className={`${styles.list} ${styles.colExtra}`}>
                   {stage.detail.clientInfo.map((item) => (
                     <li key={item}>{item}</li>
                   ))}

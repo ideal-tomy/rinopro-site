@@ -329,7 +329,7 @@
 @media (max-width: 899px) {
   .heroColumns {
     grid-template-columns: minmax(0, 1fr);
-    row-gap: 48px;
+    row-gap: 24px;
   }
   .split {
     grid-template-columns: minmax(0, 1fr);
@@ -353,10 +353,15 @@
     font-size: clamp(32px, 9.4vw, 44px);
   }
   .page .heroBody {
-    font-size: 16px;
+    font-size: 14px;
   }
   .page .heroStrong {
-    font-size: 17px;
+    font-size: 16px;
+  }
+  .page .body,
+  .page .itemBody,
+  .page .note {
+    font-size: 14px;
   }
   .page .heading {
     font-size: clamp(25px, 6.6vw, 30px);

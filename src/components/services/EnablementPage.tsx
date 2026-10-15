@@ -31,8 +31,8 @@ export function EnablementPage() {
               className={`${shared.heroTitle} ${shared.lines}`}
             >
               <span>IT担当を、</span>
-              <span>社内で雇わない</span>
-              <span className={shared.accent}>という選択。</span>
+              <span className={shared.accent}>社内で雇わない</span>
+              <span>という選択。</span>
             </h1>
             <p className={shared.heroBody}>
               社内に専任者を置かず、AXEONが外部のIT担当として継続的に対応します。日々のIT相談から、システムの管理・改善、新しい技術の検討まで。

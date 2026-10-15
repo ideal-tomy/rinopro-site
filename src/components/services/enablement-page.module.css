@@ -939,6 +939,9 @@
   }
   .challengeText { font-size: 18px; }
   .supportHeading { font-size: 17px; }
+  .checksSection .intro {
+    font-size: 14px;
+  }
 }
 @media (hover: none) {
   .stages li:hover, .checks button:hover { transform: none; }
