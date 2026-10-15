@@ -316,6 +316,20 @@
   }
 }
 
+@media (max-width: 899px) {
+  .poster.readable p.label {
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  .poster.readable p.body,
+  .poster.readable .list {
+    font-size: 15px;
+    line-height: 1.7;
+    font-weight: 400;
+  }
+}
+
 @media (max-width: 899px) and (prefers-reduced-motion: reduce) {
   .columns {
     scroll-behavior: auto;

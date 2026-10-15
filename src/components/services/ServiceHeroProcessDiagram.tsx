@@ -37,8 +37,11 @@ function scrollTrackTo(
 
 export function ServiceHeroProcessDiagram({
   pageKey,
+  readable = false,
 }: {
   pageKey: ServiceHeroProcessPageKey;
+  /** コンサル最終版だけ、スマホ工程図の本文を 15px 以上にする */
+  readable?: boolean;
 }) {
   const highlight = new Set(
     SERVICE_HERO_PROCESS_PAGE_CONFIG[pageKey].highlightedStageIds,
@@ -119,7 +122,10 @@ export function ServiceHeroProcessDiagram({
   const atEnd = activeIndex === STAGE_COUNT - 1;
 
   return (
-    <figure className={styles.poster} aria-label="戦略から運用までの5工程">
+    <figure
+      className={readable ? `${styles.poster} ${styles.readable}` : styles.poster}
+      aria-label="戦略から運用までの5工程"
+    >
       <p className={styles.srOnly}>
         左右にスワイプ、または下の位置表示で工程を切り替えられます。
       </p>
