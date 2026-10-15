@@ -1,0 +1,4254 @@
+{
+  "base": "http://127.0.0.1:3000",
+  "checkedAt": "2026-10-15T21:18:52.707Z",
+  "pages": [
+    {
+      "url": "/about",
+      "status": 200,
+      "redirect": "",
+      "title": "会社紹介 | AXEON | AXEON",
+      "source": "src/app/about/page.tsx",
+      "noindex": false,
+      "classification": "表示可能・トップからリンクあり"
+    },
+    {
+      "url": "/articles",
+      "status": 200,
+      "redirect": "/",
+      "title": "AXEON | 現場業務を、AIで再設計して実装まで伴走する",
+      "source": "src/app/articles/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/consulting",
+      "status": 200,
+      "redirect": "/services/consulting",
+      "title": "AXEON | 現場業務を、AIで再設計して実装まで伴走する",
+      "source": "src/app/consulting/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/contact",
+      "status": 200,
+      "redirect": "",
+      "title": "問い合わせ | AXEON | AXEON",
+      "source": "src/app/contact/page.tsx",
+      "noindex": false,
+      "classification": "表示可能・トップからリンクあり"
+    },
+    {
+      "url": "/demo/list",
+      "status": 308,
+      "redirect": "/experience",
+      "title": "",
+      "source": "src/app/demo/list/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/demo",
+      "status": 308,
+      "redirect": "/experience",
+      "title": "",
+      "source": "src/app/demo/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/estimate-detailed/amount",
+      "status": 200,
+      "redirect": "",
+      "title": "金額の目安 | 詳細見積もり | AXEON | AXEON",
+      "source": "src/app/estimate-detailed/amount/page.tsx",
+      "noindex": true,
+      "classification": "表示可能・トップからのHTMLリンク未検出"
+    },
+    {
+      "url": "/estimate-detailed",
+      "status": 200,
+      "redirect": "",
+      "title": "詳細見積もり（初期検討） | AXEON | AXEON",
+      "source": "src/app/estimate-detailed/page.tsx",
+      "noindex": false,
+      "classification": "表示可能・トップからリンクあり"
+    },
+    {
+      "url": "/estimate-detailed/processing",
+      "status": 200,
+      "redirect": "",
+      "title": "内容を整理しています | 詳細見積もり | AXEON | AXEON",
+      "source": "src/app/estimate-detailed/processing/page.tsx",
+      "noindex": true,
+      "classification": "表示可能・トップからのHTMLリンク未検出"
+    },
+    {
+      "url": "/estimate-detailed/result",
+      "status": 200,
+      "redirect": "",
+      "title": "内容の整理 | 詳細見積もり | AXEON | AXEON",
+      "source": "src/app/estimate-detailed/result/page.tsx",
+      "noindex": true,
+      "classification": "表示可能・トップからのHTMLリンク未検出"
+    },
+    {
+      "url": "/experience",
+      "status": 200,
+      "redirect": "",
+      "title": "体験・プロダクトdemo | AXEON | AXEON",
+      "source": "src/app/experience/page.tsx",
+      "noindex": false,
+      "classification": "表示可能・トップからリンクあり"
+    },
+    {
+      "url": "/flow",
+      "status": 200,
+      "redirect": "/services/insourcing-enablement",
+      "title": "AXEON | 現場業務を、AIで再設計して実装まで伴走する",
+      "source": "src/app/flow/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/",
+      "status": 200,
+      "redirect": "",
+      "title": "経営課題の言語化から動くシステムまで。コンサルティング・開発の一気通貫 | AXEON",
+      "source": "src/app/page.tsx",
+      "noindex": false,
+      "classification": "表示可能・トップからリンクあり"
+    },
+    {
+      "url": "/prototype-showroom",
+      "status": 200,
+      "redirect": "",
+      "title": "プロトタイプ・ショールーム | AXEON",
+      "source": "src/app/prototype-showroom/page.tsx",
+      "noindex": true,
+      "classification": "表示可能・トップからのHTMLリンク未検出"
+    },
+    {
+      "url": "/services/consulting",
+      "status": 200,
+      "redirect": "",
+      "title": "コンサルティング | ご支援内容 | AXEON",
+      "source": "src/app/services/consulting/page.tsx",
+      "noindex": false,
+      "classification": "表示可能・トップからリンクあり"
+    },
+    {
+      "url": "/services/development",
+      "status": 200,
+      "redirect": "/services/insourcing-enablement",
+      "title": "AXEON | 現場業務を、AIで再設計して実装まで伴走する",
+      "source": "src/app/services/development/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/services",
+      "status": 200,
+      "redirect": "",
+      "title": "ご支援内容 | AXEON",
+      "source": "src/app/services/page.tsx",
+      "noindex": false,
+      "classification": "表示可能・トップからリンクあり"
+    },
+    {
+      "url": "/articles/construction",
+      "status": 200,
+      "redirect": "",
+      "title": "工事写真の整理が終わらない理由と、その直し方 | AXEON",
+      "source": "src/app/articles/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "表示可能・トップからのHTMLリンク未検出"
+    },
+    {
+      "url": "/articles/manufacturing",
+      "status": 200,
+      "redirect": "",
+      "title": "ベテランの手順を、聞き取って書き残す方法 | AXEON",
+      "source": "src/app/articles/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "表示可能・トップからのHTMLリンク未検出"
+    },
+    {
+      "url": "/articles/care",
+      "status": 200,
+      "redirect": "",
+      "title": "記録がずれる理由と、その残し方 | AXEON",
+      "source": "src/app/articles/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "表示可能・トップからのHTMLリンク未検出"
+    },
+    {
+      "url": "/articles/childcare",
+      "status": 200,
+      "redirect": "",
+      "title": "保育の記録がずれる理由と、残し方 | AXEON",
+      "source": "src/app/articles/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "表示可能・トップからのHTMLリンク未検出"
+    },
+    {
+      "url": "/articles/retail",
+      "status": 200,
+      "redirect": "",
+      "title": "問い合わせが減らない理由と、その直し方 | AXEON",
+      "source": "src/app/articles/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "表示可能・トップからのHTMLリンク未検出"
+    },
+    {
+      "url": "/articles/restaurant",
+      "status": 200,
+      "redirect": "",
+      "title": "シフトでもめる理由と、先に決めること | AXEON",
+      "source": "src/app/articles/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "表示可能・トップからのHTMLリンク未検出"
+    },
+    {
+      "url": "/articles/building",
+      "status": 200,
+      "redirect": "",
+      "title": "法定点検が漏れる理由と、台帳の作り方 | AXEON",
+      "source": "src/app/articles/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "表示可能・トップからのHTMLリンク未検出"
+    },
+    {
+      "url": "/articles/logistics",
+      "status": 200,
+      "redirect": "",
+      "title": "日報を残し、途中で見て、配車を変える | AXEON",
+      "source": "src/app/articles/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "表示可能・トップからのHTMLリンク未検出"
+    },
+    {
+      "url": "/articles/warehouse",
+      "status": 200,
+      "redirect": "",
+      "title": "数が合わないとき、範囲を絞り、原因を書く | AXEON",
+      "source": "src/app/articles/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "表示可能・トップからのHTMLリンク未検出"
+    },
+    {
+      "url": "/articles/t/night-inquiry",
+      "status": 200,
+      "redirect": "",
+      "title": "夜間の問い合わせが、間違った答えになる | AXEON",
+      "source": "src/app/articles/t/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "表示可能・トップからのHTMLリンク未検出"
+    },
+    {
+      "url": "/articles/t/shop-voice",
+      "status": 200,
+      "redirect": "",
+      "title": "現場の音声を、そのまま入れられない | AXEON",
+      "source": "src/app/articles/t/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "表示可能・トップからのHTMLリンク未検出"
+    },
+    {
+      "url": "/articles/t/shift-notice",
+      "status": 200,
+      "redirect": "",
+      "title": "「シフトによる」だけでは、もめは消えない | AXEON",
+      "source": "src/app/articles/t/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "表示可能・トップからのHTMLリンク未検出"
+    },
+    {
+      "url": "/articles/t/receipt-search",
+      "status": 200,
+      "redirect": "",
+      "title": "PDFをフォルダに入れても、保存したことにはならない | AXEON",
+      "source": "src/app/articles/t/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "表示可能・トップからのHTMLリンク未検出"
+    },
+    {
+      "url": "/articles/t/invoice-fields",
+      "status": 200,
+      "redirect": "",
+      "title": "請求書を自動で作っても、適格の欄が空だと出せない | AXEON",
+      "source": "src/app/articles/t/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "表示可能・トップからのHTMLリンク未検出"
+    },
+    {
+      "url": "/articles/t/minutes-names",
+      "status": 200,
+      "redirect": "",
+      "title": "会議の録音を、そのまま文字にできない | AXEON",
+      "source": "src/app/articles/t/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "表示可能・トップからのHTMLリンク未検出"
+    },
+    {
+      "url": "/articles/t/mail-paste",
+      "status": 200,
+      "redirect": "",
+      "title": "返信の下書きは欲しい。本文はそのまま貼れない | AXEON",
+      "source": "src/app/articles/t/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "表示可能・トップからのHTMLリンク未検出"
+    },
+    {
+      "url": "/articles/t/folder-rights",
+      "status": 200,
+      "redirect": "",
+      "title": "社内の文書を全部入れると、見えないはずのものまで出る | AXEON",
+      "source": "src/app/articles/t/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "表示可能・トップからのHTMLリンク未検出"
+    },
+    {
+      "url": "/articles/t/quote-price",
+      "status": 200,
+      "redirect": "",
+      "title": "見積を早く出しても、根拠が残らない | AXEON",
+      "source": "src/app/articles/t/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "表示可能・トップからのHTMLリンク未検出"
+    },
+    {
+      "url": "/articles/t/time-stamp",
+      "status": 200,
+      "redirect": "",
+      "title": "勤怠を自動にしても、打刻のない日は埋まらない | AXEON",
+      "source": "src/app/articles/t/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "表示可能・トップからのHTMLリンク未検出"
+    },
+    {
+      "url": "/industries/construction",
+      "status": 200,
+      "redirect": "",
+      "title": "建設の記録デモ｜現場写真の整理から報告書の作成まで | AXEON | AXEON",
+      "source": "src/app/industries/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "表示可能・トップからリンクあり"
+    },
+    {
+      "url": "/industries/manufacturing",
+      "status": 200,
+      "redirect": "",
+      "title": "製造の判断デモ｜聞いて、根拠付きで答えにたどり着く | AXEON | AXEON",
+      "source": "src/app/industries/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "表示可能・トップからのHTMLリンク未検出"
+    },
+    {
+      "url": "/solutions/construction",
+      "status": 200,
+      "redirect": "/industries/construction",
+      "title": "建設の記録デモ | AXEON | AXEON",
+      "source": "src/app/solutions/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/solutions/professional-services",
+      "status": 200,
+      "redirect": "",
+      "title": "士業・専門事務向けの改善ヒント | AXEON | AXEON",
+      "source": "src/app/solutions/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "表示可能・トップからリンクあり"
+    },
+    {
+      "url": "/solutions/retail-distribution",
+      "status": 200,
+      "redirect": "",
+      "title": "小売・卸・メーカー現場向けの改善ヒント | AXEON | AXEON",
+      "source": "src/app/solutions/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "表示可能・トップからリンクあり"
+    },
+    {
+      "url": "/solutions/logistics-mobility",
+      "status": 200,
+      "redirect": "",
+      "title": "運輸・配送向けの改善ヒント | AXEON | AXEON",
+      "source": "src/app/solutions/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "表示可能・トップからのHTMLリンク未検出"
+    },
+    {
+      "url": "/solutions/healthcare-public",
+      "status": 200,
+      "redirect": "",
+      "title": "医療・公的窓口向けの改善ヒント | AXEON | AXEON",
+      "source": "src/app/solutions/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "表示可能・トップからリンクあり"
+    },
+    {
+      "url": "/solutions/hospitality-food",
+      "status": 200,
+      "redirect": "",
+      "title": "飲食・サービス向けの改善ヒント | AXEON | AXEON",
+      "source": "src/app/solutions/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "表示可能・トップからリンクあり"
+    },
+    {
+      "url": "/experience/restaurant-ops-dashboard-demo",
+      "status": 200,
+      "redirect": "",
+      "title": "飲食店オペレーション・ダッシュボード | 実装事例 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "表示可能・トップからリンクあり"
+    },
+    {
+      "url": "/experience/gempo",
+      "status": 200,
+      "redirect": "",
+      "title": "現場管理アプリ（GEMPO）| 実装事例 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "表示可能・トップからリンクあり"
+    },
+    {
+      "url": "/experience/recruit-cockpit",
+      "status": 200,
+      "redirect": "",
+      "title": "採用コックピット | 実装事例 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "表示可能・トップからリンクあり"
+    },
+    {
+      "url": "/experience/internal-knowledge-bot",
+      "status": 200,
+      "redirect": "",
+      "title": "社内ナレッジ共有BOT | 実装事例 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "表示可能・トップからリンクあり"
+    },
+    {
+      "url": "/experience/ma-dd-valueup",
+      "status": 200,
+      "redirect": "",
+      "title": "M&A DDプラットフォーム | 実装事例 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "表示可能・トップからリンクあり"
+    },
+    {
+      "url": "/experience/smart-agri-copilot",
+      "status": 200,
+      "redirect": "",
+      "title": "スマート農業AI | 実装事例 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "表示可能・トップからリンクあり"
+    },
+    {
+      "url": "/experience/handover-ai-charting",
+      "status": 200,
+      "redirect": "",
+      "title": "申し送りAI（自動カルテ作成）| 実装事例 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "表示可能・トップからリンクあり"
+    },
+    {
+      "url": "/experience/property-matching",
+      "status": 200,
+      "redirect": "",
+      "title": "物件マッチング | 実装事例 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "表示可能・トップからリンクあり"
+    },
+    {
+      "url": "/experience/internal-knowledge-share-bot",
+      "status": 200,
+      "redirect": "",
+      "title": "社内ナレッジ共有BOT（業種別・二画面） | 体験 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "表示可能・トップからリンクあり"
+    },
+    {
+      "url": "/experience/legal-memory-secretary",
+      "status": 200,
+      "redirect": "/experience",
+      "title": "体験 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/experience/service-claim-reply-assist",
+      "status": 200,
+      "redirect": "/experience",
+      "title": "体験 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/experience/inquiry-intake-triage-demo",
+      "status": 200,
+      "redirect": "/experience",
+      "title": "体験 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/experience/live-sync-voice-translation",
+      "status": 200,
+      "redirect": "/experience",
+      "title": "体験 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/experience/workflow-approval-lite-demo",
+      "status": 200,
+      "redirect": "/experience",
+      "title": "体験 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/experience/legal-professional-mini-sfa-demo",
+      "status": 200,
+      "redirect": "/experience",
+      "title": "体験 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/experience/ops-report-metrics-demo",
+      "status": 200,
+      "redirect": "/experience",
+      "title": "体験 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/experience/loan-interview-business-outline",
+      "status": 200,
+      "redirect": "/experience",
+      "title": "体験 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/experience/bullet-mess-to-meeting-agenda",
+      "status": 200,
+      "redirect": "/experience",
+      "title": "体験 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/experience/exec-meeting-notes-to-summary",
+      "status": 200,
+      "redirect": "/experience",
+      "title": "体験 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/experience/presentation-outline",
+      "status": 200,
+      "redirect": "/experience",
+      "title": "体験 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/experience/rfp-requirements-extract",
+      "status": 200,
+      "redirect": "/experience",
+      "title": "体験 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/experience/order-form-generator",
+      "status": 200,
+      "redirect": "/experience",
+      "title": "体験 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/experience/quote-draft-generator",
+      "status": 200,
+      "redirect": "/experience",
+      "title": "体験 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/experience/webinar-invite-email-draft",
+      "status": 200,
+      "redirect": "/experience",
+      "title": "体験 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/experience/nonprofit-donor-thanks-letter-draft",
+      "status": 200,
+      "redirect": "/experience",
+      "title": "体験 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/experience/contract-amendment-draft",
+      "status": 200,
+      "redirect": "/experience",
+      "title": "体験 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/experience/release-note-draft-from-ship-list",
+      "status": 200,
+      "redirect": "/experience",
+      "title": "体験 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/experience/job-offer-draft-from-terms",
+      "status": 200,
+      "redirect": "/experience",
+      "title": "体験 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/experience/privacy-notice-update-draft",
+      "status": 200,
+      "redirect": "/experience",
+      "title": "体験 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/experience/subsidy-application-topic-checklist",
+      "status": 200,
+      "redirect": "/experience",
+      "title": "体験 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/experience/onboarding-checklist-from-role",
+      "status": 200,
+      "redirect": "/experience",
+      "title": "体験 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/experience/construction-photo-inspection-report",
+      "status": 200,
+      "redirect": "/experience",
+      "title": "体験 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/experience/property-exterior-photo-memo",
+      "status": 200,
+      "redirect": "/experience",
+      "title": "体験 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/experience/receipt-photo-expense-memo",
+      "status": 200,
+      "redirect": "/experience",
+      "title": "体験 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/experience/driver-voice-incident-draft",
+      "status": 200,
+      "redirect": "/experience",
+      "title": "体験 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/experience/construction-shadow-foreman",
+      "status": 200,
+      "redirect": "/experience",
+      "title": "体験 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/experience/meeting-minutes-auto",
+      "status": 200,
+      "redirect": "/experience",
+      "title": "体験 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/experience/property-viewing-memo",
+      "status": 200,
+      "redirect": "/experience",
+      "title": "体験 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/experience/morning-meeting-daily-draft",
+      "status": 200,
+      "redirect": "/experience",
+      "title": "体験 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/experience/retail-floor-voice-handoff",
+      "status": 200,
+      "redirect": "/experience",
+      "title": "体験 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/experience/site-survey-voice-memo",
+      "status": 200,
+      "redirect": "/experience",
+      "title": "体験 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/experience/parent-meeting-voice-summary",
+      "status": 200,
+      "redirect": "/experience",
+      "title": "体験 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/experience/voicemail-followup-reply-draft",
+      "status": 200,
+      "redirect": "/experience",
+      "title": "体験 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/experience/care-shift-voice-handover",
+      "status": 200,
+      "redirect": "/experience",
+      "title": "体験 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/experience/cs-qbr-voice-summary",
+      "status": 200,
+      "redirect": "/experience",
+      "title": "体験 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/experience/event-brief-voice-to-quote-memo",
+      "status": 200,
+      "redirect": "/experience",
+      "title": "体験 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/experience/call-monitor-feedback-coaching",
+      "status": 200,
+      "redirect": "/experience",
+      "title": "体験 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/experience/clinic-reception-voice-handover",
+      "status": 200,
+      "redirect": "/experience",
+      "title": "体験 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/experience/pet-hotel-handover-voice-memo",
+      "status": 200,
+      "redirect": "/experience",
+      "title": "体験 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/experience/gallery-exhibit-voice-script-draft",
+      "status": 200,
+      "redirect": "/experience",
+      "title": "体験 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/experience/grocery-freshness-voice-waste-log",
+      "status": 200,
+      "redirect": "/experience",
+      "title": "体験 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/experience/venue-loadin-voice-timeline",
+      "status": 200,
+      "redirect": "/experience",
+      "title": "体験 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/experience/shift-auto",
+      "status": 200,
+      "redirect": "https://obs-demo.vercel.app/",
+      "title": "体験 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/experience/hr-evaluation-support",
+      "status": 200,
+      "redirect": "https://openestate-demo.gembashift.com/",
+      "title": "体験 | AXEON | AXEON",
+      "source": "src/app/experience/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/services/insourcing-enablement",
+      "status": 200,
+      "redirect": "",
+      "title": "半内製化（FDE） | ご支援内容 | AXEON",
+      "source": "src/app/services/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "表示可能・トップからリンクあり"
+    },
+    {
+      "url": "/services/dx-strategy",
+      "status": 308,
+      "redirect": "/services/consulting",
+      "title": "",
+      "source": "src/app/services/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/services/industry-solutions",
+      "status": 308,
+      "redirect": "/services/consulting",
+      "title": "",
+      "source": "src/app/services/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/services/ai-apps",
+      "status": 308,
+      "redirect": "/services/insourcing-enablement",
+      "title": "",
+      "source": "src/app/services/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/services/data-platform",
+      "status": 308,
+      "redirect": "/services/insourcing-enablement",
+      "title": "",
+      "source": "src/app/services/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/services/continuous-improvement",
+      "status": 308,
+      "redirect": "/services/insourcing-enablement",
+      "title": "",
+      "source": "src/app/services/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/lp/chuken-enterprise-v2.html",
+      "status": 307,
+      "redirect": "/lp/chuken-enterprise-v2",
+      "title": "",
+      "source": "public/lp/chuken-enterprise-v2.html",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/lp/kaigo-care-dx.html",
+      "status": 307,
+      "redirect": "/lp/kaigo-care-dx",
+      "title": "",
+      "source": "public/lp/kaigo-care-dx.html",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/lp/chuken-enterprise-v2",
+      "status": 200,
+      "redirect": "",
+      "title": "AXEON｜PoCで終わらないAI導入を、戦略から実装まで一気に。",
+      "source": "public/lp/chuken-enterprise-v2.html",
+      "noindex": true,
+      "classification": "表示可能・トップからのHTMLリンク未検出"
+    },
+    {
+      "url": "/lp/kaigo-care-dx",
+      "status": 200,
+      "redirect": "",
+      "title": "ケア記録DX 提案 ｜ AXEON",
+      "source": "public/lp/kaigo-care-dx.html",
+      "noindex": false,
+      "classification": "表示可能・トップからリンクあり"
+    },
+    {
+      "url": "/cases",
+      "status": 308,
+      "redirect": "/experience",
+      "title": "",
+      "source": "next.config.ts",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/case-studies",
+      "status": 308,
+      "redirect": "/experience",
+      "title": "",
+      "source": "next.config.ts",
+      "noindex": false,
+      "classification": "転送（元のページは表示されない）"
+    },
+    {
+      "url": "/demo/legal-memory-secretary",
+      "status": 200,
+      "redirect": "",
+      "title": "undefined | AXEON | AXEON",
+      "source": "src/app/demo/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "応答200だが内容不完全（デモデータ未取得）"
+    },
+    {
+      "url": "/demo/contract-review-summary",
+      "status": 200,
+      "redirect": "",
+      "title": "undefined | AXEON | AXEON",
+      "source": "src/app/demo/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "応答200だが内容不完全（デモデータ未取得）"
+    },
+    {
+      "url": "/demo/meeting-minutes-auto",
+      "status": 200,
+      "redirect": "",
+      "title": "undefined | AXEON | AXEON",
+      "source": "src/app/demo/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "応答200だが内容不完全（デモデータ未取得）"
+    },
+    {
+      "url": "/demo/retail-floor-voice-handoff",
+      "status": 200,
+      "redirect": "",
+      "title": "undefined | AXEON | AXEON",
+      "source": "src/app/demo/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "応答200だが内容不完全（デモデータ未取得）"
+    },
+    {
+      "url": "/demo/inventory-balance-proposal",
+      "status": 200,
+      "redirect": "",
+      "title": "undefined | AXEON | AXEON",
+      "source": "src/app/demo/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "応答200だが内容不完全（デモデータ未取得）"
+    },
+    {
+      "url": "/demo/order-form-generator",
+      "status": 200,
+      "redirect": "",
+      "title": "undefined | AXEON | AXEON",
+      "source": "src/app/demo/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "応答200だが内容不完全（デモデータ未取得）"
+    },
+    {
+      "url": "/demo/driver-voice-incident-draft",
+      "status": 200,
+      "redirect": "",
+      "title": "undefined | AXEON | AXEON",
+      "source": "src/app/demo/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "応答200だが内容不完全（デモデータ未取得）"
+    },
+    {
+      "url": "/demo/delivery-photo-completion-report",
+      "status": 200,
+      "redirect": "",
+      "title": "undefined | AXEON | AXEON",
+      "source": "src/app/demo/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "応答200だが内容不完全（デモデータ未取得）"
+    },
+    {
+      "url": "/demo/delay-notice-template",
+      "status": 200,
+      "redirect": "",
+      "title": "undefined | AXEON | AXEON",
+      "source": "src/app/demo/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "応答200だが内容不完全（デモデータ未取得）"
+    },
+    {
+      "url": "/demo/clinic-general-inquiry-skeleton",
+      "status": 200,
+      "redirect": "",
+      "title": "undefined | AXEON | AXEON",
+      "source": "src/app/demo/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "応答200だが内容不完全（デモデータ未取得）"
+    },
+    {
+      "url": "/demo/civic-counter-reply-outline",
+      "status": 200,
+      "redirect": "",
+      "title": "undefined | AXEON | AXEON",
+      "source": "src/app/demo/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "応答200だが内容不完全（デモデータ未取得）"
+    },
+    {
+      "url": "/demo/restaurant-prep-list-from-bookings",
+      "status": 200,
+      "redirect": "",
+      "title": "undefined | AXEON | AXEON",
+      "source": "src/app/demo/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "応答200だが内容不完全（デモデータ未取得）"
+    },
+    {
+      "url": "/demo/shift-handover-summary",
+      "status": 200,
+      "redirect": "",
+      "title": "undefined | AXEON | AXEON",
+      "source": "src/app/demo/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "応答200だが内容不完全（デモデータ未取得）"
+    },
+    {
+      "url": "/demo/service-claim-reply-assist",
+      "status": 200,
+      "redirect": "",
+      "title": "undefined | AXEON | AXEON",
+      "source": "src/app/demo/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "応答200だが内容不完全（デモデータ未取得）"
+    },
+    {
+      "url": "/demo/internal-knowledge-share-bot",
+      "status": 200,
+      "redirect": "",
+      "title": "undefined | AXEON | AXEON",
+      "source": "src/app/demo/[slug]/page.tsx",
+      "noindex": false,
+      "classification": "応答200だが内容不完全（デモデータ未取得）"
+    },
+    {
+      "url": "—",
+      "source": "roi-simulator-construction.html",
+      "status": "対象外",
+      "redirect": "",
+      "title": "",
+      "classification": "配信対象外（ルート直下のHTML）"
+    },
+    {
+      "url": "—",
+      "source": "roi-simulator-electrical.html",
+      "status": "対象外",
+      "redirect": "",
+      "title": "",
+      "classification": "配信対象外（ルート直下のHTML）"
+    },
+    {
+      "url": "—",
+      "source": "roi-simulator-logistics.html",
+      "status": "対象外",
+      "redirect": "",
+      "title": "",
+      "classification": "配信対象外（ルート直下のHTML）"
+    },
+    {
+      "url": "—",
+      "source": "roi-simulator-manufacturing.html",
+      "status": "対象外",
+      "redirect": "",
+      "title": "",
+      "classification": "配信対象外（ルート直下のHTML）"
+    },
+    {
+      "url": "—",
+      "source": "roi-simulator-template.html",
+      "status": "対象外",
+      "redirect": "",
+      "title": "",
+      "classification": "配信対象外（ルート直下のHTML）"
+    }
+  ],
+  "media": [
+    {
+      "file": "public/file.svg",
+      "url": "/file.svg",
+      "type": "画像",
+      "bytes": 391,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/globe.svg",
+      "url": "/globe.svg",
+      "type": "画像",
+      "bytes": 1035,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/about/about01.png",
+      "url": "/images/about/about01.png",
+      "type": "画像",
+      "bytes": 1809090,
+      "classification": "HTMLの画像・動画・メタ情報に使用",
+      "elementPages": [
+        "/about"
+      ],
+      "responsePages": [],
+      "sourcePages": [
+        "/about"
+      ],
+      "refs": [
+        "src/components/about/AboutTeamSection.tsx",
+        "src/components/services/ServiceHeroIllustration.tsx"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/about/abput02png.png",
+      "url": "/images/about/abput02png.png",
+      "type": "画像",
+      "bytes": 1782983,
+      "classification": "実装上に参照あり（表示未確認）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [
+        "/about"
+      ],
+      "refs": [
+        "src/components/about/AboutTeamSection.tsx",
+        "src/components/services/ServiceHeroIllustration.tsx"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/about.jpg",
+      "url": "/images/about.jpg",
+      "type": "画像",
+      "bytes": 146753,
+      "classification": "実装上に参照あり（表示未確認）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [
+        "/"
+      ],
+      "refs": [
+        "src/lib/content/home-landing.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/cases/cases-hero-visual01.png",
+      "url": "/images/cases/cases-hero-visual01.png",
+      "type": "画像",
+      "bytes": 2502404,
+      "classification": "HTMLの画像・動画・メタ情報に使用",
+      "elementPages": [
+        "/industries/construction"
+      ],
+      "responsePages": [
+        "/industries/construction"
+      ],
+      "sourcePages": [
+        "/industries/construction",
+        "/industries/manufacturing"
+      ],
+      "refs": [
+        "src/lib/content/industry-lp/construction.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/demo-showcase/childcare/chat.png",
+      "url": "/images/demo-showcase/childcare/chat.png",
+      "type": "画像",
+      "bytes": 172459,
+      "classification": "実装上に参照あり（表示未確認）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [
+        "/"
+      ],
+      "refs": [
+        "src/components/home/demo-showcase/TopFeaturedDemoShowcase.tsx"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/demo-showcase/childcare/report-injury.png",
+      "url": "/images/demo-showcase/childcare/report-injury.png",
+      "type": "画像",
+      "bytes": 82339,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/demo-showcase/childcare/report-slide.png",
+      "url": "/images/demo-showcase/childcare/report-slide.png",
+      "type": "画像",
+      "bytes": 310390,
+      "classification": "実装上に参照あり（表示未確認）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [
+        "/"
+      ],
+      "refs": [
+        "src/components/home/demo-showcase/TopFeaturedDemoShowcase.tsx"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/demo-showcase/childcare/today.png",
+      "url": "/images/demo-showcase/childcare/today.png",
+      "type": "画像",
+      "bytes": 220443,
+      "classification": "実装上に参照あり（表示未確認）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [
+        "/"
+      ],
+      "refs": [
+        "src/components/home/demo-showcase/TopFeaturedDemoShowcase.tsx"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/demo_images/farm_demo01.png",
+      "url": "/images/demo_images/farm_demo01.png",
+      "type": "画像",
+      "bytes": 179587,
+      "classification": "HTMLの画像・動画・メタ情報に使用",
+      "elementPages": [
+        "/experience/smart-agri-copilot"
+      ],
+      "responsePages": [
+        "/",
+        "/experience/smart-agri-copilot"
+      ],
+      "sourcePages": [
+        "/contact",
+        "/experience",
+        "/",
+        "/solutions/professional-services",
+        "/solutions/retail-distribution",
+        "/solutions/logistics-mobility",
+        "/solutions/healthcare-public",
+        "/solutions/hospitality-food",
+        "/experience/restaurant-ops-dashboard-demo",
+        "/experience/gempo",
+        "/experience/recruit-cockpit",
+        "/experience/internal-knowledge-bot",
+        "/experience/ma-dd-valueup",
+        "/experience/smart-agri-copilot",
+        "/experience/handover-ai-charting",
+        "/experience/property-matching",
+        "/experience/internal-knowledge-share-bot",
+        "/services/insourcing-enablement"
+      ],
+      "refs": [
+        "src/lib/content/case-study-detail.ts",
+        "src/lib/content/implementation-showcase.ts",
+        "src/lib/content/services-embedded-copy.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/demo_images/farm_demo02.png",
+      "url": "/images/demo_images/farm_demo02.png",
+      "type": "画像",
+      "bytes": 667602,
+      "classification": "ページ応答内に参照（データ・遅延表示含む）",
+      "elementPages": [],
+      "responsePages": [
+        "/",
+        "/experience/smart-agri-copilot"
+      ],
+      "sourcePages": [
+        "/contact",
+        "/experience",
+        "/",
+        "/solutions/professional-services",
+        "/solutions/retail-distribution",
+        "/solutions/logistics-mobility",
+        "/solutions/healthcare-public",
+        "/solutions/hospitality-food",
+        "/experience/restaurant-ops-dashboard-demo",
+        "/experience/gempo",
+        "/experience/recruit-cockpit",
+        "/experience/internal-knowledge-bot",
+        "/experience/ma-dd-valueup",
+        "/experience/smart-agri-copilot",
+        "/experience/handover-ai-charting",
+        "/experience/property-matching",
+        "/experience/internal-knowledge-share-bot"
+      ],
+      "refs": [
+        "src/lib/content/case-study-detail.ts",
+        "src/lib/content/implementation-showcase.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/demo_images/farm_demo03.png",
+      "url": "/images/demo_images/farm_demo03.png",
+      "type": "画像",
+      "bytes": 584803,
+      "classification": "ページ応答内に参照（データ・遅延表示含む）",
+      "elementPages": [],
+      "responsePages": [
+        "/",
+        "/experience/smart-agri-copilot"
+      ],
+      "sourcePages": [
+        "/contact",
+        "/experience",
+        "/",
+        "/solutions/professional-services",
+        "/solutions/retail-distribution",
+        "/solutions/logistics-mobility",
+        "/solutions/healthcare-public",
+        "/solutions/hospitality-food",
+        "/experience/restaurant-ops-dashboard-demo",
+        "/experience/gempo",
+        "/experience/recruit-cockpit",
+        "/experience/internal-knowledge-bot",
+        "/experience/ma-dd-valueup",
+        "/experience/smart-agri-copilot",
+        "/experience/handover-ai-charting",
+        "/experience/property-matching",
+        "/experience/internal-knowledge-share-bot"
+      ],
+      "refs": [
+        "src/lib/content/case-study-detail.ts",
+        "src/lib/content/implementation-showcase.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/demo_images/kaigo-care-dx.png",
+      "url": "/images/demo_images/kaigo-care-dx.png",
+      "type": "画像",
+      "bytes": 62536,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/demo_images/kaigo-operation-demo01.png",
+      "url": "/images/demo_images/kaigo-operation-demo01.png",
+      "type": "画像",
+      "bytes": 124978,
+      "classification": "ページ応答内に参照（データ・遅延表示含む）",
+      "elementPages": [],
+      "responsePages": [
+        "/"
+      ],
+      "sourcePages": [
+        "/contact",
+        "/experience",
+        "/",
+        "/solutions/professional-services",
+        "/solutions/retail-distribution",
+        "/solutions/logistics-mobility",
+        "/solutions/healthcare-public",
+        "/solutions/hospitality-food",
+        "/experience/restaurant-ops-dashboard-demo",
+        "/experience/gempo",
+        "/experience/recruit-cockpit",
+        "/experience/internal-knowledge-bot",
+        "/experience/ma-dd-valueup",
+        "/experience/smart-agri-copilot",
+        "/experience/handover-ai-charting",
+        "/experience/property-matching",
+        "/experience/internal-knowledge-share-bot",
+        "/services/insourcing-enablement"
+      ],
+      "refs": [
+        "src/lib/content/implementation-showcase.ts",
+        "src/lib/content/services-embedded-copy.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/demo_images/kaigo-operation-demo02.png",
+      "url": "/images/demo_images/kaigo-operation-demo02.png",
+      "type": "画像",
+      "bytes": 161520,
+      "classification": "ページ応答内に参照（データ・遅延表示含む）",
+      "elementPages": [],
+      "responsePages": [
+        "/"
+      ],
+      "sourcePages": [
+        "/contact",
+        "/experience",
+        "/",
+        "/solutions/professional-services",
+        "/solutions/retail-distribution",
+        "/solutions/logistics-mobility",
+        "/solutions/healthcare-public",
+        "/solutions/hospitality-food",
+        "/experience/restaurant-ops-dashboard-demo",
+        "/experience/gempo",
+        "/experience/recruit-cockpit",
+        "/experience/internal-knowledge-bot",
+        "/experience/ma-dd-valueup",
+        "/experience/smart-agri-copilot",
+        "/experience/handover-ai-charting",
+        "/experience/property-matching",
+        "/experience/internal-knowledge-share-bot"
+      ],
+      "refs": [
+        "src/lib/content/implementation-showcase.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/demo_images/kaigo-operation-demo03.png",
+      "url": "/images/demo_images/kaigo-operation-demo03.png",
+      "type": "画像",
+      "bytes": 140875,
+      "classification": "ページ応答内に参照（データ・遅延表示含む）",
+      "elementPages": [],
+      "responsePages": [
+        "/"
+      ],
+      "sourcePages": [
+        "/contact",
+        "/experience",
+        "/",
+        "/solutions/professional-services",
+        "/solutions/retail-distribution",
+        "/solutions/logistics-mobility",
+        "/solutions/healthcare-public",
+        "/solutions/hospitality-food",
+        "/experience/restaurant-ops-dashboard-demo",
+        "/experience/gempo",
+        "/experience/recruit-cockpit",
+        "/experience/internal-knowledge-bot",
+        "/experience/ma-dd-valueup",
+        "/experience/smart-agri-copilot",
+        "/experience/handover-ai-charting",
+        "/experience/property-matching",
+        "/experience/internal-knowledge-share-bot"
+      ],
+      "refs": [
+        "src/lib/content/implementation-showcase.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/demo_images/m&a_demo01.png",
+      "url": "/images/demo_images/m&a_demo01.png",
+      "type": "画像",
+      "bytes": 160956,
+      "classification": "HTMLの画像・動画・メタ情報に使用",
+      "elementPages": [
+        "/experience/ma-dd-valueup"
+      ],
+      "responsePages": [],
+      "sourcePages": [
+        "/contact",
+        "/experience",
+        "/",
+        "/solutions/professional-services",
+        "/solutions/retail-distribution",
+        "/solutions/logistics-mobility",
+        "/solutions/healthcare-public",
+        "/solutions/hospitality-food",
+        "/experience/restaurant-ops-dashboard-demo",
+        "/experience/gempo",
+        "/experience/recruit-cockpit",
+        "/experience/internal-knowledge-bot",
+        "/experience/ma-dd-valueup",
+        "/experience/smart-agri-copilot",
+        "/experience/handover-ai-charting",
+        "/experience/property-matching",
+        "/experience/internal-knowledge-share-bot",
+        "/services/insourcing-enablement"
+      ],
+      "refs": [
+        "src/lib/content/case-study-detail.ts",
+        "src/lib/content/implementation-showcase.ts",
+        "src/lib/content/services-embedded-copy.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/demo_images/m&a_demo02.png",
+      "url": "/images/demo_images/m&a_demo02.png",
+      "type": "画像",
+      "bytes": 178050,
+      "classification": "実装上に参照あり（表示未確認）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [
+        "/contact",
+        "/experience",
+        "/",
+        "/solutions/professional-services",
+        "/solutions/retail-distribution",
+        "/solutions/logistics-mobility",
+        "/solutions/healthcare-public",
+        "/solutions/hospitality-food",
+        "/experience/restaurant-ops-dashboard-demo",
+        "/experience/gempo",
+        "/experience/recruit-cockpit",
+        "/experience/internal-knowledge-bot",
+        "/experience/ma-dd-valueup",
+        "/experience/smart-agri-copilot",
+        "/experience/handover-ai-charting",
+        "/experience/property-matching",
+        "/experience/internal-knowledge-share-bot"
+      ],
+      "refs": [
+        "src/lib/content/case-study-detail.ts",
+        "src/lib/content/implementation-showcase.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/demo_images/m&a_demo03.png",
+      "url": "/images/demo_images/m&a_demo03.png",
+      "type": "画像",
+      "bytes": 169058,
+      "classification": "実装上に参照あり（表示未確認）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [
+        "/contact",
+        "/experience",
+        "/",
+        "/solutions/professional-services",
+        "/solutions/retail-distribution",
+        "/solutions/logistics-mobility",
+        "/solutions/healthcare-public",
+        "/solutions/hospitality-food",
+        "/experience/restaurant-ops-dashboard-demo",
+        "/experience/gempo",
+        "/experience/recruit-cockpit",
+        "/experience/internal-knowledge-bot",
+        "/experience/ma-dd-valueup",
+        "/experience/smart-agri-copilot",
+        "/experience/handover-ai-charting",
+        "/experience/property-matching",
+        "/experience/internal-knowledge-share-bot"
+      ],
+      "refs": [
+        "src/lib/content/case-study-detail.ts",
+        "src/lib/content/implementation-showcase.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/demo_images/obs-demo01.png",
+      "url": "/images/demo_images/obs-demo01.png",
+      "type": "画像",
+      "bytes": 882530,
+      "classification": "ページ応答内に参照（データ・遅延表示含む）",
+      "elementPages": [],
+      "responsePages": [
+        "/"
+      ],
+      "sourcePages": [
+        "/contact",
+        "/experience",
+        "/",
+        "/solutions/professional-services",
+        "/solutions/retail-distribution",
+        "/solutions/logistics-mobility",
+        "/solutions/healthcare-public",
+        "/solutions/hospitality-food",
+        "/experience/restaurant-ops-dashboard-demo",
+        "/experience/gempo",
+        "/experience/recruit-cockpit",
+        "/experience/internal-knowledge-bot",
+        "/experience/ma-dd-valueup",
+        "/experience/smart-agri-copilot",
+        "/experience/handover-ai-charting",
+        "/experience/property-matching",
+        "/experience/internal-knowledge-share-bot"
+      ],
+      "refs": [
+        "src/lib/content/implementation-showcase.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/demo_images/obs-demo02.png",
+      "url": "/images/demo_images/obs-demo02.png",
+      "type": "画像",
+      "bytes": 452615,
+      "classification": "ページ応答内に参照（データ・遅延表示含む）",
+      "elementPages": [],
+      "responsePages": [
+        "/"
+      ],
+      "sourcePages": [
+        "/contact",
+        "/experience",
+        "/",
+        "/solutions/professional-services",
+        "/solutions/retail-distribution",
+        "/solutions/logistics-mobility",
+        "/solutions/healthcare-public",
+        "/solutions/hospitality-food",
+        "/experience/restaurant-ops-dashboard-demo",
+        "/experience/gempo",
+        "/experience/recruit-cockpit",
+        "/experience/internal-knowledge-bot",
+        "/experience/ma-dd-valueup",
+        "/experience/smart-agri-copilot",
+        "/experience/handover-ai-charting",
+        "/experience/property-matching",
+        "/experience/internal-knowledge-share-bot"
+      ],
+      "refs": [
+        "src/lib/content/implementation-showcase.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/demo_images/obs-demo03.png",
+      "url": "/images/demo_images/obs-demo03.png",
+      "type": "画像",
+      "bytes": 357963,
+      "classification": "ページ応答内に参照（データ・遅延表示含む）",
+      "elementPages": [],
+      "responsePages": [
+        "/"
+      ],
+      "sourcePages": [
+        "/contact",
+        "/experience",
+        "/",
+        "/solutions/professional-services",
+        "/solutions/retail-distribution",
+        "/solutions/logistics-mobility",
+        "/solutions/healthcare-public",
+        "/solutions/hospitality-food",
+        "/experience/restaurant-ops-dashboard-demo",
+        "/experience/gempo",
+        "/experience/recruit-cockpit",
+        "/experience/internal-knowledge-bot",
+        "/experience/ma-dd-valueup",
+        "/experience/smart-agri-copilot",
+        "/experience/handover-ai-charting",
+        "/experience/property-matching",
+        "/experience/internal-knowledge-share-bot"
+      ],
+      "refs": [
+        "src/lib/content/implementation-showcase.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/demo_images/openestate-demo01.png",
+      "url": "/images/demo_images/openestate-demo01.png",
+      "type": "画像",
+      "bytes": 1573091,
+      "classification": "ページ応答内に参照（データ・遅延表示含む）",
+      "elementPages": [],
+      "responsePages": [
+        "/"
+      ],
+      "sourcePages": [
+        "/contact",
+        "/experience",
+        "/",
+        "/solutions/professional-services",
+        "/solutions/retail-distribution",
+        "/solutions/logistics-mobility",
+        "/solutions/healthcare-public",
+        "/solutions/hospitality-food",
+        "/experience/restaurant-ops-dashboard-demo",
+        "/experience/gempo",
+        "/experience/recruit-cockpit",
+        "/experience/internal-knowledge-bot",
+        "/experience/ma-dd-valueup",
+        "/experience/smart-agri-copilot",
+        "/experience/handover-ai-charting",
+        "/experience/property-matching",
+        "/experience/internal-knowledge-share-bot"
+      ],
+      "refs": [
+        "src/lib/content/implementation-showcase.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/demo_images/openestate-demo02.png",
+      "url": "/images/demo_images/openestate-demo02.png",
+      "type": "画像",
+      "bytes": 434548,
+      "classification": "ページ応答内に参照（データ・遅延表示含む）",
+      "elementPages": [],
+      "responsePages": [
+        "/"
+      ],
+      "sourcePages": [
+        "/contact",
+        "/experience",
+        "/",
+        "/solutions/professional-services",
+        "/solutions/retail-distribution",
+        "/solutions/logistics-mobility",
+        "/solutions/healthcare-public",
+        "/solutions/hospitality-food",
+        "/experience/restaurant-ops-dashboard-demo",
+        "/experience/gempo",
+        "/experience/recruit-cockpit",
+        "/experience/internal-knowledge-bot",
+        "/experience/ma-dd-valueup",
+        "/experience/smart-agri-copilot",
+        "/experience/handover-ai-charting",
+        "/experience/property-matching",
+        "/experience/internal-knowledge-share-bot"
+      ],
+      "refs": [
+        "src/lib/content/implementation-showcase.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/food.jpg",
+      "url": "/images/food.jpg",
+      "type": "画像",
+      "bytes": 212821,
+      "classification": "HTMLの画像・動画・メタ情報に使用",
+      "elementPages": [
+        "/solutions/hospitality-food"
+      ],
+      "responsePages": [
+        "/solutions/hospitality-food"
+      ],
+      "sourcePages": [
+        "/contact",
+        "/solutions/professional-services",
+        "/solutions/retail-distribution",
+        "/solutions/logistics-mobility",
+        "/solutions/healthcare-public",
+        "/solutions/hospitality-food",
+        "/services/insourcing-enablement"
+      ],
+      "refs": [
+        "src/lib/content/industry-showcase.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/genbakanri_admin.png",
+      "url": "/images/genbakanri_admin.png",
+      "type": "画像",
+      "bytes": 86030,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/genbakanri_admin.webp",
+      "url": "/images/genbakanri_admin.webp",
+      "type": "画像",
+      "bytes": 38788,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/genbakanri_mobile.png",
+      "url": "/images/genbakanri_mobile.png",
+      "type": "画像",
+      "bytes": 64001,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/genbakanri_mobile.webp",
+      "url": "/images/genbakanri_mobile.webp",
+      "type": "画像",
+      "bytes": 26346,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/genbakanri_pc.webp",
+      "url": "/images/genbakanri_pc.webp",
+      "type": "画像",
+      "bytes": 51512,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/genbakanri_pc01.png",
+      "url": "/images/genbakanri_pc01.png",
+      "type": "画像",
+      "bytes": 119144,
+      "classification": "HTMLの画像・動画・メタ情報に使用",
+      "elementPages": [
+        "/experience/gempo"
+      ],
+      "responsePages": [
+        "/",
+        "/experience/gempo"
+      ],
+      "sourcePages": [
+        "/contact",
+        "/experience",
+        "/",
+        "/solutions/professional-services",
+        "/solutions/retail-distribution",
+        "/solutions/logistics-mobility",
+        "/solutions/healthcare-public",
+        "/solutions/hospitality-food",
+        "/experience/restaurant-ops-dashboard-demo",
+        "/experience/gempo",
+        "/experience/recruit-cockpit",
+        "/experience/internal-knowledge-bot",
+        "/experience/ma-dd-valueup",
+        "/experience/smart-agri-copilot",
+        "/experience/handover-ai-charting",
+        "/experience/property-matching",
+        "/experience/internal-knowledge-share-bot"
+      ],
+      "refs": [
+        "src/lib/content/case-study-detail.ts",
+        "src/lib/content/implementation-showcase.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/genbakanri_pc02.png",
+      "url": "/images/genbakanri_pc02.png",
+      "type": "画像",
+      "bytes": 74078,
+      "classification": "ページ応答内に参照（データ・遅延表示含む）",
+      "elementPages": [],
+      "responsePages": [
+        "/experience/gempo"
+      ],
+      "sourcePages": [
+        "/experience/restaurant-ops-dashboard-demo",
+        "/experience/gempo",
+        "/experience/recruit-cockpit",
+        "/experience/internal-knowledge-bot",
+        "/experience/ma-dd-valueup",
+        "/experience/smart-agri-copilot",
+        "/experience/handover-ai-charting",
+        "/experience/property-matching",
+        "/experience/internal-knowledge-share-bot"
+      ],
+      "refs": [
+        "src/lib/content/case-study-detail.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/genbakanri_pc03.png",
+      "url": "/images/genbakanri_pc03.png",
+      "type": "画像",
+      "bytes": 47495,
+      "classification": "ページ応答内に参照（データ・遅延表示含む）",
+      "elementPages": [],
+      "responsePages": [
+        "/",
+        "/experience/gempo"
+      ],
+      "sourcePages": [
+        "/contact",
+        "/experience",
+        "/",
+        "/solutions/professional-services",
+        "/solutions/retail-distribution",
+        "/solutions/logistics-mobility",
+        "/solutions/healthcare-public",
+        "/solutions/hospitality-food",
+        "/experience/restaurant-ops-dashboard-demo",
+        "/experience/gempo",
+        "/experience/recruit-cockpit",
+        "/experience/internal-knowledge-bot",
+        "/experience/ma-dd-valueup",
+        "/experience/smart-agri-copilot",
+        "/experience/handover-ai-charting",
+        "/experience/property-matching",
+        "/experience/internal-knowledge-share-bot"
+      ],
+      "refs": [
+        "src/lib/content/case-study-detail.ts",
+        "src/lib/content/implementation-showcase.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/hudousanmaching_mobile.mp4",
+      "url": "/images/hudousanmaching_mobile.mp4",
+      "type": "動画",
+      "bytes": 10421041,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/hudousan_pc.png",
+      "url": "/images/hudousan_pc.png",
+      "type": "画像",
+      "bytes": 76115,
+      "classification": "HTMLの画像・動画・メタ情報に使用",
+      "elementPages": [
+        "/experience/property-matching"
+      ],
+      "responsePages": [
+        "/experience/property-matching"
+      ],
+      "sourcePages": [
+        "/contact",
+        "/experience",
+        "/",
+        "/solutions/professional-services",
+        "/solutions/retail-distribution",
+        "/solutions/logistics-mobility",
+        "/solutions/healthcare-public",
+        "/solutions/hospitality-food",
+        "/experience/restaurant-ops-dashboard-demo",
+        "/experience/gempo",
+        "/experience/recruit-cockpit",
+        "/experience/internal-knowledge-bot",
+        "/experience/ma-dd-valueup",
+        "/experience/smart-agri-copilot",
+        "/experience/handover-ai-charting",
+        "/experience/property-matching",
+        "/experience/internal-knowledge-share-bot"
+      ],
+      "refs": [
+        "src/lib/content/case-study-detail.ts",
+        "src/lib/content/implementation-showcase.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/hyouka_pc.png",
+      "url": "/images/hyouka_pc.png",
+      "type": "画像",
+      "bytes": 154635,
+      "classification": "実装上に参照あり（表示未確認）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [
+        "/experience/restaurant-ops-dashboard-demo",
+        "/experience/gempo",
+        "/experience/recruit-cockpit",
+        "/experience/internal-knowledge-bot",
+        "/experience/ma-dd-valueup",
+        "/experience/smart-agri-copilot",
+        "/experience/handover-ai-charting",
+        "/experience/property-matching",
+        "/experience/internal-knowledge-share-bot"
+      ],
+      "refs": [
+        "src/lib/content/case-study-detail.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/jinji_pc.png",
+      "url": "/images/jinji_pc.png",
+      "type": "画像",
+      "bytes": 196568,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/jinji_pc.webp",
+      "url": "/images/jinji_pc.webp",
+      "type": "画像",
+      "bytes": 82578,
+      "classification": "ページ応答内に参照（データ・遅延表示含む）",
+      "elementPages": [],
+      "responsePages": [
+        "/experience/internal-knowledge-bot"
+      ],
+      "sourcePages": [
+        "/experience/restaurant-ops-dashboard-demo",
+        "/experience/gempo",
+        "/experience/recruit-cockpit",
+        "/experience/internal-knowledge-bot",
+        "/experience/ma-dd-valueup",
+        "/experience/smart-agri-copilot",
+        "/experience/handover-ai-charting",
+        "/experience/property-matching",
+        "/experience/internal-knowledge-share-bot"
+      ],
+      "refs": [
+        "src/lib/content/case-study-detail.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/kensetsu.jpg",
+      "url": "/images/kensetsu.jpg",
+      "type": "画像",
+      "bytes": 309737,
+      "classification": "実装上に参照あり（表示未確認）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [
+        "/contact",
+        "/solutions/professional-services",
+        "/solutions/retail-distribution",
+        "/solutions/logistics-mobility",
+        "/solutions/healthcare-public",
+        "/solutions/hospitality-food",
+        "/services/insourcing-enablement"
+      ],
+      "refs": [
+        "src/lib/content/industry-showcase.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/kensetsu_desktop.png",
+      "url": "/images/kensetsu_desktop.png",
+      "type": "画像",
+      "bytes": 169379,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/kensetsu_mobile.jpg",
+      "url": "/images/kensetsu_mobile.jpg",
+      "type": "画像",
+      "bytes": 154172,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/kurumakanri_mobile.png",
+      "url": "/images/kurumakanri_mobile.png",
+      "type": "画像",
+      "bytes": 67643,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/kurumakanri_mobile.webp",
+      "url": "/images/kurumakanri_mobile.webp",
+      "type": "画像",
+      "bytes": 18166,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/kurumakanri_pc.png",
+      "url": "/images/kurumakanri_pc.png",
+      "type": "画像",
+      "bytes": 158410,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/kurumakanri_pc.webp",
+      "url": "/images/kurumakanri_pc.webp",
+      "type": "画像",
+      "bytes": 42396,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/lp/construction/cannot-reshoot.svg",
+      "url": "/images/lp/construction/cannot-reshoot.svg",
+      "type": "画像",
+      "bytes": 5086,
+      "classification": "HTMLの画像・動画・メタ情報に使用",
+      "elementPages": [
+        "/industries/construction"
+      ],
+      "responsePages": [
+        "/industries/construction"
+      ],
+      "sourcePages": [
+        "/industries/construction",
+        "/industries/manufacturing"
+      ],
+      "refs": [
+        "src/lib/content/industry-lp/construction.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/lp/construction/parts-to-flow.svg",
+      "url": "/images/lp/construction/parts-to-flow.svg",
+      "type": "画像",
+      "bytes": 5183,
+      "classification": "HTMLの画像・動画・メタ情報に使用",
+      "elementPages": [
+        "/industries/construction"
+      ],
+      "responsePages": [
+        "/industries/construction"
+      ],
+      "sourcePages": [
+        "/industries/construction",
+        "/industries/manufacturing"
+      ],
+      "refs": [
+        "src/lib/content/industry-lp/construction.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/lp/construction/result-deliverable.png",
+      "url": "/images/lp/construction/result-deliverable.png",
+      "type": "画像",
+      "bytes": 1116216,
+      "classification": "ページ応答内に参照（データ・遅延表示含む）",
+      "elementPages": [],
+      "responsePages": [
+        "/industries/construction"
+      ],
+      "sourcePages": [
+        "/industries/construction",
+        "/industries/manufacturing"
+      ],
+      "refs": [
+        "src/lib/content/industry-lp/construction.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/lp/construction/result-field.png",
+      "url": "/images/lp/construction/result-field.png",
+      "type": "画像",
+      "bytes": 1271722,
+      "classification": "HTMLの画像・動画・メタ情報に使用",
+      "elementPages": [
+        "/industries/construction"
+      ],
+      "responsePages": [
+        "/industries/construction"
+      ],
+      "sourcePages": [
+        "/industries/construction",
+        "/industries/manufacturing"
+      ],
+      "refs": [
+        "src/lib/content/industry-lp/construction.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/lp/construction/result-office.png",
+      "url": "/images/lp/construction/result-office.png",
+      "type": "画像",
+      "bytes": 1218308,
+      "classification": "ページ応答内に参照（データ・遅延表示含む）",
+      "elementPages": [],
+      "responsePages": [
+        "/industries/construction"
+      ],
+      "sourcePages": [
+        "/industries/construction",
+        "/industries/manufacturing"
+      ],
+      "refs": [
+        "src/lib/content/industry-lp/construction.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/lp/construction/transcribe-cost.svg",
+      "url": "/images/lp/construction/transcribe-cost.svg",
+      "type": "画像",
+      "bytes": 4476,
+      "classification": "HTMLの画像・動画・メタ情報に使用",
+      "elementPages": [
+        "/industries/construction"
+      ],
+      "responsePages": [
+        "/industries/construction"
+      ],
+      "sourcePages": [
+        "/industries/construction",
+        "/industries/manufacturing"
+      ],
+      "refs": [
+        "src/lib/content/industry-lp/construction.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/lp/construction.png",
+      "url": "/images/lp/construction.png",
+      "type": "画像",
+      "bytes": 2374985,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/lp/construction_light.png",
+      "url": "/images/lp/construction_light.png",
+      "type": "画像",
+      "bytes": 2318880,
+      "classification": "HTMLの画像・動画・メタ情報に使用",
+      "elementPages": [
+        "/industries/construction"
+      ],
+      "responsePages": [
+        "/industries/construction"
+      ],
+      "sourcePages": [
+        "/industries/construction",
+        "/industries/manufacturing"
+      ],
+      "refs": [
+        "src/lib/content/home-industry-cards.ts",
+        "src/lib/content/industry-lp/construction.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/lp/document_workflow.png",
+      "url": "/images/lp/document_workflow.png",
+      "type": "画像",
+      "bytes": 1171203,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/lp/document_workflow_light.png",
+      "url": "/images/lp/document_workflow_light.png",
+      "type": "画像",
+      "bytes": 1348349,
+      "classification": "ページ応答内に参照（データ・遅延表示含む）",
+      "elementPages": [],
+      "responsePages": [
+        "/industries/manufacturing"
+      ],
+      "sourcePages": [
+        "/industries/construction",
+        "/industries/manufacturing"
+      ],
+      "refs": [
+        "src/lib/content/industry-lp/manufacturing.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/lp/hero_light.png",
+      "url": "/images/lp/hero_light.png",
+      "type": "画像",
+      "bytes": 1688489,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/lp/knowledge.png",
+      "url": "/images/lp/knowledge.png",
+      "type": "画像",
+      "bytes": 1492532,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/lp/knowledge_light.png",
+      "url": "/images/lp/knowledge_light.png",
+      "type": "画像",
+      "bytes": 1507719,
+      "classification": "HTMLの画像・動画・メタ情報に使用",
+      "elementPages": [
+        "/industries/manufacturing"
+      ],
+      "responsePages": [
+        "/industries/manufacturing"
+      ],
+      "sourcePages": [
+        "/industries/construction",
+        "/industries/manufacturing"
+      ],
+      "refs": [
+        "src/lib/content/industry-lp/manufacturing.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/lp/manufacturing/ask-to-decide-flow.svg",
+      "url": "/images/lp/manufacturing/ask-to-decide-flow.svg",
+      "type": "画像",
+      "bytes": 4864,
+      "classification": "HTMLの画像・動画・メタ情報に使用",
+      "elementPages": [
+        "/industries/manufacturing"
+      ],
+      "responsePages": [
+        "/industries/manufacturing"
+      ],
+      "sourcePages": [
+        "/industries/construction",
+        "/industries/manufacturing"
+      ],
+      "refs": [
+        "src/lib/content/industry-lp/manufacturing.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/lp/manufacturing/same-question-loop.svg",
+      "url": "/images/lp/manufacturing/same-question-loop.svg",
+      "type": "画像",
+      "bytes": 3286,
+      "classification": "HTMLの画像・動画・メタ情報に使用",
+      "elementPages": [
+        "/industries/manufacturing"
+      ],
+      "responsePages": [
+        "/industries/manufacturing"
+      ],
+      "sourcePages": [
+        "/industries/construction",
+        "/industries/manufacturing"
+      ],
+      "refs": [
+        "src/lib/content/industry-lp/manufacturing.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/lp/manufacturing/search-maze-cost.svg",
+      "url": "/images/lp/manufacturing/search-maze-cost.svg",
+      "type": "画像",
+      "bytes": 3869,
+      "classification": "HTMLの画像・動画・メタ情報に使用",
+      "elementPages": [
+        "/industries/manufacturing"
+      ],
+      "responsePages": [
+        "/industries/manufacturing"
+      ],
+      "sourcePages": [
+        "/industries/construction",
+        "/industries/manufacturing"
+      ],
+      "refs": [
+        "src/lib/content/industry-lp/manufacturing.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/lp/manufacturing.png",
+      "url": "/images/lp/manufacturing.png",
+      "type": "画像",
+      "bytes": 1933337,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/lp/manufacturing_light.png",
+      "url": "/images/lp/manufacturing_light.png",
+      "type": "画像",
+      "bytes": 2062805,
+      "classification": "HTMLの画像・動画・メタ情報に使用",
+      "elementPages": [
+        "/industries/manufacturing"
+      ],
+      "responsePages": [
+        "/industries/manufacturing"
+      ],
+      "sourcePages": [
+        "/industries/construction",
+        "/industries/manufacturing"
+      ],
+      "refs": [
+        "src/lib/content/home-industry-cards.ts",
+        "src/lib/content/industry-lp/manufacturing.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/og.png",
+      "url": "/images/og.png",
+      "type": "画像",
+      "bytes": 64668,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/regal.jpg",
+      "url": "/images/regal.jpg",
+      "type": "画像",
+      "bytes": 192218,
+      "classification": "HTMLの画像・動画・メタ情報に使用",
+      "elementPages": [
+        "/solutions/professional-services"
+      ],
+      "responsePages": [
+        "/solutions/professional-services"
+      ],
+      "sourcePages": [
+        "/contact",
+        "/solutions/professional-services",
+        "/solutions/retail-distribution",
+        "/solutions/logistics-mobility",
+        "/solutions/healthcare-public",
+        "/solutions/hospitality-food",
+        "/services/insourcing-enablement"
+      ],
+      "refs": [
+        "src/lib/content/industry-showcase.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/regaldashboard_pc.png",
+      "url": "/images/regaldashboard_pc.png",
+      "type": "画像",
+      "bytes": 196938,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/regaldashboard_pc.webp",
+      "url": "/images/regaldashboard_pc.webp",
+      "type": "画像",
+      "bytes": 72706,
+      "classification": "HTMLの画像・動画・メタ情報に使用",
+      "elementPages": [
+        "/experience/internal-knowledge-bot"
+      ],
+      "responsePages": [
+        "/experience/internal-knowledge-bot"
+      ],
+      "sourcePages": [
+        "/experience/restaurant-ops-dashboard-demo",
+        "/experience/gempo",
+        "/experience/recruit-cockpit",
+        "/experience/internal-knowledge-bot",
+        "/experience/ma-dd-valueup",
+        "/experience/smart-agri-copilot",
+        "/experience/handover-ai-charting",
+        "/experience/property-matching",
+        "/experience/internal-knowledge-share-bot"
+      ],
+      "refs": [
+        "src/lib/content/case-study-detail.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/saiyoumaching_mobile.png",
+      "url": "/images/saiyoumaching_mobile.png",
+      "type": "画像",
+      "bytes": 100875,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/saiyoumaching_mobile.webp",
+      "url": "/images/saiyoumaching_mobile.webp",
+      "type": "画像",
+      "bytes": 38102,
+      "classification": "ページ応答内に参照（データ・遅延表示含む）",
+      "elementPages": [],
+      "responsePages": [
+        "/experience/recruit-cockpit"
+      ],
+      "sourcePages": [
+        "/experience/restaurant-ops-dashboard-demo",
+        "/experience/gempo",
+        "/experience/recruit-cockpit",
+        "/experience/internal-knowledge-bot",
+        "/experience/ma-dd-valueup",
+        "/experience/smart-agri-copilot",
+        "/experience/handover-ai-charting",
+        "/experience/property-matching",
+        "/experience/internal-knowledge-share-bot"
+      ],
+      "refs": [
+        "src/lib/content/case-study-detail.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/saiyoumaching_pc.png",
+      "url": "/images/saiyoumaching_pc.png",
+      "type": "画像",
+      "bytes": 228213,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/saiyoumaching_pc.webp",
+      "url": "/images/saiyoumaching_pc.webp",
+      "type": "画像",
+      "bytes": 86678,
+      "classification": "HTMLの画像・動画・メタ情報に使用",
+      "elementPages": [
+        "/experience/recruit-cockpit"
+      ],
+      "responsePages": [
+        "/experience/recruit-cockpit"
+      ],
+      "sourcePages": [
+        "/contact",
+        "/experience",
+        "/",
+        "/solutions/professional-services",
+        "/solutions/retail-distribution",
+        "/solutions/logistics-mobility",
+        "/solutions/healthcare-public",
+        "/solutions/hospitality-food",
+        "/experience/restaurant-ops-dashboard-demo",
+        "/experience/gempo",
+        "/experience/recruit-cockpit",
+        "/experience/internal-knowledge-bot",
+        "/experience/ma-dd-valueup",
+        "/experience/smart-agri-copilot",
+        "/experience/handover-ai-charting",
+        "/experience/property-matching",
+        "/experience/internal-knowledge-share-bot"
+      ],
+      "refs": [
+        "src/lib/content/case-study-detail.ts",
+        "src/lib/content/implementation-showcase.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/salesdashboard_mobile.png",
+      "url": "/images/salesdashboard_mobile.png",
+      "type": "画像",
+      "bytes": 147239,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/salesdashboard_mobile.webp",
+      "url": "/images/salesdashboard_mobile.webp",
+      "type": "画像",
+      "bytes": 33500,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/salesdashboard_pc.png",
+      "url": "/images/salesdashboard_pc.png",
+      "type": "画像",
+      "bytes": 163119,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/salesdashboard_pc.webp",
+      "url": "/images/salesdashboard_pc.webp",
+      "type": "画像",
+      "bytes": 58860,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/services/approved/consulting-desktop.png",
+      "url": "/images/services/approved/consulting-desktop.png",
+      "type": "画像",
+      "bytes": 88012,
+      "classification": "実装上に参照あり（表示未確認）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [
+        "src/components/services/services-page.module.css"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/services/approved/desktop-reference.jpeg",
+      "url": "/images/services/approved/desktop-reference.jpeg",
+      "type": "画像",
+      "bytes": 503190,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/services/approved/enablement-desktop.png",
+      "url": "/images/services/approved/enablement-desktop.png",
+      "type": "画像",
+      "bytes": 78307,
+      "classification": "実装上に参照あり（表示未確認）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [
+        "src/components/services/services-page.module.css"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/services/approved/hero.png",
+      "url": "/images/services/approved/hero.png",
+      "type": "画像",
+      "bytes": 269903,
+      "classification": "ページ応答内に参照（データ・遅延表示含む）",
+      "elementPages": [],
+      "responsePages": [
+        "/services"
+      ],
+      "sourcePages": [
+        "/services"
+      ],
+      "refs": [
+        "src/components/services/ServicesPageContent.tsx"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/services/approved/menu-1.jpg",
+      "url": "/images/services/approved/menu-1.jpg",
+      "type": "画像",
+      "bytes": 14378,
+      "classification": "HTMLの画像・動画・メタ情報に使用",
+      "elementPages": [
+        "/services"
+      ],
+      "responsePages": [
+        "/services"
+      ],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/services/approved/menu-2.jpg",
+      "url": "/images/services/approved/menu-2.jpg",
+      "type": "画像",
+      "bytes": 14635,
+      "classification": "HTMLの画像・動画・メタ情報に使用",
+      "elementPages": [
+        "/services"
+      ],
+      "responsePages": [
+        "/services"
+      ],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/services/approved/menu-3.jpg",
+      "url": "/images/services/approved/menu-3.jpg",
+      "type": "画像",
+      "bytes": 15482,
+      "classification": "HTMLの画像・動画・メタ情報に使用",
+      "elementPages": [
+        "/services"
+      ],
+      "responsePages": [
+        "/services"
+      ],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/services/approved/menu-4.jpg",
+      "url": "/images/services/approved/menu-4.jpg",
+      "type": "画像",
+      "bytes": 14379,
+      "classification": "HTMLの画像・動画・メタ情報に使用",
+      "elementPages": [
+        "/services"
+      ],
+      "responsePages": [
+        "/services"
+      ],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/services/approved/mobile-reference.png",
+      "url": "/images/services/approved/mobile-reference.png",
+      "type": "画像",
+      "bytes": 1464454,
+      "classification": "HTMLの画像・動画・メタ情報に使用",
+      "elementPages": [
+        "/services"
+      ],
+      "responsePages": [
+        "/services"
+      ],
+      "sourcePages": [
+        "/services"
+      ],
+      "refs": [
+        "src/components/services/ServicesFlipCards.tsx"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/services/approved/process-wave.svg",
+      "url": "/images/services/approved/process-wave.svg",
+      "type": "画像",
+      "bytes": 222,
+      "classification": "実装上に参照あり（表示未確認）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [
+        "src/components/services/services-page.module.css"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/services/consulting/diagnosis.png",
+      "url": "/images/services/consulting/diagnosis.png",
+      "type": "画像",
+      "bytes": 1802349,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/services/consulting/organize.png",
+      "url": "/images/services/consulting/organize.png",
+      "type": "画像",
+      "bytes": 58512,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/services/consulting/plan.png",
+      "url": "/images/services/consulting/plan.png",
+      "type": "画像",
+      "bytes": 50531,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/services/consulting/poc.png",
+      "url": "/images/services/consulting/poc.png",
+      "type": "画像",
+      "bytes": 1471279,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/services/consulting/prioritize.png",
+      "url": "/images/services/consulting/prioritize.png",
+      "type": "画像",
+      "bytes": 44708,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/services/consulting/priority.png",
+      "url": "/images/services/consulting/priority.png",
+      "type": "画像",
+      "bytes": 1322735,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/services/consulting/process.png",
+      "url": "/images/services/consulting/process.png",
+      "type": "画像",
+      "bytes": 150539,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/services/dev/app-01.png",
+      "url": "/images/services/dev/app-01.png",
+      "type": "画像",
+      "bytes": 1515534,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/services/dev/app-02.png",
+      "url": "/images/services/dev/app-02.png",
+      "type": "画像",
+      "bytes": 1177415,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/services/dev/app-03.png",
+      "url": "/images/services/dev/app-03.png",
+      "type": "画像",
+      "bytes": 1421453,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/services/dev/app-04.png",
+      "url": "/images/services/dev/app-04.png",
+      "type": "画像",
+      "bytes": 1309065,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/services/dev/common-01.png",
+      "url": "/images/services/dev/common-01.png",
+      "type": "画像",
+      "bytes": 1794437,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/services/dev/common-02.png",
+      "url": "/images/services/dev/common-02.png",
+      "type": "画像",
+      "bytes": 1440374,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/services/dev/common-03.png",
+      "url": "/images/services/dev/common-03.png",
+      "type": "画像",
+      "bytes": 1353201,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/services/dev/common-04.png",
+      "url": "/images/services/dev/common-04.png",
+      "type": "画像",
+      "bytes": 1454039,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/services/dev/dashboard-01.png",
+      "url": "/images/services/dev/dashboard-01.png",
+      "type": "画像",
+      "bytes": 1451489,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/services/dev/dashboard-02.png",
+      "url": "/images/services/dev/dashboard-02.png",
+      "type": "画像",
+      "bytes": 1265156,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/services/dev/dashboard-03.png",
+      "url": "/images/services/dev/dashboard-03.png",
+      "type": "画像",
+      "bytes": 1364739,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/services/dev/dashboard-04.png",
+      "url": "/images/services/dev/dashboard-04.png",
+      "type": "画像",
+      "bytes": 1380067,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/services/dev/website-01.png",
+      "url": "/images/services/dev/website-01.png",
+      "type": "画像",
+      "bytes": 1584161,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/services/dev/website-02.png",
+      "url": "/images/services/dev/website-02.png",
+      "type": "画像",
+      "bytes": 1395904,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/services/dev/website-03.png",
+      "url": "/images/services/dev/website-03.png",
+      "type": "画像",
+      "bytes": 1240318,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/services/dev/website-04.png",
+      "url": "/images/services/dev/website-04.png",
+      "type": "画像",
+      "bytes": 1277989,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/services01.jpg",
+      "url": "/images/services01.jpg",
+      "type": "画像",
+      "bytes": 343372,
+      "classification": "実装上に参照あり（表示未確認）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [
+        "/services/insourcing-enablement"
+      ],
+      "refs": [
+        "src/components/services/ServicesDetailIntroImage.tsx",
+        "src/lib/content/services-embedded-copy.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/shiftkanri_pc.mp4",
+      "url": "/images/shiftkanri_pc.mp4",
+      "type": "動画",
+      "bytes": 14121722,
+      "classification": "実装上に参照あり（表示未確認）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [
+        "/experience/restaurant-ops-dashboard-demo",
+        "/experience/gempo",
+        "/experience/recruit-cockpit",
+        "/experience/internal-knowledge-bot",
+        "/experience/ma-dd-valueup",
+        "/experience/smart-agri-copilot",
+        "/experience/handover-ai-charting",
+        "/experience/property-matching",
+        "/experience/internal-knowledge-share-bot"
+      ],
+      "refs": [
+        "src/lib/content/case-study-detail.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/shiftkanri_pc.png",
+      "url": "/images/shiftkanri_pc.png",
+      "type": "画像",
+      "bytes": 89725,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/shiftkanri_pc.webp",
+      "url": "/images/shiftkanri_pc.webp",
+      "type": "画像",
+      "bytes": 34898,
+      "classification": "実装上に参照あり（表示未確認）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [
+        "/experience/restaurant-ops-dashboard-demo",
+        "/experience/gempo",
+        "/experience/recruit-cockpit",
+        "/experience/internal-knowledge-bot",
+        "/experience/ma-dd-valueup",
+        "/experience/smart-agri-copilot",
+        "/experience/handover-ai-charting",
+        "/experience/property-matching",
+        "/experience/internal-knowledge-share-bot"
+      ],
+      "refs": [
+        "src/lib/content/case-study-detail.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/showcase/gempo.jpg",
+      "url": "/images/showcase/gempo.jpg",
+      "type": "画像",
+      "bytes": 309737,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/showcase/internal-knowledge-bot.jpg",
+      "url": "/images/showcase/internal-knowledge-bot.jpg",
+      "type": "画像",
+      "bytes": 41720,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/showcase/recruit-cockpit.jpg",
+      "url": "/images/showcase/recruit-cockpit.jpg",
+      "type": "画像",
+      "bytes": 192218,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/showcase/sales-pipeline.jpg",
+      "url": "/images/showcase/sales-pipeline.jpg",
+      "type": "画像",
+      "bytes": 222596,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/showcase/shaken-notify.jpg",
+      "url": "/images/showcase/shaken-notify.jpg",
+      "type": "画像",
+      "bytes": 221595,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/showcase/shift-auto.jpg",
+      "url": "/images/showcase/shift-auto.jpg",
+      "type": "画像",
+      "bytes": 212821,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/souko.jpg",
+      "url": "/images/souko.jpg",
+      "type": "画像",
+      "bytes": 222596,
+      "classification": "HTMLの画像・動画・メタ情報に使用",
+      "elementPages": [
+        "/solutions/retail-distribution"
+      ],
+      "responsePages": [
+        "/solutions/retail-distribution"
+      ],
+      "sourcePages": [
+        "/contact",
+        "/solutions/professional-services",
+        "/solutions/retail-distribution",
+        "/solutions/logistics-mobility",
+        "/solutions/healthcare-public",
+        "/solutions/hospitality-food",
+        "/services/insourcing-enablement"
+      ],
+      "refs": [
+        "src/lib/content/industry-showcase.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/top/hero01.jpg",
+      "url": "/images/top/hero01.jpg",
+      "type": "画像",
+      "bytes": 74871,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/top/hero02.png",
+      "url": "/images/top/hero02.png",
+      "type": "画像",
+      "bytes": 2281398,
+      "classification": "HTMLの画像・動画・メタ情報に使用",
+      "elementPages": [
+        "/"
+      ],
+      "responsePages": [
+        "/"
+      ],
+      "sourcePages": [
+        "/"
+      ],
+      "refs": [
+        "src/lib/content/home-landing.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/top/hero03.jpg",
+      "url": "/images/top/hero03.jpg",
+      "type": "画像",
+      "bytes": 61981,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/top/mission.jpg",
+      "url": "/images/top/mission.jpg",
+      "type": "画像",
+      "bytes": 2288518,
+      "classification": "HTMLの画像・動画・メタ情報に使用",
+      "elementPages": [
+        "/"
+      ],
+      "responsePages": [
+        "/"
+      ],
+      "sourcePages": [
+        "/"
+      ],
+      "refs": [
+        "src/components/home/HomeBrandStorySection.tsx"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/top07_restauland.png",
+      "url": "/images/top07_restauland.png",
+      "type": "画像",
+      "bytes": 85862,
+      "classification": "HTMLの画像・動画・メタ情報に使用",
+      "elementPages": [
+        "/experience/restaurant-ops-dashboard-demo"
+      ],
+      "responsePages": [
+        "/solutions/hospitality-food",
+        "/experience/restaurant-ops-dashboard-demo"
+      ],
+      "sourcePages": [
+        "/contact",
+        "/experience",
+        "/",
+        "/solutions/professional-services",
+        "/solutions/retail-distribution",
+        "/solutions/logistics-mobility",
+        "/solutions/healthcare-public",
+        "/solutions/hospitality-food",
+        "/experience/restaurant-ops-dashboard-demo",
+        "/experience/gempo",
+        "/experience/recruit-cockpit",
+        "/experience/internal-knowledge-bot",
+        "/experience/ma-dd-valueup",
+        "/experience/smart-agri-copilot",
+        "/experience/handover-ai-charting",
+        "/experience/property-matching",
+        "/experience/internal-knowledge-share-bot"
+      ],
+      "refs": [
+        "src/lib/content/case-study-detail.ts",
+        "src/lib/content/implementation-showcase.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/top_about.jpg",
+      "url": "/images/top_about.jpg",
+      "type": "画像",
+      "bytes": 41720,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/unsou.jpg",
+      "url": "/images/unsou.jpg",
+      "type": "画像",
+      "bytes": 221595,
+      "classification": "HTMLの画像・動画・メタ情報に使用",
+      "elementPages": [
+        "/solutions/logistics-mobility"
+      ],
+      "responsePages": [
+        "/solutions/logistics-mobility"
+      ],
+      "sourcePages": [
+        "/contact",
+        "/solutions/professional-services",
+        "/solutions/retail-distribution",
+        "/solutions/logistics-mobility",
+        "/solutions/healthcare-public",
+        "/solutions/hospitality-food",
+        "/services/insourcing-enablement"
+      ],
+      "refs": [
+        "src/lib/content/industry-showcase.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/voicedemo_mobile.mp4",
+      "url": "/images/voicedemo_mobile.mp4",
+      "type": "動画",
+      "bytes": 4602252,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/voicememo.png",
+      "url": "/images/voicememo.png",
+      "type": "画像",
+      "bytes": 62536,
+      "classification": "HTMLの画像・動画・メタ情報に使用",
+      "elementPages": [
+        "/experience/handover-ai-charting"
+      ],
+      "responsePages": [
+        "/experience/handover-ai-charting"
+      ],
+      "sourcePages": [
+        "/contact",
+        "/experience",
+        "/",
+        "/solutions/professional-services",
+        "/solutions/retail-distribution",
+        "/solutions/logistics-mobility",
+        "/solutions/healthcare-public",
+        "/solutions/hospitality-food",
+        "/experience/restaurant-ops-dashboard-demo",
+        "/experience/gempo",
+        "/experience/recruit-cockpit",
+        "/experience/internal-knowledge-bot",
+        "/experience/ma-dd-valueup",
+        "/experience/smart-agri-copilot",
+        "/experience/handover-ai-charting",
+        "/experience/property-matching",
+        "/experience/internal-knowledge-share-bot"
+      ],
+      "refs": [
+        "src/lib/content/case-study-detail.ts",
+        "src/lib/content/implementation-showcase.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/images/ロゴ.png",
+      "url": "/images/ロゴ.png",
+      "type": "画像",
+      "bytes": 5676,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/lp/bill_os/input.png",
+      "url": "/lp/bill_os/input.png",
+      "type": "画像",
+      "bytes": 346452,
+      "classification": "ページ応答内に参照（データ・遅延表示含む）",
+      "elementPages": [],
+      "responsePages": [
+        "/prototype-showroom"
+      ],
+      "sourcePages": [
+        "/prototype-showroom"
+      ],
+      "refs": [
+        "src/lib/content/prototype-showroom.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/lp/bill_os/top.png",
+      "url": "/lp/bill_os/top.png",
+      "type": "画像",
+      "bytes": 767832,
+      "classification": "HTMLの画像・動画・メタ情報に使用",
+      "elementPages": [
+        "/prototype-showroom"
+      ],
+      "responsePages": [
+        "/prototype-showroom"
+      ],
+      "sourcePages": [
+        "/prototype-showroom"
+      ],
+      "refs": [
+        "src/lib/content/prototype-showroom.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/lp/bill_os/web_camera.png",
+      "url": "/lp/bill_os/web_camera.png",
+      "type": "画像",
+      "bytes": 445431,
+      "classification": "ページ応答内に参照（データ・遅延表示含む）",
+      "elementPages": [],
+      "responsePages": [
+        "/prototype-showroom"
+      ],
+      "sourcePages": [
+        "/prototype-showroom"
+      ],
+      "refs": [
+        "src/lib/content/prototype-showroom.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/lp/farm/input.png",
+      "url": "/lp/farm/input.png",
+      "type": "画像",
+      "bytes": 184406,
+      "classification": "ページ応答内に参照（データ・遅延表示含む）",
+      "elementPages": [],
+      "responsePages": [
+        "/prototype-showroom"
+      ],
+      "sourcePages": [
+        "/prototype-showroom"
+      ],
+      "refs": [
+        "src/lib/content/prototype-showroom.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/lp/farm/map.png",
+      "url": "/lp/farm/map.png",
+      "type": "画像",
+      "bytes": 574146,
+      "classification": "ページ応答内に参照（データ・遅延表示含む）",
+      "elementPages": [],
+      "responsePages": [
+        "/prototype-showroom"
+      ],
+      "sourcePages": [
+        "/prototype-showroom"
+      ],
+      "refs": [
+        "src/lib/content/prototype-showroom.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/lp/farm/top.png",
+      "url": "/lp/farm/top.png",
+      "type": "画像",
+      "bytes": 635893,
+      "classification": "ページ応答内に参照（データ・遅延表示含む）",
+      "elementPages": [],
+      "responsePages": [
+        "/prototype-showroom"
+      ],
+      "sourcePages": [
+        "/prototype-showroom"
+      ],
+      "refs": [
+        "src/lib/content/prototype-showroom.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/lp/genpo/check.png",
+      "url": "/lp/genpo/check.png",
+      "type": "画像",
+      "bytes": 130870,
+      "classification": "ページ応答内に参照（データ・遅延表示含む）",
+      "elementPages": [],
+      "responsePages": [
+        "/prototype-showroom"
+      ],
+      "sourcePages": [
+        "/prototype-showroom"
+      ],
+      "refs": [
+        "src/lib/content/prototype-showroom.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/lp/genpo/input.png",
+      "url": "/lp/genpo/input.png",
+      "type": "画像",
+      "bytes": 66088,
+      "classification": "ページ応答内に参照（データ・遅延表示含む）",
+      "elementPages": [],
+      "responsePages": [
+        "/prototype-showroom"
+      ],
+      "sourcePages": [
+        "/prototype-showroom"
+      ],
+      "refs": [
+        "src/lib/content/prototype-showroom.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/lp/genpo/top.png",
+      "url": "/lp/genpo/top.png",
+      "type": "画像",
+      "bytes": 157975,
+      "classification": "ページ応答内に参照（データ・遅延表示含む）",
+      "elementPages": [],
+      "responsePages": [
+        "/prototype-showroom"
+      ],
+      "sourcePages": [
+        "/prototype-showroom"
+      ],
+      "refs": [
+        "src/lib/content/prototype-showroom.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/lp/kaigo/check.png",
+      "url": "/lp/kaigo/check.png",
+      "type": "画像",
+      "bytes": 175659,
+      "classification": "ページ応答内に参照（データ・遅延表示含む）",
+      "elementPages": [],
+      "responsePages": [
+        "/prototype-showroom"
+      ],
+      "sourcePages": [
+        "/prototype-showroom"
+      ],
+      "refs": [
+        "src/lib/content/prototype-showroom.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/lp/kaigo/input.png",
+      "url": "/lp/kaigo/input.png",
+      "type": "画像",
+      "bytes": 107483,
+      "classification": "ページ応答内に参照（データ・遅延表示含む）",
+      "elementPages": [],
+      "responsePages": [
+        "/prototype-showroom"
+      ],
+      "sourcePages": [
+        "/prototype-showroom"
+      ],
+      "refs": [
+        "src/lib/content/prototype-showroom.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/lp/kaigo/logo.png",
+      "url": "/lp/kaigo/logo.png",
+      "type": "画像",
+      "bytes": 40988,
+      "classification": "HTMLの画像・動画・メタ情報に使用",
+      "elementPages": [
+        "/lp/kaigo-care-dx"
+      ],
+      "responsePages": [
+        "/lp/kaigo-care-dx"
+      ],
+      "sourcePages": [],
+      "refs": [
+        "public/lp/kaigo-care-dx.html"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/lp/kaigo/top.png",
+      "url": "/lp/kaigo/top.png",
+      "type": "画像",
+      "bytes": 202796,
+      "classification": "ページ応答内に参照（データ・遅延表示含む）",
+      "elementPages": [],
+      "responsePages": [
+        "/prototype-showroom"
+      ],
+      "sourcePages": [
+        "/prototype-showroom"
+      ],
+      "refs": [
+        "src/lib/content/prototype-showroom.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/media/experience/property-exterior-corridor-sample.svg",
+      "url": "/media/experience/property-exterior-corridor-sample.svg",
+      "type": "画像",
+      "bytes": 1638,
+      "classification": "実装上に参照あり（表示未確認）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [
+        "/experience/restaurant-ops-dashboard-demo",
+        "/experience/gempo",
+        "/experience/recruit-cockpit",
+        "/experience/internal-knowledge-bot",
+        "/experience/ma-dd-valueup",
+        "/experience/smart-agri-copilot",
+        "/experience/handover-ai-charting",
+        "/experience/property-matching",
+        "/experience/internal-knowledge-share-bot",
+        "/demo/legal-memory-secretary",
+        "/demo/contract-review-summary",
+        "/demo/meeting-minutes-auto",
+        "/demo/retail-floor-voice-handoff",
+        "/demo/inventory-balance-proposal",
+        "/demo/order-form-generator",
+        "/demo/driver-voice-incident-draft",
+        "/demo/delivery-photo-completion-report",
+        "/demo/delay-notice-template",
+        "/demo/clinic-general-inquiry-skeleton",
+        "/demo/civic-counter-reply-outline",
+        "/demo/restaurant-prep-list-from-bookings",
+        "/demo/shift-handover-summary",
+        "/demo/service-claim-reply-assist",
+        "/demo/internal-knowledge-share-bot"
+      ],
+      "refs": [
+        "src/components/experience/prototypes/ConstructionPhotoInspectionExperience.tsx",
+        "src/components/experience/prototypes/PropertyExteriorPhotoExperience.tsx"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/media/industries/construction.svg",
+      "url": "/media/industries/construction.svg",
+      "type": "画像",
+      "bytes": 550,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/media/industries/healthcare-public.svg",
+      "url": "/media/industries/healthcare-public.svg",
+      "type": "画像",
+      "bytes": 611,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/media/industries/hospitality-food.svg",
+      "url": "/media/industries/hospitality-food.svg",
+      "type": "画像",
+      "bytes": 647,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/media/industries/logistics-mobility.svg",
+      "url": "/media/industries/logistics-mobility.svg",
+      "type": "画像",
+      "bytes": 724,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/media/industries/professional-services.svg",
+      "url": "/media/industries/professional-services.svg",
+      "type": "画像",
+      "bytes": 675,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/media/industries/retail-distribution.svg",
+      "url": "/media/industries/retail-distribution.svg",
+      "type": "画像",
+      "bytes": 657,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/media/showcase/internal-knowledge-share-bot.mp4",
+      "url": "/media/showcase/internal-knowledge-share-bot.mp4",
+      "type": "動画",
+      "bytes": 27668508,
+      "classification": "HTMLの画像・動画・メタ情報に使用",
+      "elementPages": [
+        "/experience",
+        "/solutions/professional-services",
+        "/solutions/healthcare-public",
+        "/experience/internal-knowledge-bot"
+      ],
+      "responsePages": [
+        "/experience",
+        "/solutions/professional-services",
+        "/solutions/healthcare-public",
+        "/experience/internal-knowledge-bot"
+      ],
+      "sourcePages": [
+        "/contact",
+        "/experience",
+        "/",
+        "/solutions/professional-services",
+        "/solutions/retail-distribution",
+        "/solutions/logistics-mobility",
+        "/solutions/healthcare-public",
+        "/solutions/hospitality-food",
+        "/experience/restaurant-ops-dashboard-demo",
+        "/experience/gempo",
+        "/experience/recruit-cockpit",
+        "/experience/internal-knowledge-bot",
+        "/experience/ma-dd-valueup",
+        "/experience/smart-agri-copilot",
+        "/experience/handover-ai-charting",
+        "/experience/property-matching",
+        "/experience/internal-knowledge-share-bot"
+      ],
+      "refs": [
+        "src/lib/content/case-study-detail.ts",
+        "src/lib/content/implementation-showcase.ts",
+        "src/lib/experience/featured-showcase-media.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/media/showcase/restaurant-ops-dashboard-demo.mp4",
+      "url": "/media/showcase/restaurant-ops-dashboard-demo.mp4",
+      "type": "動画",
+      "bytes": 54536446,
+      "classification": "実装上に参照あり（表示未確認）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [
+        "src/lib/experience/featured-showcase-media.ts"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/next.svg",
+      "url": "/next.svg",
+      "type": "画像",
+      "bytes": 1375,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/og.png",
+      "url": "/og.png",
+      "type": "画像",
+      "bytes": 9557,
+      "classification": "HTMLの画像・動画・メタ情報に使用",
+      "elementPages": [
+        "/about",
+        "/contact",
+        "/estimate-detailed/amount",
+        "/estimate-detailed",
+        "/estimate-detailed/processing",
+        "/estimate-detailed/result",
+        "/experience",
+        "/",
+        "/prototype-showroom",
+        "/services/consulting",
+        "/services",
+        "/articles/construction",
+        "/articles/manufacturing",
+        "/articles/care",
+        "/articles/childcare",
+        "/articles/retail",
+        "/articles/restaurant",
+        "/articles/building",
+        "/articles/logistics",
+        "/articles/warehouse",
+        "/articles/t/night-inquiry",
+        "/articles/t/shop-voice",
+        "/articles/t/shift-notice",
+        "/articles/t/receipt-search",
+        "/articles/t/invoice-fields",
+        "/articles/t/minutes-names",
+        "/articles/t/mail-paste",
+        "/articles/t/folder-rights",
+        "/articles/t/quote-price",
+        "/articles/t/time-stamp",
+        "/industries/construction",
+        "/industries/manufacturing",
+        "/solutions/professional-services",
+        "/solutions/retail-distribution",
+        "/solutions/logistics-mobility",
+        "/solutions/healthcare-public",
+        "/solutions/hospitality-food",
+        "/experience/restaurant-ops-dashboard-demo",
+        "/experience/gempo",
+        "/experience/recruit-cockpit",
+        "/experience/internal-knowledge-bot",
+        "/experience/ma-dd-valueup",
+        "/experience/smart-agri-copilot",
+        "/experience/handover-ai-charting",
+        "/experience/property-matching",
+        "/experience/internal-knowledge-share-bot",
+        "/services/insourcing-enablement",
+        "/demo/legal-memory-secretary",
+        "/demo/contract-review-summary",
+        "/demo/meeting-minutes-auto",
+        "/demo/retail-floor-voice-handoff",
+        "/demo/inventory-balance-proposal",
+        "/demo/order-form-generator",
+        "/demo/driver-voice-incident-draft",
+        "/demo/delivery-photo-completion-report",
+        "/demo/delay-notice-template",
+        "/demo/clinic-general-inquiry-skeleton",
+        "/demo/civic-counter-reply-outline",
+        "/demo/restaurant-prep-list-from-bookings",
+        "/demo/shift-handover-summary",
+        "/demo/service-claim-reply-assist",
+        "/demo/internal-knowledge-share-bot"
+      ],
+      "responsePages": [
+        "/about",
+        "/contact",
+        "/estimate-detailed/amount",
+        "/estimate-detailed",
+        "/estimate-detailed/processing",
+        "/estimate-detailed/result",
+        "/experience",
+        "/",
+        "/prototype-showroom",
+        "/services/consulting",
+        "/services",
+        "/articles/construction",
+        "/articles/manufacturing",
+        "/articles/care",
+        "/articles/childcare",
+        "/articles/retail",
+        "/articles/restaurant",
+        "/articles/building",
+        "/articles/logistics",
+        "/articles/warehouse",
+        "/articles/t/night-inquiry",
+        "/articles/t/shop-voice",
+        "/articles/t/shift-notice",
+        "/articles/t/receipt-search",
+        "/articles/t/invoice-fields",
+        "/articles/t/minutes-names",
+        "/articles/t/mail-paste",
+        "/articles/t/folder-rights",
+        "/articles/t/quote-price",
+        "/articles/t/time-stamp",
+        "/industries/construction",
+        "/industries/manufacturing",
+        "/solutions/professional-services",
+        "/solutions/retail-distribution",
+        "/solutions/logistics-mobility",
+        "/solutions/healthcare-public",
+        "/solutions/hospitality-food",
+        "/experience/restaurant-ops-dashboard-demo",
+        "/experience/gempo",
+        "/experience/recruit-cockpit",
+        "/experience/internal-knowledge-bot",
+        "/experience/ma-dd-valueup",
+        "/experience/smart-agri-copilot",
+        "/experience/handover-ai-charting",
+        "/experience/property-matching",
+        "/experience/internal-knowledge-share-bot",
+        "/services/insourcing-enablement",
+        "/demo/legal-memory-secretary",
+        "/demo/contract-review-summary",
+        "/demo/meeting-minutes-auto",
+        "/demo/retail-floor-voice-handoff",
+        "/demo/inventory-balance-proposal",
+        "/demo/order-form-generator",
+        "/demo/driver-voice-incident-draft",
+        "/demo/delivery-photo-completion-report",
+        "/demo/delay-notice-template",
+        "/demo/clinic-general-inquiry-skeleton",
+        "/demo/civic-counter-reply-outline",
+        "/demo/restaurant-prep-list-from-bookings",
+        "/demo/shift-handover-summary",
+        "/demo/service-claim-reply-assist",
+        "/demo/internal-knowledge-share-bot"
+      ],
+      "sourcePages": [
+        "/about",
+        "/contact",
+        "/estimate-detailed/amount",
+        "/estimate-detailed",
+        "/estimate-detailed/processing",
+        "/estimate-detailed/result",
+        "/experience",
+        "/",
+        "/prototype-showroom",
+        "/services/consulting",
+        "/services",
+        "/articles/construction",
+        "/articles/manufacturing",
+        "/articles/care",
+        "/articles/childcare",
+        "/articles/retail",
+        "/articles/restaurant",
+        "/articles/building",
+        "/articles/logistics",
+        "/articles/warehouse",
+        "/articles/t/night-inquiry",
+        "/articles/t/shop-voice",
+        "/articles/t/shift-notice",
+        "/articles/t/receipt-search",
+        "/articles/t/invoice-fields",
+        "/articles/t/minutes-names",
+        "/articles/t/mail-paste",
+        "/articles/t/folder-rights",
+        "/articles/t/quote-price",
+        "/articles/t/time-stamp",
+        "/industries/construction",
+        "/industries/manufacturing",
+        "/solutions/professional-services",
+        "/solutions/retail-distribution",
+        "/solutions/logistics-mobility",
+        "/solutions/healthcare-public",
+        "/solutions/hospitality-food",
+        "/experience/restaurant-ops-dashboard-demo",
+        "/experience/gempo",
+        "/experience/recruit-cockpit",
+        "/experience/internal-knowledge-bot",
+        "/experience/ma-dd-valueup",
+        "/experience/smart-agri-copilot",
+        "/experience/handover-ai-charting",
+        "/experience/property-matching",
+        "/experience/internal-knowledge-share-bot",
+        "/services/insourcing-enablement",
+        "/demo/legal-memory-secretary",
+        "/demo/contract-review-summary",
+        "/demo/meeting-minutes-auto",
+        "/demo/retail-floor-voice-handoff",
+        "/demo/inventory-balance-proposal",
+        "/demo/order-form-generator",
+        "/demo/driver-voice-incident-draft",
+        "/demo/delivery-photo-completion-report",
+        "/demo/delay-notice-template",
+        "/demo/clinic-general-inquiry-skeleton",
+        "/demo/civic-counter-reply-outline",
+        "/demo/restaurant-prep-list-from-bookings",
+        "/demo/shift-handover-summary",
+        "/demo/service-claim-reply-assist",
+        "/demo/internal-knowledge-share-bot"
+      ],
+      "refs": [
+        "src/app/layout.tsx"
+      ],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/vercel.svg",
+      "url": "/vercel.svg",
+      "type": "画像",
+      "bytes": 128,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    },
+    {
+      "file": "public/window.svg",
+      "url": "/window.svg",
+      "type": "画像",
+      "bytes": 385,
+      "classification": "未使用候補（実装内の参照なし）",
+      "elementPages": [],
+      "responsePages": [],
+      "sourcePages": [],
+      "refs": [],
+      "dynamicRefs": []
+    }
+  ],
+  "outside": [
+    {
+      "file": "docs/最終改善/axeon_consulting_desktop_full.png",
+      "bytes": 709138,
+      "classification": "public外（サイト配信対象外。資料・検証・元素材を含む）"
+    },
+    {
+      "file": "docs/最終改善/axeon_consulting_mobile_full.png",
+      "bytes": 484926,
+      "classification": "public外（サイト配信対象外。資料・検証・元素材を含む）"
+    },
+    {
+      "file": "docs/最終改善/axeon_external_it_desktop_full.png",
+      "bytes": 834694,
+      "classification": "public外（サイト配信対象外。資料・検証・元素材を含む）"
+    },
+    {
+      "file": "docs/最終改善/axeon_external_it_mobile_full.png",
+      "bytes": 570725,
+      "classification": "public外（サイト配信対象外。資料・検証・元素材を含む）"
+    },
+    {
+      "file": "docs/最終改善/AXEON外部契約サービス案内ページ.png",
+      "bytes": 1545699,
+      "classification": "public外（サイト配信対象外。資料・検証・元素材を含む）"
+    },
+    {
+      "file": "docs/最終改善/AXEON業務整理と改善提案ランディングページ.png",
+      "bytes": 1428840,
+      "classification": "public外（サイト配信対象外。資料・検証・元素材を含む）"
+    },
+    {
+      "file": "tec02.avif",
+      "bytes": 469697,
+      "classification": "public外（サイト配信対象外。資料・検証・元素材を含む）"
+    }
+  ]
+}
