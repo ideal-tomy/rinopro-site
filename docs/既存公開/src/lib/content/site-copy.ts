@@ -1,0 +1,1077 @@
+/**
+ * ページ文言の一元管理
+ * 営業トーンを抑え、技術力と相談導線を両立する表現に統一
+ */
+
+// --- トップ ---
+export const topCopy = {
+  tagline: "「話す」だけで、次が見えてくる。",
+  subline:
+    "AXEONは、ただ情報を載せるだけのサイトではありません。\nAIとの対話を通じて、あなたの頭の中にある「漠然とした悩み」を最短ルートで構造化します。\n日報、写真、顧客対応——。\n定型業務に奪われる時間を減らし、『人にしかできない判断と創造』に\n集中できる環境をつくります。",
+} as const;
+
+/**
+ * 右下FAB「AIに相談」付近の先回り吹き出し（`ConciergeFabNudge`）
+ * ページIDごとに3文をローテ。v2 で閉じる状態のキー変更（v1 無効化）。
+ */
+export const conciergeFabNudgeShared = {
+  storageKey: "AXEON:fab-nudge:v2" as const,
+  rotationIntervalMs: 9000,
+  /** 吹き出しの操作は閉じるのみ（`ConciergeFabNudge`） */
+  controls: {
+    close: "閉じる",
+  },
+} as const;
+
+export type ConciergeFabNudgePageId =
+  | "home"
+  | "demo_hub"
+  | "demo_list"
+  | "demo_detail"
+  | "services"
+  | "contact"
+  | "consulting"
+  | "flow"
+  | "other";
+
+type FabNudgePageContent = {
+  regionAriaLabel: string;
+  lines: readonly [string, string, string];
+};
+
+export const conciergeFabNudgeByPageId: Record<
+  ConciergeFabNudgePageId,
+  FabNudgePageContent
+> = {
+  home: {
+    regionAriaLabel: "AIコンシェルジュからの案内",
+    lines: [
+      "経営課題がまだ言葉になっていなくても、初回相談から整理できます。",
+      "コンサルティングと開発を分けずに話せるので、提案書だけで終わりにくい進め方です。",
+      "状況が固まっていない段階でも、お気軽にご相談ください。",
+    ],
+  },
+  demo_hub: {
+    regionAriaLabel: "体験ラボの案内",
+    lines: [
+      "いま感じている課題のキーワードを、短く教えてください。",
+      "例：書類探し、写真の振り分け、問い合わせ返信、など。",
+      "目的に近い体験の探し方や、比較の相談も受け付けます。",
+    ],
+  },
+  demo_list: {
+    regionAriaLabel: "デモ一覧の案内",
+    lines: [
+      "比較したい観点（業種・用途・工数感など）を教えてください。",
+      "一覧が多くて迷う場合は、候補を一緒に絞れます。",
+      "短くメモのように送っても、質問形式で整えてもOKです。",
+    ],
+  },
+  demo_detail: {
+    regionAriaLabel: "体験デモの案内",
+    lines: [
+      "この体験で確かめたいこと、うまく言語化しきれなければ雑多でもOKです。",
+      "うまくいかなかった点や、自社に当てはめた疑問を投げてください。",
+      "他のデモ候補や、応用のイメージも相談できます。",
+    ],
+  },
+  services: {
+    regionAriaLabel: "サービス案内",
+    lines: [
+      "開発とコンサルティング、どちらに近い相談か、迷っていても構いません。",
+      "今の制約（期日感・社内合意のしやすさなど）は、ざっくりで大丈夫です。",
+      "文書を読んでも整理が難しければ、会話の方が早いこともあります。",
+    ],
+  },
+  contact: {
+    regionAriaLabel: "お問い合わせ案内",
+    lines: [
+      "問い合わせ前に、用件の骨子を一緒に整えたい方へ。",
+      "言葉に詰まる場合は、質問に答えるだけで文章の素案にできます。",
+      "営業を迫るものではありません。必要な事実だけ抜き出します。",
+    ],
+  },
+  consulting: {
+    regionAriaLabel: "コンサルティング案内",
+    lines: [
+      "現場の制約（体制・工数感・いつまでに結論欲しいか）を、短くで構いません。",
+      "いま起きていることと、欲しい形のギャップを一緒に言語化します。",
+      "過剰な提案に進みすぎないよう、次の一歩に絞って話せます。",
+    ],
+  },
+  flow: {
+    regionAriaLabel: "開発の流れの案内",
+    lines: [
+      "いま何が見えていて、次に知りたいのは何ですか。",
+      "試作の範囲、現場検証、本実装、など段階の相談もできます。",
+      "うまく言えなければ、質問形式で一緒に形にします。",
+    ],
+  },
+  other: {
+    regionAriaLabel: "AIコンシェルジュからの案内",
+    lines: [
+      "いま手が止まっている点や、聞きたいことを、短く送ってください。",
+      "専門用語が出たら、かみ砕いて説明します。",
+      "うまく言えなければ、質問に答えていく形でも大丈夫です。",
+    ],
+  },
+};
+
+/**
+ * 現在のパスに対応する FAB 吹き出しのページID
+ */
+export function getConciergeFabNudgePageId(
+  pathname: string | null
+): ConciergeFabNudgePageId {
+  if (!pathname || pathname === "/") {
+    return "home";
+  }
+  if (pathname === "/demo" || pathname === "/experience") {
+    return "demo_hub";
+  }
+  if (pathname === "/demo/list") {
+    return "demo_list";
+  }
+  if (/^\/demo\/[^/]+$/.test(pathname)) {
+    return "demo_detail";
+  }
+  if (pathname === "/services" || pathname.startsWith("/services/")) {
+    return "services";
+  }
+  if (pathname === "/contact") {
+    return "contact";
+  }
+  if (pathname === "/consulting") {
+    return "consulting";
+  }
+  if (pathname === "/flow") {
+    return "flow";
+  }
+  return "other";
+}
+
+/** トップ：会話を使わない導線（3カード直下） */
+export const homeSelfServeRowCopy = {
+  lead: "会話を使わずに見る",
+  links: [
+    { href: "/experience", label: "体験デモ" },
+    { href: "/services", label: "ご支援内容" },
+  ],
+} as const;
+
+/** トップページ：相談・体験・料金の3カード（見出しリードは非表示のため未使用フィールドあり） */
+export const homeQuickStartCopy = {
+  title: "おすすめの進み方",
+  intro:
+    "気になる入口からどうぞ。途中で別の進み方に切り替えても問題ありません。",
+  consult: {
+    title: "まずはお問い合わせ",
+    body: "課題の輪郭や進め方について、専門家が初回の対話で整理します。\n相談だけのご連絡も歓迎です。",
+    ctaLabel: "お問い合わせする",
+  },
+  experience: {
+    title: "実例から、可能性を掴む。",
+    body: "厳選された活用シナリオから、自社に最適な導入イメージを具体化します。\n「何ができるか」を直感的に理解しましょう。",
+    ctaLabel: "活用事例を見る",
+    ctaHref: "/experience",
+  },
+  estimate: {
+    title: "数字で、実現を具体化する。",
+    body: "わずか数問の回答で、プロジェクトに必要な期間と概算費用を算出します。\n予算計画の最初のステップとしてご活用ください。",
+    ctaLabel: "概算を確認する",
+    ctaHref: "/estimate-detailed",
+  },
+} as const;
+
+/** トップページ「開発について」セクション */
+export const homeDevelopmentSectionCopy = {
+  sectionTitle: "開発について",
+  lead: "迷いを断ち切り、ビジネスを加速させる実装力。",
+  body: "「何を作るか」が曖昧なまま開発をスタートさせることはありません。\n私たちは、対話を通じて磨き上げた「本当に必要な機能」だけを、確かな技術で形にします。\n一段ずつ、納得感を持って進めるプロセスで、開発にありがちな「認識のズレ」を徹底排除。\nプロフェッショナルの手で、現場が手放せなくなる高品質なシステムを構築します。",
+  ctaLabel: "開発の流れ",
+  ctaHref: "/services/insourcing-enablement",
+} as const;
+
+/** トップページ「コンサルティングについて」セクション */
+export const homeConsultingSectionCopy = {
+  sectionTitle: "コンサルティングについて",
+  lead: "机上の空論を捨て、現場に結果を。",
+  body: "私たちは現場の最前線に飛び込み、ITが「当たり前の道具」として定着するまで並走し続けます。\n過剰な提案でコストを膨らませるのではなく、今の組織にとって最も効果的な「次の一手」を共に実行し、\n自走できる組織へと導きます。",
+  ctaLabel: "コンサルティングを見る",
+  ctaHref: "/services/consulting",
+} as const;
+
+export const demoHubCopy = {
+  title: "DXの種が見つかる、体験ラボ",
+  intro: "漠然としたDX化のイメージを膨らませる場所です。",
+  guide:
+    "実装サンプルを通じて、私たちの開発品質と進め方をご確認いただけます。",
+  /** 体験ハブ：一覧へ進む */
+  conciergeCtaLabel: "demo一覧を見る",
+  featuredTitle: "まずはここから",
+  featuredBody:
+    "短時間で操作感や画面の雰囲気をつかみやすい体験を並べています。",
+  catalogTitle: "一覧で広く比較する",
+  catalogBody:
+    "このページは厳選した入口です。業種や用途を横断して探したい場合は、一覧ページでまとめて比べられます。",
+} as const;
+
+// --- サービス ---
+export const servicesCopy = {
+  title: "ご支援内容",
+  purpose:
+    "提供の入り口は、コンサルティングと半内製化（FDE）の2つです。課題の整理から実装・社内への移管まで、必要な範囲を同じチームで進めます。",
+  cta: "相談する",
+  development: {
+    title: "半内製化（FDE）",
+    desc: "開発・データ基盤・運用を一緒に回しながら、知見をチームへ移します。",
+    href: "/services/insourcing-enablement",
+  },
+  consulting: {
+    title: "コンサルティング",
+    desc: "業務診断、優先順位設計、PoC設計、定着支援。検証可能な範囲で進める。",
+    href: "/services/consulting",
+  },
+} as const;
+
+// --- 開発の流れ ---
+export const developmentFlowCopy = {
+  title: "開発の流れ",
+  purpose: "現状整理から本実装まで、段階的な検証で判断を積み重ねる。",
+  steps: [
+    {
+      label: "現状整理",
+      desc: "業務フローと負荷ポイントを可視化し、改善余地を特定する。",
+    },
+    {
+      label: "要件化",
+      desc: "AIで扱うタスクを明確化。入力・出力・判定基準を定義する。",
+    },
+    {
+      label: "試作・現場検証",
+      desc: "小規模な試作で検証し、現場のフィードバックを反映する。",
+    },
+    {
+      label: "本実装",
+      desc: "既存システムとの連携、運用設計、改善ループの仕組みを構築する。",
+    },
+  ],
+  cta: "相談する",
+} as const;
+
+// --- コンサルティング ---
+export const consultingCopy = {
+  title: "コンサルティング",
+  purpose: "業務診断から定着支援まで。検証可能な範囲で、過剰提案しない。",
+  items: [
+    {
+      label: "業務診断",
+      desc: "現場の業務を分解し、効率化の余地と優先順位を整理する。",
+    },
+    {
+      label: "優先順位設計",
+      desc: "ROIと実現可能性を踏まえ、着手順序を設計する。",
+    },
+    {
+      label: "PoC設計・定着支援",
+      desc: "短期間の検証で効果を確認し、現場に定着させるまで伴走する。",
+    },
+  ],
+  cta: "相談する",
+} as const;
+
+/** コンサルティング詳細（概要ページ内統合・チャット参照用） */
+export const consultingDetailPageCopy = {
+  title: consultingCopy.title,
+  reassurance:
+    "進める範囲と確認ポイントは文書で共有し、合意した範囲で進めます。試した結果を見てから、次に広げるかどうかを落ち着いて決められます。",
+  cta: consultingCopy.cta,
+} as const;
+
+/** `/services/development`（開発の進め方）向け FAQ（第4章テンプレの不足ブロック補完） */
+export const servicesDevelopmentFaqCopy = {
+  kicker: "FAQ",
+  heading: "開発・実装についてよくある質問",
+  intro:
+    "タブで進め方の詳細は切り替えられます。ここでは複数トラック共通で聞かれる論点をまとめています。",
+  items: [
+    {
+      q: "いきなり本開発に入れますか？",
+      a: "小さく試してから広げる進め方を推奨します。試作と現場検証の結果を見て、本実装のスコープを確定します。",
+    },
+    {
+      q: "既存システムとの連携はどう進めますか？",
+      a: "API・ファイル連携・バッチなど、既存の成熟度に合わせて選択します。最初から全面連携を前提にせず、境界を決めて進めることが多いです。",
+    },
+    {
+      q: "保守・運用はどうなりますか？",
+      a: "監視項目と権限設計を初期から織り込み、引き継ぎドキュメントと運用ルールまで含めて整理します。",
+    },
+  ],
+} as const;
+
+/**
+ * `/flow` タブ識別子。
+ * 将来追加候補: `ai_automation`（文書生成・問い合わせトリアージ・ナレッジ検索等）、
+ * `operations_enablement`（運用・定着・権限設計の伴走）など。
+ */
+export type FlowTrackKey = "common" | "website" | "app" | "dashboard";
+
+export const FLOW_TRACK_ORDER: readonly FlowTrackKey[] = [
+  "common",
+  "website",
+  "app",
+  "dashboard",
+] as const;
+
+export type FlowDetailStepCopy = {
+  step: string;
+  labelJa: string;
+  body: string;
+};
+
+export type FlowDetailPageTrackCopy = {
+  /** タブに表示する短いラベル */
+  tabLabel: string;
+  title: string;
+  purpose: string;
+  lifecycleLabel: string;
+  lifecycleSub: string;
+  intro: string;
+  steps: readonly FlowDetailStepCopy[];
+  reassurance?: string;
+  architectureTitle?: string;
+  architectureBody?: string;
+  /** 見積もり導線（本文では金額を明示しない） */
+  cta: string;
+  ctaHref: string;
+};
+
+/** /flow 詳細ページ：トラック別コピー */
+export const flowDetailPageCopyByTrack: Record<
+  FlowTrackKey,
+  FlowDetailPageTrackCopy
+> = {
+  common: {
+    tabLabel: "共通の進め方",
+    title: "開発の進め方（共通）",
+    purpose:
+      "「何を作るか」を現場と揃え、試作で確かめてから本実装へ。手戻りを減らす進め方です。",
+    lifecycleLabel: "開発の全体像",
+    lifecycleSub: "何を決めて、何を渡すか",
+    intro:
+      "完成を待たずに、どの順番で整理し、どこで止めて確認するかを先に共有します。AXEON の標準フローは、現状整理→要件化→試作検証→本実装の4段階です。費用は案件ごとに異なるため、**選択式の見積もり**で範囲を選び、目安をご確認ください。",
+    steps: [
+      {
+        step: "01",
+        labelJa: "現状整理",
+        body: "業務の流れを一枚の地図にし、時間が溶けている箇所と、誰が困っているかを可視化します。ヒアリングだけで終わらせず、現場の実データを見ながら「ここを変えると効く」を特定します。",
+      },
+      {
+        step: "02",
+        labelJa: "要件化",
+        body: "「何を入れて、何が返ってくると役立つか」を関係者全員で揃えます。連携先・権限・成功の判断基準までここで固定し、開発中の認識ズレを防ぎます。",
+      },
+      {
+        step: "03",
+        labelJa: "試作・現場検証",
+        body: "完成を待たずに“触れる試作”を先に出します。現場が実際に操作して、速さ・分かりやすさ・抜け漏れをその場で確認。手戻りは本実装前に潰します。",
+      },
+      {
+        step: "04",
+        labelJa: "本実装",
+        body: "試作で固めた範囲を本番品質に仕上げ、権限・運用・改善の手順までセットで引き渡します。公開後も直しやすい構成にしておき、改善サイクルを回せる状態にします。",
+      },
+    ],
+    reassurance:
+      "各段階で「ここまでできていれば次へ」を合意し、仕様の自然増殖を抑えます。運用開始後の改善も、最初から見据えて設計します。",
+    architectureTitle: "技術面で大切にしていること",
+    architectureBody:
+      "高価な仕組みの積み上げより、**速く・分かりやすく・続けやすいこと**を優先します。応答速度と運用コストのバランスを取り、ITに詳しくない人でも扱える体験を実装で支えます。",
+    cta: "見積もりで要件を整理する",
+    ctaHref: "/estimate-detailed",
+  },
+  website: {
+    tabLabel: "Webサイト制作",
+    title: "Webサイト制作の進め方",
+    purpose:
+      "見た目だけでなく、導線・更新・計測まで含めた「回るサイト」を設計します。",
+    lifecycleLabel: "Web制作の流れ",
+    lifecycleSub: "導線と運用",
+    intro:
+      "コーポレート・LP・採用など、サイトの役割を先に決め、誰が何を更新し、何を計測するかまで含めて設計します。費用はページ構成と連携範囲で変わるため、**選択式の見積もり**で整理したうえで目安をご確認ください。",
+    steps: [
+      {
+        step: "01",
+        labelJa: "現状整理",
+        body: "今の導線・流入経路・更新体制を洗い出し、「どのページが成果に効いているか」を把握します。計測の有無と更新の負担もここで見える化し、改善の優先順位を決めます。",
+      },
+      {
+        step: "02",
+        labelJa: "要件化",
+        body: "サイトマップと各ページの役割、CMS・権限・計測イベントを定義します。「誰が・いつ・何を更新するか」まで決め、公開後の運用負荷を先に見積もります。",
+      },
+      {
+        step: "03",
+        labelJa: "試作・検証",
+        body: "ワイヤーやプロトタイプを実機で確認し、読みやすさと表示速度を検証します。スマホ・タブレットでの見え方もこの段階で固め、公開後の手戻りを減らします。",
+      },
+      {
+        step: "04",
+        labelJa: "本実装",
+        body: "本番公開に向け、監視・バックアップ・計測ダッシュボードまで整備します。公開後のコンテンツ更新と数値の見直しが、社内で回せる状態で引き渡します。",
+      },
+    ],
+    reassurance:
+      "公開前に受入基準をすり合わせ、リリース後の更新・計測の見直しも前提に置きます。",
+    architectureTitle: "体験と表示速度",
+    architectureBody:
+      "**表示速度・検索・読みやすさ**を設計段階から組み込み、モダンなフロント基盤で保守しやすい構成にします。ブランドのトーンと運用負荷のバランスを、実装で支えます。",
+    cta: "見積もりで要件を整理する",
+    ctaHref: "/estimate-detailed",
+  },
+  app: {
+    tabLabel: "アプリ開発",
+    title: "アプリ開発の進め方",
+    purpose:
+      "利用シーンから逆算し、現場が毎日使い続けられる操作体験を設計します。",
+    lifecycleLabel: "アプリ開発の流れ",
+    lifecycleSub: "体験と運用",
+    intro:
+      "Webアプリ・社内ツール・モバイル向けなど、利用端末と連携先を先に整理し、認証・通知・データの流れを一つの体験として設計します。費用は機能範囲と連携先に左右されるため、**選択式の見積もり**で要件を選び、目安をご確認ください。",
+    steps: [
+      {
+        step: "01",
+        labelJa: "現状整理",
+        body: "誰が・いつ・どの端末で使うか、既存システムとの連携前提を洗い出します。オフライン要否や通知のタイミングもここで決め、後工程での仕様変更を抑えます。",
+      },
+      {
+        step: "02",
+        labelJa: "要件化",
+        body: "画面遷移・API・権限・通知・監査ログを一枚の設計図にまとめます。「誰が何を見られるか」を早期に固定し、セキュリティと使いやすさの両立を図ります。",
+      },
+      {
+        step: "03",
+        labelJa: "試作・検証",
+        body: "試作ビルドを現場に渡し、操作のしやすさとエラー時の挙動を実機で検証します。負荷の目安もこの段階で把握し、本実装の見通しを立てます。",
+      },
+      {
+        step: "04",
+        labelJa: "本実装",
+        body: "本番リリース、監視・アラート、改善のリリースサイクルまで設計します。障害時の切り分け手順と、機能追加の進め方もセットで引き渡します。",
+      },
+    ],
+    reassurance:
+      "権限とデータの境界を早い段階で固定し、仕様の自然増殖を抑えます。",
+    architectureTitle: "安定性と安全性",
+    architectureBody:
+      "**認証・権限・監査**を設計に組み込み、運用で追いやすいログとリリース手順を用意します。利用者の負荷を下げる操作設計を、最初から優先します。",
+    cta: "見積もりで要件を整理する",
+    ctaHref: "/estimate-detailed",
+  },
+  dashboard: {
+    tabLabel: "業務ダッシュボード",
+    title: "業務ダッシュボード開発の進め方",
+    purpose:
+      "散らばった数字を一画面に集約し、現場の判断が止まらない状態をつくります。",
+    lifecycleLabel: "ダッシュボード開発の流れ",
+    lifecycleSub: "指標と権限",
+    intro:
+      "KPIの定義・データの出所・更新頻度・権限を先に揃え、見たい人にだけ正しい数字が届くダッシュボードを目指します。費用は指標とデータソースの数に依存するため、**選択式の見積もり**で範囲を選び、目安をご確認ください。",
+    steps: [
+      {
+        step: "01",
+        labelJa: "現状整理",
+        body: "意思決定の流れと、いまどこで数字を探しているかを洗い出します。Excel・紙・別システムに散らばった指標を一覧化し、本当に必要なKPI候補を絞り込みます。",
+      },
+      {
+        step: "02",
+        labelJa: "要件化",
+        body: "KPI辞書・データマッピング・更新頻度・権限設計を固めます。「この数字は誰が・いつ・何の根拠で見るか」を定義し、運用でブレない見え方の土台を作ります。",
+      },
+      {
+        step: "03",
+        labelJa: "試作・検証",
+        body: "試作画面でチャートの見え方とドリルダウン操作を現場検証します。「欲しい数字にたどり着けるか」を実際に触って確認し、本実装前にUIを固めます。",
+      },
+      {
+        step: "04",
+        labelJa: "本実装",
+        body: "本番データ連携・監視・アラートまで整備し、指標の改善サイクルも設計します。データの鮮度が落ちたときに気づける仕組みまで含めて引き渡します。",
+      },
+    ],
+    cta: "見積もりで要件を整理する",
+    ctaHref: "/estimate-detailed",
+  },
+};
+
+/** 後方互換・metadata 用：共通トラック */
+export const flowDetailPageCopy: FlowDetailPageTrackCopy =
+  flowDetailPageCopyByTrack.common;
+
+// --- 会社紹介（/about Phase F-1）---
+export const aboutCopy = {
+  hero: {
+    kicker: "会社紹介",
+    headline: "AXEONは、企業の業務整理から、システムの企画・開発まで支援する会社です。",
+    sub: "現在の業務や既存システムを確認し、必要な対応を整理します。開発が必要な部分は、試作から本実装、運用まで対応します。"
+  },
+  founding: {
+    kicker: "",
+    heading: "AXEONを設立した理由",
+    paragraphs: [
+      "前職で大企業や政府機関の支援に携わるなかで、業務改善やシステム導入を必要としていても、規模や費用の面から外部の専門支援を利用しにくい企業があると感じました。",
+      "また、計画や試作まで進んでも、実際の業務で使うシステムの開発や運用までつながらないことがあります。",
+      "AXEONは、業務や課題を整理するだけで終わらず、必要な開発と導入まで対応するために設立しました。"
+    ]
+  },
+  leaderProfiles: {
+    kicker: "PROFILE",
+    heading: "代表",
+    intro: "",
+    profiles: [
+      {
+        title: "代表 / Strategy Lead",
+        name: "秋吉 莉乃",
+        body: [
+          "幼少期から日本の長い歴史や、先人たちが繋いできたこの国が持つ独自の文化や底力に、漠然としながらも強い愛着を持って育ちました。その想いが確信に変わったのは、米国UCLAへの留学時代です。外の世界に出たことで、海外から日本の技術力がいかに高く評価され、信頼されているかを身をもって実感しました。",
+          "しかし帰国後、目にしたのはDXの遅れや社会の構造的な噛み合わせの悪さから本来の力を発揮しきれていない日本の姿でした。「このままではいけない」という歯痒さを抱え、ブロックチェーンをはじめとする先端技術の社会実装を目指して監査法人系コンサルティングファームへ入社しました。",
+          "前職では、大企業や政府機関の変革支援という、非常にやりがいのある実務を経験させていただきました。しかし、日本の企業の約99.7%を占め、かつ重要な技術やサプライチェーンの核を担っているのは「中小企業」です。この中小企業が強くならなければ、日本の国力が底上げされることはない。そう痛感する一方で、大手コンサルティングファームの仕組みやコスト構造上、本当に支援が必要な中小企業へ直接手を差し伸べることが極めて難しいという、大きなジレンマにも直面し、「国力をあげたい」という志から起業を決意しました。",
+          "「優れた戦略や先端技術を、日本の底力を支える現場に直接届け、実装する存在が必要だ」",
+          "その強い危機感と決意から、私はAXEON（アクシオン）を立ち上げました。AIや先端技術は、人を置き換えるためのものではありません。テクノロジーを活用して浮いた時間を、事業の拡大やクリエイティブなことに集中できる環境をつくること。それこそが、日本の次の生産性を生み出し、真の意味で「国力を上げる」実務だと信じています。",
+        ],
+      },
+    ],
+  },
+  principles: {
+    kicker: "",
+    heading: "仕事で大切にしていること",
+    items: [
+      {
+        index: "01",
+        title: "実行方法まで具体化する",
+        lead: "提案だけで終わらせず、必要な作業、担当、進め方まで整理します。",
+        body: "実際に開発・導入できる内容かを確認してから進めます。"
+      },
+      {
+        index: "02",
+        title: "導入後の使い方まで考える",
+        lead: "誰が使い、誰が管理し、変更が必要なときにどう対応するかまで確認します。",
+        body: "試作の確認だけでなく、実際の業務で使い続けられる状態まで考えます。"
+      },
+      {
+        index: "03",
+        title: "関係者の認識をそろえる",
+        lead: "経営側、現場、開発側で、目的や優先順位、制約の認識がずれないように確認します。",
+        body: "専門用語に頼らず、判断に必要な内容を共有します。"
+      }
+    ]
+  },
+  approach: {
+    kicker: "",
+    heading: "支援の進め方",
+    intro: "ご相談内容と現在の業務を確認し、取り組む範囲と担当を整理してから進めます。詳しい進め方は「ご支援内容」でご案内しています。",
+    servicesLink: {
+      label: "ご支援内容を見る",
+      href: "/services"
+    }
+  },
+  teamModel: {
+    kicker: "",
+    heading: "支援体制",
+    intro: "案件の内容に応じて、業務・経営側と開発・技術側で役割を分けて進めます。",
+    fusionLabel: "",
+    strategyLead: {
+      title: "経営・業務の担当",
+      bullets: [
+        "現在の業務を確認し、取り組む範囲や優先順位、関係者との調整を担当します。"
+      ]
+    },
+    aiEngineeringLead: {
+      title: "開発・技術の担当",
+      bullets: [
+        "システムの設計・開発、既存システムとの連携、運用方法の確認を担当します。"
+      ]
+    },
+    footnote: "必要な担当者や参加範囲は、案件の内容に応じて決めます。"
+  },
+  facts: {
+    kicker: "",
+    heading: "会社概要",
+    companyRows: [
+      {
+        label: "社名",
+        value: "AXEON株式会社"
+      },
+      {
+        label: "所在地",
+        value: "東京都目黒区"
+      },
+      {
+        label: "設立",
+        value: "2026年6月"
+      },
+      {
+        label: "代表取締役",
+        value: "秋吉 莉乃"
+      },
+      {
+        label: "事業内容",
+        value: "業務・システムに関するコンサルティング、業務システムの開発、AI導入・内製化・組織づくりの支援"
+      },
+      {
+        label: "連絡先",
+        value: "contact@axeon.jp"
+      },
+      {
+        label: "ウェブサイト",
+        value: "https://axeon.jp"
+      }
+    ]
+  },
+  cta: {
+    heading: "ご相談を受け付けています",
+    sub: "検討している内容や、現在困っていることをお聞かせください。まだ取り組む内容が決まっていない段階でもご相談いただけます。",
+    primaryLabel: "お問い合わせ",
+    primaryHref: "/contact",
+    secondaryLabel: "ご支援内容を見る",
+    secondaryHref: "/services"
+  }
+} as const;
+
+// --- 詳細見積もり（非IT向け・スマホ想定） ---
+export const estimateDetailedCopy = {
+  kicker: "詳しい見積もりの目安",
+  title: "いくつか質問に答えると、内容の整理と金額の目安が出ます",
+  intro:
+    "専門知識は不要です。わからない項目は「未定」で大丈夫です。サイト内で整理できている内容は引き継ぎつつ、出てくる金額はあくまで目安として表示します。",
+  requirementDefinitionNote:
+    "開発に必要な内容の整理（仮）",
+  disclaimerTitle: "ご利用前に",
+  disclaimerBody:
+    "ここに出る金額や文章は「正式なお見積もり」ではありません。チャットでの選択をもとにした、検討用のたたき台です。正式な金額はお話を伺ってからご案内します。",
+  roughEstimateTitle: "概算見積もりから引き継いだ内容",
+  roughEstimateSubtitle:
+    "すでに伺っている内容です。あなたの回答とあわせて整理に使います。",
+  /** コンシェルジュ path から人数・つなぎをフォームに反映したとき */
+  pathPrefillFromChatNotice:
+    "チャットで選んだ規模とつなぎのイメージを、下の質問の一部に反映済みです。サイト内で整理済みの内容は冒頭に表示し、必要ならこのあと変えられます。",
+  roughTrackLabel: "ご用件の方向",
+  roughStepsHeading: "チャットでの選択",
+  roughNotesHeading: "概算のメモ・補足",
+  sectionHearing: "簡単な質問（目安: 2〜3分）",
+  sectionResult: "内容の整理（自動）",
+  resultIntro:
+    "内容を読んで問題なければ「内容を確認し金額を表示」で金額の目安へ。入力を直す場合は「質問に戻って直す」からどうぞ。",
+  /** 結果ページ：作成された要件定義書アコーディオン */
+  requirementDefinitionAccordionTitle: "作成された要件定義書",
+  /** 結果ページ：ヒアリング回答の Q&A */
+  selectedAnswersAccordionTitle: "選択した内容",
+  /** 結果ページ：確認事項とリスクの統合 */
+  followUpMergedTitle: "詳しく確認が必要なこと",
+  scopeInTitle: "スコープ（含む想定）",
+  scopeOutTitle: "スコープ（含まない想定）",
+  openQuestionsTitle: "まだ決まっていない点",
+  regulatoryNotesTitle: "規制・セキュリティまわりの注意",
+  /** 金額ページ：レンジの要因 */
+  estimateDriversTitle: "この目安に効いていること",
+  estimateDriverEffectUp: "全体を押し上げる要因",
+  estimateDriverEffectDown: "抑えめに見ている要因",
+  estimateDriverEffectWide: "幅が広がる要因",
+  sectionRange: "金額の目安",
+  processingTitle: "いま、内容を整理しています",
+  processingSub:
+    "数十秒かかることがあります。止まっているのではなく、お待ちください。",
+  processingProgressLabel: "整理の進行状況",
+  processingTipHeading: "待ち時間のひとこと",
+  processingVideoHeading: "動画で流れる（設定時のみ）",
+  processingVideoEmptyHint:
+    "※ 動画が未設定のときは、下のリンクから開発の流れや体験をご覧いただけます。",
+  processingLinkFlow: "半内製化（FDE）の進め方を読む（別タブ）",
+  processingLinkDemo: "体験・demo を見る（別タブ）",
+  processingTips: [
+    "いま入力いただいた内容を、わかりやすい文章に整えています。",
+    "正式なお見積もりは、範囲や運用の決まり方で変わることがあります。",
+    "小さく試してから広げる進め方も、よくある形です。",
+    "連携やセキュリティは、後から詳しく決めても大丈夫です。",
+    "不明な点は「未定」のままでも、たたき台は作れます。",
+  ],
+  processingRetryHint:
+    "通信が一時的に不安定なことがあります。自動で再試行しています…",
+  processingError: "整理に失敗しました。質問ページからやり直してください。",
+  processingBackToForm: "質問ページに戻る",
+  amountPageKicker: "金額の目安",
+  amountPageTitle: "だいたいの幅はこのくらいです",
+  amountPageSub:
+    "あくまで目安です。正式なお見積もりは、内容のすり合わせのうえでお出しします。",
+  amountHeroPrefix: "約",
+  amountHeroSuffix: "万円くらい（税別・目安）",
+  amountBetween: "〜",
+  backToResult: "内容の整理に戻る",
+  fieldIndustry: "業種・仕事の種類",
+  fieldIndustryHint: "いちばん近いものを選んでください",
+  fieldIndustryWhyMatters: "業種によって、守るべき情報や運用の前提が変わることがあるための質問です。",
+  fieldProductArchetype: "何を作りたいですか（必須）",
+  fieldProductArchetypeHint: "名前が曖昧でも、近い言い方で大丈夫です",
+  fieldProductArchetypeWhyMatters:
+    "作るものの形が見えると、必要な画面や機能の方向を合わせやすくなります。",
+  fieldProblemSummary: "いま困っていること・変えたいこと（必須）",
+  fieldProblemSummaryHint: "やさしい言葉で、短くても大丈夫です",
+  fieldProblemSummaryWhyMatters:
+    "困りごとの芯が分かると、何を優先して解決するかと金額の前提をそろえやすくなります。",
+  fieldPain: "うまくいっていないこと（任意）",
+  fieldPainHint: "なくても進められます",
+  fieldPainWhyMatters: "優先して直したい点が分かると、範囲の絞り込みに使います。",
+  fieldTeam: "会社やチームの人数のイメージ",
+  fieldTeamWhyMatters: "利用の広がりと権限まわりの目安に効きます。",
+  fieldTimeline: "いつ頃までに、という希望",
+  fieldTimelineWhyMatters: "進め方の段取り（一気に／小さく試す）の前提に使います。",
+  fieldIntegration: "今お使いのツールや、他のシステムとのつなぎ",
+  fieldIntegrationHint: "「つながなくてよい」でも構いません",
+  fieldIntegrationWhyMatters: "つなぐ数や深さが、工数とリスクに直結します。",
+  fieldHostingContext: "データやシステムの置き場所のイメージ",
+  fieldHostingContextHint:
+    "「クラウドかオンプレか」ではなく、社内だけか・インターネット越しに使うか、で費用の幅が変わりやすい、という意味です。月額の利用料とは別に、開発や運用の工数も変わります。",
+  fieldHostingContextWhyMatters:
+    "社内閉域やVPNなどが絡むと、接続・権限・ログの扱いで工数が増えやすいです。ここで近いものを選ぶと、目安の幅を現実に寄せやすくなります。",
+  fieldUsageSurface: "主な使い方・載せる場所",
+  fieldUsageSurfaceHint:
+    "近いものを選ぶと、画面づくりや連携の手間を踏まえた目安に絞りやすくなります。未定でも大丈夫です。",
+  fieldUsageSurfaceWhyMatters: "スマホ・LINE・社内だけなどで、必要な作りが変わります。",
+  sectionCostDrivers: "開発費用に関わりやすい点",
+  sectionCostDriversSub:
+    "近いものを選んでください。「わからない」でも進められますが、はっきりしているほど金額の幅を絞りやすくなります。",
+  fieldDataSensitivity: "扱う情報に、お客様の名前・連絡先などの個人情報は含まれますか？",
+  fieldDataSensitivityHint: "ログや権限の厳しさの目安に使います。",
+  fieldDataSensitivityWhyMatters: "個人情報の有無で、守り方と確認作業の量が変わります。",
+  fieldAudienceScope: "社内だけですか？ お客様や取引先にも見せますか？",
+  fieldAudienceScopeHint: "公開範囲やログインの要否の目安に使います。",
+  fieldAudienceScopeWhyMatters: "外に見せるかどうかで、安全面の設計が変わります。",
+  fieldCurrentWorkflow: "いまは、Excel・メール・紙のどれが中心ですか？",
+  fieldCurrentWorkflowHint: "移行や入力のしかたの目安に使います。",
+  fieldCurrentWorkflowWhyMatters: "いまの置き場所が分かると、移し替えの手間を見積もりやすくなります。",
+  fieldUpdateFrequency: "情報の更新は、どのくらいの頻度ですか？",
+  fieldUpdateFrequencyHint: "運用やつなぎ込みの目安に使います。",
+  fieldUpdateFrequencyWhyMatters: "更新が多いほど、運用や自動化の比重が上がります。",
+  fieldDesignExpectation: "見た目はどのくらいまで整えたいですか？",
+  fieldDesignExpectationHint: "画面づくりの手間の目安に使います。",
+  fieldDesignExpectationWhyMatters: "デザインに時間をかけるほど、画面まわりの工数が増えます。",
+  fieldLoginModel: "ログインはどのイメージに近いですか？",
+  fieldLoginModelHint: "アカウントや権限まわりの目安に使います。",
+  fieldLoginModelWhyMatters: "アカウントの分け方で、権限設計の広さが変わります。",
+  fieldBudgetBand: "ご予算のイメージ（任意）",
+  fieldBudgetBandWhyMatters: "希望は金額の計算には使わず、あとで「希望との比較」にだけ使います。",
+  fieldBudgetNote: "予算について、もう少しだけ補足（任意）",
+  fieldBudgetNoteWhyMatters: "段取りや外注の有無など、短い補足があると会話が早くなります。",
+  fieldConstraints: "気になること・決まっていること（任意）",
+  fieldConstraintsHint:
+    "例: 個人情報を扱う／外出先から使いたい など。なくても構いません",
+  fieldConstraintsWhyMatters: "決まっている条件は、見積の前提にそのまま載せやすくなります。",
+  btnGenerate: "この内容で整理する",
+  /** 必須フィールド未充足時（ボタンがグレーのときの案内） */
+  btnGenerateDisabledHint:
+    "必須の質問がまだ埋まっていません。「何を作りたいですか」と「いま困っていること・変えたいこと」を入力すると進めます。",
+  requiredStepHint: "この質問は必須です。短い一文でも大丈夫です。",
+  btnGenerating: "整理しています…",
+  /** 結果ページの主ボタン（金額ページへ直行） */
+  btnConfirmAndShowAmount: "内容を確認し金額を表示",
+  btnEditAnswers: "質問に戻って直す",
+  btnBackToQuestionsShort: "質問に戻る",
+  btnContact: "この内容で問い合わせる",
+  inquiryPrepTitle: "問い合わせ前の確認",
+  inquiryPrepIntro:
+    "ここでは任意で、サイト内で整理済みの内容を土台にして、最初の返信を具体化するための不足点だけを補えます。実行しなくても、そのまま「この内容で問い合わせる」からお進みいただけます。",
+  inquiryPrepIntentLabel: "今回の相談でいちばん知りたいこと",
+  inquiryPrepDesiredReplyLabel: "今回の返信でほしい内容",
+  inquiryPrepPrimaryHint:
+    "ご希望に応じて、返答のイメージを選んで問い合わせ用の整理を作れます（任意）。",
+  inquiryPrepFollowUpHint:
+    "追加で確認したい点だけを並べています。埋めると、送信時点でより具体的な問い合わせになります（任意）。",
+  inquiryPrepGenerateCta: "不足点を整理する",
+  inquiryPrepRefreshCta: "この回答で問い合わせ内容を更新する",
+  inquiryPrepLoading: "整理しています…",
+  inquiryPrepFollowUpTitle: "追加で確認したいこと",
+  inquiryPrepRequiredMark: "（必須）",
+  inquiryPrepAnswerPlaceholder: "わかる範囲で大丈夫です",
+  inquiryPrepMissingHint: "残り {count} 問の必須回答があります。",
+  inquiryPrepBriefTitle: "送信される相談内容の要点",
+  inquiryPrepProblemTitle: "課題の要約",
+  inquiryPrepReplySummaryTitle: "今回の返信で答えてほしいこと",
+  inquiryPrepTargetTitle: "対象業務・想定利用者",
+  inquiryPrepTimelineTitle: "判断したい時期",
+  inquiryPrepScopeTitle: "今回の相談範囲",
+  inquiryPrepConstraintsTitle: "制約・前提",
+  inquiryPrepReplyFocusTitle: "初回返信でまず触れるべき論点",
+  inquiryPrepUnresolvedTitle: "まだ確認が必要な点",
+  inquiryPrepContactGate:
+    "（参考）問い合わせ前の整理は任意です。未整理でもお問い合わせフォームから送信できます。",
+  inquiryPrepError: "問い合わせ前整理に失敗しました。時間を置いて再度お試しください。",
+  rangeDisclaimer: "最終的な開発費用は、お話を伺ったうえでお出しします。",
+  /** 結果・金額ページの要約ブロック見出し */
+  overviewTitle: "概略",
+  overviewTitleRecap: "概略（再掲）",
+  /** 任意の予算帯が見積上限以下に収まるとき */
+  budgetWithinMessage: "希望のご予算で開発可能です",
+  assumptionsTitle: "こういう前提で整理しています",
+  productArchetypeQuickOptions: [
+    { value: "Webアプリ", label: "Webアプリ" },
+    { value: "社内ツール", label: "社内ツール" },
+    { value: "LINE連携", label: "LINE連携" },
+    { value: "業務ダッシュボード", label: "業務ダッシュボード" },
+    { value: "データ整備・自動化", label: "データ整備・自動化" },
+  ],
+  problemSummaryQuickOptions: [
+    { value: "手作業が多くて時間がかかる", label: "手作業が多くて時間がかかる" },
+    { value: "情報が分散して確認に手間がかかる", label: "情報が分散して確認に手間がかかる" },
+    { value: "対応品質が担当者によってばらつく", label: "対応品質が担当者によってばらつく" },
+    { value: "現場状況をすぐ把握できない", label: "現場状況をすぐ把握できない" },
+    { value: "既存ツール同士が連携できていない", label: "既存ツール同士が連携できていない" },
+  ],
+  painQuickOptions: [
+    { value: "入力ミスや抜け漏れが起きる", label: "入力ミスや抜け漏れが起きる" },
+    { value: "問い合わせ対応が遅れやすい", label: "問い合わせ対応が遅れやすい" },
+    { value: "進捗共有に時間がかかる", label: "進捗共有に時間がかかる" },
+    { value: "優先順位付けが難しい", label: "優先順位付けが難しい" },
+  ],
+  budgetFeelQuickOptions: [
+    { value: "まずは小さく試したい", label: "まずは小さく試したい" },
+    { value: "効果が見えれば段階的に広げたい", label: "効果が見えれば段階的に広げたい" },
+    { value: "できるだけ早く本運用に乗せたい", label: "できるだけ早く本運用に乗せたい" },
+    { value: "費用よりも安定運用を重視したい", label: "費用よりも安定運用を重視したい" },
+  ],
+  constraintsQuickOptions: [
+    { value: "個人情報を扱うためセキュリティが重要", label: "個人情報を扱うためセキュリティが重要" },
+    { value: "既存システムと連携したい", label: "既存システムと連携したい" },
+    { value: "社内ネットワーク内で完結したい", label: "社内ネットワーク内で完結したい" },
+    { value: "スマホでも使えることが必要", label: "スマホでも使えることが必要" },
+  ],
+  industryOptions: [
+    { value: "construction", label: "建設・土木・現場系" },
+    { value: "professional", label: "士業・コンサルティング・事務所" },
+    { value: "medical", label: "医療・福祉" },
+    { value: "retail", label: "小売・店舗・ネット販売" },
+    { value: "manufacturing", label: "製造・ものづくり" },
+    { value: "staffing", label: "人材・派遣・登録支援" },
+    { value: "food_service", label: "飲食・外食" },
+    { value: "food_wholesale", label: "食品・卸・商社" },
+    { value: "logistics_wholesale", label: "流通・物流・卸（総合）" },
+    { value: "education", label: "教育・研修" },
+    { value: "other", label: "その他" },
+    { value: "unknown", label: "わからない／まだ決めていない" },
+  ],
+  teamOptions: [
+    { value: "1-10", label: "〜10人くらい" },
+    { value: "11-50", label: "11〜50人くらい" },
+    { value: "51-200", label: "51〜200人くらい" },
+    { value: "201+", label: "201人以上" },
+    { value: "unknown", label: "未定" },
+  ],
+  timelineOptions: [
+    { value: "1m", label: "1ヶ月以内に知りたい" },
+    { value: "3m", label: "2〜3ヶ月くらいで" },
+    { value: "6m", label: "半年以内が目安" },
+    { value: "unknown", label: "まだ決めていない" },
+  ],
+  integrationOptions: [
+    { value: "required", label: "今のツールとつなぐ必要がある" },
+    { value: "nice", label: "できればつなぎたい" },
+    { value: "standalone", label: "まずは単体でよい" },
+    { value: "unknown", label: "わからない／未定" },
+  ],
+  hostingContextOptions: [
+    {
+      value: "internet",
+      label: "主にインターネット経由で使う想定（一般的なクラウドやURLでアクセス）",
+    },
+    {
+      value: "internal_network",
+      label: "主に社内ネットワークだけ（社内PC・社内Wi‑Fiからなど）",
+    },
+    {
+      value: "closed_requirements",
+      label: "社内ルールで閉じた環境が必要そう（VPN・専用線などはまだ決めていない）",
+    },
+    { value: "unknown", label: "まだ分からない／相談したい" },
+  ],
+  usageSurfaceOptions: [
+    { value: "line", label: "LINEの友だち・LINE連携で使う" },
+    { value: "dedicated_app", label: "スマホの専用アプリとして使う" },
+    { value: "web_embed", label: "自社のWebページに埋め込む" },
+    { value: "web_browser", label: "ブラウザだけで使う（URLにアクセス）" },
+    { value: "internal_only", label: "社内ツール・管理画面だけ（外部に公開しない）" },
+    { value: "multi", label: "複数（例: WebとLINEの両方）" },
+    { value: "unknown", label: "まだ決めていない／相談したい" },
+  ],
+  dataSensitivityOptions: [
+    { value: "yes", label: "はい、含まれる" },
+    { value: "no", label: "いいえ、含まれない想定" },
+    { value: "partial", label: "一部だけ" },
+    { value: "unknown", label: "わからない／これから決める" },
+  ],
+  audienceScopeOptions: [
+    { value: "internal_only", label: "社内だけ" },
+    { value: "external_too", label: "お客様や取引先にも見せる" },
+    { value: "mixed", label: "社内が中心だが、一部は外部にも" },
+    { value: "unknown", label: "わからない／相談したい" },
+  ],
+  currentWorkflowOptions: [
+    { value: "excel", label: "Excelやスプレッドシート" },
+    { value: "mail", label: "メールやチャット" },
+    { value: "paper", label: "紙・手書き・ホワイトボード" },
+    { value: "system", label: "すでに何かシステムがある" },
+    { value: "mixed", label: "複数が混在" },
+    { value: "unknown", label: "わからない／まだ決まっていない" },
+  ],
+  updateFrequencyOptions: [
+    { value: "daily", label: "ほぼ毎日" },
+    { value: "weekly", label: "週に数回" },
+    { value: "monthly", label: "月に数回" },
+    { value: "rare", label: "それより少ない" },
+    { value: "unknown", label: "わからない" },
+  ],
+  designExpectationOptions: [
+    { value: "simple", label: "シンプルでよい（見やすければ十分）" },
+    { value: "match_site", label: "自社サイトや資料に合わせたい" },
+    { value: "polished", label: "見た目にもこだわりたい" },
+    { value: "unknown", label: "わからない／相談したい" },
+  ],
+  loginModelOptions: [
+    { value: "per_user", label: "社員ごとにログインして使い分けたい" },
+    { value: "shared", label: "共有アカウントでよい" },
+    { value: "none", label: "ログインなしでよい想定" },
+    { value: "unknown", label: "わからない／相談したい" },
+  ],
+  budgetBandOptions: [
+    { value: "under50", label: "〜50万円くらいまで" },
+    { value: "50to150", label: "50〜150万円くらい" },
+    { value: "150to300", label: "150〜300万円くらい" },
+    { value: "over300", label: "300万円より大きめ" },
+    { value: "discuss", label: "相談して決めたい" },
+    { value: "unknown", label: "未定／わからない" },
+  ],
+} as const;
+
+// --- 問い合わせ ---
+export const contactCopy = {
+  title: "お問い合わせ",
+  purpose:
+    "ご相談内容を書いて送ってください。2営業日以内に担当者よりご返信します。",
+  /** 問い合わせページ下部：詳細見積フローへ（任意） */
+  depthPromptLine:
+    "もう少し整理してから送りたい場合は、次のリンクからヒアリングに進めます。",
+  /** 問い合わせページ：短いヒアリング（詳細見積フロー）へ */
+  estimateShortcutCta: "ヒアリングで要点をそろえる",
+  estimateShortcutHint:
+    "内容は担当者に届き、初回返信で具体的にご案内します。料金の目安まで先に整理したい場合も、同じヒアリングで進められます。",
+  flow: {
+    sectionTitle: "お問い合わせの流れ",
+    mobileSwipeHint: "横にスワイプして全体を確認できます",
+    footnote:
+      "その後は、内容に応じてオンライン打ち合わせ、コンサルティング契約、本要件定義のヒアリングなどをご案内します。",
+    steps: [
+      {
+        title: "質問に回答",
+        body: "2〜3分でOK。やさしい言葉で大丈夫です。",
+      },
+      {
+        title: "内容を自動整理",
+        body: "仮の要件メモとして、こちらに届く形にまとまります。",
+      },
+      {
+        title: "担当者が確認して返信",
+        body: "初回返信で、次に決めることや選択肢を具体化します。",
+      },
+      {
+        title: "打ち合わせ / 次の進め方",
+        body: "双方の前提が合った場合に、30分程度の打ち合わせや開発に向けたすり合わせへ進むことがあります。",
+      },
+    ],
+  },
+  form: {
+    nameLabel: "お名前",
+    namePlaceholder: "山田 太郎",
+    emailLabel: "メールアドレス",
+    emailPlaceholder: "example@example.com",
+    companyLabel: "会社名（任意）",
+    companyPlaceholder: "株式会社○○",
+    messageLabel: "ご相談内容",
+    messagePlaceholder:
+      "例: 営業事務の問い合わせ一次対応を自動化したい。今期中に方向性を決めたい。",
+    messageHint:
+      "現状の困りごとや、期待することを自由に書いてください。長文でも箇条書きでも構いません。",
+    triedExperienceLabel: "最も近かった体験・デモ",
+    triedExperiencePlaceholder: "選択してください",
+    triedExperienceOtherPlaceholder:
+      "体験名が一覧にない場合だけ、ここに入力してください",
+    additionalRequestLabel: "追加で伝えたいこと（任意）",
+    additionalRequestPlaceholder:
+      "例: 社内共有の事情、連絡方法の希望、前提として伝えておきたいこと など",
+    attachEstimateLabel: "見積もりのメモ（自動）も一緒に送る",
+    attachEstimateHint:
+      "オフにすると、問い合わせブリーフと追加補足だけ送ります。",
+    estimateSummaryTitle: "同封される見積もりメモ（確認用）",
+    overviewRevealLabel: "整理内容の概要を表示",
+    inquirySummaryTitle: "送信される相談内容の要点",
+    inquirySummaryHint:
+      "ここに出ている内容をもとに、初回返信では要点を絞ってお返しします。送信前に内容をご確認ください。",
+    directGuideTitle: "まずは質問から始めましょう",
+    directGuideBody:
+      "このページ内の短いヒアリングで、送信前に必要な要点をそろえます。確認が完了すると、連絡先と送信フォームが表示されます。",
+    contactIntakeAnsweredSummaryTitle: "見積で伺った内容（再掲）",
+    contactIntakeAnsweredSummaryHint:
+      "不足がある場合だけ、下の質問に追加で答えてください。",
+    contactSyntheticEstimateHint:
+      "問い合わせページのヒアリングのみのため、金額レンジは含まれていません。",
+    intentLabel: "今回の相談でいちばん知りたいこと",
+    desiredReplyLabel: "今回の返信でほしい内容",
+    directProblemLabel: "いま困っていること・変えたいこと",
+    directProblemPlaceholder:
+      "例: 問い合わせ対応に毎日2時間かかっており、一次受付を自動化したい",
+    directTargetLabel: "誰のどの業務の話か",
+    directTargetPlaceholder:
+      "例: 営業事務2名が行う問い合わせ一次対応。将来的には店舗側でも確認したい",
+    directTimelineLabel: "いつ頃までに判断したいか",
+    directTimelinePlaceholder:
+      "例: 今期中に方向性を決めたい / まず来月までに概算を知りたい",
+    directConstraintsLabel: "制約や前提（任意）",
+    directConstraintsPlaceholder:
+      "例: 個人情報あり、既存のSalesforceと連携したい、社内だけで使いたい など",
+    additionalNoteLabel: "最後に補足したいこと（任意）",
+    additionalNoteHint:
+      "連絡手段の希望や、社内事情など補足があればここに書いてください。",
+    submit: "送信する",
+    submitting: "送信中...",
+    success: "送信しました。2営業日以内にご返信します。",
+    handoffLoading: "見積内容を読み込んでいます…",
+    handoffEstimateOkTitle: "詳細見積もりの内容を引き継いでいます",
+    handoffEstimateOkHint: "そのまま送信できます。追記・編集も可能です。",
+    handoffEstimateOkRangeSuffix: "（整理済み内容として一緒にお送りします）",
+    handoffEstimateRecoveredHint: "保存データから再読み込みしました。",
+    handoffConciergeOkTitle: "AIコンシェルジュでの相談内容を引き継いで下書きを入れています",
+    handoffConciergeOkHint: "そのまま送信できます。追記・編集も可能です。",
+    handoffFailedTitle: "見積内容を読み込めませんでした",
+    handoffFailedBody:
+      "金額の目安ページから、もう一度「この内容で問い合わせる」をお試しください。同じタブでお進みいただくと確実です。",
+    handoffFailedStorageHint:
+      "ブラウザのプライベート閲覧やストレージ制限が有効な場合、引き継ぎできないことがあります。",
+    handoffBackToAmountCta: "金額の目安ページに戻る",
+    handoffRestartEstimateCta: "見積を最初からやり直す",
+    handoffSendWithoutEstimateCta: "通常の問い合わせとして送信する",
+    handoffSubmitBlockedHint:
+      "見積内容が読み込めるまで送信できません。上のボタンから金額ページへ戻るか、通常の問い合わせとして続行してください。",
+  },
+  assurance: {
+    title: "ご安心ください",
+    items: [
+      "個人情報は相談目的以外に使用しません。",
+      "返信目安は2営業日以内です。",
+      "初回のご連絡では、正式契約や確定見積のご案内には進みません。",
+    ],
+  },
+} as const;
+
+export const footerCopy = {
+  tagline: "ビジネスを再設計する",
+  subline:
+    "戦略策定から実装まで、企業のIT変革を一気通貫で支援します。",
+} as const;

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<style>
+:root{
+  color-scheme: light only;
+  --ink:#1a1c1e; --ink-2:#4c5156; --ink-3:#848a90;
+  --concrete:#ddd8d2; --surface:#f0ece8; --panel:#faf8f5;
+  --line:#c4bdb4; --line-2:#a89f94;
+  --steel:#263038;
+  --sans:"Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP","Noto Sans CJK JP","Yu Gothic Medium","Yu Gothic",Meiryo,system-ui,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root{ color-scheme:light only; }
+  html,body{ background:#ddd8d2 !important; color:#1a1c1e !important; }
+}
+*{ box-sizing:border-box; }
+body{ margin:0; background:var(--concrete); color:var(--ink); font-family:var(--sans); font-size:16px; line-height:1.9; }
+h1,h2{ word-break:auto-phrase; margin:0; }
+p{ margin:0 0 1.4em; }
+a{ color:var(--steel); }
+.wrap{ max-width:720px !important; margin:0 auto; padding:0 22px; }
+.col{ max-width:620px; margin:0 auto; }
+
+/* 表紙：チェック紙と録音 */
+.cover{ background:#c8c2ba; color:var(--ink); padding:44px 0 36px; margin:0 -22px 0; }
+.cover__in{ max-width:620px; margin:0 auto; padding:0 22px; }
+.cover__tag{ font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; color:var(--ink-3); margin:0 0 14px; }
+.cover h1{ font-size:32px; line-height:1.48; font-weight:800; margin:0 0 18px; max-width:14em; }
+.cover__meta{ font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; color:var(--ink-3); display:flex; gap:14px; flex-wrap:wrap; margin:0 0 24px; }
+
+.checkpad{
+  background:var(--panel); border:1px solid var(--line-2);
+  box-shadow:2px 3px 0 rgba(38,48,56,.12);
+  padding:22px 24px 20px; margin:0 0 22px;
+}
+.checkpad__hd{ font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; color:var(--steel); margin:0 0 14px; font-weight:700; border-bottom:2px solid var(--steel); padding-bottom:8px; }
+.check{ display:flex; gap:12px; align-items:flex-start; padding:9px 0; border-bottom:1px dashed var(--line); font-size:15px; }
+.check:last-child{ border-bottom:0; }
+.check .box{ flex:none; width:16px; height:16px; border:2px solid var(--steel); margin-top:4px; }
+.check b{ display:block; font-weight:700; margin-bottom:2px; }
+.check span{ font-size:13.5px; color:var(--ink-2); }
+
+.meta{ display:none; }
+
+.tape{ border:1px solid var(--line-2); background:#1a1c1e; color:#d8d4ce; font-size:13px; line-height:1.65; padding:14px 16px; margin:0 0 16px; }
+.tape p{ margin:0 0 .45em; font-family:var(--mono); font-size:12.5px; }
+.tape p:last-child{ margin:0; }
+.tape .leak{ color:#e8a090; }
+
+.mismatch{ padding:14px 16px; background:#fff; border-left:4px solid var(--steel); margin:0; }
+.mismatch p{ margin:0 0 .35em; font-size:14px; color:var(--ink-2); }
+.mismatch p:last-child{ margin:0; }
+.mismatch .lbl{ font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; color:var(--steel); margin-bottom:8px; }
+
+.body{ padding:38px 0 10px; }
+.lede{ font-size:17px; color:var(--ink-2); }
+.em{ font-size:18px; font-weight:700; line-height:1.75; }
+.block{ margin:0 0 2.2em; }
+.block h2{ font-size:22px; font-weight:800; line-height:1.55; margin:0 0 18px; padding-bottom:10px; border-bottom:3px double var(--steel); max-width:22em; }
+
+.split{ display:grid; grid-template-columns:1fr 1fr; gap:0; margin:0 0 2em; border:1px solid var(--line-2); }
+.split__half{ padding:18px 20px; font-size:14.5px; line-height:1.75; }
+.split__half:first-child{ background:var(--panel); border-right:1px solid var(--line-2); }
+.split__half:last-child{ background:#e8e4de; }
+.split__half h3{ font-size:13px; font-family:var(--mono); letter-spacing:.08em; color:var(--steel); margin:0 0 10px; font-weight:700; }
+.split__half ul{ margin:0; padding-left:1.1em; }
+.split__half li{ margin-bottom:.35em; }
+
+.layer{ margin:0; }
+.figure{ margin:1.8em 0 2.2em; }
+.figure__lab{ font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; color:var(--ink-3); margin:0 0 10px; }
+.layer__stack{ display:flex; flex-direction:column; gap:0; }
+.layer__top{ background:var(--panel); border:1px solid var(--line); padding:14px 16px; font-size:14px; font-weight:700; }
+.layer__bot{ background:#3a4048; color:#e8e4de; border:1px solid #2a3038; padding:14px 16px; font-size:14px; font-weight:700; margin-top:-1px; }
+.figure__cap{ font-size:12.5px; color:var(--ink-2); margin:12px 0 0; line-height:1.75; }
+
+.questions{ background:var(--surface); border-left:4px solid var(--steel); padding:16px 18px; margin:0 0 1.5em; }
+.questions li{ margin-bottom:.4em; font-size:15px; }
+
+.margin-note{
+  background:var(--panel); border:1px solid var(--line);
+  padding:16px 20px 14px 24px; margin:0 0 1.5em;
+  position:relative; font-size:15px; color:var(--ink-2);
+}
+.margin-note::before{
+  content:"社内メモ"; position:absolute; left:12px; top:-10px;
+  font-family:var(--mono); font-size:9px; letter-spacing:.1em;
+  background:var(--concrete); padding:0 6px; color:var(--steel);
+}
+
+.demo-strip{
+  background:var(--steel); color:#e8e4de; padding:22px 22px 20px; margin:32px 0 28px;
+}
+.demo-strip p{ font-size:15px; color:#b8c0c8; margin:0 0 .9em; }
+.demo-strip .warn{ font-weight:700; color:#fff; margin:0 0 12px; font-size:15.5px; }
+.demo-strip .btn{ display:inline-block; background:#e8e4de; color:var(--steel); font-weight:700; font-size:15px; text-decoration:none; padding:13px 24px; }
+.demo-strip .fine{ font-family:var(--mono); font-size:10.5px; color:#889098; margin:10px 0 0; }
+
+.points{ padding-left:1.15em; margin:0 0 1.4em; }
+.points li{ margin-bottom:.4em; font-size:15px; }
+
+.cta{ border-top:2px solid var(--line-2); margin:48px 0 0; padding:28px 0 0; }
+.linkbtn{ display:inline-block; background:var(--steel); color:#fff; font-weight:700; font-size:15px; text-decoration:none; padding:14px 28px; }
+.refs{ margin:28px 0 0; padding-top:18px; border-top:1px solid var(--line); }
+.refs h3{ font-family:var(--mono); font-size:10px; letter-spacing:.14em; color:var(--ink-3); margin:0 0 8px; }
+.refs li{ font-size:13px; line-height:1.8; color:var(--ink-2); margin-bottom:5px; }
+
+@media (max-width:640px){
+  .cover h1{ font-size:24px; }
+  .split{ grid-template-columns:1fr; }
+  .split__half:first-child{ border-right:0; border-bottom:1px solid var(--line-2); }
+  .demo-strip .btn{ display:block; text-align:center; }
+}
+</style>
+</head>
+<body>
+<div class="wrap is-theme">
+
+<section class="cover">
+  <div class="cover__in">
+    <div class="checkpad">
+      <p class="checkpad__hd">録音する前に、四つだけ決める</p>
+      <div class="check"><span class="box"></span><div><b>会社として録音してよいか</b><span>社内規定を確認する</span></div></div>
+      <div class="check"><span class="box"></span><div><b>誰の声を、何のために残すのか</b><span>本人の許可を取る</span></div></div>
+      <div class="check"><span class="box"></span><div><b>外に出してはいけない情報は何か</b><span>品番・図面番号・取引先名</span></div></div>
+      <div class="check"><span class="box"></span><div><b>どこまで残して、いつ消すのか</b><span>必要以上に残さない</span></div></div>
+    </div>
+    <p class="cover__tag">製造業　現場の音声の扱い</p>
+    <h1>現場の音声を、そのまま入れられない。</h1>
+    <p class="cover__meta">
+      <span>読むのに 9分</span>
+      <span>2026.08</span>
+    </p>
+    <div class="tape">
+      <p>「ここは音が変わったら止める」</p>
+      <p>「<span class="leak">〇〇商事向けの部品</span>だから、治具を変える」</p>
+      <p>「<span class="leak">図面番号は――</span>」</p>
+    </div>
+    <div class="mismatch">
+      <p class="lbl">録音のつもりだった内容</p>
+      <p>作業の話だけを残す。急所と失敗のサイン。</p>
+      <p><b>実際に入ったのは、取引先名と図面番号。</b></p>
+    </div>
+  </div>
+</section>
+
+<div class="body col">
+
+<p class="lede">作業の話だけを録るつもりでも、取引先名や図面番号が普通に入ってきます。録音を始めたあとで「外のサービスに入れて大丈夫なのか」と止まる——ここが、現場の音声を扱うときの最初の壁です。</p>
+<section class="block">
+<h2>録音する前に、四つだけ決める</h2>
+<p>最初に考えたいのは、AIの性能ではありません。録音したものを、どこまで扱っていいのかです。<b>録音してから考えないこと。</b>あとから「やっぱりこれは使えません」となると、もう一度同じ話をしてもらう必要があります。</p>
+</section>
+
+<section class="block">
+<h2>現場の音声には、作業の知恵以外も入ります</h2>
+<p>取引先の名前、品番、図面番号、不良の数値、設備の設定値、社内だけで使っている呼び方——会話の流れで自然に出てきます。</p>
+<p>「現場の知恵を残したい」という目的と、「録音したものをそのまま外へ出していい」という話は別です。ここを一緒にしてしまうと、「便利そうだけど、危ないからやめよう」で終わりやすくなります。</p>
+</section>
+
+<section class="block">
+<h2>全部を入れなくても、できることはあります</h2>
+<div class="split">
+  <div class="split__half">
+    <h3>質問を作る</h3>
+    <ul>
+      <li>工程名と、何を残したいかだけで作れる</li>
+      <li>品番や取引先名は要らない</li>
+      <li>外のサービスで使いやすい部分</li>
+    </ul>
+  </div>
+  <div class="split__half">
+    <h3>答えをまとめる</h3>
+    <ul>
+      <li>現場情報が入る</li>
+      <li>伏せてから使う</li>
+      <li>社内で閉じた環境にする</li>
+    </ul>
+  </div>
+</div>
+</section>
+
+<section class="block">
+<h2>先に質問を作るだけでも、かなり変わります</h2>
+<p>何を聞くか決めずに録音すると、話が広がります。昔の話。別工程の話。別の製品の話。手順書を作る目的なら、あとから整理する量が増えます。</p>
+<ul class="questions">
+  <li>この作業は、どこから始まりますか</li>
+  <li>一番失敗しやすいところはどこですか</li>
+  <li>その失敗は、何を見れば気づけますか</li>
+  <li>新人に最初に伝えることは何ですか</li>
+  <li>絶対に省いてはいけない確認は何ですか</li>
+</ul>
+
+<div class="demo-strip">
+  <p class="warn">自社の録音は入れません。</p>
+  <p>こちらで用意した手順書と検査記録を使って、工程を選び、質問が出て、回答を整理する流れだけを試せます。</p>
+  <p><a class="btn" href="https://product-flowideal.vercel.app/manufacturing" target="_blank" rel="noopener noreferrer">聞き取ったものを引き出してみる</a></p>
+  <p class="fine">3分ほどで終わります ／ 登録は要りません</p>
+</div>
+</section>
+
+<section class="block">
+<h2>一工程だけで試す</h2>
+<p>「この人が休むと、誰も分からなくなる」——そんな工程を一つ選びます。一つやってみると、「この情報は外に出せない」「この部分は質問だけなら使える」という線が見えてきます。</p>
+
+<figure class="figure">
+  <p class="figure__lab">図1　上だけでは、そのまま入れられない</p>
+  <div class="layer__stack">
+    <div class="layer__top">上：誰に聞いても通用する作業の話</div>
+    <div class="layer__bot">下：社外に出してはいけない情報</div>
+  </div>
+  <figcaption class="figure__cap">下の層が入ったままでは、そのまま入れられません。伏せてから、どこまで入れていいかを決めます。</figcaption>
+</figure>
+</section>
+
+<section class="block">
+<h2>社内で説明するときは、「録音をAIに入れたい」では伝わりにくい</h2>
+<div class="margin-note">
+  <p>「ベテランしか分からない作業を、一工程だけ残したいです」</p>
+  <p>「いきなり音声を外へ出すわけではありません」</p>
+  <p>「まず質問だけ作ります。録音する場合は、品番や取引先名を入れない方法を決めます」</p>
+</div>
+<p>AIを使うかどうかではなく、<b>会社の中に残っていない知識を、どう残すか</b>という話になります。</p>
+</section>
+
+<section class="block">
+<h2>最初に決めるのは、AIではなく扱い方です</h2>
+<p>録音できるか。誰の許可が必要か。何を伏せるか。どこまで残すか。ここを飛ばすと、途中で止まります。逆に、ここが決まれば、全部を外へ出さなくてもできることが見えてきます。</p>
+</section>
+
+<div class="cta">
+  <p><a class="linkbtn" href="/contact?service=ai-consulting&amp;intent=article&amp;article=shop-voice">相談する</a></p>
+</div>
+
+<div class="refs">
+  <h3>参考</h3>
+  <ul>
+    <li>TWIによる作業の教え方（作業分解と急所の三条件）<br>
+      <a href="https://monozukuri-japan.seesaa.net/article/503875034.html">https://monozukuri-japan.seesaa.net/article/503875034.html</a></li>
+    <li>作業手順書を使った教育と標準化 ／ tebiki<br>
+      <a href="https://media.tebiki.jp/159">https://media.tebiki.jp/159</a></li>
+  </ul>
+</div>
+
+</div>
+</div>
+</body>
+</html>

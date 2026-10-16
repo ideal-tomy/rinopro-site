@@ -1,0 +1,148 @@
+import type { CaseStudy, DemoItem, TeamMember, AiDemo } from "./types";
+
+export const caseStudiesQuery = `*[_type == "caseStudy"] | order(_createdAt desc) {
+  _id,
+  title,
+  "slug": slug.current,
+  industry,
+  description,
+  "image": image { "url": asset->url }
+}`;
+
+export const demoItemsQuery = `*[_type == "demoItem"] | order(coalesce(featuredRank, 0) desc, _createdAt desc) {
+  _id,
+  title,
+  "slug": slug.current,
+  description,
+  "image": image { "url": asset->url },
+  functionTags,
+  industryTags,
+  moduleTags,
+  featuredRank,
+  featured,
+  videoUrl,
+  "videoPoster": coalesce(videoPoster.asset->url, videoPoster),
+  highlights,
+  howItHelps,
+  useCases,
+  steps,
+  expectedResult,
+  oneLiner,
+  storyLead,
+  embedUrl,
+  embedTitle
+}`;
+
+/** 全 aiDemo（社内レポート・一括パッチ用）。listedOnCatalog はフィルタしない */
+export const aiDemosAllQuery = `*[_type == "aiDemo"] | order(_createdAt desc) {
+  _id,
+  _type,
+  title,
+  "slug": slug.current,
+  industry,
+  runMode,
+  primaryPortfolioTrack,
+  listedOnCatalog
+}`;
+
+export const aiDemosQuery = `*[_type == "aiDemo" && coalesce(listedOnCatalog, true) == true] | order(_createdAt desc) {
+  _id,
+  _type,
+  title,
+  "slug": slug.current,
+  industry,
+  inputType,
+  inputPlaceholder,
+  runMode,
+  writingTone,
+  mockOutputPrimary,
+  mockOutputSecondary,
+  systemPrompt,
+  outputStructure,
+  sampleData,
+  ctaTitle,
+  ctaButtonText,
+  description,
+  "image": image { "url": asset->url },
+  functionTags,
+  industryTags,
+  moduleTags,
+  audienceRole,
+  issueTags,
+  automationDepth,
+  workStyle,
+  oneLiner,
+  storyLead,
+  primaryPortfolioTrack,
+  experienceUrl,
+  holdRank,
+  holdReasonTags,
+  listedOnCatalog
+}`;
+
+export const aiDemoBySlugQuery = `*[_type == "aiDemo" && slug.current == $slug][0] {
+  _id,
+  _type,
+  title,
+  "slug": slug.current,
+  industry,
+  inputType,
+  inputPlaceholder,
+  runMode,
+  writingTone,
+  mockOutputPrimary,
+  mockOutputSecondary,
+  systemPrompt,
+  outputStructure,
+  sampleData,
+  ctaTitle,
+  ctaButtonText,
+  description,
+  "image": image { "url": asset->url },
+  functionTags,
+  industryTags,
+  moduleTags,
+  audienceRole,
+  issueTags,
+  automationDepth,
+  workStyle,
+  oneLiner,
+  storyLead,
+  primaryPortfolioTrack,
+  experienceUrl,
+  holdRank,
+  holdReasonTags,
+  listedOnCatalog
+}`;
+
+export const demoItemBySlugQuery = `*[_type == "demoItem" && slug.current == $slug][0] {
+  _id,
+  title,
+  "slug": slug.current,
+  description,
+  "image": image { "url": asset->url },
+  functionTags,
+  industryTags,
+  moduleTags,
+  featuredRank,
+  featured,
+  videoUrl,
+  "videoPoster": coalesce(videoPoster.asset->url, videoPoster),
+  highlights,
+  howItHelps,
+  useCases,
+  steps,
+  expectedResult,
+  oneLiner,
+  storyLead,
+  embedUrl,
+  embedTitle
+}`;
+
+export const teamMembersQuery = `*[_type == "teamMember"] | order(order asc) {
+  _id,
+  name,
+  role,
+  bio,
+  "image": image { "url": asset->url }
+}`;

@@ -162,11 +162,11 @@ export function ConsultingPage() {
         <div className={`${styles.container} ${styles.contactInner}`}>
           <p className={styles.kicker}>お問い合わせ</p>
           <h2 id="consultation-heading" className={styles.contactTitle}>
-            <span>課題の整理や計画づくりだけでも、</span>
+            <span>課題の整理や計画づくりだけでも</span>
             <span>ご相談いただけます。</span>
           </h2>
           <p className={styles.contactLead}>
-            <span>現在困っていることや、検討中の内容をお聞かせください。</span>
+            <span>困っていることや検討中の内容をお聞かせください。</span>
             <span>開発に進むかどうかも含めて、一緒に考えます。</span>
           </p>
           <div className={styles.actions}>

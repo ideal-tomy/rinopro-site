@@ -1,0 +1,461 @@
+.page {
+  color: #1a1a1a;
+  background: #fff;
+  font-size: 16px;
+  line-height: 1.8;
+  max-width: 100%;
+}
+
+.page :is(h1, h2, h3, p, ul, ol) {
+  margin: 0;
+}
+
+.page :is(h1, h2, h3) {
+  color: #1a1a1a;
+  font-weight: 700;
+  word-break: keep-all;
+  line-break: strict;
+  /* keep-all だけでは収まらない長い見出しをコンテナ幅内で折り返す */
+  overflow-wrap: anywhere;
+}
+
+.container {
+  width: min(1120px, calc(100% - 48px));
+  max-width: 100%;
+  margin-inline: auto;
+  box-sizing: border-box;
+}
+
+.kicker {
+  margin-bottom: 12px;
+  color: #26418e;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  line-height: 1.4;
+}
+
+.hero {
+  padding-block: 72px 64px;
+  background: #fff;
+}
+
+.heroGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  gap: 48px;
+  align-items: center;
+}
+
+.heroGrid > * {
+  min-width: 0;
+}
+
+.heroGrid > *:last-child {
+  justify-self: stretch;
+}
+
+.heroTitle {
+  font-size: 44px;
+  line-height: 1.35;
+  letter-spacing: 0.02em;
+}
+
+.heroTitle span {
+  display: block;
+}
+
+.accent {
+  color: #26418e;
+}
+
+.lead {
+  margin-top: 24px;
+  color: #333;
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.85;
+}
+
+.lead span {
+  display: block;
+}
+
+.section {
+  padding-block: 96px;
+  background: #fff;
+}
+
+.sectionMuted {
+  background: #f4f4f2;
+}
+
+.sectionTitle {
+  font-size: 32px;
+  line-height: 1.45;
+  letter-spacing: 0.02em;
+}
+
+.prose {
+  margin-top: 20px;
+  color: #333;
+  font-size: 16px;
+  line-height: 1.85;
+}
+
+.prose + .prose {
+  margin-top: 12px;
+}
+
+.note {
+  margin-top: 16px;
+  color: #4a4a4a;
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+.roleList {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px 40px;
+  margin-top: 48px;
+  padding: 0;
+  list-style: none;
+}
+
+.roleItem {
+  padding-top: 16px;
+  border-top: 2px solid #26418e;
+}
+
+.roleTitle {
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.roleBody {
+  margin-top: 8px;
+  color: #333;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 32px;
+  margin-top: 48px;
+  padding: 0;
+  list-style: none;
+}
+
+.stepLabel {
+  color: #26418e;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1.4;
+}
+
+.stepTitle {
+  margin-top: 12px;
+  font-size: 20px;
+  line-height: 1.45;
+}
+
+.stepBody {
+  margin-top: 10px;
+  color: #333;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.examples {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  margin-top: 40px;
+  padding: 0;
+  list-style: none;
+}
+
+.example {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: 28px 40px;
+  align-items: start;
+  padding: 32px 0;
+  border-top: 1px solid #d8d8d4;
+}
+
+.example:last-child {
+  border-bottom: 1px solid #d8d8d4;
+}
+
+.exampleIndex {
+  color: #26418e;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  line-height: 1.4;
+}
+
+.exampleProblem {
+  margin-top: 8px;
+  font-size: 26px;
+  line-height: 1.45;
+  word-break: normal;
+  line-break: auto;
+}
+
+.exampleDiagram {
+  width: fit-content;
+  max-width: 100%;
+  margin: 20px 0 0;
+  padding: 0;
+}
+
+.exampleDiagramSteps {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.exampleDiagramStep {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #1a1a1a;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.exampleDiagramIcon {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid #c5c9d4;
+  border-radius: 8px;
+  color: #26418e;
+  background: #fff;
+}
+
+.exampleDiagramIcon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.exampleDiagramArrow {
+  display: grid;
+  place-items: center;
+  color: #8a8f99;
+}
+
+.exampleDiagramArrow svg {
+  width: 16px;
+  height: 16px;
+}
+
+.exampleAside {
+  padding: 20px 22px;
+  background: #fff;
+  border-left: 3px solid #26418e;
+}
+
+.exampleLabel {
+  color: #4a4a4a;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  line-height: 1.5;
+}
+
+.exampleFocus {
+  margin-top: 8px;
+  color: #1a1a1a;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.55;
+  word-break: normal;
+  line-break: auto;
+}
+
+.exampleBody {
+  margin-top: 10px;
+  color: #333;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.resultGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 40px 56px;
+  align-items: center;
+}
+
+.contact {
+  padding-block: 96px;
+  background: #1a2744;
+}
+
+.contactInner {
+  text-align: center;
+}
+
+.contact .kicker {
+  color: #dbe4f5;
+}
+
+.page .contactTitle {
+  color: #fff;
+  font-size: 32px;
+  line-height: 1.45;
+  letter-spacing: 0.02em;
+}
+
+.contactTitle span {
+  display: block;
+}
+
+.contactLead {
+  margin: 20px auto 0;
+  color: #e6e8ee;
+  font-size: 16px;
+  line-height: 1.85;
+}
+
+.contactLead span {
+  display: block;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 16px 28px;
+  margin-top: 32px;
+}
+
+.primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 12px 28px;
+  border-radius: 4px;
+  background: #fff;
+  color: #1a2744;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.4;
+  text-decoration: none;
+}
+
+.primary svg {
+  width: 18px;
+  height: 18px;
+}
+
+.secondary {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.4;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.page :is(a, button):focus-visible {
+  outline: 3px solid #26418e;
+  outline-offset: 3px;
+}
+
+.contact :is(a, button):focus-visible {
+  outline-color: #fff;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 900px) {
+  .heroGrid,
+  .resultGrid,
+  .example,
+  .steps,
+  .roleList {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .heroGrid {
+    gap: 36px;
+  }
+
+  .heroGrid > *:last-child {
+    margin-top: 8px;
+  }
+
+  .hero {
+    padding-block: 48px 40px;
+  }
+
+  .section,
+  .contact {
+    padding-block: 72px;
+  }
+
+  .heroTitle {
+    font-size: 32px;
+  }
+
+  .sectionTitle,
+  .page .contactTitle {
+    font-size: 26px;
+  }
+
+  .exampleProblem {
+    font-size: 22px;
+  }
+
+  .lead,
+  .prose,
+  .roleBody,
+  .stepBody,
+  .exampleBody,
+  .contactLead {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 390px) {
+  .container {
+    width: calc(100% - 40px);
+  }
+
+  .heroTitle {
+    font-size: 28px;
+  }
+
+  .page .contactTitle {
+    font-size: 22px;
+  }
+}

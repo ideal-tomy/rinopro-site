@@ -1,0 +1,119 @@
+"use client";
+
+import type { ExperiencePrototypeMeta } from "@/lib/experience/prototype-registry";
+import { DriverVoiceIncidentExperience } from "@/components/experience/prototypes/DriverVoiceIncidentExperience";
+import { LegalMemorySecretaryExperience } from "@/components/experience/prototypes/LegalMemorySecretaryExperience";
+import { ConstructionPhotoInspectionExperience } from "@/components/experience/prototypes/ConstructionPhotoInspectionExperience";
+import { PropertyExteriorPhotoExperience } from "@/components/experience/prototypes/PropertyExteriorPhotoExperience";
+import { InternalKnowledgeBotExperience } from "@/components/experience/prototypes/InternalKnowledgeBotExperience";
+import { ReceiptPhotoExpenseExperience } from "@/components/experience/prototypes/ReceiptPhotoExpenseExperience";
+import { RestaurantOpsDashboardExperience } from "@/components/experience/prototypes/RestaurantOpsDashboardExperience";
+import { ServiceClaimReplyExperience } from "@/components/experience/prototypes/ServiceClaimReplyExperience";
+import { InquiryIntakeTriageExperience } from "@/components/experience/prototypes/InquiryIntakeTriageExperience";
+import { WorkflowApprovalLiteExperience } from "@/components/experience/prototypes/WorkflowApprovalLiteExperience";
+import { DocumentShellPresetExperience } from "@/components/experience/prototypes/DocumentShellPresetExperience";
+import { OpsReportMetricsExperience } from "@/components/experience/prototypes/OpsReportMetricsExperience";
+import { LiveSyncTranslationExperience } from "@/components/experience/prototypes/LiveSyncTranslationExperience";
+import { ProfessionalMiniSfaExperience } from "@/components/experience/prototypes/ProfessionalMiniSfaExperience";
+import { getDocumentShellPreset } from "@/lib/experience/document-shell-presets";
+
+interface ExperiencePrototypeRunnerProps {
+  meta: ExperiencePrototypeMeta;
+  className?: string;
+}
+
+export function ExperiencePrototypeRunner({
+  meta,
+  className,
+}: ExperiencePrototypeRunnerProps) {
+  const documentShellPreset = getDocumentShellPreset(meta.slug);
+  if (documentShellPreset) {
+    return (
+      <DocumentShellPresetExperience
+        meta={meta}
+        preset={documentShellPreset}
+        className={className}
+      />
+    );
+  }
+
+  if (meta.slug === "legal-memory-secretary") {
+    return (
+      <LegalMemorySecretaryExperience meta={meta} className={className} />
+    );
+  }
+
+  if (meta.slug === "construction-photo-inspection-report") {
+    return (
+      <ConstructionPhotoInspectionExperience meta={meta} className={className} />
+    );
+  }
+
+  if (meta.slug === "property-exterior-photo-memo") {
+    return (
+      <PropertyExteriorPhotoExperience meta={meta} className={className} />
+    );
+  }
+
+  if (meta.slug === "internal-knowledge-share-bot") {
+    return (
+      <InternalKnowledgeBotExperience meta={meta} className={className} />
+    );
+  }
+
+  if (meta.slug === "restaurant-ops-dashboard-demo") {
+    return (
+      <RestaurantOpsDashboardExperience meta={meta} className={className} />
+    );
+  }
+
+  if (meta.slug === "service-claim-reply-assist") {
+    return (
+      <ServiceClaimReplyExperience meta={meta} className={className} />
+    );
+  }
+
+  if (meta.slug === "receipt-photo-expense-memo") {
+    return (
+      <ReceiptPhotoExpenseExperience meta={meta} className={className} />
+    );
+  }
+
+  if (meta.slug === "driver-voice-incident-draft") {
+    return (
+      <DriverVoiceIncidentExperience meta={meta} className={className} />
+    );
+  }
+
+  if (meta.slug === "inquiry-intake-triage-demo") {
+    return (
+      <InquiryIntakeTriageExperience meta={meta} className={className} />
+    );
+  }
+
+  if (meta.slug === "workflow-approval-lite-demo") {
+    return (
+      <WorkflowApprovalLiteExperience meta={meta} className={className} />
+    );
+  }
+
+  if (meta.slug === "legal-professional-mini-sfa-demo") {
+    return (
+      <ProfessionalMiniSfaExperience meta={meta} className={className} />
+    );
+  }
+
+  if (meta.slug === "ops-report-metrics-demo") {
+    return (
+      <OpsReportMetricsExperience meta={meta} className={className} />
+    );
+  }
+
+  if (meta.liveSyncMode) {
+    return (
+      <LiveSyncTranslationExperience meta={meta} className={className} />
+    );
+  }
+
+  return null;
+}

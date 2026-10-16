@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" style="width:100%;height:auto;display:block" viewBox="0 0 880 470" role="img" aria-labelledby="atdTitle atdDesc">
+  <title id="atdTitle">聞いて根拠が返ると、判断が先に進む</title>
+  <desc id="atdDesc">質問から判断までの流れ。ナレッジ検索を1つから入れ、段階的につなげる。</desc>
+  <style>
+    svg{
+      --ink:#1F2A33; --line:#3A4650; --muted:#7A858E;
+      --track:#D2D8DC; --flow:#2B3740;
+      --part:#0E5C4C;
+      --loss:#A8574B;
+      color-scheme: light only;
+      font-family:"Noto Sans CJK JP","Noto Sans JP",system-ui,sans-serif;
+    }
+    .t{fill:var(--ink)}
+    .t-mut{fill:var(--muted)}
+    .t-part{fill:var(--part)}
+    .track{stroke:var(--track);stroke-width:9;stroke-linecap:butt}
+    .flow{stroke:var(--flow);stroke-width:9;stroke-linecap:butt}
+    .bridge{stroke:var(--part);stroke-width:9;stroke-linecap:butt}
+</style>
+  <defs>
+    <marker id="atdAh" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.4" markerHeight="5.4" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#0E5C4C"/>
+    </marker>
+  </defs>
+  <text class="t-mut" x="215" y="46" text-anchor="start" font-size="14">質問</text>
+  <text class="t-mut" x="362" y="46" text-anchor="middle" font-size="14">探索止まり</text>
+  <text class="t-mut" x="522" y="46" text-anchor="middle" font-size="14">属人待ち</text>
+  <text class="t-mut" x="682" y="46" text-anchor="middle" font-size="14">確認待ち</text>
+  <text class="t-mut" x="800" y="46" text-anchor="end" font-size="14">判断</text>
+  <text class="t" x="58" y="112" font-size="15.5" font-weight="700">① いまの状態</text>
+  <text class="t-mut" x="58" y="133" font-size="13.5">探索のあとで止まる</text>
+  <line class="track" x1="215" y1="120" x2="340" y2="120"/>
+  <line class="track" x1="385" y1="120" x2="500" y2="120"/>
+  <line class="track" x1="545" y1="120" x2="660" y2="120"/>
+  <line class="track" x1="705" y1="120" x2="800" y2="120"/>
+  <line class="flow" x1="215" y1="120" x2="340" y2="120"/>
+  <circle cx="340" cy="120" r="7" fill="var(--flow)"/>
+  <g stroke="var(--loss)" stroke-width="2.4" stroke-linecap="round">
+    <line x1="356" y1="112" x2="370" y2="128"/><line x1="370" y1="112" x2="356" y2="128"/>
+    <line x1="516" y1="112" x2="530" y2="128"/><line x1="530" y1="112" x2="516" y2="128"/>
+    <line x1="676" y1="112" x2="690" y2="128"/><line x1="690" y1="112" x2="676" y2="128"/>
+  </g>
+  <text class="t" x="58" y="242" font-size="15.5" font-weight="700">② 機能を1つ入れる</text>
+  <text class="t-mut" x="58" y="263" font-size="13.5">単独でも、ここまで進む</text>
+  <line class="track" x1="215" y1="250" x2="340" y2="250"/>
+  <line class="track" x1="385" y1="250" x2="500" y2="250"/>
+  <line class="track" x1="545" y1="250" x2="660" y2="250"/>
+  <line class="track" x1="705" y1="250" x2="800" y2="250"/>
+  <line class="flow" x1="215" y1="250" x2="340" y2="250"/>
+  <line class="bridge" x1="340" y1="250" x2="385" y2="250"/>
+  <line class="flow" x1="385" y1="250" x2="500" y2="250"/>
+  <circle cx="500" cy="250" r="7" fill="var(--flow)"/>
+  <text class="t-part" x="362" y="278" text-anchor="middle" font-size="13.5" font-weight="700">ナレッジ検索</text>
+  <g stroke="var(--loss)" stroke-width="2.4" stroke-linecap="round">
+    <line x1="516" y1="242" x2="530" y2="258"/><line x1="530" y1="242" x2="516" y2="258"/>
+    <line x1="676" y1="242" x2="690" y2="258"/><line x1="690" y1="242" x2="676" y2="258"/>
+  </g>
+  <text class="t" x="58" y="372" font-size="15.5" font-weight="700">③ 3つつなぐ</text>
+  <text class="t-mut" x="58" y="393" font-size="13.5">質問から判断まで、一本で</text>
+  <line class="track" x1="215" y1="380" x2="800" y2="380"/>
+  <line class="flow" x1="215" y1="380" x2="340" y2="380"/>
+  <line class="bridge" x1="340" y1="380" x2="385" y2="380"/>
+  <line class="flow" x1="385" y1="380" x2="500" y2="380"/>
+  <line class="bridge" x1="500" y1="380" x2="545" y2="380"/>
+  <line class="flow" x1="545" y1="380" x2="660" y2="380"/>
+  <line class="bridge" x1="660" y1="380" x2="705" y2="380"/>
+  <line class="flow" x1="705" y1="380" x2="795" y2="380"/>
+  <path d="M795,380 L820,380" stroke="var(--part)" stroke-width="9" marker-end="url(#atdAh)"/>
+  <text class="t-part" x="362" y="408" text-anchor="middle" font-size="13.5" font-weight="700">ナレッジ検索</text>
+  <text class="t-part" x="522" y="408" text-anchor="middle" font-size="13.5" font-weight="700">根拠提示</text>
+  <text class="t-part" x="682" y="408" text-anchor="middle" font-size="13.5" font-weight="700">現場判断</text>
+  <text class="t" x="440" y="450" text-anchor="middle" font-size="20" font-weight="700">1つだけでも、そこまでは進む。つなぐと、最後まで通る。</text>
+</svg>

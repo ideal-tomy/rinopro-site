@@ -50,6 +50,18 @@
   color: #286491;
 }
 
+.sectionHeading {
+  margin: 0 0 12px;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.35;
+  color: #1b4f86;
+}
+
+.contentBoxEmphasized .sectionHeading {
+  color: #205f9e;
+}
+
 .list {
   margin: 0;
   padding: 0;

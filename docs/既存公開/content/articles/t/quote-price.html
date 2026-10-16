@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<style>
+:root{
+  color-scheme: light only;
+  --ink:#1a2838; --ink-2:#4a5c70; --ink-3:#7a8ca0;
+  --paper:#e4eef4; --carbon:#f2f7fa; --line:#b8c8d4;
+  --navy:#2a4a68; --empty:#f0dcc8;
+  --sans:"Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP","Noto Sans CJK JP","Yu Gothic Medium","Yu Gothic",Meiryo,system-ui,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root{ color-scheme:light only; }
+  html,body{ background:#e4eef4 !important; color:#1a2838 !important; }
+}
+*{ box-sizing:border-box; }
+body{ margin:0; background:var(--paper); color:var(--ink); font-family:var(--sans); font-size:16px; line-height:1.92; }
+h1,h2{ word-break:auto-phrase; margin:0; }
+p{ margin:0 0 1.45em; }
+a{ color:var(--navy); }
+.wrap{ max-width:720px !important; margin:0 auto; padding:0 22px; }
+.col{ max-width:620px; margin:0 auto; }
+
+.cover{ background:#c8dce8; color:var(--ink); padding:44px 0 36px; margin:0 -22px 0; }
+.cover__in{ max-width:620px; margin:0 auto; padding:0 22px; }
+.cover__tag{ font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; color:var(--ink-3); margin:0 0 14px; }
+.cover h1{ font-size:30px; line-height:1.48; font-weight:800; margin:0 0 16px; max-width:15em; }
+.cover__meta{ font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; color:var(--ink-3); display:flex; gap:14px; flex-wrap:wrap; margin:0 0 20px; }
+
+.quote-sheet{
+  background:var(--carbon);
+  background-image:linear-gradient(#d0e0ec 1px, transparent 1px);
+  background-size:100% 28px;
+  border:1px solid var(--navy); padding:16px 18px 14px; margin:0 0 18px;
+}
+.quote-sheet__hd{ font-family:var(--mono); font-size:11px; letter-spacing:.14em; margin:0 0 12px; font-weight:700; color:var(--navy); }
+.quote-sheet table{ width:100%; border-collapse:collapse; font-size:13.5px; background:rgba(242,247,250,.9); }
+.quote-sheet th,.quote-sheet td{ border:1px solid var(--line); padding:8px 10px; text-align:center; }
+.quote-sheet th{ background:#d8e8f0; font-size:11px; font-weight:600; color:var(--ink-2); }
+.quote-sheet td.name{ text-align:left; }
+.quote-sheet .void{ background:var(--empty); color:#8a5030; font-weight:700; font-family:var(--mono); }
+
+.blank-note{ padding:14px 16px; background:#fff; border:1px solid var(--navy); margin:0; }
+.blank-note p{ margin:0 0 .35em; font-size:14px; color:var(--ink-2); }
+.blank-note p:last-child{ margin:0; }
+.blank-note .lbl{ font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; color:var(--navy); margin-bottom:8px; }
+
+.body{ padding:38px 0 10px; }
+.lede{ font-size:17px; color:var(--ink-2); }
+
+.item{ margin:0 0 2.5em; }
+.item h2{
+  font-size:21px; font-weight:800; line-height:1.55; margin:0 0 16px;
+  padding-left:2.2em; position:relative;
+}
+.item h2::before{
+  content:attr(data-no); position:absolute; left:0; top:0;
+  font-family:var(--mono); font-size:13px; color:#fff; background:var(--navy);
+  width:1.7em; height:1.7em; display:flex; align-items:center; justify-content:center;
+}
+
+.origin{ margin:0 0 1.4em; padding:0; list-style:none; display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.origin li{ padding:10px 12px; background:var(--carbon); border:1px solid var(--line); font-size:14.5px; }
+
+.note-line{ background:#fff; border-left:4px solid var(--navy); padding:12px 16px; margin:0 0 1.4em; font-size:15px; color:var(--ink-2); }
+
+.figure{ margin:1.8em 0 2.2em; }
+.figure__lab{ font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; color:var(--ink-3); margin:0 0 10px; }
+.figure__cap{ font-size:12.5px; color:var(--ink-2); margin:12px 0 0; line-height:1.75; }
+.row-fig{ display:flex; font-size:14px; border:1px solid var(--navy); }
+.row-fig div{ padding:14px 16px; flex:1; }
+.row-fig .sum{ background:var(--carbon); }
+.row-fig .why{ background:var(--empty); font-weight:700; color:#8a5030; }
+
+.cite{ display:inline-block; font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; color:var(--navy); border:1px solid var(--navy); padding:5px 10px; text-decoration:none; margin:0 0 1.4em; }
+
+.know{ background:var(--carbon); border:1px solid var(--line); padding:20px 18px; margin:24px 0; }
+.know p{ margin:0; font-size:15px; color:var(--ink-2); }
+
+.cta{ border-top:1px solid var(--line); margin:44px 0 0; padding:28px 0 0; }
+.linkbtn{ display:inline-block; background:var(--ink); color:#fff; font-weight:700; font-size:15px; text-decoration:none; padding:14px 28px; }
+.disc{ font-size:12.5px; color:var(--ink-3); margin:20px 0 0; }
+.refs{ margin:28px 0 0; padding-top:18px; border-top:1px solid var(--line); }
+.refs h3{ font-family:var(--mono); font-size:10px; letter-spacing:.14em; color:var(--ink-3); margin:0 0 8px; }
+.refs li{ font-size:13px; line-height:1.8; color:var(--ink-2); margin-bottom:5px; }
+
+@media (max-width:640px){
+  .cover h1{ font-size:23px; }
+  .origin{ grid-template-columns:1fr; }
+  .row-fig{ flex-direction:column; }
+  .item h2{ font-size:18px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap is-theme">
+
+<section class="cover">
+  <div class="cover__in">
+    <p class="cover__tag">営業・施工　見積の一行</p>
+    <h1>見積を早く出しても、根拠が残らない。</h1>
+    <p class="cover__meta">
+      <span>読むのに 8分</span>
+      <span>法令の確認 2026.08</span>
+    </p>
+    <div class="quote-sheet">
+      <p class="quote-sheet__hd">御　見　積（抜粋）</p>
+      <table>
+        <thead><tr><th>品目</th><th>数量</th><th>単価</th><th>金額</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="name">外壁塗装</td>
+            <td>1式</td>
+            <td class="void">（空）</td>
+            <td>480,000</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="blank-note">
+      <p class="lbl">出ているものと、残っていないもの</p>
+      <p>見積は出ている。品目も金額も入っている。</p>
+      <p><b>単価の出どころが、出した人の頭にしかない。</b></p>
+    </div>
+  </div>
+</section>
+
+<div class="body col">
+
+<p class="lede">相手から「この単価の根拠は」と聞かれたとき、出せる紙がありません。単価は、出した人の頭にあります。休むと、同じ一行を説明できません。</p>
+
+<section class="item">
+<h2 data-no="1">一品目だけ、単価の出どころを書く</h2>
+<p>全部の品目を一度に書く必要はありません。よくあるのが、合計だけ合っていて、一行ごとの出どころが無い見積です。</p>
+<p>直近の一枚から、金額の大きい一行だけ開きます。その単価は、次のどれですか。一品目だけで構いません。</p>
+<ul class="origin">
+  <li>前回の同じ工事</li>
+  <li>仕入の見積</li>
+  <li>歩掛と人工</li>
+  <li>担当者の判断</li>
+</ul>
+<p>ここは残しておいてください。余白か別紙に、出どころを一行書きます。次に同じ品目を出すとき、頭ではなく紙を見られます。</p>
+</section>
+
+<section class="item">
+<h2 data-no="2">頭の中の単価では、あとから説明できない</h2>
+<p>早く出すことと、説明できることは別です。相手が社内で稟議するとき、こちらの担当者が席にいないことがあります。残っているのが合計金額だけだと、電話が戻ってきます。</p>
+<p>下請けに出す仕事なら、発注のときに給付の内容と代金の額を書面に残す決まりがあります。見積の段階で単価の出どころが無いと、発注書面を書くときにも同じ空白が残ります。該当する取引かどうかは、取引の形を見て判断します。</p>
+<a class="cite" href="https://www.jftc.go.jp/shitauke/legislation/act.html">出典　公正取引委員会　下請法（書面の交付）</a>
+</section>
+
+<section class="item">
+<h2 data-no="3">余白に書くのは、計算式でなくていい</h2>
+<p class="note-line">外壁塗装 一式 480,000。前回2024年10月の同仕様をベース。材料の上がりを1割見た。</p>
+<p>この程度で足ります。歩掛の表を添付する必要はありません。出どころの種類が分かれば、次の人が同じ一行を組めます。</p>
+
+<figure class="figure">
+  <p class="figure__lab">図　金額の行と、出どころの行</p>
+  <div class="row-fig">
+    <div class="sum">金額：480,000円</div>
+    <div class="why">出どころ：（空）→ 説明できない</div>
+  </div>
+  <figcaption class="figure__cap">左だけ埋まっていても、右が空なら、聞かれたときに紙が出せません。</figcaption>
+</figure>
+</section>
+
+<section class="item">
+<h2 data-no="4">社内で話すなら、「見積を自動で出したい」ではなくていい</h2>
+<p>「見積は出せる。単価の出どころが残っていないので、聞かれたときに説明できない」と言えば、止まっている線が伝わります。</p>
+</section>
+
+<section class="item">
+<h2 data-no="5">直近の見積一枚から始める</h2>
+<p>過去五年分を起こす必要はありません。先週出した一枚の、一番高い一行だけ書きます。書けない一行は、単価が頭だけだと分かります。その一行を、次回出す前に仕入か前回工事で確かめます。</p>
+<p><b>早く出しても、根拠が残らなければ、説明できない見積のままです。</b> 一品目の出どころが残れば、次の品目も同じ欄で書けます。</p>
+
+<div class="know">
+  <p>この記事は知識のみです。デモ画面はありません。直近の見積から、金額の大きい一行の出どころだけ書いてください。</p>
+</div>
+</section>
+
+<div class="cta">
+  <p><a class="linkbtn" href="/contact?service=ai-consulting&amp;intent=article&amp;article=quote-price">相談する</a></p>
+  <p class="disc">下請法の適用は取引の形によります。該当するかどうかは、所管の官公庁や専門家の最新の情報をご確認ください。</p>
+</div>
+
+<div class="refs">
+  <h3>参考</h3>
+  <ul>
+    <li>下請代金支払遅延等防止法 ／ 公正取引委員会<br>
+      <a href="https://www.jftc.go.jp/shitauke/legislation/act.html">https://www.jftc.go.jp/shitauke/legislation/act.html</a></li>
+  </ul>
+</div>
+
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,527 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* Design Tokens - docs/デザイン要件.md */
+:root {
+  --line-height-body: 1.5;
+  --color-base: #fafaf8;
+  --color-base-dark: #f4f4f2;
+  --color-bg-base: #fafaf8;
+  --color-bg-pure: #ffffff;
+  --color-bg-warm: #f5efe6;
+  --color-bg-neutral: #f4f4f2;
+  --color-color-1: #26418e;
+  --color-color-2: #c9a961;
+  --color-color-3: #dbeafe;
+  --color-color-4: #a88b47;
+  --color-color-5: #e5e5e0;
+  --color-accent: var(--color-color-1);
+  --color-chat-accent: #00f2ff;
+  --color-warm: var(--color-color-2);
+  --color-warm-strong: var(--color-color-4);
+  --color-glow: var(--color-color-3);
+  --color-elevated: var(--color-color-5);
+  --color-action: var(--color-color-1);
+  --color-silver: #d1d1cc;
+  --color-text: #1a1a1a;
+  --color-text-sub: #4a4a4a;
+  --color-text-primary: #1a1a1a;
+  --color-text-secondary: #4a4a4a;
+  --color-text-tertiary: #6b6b6b;
+  --color-accent-primary: #26418e;
+  --color-accent-primary-hover: #1c356f;
+  --color-accent-primary-light: #dbeafe;
+  --heading-accent-rule-gradient: linear-gradient(
+    90deg,
+    var(--color-accent-primary) 0%,
+    var(--color-accent-primary) 76%,
+    color-mix(in srgb, var(--color-accent-primary) 45%, transparent) 88%,
+    transparent 100%
+  );
+  --heading-accent-rule-gradient-on-dark: linear-gradient(
+    90deg,
+    rgb(255 255 255 / 0.95) 0%,
+    rgb(255 255 255 / 0.95) 76%,
+    rgb(255 255 255 / 0.4) 88%,
+    transparent 100%
+  );
+  --color-border-light: #e5e5e0;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.25 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+@theme inline {
+  --color-base: #fafaf8;
+  --color-base-dark: #f4f4f2;
+  --color-bg-base: #fafaf8;
+  --color-bg-pure: #ffffff;
+  --color-bg-warm: #f5efe6;
+  --color-bg-neutral: #f4f4f2;
+  --color-color-1: #26418e;
+  --color-color-2: #c9a961;
+  --color-color-3: #dbeafe;
+  --color-color-4: #a88b47;
+  --color-color-5: #e5e5e0;
+  --color-accent: var(--color-color-1);
+  --color-chat-accent: #00f2ff;
+  --color-warm: var(--color-color-2);
+  --color-warm-strong: var(--color-color-4);
+  --color-glow: var(--color-color-3);
+  --color-elevated: var(--color-color-5);
+  --color-action: var(--color-color-1);
+  --color-silver: #d1d1cc;
+  --color-text: #1a1a1a;
+  --color-text-sub: #4a4a4a;
+  --color-text-primary: #1a1a1a;
+  --color-text-secondary: #4a4a4a;
+  --color-text-tertiary: #6b6b6b;
+  --color-accent-primary: #26418e;
+  --color-accent-primary-hover: #1c356f;
+  --color-accent-primary-light: #dbeafe;
+  --color-border-light: #e5e5e0;
+  --color-background: var(--color-base);
+  --color-foreground: var(--color-text);
+  --font-sans:
+    var(--font-geist-sans),
+    "Hiragino Kaku Gothic ProN",
+    "Yu Gothic UI",
+    "Meiryo",
+    sans-serif;
+  --font-jp: var(--font-noto-sans-jp), "Hiragino Kaku Gothic ProN", "Meiryo",
+    sans-serif;
+  --font-mono: var(--font-geist-mono), monospace;
+  --font-heading: var(--font-sans);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+/* 右下・チャットUI: 従来のシアンを --color-accent として子に継承 */
+.chat-theme-ai {
+  --color-accent: var(--color-chat-accent);
+}
+
+/* トップ LP のみ: 日本語の禁則・折り返し（サイト全域の p には当てない） */
+.home-landing-copy p,
+.home-landing-copy li {
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+  line-break: strict;
+}
+
+/* 全ページ共通: 横スクロールバーを上品なガラス調に統一 */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--color-glow) 42%, #9aa3ad 58%)
+    transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  background-image: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--color-glow) 60%, #c0c8d0 40%) 0%,
+    color-mix(in srgb, var(--color-accent) 30%, #c0c8d0 70%) 100%
+  );
+  box-shadow:
+    inset 0 0 0 1px rgb(255 255 255 / 10%),
+    0 0 10px color-mix(in srgb, var(--color-glow) 45%, transparent);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-image: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--color-glow) 72%, #d7dde3 28%) 0%,
+    color-mix(in srgb, var(--color-accent) 40%, #d7dde3 60%) 100%
+  );
+  box-shadow:
+    inset 0 0 0 1px rgb(255 255 255 / 16%),
+    0 0 14px color-mix(in srgb, var(--color-glow) 55%, transparent);
+}
+
+/* 見出し直下：タイトル幅いっぱいの細いグラデーションアクセント線 */
+.heading-with-accent-rule {
+  width: fit-content;
+  max-width: 100%;
+}
+
+.heading-with-accent-rule::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 1px;
+  margin-top: 12px;
+  border-radius: 1px;
+  background: var(--heading-accent-rule-gradient);
+}
+
+.heading-with-accent-rule--center {
+  margin-inline: auto;
+}
+
+.heading-with-accent-rule--on-dark::after {
+  background: var(--heading-accent-rule-gradient-on-dark);
+}
+
+/* 主CTA: ホバー時のひと飛び光（簡易フラッシュ）。線形ホバー遷移は button 側 */
+.btn-primary-sheen {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary-sheen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    color-mix(in srgb, white 70%, transparent) 45%,
+    transparent 90%
+  );
+  transform: translateX(-120%) skewX(-16deg);
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .btn-primary-sheen:hover::after {
+    animation: btn-primary-sheen 0.65s ease-out;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-primary-sheen::after {
+    content: none;
+  }
+}
+
+@keyframes btn-primary-sheen {
+  0% {
+    transform: translateX(-120%) skewX(-16deg);
+    opacity: 0.75;
+  }
+  100% {
+    transform: translateX(120%) skewX(-16deg);
+    opacity: 0;
+  }
+}
+
+/* 横レール専用: スクロールバー非表示 */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Phase E: クリック／タップの即時フィードバック（hover は各コンポーネント側を維持） */
+@media (prefers-reduced-motion: no-preference) {
+  .clickable-element {
+    transition:
+      transform 0.1s ease,
+      opacity 0.1s ease,
+      box-shadow 0.1s ease,
+      border-color 0.1s ease;
+  }
+
+  .clickable-element:active {
+    transform: scale(0.97);
+    opacity: 0.85;
+  }
+
+  /* リンク／カード: hover で浮き、active で沈む（pointer はリンク用途のみで付与） */
+  .interactive-card {
+    cursor: pointer;
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease,
+      border-color 0.2s ease,
+      opacity 0.15s ease;
+  }
+
+  .interactive-card:hover {
+    transform: translateY(-4px);
+    box-shadow:
+      0 8px 24px rgb(0 0 0 / 0.3),
+      inset 0 1px 0 0 color-mix(in srgb, var(--color-elevated) 12%, transparent);
+  }
+
+  .interactive-card:active {
+    transform: translateY(0);
+    box-shadow:
+      0 2px 8px rgb(0 0 0 / 0.2),
+      inset 0 1px 0 0 color-mix(in srgb, var(--color-elevated) 10%, transparent);
+    transition-duration: 0.1s;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .clickable-element:active {
+    opacity: 0.92;
+  }
+
+  .interactive-card:hover,
+  .interactive-card:active {
+    transform: none;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    line-height: var(--line-height-body);
+  }
+  html {
+    @apply font-sans;
+  }
+  p,
+  li,
+  dd,
+  figcaption,
+  blockquote {
+    line-height: var(--line-height-body);
+  }
+}
+
+/* View Transitions API（対応ブラウザ）: ページ切り替えのクロスフェード感を強める */
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
+  }
+}
+
+/* LP 図解: ヒーロー背景の淡い線描画（控えめ） */
+@keyframes illus-draw-line {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes illus-pulse-soft {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.22);
+    opacity: 0.62;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .illus-hero-line {
+    stroke-dasharray: 200;
+    stroke-dashoffset: 200;
+    animation: illus-draw-line 1.4s ease forwards;
+  }
+
+  .illus-hero-pulse {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: illus-pulse-soft 2.6s ease-in-out infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .illus-hero-line {
+    stroke-dashoffset: 0;
+  }
+
+  .illus-hero-pulse {
+    animation: none;
+  }
+}
+
+/* Industry Showcase: LIVE DEMO バッジの控えめな発光 */
+@keyframes showcase-live-glow {
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(30, 58, 138, 0.28);
+  }
+  50% {
+    opacity: 0.9;
+    box-shadow: 0 0 12px 2px rgba(30, 58, 138, 0.4);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .showcase-live-badge {
+    animation: showcase-live-glow 2.5s ease-in-out infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .showcase-live-badge {
+    animation: none;
+  }
+}
+
+/* 記事目次セクション用（ideal から移植、AXEON カラーにマップ） */
+.article-toc-scope {
+  --article-primary: var(--color-accent-primary);
+  --article-primary-hover: var(--color-accent-primary-hover);
+  --article-bg: var(--color-bg-pure);
+  --article-bg-card: var(--color-bg-neutral);
+  --article-text: var(--color-text-primary);
+  --article-text-muted: var(--color-text-secondary);
+  --article-border: var(--color-border-light);
+}
+
+/* Ideal デモショーケース移植用（AXEON トークンにマップ） */
+.home-demo-first {
+  --df-primary: var(--color-accent-primary);
+  --df-primary-hover: var(--color-accent-primary-hover);
+  --df-on-primary: #ffffff;
+  --df-bg-blue: var(--color-accent-primary-light);
+  --df-bg: var(--color-bg-pure);
+  --df-text: var(--color-text-primary);
+  --df-text-muted: var(--color-text-secondary);
+  --site-fg: var(--color-text-primary);
+  --site-fg-muted: var(--color-text-secondary);
+  --site-border: var(--color-border-light);
+}
+
+.home-demo-first .text-brand {
+  color: var(--color-accent-primary);
+}
+
+.home-demo-first .text-brand-deep {
+  color: var(--color-accent-primary-hover);
+}
+
+.home-demo-first .bg-brand {
+  background-color: var(--color-accent-primary);
+}
+
+.home-demo-first .hover\:bg-brand-hover:hover {
+  background-color: var(--color-accent-primary-hover);
+}
+
+.home-demo-first .bg-brand\/10 {
+  background-color: color-mix(in srgb, var(--color-accent-primary) 10%, transparent);
+}
+
+.home-demo-first .bg-brand\/15 {
+  background-color: color-mix(in srgb, var(--color-accent-primary) 15%, transparent);
+}
+
+.home-demo-first .border-brand\/30 {
+  border-color: color-mix(in srgb, var(--color-accent-primary) 30%, transparent);
+}
+
+/* 現行トップ限定。サービス詳細で使う home-landing-copy には波及させない。 */
+.home-top p,
+.home-top li {
+  word-break: normal;
+  overflow-wrap: break-word;
+  line-break: strict;
+}
+
+/* Shared one-shot scroll reveal timing. */
+:root { --scroll-reveal-duration: 760ms; --scroll-reveal-easing: cubic-bezier(0.22, 1, 0.36, 1); --scroll-reveal-stagger: 140ms; }
+@media (max-width: 767px) { :root { --scroll-reveal-duration: 980ms; --scroll-reveal-stagger: 120ms; --scroll-reveal-easing: cubic-bezier(0.25, 0.1, 0.25, 1); } }
+@media (prefers-reduced-motion: reduce) { [data-reveal-ready="true"] { opacity: 1 !important; translate: none !important; transition: none !important; } }
+/* 画面の外にいるあいだはすぐに隠す。出てくる時間は、表示を始めるときにだけ付ける。 */
+@media (prefers-reduced-motion: no-preference) {
+  [data-scroll-reveal-unit="true"]:not([data-scroll-revealed="true"]) { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-scroll-reveal-unit="true"] { opacity: 1 !important; transition: none !important; }
+}
+
+/* 本文行間 1.2: Tailwind leading-* / CSS Modules の上書き（見出し要素は対象外） */
+p,
+li,
+dd,
+figcaption,
+blockquote,
+td {
+  line-height: var(--line-height-body) !important;
+}

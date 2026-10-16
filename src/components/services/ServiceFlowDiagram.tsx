@@ -91,6 +91,7 @@ export function ServiceFlowDiagram({
                       : styles.contentBox
                   }
                 >
+                  <p className={styles.sectionHeading}>代表的な業務例</p>
                   <ul className={styles.list}>
                     {stage.detail.whatWeDo.map((item) => (
                       <li key={item}>{item}</li>

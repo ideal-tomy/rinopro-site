@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<style>
+
+:root{
+  color-scheme: light only;
+  --ink:#23302b; --ink-2:#55625c; --ink-3:#8a948f;
+  --paper:#faf9f6; --surface:#ffffff;
+  --line:#e6e3dc; --edge:#cfd4cf;
+  --green:#3f6b54; --green-l:#e7efe8; --peach:#f6e8e3; --peach-d:#a8654f;
+  --sans:"Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP","Noto Sans CJK JP","Yu Gothic Medium","Yu Gothic",Meiryo,system-ui,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    color-scheme: light only;
+    --ink:#23302b; --ink-2:#55625c; --ink-3:#8a948f;
+    --paper:#faf9f6; --surface:#ffffff;
+    --line:#e6e3dc; --edge:#cfd4cf;
+    --green:#3f6b54; --green-l:#e7efe8; --peach:#f6e8e3; --peach-d:#a8654f;
+  }
+  html, body{ background:#faf9f6 !important; color:#23302b !important; }
+}
+*{ box-sizing:border-box; }
+html{ -webkit-text-size-adjust:100%; }
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:var(--sans); font-size:16px; line-height:2.05;
+  font-feature-settings:"palt" 1;
+}
+h1,h2,h3{ word-break:auto-phrase; line-break:strict; text-wrap:balance; margin:0; letter-spacing:.045em; font-weight:600; }
+p{ margin:0 0 1.6em; }
+a{ color:var(--green); }
+
+.wrap{ max-width:940px; margin:0 auto; padding:0 22px; }
+.col{ max-width:600px; }
+
+.top{ background:var(--surface); border-bottom:1px solid var(--edge); }
+.top__in{ max-width:880px; margin:0 auto; padding:13px 22px; display:flex; align-items:baseline; gap:14px; }
+.brand{ font-family:var(--mono); font-weight:700; font-size:15px; letter-spacing:.14em; color:var(--green); text-decoration:none; }
+.crumb{ font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; color:var(--ink-3); }
+
+.hero{ background:var(--surface); border-bottom:1px solid var(--edge); padding:48px 0 40px; }
+.cover{
+  border-bottom:1px solid var(--edge); padding-bottom:16px; margin:0 0 26px;
+  display:flex; justify-content:space-between; align-items:baseline; gap:14px; flex-wrap:wrap;
+}
+.cover .title{ font-size:14px; letter-spacing:.08em; color:var(--green); font-weight:600; margin:0; }
+.meta{ font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; color:var(--ink-3); margin:0; display:flex; gap:14px; flex-wrap:wrap; }
+.hero h1{ font-size:33px; line-height:1.62; margin:0 0 20px; max-width:15em; }
+.hero__lead{ font-size:16px; color:var(--ink-2); max-width:32em; margin:0 0 24px; }
+.hero .docs{ margin:0; }
+.hero__cap{ font-size:12.5px; line-height:1.85; color:var(--ink-2); margin:10px 0 0; letter-spacing:.02em; }
+
+.cite{
+  display:inline-block; margin:0 0 1.2em;
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.1em;
+  color:var(--peach-d); border:1px solid var(--peach-d); padding:5px 10px 4px;
+  text-decoration:none;
+}
+.cite:hover{ background:rgba(168,101,79,.08); }
+
+.body{
+  background:
+    repeating-linear-gradient(to bottom, transparent 0 40px, var(--line) 40px 41px),
+    var(--paper);
+  background-position:0 12px;
+  padding:8px 0 0;
+}
+.sec{ padding:44px 0 0; }
+.sec h2{ font-size:24px; line-height:1.66; margin:0 0 20px; max-width:18em; }
+.sec + .sec h2{ padding-top:16px; border-top:2px solid var(--green); }
+.sec h3{ font-size:15.5px; font-weight:700; letter-spacing:.03em; margin:30px 0 6px; }
+.lede{ font-size:17px; }
+
+/* 五つの書類 */
+.docs{ max-width:600px; margin:0 0 1.7em; }
+.docs div{ background:var(--surface); border-left:3px solid var(--green); padding:14px 18px 12px; margin-bottom:9px; }
+.docs b{ display:block; font-size:15.5px; letter-spacing:.03em; }
+.docs span{ font-size:13.5px; color:var(--ink-2); line-height:1.85; }
+
+/* 食い違いの組み合わせ */
+.pairs{ max-width:600px; margin:0 0 1.7em; padding:0; list-style:none; }
+.pairs li{ border-top:1px solid var(--line); padding:14px 0 12px; }
+.pairs li:last-child{ border-bottom:1px solid var(--line); }
+.pairs b{ display:block; font-size:15px; color:var(--peach-d); font-weight:700; letter-spacing:.03em; }
+.pairs span{ font-size:14.5px; line-height:1.9; }
+
+.box{ background:var(--surface); border:1px solid var(--edge); padding:22px 24px 19px; margin:0 0 1.7em; max-width:600px; }
+.box h3{ font-size:15.5px; font-weight:700; margin:0 0 10px; color:var(--peach-d); }
+.box p{ font-size:14.5px; line-height:1.9; margin:0 0 .9em; }
+.box p:last-child{ margin:0; }
+.box ul{ margin:0 0 .9em; padding-left:1.2em; font-size:14.5px; line-height:1.9; }
+
+.figure{ background:transparent; border:0; padding:0; margin:0 0 2.5em; max-width:900px; width:min(900px, calc(100vw - 40px)); }
+.figure svg{ display:block; width:100%; height:auto; }
+.figure__t{ font-family:var(--mono); font-size:10px; letter-spacing:.14em; color:var(--green); font-weight:700; margin:0 0 10px; }
+.figure figcaption{ font-size:12.5px; line-height:1.85; color:var(--ink-2); margin:12px 0 0; padding-top:10px; border-top:1px solid var(--line); letter-spacing:.02em; }
+
+.plain{ margin:0 0 1.6em; padding-left:1.2em; max-width:600px; }
+.plain li{ margin-bottom:8px; }
+
+.demo{
+  background:var(--green-l);
+  border-top:1px solid var(--edge); border-bottom:1px solid var(--edge);
+  margin:60px 0 0; padding:44px 0 42px;
+}
+.demo__in{ max-width:880px; margin:0 auto; padding:0 22px; }
+.demo__box{ max-width:600px; }
+.demo .kicker{ color:var(--green); margin-bottom:14px; }
+.demo h2{ font-size:25px; line-height:1.6; margin:0 0 16px; }
+.demo p{ font-size:15px; color:var(--ink-2); }
+.btn{ display:inline-block; background:var(--green); color:#fff; font-weight:700; font-size:15px; letter-spacing:.04em; text-decoration:none; padding:15px 30px; border-radius:3px; }
+.btn:hover{ background:#2f5340; }
+.fine{ font-size:12.5px; line-height:1.95; color:var(--ink-2); margin:18px 0 0; letter-spacing:.02em; }
+.fine b{ color:var(--peach-d); }
+
+.close h2{ font-size:24px; line-height:1.6; margin:0 0 16px; }
+.linkbtn{ display:inline-block; background:var(--ink); color:#fff; text-decoration:none; font-weight:700; font-size:15px; letter-spacing:.04em; padding:15px 30px; border-radius:3px; }
+.linkbtn:hover{ background:#131c18; }
+
+.src{ margin:52px 0 0; padding:24px 0 0; border-top:1px solid var(--edge); max-width:600px; }
+.src h3{ font-family:var(--mono); font-size:10px; letter-spacing:.16em; color:var(--ink-3); margin:0 0 12px; font-weight:700; }
+.src ul{ margin:0; padding-left:1.15em; }
+.src li{ font-size:12.5px; line-height:1.9; color:var(--ink-2); margin-bottom:6px; }
+.src a{ word-break:break-all; }
+
+.foot{ background:var(--surface); border-top:1px solid var(--edge); margin-top:56px; padding:24px 0 42px; }
+.foot__in{ max-width:880px; margin:0 auto; padding:0 22px; font-family:var(--mono); font-size:11px; letter-spacing:.1em; color:var(--ink-3); }
+
+@media (max-width:640px){
+  body{ font-size:15.5px; line-height:1.98; }
+  .wrap{ padding:0 18px; }
+  .top__in{ padding:12px 18px; }
+  .hero{ padding:38px 0 34px; }
+  .hero h1{ font-size:24px; line-height:1.6; }
+  .hero p{ font-size:15px; }
+  .sec h2{ font-size:20px; }
+  .box{ padding:18px 16px 16px; }
+  .figure figcaption{ font-size:12px; }
+  .figure figcaption{ font-size:12px; }
+  .demo{ margin-top:46px; padding:34px 0 34px; }
+  .demo__in{ padding:0 18px; }
+  .demo h2{ font-size:20px; }
+  .close h2{ font-size:19px; }
+  .btn, .linkbtn{ display:block; text-align:center; padding:16px 18px; }
+  .foot__in{ padding:0 18px; }
+}
+a:focus-visible, .btn:focus-visible, .linkbtn:focus-visible{ outline:2px solid var(--peach-d); outline-offset:3px; }
+
+/* publish overrides */
+.demo-first-step{ font-size:13.5px; line-height:1.85; margin:0 0 14px; opacity:.95; }
+.btn.is-soon,.n__go.is-soon{
+  display:inline-block; opacity:.65; cursor:default; pointer-events:none;
+  font-weight:700; font-size:15px; padding:15px 30px; border-radius:2px;
+  background:#e8e8e8; color:#555; text-decoration:none;
+}
+</style>
+</head>
+<body>
+<section class="hero">
+  <div class="wrap">
+    <div class="col">
+      <div class="cover">
+        <p class="title">医療・介護　記録と運営指導</p>
+        <p class="meta">
+          <span>読むのに 9分</span>
+          <span>2026.08 ／ 法令の確認 2026.08</span>
+        </p>
+      </div>
+      <h1>記録がずれる理由と、その残し方。</h1>
+      <p class="hero__lead">
+        運営指導で見られるのは、書類の量ではなく、書類どうしの食い違いです。食い違うのは、その日のうちに書けていないからです。その場で残す、五つを突き合わせる、運営指導の前に揃える、の順でまとめました。
+      </p>
+      <div class="docs">
+        <div><b>ケアプラン</b><span>何をする計画になっているか</span></div>
+        <div><b>介護記録</b><span>実際に何をしたか</span></div>
+        <div><b>勤務表</b><span>そのとき誰がいたか</span></div>
+        <div><b>加算の資料</b><span>算定の要件を満たしているか</span></div>
+        <div><b>請求内容</b><span>いくら請求したか</span></div>
+      </div>
+      <p class="hero__cap">この五つが、同じ出来事を別の角度から書いたものになっているかを見られます。</p>
+    </div>
+  </div>
+</section>
+
+<main class="body">
+  <div class="wrap">
+
+    <section class="sec">
+      <div class="col">
+        <p class="lede">
+          上の五つは、同じ出来事を別の角度から書いたものです。運営指導では、そろっているかより、互いに合っているかを見られます。直し方は三つです。その場で残す、五つを突き合わせる、運営指導の前に揃える。順番に書きます。
+        </p>
+      </div>
+    </section>
+
+    <section class="sec">
+      <div class="col">
+        <h2>その日の記録を、その場で残す</h2>
+        <p>
+          職員が手を抜いているから食い違うのではありません。<b>その日のうちに書けていないからです。</b>
+        </p>
+        <p>
+          訪問から戻って、次の訪問に出て、夕方に事務所へ戻ってから一日分をまとめて書く。この流れだと、時刻は記憶で書くことになります。何時に着いたか、どれくらいいたか。少しずつずれます。
+        </p>
+        <p>
+          そして、ずれたまま何か月も積み上がったものが、運営指導で突き合わせられます。直すには、書く場所を現場に戻すしかありません。あとから正確に思い出すのは、誰にもできません。
+        </p>
+        <p>
+          記録が本当に効くのは、監査の日だけではありません。利用者やご家族から「あの日、来てもらえなかった」「そんな説明は受けていない」と言われることがあります。そのとき、やったことを示せるのは記録だけです。職員本人の記憶では、証明になりません。
+        </p>
+        <p class="lede">
+          記録が薄いと、いちばん困るのは現場の職員です。
+        </p>
+        <p>
+          その場で残せる形にすることは、事務作業を減らす話であると同時に、職員を守る話でもあります。事務所に戻ってから思い出して書いた記録は、書いた本人も自信を持てません。自信を持てない記録は、いざというときに使えません。
+        </p>
+      </div>
+    </section>
+  </div>
+
+  <section class="demo">
+    <div class="demo__in">
+      <div class="demo__box">
+        <p class="kicker">実際の画面</p>
+        <h2>その場で残す形にすると、時刻がずれません</h2>
+        <p>
+          現場で声に出したものが、そのまま記録の形になります。時刻は自動で入るので、記憶で書く必要がなくなります。
+        </p>
+        <p>
+          現場のスタッフ、事務所の管理、医療との連携。三つの画面がつながっているので、片方で入れたものが、もう片方にどう出るかまでご覧いただけます。
+        </p>
+        <p>
+          <p class="demo-first-step">パソコンのChromeでお試しください。まず、最初の画面のマイク（または文字入力）から始めてください。新しい画面が開きます。</p><a class="btn" href="https://kaigo-operation-demo.vercel.app/" data-demo="care" target="_blank" rel="noopener noreferrer">記録の画面を動かしてみる</a>
+        </p>
+        <p class="fine">
+          こちらで用意した利用者情報で動きます。3分ほどで終わります ／ 登録は要りません。<br>
+          <b>声に出したものを記録の形にする部分は、本物のAIではなく、あらかじめ用意した動きでお見せしています。</b>実際にAIで動かしたところは、お打ち合わせのときにご覧いただけます。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+
+    <section class="sec">
+      <div class="col">
+        <h2>五つの書類が、同じ出来事を指しているか見る</h2>
+        <p>
+          指摘につながるのは、書類が足りない場合だけではありません。そろっていても、書類どうしの内容が合っていないと、そこが指摘の対象になります。
+        </p>
+        <p>
+          突き合わせられるのは、上の五つです。ケアプラン、介護記録、勤務表、加算の資料、請求内容。どれか一つでもずれていると、サービスの実態や請求の根拠を説明できなくなります。
+        </p>
+        <p>
+          実際に指摘されているのは、だいたいこのあたりです。
+        </p>
+
+        <ul class="pairs">
+          <li>
+            <b>勤務表 と 介護記録</b>
+            <span>記録に書かれた時刻に、その職員が勤務していないことになっている。あとから書いたときに起きます。</span>
+          </li>
+          <li>
+            <b>ケアプラン と 介護記録</b>
+            <span>計画にない支援が記録に入っている。または、計画にある支援が記録に出てこない。</span>
+          </li>
+          <li>
+            <b>加算の資料 と 介護記録</b>
+            <span>加算の要件になっている行為が、記録から確認できない。人の要件を満たしているだけでは算定できません。</span>
+          </li>
+          <li>
+            <b>介護記録 と 請求内容</b>
+            <span>提供した時間と、請求した区分が合っていない。</span>
+          </li>
+          <li>
+            <b>報告の間隔</b>
+            <span>訪問介護では、サービス提供責任者への報告を数日分まとめて行っていた例が多く指摘されています。</span>
+          </li>
+        </ul>
+
+        <figure class="figure">
+          <p class="figure__t">図1　同じ出来事なのに、書類ごとに時刻がずれる</p>
+          <svg viewBox="0 0 360 190" role="img" aria-labelledby="c1t c1d">
+            <title id="c1t">勤務表と介護記録で時刻がずれている図</title>
+            <desc id="c1d">同じ訪問について、勤務表では17時から18時、介護記録では18時半と書かれていて、位置がずれている</desc>
+
+            <g font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="11" fill="var(--ink-2)">
+              <text x="14" y="42">勤務表</text>
+              <text x="14" y="122">介護記録</text>
+            </g>
+
+            <line x1="88" y1="56" x2="346" y2="56" stroke="var(--line)" stroke-width="1"/>
+            <rect x="118" y="34" width="76" height="20" rx="2" fill="var(--green-l)" stroke="var(--green)" stroke-width="1.2"/>
+            <text x="156" y="48" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="10" fill="var(--green)" text-anchor="middle">17:00-18:00</text>
+
+            <line x1="88" y1="136" x2="346" y2="136" stroke="var(--line)" stroke-width="1"/>
+            <rect x="230" y="114" width="76" height="20" rx="2" fill="var(--peach)" stroke="var(--peach-d)" stroke-width="1.2"/>
+            <text x="268" y="128" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="10" fill="var(--peach-d)" text-anchor="middle">18:30 に記録</text>
+
+            <g stroke="var(--peach-d)" stroke-width="1.2" stroke-dasharray="3 3">
+              <line x1="194" y1="56" x2="194" y2="136"/>
+              <line x1="230" y1="56" x2="230" y2="136"/>
+            </g>
+            <line x1="194" y1="92" x2="230" y2="92" stroke="var(--peach-d)" stroke-width="2"/>
+            <text x="238" y="96" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="10.5" fill="var(--peach-d)">この幅が説明できない</text>
+
+            <g font-family="ui-monospace,monospace" font-size="9" fill="var(--ink-3)">
+              <text x="112" y="72">17:00</text>
+              <text x="188" y="72">18:00</text>
+              <text x="300" y="72">19:00</text>
+            </g>
+          </svg>
+          <figcaption>
+            同じ訪問なのに、勤務表と記録で位置がずれています。あとから思い出して書くと、この幅が生まれます。指摘されるのは記録が少ないことではなく、この幅を説明できないことです。
+          </figcaption>
+        </figure>
+
+        <p>
+          月に一度、上の五つを横に並べて見るだけで足ります。全部を読み直す必要はありません。時刻、支援内容、加算、請求区分が、同じ訪問を指しているかだけ確認してください。
+        </p>
+      </div>
+    </section>
+
+    <section class="sec">
+      <div class="col">
+        <h2>運営指導の前に揃える</h2>
+        <p>
+          通知が来てから当日まで1〜2週間です。この期間にできるのは、そろえることと、確認することだけです。<b>記録そのものは、もう書き終わっています。</b>対策は、通知が来る前にしかできません。三年に一度の行事のために準備するのではなく、ふだんの記録が説明できる状態になっているか。見るのはそこだけです。
+        </p>
+
+        <div class="box">
+          <h3>運営指導は、こういう流れで行われます</h3>
+          <ul>
+            <li>2022年度から、実地指導は「運営指導」という名称になりました。オンラインでも行われます</li>
+            <li>原則3年に1回。新しく指定を受けた事業所は、おおむね1年以内に初回があります</li>
+            <li>通知は1〜2週間前に文書で届きます。日時と、当日に確認する書類の一覧が入っています</li>
+            <li>当日は書類の確認と面談で、半日から1日</li>
+            <li>結果は1〜2週間後に文書で届き、改善報告は30日以内に提出します</li>
+            <li>指摘は、改善指導、改善勧告、改善命令、指定取消の順で重くなります</li>
+          </ul>
+          <p>
+            確認する項目と文書については、厚生労働省が「標準確認項目」「標準確認文書」として公開しています。当日にどこを見るかは、事前に調べられる形になっています。
+          </p>
+          <p>
+            <a class="cite" href="https://kaigo-sozai.com/unei-shido-hisshu-shorui-matome/" target="_blank" rel="noopener noreferrer">出典　厚労省　標準確認項目（解説）</a>
+          </p>
+        </div>
+
+        <div class="box">
+          <h3>あとから書類を作る、日付を書き換える</h3>
+          <p>
+            通知が届いてから、足りない記録をあとで作る。日付や内容を書き換える。これがいちばん危険です。
+          </p>
+          <p>
+            <b>虚偽の記録や改ざんと判断されると、運営指導から監査に移ります。</b>監査は、何らかの基準違反や不正請求の疑いがある場合に行われるもので、運営指導とは性格が違います。行政処分につながることもあります。
+          </p>
+          <p>
+            記録が足りないこと自体は、指導を受けて改善すれば済みます。ただ、取りつくろったことが分かった場合は、そこで終わりません。足りないものは足りないまま出して、改善報告で直す。これがいちばん軽く済みます。
+          </p>
+        </div>
+
+        <div class="box">
+          <h3>返還は、五年さかのぼります</h3>
+          <p>
+            加算の算定が要件を満たしていなかった場合、返還の対象は最大で五年さかのぼります。指摘されるのは一つの月でも、同じやり方を続けていれば、その前も同じです。記録の不備は「今月の話」ではなく、同じ書き方を何年続けてきたか、の話になります。
+          </p>
+        </div>
+
+        <figure class="figure">
+          <p class="figure__t">図2　指摘されるのは一件でも、返すのは五年分</p>
+          <svg viewBox="0 0 360 168" role="img" aria-labelledby="c2t c2d">
+            <title id="c2t">返還が五年さかのぼる図</title>
+            <desc id="c2d">指摘されるのは一つの月でも、返還の対象は過去五年分にさかのぼって広がる</desc>
+
+            <line x1="14" y1="44" x2="346" y2="44" stroke="var(--line)" stroke-width="1"/>
+            <rect x="316" y="32" width="26" height="24" rx="2" fill="var(--peach)" stroke="var(--peach-d)" stroke-width="1.4"/>
+            <text x="329" y="48" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="10" fill="var(--peach-d)" text-anchor="middle">！</text>
+            <text x="329" y="74" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="10" fill="var(--ink-2)" text-anchor="middle">指摘</text>
+
+            <rect x="26" y="104" width="316" height="26" rx="2" fill="var(--peach)" stroke="var(--peach-d)" stroke-width="1.4"/>
+            <text x="184" y="121" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="11" fill="var(--peach-d)" text-anchor="middle">返還の対象になる期間</text>
+
+            <g stroke="var(--peach-d)" stroke-width="1.2">
+              <line x1="329" y1="60" x2="329" y2="100"/>
+              <line x1="329" y1="100" x2="30" y2="100"/>
+              <path d="M30 100 L36 96 M30 100 L36 104" fill="none"/>
+            </g>
+
+            <g font-family="ui-monospace,monospace" font-size="9" fill="var(--ink-3)">
+              <text x="20" y="150">5年前</text>
+              <text x="310" y="150">今日</text>
+            </g>
+          </svg>
+          <figcaption>
+            指摘されるのは一つの月でも、同じやり方を続けていれば、その前も同じです。返す金額が数百万円から数千万円になった例があります。
+          </figcaption>
+        </figure>
+
+        <h3>記録を厚くするなら、人ではなく仕組みを足す</h3>
+        <p>
+          記録を厚くしようとしたとき、方法は二つしかありません。人を増やすか、仕組みを入れるかです。人を増やすのは確実ですが、人件費は毎月かかり、業務が落ち着いても下がりません。<b>追加の固定費として、ずっと残ります。</b>
+        </p>
+        <p>
+          仕組みは逆です。入れるときにまとまった費用がかかりますが、そのあとの毎月の負担は、職員を一人増やすよりかなり小さくなります。比べる相手は、「入れる費用」と「今のまま何もしない費用」ではありません。<b>「入れる費用」と「人を増やし続ける費用」です。</b>
+        </p>
+        <p>
+          介護の報酬は決まっています。固定費を上げる方向の対策は長く続きません。先に決めておくことがあります。紙をやめるのか残すのか。記録をどこから書き始めるのか。ここが決まらないまま入れると、いまのやり方の上に入力作業が乗るだけになって、固定費だけが増えます。
+        </p>
+        <p>
+          運用を決めてから入れれば、記録の時間が減り、往復の確認が減り、職員が続けやすくなります。
+        </p>
+      </div>
+    </section>
+
+    <section class="sec close">
+      <div class="col">
+        <h2>記録を誰がいつ書いているか、一度確認する</h2>
+        <p>
+          前回いつ運営指導を受けたか。今の記録を誰がいつ書いているか。この二つが分かれば、どこを直せばいいかは見えてきます。確認項目は公開されているので、月に一度、そこに載っている書類を見ておくだけで足ります。決まっていないことがあっても構いません。
+        </p>
+        <p>
+          <a class="linkbtn" href="/contact?service=ai-consulting&intent=article&article=care">相談する</a>
+        </p>
+
+                  <p style="font-size:12.5px; line-height:1.85; color:#8a8a8a; margin:0 0 14px;">
+            制度の内容は改正されることがあります。実際の対応にあたっては、所管の官公庁や自治体の最新の情報をご確認ください。
+          </p>
+        <div class="src">
+          <h3>参考</h3>
+          <ul>
+            <li>運営指導で必ずチェックされる必須書類まとめ ／ ふくしの素材館<br>
+              <a href="https://kaigo-sozai.com/unei-shido-hisshu-shorui-matome/">https://kaigo-sozai.com/unei-shido-hisshu-shorui-matome/</a></li>
+            <li>実地指導（運営指導）通知後の対策マニュアル ／ FCソフト<br>
+              <a href="https://www.fc-soft.jp/media/useful_info/a106">https://www.fc-soft.jp/media/useful_info/a106</a></li>
+            <li>運営指導とは？流れや事前対策 ／ かなめ介護研究会<br>
+              <a href="https://kaname-law.com/care-media/administrative-response/on-the-spot-guidance/">https://kaname-law.com/care-media/administrative-response/on-the-spot-guidance/</a></li>
+            <li>訪問介護における運営指導の注意点・指摘事項 ／ Care-wing<br>
+              <a href="https://care-wing.jp/column/jittishido/">https://care-wing.jp/column/jittishido/</a></li>
+            <li>訪問介護の実地指導 算定要件別の指摘事項 ／ けあタスケル<br>
+              <a href="https://caretasukeru.com/business-operations/management-guidance-on-site/468/">https://caretasukeru.com/business-operations/management-guidance-on-site/468/</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</main>
+</body>
+</html>

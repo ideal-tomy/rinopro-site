@@ -9,7 +9,8 @@ import { useEnablementSectionReveal } from "./useEnablementSectionReveal";
 import { headingAccentRuleClasses } from "@/lib/ui/heading-accent-rule-styles";
 import { EnablementPreSupportCards } from "./EnablementPreSupportCards";
 import { EnablementExternalItSections } from "./EnablementExternalItSections";
-import { ServiceHeroProcessDiagram } from "./ServiceHeroProcessDiagram";
+import { SERVICE_HERO_PROCESS_PAGE_CONFIG } from "@/lib/content/service-hero-process-stages";
+import { ServiceFlowDiagram } from "./ServiceFlowDiagram";
 
 export function EnablementPage() {
   const checksReveal = useEnablementSectionReveal();
@@ -41,7 +42,11 @@ export function EnablementPage() {
               必要な仕事を、必要な範囲で任せられます。
             </p>
           </div>
-          <ServiceHeroProcessDiagram pageKey="enablement" />
+          <ServiceFlowDiagram
+            highlightedStageIds={
+              SERVICE_HERO_PROCESS_PAGE_CONFIG.enablement.highlightedStageIds
+            }
+          />
         </div>
       </section>
       <section

@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<style>
+
+:root{
+  color-scheme: light only;
+  --ink:#2a241d; --ink-2:#5c5347; --ink-3:#94897a;
+  --bg:#ede7db; --surface:#ffffff;
+  --line:#ddd4c4; --line-2:#c4b8a3;
+  --brown:#6b4e2e; --brown-d:#4a3520; --red:#a2361f;
+  --sans:"Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP","Noto Sans CJK JP","Yu Gothic Medium","Yu Gothic",Meiryo,system-ui,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    color-scheme: light only;
+    --ink:#2a241d; --ink-2:#5c5347; --ink-3:#94897a;
+    --bg:#ede7db; --surface:#ffffff;
+    --line:#ddd4c4; --line-2:#c4b8a3;
+    --brown:#6b4e2e; --brown-d:#4a3520; --red:#a2361f;
+  }
+  html, body{ background:#ede7db !important; color:#2a241d !important; }
+}
+*{ box-sizing:border-box; }
+html{ -webkit-text-size-adjust:100%; }
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:var(--sans); font-size:16px; line-height:1.9;
+  font-feature-settings:"palt" 1;
+}
+h1,h2,h3{ word-break:auto-phrase; line-break:strict; text-wrap:balance; margin:0; }
+p{ margin:0 0 1.5em; }
+a{ color:var(--brown); }
+
+.wrap{ max-width:940px; margin:0 auto; padding:0 22px; }
+.col{ max-width:615px; }
+
+.top{ background:var(--brown); }
+.top__in{ max-width:900px; margin:0 auto; padding:13px 22px; display:flex; align-items:baseline; gap:14px; }
+.brand{ font-family:var(--mono); font-weight:700; font-size:15px; letter-spacing:.14em; color:#fff; text-decoration:none; }
+.crumb{ font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; color:#d9c9b3; }
+
+.hero{ background:var(--surface); border-bottom:1px solid var(--line-2); padding:48px 0 40px; }
+.cover{
+  border-bottom:1px solid var(--line-2); padding-bottom:14px; margin:0 0 24px;
+  display:flex; justify-content:space-between; align-items:baseline; gap:14px; flex-wrap:wrap;
+}
+.tagcode{
+  display:inline-block; background:var(--ink); color:#fff;
+  font-family:var(--mono); font-size:11px; letter-spacing:.12em;
+  padding:5px 11px; margin:0; font-weight:700;
+}
+.meta{ font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; color:var(--ink-3); margin:0; display:flex; gap:12px; flex-wrap:wrap; }
+.hero h1{ font-size:36px; line-height:1.44; font-weight:800; letter-spacing:-.01em; margin:0 0 18px; max-width:16em; }
+.hero__lead{ font-size:16px; color:var(--ink-2); max-width:33em; margin:0 0 22px; }
+
+.cite{
+  display:inline-block; margin:0 0 1.2em;
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.1em;
+  color:var(--red); border:1px solid var(--red); padding:5px 10px 4px;
+  text-decoration:none;
+}
+.cite:hover{ background:rgba(162,54,31,.08); }
+
+/* 差異の伝票 */
+.slip{ max-width:600px; border:1px solid var(--line-2); background:var(--surface); }
+.slip__hd{
+  display:flex; justify-content:space-between; padding:9px 14px;
+  background:var(--ink); color:#fff; font-family:var(--mono); font-size:10.5px; letter-spacing:.1em;
+}
+.slip__b{ padding:18px 16px 16px; display:flex; align-items:baseline; gap:18px; flex-wrap:wrap; }
+.slip__n{ font-family:var(--mono); font-size:40px; font-weight:700; color:var(--red); line-height:1.1; letter-spacing:-.02em; }
+.slip__t{ font-size:14px; color:var(--ink-2); line-height:1.8; }
+.slip__f{ padding:10px 16px; border-top:1px solid var(--line); font-family:var(--mono); font-size:10.5px; color:var(--ink-3); }
+
+.body{ padding:50px 0 0; }
+.sec{ padding:0 0 6px; }
+.sec + .sec{ padding-top:56px; }
+.loc{ font-family:var(--mono); font-size:10px; letter-spacing:.14em; color:var(--red); margin:0 0 8px; font-weight:700; }
+.sec h2{ font-size:25px; line-height:1.54; font-weight:800; letter-spacing:-.005em; margin:0 0 20px; max-width:20em; }
+.sec + .sec h2{ padding-top:16px; border-top:2px solid var(--red); }
+.sec h3{ font-size:16px; font-weight:700; margin:28px 0 8px; }
+.lede{ font-size:17px; }
+.hl{ background:linear-gradient(transparent 62%, rgba(162,54,31,.2) 62%); font-weight:700; }
+
+.cause{ max-width:615px; margin:0 0 1.7em; }
+.cause div{ background:var(--surface); border:1px solid var(--line); border-left-width:5px; padding:15px 18px 13px; margin-bottom:9px; }
+.cause div:nth-child(1){ border-left-color:var(--brown); }
+.cause div:nth-child(2){ border-left-color:var(--brown); }
+.cause div:nth-child(3){ border-left-color:var(--brown); }
+.cause div:nth-child(4){ border-left-color:var(--red); }
+.cause b{ display:block; font-size:16.5px; }
+.cause b small{ font-family:var(--mono); font-size:10px; letter-spacing:.1em; color:var(--ink-3); margin-left:8px; font-weight:400; }
+.cause span{ font-size:14px; color:var(--ink-2); line-height:1.85; }
+.cause div:nth-child(4) b{ color:var(--red); }
+
+.steps{ max-width:615px; margin:0 0 1.7em; padding:0; list-style:none; counter-reset:s; }
+.steps li{ counter-increment:s; position:relative; padding:13px 0 11px 40px; border-top:1px solid var(--line-2); }
+.steps li:last-child{ border-bottom:1px solid var(--line-2); }
+.steps li::before{
+  content:counter(s); position:absolute; left:8px; top:1.05em;
+  font-family:var(--mono); font-size:13px; color:var(--red); font-weight:700;
+}
+.steps b{ display:block; font-size:16px; }
+.steps span{ font-size:14px; color:var(--ink-2); line-height:1.85; }
+
+.law{ background:var(--surface); border:1px solid var(--line-2); padding:20px 22px 17px; margin:0 0 1.7em; max-width:615px; }
+.law h3{ font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; color:var(--red); margin:0 0 12px; font-weight:700; }
+.law p{ font-size:14.5px; line-height:1.88; margin:0 0 .9em; }
+.law p:last-child{ margin:0; }
+.law ul{ margin:0 0 .9em; padding-left:1.25em; font-size:14.5px; line-height:1.88; }
+
+.plain{ margin:0 0 1.6em; padding-left:1.2em; max-width:615px; }
+.plain li{ margin-bottom:9px; }
+
+.figure{ background:transparent; border:0; padding:0; margin:0 0 2.5em; max-width:900px; width:min(900px, calc(100vw - 40px)); }
+.figure svg{ display:block; width:100%; height:auto; }
+.figure__t{ font-family:var(--mono); font-size:10px; letter-spacing:.14em; color:var(--red); font-weight:700; margin:0 0 10px; }
+.figure figcaption{ font-size:12.5px; line-height:1.85; color:var(--ink-2); margin:12px 0 0; padding-top:10px; border-top:1px solid var(--line); }
+
+.linkbtn{ display:inline-block; background:var(--ink); color:#fff; text-decoration:none; font-weight:700; font-size:15px; padding:15px 30px; border-radius:2px; }
+.linkbtn:hover{ background:#17130f; }
+
+.src{ margin:50px 0 0; padding:24px 0 0; border-top:1px solid var(--line-2); max-width:615px; }
+.src h3{ font-family:var(--mono); font-size:10px; letter-spacing:.16em; color:var(--ink-3); margin:0 0 12px; font-weight:700; }
+.src ul{ margin:0; padding-left:1.15em; }
+.src li{ font-size:12.5px; line-height:1.85; color:var(--ink-2); margin-bottom:6px; }
+.src a{ word-break:break-all; }
+
+.foot{ background:var(--brown); color:#d9c9b3; margin-top:56px; padding:24px 0 42px; }
+.foot__in{ max-width:900px; margin:0 auto; padding:0 22px; font-family:var(--mono); font-size:11px; letter-spacing:.1em; }
+
+@media (max-width:640px){
+  body{ font-size:15.5px; line-height:1.88; }
+  .wrap{ padding:0 18px; }
+  .top__in{ padding:12px 18px; }
+  .hero{ padding:34px 0 30px; }
+  .hero h1{ font-size:24px; line-height:1.52; }
+  .hero__lead{ font-size:15px; }
+  .slip__n{ font-size:32px; }
+  .sec h2{ font-size:20px; }
+  .law{ padding:17px 15px 15px; }
+  .figure figcaption{ font-size:12px; }
+  .linkbtn{ display:block; text-align:center; padding:16px 18px; }
+  .foot__in{ padding:0 18px; }
+}
+a:focus-visible, .linkbtn:focus-visible{ outline:2px solid var(--red); outline-offset:3px; }
+
+/* publish overrides */
+.demo-first-step{ font-size:13.5px; line-height:1.85; margin:0 0 14px; opacity:.95; }
+.btn.is-soon,.n__go.is-soon{
+  display:inline-block; opacity:.65; cursor:default; pointer-events:none;
+  font-weight:700; font-size:15px; padding:15px 30px; border-radius:2px;
+  background:#e8e8e8; color:#555; text-decoration:none;
+}
+</style>
+</head>
+<body>
+<section class="hero">
+  <div class="wrap">
+    <div class="col">
+      <div class="cover">
+        <p class="tagcode">倉庫　在庫差異の見方</p>
+        <p class="meta">
+          <span>読むのに 9分</span>
+          <span>2026.08 ／ 法令の確認 2026.08</span>
+        </p>
+      </div>
+      <h1>数が合わないとき、範囲を絞り、原因を書く。</h1>
+      <p class="hero__lead">
+        棚卸で差異が出たとき、たいてい「もう一度数えて」で終わります。差異には原因が四つあり、原因ごとに直し方が違います。範囲を絞り、原因を一つ書き、担当を決める順でまとめました。
+      </p>
+    </div>
+
+    <div class="slip">
+      <div class="slip__hd">
+        <span>棚卸結果　A-03-14</span>
+        <span>SKU 4821</span>
+      </div>
+      <div class="slip__b">
+        <span class="slip__n">−10</span>
+        <span class="slip__t">帳簿 120個　／　現物 110個<br>この10個は、どこへ行ったのか</span>
+      </div>
+      <div class="slip__f">結果は同じでも、原因は四つに分かれます</div>
+    </div>
+  </div>
+</section>
+
+<main class="body">
+  <div class="wrap">
+    <div class="col">
+
+      <section class="sec">
+        <p class="lede">
+          棚卸で10個足りない。この結果だけを見ても、何が起きたかは分かりません。盗まれたのか、誤出荷したのか、そもそも入荷していなかったのか。全部あり得ます。
+        </p>
+        <p>
+          それなのに、多くの現場では<span class="hl">原因を特定する前に数を合わせます。</span>帳簿を現物に合わせて、棚卸を終える。その瞬間、原因を辿る手がかりが消えます。
+        </p>
+        <p>
+          その結果、翌月も、その翌月も、同じ差異が出ます。直し方は三つです。範囲を絞る、原因を一つ書く、担当を決める。順番に書きます。
+        </p>
+      </section>
+
+      <section class="sec">
+        <h2>差異が出たら、数を合わせる前に範囲を絞る</h2>
+        <p>
+          原因を特定する手順は決まっています。難しくありません。
+        </p>
+
+        <ol class="steps">
+          <li>
+            <b>最後に一致していた日を探す</b>
+            <span>前回の棚卸か、直近で現物を数えた記録。そこまでは合っていたと分かります。</span>
+          </li>
+          <li>
+            <b>そこから今日までの、入荷・出荷・移動の記録を出す</b>
+            <span>この期間のどこかでズレています。範囲が決まれば、あとは絞るだけです。</span>
+          </li>
+          <li>
+            <b>期間の真ん中で、一度数える</b>
+            <span>合っていれば後半、合っていなければ前半。これを繰り返すと、数回で日が特定できます。</span>
+          </li>
+          <li>
+            <b>日が分かってから、その日の伝票を見る</b>
+            <span>ここで初めて原因が分かります。そして、そのあとで数を合わせます。</span>
+          </li>
+        </ol>
+
+        <!-- DEMO SLOT (warehouse) — 未実装
+  差し込み位置: 「数を合わせる前にやること」の直後（手順リストの後）
+  最初の一手: まず、10個足りない行を開き、数を合わせる前に原因の枝を選んでください。
+-->
+<figure class="figure">
+          <p class="figure__t">図2　範囲を半分ずつ絞る</p>
+          <svg viewBox="0 0 360 168" role="img" aria-labelledby="w2t w2d">
+            <title id="w2t">差異が起きた日を範囲を半分に絞って特定する図</title>
+            <desc id="w2d">最後に一致していた日から今日までの範囲を、真ん中で数えることで半分ずつ絞り込んでいく</desc>
+
+            <text x="14" y="20" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="10.5" fill="var(--ink-2)">1回目</text>
+            <rect x="60" y="10" width="286" height="18" rx="2" fill="var(--red)" opacity=".25"/>
+            <line x1="203" y1="6" x2="203" y2="32" stroke="var(--ink)" stroke-width="1.6"/>
+
+            <text x="14" y="58" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="10.5" fill="var(--ink-2)">2回目</text>
+            <rect x="60" y="48" width="143" height="18" rx="2" fill="#efe8dd"/>
+            <rect x="203" y="48" width="143" height="18" rx="2" fill="var(--red)" opacity=".35"/>
+            <line x1="274" y1="44" x2="274" y2="70" stroke="var(--ink)" stroke-width="1.6"/>
+
+            <text x="14" y="96" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="10.5" fill="var(--ink-2)">3回目</text>
+            <rect x="60" y="86" width="214" height="18" rx="2" fill="#efe8dd"/>
+            <rect x="274" y="86" width="72" height="18" rx="2" fill="var(--red)" opacity=".5"/>
+            <line x1="310" y1="82" x2="310" y2="108" stroke="var(--ink)" stroke-width="1.6"/>
+
+            <text x="14" y="134" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="10.5" fill="var(--ink-2)">4回目</text>
+            <rect x="60" y="124" width="250" height="18" rx="2" fill="#efe8dd"/>
+            <rect x="310" y="124" width="36" height="18" rx="2" fill="var(--red)"/>
+
+            <g font-family="ui-monospace,monospace" font-size="8.5" fill="var(--ink-3)">
+              <text x="56" y="158">最後に一致した日</text>
+              <text x="326" y="158" text-anchor="end">今日</text>
+            </g>
+          </svg>
+          <figcaption>
+            30日分あっても、真ん中で数えることを4回繰り返せば、2日ほどの範囲まで絞れます。全期間の伝票を一枚ずつ見る必要はありません。数えるのは、その品番だけで構いません。
+          </figcaption>
+        </figure>
+
+        <p>
+          この方法は、差異が大きい品番だけに使ってください。全品番でやると終わりません。<b>金額の大きい上位の品番から</b>順に見ていくのが現実的です。
+        </p>
+      </section>
+
+      <section class="sec">
+        <h2>原因を一つ書く。分からなければ「不明」と書いてよい</h2>
+
+        <div class="cause">
+          <div>
+            <b>入荷でズレた<small>受入</small></b>
+            <span>納品書どおりに登録して、実際には数えていない。相手の出荷ミスが、そのまま自社の在庫差異になります。入荷の時点で数えていれば、その場で相手に言えます。</span>
+          </div>
+          <div>
+            <b>出荷でズレた<small>ピッキング</small></b>
+            <span>似た品番を取り違えた、数を多く入れた。この場合、どこかのお客さまには多く届いています。差異が二か所で出ているはずです。</span>
+          </div>
+          <div>
+            <b>移動でズレた<small>ロケーション</small></b>
+            <span>棚を移したが記録していない。在庫はあるので、探せば出てきます。別のロケーションで逆に増えていることが多いです。</span>
+          </div>
+          <div>
+            <b>まだ記録が追いついていない<small>時差</small></b>
+            <span>現物は動いたが、システムへの反映が翌日になっている。これは差異ではなく、数えた時点が違うだけです。</span>
+          </div>
+        </div>
+
+        <p>
+          <b>四つ目が多く、見落とされやすいものです。</b>そして厄介なことに、これを知っていると「たぶん時差でしょう」で全部片づけたくなります。そうなると、本当の誤出荷まで埋もれます。
+        </p>
+
+        <figure class="figure">
+          <p class="figure__t">図1　結果は一つ、原因は四つ</p>
+          <svg viewBox="0 0 360 200" role="img" aria-labelledby="w1t w1d">
+            <title id="w1t">一つの差異から四つの原因へ遡る図</title>
+            <desc id="w1d">10個足りないという同じ結果から、入荷・出荷・移動・時差という四つの異なる原因に遡る</desc>
+
+            <rect x="252" y="80" width="94" height="40" rx="3" fill="var(--red)"/>
+            <text x="299" y="97" font-family="ui-monospace,monospace" font-size="17" fill="#fff" text-anchor="middle" font-weight="bold">−10</text>
+            <text x="299" y="112" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="10" fill="#f3ccc4" text-anchor="middle">棚卸の結果</text>
+
+            <path d="M248 100 C210 100 200 30 156 30" fill="none" stroke="var(--brown)" stroke-width="1.5"/>
+            <path d="M248 100 C210 100 200 74 156 74" fill="none" stroke="var(--brown)" stroke-width="1.5"/>
+            <path d="M248 100 C210 100 200 122 156 122" fill="none" stroke="var(--brown)" stroke-width="1.5"/>
+            <path d="M248 100 C210 100 200 168 156 168" fill="none" stroke="var(--red)" stroke-width="2"/>
+
+            <rect x="14" y="18" width="140" height="24" rx="3" fill="var(--surface)" stroke="var(--brown)" stroke-width="1.2"/>
+            <text x="84" y="34" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="11.5" fill="var(--ink)" text-anchor="middle">入荷で数えていない</text>
+
+            <rect x="14" y="62" width="140" height="24" rx="3" fill="var(--surface)" stroke="var(--brown)" stroke-width="1.2"/>
+            <text x="84" y="78" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="11.5" fill="var(--ink)" text-anchor="middle">出荷で取り違えた</text>
+
+            <rect x="14" y="110" width="140" height="24" rx="3" fill="var(--surface)" stroke="var(--brown)" stroke-width="1.2"/>
+            <text x="84" y="126" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="11.5" fill="var(--ink)" text-anchor="middle">棚を移して記録なし</text>
+
+            <rect x="14" y="156" width="140" height="24" rx="3" fill="#fbeee9" stroke="var(--red)" stroke-width="1.6"/>
+            <text x="84" y="172" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="11.5" fill="var(--red)" text-anchor="middle" font-weight="bold">記録が追いつく前</text>
+
+            <text x="84" y="196" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="9.5" fill="var(--ink-3)" text-anchor="middle">直し方は、四つとも違います</text>
+          </svg>
+          <figcaption>
+            右から左へ遡ります。同じ「10個足りない」でも、入荷の運用を直すのか、ピッキングの照合を増やすのか、数える時点をそろえるのかで、やることがまったく違います。原因を分けずに「気をつけよう」と言っても、何も変わりません。
+          </figcaption>
+        </figure>
+
+        <p>
+          差異が出るたびに現場を責めると、差異は減りません。<b>報告されなくなるだけです。</b>数が合わないと分かった時点で、こっそり帳簿を合わせる。誰にも言わない。そうすれば怒られないからです。そして、その瞬間に原因を追う手がかりが消えます。
+        </p>
+        <p>
+          差異が出たときに聞くべきなのは「誰がやったか」ではなく「どこで起きたか」です。原因の欄に「不明」と書いていい、と決めておくのも同じ理由です。埋めさせようとすると、それらしい原因が書かれるようになって、また分からなくなります。
+        </p>
+        <h3>差異は、決算に出てきます</h3>
+        <p>
+          帳簿より現物が少なければ、その分は棚卸減耗として費用になります。金額の大きい品番であれば、決算の数字にそのまま出ます。誤出荷であれば、再送の費用と、お客さまの信用も一緒に減ります。管理にかける費用と比べる相手は、この損失のほうです。
+        </p>
+        <p>
+          とはいえ、原因を追う時間を人でまかなうと、毎月かかり続ける固定費が増えます。差異は毎月出るので、人を増やせばその人はずっと必要になります。仕組みは、入れるときにまとまった費用がかかりますが、<b>追う時間そのものを短くします。</b>
+        </p>
+        <h3>入れる前に、三か月ぶんの内訳を出してください</h3>
+        <ul class="plain">
+          <li>棚卸の差異表に「原因」の列を足す。四つのどれかを書くだけ</li>
+          <li>分からないものは「不明」と書く。埋めなくていい</li>
+          <li>三か月たまったら、どれが多いかを見る</li>
+        </ul>
+        <p>
+          入荷が多いのか、時差が多いのかで、入れるものが変わります。<b>内訳を知らないまま入れると、多い原因に効かないものを買うことになります。</b>
+        </p>
+      </section>
+
+      <section class="sec">
+        <h2>誰の職務として置くか決める</h2>
+        <p>
+          営業倉庫の場合は、法令で担当が決まっています。
+        </p>
+
+        <div class="law">
+          <h3>倉庫業法　倉庫管理主任者</h3>
+          <p>
+            倉庫業者は、<b>倉庫ごとに倉庫管理主任者を選任しなければならない</b>とされています（倉庫業法第11条）。業務は大きく二つです。
+          </p>
+          <ul>
+            <li>倉庫の施設の管理（火災の防止など、建物や設備の側）</li>
+            <li>倉庫管理業務の適正な運営の確保（保管や荷役の側）</li>
+          </ul>
+          <p>
+            <b>在庫数量の管理は、後者に含まれます。</b>差異の管理は現場の裁量ではなく、選任された人の職務として整理されています。
+          </p>
+          <p>
+            選任の要件は、倉庫管理業務に3年以上、または指導監督の立場で2年以上の実務経験。実務経験がない場合は、国土交通大臣の定める講習を修了することで要件を満たせます。試験はありません。
+          </p>
+        </div>
+        <p>
+          <a class="cite" href="https://www.nissokyo.or.jp/seminar_info/" target="_blank" rel="noopener noreferrer">出典　倉庫業法　倉庫管理主任者</a>
+        </p>
+
+        <p>
+          法令で決まっているから、という話をしたいわけではありません。<b>差異の原因を追う仕事を、誰の職務として置いているか</b>が大事です。ここが決まっていないと、差異は「みんなの問題」になって、結局誰も追いません。
+        </p>
+      </section>
+
+      <section class="sec">
+        <h2>いまの差異表に、原因を書く欄があるか</h2>
+        <p>
+          差異が出たあと、数を合わせる前に何かしているか。この二つが分かれば、どこから手をつけられるかは見当がつきます。決まっていないことがあっても構いません。
+        </p>
+        <p>
+          <a class="linkbtn" href="/contact?service=ai-consulting&intent=article&article=warehouse">相談する</a>
+        </p>
+
+        <p style="font-size:12.5px; line-height:1.85; color:#94897a; margin:26px 0 14px;">
+          制度の内容は改正されることがあります。実際の対応にあたっては、所管の官公庁や事業者団体の最新の情報をご確認ください。
+        </p>
+
+        <div class="src">
+          <h3>参考</h3>
+          <ul>
+            <li>倉庫管理主任者講習について ／ 一般社団法人 日本倉庫協会<br>
+              <a href="https://www.nissokyo.or.jp/seminar_info/">https://www.nissokyo.or.jp/seminar_info/</a></li>
+            <li>倉庫管理主任者の概要・要件・業務 ／ サポート行政書士法人<br>
+              <a href="https://www.shigyo.co.jp/search_post/logistics/souko/warehouse-manager/">https://www.shigyo.co.jp/search_post/logistics/souko/warehouse-manager/</a></li>
+          </ul>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</main>
+</body>
+</html>

@@ -1,0 +1,653 @@
+import type { EstimateSnapshot } from "@/lib/estimate/estimate-snapshot";
+import {
+  FACT_LABELS,
+  type CanonicalFactKey,
+  type FactEnvelope,
+} from "@/lib/facts/canonical-facts";
+import { estimateSnapshotSchema } from "@/lib/estimate/estimate-snapshot";
+import {
+  decodeHandoffPayload,
+  encodeHandoffPayload,
+} from "@/lib/estimate-core/handoff-codec";
+import {
+  getTopFlowChoice,
+  getTopFlowStepDef,
+  type ConciergeTrack,
+  type FlowSelection,
+} from "@/lib/chat/concierge-flow";
+import type { ConciergeDomainId } from "@/lib/demo/intelligent-concierge";
+import {
+  CONCIERGE_DOMAIN_OPTIONS,
+  getConciergeDomainDetailLabel,
+} from "@/lib/demo/intelligent-concierge";
+import type { VisitorJourneySummary } from "@/lib/journey/visitor-journey";
+import {
+  buildVisitorJourneyFactEnvelopes,
+  visitorJourneySummarySchema,
+} from "@/lib/journey/visitor-journey";
+
+const HANDOFF_V1 = 1 as const;
+const HANDOFF_V2 = 2 as const;
+const CTX_V1 = 1 as const;
+
+/** URLが長くなりすぎる場合に sessionStorage へ退避するときの query 値 */
+export const CONTACT_HANDOFF_SESSION_QUERY = "session";
+export const CONTACT_HANDOFF_STORAGE_KEY = "AXEON_contact_handoff_payload_v1";
+
+/** 問い合わせフォームへ：コンシェルジュ完了時 */
+export interface ChatHandoffPayloadV1 {
+  v: typeof HANDOFF_V1;
+  track: ConciergeTrack;
+  trackLabel: string;
+  path: FlowSelection[];
+  detailBlock: string;
+  visitorJourney?: VisitorJourneySummary;
+}
+
+/** 問い合わせフォームへ：詳細見積もりページ完了時（現在形式） */
+export interface ChatHandoffPayloadV2 {
+  v: typeof HANDOFF_V2;
+  source: "estimate_detailed";
+  snapshot: EstimateSnapshot;
+}
+
+/** 旧URL互換（スナップショット導入前） */
+export interface ChatHandoffPayloadV2Legacy {
+  v: typeof HANDOFF_V2;
+  source: "estimate_detailed";
+  requirementDoc: string;
+  estimateLoMan: number;
+  estimateHiMan: number;
+  answersSummary: string;
+}
+
+export type ChatHandoffPayload =
+  | ChatHandoffPayloadV1
+  | ChatHandoffPayloadV2
+  | ChatHandoffPayloadV2Legacy;
+
+const CONCIERGE_DOMAIN_IDS = new Set<ConciergeDomainId>(
+  CONCIERGE_DOMAIN_OPTIONS.map((o) => o.id)
+);
+
+/** トップ／一覧コンシェルジュから詳細見積へ渡す業種（任意） */
+export interface ConciergeIndustryBundle {
+  domainId: ConciergeDomainId;
+  domainDetailId?: string | null;
+  note?: string | null;
+}
+
+/** 詳細見積もりページの入口：コンシェルジュからのコンテキスト */
+export interface ConciergeEstimateContextPayload {
+  v: typeof CTX_V1;
+  track: ConciergeTrack;
+  path: FlowSelection[];
+  detailBlock: string;
+  /** 後方互換: 未設定の旧 URL は従来どおり */
+  industryBundle?: ConciergeIndustryBundle;
+  visitorJourney?: VisitorJourneySummary;
+}
+
+export function encodeChatHandoff(payload: ChatHandoffPayload): string {
+  return encodeHandoffPayload(payload);
+}
+
+function isV2Legacy(
+  parsed: Record<string, unknown>
+): parsed is Record<string, unknown> & ChatHandoffPayloadV2Legacy {
+  if (parsed.snapshot != null) return false;
+  return (
+    typeof parsed.requirementDoc === "string" &&
+    typeof parsed.estimateLoMan === "number" &&
+    typeof parsed.estimateHiMan === "number" &&
+    typeof parsed.answersSummary === "string"
+  );
+}
+
+export function decodeChatHandoff(raw: string): ChatHandoffPayload | null {
+  try {
+    const parsed = decodeHandoffPayload(raw);
+    if (!parsed) return null;
+    if (parsed.v === HANDOFF_V2 && parsed.source === "estimate_detailed") {
+      if (parsed.snapshot != null) {
+        const checked = estimateSnapshotSchema.safeParse(parsed.snapshot);
+        if (checked.success) {
+          return {
+            v: HANDOFF_V2,
+            source: "estimate_detailed",
+            snapshot: checked.data,
+          };
+        }
+        return null;
+      }
+      if (isV2Legacy(parsed)) {
+        return {
+          v: HANDOFF_V2,
+          source: "estimate_detailed",
+          requirementDoc: parsed.requirementDoc,
+          estimateLoMan: parsed.estimateLoMan,
+          estimateHiMan: parsed.estimateHiMan,
+          answersSummary: parsed.answersSummary,
+        };
+      }
+      return null;
+    }
+    if (parsed.v === HANDOFF_V1) {
+      const p = parsed as unknown as ChatHandoffPayloadV1;
+      if (
+        p.track &&
+        p.trackLabel &&
+        Array.isArray(p.path) &&
+        typeof p.detailBlock === "string"
+      ) {
+        return p;
+      }
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+export function encodeConciergeEstimateContext(
+  payload: ConciergeEstimateContextPayload
+): string {
+  return encodeHandoffPayload(payload);
+}
+
+function parseIndustryBundle(
+  raw: unknown
+): ConciergeIndustryBundle | undefined {
+  if (raw == null || typeof raw !== "object") return undefined;
+  const o = raw as Record<string, unknown>;
+  const domainId = o.domainId;
+  if (
+    typeof domainId !== "string" ||
+    !CONCIERGE_DOMAIN_IDS.has(domainId as ConciergeDomainId)
+  ) {
+    return undefined;
+  }
+  const domainDetailId =
+    o.domainDetailId == null
+      ? undefined
+      : typeof o.domainDetailId === "string"
+        ? o.domainDetailId
+        : undefined;
+  const note =
+    o.note == null ? undefined : typeof o.note === "string" ? o.note : undefined;
+  return {
+    domainId: domainId as ConciergeDomainId,
+    domainDetailId,
+    note,
+  };
+}
+
+function parseVisitorJourneySummary(raw: unknown): VisitorJourneySummary | undefined {
+  const checked = visitorJourneySummarySchema.safeParse(raw);
+  return checked.success ? checked.data : undefined;
+}
+
+export function decodeConciergeEstimateContext(
+  raw: string
+): ConciergeEstimateContextPayload | null {
+  try {
+    const parsed = decodeHandoffPayload(raw);
+    if (!parsed) return null;
+    if (
+      parsed?.v === CTX_V1 &&
+      parsed.track &&
+      Array.isArray(parsed.path) &&
+      typeof parsed.detailBlock === "string"
+    ) {
+      const industryBundle = parseIndustryBundle(parsed.industryBundle);
+      const visitorJourney = parseVisitorJourneySummary(parsed.visitorJourney);
+      const out: ConciergeEstimateContextPayload = {
+        v: CTX_V1,
+        track: parsed.track as ConciergeTrack,
+        path: parsed.path as FlowSelection[],
+        detailBlock: parsed.detailBlock as string,
+      };
+      if (industryBundle) out.industryBundle = industryBundle;
+      if (visitorJourney) out.visitorJourney = visitorJourney;
+      return out;
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+const TRACK_LABELS: Record<ConciergeTrack, string> = {
+  A: "開発コスト",
+  B: "契約・コンサルティング費用",
+  C: "開発技術",
+  D: "ツール内容",
+  E: "依頼方法",
+};
+
+function industryBundleSummaryLine(bundle: ConciergeIndustryBundle): string {
+  const domLabel =
+    CONCIERGE_DOMAIN_OPTIONS.find((o) => o.id === bundle.domainId)?.label ??
+    bundle.domainId;
+  const parts = [domLabel];
+  const d = getConciergeDomainDetailLabel(
+    bundle.domainId,
+    bundle.domainDetailId
+  );
+  if (d) parts.push(d);
+  let line = parts.join(" — ");
+  const note = bundle.note?.trim();
+  if (note) line += `（補足: ${note}）`;
+  return line;
+}
+
+/** 概算見積（コンシェルジュ）からの文脈を、画面上で見せやすい形にする */
+export function summarizeConciergeEstimateContextForDisplay(
+  ctx: ConciergeEstimateContextPayload
+): {
+  trackLabel: string;
+  steps: { title: string; answerLine: string }[];
+  freeNotes: string;
+} {
+  const pathSteps = ctx.path.map((p) => ({
+    title: getTopFlowStepDef(p.stepKey)?.question ?? p.stepTitle,
+    answerLine: p.freeform?.trim()
+      ? `${getTopFlowChoice(p.stepKey, p.optionId)?.label ?? p.label}（追記: ${p.freeform.trim()}）`
+      : (getTopFlowChoice(p.stepKey, p.optionId)?.label ?? p.label),
+  }));
+  if (ctx.industryBundle) {
+    pathSteps.unshift({
+      title: "事業領域",
+      answerLine: industryBundleSummaryLine(ctx.industryBundle),
+    });
+  }
+  return {
+    trackLabel: TRACK_LABELS[ctx.track],
+    steps: pathSteps,
+    freeNotes: ctx.detailBlock.trim(),
+  };
+}
+
+export function buildContactHandoffUrl(payload: ChatHandoffPayload): string {
+  const encoded = encodeChatHandoff(payload);
+  const params = new URLSearchParams({ handoff: encoded });
+  return `/contact?${params.toString()}`;
+}
+
+/** 推奨: 長い場合は sessionStorage + ?handoff=session */
+export function buildContactHandoffNavigation(
+  payload: ChatHandoffPayload,
+  maxEncodedLength = 2400
+): { href: string; storeInSession: boolean } {
+  const encoded = encodeChatHandoff(payload);
+  if (encoded.length > maxEncodedLength) {
+    return {
+      href: `/contact?handoff=${encodeURIComponent(CONTACT_HANDOFF_SESSION_QUERY)}`,
+      storeInSession: true,
+    };
+  }
+  return { href: buildContactHandoffUrl(payload), storeInSession: false };
+}
+
+/** 問い合わせの「ご相談内容」にそのまま入れるテキスト用クエリ名 */
+export const CONTACT_PREFILL_QUERY = "prefill";
+/** URL が長すぎるときは sessionStorage に退避するときの query 値 */
+export const CONTACT_PREFILL_SESSION_MARKER = "session";
+export const CONTACT_PREFILL_STORAGE_KEY = "AXEON_contact_prefill_v1";
+
+/** 詳細見積もりから問い合わせへ遷移した意図（復旧・失敗判定用） */
+export const CONTACT_FROM_ESTIMATE_QUERY = "from";
+export const CONTACT_FROM_ESTIMATE_VALUE = "estimate";
+
+/**
+ * `/contact?prefill=...` へ遷移する href を組み立てる。
+ * 長い場合は `?prefill=session` + sessionStorage（`storeContactPrefillInSession`）を使う。
+ */
+export function buildContactPrefillNavigation(
+  text: string,
+  maxHrefLength = 1800
+): { href: string; storeInSession: boolean } {
+  const trimmed = text.trim();
+  const encoded = encodeURIComponent(trimmed);
+  const href = `/contact?${CONTACT_PREFILL_QUERY}=${encoded}`;
+  if (href.length > maxHrefLength) {
+    return {
+      href: `/contact?${CONTACT_PREFILL_QUERY}=${encodeURIComponent(CONTACT_PREFILL_SESSION_MARKER)}`,
+      storeInSession: true,
+    };
+  }
+  return { href, storeInSession: false };
+}
+
+export function storeContactPrefillInSession(text: string): void {
+  if (typeof window === "undefined") return;
+  try {
+    window.sessionStorage.setItem(CONTACT_PREFILL_STORAGE_KEY, text.trim());
+  } catch {
+    // ignore quota / private mode
+  }
+}
+
+export function peekContactPrefillFromSession(): string | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = window.sessionStorage.getItem(CONTACT_PREFILL_STORAGE_KEY);
+    return raw?.trim() ? raw : null;
+  } catch {
+    return null;
+  }
+}
+
+/** @deprecated 送信成功まで保持するため peek + clearContactHandoffFromSession を推奨 */
+export function consumeContactPrefillFromSession(): string | null {
+  const value = peekContactPrefillFromSession();
+  if (value == null) return null;
+  try {
+    window.sessionStorage.removeItem(CONTACT_PREFILL_STORAGE_KEY);
+  } catch {
+    // ignore
+  }
+  return value;
+}
+
+/**
+ * 詳細見積もり由来の問い合わせで、整理済みの snapshot を ContactForm まで運ぶための一時保管。
+ * テキスト prefill とは別レーンで sessionStorage に保存し、ContactForm が起動時に取り出して
+ * 「整理済みであること」をユーザーに見せ、送信時に API へ同梱する。
+ */
+export const CONTACT_ESTIMATE_SNAPSHOT_STORAGE_KEY =
+  "AXEON_contact_estimate_snapshot_v1";
+
+export function storeContactEstimateSnapshotInSession(
+  snapshot: EstimateSnapshot
+): void {
+  if (typeof window === "undefined") return;
+  try {
+    window.sessionStorage.setItem(
+      CONTACT_ESTIMATE_SNAPSHOT_STORAGE_KEY,
+      JSON.stringify(snapshot)
+    );
+  } catch {
+    // ignore quota / private mode
+  }
+}
+
+export function peekContactEstimateSnapshotFromSession(): EstimateSnapshot | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = window.sessionStorage.getItem(
+      CONTACT_ESTIMATE_SNAPSHOT_STORAGE_KEY
+    );
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as unknown;
+    const checked = estimateSnapshotSchema.safeParse(parsed);
+    if (!checked.success) return null;
+    return checked.data;
+  } catch {
+    return null;
+  }
+}
+
+/** @deprecated 送信成功まで保持するため peek + clearContactHandoffFromSession を推奨 */
+export function consumeContactEstimateSnapshotFromSession(): EstimateSnapshot | null {
+  const value = peekContactEstimateSnapshotFromSession();
+  if (value == null) return null;
+  try {
+    window.sessionStorage.removeItem(CONTACT_ESTIMATE_SNAPSHOT_STORAGE_KEY);
+  } catch {
+    // ignore
+  }
+  return value;
+}
+
+/** 見積→問い合わせ用: 本文 prefill と snapshot をまとめて保存 */
+export function storeContactHandoffBundle(args: {
+  text: string;
+  snapshot: EstimateSnapshot;
+}): void {
+  const trimmed = args.text.trim();
+  if (trimmed) {
+    storeContactPrefillInSession(trimmed);
+  }
+  storeContactEstimateSnapshotInSession(args.snapshot);
+}
+
+/**
+ * 詳細見積もりから問い合わせへ遷移する URL（`from=estimate` 付き）。
+ * 長文は sessionStorage に退避する。
+ */
+export function buildContactUrlFromEstimate(
+  text: string,
+  maxHrefLength = 1800
+): { href: string; storeInSession: boolean } {
+  const trimmed = text.trim();
+  if (!trimmed) {
+    return {
+      href: `/contact?${CONTACT_FROM_ESTIMATE_QUERY}=${CONTACT_FROM_ESTIMATE_VALUE}`,
+      storeInSession: false,
+    };
+  }
+  const nav = buildContactPrefillNavigation(trimmed, maxHrefLength);
+  const sep = nav.href.includes("?") ? "&" : "?";
+  return {
+    ...nav,
+    href: `${nav.href}${sep}${CONTACT_FROM_ESTIMATE_QUERY}=${CONTACT_FROM_ESTIMATE_VALUE}`,
+  };
+}
+
+/** 問い合わせ送信成功後に handoff 用 sessionStorage をまとめて削除 */
+export function clearContactHandoffFromSession(): void {
+  if (typeof window === "undefined") return;
+  try {
+    window.sessionStorage.removeItem(CONTACT_PREFILL_STORAGE_KEY);
+    window.sessionStorage.removeItem(CONTACT_ESTIMATE_SNAPSHOT_STORAGE_KEY);
+    window.sessionStorage.removeItem(CONTACT_HANDOFF_STORAGE_KEY);
+  } catch {
+    // ignore
+  }
+}
+
+export function storeHandoffPayloadInSession(payload: ChatHandoffPayload): void {
+  if (typeof window === "undefined") return;
+  try {
+    window.sessionStorage.setItem(CONTACT_HANDOFF_STORAGE_KEY, JSON.stringify(payload));
+  } catch {
+    // ignore quota / private mode
+  }
+}
+
+export function peekHandoffPayloadFromSession(): ChatHandoffPayload | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = window.sessionStorage.getItem(CONTACT_HANDOFF_STORAGE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as ChatHandoffPayload;
+    return normalizeHandoffPayloadFromSession(parsed);
+  } catch {
+    return null;
+  }
+}
+
+function normalizeHandoffPayloadFromSession(
+  parsed: ChatHandoffPayload
+): ChatHandoffPayload | null {
+  if (parsed.v === HANDOFF_V2 && parsed.source === "estimate_detailed") {
+    if ("snapshot" in parsed && parsed.snapshot) {
+      const checked = estimateSnapshotSchema.safeParse(parsed.snapshot);
+      if (checked.success) {
+        return { v: HANDOFF_V2, source: "estimate_detailed", snapshot: checked.data };
+      }
+      return null;
+    }
+    const rec = parsed as unknown as Record<string, unknown>;
+    if (isV2Legacy(rec)) {
+      return {
+        v: HANDOFF_V2,
+        source: "estimate_detailed",
+        requirementDoc: rec.requirementDoc,
+        estimateLoMan: rec.estimateLoMan,
+        estimateHiMan: rec.estimateHiMan,
+        answersSummary: rec.answersSummary,
+      };
+    }
+  }
+  if (parsed.v === HANDOFF_V1) return parsed;
+  return null;
+}
+
+/** @deprecated 送信成功まで保持するため peek + clearContactHandoffFromSession を推奨 */
+export function consumeHandoffPayloadFromSession(): ChatHandoffPayload | null {
+  const value = peekHandoffPayloadFromSession();
+  if (value == null) return null;
+  try {
+    window.sessionStorage.removeItem(CONTACT_HANDOFF_STORAGE_KEY);
+  } catch {
+    // ignore
+  }
+  return value;
+}
+
+export function buildEstimateDetailedEntryUrl(
+  ctx: ConciergeEstimateContextPayload
+): string {
+  const encoded = encodeConciergeEstimateContext(ctx);
+  return `/estimate-detailed?ctx=${encodeURIComponent(encoded)}`;
+}
+
+export function buildHandoffPayloadV1(
+  track: ConciergeTrack,
+  path: FlowSelection[],
+  detailBlock: string,
+  visitorJourney?: VisitorJourneySummary | null
+): ChatHandoffPayloadV1 {
+  return {
+    v: HANDOFF_V1,
+    track,
+    trackLabel: TRACK_LABELS[track],
+    path,
+    detailBlock,
+    ...(visitorJourney ? { visitorJourney } : {}),
+  };
+}
+
+export function buildEstimateContextPayload(
+  track: ConciergeTrack,
+  path: FlowSelection[],
+  detailBlock: string,
+  industryBundle?: ConciergeIndustryBundle | null,
+  visitorJourney?: VisitorJourneySummary | null
+): ConciergeEstimateContextPayload {
+  const out: ConciergeEstimateContextPayload = {
+    v: CTX_V1,
+    track,
+    path,
+    detailBlock,
+  };
+  if (industryBundle) out.industryBundle = industryBundle;
+  if (visitorJourney) out.visitorJourney = visitorJourney;
+  return out;
+}
+
+export function summarizeFactEnvelopesForDisplay(
+  envelopes: readonly FactEnvelope[]
+): string[] {
+  return envelopes
+    .filter((envelope) => envelope.key in FACT_LABELS)
+    .map((envelope) => {
+      const label = FACT_LABELS[envelope.key as CanonicalFactKey];
+      const suffix =
+        envelope.state === "approx"
+          ? "（近似）"
+          : envelope.state === "candidate"
+            ? "（要確認）"
+            : "";
+      return `${label}: ${envelope.value}${suffix}`;
+    });
+}
+
+export function summarizeVisitorJourneyFactsForDisplay(
+  visitorJourney: VisitorJourneySummary | null | undefined
+): string[] {
+  return summarizeFactEnvelopesForDisplay(
+    buildVisitorJourneyFactEnvelopes(visitorJourney)
+  );
+}
+
+export function buildHandoffPayloadV2FromDetailed(
+  snapshot: EstimateSnapshot
+): ChatHandoffPayloadV2 {
+  return {
+    v: HANDOFF_V2,
+    source: "estimate_detailed",
+    snapshot,
+  };
+}
+
+/** 問い合わせフォームのメッセージ欄用ドラフト */
+export function buildContactMessageDraft(payload: ChatHandoffPayload): string {
+  if (payload.v === HANDOFF_V2 && payload.source === "estimate_detailed") {
+    if ("snapshot" in payload && payload.snapshot) {
+      const { snapshot } = payload;
+      return [
+        "【詳細見積もりページからのお問い合わせ】",
+        "",
+        "（この上に、追加で伝えたいことを書いてください）",
+        "",
+        "--- 以下は自動メモです ---",
+        "",
+        snapshot.ai.plainCustomerSummary,
+        "",
+        `金額の目安: 約${snapshot.ai.estimateLoMan}万円〜${snapshot.ai.estimateHiMan}万円程度`,
+        "",
+        "--- 開発に向けた内容の整理（自動） ---",
+        "",
+        snapshot.requirementDocMarkdown,
+        "",
+        "---",
+        "※ 正式なお見積もりではありません。内容は返信前にすり合わせます。",
+      ].join("\n");
+    }
+    const legacy = payload as ChatHandoffPayloadV2Legacy;
+    return [
+      "【詳細見積もりからの引き継ぎ】",
+      "",
+      legacy.answersSummary,
+      "",
+      "--- 開発に向けた内容の整理（自動） ---",
+      "",
+      legacy.requirementDoc,
+      "",
+      `金額の目安: 約${legacy.estimateLoMan}万円〜${legacy.estimateHiMan}万円程度`,
+      "",
+      "---",
+      "追加のご希望があれば、この上にご記入ください。",
+    ].join("\n");
+  }
+  if (payload.v === HANDOFF_V1) {
+    const lines = [
+      "【AIコンシェルジュからの引き継ぎ】",
+      "",
+      `ご用件: ${payload.trackLabel}（トラック ${payload.track}）`,
+      "",
+      payload.visitorJourney
+        ? `サイト内の文脈: ${payload.visitorJourney.journeySummary}`
+        : "",
+      payload.visitorJourney ? "" : null,
+      payload.detailBlock,
+      "",
+      "---",
+      "上記はチャット上の選択に基づくたたき台です。追加のご要望があれば続けてご記入ください。",
+    ];
+    return lines.join("\n");
+  }
+  return "";
+}
+
+/** @deprecated 互換: V1 のみ生成 */
+export function buildHandoffPayload(
+  track: ConciergeTrack,
+  path: FlowSelection[],
+  detailBlock: string
+): ChatHandoffPayloadV1 {
+  return buildHandoffPayloadV1(track, path, detailBlock);
+}

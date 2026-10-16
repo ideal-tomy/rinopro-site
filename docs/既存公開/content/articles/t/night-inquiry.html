@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<style>
+:root{
+  color-scheme: light only;
+  --ink:#1e2430; --ink-2:#4a5364; --ink-3:#7a8494;
+  --paper:#e8ecf2; --surface:#f4f6fa; --night:#2a3344;
+  --line:#c8d0dc; --line-2:#a8b4c4;
+  --warn:#b83a2e; --warn-l:#f5e8e6;
+  --sans:"Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP","Noto Sans CJK JP","Yu Gothic Medium","Yu Gothic",Meiryo,system-ui,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root{ color-scheme:light only; --ink:#1e2430; --paper:#e8ecf2; --surface:#f4f6fa; }
+  html,body{ background:#e8ecf2 !important; color:#1e2430 !important; }
+}
+*{ box-sizing:border-box; }
+html{ -webkit-text-size-adjust:100%; }
+body{ margin:0; background:var(--paper); color:var(--ink); font-family:var(--sans); font-size:16px; line-height:1.92; font-feature-settings:"palt" 1; }
+h1,h2{ word-break:auto-phrase; line-break:strict; text-wrap:balance; margin:0; }
+p{ margin:0 0 1.45em; }
+a{ color:var(--warn); }
+.wrap{ max-width:720px !important; margin:0 auto; padding:0 22px; }
+.col{ max-width:620px; margin:0 auto; }
+
+/* 表紙：夜の受信箱 */
+.cover{ background:var(--night); color:#e8ecf2; padding:44px 0 36px; margin:0 -22px 0; }
+.cover__in{ max-width:620px; margin:0 auto; padding:0 22px; }
+.cover__tag{ font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; color:#8a96a8; margin:0 0 14px; }
+.cover h1{ font-size:32px; line-height:1.48; font-weight:800; margin:0 0 20px; max-width:14em; color:#fff; }
+.cover__meta{ font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; color:#8a96a8; display:flex; gap:14px; flex-wrap:wrap; margin:0 0 28px; }
+
+.inbox{ border:1px solid #3d4a5e; background:#1a2230; font-size:13.5px; line-height:1.55; }
+.inbox__hd{ display:flex; justify-content:space-between; padding:9px 14px; border-bottom:1px solid #3d4a5e; font-family:var(--mono); font-size:10px; letter-spacing:.12em; color:#8a96a8; }
+.inbox__hd b{ color:#c8d4e4; }
+.row{ display:flex; gap:10px; padding:10px 14px; border-bottom:1px solid #2e3848; }
+.row:last-child{ border-bottom:0; }
+.row time{ font-family:var(--mono); font-size:10.5px; color:#6a7890; width:36px; flex:none; padding-top:2px; }
+.row p{ margin:0; flex:1; color:#d8dee8; }
+
+.mismatch{ margin-top:18px; padding:14px 16px; background:var(--warn-l); border-left:3px solid var(--warn); }
+.mismatch p{ margin:0 0 .35em; font-size:14px; color:var(--ink-2); }
+.mismatch p:last-child{ margin:0; }
+.mismatch .auto{ font-family:var(--mono); font-size:11px; color:var(--warn); margin-bottom:8px; }
+
+.body{ padding:38px 0 10px; }
+.lede{ font-size:17px; color:var(--ink-2); }
+.em{ font-size:18px; font-weight:700; line-height:1.75; color:var(--ink); }
+
+/* h2：左の赤線（上罫ではない） */
+.sec{ padding:48px 0 0 0; }
+.sec h2{ font-size:24px; line-height:1.58; font-weight:800; margin:0 0 22px; max-width:20em; padding-left:16px; border-left:4px solid var(--warn); }
+
+.complain{ margin:0 0 1.8em; }
+.complain p{ margin:0 0 8px; font-size:15px; color:var(--ink-2); background:#fff; border:1px solid var(--line); padding:12px 14px 11px; border-left:3px solid var(--warn); }
+.complain p:last-child{ margin:0; }
+
+.talk{ margin:0 0 1.8em; display:flex; flex-direction:column; gap:8px; }
+.talk div{ display:flex; gap:10px; align-items:flex-end; font-size:14.5px; max-width:92%; }
+.talk .w{ flex:none; font-family:var(--mono); font-size:10px; letter-spacing:.06em; color:var(--ink-3); min-width:3.5em; }
+.talk .t{ padding:9px 13px; line-height:1.6; }
+.talk .cust{ align-self:flex-end; flex-direction:row-reverse; }
+.talk .cust .t{ background:#fff; border:1px solid var(--line); border-radius:12px 12px 2px 12px; color:var(--ink); }
+.talk .shop{ align-self:flex-start; }
+.talk .shop .t{ background:var(--night); color:#e8ecf2; border-radius:12px 12px 12px 2px; }
+
+.figure{ margin:1.8em 0 2.2em; }
+.figure__lab{ font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; color:var(--ink-3); margin:0 0 10px; }
+.stack{ position:relative; height:158px; }
+.stack .sheet{ position:absolute; width:calc(100% - 40px); border:1px solid var(--line-2); background:#fff; padding:13px 16px; font-size:13.5px; box-shadow:0 2px 10px rgba(30,36,48,.08); }
+.stack .s1{ top:0; left:0; z-index:3; border-left:4px solid #3a8a5c; }
+.stack .s2{ top:42px; left:20px; z-index:2; border-left:4px solid #b8860b; }
+.stack .s3{ top:84px; left:40px; z-index:1; border-left:4px solid var(--warn); }
+.figure__cap{ font-size:12.5px; color:var(--ink-2); margin:12px 0 0; line-height:1.75; }
+
+.steps{ margin:0 0 1.5em; padding:0; list-style:none; counter-reset:s; }
+.steps li{ counter-increment:s; padding:10px 0 8px 32px; position:relative; border-bottom:1px solid var(--line); font-size:15.5px; }
+.steps li::before{ content:counter(s); position:absolute; left:0; font-family:var(--mono); font-size:12px; font-weight:700; color:var(--warn); }
+.points{ margin:0 0 1.5em; padding-left:1.2em; }
+.points li{ margin-bottom:.45em; font-size:15.5px; color:var(--ink-2); }
+
+.cite{ display:inline-block; margin:0 0 1.4em; font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; color:var(--warn); border:1px solid var(--warn); padding:5px 10px 4px; text-decoration:none; }
+.cite:hover{ background:var(--warn-l); }
+
+/* デモ：受信箱の続き */
+.demo-inbox{ background:var(--night); border:1px solid #3d4a5e; padding:24px 22px 22px; margin:36px 0 32px; color:#d8dee8; }
+.demo-inbox h3{ font-size:18px; font-weight:800; color:#fff; margin:0 0 12px; line-height:1.55; }
+.demo-inbox p{ font-size:15px; color:#a8b4c4; margin:0 0 1em; }
+.demo-inbox .points{ color:#a8b4c4; font-size:14.5px; }
+.demo-inbox .btn{ display:inline-block; background:var(--warn); color:#fff; font-weight:700; font-size:15px; text-decoration:none; padding:14px 26px; border-radius:2px; margin:8px 0 0; }
+.demo-inbox .btn:hover{ background:#9a3228; }
+.demo-inbox .fine{ font-family:var(--mono); font-size:10.5px; color:#6a7890; margin:12px 0 0; }
+
+.internal{ background:#fff; border:1px dashed var(--line-2); padding:18px 20px; margin:0 0 1.5em; font-size:15px; color:var(--ink-2); }
+.internal p{ margin:0 0 .5em; }
+.internal p:last-child{ margin:0; }
+
+.cta{ border-top:1px solid var(--line); margin:52px 0 0; padding:32px 0 0; }
+.linkbtn{ display:inline-block; background:var(--ink); color:#fff; font-weight:700; font-size:15px; text-decoration:none; padding:14px 28px; border-radius:2px; }
+.linkbtn:hover{ background:#000; }
+.disc{ font-size:12.5px; color:var(--ink-3); margin:22px 0 0; line-height:1.85; }
+.refs{ margin:32px 0 0; padding:20px 0 0; border-top:1px solid var(--line); }
+.refs h3{ font-family:var(--mono); font-size:10px; letter-spacing:.14em; color:var(--ink-3); margin:0 0 10px; }
+.refs ul{ margin:0; padding-left:1.1em; }
+.refs li{ font-size:13px; line-height:1.8; color:var(--ink-2); margin-bottom:6px; }
+
+@media (max-width:640px){
+  body{ font-size:15px; }
+  .cover h1{ font-size:24px; }
+  .sec h2{ font-size:20px; }
+  .talk div{ max-width:100%; }
+  .demo-inbox .btn{ display:block; text-align:center; }
+  .stack{ height:176px; }
+  .stack .sheet{ width:calc(100% - 28px); }
+  .stack .s2{ top:48px; left:14px; }
+  .stack .s3{ top:96px; left:28px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap is-theme">
+
+<section class="cover">
+  <div class="cover__in">
+    <p class="cover__tag">ネットショップ　夜間の問い合わせ</p>
+    <h1>夜間の問い合わせが、間違った答えになる。</h1>
+    <p class="cover__meta">
+      <span>読むのに 9分</span>
+      <span>2026.08</span>
+      <span>法令の確認 2026.08</span>
+    </p>
+    <div class="inbox">
+      <div class="inbox__hd"><span>夜間の問い合わせ</span><b>4件</b></div>
+      <div class="row"><time>22:14</time><p>サイズが合わないので返品したいです</p></div>
+      <div class="row"><time>23:02</time><p>返送するときの送料は、どちらが払いますか</p></div>
+      <div class="row"><time>00:41</time><p>いつまでなら交換できますか</p></div>
+      <div class="row"><time>02:18</time><p>先週注文した商品が、まだ届いていません</p></div>
+    </div>
+    <div class="mismatch">
+      <p class="auto">翌朝すでに返信済み</p>
+      <p>返品できます。／送料はお客さま負担。／交換は14日以内。</p>
+      <p><b style="color:var(--warn)">サイトには「交換は7日以内」。商品によっては返品不可。</b></p>
+    </div>
+  </div>
+</section>
+
+<div class="body col">
+
+<p class="lede">夜中に返した答えが、朝になると苦情に変わります。</p>
+
+<div class="complain">
+  <p>「返品できると聞いたのに、今朝メールで不可と言われた」</p>
+  <p>「送料がかかるとは聞いていない」</p>
+  <p>「14日と言われたが、サイトには7日と書いてある」</p>
+</div>
+
+<p>こういう話をすると、「うちは返品ルールくらい決まっている」と思う会社も多いはずです。実際、その通りだと思います。</p>
+
+<p>問題になるのは、ルールがない会社だけではありません。</p>
+
+<p class="em">ルールはある。担当者も分かっている。それでも、問い合わせ対応ではズレが起こります。</p>
+
+<section class="sec">
+<h2>決まっていることと、毎回正しく答えられることは別です</h2>
+<p>たとえば、今月から一部商品の返品条件が変わったとします。商品ページは更新した。担当者にも伝えた。社内の案内文も直す予定になっている。</p>
+<p>それでも、すべてが同じ日に切り替わるとは限りません。</p>
+
+<figure class="figure">
+  <p class="figure__lab">図1　同じ質問でも、見る紙が違う</p>
+  <div class="stack" aria-hidden="true">
+    <div class="sheet s1">商品ページ … 新しい条件</div>
+    <div class="sheet s2">社内のよくある質問の案内 … 古い</div>
+    <div class="sheet s3">担当者が保存していた案内文 … 古い</div>
+  </div>
+  <figcaption class="figure__cap">短いズレがあるだけで、同じ質問に違う答えが出ます。いちばん下の紙が、夜中の返信の根拠になっていることがあります。</figcaption>
+</figure>
+
+<p>特別な商品だけ条件が違う場合もあります。通常商品は返品できます。セール品だけ返品できない。初期不良なら別の扱いになる。</p>
+<p>これは担当者が悪いという話ではありません。<b>決まりが増え、変更もあり、その中から毎回正しいものを探す仕事になっている</b>という話です。</p>
+</section>
+
+<section class="sec">
+<h2>慣れている質問ほど、読み落としが起こることがあります</h2>
+<p>問い合わせ対応に慣れている人ほど、最初の一文を読んだ時点で内容を予想できます。「サイズが合わないので返品したいです」——ここまで読めば、「いつもの返品の質問だな」と思うのは自然です。</p>
+<p>でも、その文章の最後に、「ただ、届いたときから箱が破れていました」と書いてあるかもしれません。通常の返品と、届いた時点で問題があった商品では、確認する内容が変わります。</p>
+<p>ほかにも、「返品したいです。プレゼントでもらった商品なので注文番号が分かりません」「交換できますか。使ったあとで不具合に気づきました」——最初は同じ質問に見えても、途中から条件が変わることがあります。</p>
+<p>人に問題があるのではなく、<b>似た文章を何度も読み、毎回違う条件を拾う仕事そのものに負担がある</b>ということです。</p>
+</section>
+
+<section class="sec">
+<h2>問い合わせは、一度返信して終わるとは限りません</h2>
+<div class="talk">
+  <div class="cust"><span class="w">お客さま</span><span class="t">返品できますか</span></div>
+  <div class="shop"><span class="w">店</span><span class="t">可能です</span></div>
+  <div class="cust"><span class="w">お客さま</span><span class="t">送料はどうなりますか</span></div>
+  <div class="shop"><span class="w">店</span><span class="t">お客さま負担です</span></div>
+  <div class="cust"><span class="w">お客さま</span><span class="t">どこに送ればいいですか</span></div>
+  <div class="shop"><span class="w">店</span><span class="t">こちらの住所です</span></div>
+  <div class="cust"><span class="w">お客さま</span><span class="t">いつまでに送ればいいですか</span></div>
+</div>
+<p>一件だけなら、大きな負担には見えません。でも実際には、そのたびに前のやり取りを読み、注文を確認し、商品ページを開き、返品条件を確認します。必要なら別の担当者にも聞き、返信します。</p>
+<p class="em">返信を書く時間だけが、問い合わせ対応の時間ではありません。</p>
+<p>探す。読む。確認する。判断する。返信する。また読む。この繰り返しが、担当者を少しずつ消耗させます。だからこそ、夜間対応や自動返信の話が出てきます。ただ、ここで次の問題が出ます。</p>
+</section>
+
+<section class="sec">
+<h2>よくある質問より便利にしたい。でも、自由に答えさせるのは怖い</h2>
+<p>決まった質問に、決まった答えを出す——ここまでは比較的扱いやすいです。ところが、<b>お客さまが自由に書いた文章を読んで、その人に合わせて答える</b>ところまで進むと、一気に考えることが増えます。</p>
+<ul class="points">
+  <li>古い案内を見ていないか</li>
+  <li>特別な条件を読み落としていないか</li>
+  <li>注文内容を見ないと答えられない質問ではないか</li>
+  <li>店側で判断が必要なことまで答えていないか</li>
+  <li>分からないときに、無理に答えず人へ回せるか</li>
+</ul>
+<p>お客さまへの返信は、そのまま記録に残るからです。間違った期限を伝えた。送料について違う説明をした。できないことを「できます」と答えた。あとから訂正しても、お客さまには最初の回答が残っています。</p>
+</section>
+
+<section class="sec">
+<h2>まず、店としての答えを揃える</h2>
+<p>この問題を、いきなりAIの性能で解決する必要はありません。まず確認したいのは、返品についての3つです。</p>
+<ol class="steps">
+  <li>返品できるか</li>
+  <li>いつまでなのか</li>
+  <li>返送の送料は誰が払うのか</li>
+</ol>
+<p>商品ページを一つ開いてみてください。次に、その商品をカートに入れて、注文を確定する直前まで進みます。そこでも同じ内容が確認できるでしょうか。</p>
+<p>通信販売では、返品について店独自の条件を設ける場合、その内容をお客さまが確認できるよう適切に表示する必要があります。表示がない場合に適用される返品のルールもあります。</p>
+<a class="cite" href="https://www.no-trouble.caa.go.jp/case/mailorder/case01.html">出典　消費者庁　特商法　返品ルール</a>
+</section>
+
+<section class="sec">
+<h2>全部を自動で答える必要はありません</h2>
+<p>「プレゼントなので、箱に値札を入れないでもらえますか」「この服は、写真より少し厚手ですか」「昨日注文しました。土曜日までに届きますか」——商品や注文の状況を確認しないと分からないものがあります。担当者の判断が必要なものもあります。</p>
+<p class="em">決まっていることには答える。確認が必要なことは、人に残す。</p>
+<p>この分け方ができれば、決まった質問への案内と「何でも答える仕組み」の間に、もう少し現実的な仕組みを作れます。</p>
+<ul class="points">
+  <li>問い合わせ全文を読む</li>
+  <li>関係する案内を探す</li>
+  <li>回答案を作る</li>
+  <li>根拠になった案内を一緒に出す</li>
+  <li>条件が足りない場合は答えない</li>
+  <li>判断が必要なものだけ担当者へ回す</li>
+</ul>
+
+<div class="demo-inbox">
+  <h3>実際に、どこまで答えさせるか試せます</h3>
+  <p>こちらで用意した商品と案内文を使って、問い合わせの流れを試せる画面を用意しています。自社の商品情報を入れる必要はありません。</p>
+  <ul class="points">
+    <li>お客さまとして質問する</li>
+    <li>どの情報を見て答えたのか確認する</li>
+    <li>答えられない質問が人へ回るところを見る</li>
+    <li>案内文を変えて、回答がどう変わるか試す</li>
+  </ul>
+  <p><a class="btn" href="https://customer-support-demo-lime.vercel.app/" target="_blank" rel="noopener noreferrer">問い合わせの画面を動かしてみる</a></p>
+  <p class="fine">3分ほどで終わります ／ 登録は要りません</p>
+</div>
+</section>
+
+<section class="sec">
+<h2>社内で話すなら、「AIを入れたい」から始めなくていい</h2>
+<div class="internal">
+  <p>「問い合わせ対応で、同じ確認を何度も繰り返しています」</p>
+  <p>「ルール変更の直後に、古い案内を見てしまう可能性があります」</p>
+  <p>「長い問い合わせの中にある特別な条件を、毎回人が拾っています」</p>
+</div>
+<p>そのうえで、「全部を自動返信したいわけではありません」と続けます。決まっていることを探す。問い合わせを読む。回答のたたき台を作る。ここまでを仕組みにする。判断が必要なものだけ、人が確認する。</p>
+<p><b>いま人が繰り返している仕事のうち、どこまでなら仕組みにできるか</b>という話になります。経営者側も、その方が判断しやすくなります。</p>
+</section>
+
+<section class="sec">
+<h2>まず一商品、一つの質問からで十分です</h2>
+<p>最初は一商品だけで構いません。返品できるか。期限はいつか。送料は誰が払うか。まず、この3つを確認します。</p>
+<p>次に、最近届いた問い合わせを一件だけ見てみます。担当者は、答えるまでに何を開いたでしょうか。商品ページ。注文情報。社内のよくある質問の案内。過去のメール。</p>
+<p class="em">人が毎回探しているものを、先に出しておく。見落としやすい条件を、一緒に確認する。判断が必要なものだけ、人に残す。</p>
+</section>
+
+<div class="cta">
+  <p><a class="linkbtn" href="/contact?service=ai-consulting&amp;intent=article&amp;article=night-inquiry">相談する</a></p>
+  <p class="disc">制度の内容は改正されることがあります。実際の対応にあたっては、所管の官公庁や自治体の最新の情報をご確認ください。</p>
+</div>
+
+<div class="refs">
+  <h3>参考</h3>
+  <ul>
+    <li>通信販売の返品ルール ／ 消費者庁 特定商取引法ガイド<br>
+      <a href="https://www.no-trouble.caa.go.jp/case/mailorder/case01.html">https://www.no-trouble.caa.go.jp/case/mailorder/case01.html</a></li>
+  </ul>
+</div>
+
+</div>
+</div>
+</body>
+</html>

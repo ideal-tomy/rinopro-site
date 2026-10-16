@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<style>
+:root{
+  color-scheme: light only;
+  --ink:#2a2420; --ink-2:#5c534c; --ink-3:#8a8078;
+  --paper:#f3ede4; --surface:#fffcf7; --form:#faf6ef;
+  --line:#d8cfc4; --line-2:#c4b8aa;
+  --seal:#a83232;
+  --sans:"Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP","Noto Sans CJK JP","Yu Gothic Medium","Yu Gothic",Meiryo,system-ui,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root{ color-scheme:light only; }
+  html,body{ background:#f3ede4 !important; color:#2a2420 !important; }
+}
+*{ box-sizing:border-box; }
+body{ margin:0; background:var(--paper); color:var(--ink); font-family:var(--sans); font-size:16px; line-height:1.92; }
+h1,h2{ word-break:auto-phrase; margin:0; }
+p{ margin:0 0 1.45em; }
+a{ color:var(--seal); }
+.wrap{ max-width:720px !important; margin:0 auto; padding:0 22px; }
+.col{ max-width:620px; margin:0 auto; }
+
+/* 表紙：通知書と表 */
+.cover{ background:var(--paper); color:var(--ink); padding:44px 0 36px; margin:0 -22px 0; border-bottom:1px solid var(--line-2); }
+.cover__in{ max-width:620px; margin:0 auto; padding:0 22px; }
+.cover__tag{ font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; color:var(--ink-3); margin:0 0 14px; }
+.cover h1{ font-size:32px; line-height:1.48; font-weight:800; margin:0 0 18px; max-width:16em; }
+.cover__meta{ font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; color:var(--ink-3); display:flex; gap:14px; flex-wrap:wrap; margin:0 0 22px; }
+
+.cover__spread{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:0 0 18px; align-items:start; }
+
+.notice{
+  background:var(--form); border:1px solid var(--line-2);
+  padding:18px 20px; font-size:14px; line-height:1.75;
+  box-shadow:1px 2px 0 rgba(42,36,32,.06);
+}
+.notice__label{ font-family:var(--mono); font-size:9.5px; letter-spacing:.12em; color:var(--seal); margin:0 0 10px; font-weight:700; }
+.notice blockquote{ margin:0; padding:12px 14px; background:#fff; border-left:3px solid var(--seal); font-size:15px; }
+
+.mini-shift{ background:var(--surface); border:1px solid var(--line); font-size:12.5px; }
+.mini-shift__hd{ font-family:var(--mono); font-size:10px; letter-spacing:.1em; color:var(--ink-3); padding:8px 12px; border-bottom:1px solid var(--line); background:#faf6ef; }
+.mini-shift table{ width:100%; border-collapse:collapse; }
+.mini-shift th,.mini-shift td{ border:1px solid var(--line); padding:8px 6px; text-align:center; font-weight:400; }
+.mini-shift th{ background:#faf6ef; font-size:11px; color:var(--ink-2); }
+.mini-shift td.late{ background:#fde8e8; color:var(--seal); font-weight:700; }
+
+.mismatch{ padding:14px 16px; background:#fff; border-left:4px solid var(--seal); margin:0; }
+.mismatch p{ margin:0 0 .35em; font-size:14px; color:var(--ink-2); }
+.mismatch p:last-child{ margin:0; }
+.mismatch .lbl{ font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; color:var(--seal); margin-bottom:8px; }
+
+.body{ padding:38px 0 10px; }
+.lede{ font-size:17px; color:var(--ink-2); }
+.chapter{ margin:0 0 2.4em; }
+.chapter h2{ font-size:21px; font-weight:800; line-height:1.58; margin:0 0 16px; color:var(--seal); letter-spacing:.02em; }
+
+.dialogue{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:0 0 1.5em; font-size:14.5px; }
+.dialogue div{ padding:12px 14px; border:1px solid var(--line); background:var(--surface); }
+.dialogue .role{ font-family:var(--mono); font-size:10px; letter-spacing:.08em; color:var(--ink-3); margin:0 0 6px; }
+
+.gap-fig{ margin:0; }
+.figure{ margin:1.8em 0 2.2em; }
+.figure__lab{ font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; color:var(--ink-3); margin:0 0 10px; }
+.gap-fig__row{ display:flex; align-items:stretch; gap:0; font-size:13px; }
+.gap-fig__doc{ flex:1; padding:14px; background:var(--form); border:1px solid var(--line-2); }
+.gap-fig__cell{ flex:1; padding:14px; background:#fde8e8; border:1px solid var(--seal); color:var(--seal); font-weight:700; text-align:center; display:flex; align-items:center; justify-content:center; }
+.figure__cap{ font-size:12.5px; color:var(--ink-2); margin:12px 0 0; line-height:1.75; }
+
+.points{ padding-left:1.15em; margin:0 0 1.4em; }
+.points li{ margin-bottom:.4em; font-size:15px; }
+
+.cite{ display:inline-block; font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; color:var(--seal); border:1px solid var(--seal); padding:5px 10px; text-decoration:none; margin:0 0 1.4em; }
+
+.stamp-demo{
+  position:relative; background:var(--form); border:1px dashed var(--line-2);
+  padding:28px 22px 24px; margin:32px 0 28px; min-height:120px;
+}
+.stamp-demo p{ font-size:15px; color:var(--ink-2); margin:0 0 .8em; max-width:28em; }
+.stamp{
+  position:absolute; right:18px; top:18px;
+  font-family:var(--mono); font-size:11px; letter-spacing:.14em; font-weight:700;
+  color:var(--seal); border:3px double var(--seal); padding:8px 14px;
+  transform:rotate(-8deg); opacity:.85;
+}
+
+.cta{ border-top:1px solid var(--line-2); margin:44px 0 0; padding:28px 0 0; }
+.linkbtn{ display:inline-block; background:var(--ink); color:#fff; font-weight:700; font-size:15px; text-decoration:none; padding:14px 28px; }
+.disc{ font-size:12.5px; color:var(--ink-3); margin:20px 0 0; }
+.refs{ margin:28px 0 0; padding-top:18px; border-top:1px solid var(--line); }
+.refs h3{ font-family:var(--mono); font-size:10px; letter-spacing:.14em; color:var(--ink-3); margin:0 0 8px; }
+.refs li{ font-size:13px; line-height:1.8; color:var(--ink-2); margin-bottom:5px; }
+
+@media (max-width:640px){
+  .cover h1{ font-size:24px; }
+  .cover__spread{ grid-template-columns:1fr; }
+  .dialogue{ grid-template-columns:1fr; }
+  .gap-fig__row{ flex-direction:column; }
+}
+</style>
+</head>
+<body>
+<div class="wrap is-theme">
+
+<section class="cover">
+  <div class="cover__in">
+    <p class="cover__tag">飲食店　労働条件通知書とシフト</p>
+    <h1>「シフトによる」だけでは、もめは消えない。</h1>
+    <p class="cover__meta">
+      <span>読むのに 9分</span>
+      <span>法令の確認 2026.08</span>
+    </p>
+    <div class="cover__spread">
+      <div class="notice">
+        <p class="notice__label">労働条件通知書（抜粋）</p>
+        <blockquote>就業時間：シフトによる</blockquote>
+      </div>
+      <div class="mini-shift">
+        <p class="mini-shift__hd">今週のシフト（抜粋）</p>
+        <table>
+          <thead><tr><th></th><th>月</th><th>水</th><th>金</th></tr></thead>
+          <tbody>
+            <tr><th>夜</th><td class="late">17:00〜23:00</td><td class="late">17:00〜23:00</td><td class="late">17:00〜23:00</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="mismatch">
+      <p class="lbl">面接で聞いていた話</p>
+      <p>「だいたい夕方まで」</p>
+      <p><b>今週の表は 17:00〜23:00。書類には幅が書いていない。</b></p>
+    </div>
+  </div>
+</section>
+
+<div class="body col">
+
+<p class="lede">ここでスタッフから、「面接では夕方までと聞いていました」と言われました。どちらかが悪いという話ではありません。<b>雇ったときの説明が、あとから確認できる形で残っていないこと</b>が問題です。</p>
+
+<section class="chapter">
+<h2>シフト表がきれいでも、前の説明までは直せません</h2>
+<p>希望休を集める。人が足りない日を見つける。確定したシフトを通知する——こうした作業は楽になります。でも「面接では何時まで働くと説明したか」までは直してくれません。</p>
+<p>今週の表が正しくても、雇ったときの書類に「シフトによる」としか書いていない。面接では「だいたい夕方まで」と話した。スタッフは、その説明を覚えている。この状態だと、毎週のシフトが決まるたびに、「聞いていた時間と違う」という話が出る可能性があります。</p>
+</section>
+
+<section class="chapter">
+<h2>まず、今使っている通知書を一枚だけ開く</h2>
+<p>見るのは、始業と終業のところです。「シフトによる」だけになっていないでしょうか。</p>
+<p>厚生労働省は、シフト制で働く人の労働条件を明示するとき、単に「シフトによる」と書くだけでは足りない場合があると案内しています。<b>働く人が、雇われた時点で「何時ごろから何時ごろまで働く可能性があるのか」を分かる状態にすること</b>が大事です。</p>
+<a class="cite" href="https://www.mhlw.go.jp/content/11200000/001713615.pdf">出典　厚労省　シフト制の留意事項</a>
+</section>
+
+<section class="chapter">
+<h2>「聞いていた話」は、あとから確認しにくい</h2>
+<div class="dialogue">
+  <div><p class="role">店長</p><p>「夜まで入ることもあると説明した」</p></div>
+  <div><p class="role">スタッフ</p><p>「たまに遅くなるとは聞いたが、23時までは聞いていない」</p></div>
+</div>
+<p>口頭だけで終わらせず、書類とシフト表で確認できるようにしておく。ここが大事です。</p>
+
+<figure class="figure">
+  <p class="figure__lab">図1　通知書の一行と、表のセル</p>
+  <div class="gap-fig__row">
+    <div class="gap-fig__doc">通知書：シフトによる<br>（幅が書いていない）</div>
+    <div class="gap-fig__cell">表：17:00〜23:00</div>
+  </div>
+  <figcaption class="figure__cap">表だけ正しくても、雇ったときの条件が確認できなければ、もめは残ります。</figcaption>
+</figure>
+</section>
+
+<section class="chapter">
+<h2>シフトを作る人だけでは、解決できないことがあります</h2>
+<p>人が足りない日を埋める。希望休を見る。営業時間に合わせる——そのうえで、「この人は夜は難しいと言っていた気がする」と、過去の説明まで思い出しながら作ることがあります。シフトを組む仕事と、雇ったときの条件を思い出す仕事が、同じ人に重なっています。</p>
+</section>
+
+<section class="chapter">
+<h2>「うまく組む」より先に、守る条件を揃える</h2>
+<ul class="points">
+  <li>この人は何時から何時まで働く契約か</li>
+  <li>週に何日くらい入る前提か</li>
+  <li>夜の勤務はあるのか</li>
+  <li>固定で休む曜日はあるのか</li>
+</ul>
+<p>ここが書類や記録に残っていれば、シフト表と照らし合わせられます。残っていなければ、毎回、担当者の記憶に頼る部分が増えます。</p>
+</section>
+
+<section class="chapter">
+<h2>社内で説明するなら、「シフトアプリを入れたい」ではなくていい</h2>
+<div class="dialogue">
+  <div style="grid-column:1/-1">
+    <p>「シフトを作るたびに、面接時の話や個別条件を思い出して確認しています」</p>
+    <p>「条件が書類に残っていない人がいるので、担当者の記憶に頼っています」</p>
+  </div>
+</div>
+<p>「まず、雇うときの条件を揃えます。その条件と希望を見ながらシフトを作れるようにします」——単なる便利ツールの話ではなくなります。</p>
+</section>
+
+<section class="chapter">
+<h2>自動で組むなら、「間違えない条件」が先に要ります</h2>
+<p>「この人は23時まで働く前提なのか」「夜勤務は本人に説明済みなのか」——という情報がなければ、きれいなシフトを作っても安心できません。<b>決めてはいけない組み方を止めること</b>の方が、現場では使いやすいと思います。</p>
+
+<div class="stamp-demo">
+  <span class="stamp">準備中</span>
+  <p>希望を出すところから、確定して、本人が確認したことまで分かる画面を用意しています。自社の従業員情報を入れる必要はありません。</p>
+  <p>見てもらいたいのは「誰をどこに入れるか」だけではありません。その人の条件と、今週の表が合っているか。合っていないとき、どこで止めるか。</p>
+</div>
+</section>
+
+<section class="chapter">
+<h2>最初に直すのは、一行だけでも構いません</h2>
+<p>まず一人分だけ開きます。「シフトによる」とだけ書いてあるなら、その人にどの時間帯で働いてもらう前提なのか、いま一度確認します。次に、直近のシフト表を見ます。その説明と合っているでしょうか。</p>
+<p><b>何を守ってシフトを作るのか</b>を見えるようにする。そのあとで、希望の回収や自動作成を考える方が、あとで困りにくくなります。</p>
+</section>
+
+<div class="cta">
+  <p><a class="linkbtn" href="/contact?service=ai-consulting&amp;intent=article&amp;article=shift-notice">相談する</a></p>
+  <p class="disc">制度の内容は改正されることがあります。実際の対応にあたっては、所管の官公庁や専門家の最新の情報をご確認ください。</p>
+</div>
+
+<div class="refs">
+  <h3>参考</h3>
+  <ul>
+    <li>いわゆる「シフト制」により就業する労働者の適切な雇用管理を行うための留意事項 ／ 厚生労働省<br>
+      <a href="https://www.mhlw.go.jp/content/11200000/001713615.pdf">https://www.mhlw.go.jp/content/11200000/001713615.pdf</a></li>
+    <li>「シフト制」労働者の雇用管理を適切に行うための留意事項（概要） ／ 厚生労働省<br>
+      <a href="https://www.mhlw.go.jp/content/11200000/000870906.pdf">https://www.mhlw.go.jp/content/11200000/000870906.pdf</a></li>
+  </ul>
+</div>
+
+</div>
+</div>
+</body>
+</html>

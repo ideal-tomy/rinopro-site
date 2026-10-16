@@ -1,0 +1,93 @@
+"use client";
+
+import { useState } from "react";
+import dynamic from "next/dynamic";
+import { usePathname } from "next/navigation";
+import {
+  useConciergeChat,
+  type ConciergeMode,
+} from "@/components/chat/concierge-chat-context";
+import { clearServicesFlowPick } from "@/lib/chat/chat-auto-open";
+import { isDemoExperienceWizardPath } from "@/lib/chat/concierge-demo-hub-policy";
+import { resolveLauncherOpenState } from "@/lib/chat/concierge-entry-policy";
+import { ConciergeFabNudge } from "@/components/chat/ConciergeFabNudge";
+
+const ChatContainer = dynamic(
+  () => import("./ChatContainer").then((mod) => mod.ChatContainer),
+  {
+    ssr: false,
+    loading: () => null,
+  }
+);
+
+function ChatLauncherFab({ onWarmup }: { onWarmup: () => void }) {
+  const pathname = usePathname();
+  const {
+    open,
+    setOpen,
+    setMode,
+    setEntrySource,
+    setPendingSignals,
+  } = useConciergeChat();
+
+  const openConciergeFromFab = () => {
+    onWarmup();
+    const next = resolveLauncherOpenState(pathname);
+    setEntrySource(next.entrySource);
+    setPendingSignals(null);
+    if (next.resetServicesMode) {
+      clearServicesFlowPick();
+      setMode("default" as ConciergeMode);
+    }
+    setOpen(true);
+  };
+
+  return (
+    <div className="chat-theme-ai pointer-events-none fixed bottom-5 right-4 z-[200] flex flex-col items-end sm:bottom-6 sm:right-6 md:bottom-8 md:right-8">
+      <ConciergeFabNudge />
+      <button
+        type="button"
+        className="pointer-events-auto box-border inline-flex min-h-[2.75rem] min-w-[2.75rem] flex-col items-center justify-center gap-1 rounded-full border border-[var(--color-border-light)] bg-[var(--color-bg-pure)]/95 px-2 py-1.5 text-[var(--color-text-secondary)] opacity-90 shadow-[0_2px_10px_rgba(15,23,42,0.10)] backdrop-blur-sm transition-[border-color,box-shadow,opacity] duration-200 hover:border-[var(--color-accent-primary)]/30 hover:opacity-100 hover:shadow-[0_4px_14px_rgba(15,23,42,0.14)] sm:min-h-[3rem] sm:min-w-[3rem] sm:flex-row sm:gap-1.5 sm:px-3 sm:py-0"
+        onPointerEnter={onWarmup}
+        onFocus={onWarmup}
+        onClick={openConciergeFromFab}
+        aria-expanded={open}
+        aria-controls={
+          isDemoExperienceWizardPath(pathname) ? "concierge-panel-page" : undefined
+        }
+        aria-label="相談・ガイド（AI相談窓口）を開く"
+      >
+        <svg
+          aria-hidden
+          viewBox="0 0 24 24"
+          className="h-5 w-5 shrink-0 text-[var(--color-accent-primary)] sm:h-6 sm:w-6"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M8 9h8" />
+          <path d="M8 13h5" />
+          <path d="M12 3c4.97 0 9 3.58 9 8s-4.03 8-9 8c-1.2 0-2.35-.2-3.4-.58L3 21l1.85-4.08A7.42 7.42 0 0 1 3 11c0-4.42 4.03-8 9-8Z" />
+        </svg>
+        <span className="max-w-[4.75rem] text-center text-[0.65rem] font-medium leading-snug tracking-tight text-[var(--color-text-secondary)] sm:max-w-none sm:text-[0.7rem] sm:tracking-normal">
+          相談
+        </span>
+      </button>
+    </div>
+  );
+}
+
+export function ChatContainerLazy() {
+  const { open } = useConciergeChat();
+  const [warmedUp, setWarmedUp] = useState(false);
+  const shouldLoadContainer = warmedUp || open;
+
+  return (
+    <>
+      <ChatLauncherFab onWarmup={() => setWarmedUp(true)} />
+      {shouldLoadContainer ? <ChatContainer showLauncher={false} /> : null}
+    </>
+  );
+}

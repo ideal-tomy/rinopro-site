@@ -1,0 +1,887 @@
+"use client";
+
+import {
+  useCallback,
+  useLayoutEffect,
+  useMemo,
+  useState,
+  type Dispatch,
+  type ReactNode,
+  type RefObject,
+  type SetStateAction,
+} from "react";
+import { flushSync } from "react-dom";
+import { AnimatePresence, motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { estimateDetailedCopy } from "@/lib/content/site-copy";
+import { buildEstimateDetailedAnswersRecord } from "@/lib/estimate/build-estimate-detailed-answers";
+import { getOrderedAnswerPairs } from "@/lib/estimate/estimate-detailed-answer-order";
+import type { EstimateFormDraft } from "@/lib/estimate/estimate-detailed-session";
+import { ESTIMATE_DETAILED_HEARING_EXAMPLES } from "@/components/estimate/estimate-detailed-hearing-examples";
+import {
+  questionIdFromAnswerLabel,
+  type EstimateQuestionId,
+} from "@/lib/estimate-core/question-model";
+import type { EstimateWizardStepId } from "@/lib/estimate-core/wizard-steps";
+import {
+  findFirstInvalidInWizardScope,
+  getVisibleEstimateWizardSteps,
+  validateEstimateWizardStep,
+} from "@/lib/estimate/estimate-step-validation";
+import { cn } from "@/lib/utils";
+
+const copy = estimateDetailedCopy;
+
+type StepId = EstimateWizardStepId;
+
+type FormState = EstimateFormDraft;
+type QuickSelectOption = { value: string; label: string };
+
+export type EstimateDetailedHearingWizardProps = {
+  form: FormState;
+  setForm: Dispatch<SetStateAction<FormState>>;
+  prefersReducedMotion: boolean;
+  isExiting: boolean;
+  onSubmit: () => void;
+  canSubmitGlobal: boolean;
+  /** モバイル全画面シェル用のコンパクトレイアウト */
+  layoutVariant?: "default" | "fullscreen";
+  /** オープニングで見出しを出したため、セクション見出し行を隠す（バッジのみ等） */
+  hideSectionHeading?: boolean;
+  /** モバイル全画面時、ステップ変更で先頭へスクロールする親（overflow-y-auto） */
+  scrollContainerRef?: RefObject<HTMLElement | null>;
+  /** handoff 済み/回答済みで再質問しない質問ID */
+  prefilledQuestionIds?: Iterable<EstimateQuestionId>;
+  answeredQuestionIds?: Iterable<EstimateQuestionId>;
+};
+
+const easeSpeak = [0.22, 1, 0.36, 1] as const;
+
+export function EstimateDetailedHearingWizard({
+  form,
+  setForm,
+  prefersReducedMotion,
+  isExiting,
+  onSubmit,
+  canSubmitGlobal,
+  layoutVariant = "default",
+  hideSectionHeading = false,
+  scrollContainerRef,
+  prefilledQuestionIds,
+  answeredQuestionIds,
+}: EstimateDetailedHearingWizardProps) {
+  const wizardSessionScope = useMemo(
+    () => ({ prefilledQuestionIds, answeredQuestionIds }),
+    [prefilledQuestionIds, answeredQuestionIds]
+  );
+  const visibleSteps = useMemo(
+    () => getVisibleEstimateWizardSteps(form, wizardSessionScope),
+    [form, wizardSessionScope]
+  );
+  const totalSteps = visibleSteps.length;
+  const [stepIndex, setStepIndex] = useState(0);
+  const [editingQuestionId, setEditingQuestionId] =
+    useState<EstimateQuestionId | null>(null);
+  const isFs = layoutVariant === "fullscreen";
+
+  const reviewAnswerPairs = useMemo(() => {
+    const rec = buildEstimateDetailedAnswersRecord(form);
+    return getOrderedAnswerPairs(rec).map(({ question, answer }) => ({
+      question,
+      answer,
+      questionId: questionIdFromAnswerLabel(question),
+    }));
+  }, [form]);
+
+  useLayoutEffect(() => {
+    if (!isFs || !scrollContainerRef?.current) return;
+    scrollContainerRef.current.scrollTop = 0;
+  }, [isFs, stepIndex, scrollContainerRef]);
+
+  const stepId = visibleSteps[stepIndex]?.id ?? "review";
+  const reviewIndex = Math.max(
+    0,
+    visibleSteps.findIndex((step) => step.id === "review")
+  );
+  const currentQuestionId = visibleSteps[stepIndex]?.questionId ?? null;
+  const minStepIndex = 0;
+  const isFirst = stepIndex <= 0;
+  const isReview = stepId === "review";
+  const isEditingQuestion =
+    editingQuestionId !== null && !isReview && currentQuestionId === editingQuestionId;
+
+  const remainingIncludingCurrent = Math.max(0, totalSteps - stepIndex);
+
+  const canAdvance = useMemo(
+    () => validateEstimateWizardStep(form, stepId).ok,
+    [form, stepId]
+  );
+  const stepInvalidReason = useMemo(() => {
+    const result = validateEstimateWizardStep(form, stepId);
+    return result.ok ? null : result.reason ?? copy.requiredStepHint;
+  }, [form, stepId]);
+  const reviewInvalidReason = useMemo(() => {
+    const result = findFirstInvalidInWizardScope(form, wizardSessionScope);
+    return result.ok ? null : result.reason ?? copy.btnGenerateDisabledHint;
+  }, [form, wizardSessionScope]);
+
+  const goNext = useCallback(() => {
+    if (!canAdvance || isExiting) return;
+    if (isReview) {
+      if (canSubmitGlobal) onSubmit();
+      return;
+    }
+    if (isEditingQuestion) {
+      setStepIndex(reviewIndex);
+      setEditingQuestionId(null);
+      return;
+    }
+    setStepIndex((i) => Math.min(i + 1, totalSteps - 1));
+  }, [
+    canAdvance,
+    canSubmitGlobal,
+    isEditingQuestion,
+    isExiting,
+    isReview,
+    onSubmit,
+    reviewIndex,
+    totalSteps,
+  ]);
+
+  const goBack = useCallback(() => {
+    if (isExiting) return;
+    if (isEditingQuestion) {
+      setStepIndex(reviewIndex);
+      setEditingQuestionId(null);
+      return;
+    }
+    if (isFirst) return;
+    setStepIndex((i) => Math.max(minStepIndex, i - 1));
+  }, [isEditingQuestion, isExiting, isFirst, minStepIndex, reviewIndex]);
+
+  const handleSelectPick = useCallback(
+    (patch: Partial<FormState>) => {
+      if (isExiting) return;
+      flushSync(() => {
+        setForm((f) => ({ ...f, ...patch }));
+      });
+      if (editingQuestionId && currentQuestionId === editingQuestionId) {
+        setStepIndex(reviewIndex);
+        setEditingQuestionId(null);
+        return;
+      }
+    },
+    [
+      currentQuestionId,
+      editingQuestionId,
+      isExiting,
+      reviewIndex,
+      setForm,
+    ]
+  );
+
+  const jumpToQuestion = useCallback(
+    (questionId: EstimateQuestionId) => {
+      if (isExiting) return;
+      const targetIndex = visibleSteps.findIndex(
+        (step) => step.questionId === questionId
+      );
+      if (targetIndex < 0) return;
+      setEditingQuestionId(questionId);
+      setStepIndex(targetIndex);
+    },
+    [isExiting, visibleSteps]
+  );
+
+  const showFsPrimaryButton = isFs;
+
+  const motionProps = prefersReducedMotion
+    ? {
+        initial: false,
+        animate: { opacity: 1 },
+        exit: { opacity: 1 },
+        transition: { duration: 0 },
+      }
+    : {
+        initial: { opacity: 0, x: 28, filter: "blur(4px)" },
+        animate: { opacity: 1, x: 0, filter: "blur(0px)" },
+        exit: { opacity: 0, x: -20, filter: "blur(3px)" },
+        transition: { duration: 0.38, ease: easeSpeak },
+      };
+
+  return (
+    <section
+      id="estimate-hearing"
+      className={cn(
+        "space-y-5 rounded-xl border border-silver/30 bg-[var(--color-bg-pure)] p-5 md:p-8",
+        isFs && "space-y-3 border-0 bg-transparent p-0 pb-24"
+      )}
+    >
+      <div
+        className={cn(
+          "flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between",
+          hideSectionHeading && "flex-row items-center justify-end"
+        )}
+      >
+        {hideSectionHeading ? null : (
+          <div>
+            <h2 className="text-lg font-semibold text-accent">{copy.sectionHearing}</h2>
+            <p className="mt-1 text-xs text-text-sub md:text-sm">
+              {copy.requirementDefinitionNote}を、あとからAIがたたき台としてまとめます。
+            </p>
+          </div>
+        )}
+        <div
+          className={cn(
+            "shrink-0 rounded-full border border-accent/35 bg-accent/10 px-3 py-1.5 text-center text-xs font-medium text-accent sm:text-left",
+            hideSectionHeading && "w-full text-center sm:w-auto sm:text-left"
+          )}
+          role="status"
+          aria-live="polite"
+        >
+          {isReview ? (
+            <span>最終確認</span>
+          ) : (
+            <span>
+              残り <span className="tabular-nums">{remainingIncludingCurrent}</span> 問
+            </span>
+          )}
+        </div>
+      </div>
+
+      <div
+        className={cn(
+          "relative isolate",
+          isFs ? "min-h-[220px]" : "min-h-[360px] md:min-h-[400px]"
+        )}
+      >
+        <div
+          className="pointer-events-none absolute -inset-px rounded-2xl bg-gradient-to-br from-accent/15 via-transparent to-silver/10 opacity-70"
+          aria-hidden
+        />
+        <div className="relative overflow-hidden rounded-2xl border border-silver/25 bg-[var(--color-bg-pure)] shadow-[0_24px_80px_-24px_rgba(0,0,0,0.18)] backdrop-blur-sm">
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              key={stepId}
+              {...motionProps}
+              {...(isFs ? { "data-estimate-step-root": "" } : {})}
+              className={cn(
+                "flex flex-col",
+                isFs
+                  ? "min-h-[180px] p-4"
+                  : "min-h-[300px] p-5 md:min-h-[340px] md:p-7"
+              )}
+            >
+              <div className="shrink-0">
+              {stepId === "industry" ? (
+                <StepBlock
+                  title={copy.fieldIndustry}
+                  hint={copy.fieldIndustryHint}
+                  whyMatters={copy.fieldIndustryWhyMatters}
+                >
+                  <SelectOptionButtons
+                    options={copy.industryOptions}
+                    value={form.industry}
+                    onPick={(v) => handleSelectPick({ industry: v })}
+                    idPrefix="ed-industry"
+                    compact={isFs}
+                  />
+                </StepBlock>
+              ) : null}
+
+              {stepId === "productArchetype" ? (
+                <StepBlock
+                  title={copy.fieldProductArchetype}
+                  hint={copy.fieldProductArchetypeHint}
+                  whyMatters={copy.fieldProductArchetypeWhyMatters}
+                >
+                  <QuickSelectWithFreeText
+                    idPrefix="ed-product-archetype"
+                    value={form.productArchetype}
+                    options={copy.productArchetypeQuickOptions}
+                    onChange={(nextValue) =>
+                      setForm((f) => ({ ...f, productArchetype: nextValue }))
+                    }
+                    placeholder="例: 問い合わせの一次対応をまとめる社内Webツールを作りたい"
+                    maxLength={600}
+                    rows={4}
+                    required
+                    isFs={isFs}
+                  />
+                </StepBlock>
+              ) : null}
+
+              {stepId === "problemSummary" ? (
+                <StepBlock
+                  title={copy.fieldProblemSummary}
+                  hint={copy.fieldProblemSummaryHint}
+                  whyMatters={copy.fieldProblemSummaryWhyMatters}
+                >
+                  <QuickSelectWithFreeText
+                    idPrefix="ed-problem-summary"
+                    value={form.problemSummary}
+                    options={copy.problemSummaryQuickOptions}
+                    onChange={(nextValue) =>
+                      setForm((f) => ({ ...f, problemSummary: nextValue }))
+                    }
+                    placeholder="例: 問い合わせ返信に毎日2時間かかり、担当者ごとに内容もぶれている"
+                    maxLength={600}
+                    rows={4}
+                    required
+                    isFs={isFs}
+                  />
+                </StepBlock>
+              ) : null}
+
+              {stepId === "pain" ? (
+                <StepBlock
+                  title={copy.fieldPain}
+                  hint={copy.fieldPainHint}
+                  whyMatters={copy.fieldPainWhyMatters}
+                >
+                  <QuickSelectWithFreeText
+                    idPrefix="ed-pain"
+                    value={form.pain}
+                    options={copy.painQuickOptions}
+                    onChange={(nextValue) => setForm((f) => ({ ...f, pain: nextValue }))}
+                    placeholder="例: 担当者によって返信の質がバラバラになる"
+                    maxLength={400}
+                    rows={3}
+                    isFs={isFs}
+                  />
+                </StepBlock>
+              ) : null}
+
+              {stepId === "teamSize" ? (
+                <StepBlock title={copy.fieldTeam} whyMatters={copy.fieldTeamWhyMatters}>
+                  <SelectOptionButtons
+                    options={copy.teamOptions}
+                    value={form.teamSize}
+                    onPick={(v) => handleSelectPick({ teamSize: v })}
+                    idPrefix="ed-team"
+                    compact={isFs}
+                  />
+                </StepBlock>
+              ) : null}
+
+              {stepId === "timeline" ? (
+                <StepBlock title={copy.fieldTimeline} whyMatters={copy.fieldTimelineWhyMatters}>
+                  <SelectOptionButtons
+                    options={copy.timelineOptions}
+                    value={form.timeline}
+                    onPick={(v) => handleSelectPick({ timeline: v })}
+                    idPrefix="ed-time"
+                    compact={isFs}
+                  />
+                </StepBlock>
+              ) : null}
+
+              {stepId === "integration" ? (
+                <StepBlock
+                  title={copy.fieldIntegration}
+                  hint={copy.fieldIntegrationHint}
+                  whyMatters={copy.fieldIntegrationWhyMatters}
+                >
+                  <SelectOptionButtons
+                    options={copy.integrationOptions}
+                    value={form.integration}
+                    onPick={(v) => handleSelectPick({ integration: v })}
+                    idPrefix="ed-int"
+                    compact={isFs}
+                  />
+                </StepBlock>
+              ) : null}
+
+              {stepId === "hostingContext" ? (
+                <StepBlock
+                  kicker={copy.sectionCostDrivers}
+                  title={copy.fieldHostingContext}
+                  hint={`${copy.sectionCostDriversSub} ${copy.fieldHostingContextHint}`}
+                  whyMatters={copy.fieldHostingContextWhyMatters}
+                >
+                  <SelectOptionButtons
+                    options={copy.hostingContextOptions}
+                    value={form.hostingContext}
+                    onPick={(v) => handleSelectPick({ hostingContext: v })}
+                    idPrefix="ed-hosting"
+                    compact={isFs}
+                  />
+                </StepBlock>
+              ) : null}
+
+              {stepId === "usageSurface" ? (
+                <StepBlock
+                  title={copy.fieldUsageSurface}
+                  hint={copy.fieldUsageSurfaceHint}
+                  whyMatters={copy.fieldUsageSurfaceWhyMatters}
+                >
+                  <SelectOptionButtons
+                    options={copy.usageSurfaceOptions}
+                    value={form.usageSurface}
+                    onPick={(v) => handleSelectPick({ usageSurface: v })}
+                    idPrefix="ed-usage"
+                    compact={isFs}
+                  />
+                </StepBlock>
+              ) : null}
+
+              {stepId === "dataSensitivity" ? (
+                <StepBlock
+                  kicker={copy.sectionCostDrivers}
+                  title={copy.fieldDataSensitivity}
+                  hint={`${copy.sectionCostDriversSub} ${copy.fieldDataSensitivityHint}`}
+                  whyMatters={copy.fieldDataSensitivityWhyMatters}
+                >
+                  <SelectOptionButtons
+                    options={copy.dataSensitivityOptions}
+                    value={form.dataSensitivity}
+                    onPick={(v) => handleSelectPick({ dataSensitivity: v })}
+                    idPrefix="ed-data-sens"
+                    compact={isFs}
+                  />
+                </StepBlock>
+              ) : null}
+
+              {stepId === "audienceScope" ? (
+                <StepBlock
+                  title={copy.fieldAudienceScope}
+                  hint={copy.fieldAudienceScopeHint}
+                  whyMatters={copy.fieldAudienceScopeWhyMatters}
+                >
+                  <SelectOptionButtons
+                    options={copy.audienceScopeOptions}
+                    value={form.audienceScope}
+                    onPick={(v) => handleSelectPick({ audienceScope: v })}
+                    idPrefix="ed-audience"
+                    compact={isFs}
+                  />
+                </StepBlock>
+              ) : null}
+
+              {stepId === "currentWorkflow" ? (
+                <StepBlock title={copy.fieldCurrentWorkflow} hint={copy.fieldCurrentWorkflowHint}>
+                  <SelectOptionButtons
+                    options={copy.currentWorkflowOptions}
+                    value={form.currentWorkflow}
+                    onPick={(v) => handleSelectPick({ currentWorkflow: v })}
+                    idPrefix="ed-workflow"
+                    compact={isFs}
+                  />
+                </StepBlock>
+              ) : null}
+
+              {stepId === "updateFrequency" ? (
+                <StepBlock
+                  title={copy.fieldUpdateFrequency}
+                  hint={copy.fieldUpdateFrequencyHint}
+                  whyMatters={copy.fieldUpdateFrequencyWhyMatters}
+                >
+                  <SelectOptionButtons
+                    options={copy.updateFrequencyOptions}
+                    value={form.updateFrequency}
+                    onPick={(v) => handleSelectPick({ updateFrequency: v })}
+                    idPrefix="ed-update-freq"
+                    compact={isFs}
+                  />
+                </StepBlock>
+              ) : null}
+
+              {stepId === "designExpectation" ? (
+                <StepBlock
+                  title={copy.fieldDesignExpectation}
+                  hint={copy.fieldDesignExpectationHint}
+                  whyMatters={copy.fieldDesignExpectationWhyMatters}
+                >
+                  <SelectOptionButtons
+                    options={copy.designExpectationOptions}
+                    value={form.designExpectation}
+                    onPick={(v) => handleSelectPick({ designExpectation: v })}
+                    idPrefix="ed-design"
+                    compact={isFs}
+                  />
+                </StepBlock>
+              ) : null}
+
+              {stepId === "loginModel" ? (
+                <StepBlock
+                  title={copy.fieldLoginModel}
+                  hint={copy.fieldLoginModelHint}
+                  whyMatters={copy.fieldLoginModelWhyMatters}
+                >
+                  <SelectOptionButtons
+                    options={copy.loginModelOptions}
+                    value={form.loginModel}
+                    onPick={(v) => handleSelectPick({ loginModel: v })}
+                    idPrefix="ed-login"
+                    compact={isFs}
+                  />
+                </StepBlock>
+              ) : null}
+
+              {stepId === "budgetBand" ? (
+                <StepBlock title={copy.fieldBudgetBand} whyMatters={copy.fieldBudgetBandWhyMatters}>
+                  <SelectOptionButtons
+                    options={copy.budgetBandOptions}
+                    value={form.budgetBand}
+                    onPick={(v) => handleSelectPick({ budgetBand: v })}
+                    idPrefix="ed-band"
+                    compact={isFs}
+                  />
+                </StepBlock>
+              ) : null}
+
+              {stepId === "budgetFeel" ? (
+                <StepBlock title={copy.fieldBudgetNote} whyMatters={copy.fieldBudgetNoteWhyMatters}>
+                  <QuickSelectWithFreeText
+                    idPrefix="ed-budget"
+                    value={form.budgetFeel}
+                    options={copy.budgetFeelQuickOptions}
+                    onChange={(nextValue) =>
+                      setForm((f) => ({ ...f, budgetFeel: nextValue }))
+                    }
+                    placeholder="例: まずは小さく試したい"
+                    maxLength={120}
+                    rows={3}
+                    isFs={isFs}
+                  />
+                </StepBlock>
+              ) : null}
+
+              {stepId === "constraints" ? (
+                <StepBlock
+                  title={copy.fieldConstraints}
+                  hint={copy.fieldConstraintsHint}
+                  whyMatters={copy.fieldConstraintsWhyMatters}
+                >
+                  <QuickSelectWithFreeText
+                    idPrefix="ed-constraints"
+                    value={form.constraints}
+                    options={copy.constraintsQuickOptions}
+                    onChange={(nextValue) =>
+                      setForm((f) => ({ ...f, constraints: nextValue }))
+                    }
+                    placeholder="例: お客様の個人情報を扱う／スマホから使いたい"
+                    maxLength={600}
+                    rows={3}
+                    isFs={isFs}
+                  />
+                </StepBlock>
+              ) : null}
+
+              {stepId === "review" ? (
+                <div className="space-y-4">
+                  <p className="text-sm font-medium text-[var(--color-text-primary)]">
+                    入力内容の要約です。このまま整理を開始できます。
+                  </p>
+                  {reviewAnswerPairs.length === 0 ? (
+                    <p className="text-sm text-text-sub">（回答がありません）</p>
+                  ) : (
+                    <dl className="max-h-[min(50vh,22rem)] space-y-3 overflow-y-auto text-sm text-text-sub md:max-h-[min(55vh,28rem)]">
+                      {reviewAnswerPairs.map(({ question, answer, questionId }) => (
+                        <div key={question} className="border-b border-silver/10 pb-3 last:border-b-0">
+                          <dt className="text-[15px] font-semibold text-text">{question}</dt>
+                          <dd className="mt-1 whitespace-pre-wrap text-[15px] leading-[1.5] text-[var(--color-text-secondary)]">
+                            {answer}
+                          </dd>
+                          {questionId ? (
+                            <Button
+                              type="button"
+                              size="sm"
+                              className="mt-3 h-8 bg-amber-500 px-3 text-xs font-semibold text-white hover:bg-amber-400"
+                              onClick={() => jumpToQuestion(questionId)}
+                            >
+                              修正
+                            </Button>
+                          ) : null}
+                        </div>
+                      ))}
+                    </dl>
+                  )}
+                  <p className="text-xs text-text-sub">
+                    必要な項目だけ「修正」から戻し、反映後はこの一覧に戻れます。
+                  </p>
+                </div>
+              ) : null}
+              </div>
+              <HearingAnswerExamples stepId={stepId} compact={isFs} />
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </div>
+
+      {isFs ? (
+        <div className="sticky bottom-0 z-20 -mx-2 border-t border-silver/25 bg-[var(--color-bg-pure)]/95 px-2 pt-2 backdrop-blur-sm">
+          <div className="flex flex-col gap-2">
+          {showFsPrimaryButton ? (
+            <Button
+              type="button"
+              className="min-h-11 w-full shadow-sm"
+              disabled={
+                isExiting || (!isReview && !canAdvance) || (isReview && !canSubmitGlobal)
+              }
+              onClick={goNext}
+              aria-describedby={
+                !isReview && !canAdvance && !isExiting
+                  ? "estimate-wizard-required-hint"
+                  : isReview && !canSubmitGlobal && !isExiting
+                    ? "estimate-wizard-submit-hint"
+                    : undefined
+              }
+            >
+              {isReview
+                ? copy.btnGenerate
+                : isEditingQuestion
+                  ? "修正を反映して戻る"
+                  : "次へ"}
+            </Button>
+          ) : null}
+          <div className="flex items-center justify-between gap-3">
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              className="h-8 min-h-8 shrink-0 px-2 text-xs text-text-sub hover:text-[var(--color-accent-primary)]"
+              disabled={(!isEditingQuestion && isFirst) || isExiting}
+              onClick={goBack}
+            >
+              {isEditingQuestion ? "一覧に戻る" : "戻る"}
+            </Button>
+            <p className="text-xs text-text-sub tabular-nums">
+              {stepIndex + 1} / {totalSteps}
+            </p>
+          </div>
+          </div>
+        </div>
+      ) : (
+        <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
+          <div className="flex flex-wrap gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              className="min-h-11 border-silver/35 bg-transparent text-text hover:bg-white/5"
+              disabled={(!isEditingQuestion && isFirst) || isExiting}
+              onClick={goBack}
+            >
+              {isEditingQuestion ? "一覧に戻る" : "戻る"}
+            </Button>
+            <Button
+              type="button"
+              className="min-h-11 min-w-[8rem]"
+              disabled={
+                isExiting || (!isReview && !canAdvance) || (isReview && !canSubmitGlobal)
+              }
+              onClick={goNext}
+              aria-describedby={
+                !isReview && !canAdvance && !isExiting
+                  ? "estimate-wizard-required-hint"
+                  : isReview && !canSubmitGlobal && !isExiting
+                    ? "estimate-wizard-submit-hint"
+                    : undefined
+              }
+            >
+              {isReview
+                ? copy.btnGenerate
+                : isEditingQuestion
+                  ? "修正を反映して戻る"
+                  : "次へ"}
+            </Button>
+          </div>
+          <p className="text-xs text-text-sub tabular-nums sm:text-right">
+            {stepIndex + 1} / {totalSteps}
+          </p>
+        </div>
+      )}
+
+      {!isReview && !canAdvance && !isExiting ? (
+        <p id="estimate-wizard-required-hint" className="text-xs text-text-sub">
+          {stepInvalidReason ?? copy.requiredStepHint}
+        </p>
+      ) : null}
+      {isReview && !canSubmitGlobal && !isExiting ? (
+        <p id="estimate-wizard-submit-hint" className="text-xs text-text-sub">
+          {reviewInvalidReason ?? copy.btnGenerateDisabledHint}
+        </p>
+      ) : null}
+      {isExiting ? (
+        <p className="text-xs text-text-sub">次の画面に移動しています…</p>
+      ) : null}
+    </section>
+  );
+}
+
+function SelectOptionButtons({
+  options,
+  value,
+  onPick,
+  idPrefix,
+  compact = false,
+}: {
+  options: readonly { value: string; label: string }[];
+  value: string;
+  onPick: (v: string) => void;
+  idPrefix: string;
+  compact?: boolean;
+}) {
+  return (
+    <div
+      className={cn(
+        "grid max-h-[min(44vh,360px)] grid-cols-2 gap-2 overflow-y-auto overscroll-contain",
+        !compact && "md:grid-cols-3"
+      )}
+      role="listbox"
+      aria-label="選択肢"
+    >
+      {options.map((o) => (
+        <button
+          key={o.value}
+          type="button"
+          role="option"
+          aria-selected={value === o.value}
+          id={`${idPrefix}-opt-${o.value}`}
+          onClick={() => onPick(o.value)}
+          className={cn(
+            "flex min-h-[2.9rem] items-center rounded-lg border px-2.5 py-2 text-left text-[13px] font-medium leading-snug text-[var(--color-accent-primary)] transition-colors hover:text-[var(--color-accent-primary-hover)] md:min-h-[3rem] md:text-sm",
+            value === o.value
+              ? "border-[var(--color-accent-primary)] bg-[var(--color-accent-primary-light)] font-semibold text-[var(--color-accent-primary)] ring-1 ring-[var(--color-accent-primary)]/30"
+              : "border-silver/30 bg-base-dark hover:border-[var(--color-accent-primary)]/45 hover:bg-[var(--color-accent-primary-light)]/60"
+          )}
+        >
+          {o.label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function QuickSelectWithFreeText({
+  idPrefix,
+  value,
+  options,
+  onChange,
+  placeholder,
+  maxLength,
+  rows,
+  isFs,
+  required = false,
+}: {
+  idPrefix: string;
+  value: string;
+  options: readonly QuickSelectOption[];
+  onChange: (nextValue: string) => void;
+  placeholder: string;
+  maxLength: number;
+  rows: number;
+  isFs: boolean;
+  required?: boolean;
+}) {
+  const trimmed = value.trim();
+  const matchedOption = options.find((option) => option.value === trimmed);
+  const customText = matchedOption ? "" : value;
+
+  return (
+    <div className="space-y-3">
+      <SelectOptionButtons
+        options={options}
+        value={trimmed}
+        onPick={onChange}
+        idPrefix={`${idPrefix}-quick`}
+        compact={isFs}
+      />
+      {!required ? (
+        <div className="flex justify-end">
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            className="h-8 px-2 text-xs text-text-sub hover:text-[var(--color-accent-primary)]"
+            onClick={() => onChange("")}
+            disabled={!trimmed}
+          >
+            今回は入力しない
+          </Button>
+        </div>
+      ) : null}
+      <Textarea
+        id={`${idPrefix}-textarea`}
+        rows={rows}
+        value={customText}
+        maxLength={maxLength}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
+        className={cn(
+          "min-h-[80px] resize-y text-[16px] md:text-sm",
+          isFs && "scroll-mt-6"
+        )}
+      />
+      <p className="text-xs text-text-sub">
+        候補をタップするか、具体的に書きたい場合は自由記述で入力できます。
+      </p>
+    </div>
+  );
+}
+
+function HearingAnswerExamples({
+  stepId,
+  compact,
+}: {
+  stepId: StepId;
+  compact?: boolean;
+}) {
+  const lines = ESTIMATE_DETAILED_HEARING_EXAMPLES[stepId];
+  if (!lines.length) return null;
+  return (
+    <aside
+      className={cn(
+        "mt-6 flex flex-1 flex-col justify-end rounded-lg border border-silver/15 bg-white/[0.04] p-4",
+        compact ? "min-h-[64px] py-3" : "min-h-[108px] md:min-h-[128px]"
+      )}
+      aria-label="解答例・ヒント"
+    >
+      <p className="text-[11px] font-semibold uppercase tracking-wider text-accent/85">
+        解答例・ヒント
+      </p>
+      <ul
+        className={cn(
+          "mt-2.5 list-disc space-y-2 pl-4 leading-[1.5] text-text-sub marker:text-accent/50",
+          compact ? "text-xs" : "text-sm"
+        )}
+      >
+        {lines.map((line, i) => (
+          <li key={i}>{line}</li>
+        ))}
+      </ul>
+    </aside>
+  );
+}
+
+function StepBlock({
+  kicker,
+  title,
+  hint,
+  whyMatters,
+  children,
+}: {
+  kicker?: string;
+  title: string;
+  hint?: string;
+  /** 見積のどこに効くか（低リテラシー向けの一行） */
+  whyMatters?: string;
+  children: ReactNode;
+}) {
+  return (
+    <div className="space-y-3">
+      {kicker ? (
+        <p className="text-[11px] font-semibold uppercase tracking-wider text-accent/90">
+          {kicker}
+        </p>
+      ) : null}
+      <p className="text-sm font-medium text-text">{title}</p>
+      {whyMatters ? (
+        <p className="text-[11px] leading-[1.5] text-accent/90">{whyMatters}</p>
+      ) : null}
+      {hint ? <p className="text-xs text-text-sub">{hint}</p> : null}
+      {children}
+    </div>
+  );
+}

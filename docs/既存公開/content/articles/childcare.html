@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<style>
+
+:root{
+  color-scheme: light only;
+  --ink:#23252a; --ink-2:#5b6066; --ink-3:#939aa1;
+  --bg:#ffffff; --soft:#f2f6f6; --line:#e4e8e9;
+  --teal:#2e6b72; --teal-d:#204d52; --warn:#a85a3c;
+  --sans:"Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP","Noto Sans CJK JP","Yu Gothic Medium","Yu Gothic",Meiryo,system-ui,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    color-scheme: light only;
+    --ink:#23252a; --ink-2:#5b6066; --ink-3:#939aa1;
+    --bg:#ffffff; --soft:#f2f6f6; --line:#e4e8e9;
+    --teal:#2e6b72; --teal-d:#204d52; --warn:#a85a3c;
+  }
+  html, body{ background:#ffffff !important; color:#23252a !important; }
+}
+*{ box-sizing:border-box; }
+html{ -webkit-text-size-adjust:100%; }
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:var(--sans); font-size:17.5px; line-height:2.0;
+  font-feature-settings:"palt" 1;
+}
+h1,h2{ word-break:auto-phrase; line-break:strict; text-wrap:balance; margin:0; }
+p{ margin:0 0 1.6em; }
+a{ color:var(--teal); }
+
+.wrap{ max-width:940px; margin:0 auto; padding:0 26px; }
+.col{ max-width:580px; }
+
+.top__in{ max-width:760px; margin:0 auto; padding:18px 26px; display:flex; align-items:baseline; gap:14px; }
+.brand{ font-family:var(--mono); font-weight:700; font-size:15px; letter-spacing:.14em; color:var(--teal); text-decoration:none; }
+.crumb{ font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; color:var(--ink-3); }
+
+.hero{ padding:44px 0 28px; border-bottom:1px solid var(--line); margin-bottom:8px; }
+.cover{
+  border-bottom:1px solid var(--line); padding-bottom:14px; margin:0 0 24px;
+  display:flex; justify-content:space-between; align-items:baseline; gap:12px; flex-wrap:wrap;
+}
+.cover .title{ font-size:14px; letter-spacing:.06em; color:var(--teal); font-weight:700; margin:0; }
+.meta{ font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; color:var(--ink-3); margin:0; display:flex; gap:12px; flex-wrap:wrap; }
+.hero h1{ font-size:30px; line-height:1.62; font-weight:700; margin:0 0 18px; max-width:15em; }
+.hero__lead{ font-size:17px; color:var(--ink-2); max-width:29em; margin:0 0 22px; }
+.hero .three{ margin:0; }
+.hero__cap{ font-size:13px; line-height:1.85; color:var(--ink-2); margin:10px 0 0; }
+
+.cite{
+  display:inline-block; margin:0 0 1.2em;
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.1em;
+  color:var(--warn); border:1px solid var(--warn); padding:5px 10px 4px;
+  text-decoration:none; border-radius:999px;
+}
+.cite:hover{ background:rgba(168,90,60,.08); }
+
+.sec{ padding:56px 0 0; }
+.label{ font-family:var(--mono); font-size:10.5px; letter-spacing:.16em; color:var(--teal); margin:0 0 10px; }
+.sec h2{ font-size:20.5px; line-height:1.7; font-weight:700; margin:0 0 22px; max-width:22em; }
+
+.three{ max-width:580px; margin:0 0 1.7em; }
+.three div{ background:var(--soft); border-radius:14px; padding:16px 20px 14px; margin-bottom:10px; }
+.three b{ display:block; font-size:17px; }
+.three span{ font-size:14.5px; color:var(--ink-2); line-height:1.85; }
+
+.rule{ background:var(--soft); border-radius:16px; padding:24px 24px 20px; margin:0 0 1.7em; max-width:580px; }
+.rule h3{ font-size:16px; font-weight:700; margin:0 0 12px; color:var(--teal); }
+.rule ul{ margin:0; padding-left:1.25em; font-size:15.5px; line-height:1.95; }
+.rule li{ margin-bottom:7px; }
+
+.purpose{ max-width:580px; margin:0 0 1.7em; }
+.purpose div{ border-top:1px solid var(--line); padding:15px 0 13px; }
+.purpose div:last-child{ border-bottom:1px solid var(--line); }
+.purpose b{ display:block; font-size:16.5px; }
+.purpose span{ font-size:14.5px; color:var(--ink-2); line-height:1.85; }
+.purpose div.is-key b{ color:var(--warn); }
+
+.plain{ margin:0 0 1.6em; padding-left:1.25em; max-width:580px; }
+.plain li{ margin-bottom:10px; }
+
+.figure{ background:transparent; border:0; border-radius:0; padding:0; margin:0 0 2.5em; max-width:900px; width:min(900px, calc(100vw - 40px)); }
+.figure svg{ display:block; width:100%; height:auto; }
+.figure__t{ font-family:var(--mono); font-size:10px; letter-spacing:.14em; color:var(--teal); font-weight:700; margin:0 0 10px; }
+.figure figcaption{ font-size:13px; line-height:1.85; color:var(--ink-2); margin:12px 0 0; padding-top:10px; border-top:1px solid var(--line); }
+
+.demo{ background:var(--soft); border-radius:18px; padding:36px 30px 34px; margin:56px 0 0; max-width:640px; }
+.demo h2{ font-size:21px; line-height:1.66; margin:0 0 16px; font-weight:700; }
+.demo p{ font-size:16px; color:var(--ink-2); }
+.btn{ display:inline-block; background:var(--teal); color:#fff; font-weight:700; font-size:15.5px; text-decoration:none; padding:15px 30px; border-radius:999px; }
+.btn:hover{ background:var(--teal-d); }
+.honest{ background:#fff; border-radius:12px; padding:18px 20px 16px; margin:22px 0 0; font-size:14px; line-height:1.85; color:var(--ink-2); }
+.honest b{ color:var(--ink); }
+
+.linkbtn{ display:inline-block; background:var(--ink); color:#fff; text-decoration:none; font-weight:700; font-size:15.5px; padding:15px 30px; border-radius:999px; }
+.linkbtn:hover{ background:#101115; }
+
+.src{ margin:56px 0 0; padding:24px 0 0; border-top:1px solid var(--line); max-width:580px; }
+.src h3{ font-family:var(--mono); font-size:10px; letter-spacing:.16em; color:var(--ink-3); margin:0 0 12px; font-weight:700; }
+.src ul{ margin:0; padding-left:1.15em; }
+.src li{ font-size:13px; line-height:1.85; color:var(--ink-2); margin-bottom:6px; }
+.src a{ word-break:break-all; }
+
+.foot{ margin-top:60px; padding:24px 0 46px; border-top:1px solid var(--line); }
+.foot__in{ max-width:760px; margin:0 auto; padding:0 26px; font-family:var(--mono); font-size:11px; letter-spacing:.1em; color:var(--ink-3); }
+
+@media (max-width:640px){
+  body{ font-size:16.5px; line-height:1.95; }
+  .wrap{ padding:0 20px; }
+  .top__in{ padding:16px 20px; }
+  .hero{ padding:32px 0 4px; }
+  .hero h1{ font-size:23px; line-height:1.66; }
+  .hero p{ font-size:16px; }
+  .sec{ padding:44px 0 0; }
+  .sec h2{ font-size:18.5px; }
+  .rule{ padding:20px 18px 17px; }
+  .rule ul{ font-size:15px; }
+  .figure figcaption{ font-size:12px; }
+  .figure figcaption{ font-size:12.5px; }
+  .demo{ padding:26px 20px 26px; border-radius:14px; margin-top:44px; }
+  .demo h2{ font-size:18.5px; }
+  .btn, .linkbtn{ display:block; text-align:center; padding:16px 18px; }
+  .foot__in{ padding:0 20px; }
+}
+a:focus-visible, .btn:focus-visible, .linkbtn:focus-visible{ outline:2px solid var(--teal); outline-offset:3px; }
+
+/* publish overrides */
+.demo-first-step{ font-size:13.5px; line-height:1.85; margin:0 0 14px; opacity:.95; }
+.btn.is-soon,.n__go.is-soon{
+  display:inline-block; opacity:.65; cursor:default; pointer-events:none;
+  font-weight:700; font-size:15px; padding:15px 30px; border-radius:2px;
+  background:#e8e8e8; color:#555; text-decoration:none;
+}
+</style>
+</head>
+<body>
+<main>
+  <div class="wrap">
+    <div class="col">
+
+      <section class="hero">
+        <div class="cover">
+          <p class="title">保育　記録の残し方</p>
+          <p class="meta">
+            <span>読むのに 8分</span>
+            <span>2026.08 ／ 法令の確認 2026.08</span>
+          </p>
+        </div>
+        <h1>保育の記録がずれる理由と、<br>残し方。</h1>
+        <p class="hero__lead">
+          午睡中に決まった回数を見る、見る時間より書く時間を長くしない、何かあった日に出せる形にしておく。ガイドラインで特に見られる三つの場面のうち、記録の決まりがいちばん細かい午睡から、順にまとめました。
+        </p>
+        <div class="three">
+          <div>
+            <b>睡眠中</b>
+            <span>午睡の時間。ガイドラインでは、定期的に呼吸や体位、睡眠の状態を点検することが挙げられています。</span>
+          </div>
+          <div>
+            <b>プール活動・水遊び中</b>
+            <span>監視だけを担当する人を置くことが求められます。指導と監視は分けます。</span>
+          </div>
+          <div>
+            <b>食事中</b>
+            <span>誤嚥や窒息、アレルギーの対応。何を食べたかと、誰が確認したかが問われます。</span>
+          </div>
+        </div>
+        <p class="hero__cap">重大な事故が起きやすい三つの場面です。下で順に説明します。</p>
+      </section>
+
+      <section class="sec">
+        <h2>午睡中に、決まった回数を見る</h2>
+        <p>
+          こども家庭庁のガイドラインでは、重大な事故が起きやすい場面として、睡眠中・プール活動・水遊び中・食事中の三つが名指しされています。上の一覧が、その地図です。
+        </p>
+        <p>
+          <a class="cite" href="https://www.cfa.go.jp/policies/child-safety/effort/guideline" target="_blank" rel="noopener noreferrer">出典　こども家庭庁　事故防止ガイドライン</a>
+        </p>
+        <p>
+          同じガイドラインには、危険の有無の確認や、万が一のときの検証ができるように、必要に応じて記録の機器を活用することも挙げられています。<b>記録は、検証のためのものだと明記されています。</b>事故やけがが起きたとき、園は何が起きたのかを説明し、なぜ起きたのかを検証することを求められます。そのとき手元にあるのは、その日までに書かれた記録だけです。記憶では足りません。
+        </p>
+        <p>
+          三つのうち、記録の決まりがいちばん細かいのが睡眠中です。自治体の手引きでは、次のように示されています。
+        </p>
+
+        <div class="rule">
+          <h3>午睡中に記録すること</h3>
+          <ul>
+            <li>寝つき、睡眠中の姿勢、顔色、呼吸の状態をきめ細かく観察し、毎回記録する</li>
+            <li>0歳児は5分に1回、1歳児は10分に1回</li>
+            <li>チェック表には、時刻・記録者・室温・湿度を記録する</li>
+            <li>あお向けに寝かせ、寝具や周りの環境を毎日確認する</li>
+          </ul>
+        </div>
+
+        <p>
+          この「5分に1回」が、実際にどれくらいの量になるかを見てください。
+        </p>
+
+        <figure class="figure">
+          <p class="figure__t">図1　2時間の午睡で、点検は何回になるか</p>
+          <svg viewBox="0 0 360 176" role="img" aria-labelledby="k1t k1d">
+            <title id="k1t">午睡中の点検回数の図</title>
+            <desc id="k1d">2時間の午睡で、0歳児は24回、1歳児は12回の点検と記録が発生する</desc>
+
+            <text x="14" y="26" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="12" fill="var(--ink-2)">0歳児　5分に1回</text>
+            <line x1="14" y1="52" x2="346" y2="52" stroke="var(--line)" stroke-width="1"/>
+            <g fill="var(--teal)">
+              <circle cx="20" cy="52" r="4"/><circle cx="34" cy="52" r="4"/><circle cx="48" cy="52" r="4"/>
+              <circle cx="62" cy="52" r="4"/><circle cx="76" cy="52" r="4"/><circle cx="90" cy="52" r="4"/>
+              <circle cx="104" cy="52" r="4"/><circle cx="118" cy="52" r="4"/><circle cx="132" cy="52" r="4"/>
+              <circle cx="146" cy="52" r="4"/><circle cx="160" cy="52" r="4"/><circle cx="174" cy="52" r="4"/>
+              <circle cx="188" cy="52" r="4"/><circle cx="202" cy="52" r="4"/><circle cx="216" cy="52" r="4"/>
+              <circle cx="230" cy="52" r="4"/><circle cx="244" cy="52" r="4"/><circle cx="258" cy="52" r="4"/>
+              <circle cx="272" cy="52" r="4"/><circle cx="286" cy="52" r="4"/><circle cx="300" cy="52" r="4"/>
+              <circle cx="314" cy="52" r="4"/><circle cx="328" cy="52" r="4"/><circle cx="342" cy="52" r="4"/>
+            </g>
+            <text x="14" y="76" font-family="ui-monospace,monospace" font-size="11" fill="var(--teal)">24回</text>
+
+            <text x="14" y="112" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="12" fill="var(--ink-2)">1歳児　10分に1回</text>
+            <line x1="14" y1="138" x2="346" y2="138" stroke="var(--line)" stroke-width="1"/>
+            <g fill="var(--teal)" opacity=".6">
+              <circle cx="20" cy="138" r="4"/><circle cx="48" cy="138" r="4"/><circle cx="76" cy="138" r="4"/>
+              <circle cx="104" cy="138" r="4"/><circle cx="132" cy="138" r="4"/><circle cx="160" cy="138" r="4"/>
+              <circle cx="188" cy="138" r="4"/><circle cx="216" cy="138" r="4"/><circle cx="244" cy="138" r="4"/>
+              <circle cx="272" cy="138" r="4"/><circle cx="300" cy="138" r="4"/><circle cx="328" cy="138" r="4"/>
+            </g>
+            <text x="14" y="162" font-family="ui-monospace,monospace" font-size="11" fill="var(--teal)">12回</text>
+          </svg>
+          <figcaption>
+            0歳児クラスなら、一人あたり24回です。担任が何人を見ているかを掛けると、午睡の2時間はほぼこの作業で埋まります。
+          </figcaption>
+        </figure>
+      </section>
+
+      <section class="sec">
+        <h2>見る時間より、書く時間を長くしない</h2>
+        <p>
+          点検のたびに紙のチェック表へ記入すると、書いている数秒のあいだ、子どもから目が離れます。24回書けば、その分だけ見ていない時間が積み上がります。
+        </p>
+        <p>
+          <b>記録が増えることと、安全になることは、同じではありません。</b>ここを取り違えると、書類は完璧に整っているのに、現場では誰も見ていない時間ができます。しかも、そうなっていることに気づけません。書類が整っているからです。
+        </p>
+
+        <figure class="figure">
+          <p class="figure__t">図2　1回の点検の中身</p>
+          <svg viewBox="0 0 360 150" role="img" aria-labelledby="k2t k2d">
+            <title id="k2t">1回の点検で、見る時間と書く時間の内訳</title>
+            <desc id="k2d">紙に書く場合は点検1回のうち書く時間が生まれ、その分だけ見ている時間が短くなる</desc>
+
+            <text x="14" y="26" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="12" fill="var(--ink-2)">紙に書く場合</text>
+            <rect x="14" y="38" width="200" height="26" rx="3" fill="var(--teal)" opacity=".75"/>
+            <rect x="214" y="38" width="132" height="26" rx="3" fill="#dfe6e6"/>
+            <text x="114" y="55" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="11.5" fill="#fff" text-anchor="middle">見ている</text>
+            <text x="280" y="55" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="11.5" fill="var(--ink-2)" text-anchor="middle">書いている</text>
+
+            <text x="14" y="102" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="12" fill="var(--ink-2)">その場で残る場合</text>
+            <rect x="14" y="114" width="300" height="26" rx="3" fill="var(--teal)" opacity=".75"/>
+            <rect x="314" y="114" width="32" height="26" rx="3" fill="#dfe6e6"/>
+            <text x="164" y="131" font-family="'Noto Sans CJK JP','Noto Sans JP',sans-serif" font-size="11.5" fill="#fff" text-anchor="middle">見ている</text>
+          </svg>
+          <figcaption>
+            同じ1回の点検でも、書く手間の分だけ見ている時間が変わります。記録を減らすのではなく、書く時間のほうを減らすのが正しい方向です。
+          </figcaption>
+        </figure>
+      </section>
+
+      <section class="sec">
+        <h2>何かあった日に出せる形にしておく</h2>
+        <p>
+          目指す形ははっきりしています。見ることに集中したまま、記録が残ることです。時刻は自動で入るようにする。決まった項目は選ぶだけにする。異常がないときは、ひと押しで済むようにする。気になることがあったときだけ、言葉を足す。
+        </p>
+        <p>
+          こうすると、書く時間が短くなるだけでなく、記録の正確さも上がります。あとからまとめて書いた記録は、時刻がずれます。<b>正確さが要るのは、まさに何かあった日のためです。</b>
+        </p>
+        <p>
+          園で書いている記録には、目的が三つあります。次の計画を立てるため、保護者に伝えるため、何かあったときに説明するため。三つ目だけは、時刻と確認者があれば足ります。文章のうまさは要りません。三つを同じ形で書こうとするから、時間がかかります。
+        </p>
+
+        <div class="purpose">
+          <div>
+            <b>次の計画を立てるため</b>
+            <span>その子の様子や育ちを見るためのもの。文章で構いません。細かい時刻は要りません。</span>
+          </div>
+          <div>
+            <b>保護者に伝えるため</b>
+            <span>その日の出来事。写真や短い文で足ります。全員分を同じ量書く必要はありません。</span>
+          </div>
+          <div class="is-key">
+            <b>何かあったときに説明するため</b>
+            <span>時刻と、誰が確認したか。ここだけは正確さが要ります。文章のうまさは要りません。</span>
+          </div>
+        </div>
+
+        <p>
+          記録が薄いと、きちんとやっていた先生でも証明できません。証明できないと、本人がいちばん苦しみます。書く時間を短くするのは、事務作業を減らす話であると同時に、先生が保育に集中できて、なおかつ守られる状態を作る話です。
+        </p>
+        <p>
+          記録の負担を減らす方法として、まず思いつくのは人を増やすことです。ただ保育の場合、配置の基準で必要な人数は決まっていて、それを超えて増やしても収入は増えません。<b>人を増やすと、そのぶんがまるごと持ち出しになります。</b>残る方法は、いまの人数のまま、記録にかかる時間を短くすることです。記録に追われて先生が辞めれば、募集と面接と引き継ぎに費用と時間がかかります。
+        </p>
+      </section>
+
+      <section class="demo">
+        <p class="label">実際の画面</p>
+        <h2>その場で声に出したものが、記録の形になる</h2>
+        <p>
+          子どもを見ながら一言だけ声に出しておくと、あとで文章の形になっています。書くのではなく、直して出すだけになります。時刻は自動で入ります。
+        </p>
+        <p>
+          <p class="demo-first-step">パソコンのChromeでお試しください。まず、最初に出てくる画面のマイク（または文字入力）だけ押してみてください。新しい画面が開きます。</p><a class="btn" href="https://kaigo-operation-demo.vercel.app/" data-demo="care-record" target="_blank" rel="noopener noreferrer">記録の画面を動かしてみる</a>
+        </p>
+        <div class="honest">
+          <b>この画面は、保育向けではありません。</b>福祉・介護の現場向けに作ったものの、記録の部分をお見せしています。保育の言葉に合わせた画面は、これから作るところです。仕組みとしてどう動くかだけ、先に見ていただければと思います。声に出したものを記録の形にする部分は、本物のAIではなく、あらかじめ用意した動きでお見せしています。
+        </div>
+      </section>
+
+      <section class="sec">
+        <h2>午睡の記録のしかたを、一度確認する</h2>
+        <p>
+          いま午睡のチェックをどの形で残しているか。書くのに何秒かかっているか。この二つが分かれば、次に何をすればいいかは見えてきます。
+        </p>
+        <h3>入れる前に決めておくこと</h3>
+        <ul class="plain">
+          <li>三つの目的を書き分ける。特に三つ目は、時刻と確認者だけにする</li>
+          <li>いま契約しているシステムに、午睡の記録機能が入っていないか確認する</li>
+        </ul>
+        <p>
+          この二つを先に済ませてください。決めないまま入れると、いまの書き方の上に入力が乗るだけになります。
+        </p>
+        <p>
+          <a class="linkbtn" href="/contact?service=ai-consulting&intent=article&article=childcare">相談する</a>
+        </p>
+
+                  <p style="font-size:12.5px; line-height:1.85; color:#8a8a8a; margin:0 0 14px;">
+            制度の内容は改正されることがあります。実際の対応にあたっては、所管の官公庁や自治体の最新の情報をご確認ください。
+          </p>
+        <div class="src">
+          <h3>参考</h3>
+          <ul>
+            <li>教育・保育施設等における事故防止及び事故発生時の対応のためのガイドライン ／ こども家庭庁<br>
+              <a href="https://www.cfa.go.jp/policies/child-safety/effort/guideline">https://www.cfa.go.jp/policies/child-safety/effort/guideline</a></li>
+            <li>事故防止と事故対応（午睡チェックの間隔・記録項目） ／ 横浜市こども青少年局<br>
+              <a href="https://www.city.yokohama.lg.jp/business/bunyabetsu/kosodate/iko/setumeikai.files/R3sinkien_zikobousi.pdf">https://www.city.yokohama.lg.jp/business/bunyabetsu/kosodate/iko/setumeikai.files/R3sinkien_zikobousi.pdf</a></li>
+            <li>事故防止及び事故発生時対応マニュアル（基礎編） ／ 大阪市<br>
+              <a href="https://www.city.osaka.lg.jp/kodomo/cmsfiles/contents/0000565/565683/hyousi-p10.pdf">https://www.city.osaka.lg.jp/kodomo/cmsfiles/contents/0000565/565683/hyousi-p10.pdf</a></li>
+          </ul>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</main>
+</body>
+</html>

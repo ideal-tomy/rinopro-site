@@ -1,0 +1,95 @@
+"use client";
+
+import Link from "next/link";
+import dynamic from "next/dynamic";
+import { useState } from "react";
+import { SERVICE_DETAIL_LINKS } from "@/lib/ui/service-navigation";
+
+const MobileNav = dynamic(
+  () => import("./MobileNav").then((mod) => mod.MobileNav),
+  { ssr: false, loading: () => null },
+);
+
+const NAV_ITEMS = [
+  { href: "/", label: "トップ" },
+  { href: "/services", label: "ご支援内容", children: SERVICE_DETAIL_LINKS },
+  { href: "/about", label: "会社紹介" },
+  { href: "/contact", label: "問い合わせ" },
+  { href: "/experience", label: "体験デモ" },
+] as const;
+
+export function Header() {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [shouldLoadMobileNav, setShouldLoadMobileNav] = useState(false);
+
+  const handleOpenMobileNav = () => {
+    setShouldLoadMobileNav(true);
+    setMobileOpen(true);
+  };
+
+  return (
+    <header className="sticky top-0 z-40 w-full border-b border-[var(--color-border-light)] bg-[var(--color-bg-pure)]/95 backdrop-blur supports-[backdrop-filter]:bg-[var(--color-bg-pure)]/85">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 md:px-6">
+        <Link
+          href="/"
+          className="text-[1.625rem] font-bold leading-none tracking-tight text-[var(--color-accent-primary)] md:text-[2rem]"
+        >
+          AXEON
+        </Link>
+
+        <nav className="hidden md:flex md:items-center md:gap-6">
+          {NAV_ITEMS.map(({ href, label }) => (
+            <div
+              key={href}
+              className="motion-safe:transition-transform motion-safe:duration-200 motion-safe:ease-out motion-safe:hover:-translate-y-px"
+            >
+              <Link
+                href={href}
+                className="block text-sm font-medium text-[var(--color-text-primary)] transition-colors hover:text-[var(--color-accent-primary)]"
+              >
+                {label}
+              </Link>
+            </div>
+          ))}
+        </nav>
+
+        <Link href="/contact" className="services-header-contact hidden">
+          お問い合わせ <span aria-hidden="true">→</span>
+        </Link>
+
+        <button
+          type="button"
+          className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-[var(--color-text-primary)] transition-colors hover:bg-[var(--color-accent-primary-light)] hover:text-[var(--color-accent-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-pure)] md:hidden"
+          onClick={handleOpenMobileNav}
+          id="mobile-menu-trigger"
+          aria-expanded={mobileOpen}
+          aria-controls="mobile-site-menu"
+          aria-label="メニューを開く"
+        >
+          <svg
+            aria-hidden
+            viewBox="0 0 24 24"
+            className="h-5 w-5"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M4 6h16" />
+            <path d="M4 12h16" />
+            <path d="M4 18h16" />
+          </svg>
+        </button>
+      </div>
+
+      {shouldLoadMobileNav ? (
+        <MobileNav
+          items={NAV_ITEMS}
+          open={mobileOpen}
+          onOpenChange={setMobileOpen}
+        />
+      ) : null}
+    </header>
+  );
+}

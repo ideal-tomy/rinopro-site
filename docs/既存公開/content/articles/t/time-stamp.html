@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<style>
+:root{
+  color-scheme: light only;
+  --ink:#2a1820; --ink-2:#5c4850; --ink-3:#8a7480;
+  --paper:#f3e4e8; --sheet:#fff8fa; --grid:#e8c8d0;
+  --line:#d4b0b8; --cell:#c43a5a; --ok:#3a5a48;
+  --sans:"Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP","Noto Sans CJK JP","Yu Gothic Medium","Yu Gothic",Meiryo,system-ui,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root{ color-scheme:light only; }
+  html,body{ background:#f3e4e8 !important; color:#2a1820 !important; }
+}
+*{ box-sizing:border-box; }
+body{ margin:0; background:var(--paper); color:var(--ink); font-family:var(--sans); font-size:16px; line-height:1.92; }
+h1,h2{ word-break:auto-phrase; margin:0; }
+p{ margin:0 0 1.45em; }
+a{ color:var(--cell); }
+.wrap{ max-width:720px !important; margin:0 auto; padding:0 22px; }
+.col{ max-width:620px; margin:0 auto; }
+
+.cover{ background:#e8c8d4; color:var(--ink); padding:44px 0 36px; margin:0 -22px 0; }
+.cover__in{ max-width:620px; margin:0 auto; padding:0 22px; }
+.cover__tag{ font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; color:var(--ink-3); margin:0 0 14px; }
+.cover h1{ font-size:30px; line-height:1.48; font-weight:800; margin:0 0 16px; max-width:16em; }
+.cover__meta{ font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; color:var(--ink-3); display:flex; gap:14px; flex-wrap:wrap; margin:0 0 20px; }
+
+.timesheet{ background:var(--sheet); border:1px solid var(--line); margin:0 0 18px; overflow:hidden; }
+.timesheet__hd{ font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; padding:8px 12px; background:#f8eef0; border-bottom:1px solid var(--line); color:var(--ink-3); }
+.timesheet table{ width:100%; border-collapse:collapse; font-size:12.5px; font-variant-numeric:tabular-nums; }
+.timesheet th,.timesheet td{ border:1px solid var(--grid); padding:8px 4px; text-align:center; }
+.timesheet th{ background:#f8eef0; font-weight:600; font-size:11px; color:var(--ink-2); }
+.timesheet td.empty{ background:#fde8ee; color:var(--cell); font-weight:800; font-size:16px; }
+
+.empty-day{ padding:14px 16px; background:#fff; border-bottom:4px solid var(--cell); margin:0; }
+.empty-day p{ margin:0 0 .35em; font-size:14px; color:var(--ink-2); }
+.empty-day p:last-child{ margin:0; }
+.empty-day .lbl{ font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; color:var(--cell); margin-bottom:8px; }
+
+.body{ padding:38px 0 10px; }
+.lede{ font-size:17px; color:var(--ink-2); }
+
+.grid-h{ margin:0 0 2.5em; }
+.grid-h h2{
+  font-size:20px; font-weight:800; line-height:1.55; margin:0 0 16px;
+  background:var(--sheet); border:1px solid var(--line); border-bottom:3px solid var(--cell);
+  padding:10px 14px;
+}
+
+.col-add{ background:var(--sheet); border:1px dashed var(--cell); padding:14px 16px; margin:0 0 1.4em; font-size:14.5px; }
+.col-add p{ margin:0 0 .4em; }
+.col-add p:last-child{ margin:0; }
+.col-add b{ color:var(--cell); }
+
+.figure{ margin:1.8em 0 2.2em; }
+.figure__lab{ font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; color:var(--ink-3); margin:0 0 10px; }
+.figure__cap{ font-size:12.5px; color:var(--ink-2); margin:12px 0 0; line-height:1.75; }
+.two{ display:grid; grid-template-columns:1fr 1fr; gap:0; font-size:14px; border:1px solid var(--line); }
+.two div{ padding:14px 16px; }
+.two .guess{ background:#fde8ee; color:var(--cell); font-weight:700; }
+.two .ask{ background:var(--sheet); border-left:1px solid var(--line); }
+
+.cite{ display:inline-block; font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; color:var(--cell); border:1px solid var(--cell); padding:5px 10px; text-decoration:none; margin:0 0 1.4em; }
+
+.wait-row{ margin:28px 0; border:1px solid var(--line); background:var(--sheet); }
+.wait-row table{ width:100%; border-collapse:collapse; font-size:13px; }
+.wait-row th,.wait-row td{ border:1px solid var(--grid); padding:10px 8px; text-align:center; }
+.wait-row th{ background:#f8eef0; font-size:11px; color:var(--ink-2); }
+.wait-row td.soon{ background:#fde8ee; color:var(--cell); font-weight:700; font-family:var(--mono); font-size:12px; }
+.wait-row p{ margin:10px 12px 12px; font-size:14.5px; color:var(--ink-2); }
+
+.cta{ border-top:1px solid var(--line); margin:44px 0 0; padding:28px 0 0; }
+.linkbtn{ display:inline-block; background:var(--ink); color:#fff; font-weight:700; font-size:15px; text-decoration:none; padding:14px 28px; }
+.disc{ font-size:12.5px; color:var(--ink-3); margin:20px 0 0; }
+.refs{ margin:28px 0 0; padding-top:18px; border-top:1px solid var(--line); }
+.refs h3{ font-family:var(--mono); font-size:10px; letter-spacing:.14em; color:var(--ink-3); margin:0 0 8px; }
+.refs li{ font-size:13px; line-height:1.8; color:var(--ink-2); margin-bottom:5px; }
+
+@media (max-width:640px){
+  .cover h1{ font-size:23px; }
+  .two{ grid-template-columns:1fr; }
+  .two .ask{ border-left:0; border-top:1px solid var(--line); }
+}
+</style>
+</head>
+<body>
+<div class="wrap is-theme">
+
+<section class="cover">
+  <div class="cover__in">
+    <p class="cover__tag">店舗　勤怠表の空欄</p>
+    <h1>勤怠を自動にしても、打刻のない日は埋まらない。</h1>
+    <p class="cover__meta">
+      <span>読むのに 7分</span>
+      <span>法令の確認 2026.08</span>
+    </p>
+    <div class="timesheet">
+      <p class="timesheet__hd">出勤簿（抜粋）　山田</p>
+      <table>
+        <thead><tr><th></th><th>月</th><th>火</th><th>水</th><th>木</th><th>金</th></tr></thead>
+        <tbody>
+          <tr><th>出勤</th><td>9:00</td><td>9:02</td><td class="empty">—</td><td>8:58</td><td>9:01</td></tr>
+          <tr><th>退勤</th><td>18:02</td><td>18:10</td><td class="empty">—</td><td>18:05</td><td>18:00</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="empty-day">
+      <p class="lbl">きれいな表と、記録</p>
+      <p>自動で集計すると、水曜日の空欄が目立つ。</p>
+      <p><b>いつもの時間で埋めると、表は揃う。働いた時間の記録にはならない。</b></p>
+    </div>
+  </div>
+</section>
+
+<div class="body col">
+
+<p class="lede">月・火・木・金は、始業と終業が入っています。水曜日だけ空欄です。ここで「いつもの時間で埋める」と、表はきれいになります。働いた時間の記録にはなりません。</p>
+
+<section class="grid-h">
+<h2>空欄の日は、本人に確認する欄を残す</h2>
+<p>よくお聞きするのが、「打刻漏れは後から直している」という運用です。直すこと自体は要ります。推測で埋めることとは別です。</p>
+<div class="col-add">
+  <p>空欄のままにしてください。</p>
+  <p>その日の横に、<b>本人が書いた時刻</b>と、<b>確認した日付</b>を残す欄を一列足します。</p>
+  <p>店長が代わりに押す欄ではありません。</p>
+</div>
+<p>漏れは残ります。残った漏れを、本人の言葉で埋める。これが記録です。</p>
+</section>
+
+<section class="grid-h">
+<h2>始業と終業は、確認して記録する</h2>
+<p>厚生労働省は、使用者が労働日ごとの始業・終業時刻を確認し、記録するよう求めています。原則は、使用者の現認か、タイムカードなどの客観的な記録です。やむを得ず本人の申告で行う場合も、申告のまま放置せず、実態と合っているかを見る必要があります。</p>
+<p>自動集計は、入っている打刻を足す作業です。入っていない日を想像で埋める作業ではありません。</p>
+<p>正直に申し上げますと、きれいに揃った表の方が、社内では通りやすいです。通りやすい表と、確認した記録は違います。</p>
+<a class="cite" href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/koyou_roudou/roudoukijun/roudouzikan/070614-2.html">出典　厚労省　労働時間の適正な把握ガイドライン</a>
+</section>
+
+<section class="grid-h">
+<h2>推測で埋めた時間は、働いた時間の記録にならない</h2>
+<p>「水曜も9時から18時だったはず」は、記憶です。記憶で埋めたセルは、未払いの話が出たときに、根拠になりません。空欄のまま残し、本人確認の一行を付ける方が、あとから説明できます。</p>
+<p>シフトの記事で扱ったのは、雇ったときの時間の幅です。こちらは、<b>その日に実際に働いた時刻の空欄</b>です。紙が違います。</p>
+
+<figure class="figure">
+  <p class="figure__lab">図　空欄の埋め方</p>
+  <div class="two">
+    <div class="guess">推測：9:00–18:00 で埋める</div>
+    <div class="ask">記録：空欄のまま＋本人確認の欄</div>
+  </div>
+  <figcaption class="figure__cap">左は表が揃います。右が、働いた時間の記録になります。</figcaption>
+</figure>
+</section>
+
+<section class="grid-h">
+<h2>社内で話すなら、「勤怠を自動で締めたい」ではなくていい</h2>
+<p>「打刻のない日がある。推測で埋めると記録にならないので、本人確認の欄を残したい」と言えば足ります。</p>
+
+<div class="wait-row">
+  <table>
+    <thead><tr><th>水・出勤</th><th>水・退勤</th><th>本人確認</th></tr></thead>
+    <tbody><tr><td class="soon">画面準備中</td><td class="soon">画面準備中</td><td>手書きの欄で足りる</td></tr></tbody>
+  </table>
+  <p>打刻の空欄と確認欄が並ぶ画面は、まだありません。自社の従業員情報は入れません。先に見るのは、空欄を推測で埋めないことです。</p>
+</div>
+</section>
+
+<section class="grid-h">
+<h2>今月の空欄、一日から始める</h2>
+<p>全店の過去分を直す必要はありません。今月の表を開き、空欄が一日ある人を一人だけ見ます。その日の横に、確認欄を手書きで足します。本人に時刻を書いてもらい、日付を残します。</p>
+<p><b>打刻のない日は、自動では埋まりません。</b> 埋めるのは人です。人の確認が残れば、その月の表は記録になります。</p>
+</section>
+
+<div class="cta">
+  <p><a class="linkbtn" href="/contact?service=ai-consulting&amp;intent=article&amp;article=time-stamp">相談する</a></p>
+  <p class="disc">制度の内容は改正されることがあります。実際の対応にあたっては、所管の官公庁や専門家の最新の情報をご確認ください。</p>
+</div>
+
+<div class="refs">
+  <h3>参考</h3>
+  <ul>
+    <li>労働時間の適正な把握のために使用者が講ずべき措置に関するガイドライン ／ 厚生労働省<br>
+      <a href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/koyou_roudou/roudoukijun/roudouzikan/070614-2.html">https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/koyou_roudou/roudoukijun/roudouzikan/070614-2.html</a></li>
+    <li>同ガイドライン（PDF） ／ 厚生労働省<br>
+      <a href="https://www.mhlw.go.jp/file/06-Seisakujouhou-11200000-Roudoukijunkyoku/0000149439.pdf">https://www.mhlw.go.jp/file/06-Seisakujouhou-11200000-Roudoukijunkyoku/0000149439.pdf</a></li>
+  </ul>
+</div>
+
+</div>
+</div>
+</body>
+</html>
