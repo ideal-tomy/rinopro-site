@@ -3,6 +3,7 @@
   background: #fff;
   font-size: 16px;
   line-height: 1.8;
+  max-width: 100%;
 }
 
 .page :is(h1, h2, h3, p, ul, ol) {
@@ -14,11 +15,15 @@
   font-weight: 700;
   word-break: keep-all;
   line-break: strict;
+  /* keep-all だけでは収まらない長い見出しをコンテナ幅内で折り返す */
+  overflow-wrap: anywhere;
 }
 
 .container {
   width: min(1120px, calc(100% - 48px));
+  max-width: 100%;
   margin-inline: auto;
+  box-sizing: border-box;
 }
 
 .kicker {
@@ -44,6 +49,10 @@
 
 .heroGrid > * {
   min-width: 0;
+}
+
+.heroGrid > *:last-child {
+  justify-self: stretch;
 }
 
 .heroTitle {
@@ -395,6 +404,14 @@
   .steps,
   .roleList {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .heroGrid {
+    gap: 36px;
+  }
+
+  .heroGrid > *:last-child {
+    margin-top: 8px;
   }
 
   .hero {

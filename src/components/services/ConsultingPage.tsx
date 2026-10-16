@@ -5,7 +5,8 @@ import { ArrowRight } from "lucide-react";
 import { ConsultingExamples } from "./ConsultingInteractions";
 import { ConsultingResultSample } from "./ConsultingResultSample";
 import { ServicePageLinks } from "./ServicePageNavigation";
-import { ServiceHeroProcessDiagram } from "./ServiceHeroProcessDiagram";
+import { SERVICE_HERO_PROCESS_PAGE_CONFIG } from "@/lib/content/service-hero-process-stages";
+import { ServiceFlowDiagram } from "./ServiceFlowDiagram";
 import styles from "./consulting-final.module.css";
 
 const roles = [
@@ -62,7 +63,11 @@ export function ConsultingPage() {
               <span>改善案を比較したうえで、取り組む範囲と進め方を決めます。</span>
             </p>
           </div>
-          <ServiceHeroProcessDiagram pageKey="consulting" readable />
+          <ServiceFlowDiagram
+            highlightedStageIds={
+              SERVICE_HERO_PROCESS_PAGE_CONFIG.consulting.highlightedStageIds
+            }
+          />
         </div>
       </section>
 
