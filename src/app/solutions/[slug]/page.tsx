@@ -18,14 +18,14 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   if (slug === "construction") {
-    return { title: "建設の記録デモ | AXEON" };
+    return { title: "建設の記録デモ" };
   }
   const item = getIndustryShowcaseBySlug(slug);
   if (!item) {
-    return { title: "ページが見つかりません | AXEON" };
+    return { title: "ページが見つかりません" };
   }
   return {
-    title: `${item.label}向けの改善ヒント | AXEON`,
+    title: `${item.label}向けの改善ヒント`,
     description: item.metaDescription,
   };
 }

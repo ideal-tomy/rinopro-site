@@ -11,7 +11,7 @@ export const constructionIndustryLp: IndustryLpConfig = {
   demoName: "建設の記録デモ",
   demoUrl: hubUrl,
   ogp: {
-    title: "建設の記録デモ｜現場写真の整理から報告書の作成まで | AXEON",
+    title: "建設の記録デモ｜現場写真の整理から報告書の作成まで",
     description:
       "現場で撮った写真を、事務所で何度も入力し直さずに、日報や工事写真台帳までつなげます。1現場から無償で試せます。",
     image: {

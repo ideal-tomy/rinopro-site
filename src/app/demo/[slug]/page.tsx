@@ -19,9 +19,9 @@ export async function generateMetadata({
 }: DemoDetailPageProps): Promise<Metadata> {
   const { slug } = await params;
   const demo = await fetchDemoBySlug(slug);
-  if (!demo) return { title: "Demo | AXEON" };
+  if (!demo) return { title: "Demo" };
   return {
-    title: `${demo.title} | AXEON`,
+    title: demo.title,
     description: demo.description ?? demo.oneLiner ?? "ツールdemoの詳細",
   };
 }

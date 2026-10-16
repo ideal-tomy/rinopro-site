@@ -1,8 +1,8 @@
 .page {
-  color: #1a1a1a;
-  background: #fff;
-  font-size: 16px;
-  line-height: 1.8;
+  color: var(--ax-text-body);
+  background: var(--ax-surface-card);
+  font-size: var(--ax-body-size);
+  line-height: var(--ax-body-lh);
   max-width: 100%;
 }
 
@@ -11,7 +11,7 @@
 }
 
 .page :is(h1, h2, h3) {
-  color: #1a1a1a;
+  color: var(--ax-text-heading);
   font-weight: 700;
   word-break: keep-all;
   line-break: strict;
@@ -20,7 +20,7 @@
 }
 
 .container {
-  width: min(1120px, calc(100% - 48px));
+  width: min(var(--ax-container-max), calc(100% - var(--ax-gutter) * 2));
   max-width: 100%;
   margin-inline: auto;
   box-sizing: border-box;
@@ -28,11 +28,11 @@
 
 .kicker {
   margin-bottom: 12px;
-  color: #26418e;
-  font-size: 13px;
+  color: var(--ax-brand-primary);
+  font-size: var(--ax-ui-label-size);
   font-weight: 700;
   letter-spacing: 0.14em;
-  line-height: 1.4;
+  line-height: var(--ax-ui-label-lh);
 }
 
 .hero {
@@ -82,12 +82,12 @@
 }
 
 .section {
-  padding-block: 96px;
-  background: #fff;
+  padding-block: var(--ax-section-standard-y);
+  background: var(--ax-surface-card);
 }
 
 .sectionMuted {
-  background: #f4f4f2;
+  background: var(--ax-surface-muted);
 }
 
 .sectionTitle {
@@ -404,6 +404,24 @@
   .steps,
   .roleList {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .exampleDiagram {
+    width: 100%;
+  }
+
+  .exampleDiagramSteps {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .exampleDiagramArrow {
+    transform: rotate(90deg);
+  }
+
+  .exampleDiagramStep {
+    font-size: 15px;
   }
 
   .heroGrid {

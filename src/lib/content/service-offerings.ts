@@ -87,7 +87,7 @@ export type ServiceOfferingDetail = {
 const OFFERINGS: readonly ServiceOfferingDetail[] = [
   {
     slug: "dx-strategy",
-    metaTitle: "DX戦略設計 | サービス | AXEON",
+    metaTitle: "DX戦略設計 | サービス",
     metaDescription:
       "経営と現場の認識ギャップを縮め、実装可能な優先順位へ落とし込むDX戦略設計。論点整理から実行計画までの進め方と検討項目を解説します。",
     hero: {
@@ -186,7 +186,7 @@ const OFFERINGS: readonly ServiceOfferingDetail[] = [
   },
   {
     slug: "ai-apps",
-    metaTitle: "AI業務アプリ開発 | サービス | AXEON",
+    metaTitle: "AI業務アプリ開発 | サービス",
     metaDescription:
       "現場運用を前提にしたAI業務アプリ開発。試作検証で止まりがちな進め方を避けるコツ、検討すべき技術・運用論点、自社開発との役割分担までを整理します。",
     hero: {
@@ -284,7 +284,7 @@ const OFFERINGS: readonly ServiceOfferingDetail[] = [
   },
   {
     slug: "data-platform",
-    metaTitle: "データ活用基盤構築 | サービス | AXEON",
+    metaTitle: "データ活用基盤構築 | サービス",
     metaDescription:
       "分散したデータを意思決定と現場の両方で使える形に整えるデータ活用基盤。設計論点、導入ステップ、内製との分担までを解説します。",
     hero: {
@@ -522,7 +522,7 @@ const OFFERINGS: readonly ServiceOfferingDetail[] = [
   },
   {
     slug: "industry-solutions",
-    metaTitle: "業界別ソリューション | サービス | AXEON",
+    metaTitle: "業界別ソリューション | サービス",
     metaDescription:
       "業種固有の制約を踏まえたDX・AI導入の考え方。業界ハブへの導線と、検討すべき論点・進め方のフレームをまとめています。",
     hero: {
@@ -621,7 +621,7 @@ const OFFERINGS: readonly ServiceOfferingDetail[] = [
   },
   {
     slug: "continuous-improvement",
-    metaTitle: "伴走型改善運用 | サービス | AXEON",
+    metaTitle: "伴走型改善運用 | サービス",
     metaDescription:
       "リリース後のモニタリング・インシデント対応・改善バックログまで伴走する運用支援。自社運用との分担と進め方のフレームを解説します。",
     hero: {

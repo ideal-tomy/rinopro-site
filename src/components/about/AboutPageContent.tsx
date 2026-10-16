@@ -19,7 +19,7 @@ const heroSentences = hero.sub.split("。").filter(Boolean);
 
 export function AboutPageContent() {
   return (
-    <div className={"about-page-content " + styles.page}>
+    <div className={"ax-page about-page-content " + styles.page} data-ax-theme="corporate">
       <section className={styles.hero} aria-labelledby="about-hero-heading" data-scroll-reveal="group">
         <div className={styles.container}>
           <p className={styles.kicker} {...aboutReveal(0, true)}><span className={styles.desktopOnly}>{hero.kicker}</span><span className={styles.mobileOnly}>AXEONについて</span></p>

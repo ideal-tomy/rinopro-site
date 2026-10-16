@@ -12,6 +12,19 @@ import {
 } from "@/lib/content/demo-showcase-samples";
 import type { TopFeaturedDemo } from "@/lib/content/top-featured-demos";
 
+/** lg 二列時：文案列とデモ列の共通行高（左の 5xl 見出しで行が伸びないようにする） */
+const FEATURED_LG_ROW =
+  "lg:h-[420px] lg:max-h-[420px] lg:overflow-hidden";
+
+/** デモ枠の高さ（min だけだと中身で伸びるため max-h を常にセット） */
+const FEATURED_DEMO_VIEWPORT = [
+  "min-h-0 overflow-hidden",
+  "h-[260px] max-h-[260px]",
+  "sm:h-[300px] sm:max-h-[300px]",
+  "md:h-[340px] md:max-h-[340px]",
+  FEATURED_LG_ROW,
+].join(" ");
+
 const approvalSteps = [
   "図面指定を読み取り",
   "証明書と突合せ",
@@ -23,17 +36,17 @@ const childcareShots = [
   {
     src: "/images/demo-showcase/childcare/today.png",
     alt: "今日の様子。園長確認待ちや園児・設備の記録が一覧できる画面",
-    className: "col-span-2 aspect-[16/9]",
+    className: "col-span-2 min-h-0",
   },
   {
     src: "/images/demo-showcase/childcare/report-slide.png",
     alt: "すべり台の報告書。写真付きで設備異常と根拠ルールが残る詳細",
-    className: "aspect-[16/10]",
+    className: "min-h-0",
   },
   {
     src: "/images/demo-showcase/childcare/chat.png",
     alt: "質問・相談。園の決まりに沿って対応を確かめる画面",
-    className: "aspect-[16/10]",
+    className: "min-h-0",
   },
 ];
 
@@ -48,9 +61,9 @@ function ConstructionShowcase() {
   }, [isInView, reset, start]);
 
   return (
-    <section ref={ref as React.RefObject<HTMLElement>}>
-      <DemoFrame title="写真 → 報告">
-        <div className="grid items-start gap-4 lg:grid-cols-[0.8fr_0.3fr_1fr]">
+    <section ref={ref as React.RefObject<HTMLElement>} className="flex h-full flex-col">
+      <DemoFrame title="写真 → 報告" className="min-h-0 flex-1">
+        <div className="grid h-full min-h-0 gap-4 overflow-hidden lg:grid-cols-[0.8fr_0.3fr_1fr]">
           <div className="rounded-xl border border-[#D9DDE3] bg-white p-4">
             <p className="mb-3 text-xs font-medium uppercase tracking-wider text-[var(--site-fg-muted)]">
               現場写真
@@ -124,9 +137,9 @@ function ManufacturingShowcase() {
   }, [isInView, reset, start]);
 
   return (
-    <section ref={ref as React.RefObject<HTMLElement>}>
-      <DemoFrame title="質問 → 根拠付き回答">
-        <div className="grid gap-4 lg:grid-cols-[0.9fr_1fr_0.9fr]">
+    <section ref={ref as React.RefObject<HTMLElement>} className="flex h-full flex-col">
+      <DemoFrame title="質問 → 根拠付き回答" className="min-h-0 flex-1">
+        <div className="grid h-full min-h-0 gap-4 overflow-hidden lg:grid-cols-[0.9fr_1fr_0.9fr]">
           <div className="rounded-xl border border-[#D9DDE3] bg-white p-4">
             <p className="mb-2 text-xs font-medium uppercase tracking-wider text-[var(--site-fg-muted)]">
               現場の質問
@@ -138,7 +151,7 @@ function ManufacturingShowcase() {
               回答
             </p>
             <p
-              className={`text-sm leading-[1.5] text-gray-800 transition-opacity duration-500 ${
+              className={`line-clamp-5 text-sm leading-[1.5] text-gray-800 transition-opacity duration-500 ${
                 isComplete || logs.length > 1 ? "opacity-100" : "opacity-25"
               }`}
             >
@@ -192,9 +205,9 @@ function ApprovalShowcase() {
   ] as const;
 
   return (
-    <section ref={ref as React.RefObject<HTMLElement>}>
-      <DemoFrame title="図面 × 証明書 → 承認">
-        <div className="grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
+    <section ref={ref as React.RefObject<HTMLElement>} className="flex h-full flex-col">
+      <DemoFrame title="図面 × 証明書 → 承認" className="min-h-0 flex-1">
+        <div className="grid h-full min-h-0 gap-4 overflow-hidden lg:grid-cols-[1.2fr_0.8fr]">
           <div className="overflow-hidden rounded-xl border border-[#D9DDE3] bg-white">
             <div className="grid grid-cols-[1fr_1fr_1fr_0.9fr] gap-2 border-b border-[#D9DDE3] bg-gray-50 px-3 py-2 text-[10px] font-medium uppercase tracking-wider text-[var(--site-fg-muted)]">
               <span>項目</span>
@@ -275,13 +288,13 @@ function ApprovalShowcase() {
 
 function ChildcareShowcase() {
   return (
-    <section>
-      <DemoFrame title="今日の様子 → 報告書">
-        <div className="grid grid-cols-2 gap-2 sm:gap-3">
+    <section className="flex h-full flex-col">
+      <DemoFrame title="今日の様子 → 報告書" className="min-h-0 flex-1">
+        <div className="grid h-full min-h-0 grid-cols-2 grid-rows-[minmax(0,1.15fr)_minmax(0,0.85fr)] gap-2 sm:gap-3">
           {childcareShots.map((shot) => (
             <div
               key={shot.src}
-              className={`relative overflow-hidden rounded-lg border border-[#D9DDE3] bg-white ${shot.className}`}
+              className={`relative min-h-0 overflow-hidden rounded-lg border border-[#D9DDE3] bg-white ${shot.className}`}
             >
               <Image
                 src={shot.src}
@@ -315,7 +328,7 @@ function FeaturedShowcase({ demo }: { demo: TopFeaturedDemo }) {
 
 function ShowcaseWithTags({ demo }: { demo: TopFeaturedDemo }) {
   return (
-    <div className="relative">
+    <div className="relative flex h-full min-h-0 flex-col">
       <div className="absolute top-[2.85rem] left-2.5 z-10 flex max-w-[calc(100%-1.25rem)] flex-wrap gap-1 sm:top-[3.1rem] sm:left-3.5 sm:gap-1.5">
         {demo.tags.map((tag) => (
           <span
@@ -326,7 +339,9 @@ function ShowcaseWithTags({ demo }: { demo: TopFeaturedDemo }) {
           </span>
         ))}
       </div>
-      <FeaturedShowcase demo={demo} />
+      <div className="flex h-full min-h-0 flex-col [&>section]:min-h-0 [&>section]:flex-1">
+        <FeaturedShowcase demo={demo} />
+      </div>
     </div>
   );
 }
@@ -336,21 +351,21 @@ function FeaturedText({ demo }: { demo: TopFeaturedDemo }) {
     <div className="max-w-xl">
       <h3
         title={demo.title}
-        className="mb-2 truncate text-lg leading-tight font-bold text-[var(--site-fg)] sm:mb-3 sm:text-2xl md:mb-6 md:text-5xl md:leading-tight md:whitespace-normal"
+        className="mb-2 text-lg leading-tight font-bold text-[var(--site-fg)] sm:mb-3 sm:text-2xl sm:line-clamp-2 md:mb-4 md:text-3xl md:leading-tight lg:mb-5 lg:text-4xl lg:line-clamp-2"
       >
         {demo.title}
       </h3>
-      <p className="mb-3 line-clamp-2 text-sm leading-[1.5] text-[var(--site-fg)]/85 md:mb-6 md:line-clamp-none md:text-lg">
+      <p className="mb-3 line-clamp-2 text-sm leading-[1.5] text-[var(--site-fg)]/85 md:mb-4 md:text-base lg:mb-4 lg:text-lg">
         {demo.lead}
       </p>
       <div className="hidden space-y-2 text-sm md:block">
         <div className="flex gap-3">
           <span className="w-14 shrink-0 text-[var(--site-fg-muted)]">Before</span>
-          <span className="text-[var(--site-fg)]/80">{demo.before}</span>
+          <span className="line-clamp-2 text-[var(--site-fg)]/80">{demo.before}</span>
         </div>
         <div className="flex gap-3">
           <span className="text-brand-deep w-14 shrink-0 font-semibold">After</span>
-          <span className="text-[var(--site-fg)]">{demo.after}</span>
+          <span className="line-clamp-2 text-[var(--site-fg)]">{demo.after}</span>
         </div>
       </div>
       {demo.sampleNote ? (
@@ -390,9 +405,13 @@ export function TopFeaturedDemoShowcase({ demos }: Props) {
           id={`featured-${demo.id}`}
           className="scroll-mt-[13.5rem] rounded-2xl border border-[var(--site-border)] bg-[var(--df-bg)] p-3 sm:rounded-[28px] sm:p-6 md:scroll-mt-[16rem] md:p-8 lg:scroll-mt-[18rem] lg:p-10"
         >
-          <div className="grid items-center gap-4 sm:gap-8 lg:grid-cols-2 lg:gap-10">
-            <FeaturedText demo={demo} />
-            <ShowcaseWithTags demo={demo} />
+          <div className="grid min-h-0 gap-4 sm:gap-8 lg:grid-cols-2 lg:items-start lg:gap-10">
+            <div className={`min-h-0 ${FEATURED_LG_ROW}`}>
+              <FeaturedText demo={demo} />
+            </div>
+            <div className={`flex flex-col ${FEATURED_DEMO_VIEWPORT}`}>
+              <ShowcaseWithTags demo={demo} />
+            </div>
           </div>
           <div className="mt-4 sm:mt-6 md:mt-8">
             <FeaturedActions demo={demo} />

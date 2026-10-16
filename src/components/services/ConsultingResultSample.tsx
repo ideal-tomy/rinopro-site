@@ -1,5 +1,3 @@
-import styles from "./consulting-page.module.css";
-
 const rows = [
   ["現在の課題", "同じ受注情報を複数のシステムに入力"],
   ["検討した方法", "業務手順の変更・データ連携・システム改修"],
@@ -10,16 +8,16 @@ const rows = [
 /** 架空の構成例。実績や標準納品物ではない。 */
 export function ConsultingResultSample() {
   return (
-    <figure className={styles.paper} aria-label="検討資料の構成例">
-      <div className={styles.paperHeader}>
+    <figure className="ax-evidence-paper" aria-label="検討資料の構成例">
+      <div className="ax-evidence-paper__header">
         <p>改善案の検討資料</p>
         <p>構成例 / SAMPLE</p>
       </div>
-      <p className={styles.paperTitle}>受注情報の入力業務</p>
-      <p className={styles.paperMeta}>検討対象：営業部門・事務部門</p>
-      <dl className={styles.paperRows}>
+      <p className="ax-evidence-paper__title">受注情報の入力業務</p>
+      <p className="ax-evidence-paper__meta">検討対象：営業部門・事務部門</p>
+      <dl className="ax-evidence-paper__rows">
         {rows.map(([term, detail]) => (
-          <div key={term}>
+          <div key={term} className="ax-evidence-paper__row">
             <dt>{term}</dt>
             <dd>{detail}</dd>
           </div>

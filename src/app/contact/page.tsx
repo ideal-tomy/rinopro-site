@@ -4,7 +4,7 @@ import { PageShell } from "@/components/layout/PageShell";
 import { ContactPageContent } from "@/components/contact/ContactPageContent";
 
 export const metadata: Metadata = {
-  title: "問い合わせ | AXEON",
+  title: "問い合わせ",
   description:
     "ご相談内容をフォームからお送りいただける窓口です。2営業日以内に担当者よりご返信します。",
 };

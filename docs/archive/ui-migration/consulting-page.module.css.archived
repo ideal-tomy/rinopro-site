@@ -43,8 +43,9 @@
   scroll-margin-top: 88px;
 }
 .container {
-  width: calc(100% - 96px);
-  max-width: 1280px;
+  box-sizing: border-box;
+  width: min(var(--ax-container-max), calc(100% - var(--ax-gutter) * 2));
+  max-width: 100%;
   margin-inline: auto;
 }
 .section {

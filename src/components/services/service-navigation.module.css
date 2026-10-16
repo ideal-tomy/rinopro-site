@@ -85,3 +85,33 @@
 .page .sectionNav a:focus-visible {
   outline-offset: -4px;
 }
+
+/* consulting-page.module.css から移設（C-2: 参照ゼロ化） */
+.anchorBar {
+  border-bottom: 1px solid #d5e2f2;
+  background: #fff;
+}
+.anchorBar > div {
+  display: flex;
+  gap: 36px;
+}
+.anchorBar a {
+  display: block;
+  padding-block: 18px;
+  color: #234b9d;
+  text-decoration: none;
+  border-bottom: 3px solid transparent;
+}
+.anchorBar .initialAnchor {
+  border-bottom-color: #234b9d;
+  font-weight: 700;
+}
+@media (max-width: 767px) {
+  .anchorBar > div {
+    gap: 28px;
+  }
+  .anchorBar a {
+    font-size: 16px;
+    padding-block: 14px;
+  }
+}

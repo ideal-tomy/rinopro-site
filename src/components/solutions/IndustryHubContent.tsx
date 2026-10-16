@@ -15,7 +15,7 @@ export function IndustryHubContent({ item }: IndustryHubContentProps) {
   const relatedCaseStudySlugs = hub.relatedCaseStudySlugs ?? [];
 
   return (
-    <>
+    <div className="ax-page" data-ax-theme="corporate">
       <section className="container mx-auto max-w-3xl px-4 py-12 md:px-6 md:py-16">
         <div className="relative aspect-video max-h-[min(100vw,22rem)] overflow-hidden rounded-2xl border border-[var(--color-border-light)] md:max-h-[20rem]">
           <Image
@@ -156,6 +156,6 @@ export function IndustryHubContent({ item }: IndustryHubContentProps) {
           </Button>
         </div>
       </section>
-    </>
+    </div>
   );
 }

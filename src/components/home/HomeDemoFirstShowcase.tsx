@@ -18,13 +18,8 @@ export function HomeDemoFirstShowcase() {
           id="home-demos-heading"
           className={HOME_DEMO_SHOWCASE_STYLES.heading}
         >
-          
-          <br className="hidden md:inline" />
           動くデモで確かめる。
         </h2>
-        <p className={HOME_DEMO_SHOWCASE_STYLES.body}>
-          
-        </p>
       </div>
 
       <TopFeaturedDemoShowcase demos={demos} />

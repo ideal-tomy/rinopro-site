@@ -17,7 +17,8 @@
     "verify:contact-handoff": "tsx scripts/verify-contact-handoff.ts",
     "verify:contact-mail": "tsx scripts/verify-contact-mail-triage.ts",
     "report:demo-catalog": "tsx scripts/report-demo-catalog-status.ts",
-    "patch:demo-catalog-hide-chat-only": "tsx scripts/patch-listed-on-catalog-hide-without-experience.ts"
+    "patch:demo-catalog-hide-chat-only": "tsx scripts/patch-listed-on-catalog-hide-without-experience.ts",
+    "verify:ax-ui": "node scripts/verify-ax-ui.mjs"
   },
   "dependencies": {
     "@ai-sdk/google": "^3.0.52",

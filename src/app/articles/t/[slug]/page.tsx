@@ -51,9 +51,9 @@ export default async function ThemeArticlePage({ params }: PageProps) {
 
   return (
     <PageShell>
-      <div className="min-h-screen">
-        <div className="border-b border-[var(--color-border-light)]">
-          <div className="mx-auto flex w-[min(100%-40px,940px)] flex-wrap items-center gap-x-2 py-1.5 text-xs text-[var(--color-text-secondary)]">
+      <div className="ax-page min-h-screen" data-ax-theme="corporate">
+        <div className="border-b border-[var(--ax-border-subtle)]">
+          <div className="ax-container-reading flex flex-wrap items-center gap-x-2 py-1.5 text-xs text-[var(--ax-text-supporting)]">
             <Link
               href="/"
               className="no-underline hover:text-[var(--color-accent-primary)] hover:no-underline"

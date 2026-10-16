@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const config = getIndustryLp(slug);
   if (!config) {
-    return { title: "ページが見つかりません | AXEON" };
+    return { title: "ページが見つかりません" };
   }
   return {
     title: config.ogp.title,

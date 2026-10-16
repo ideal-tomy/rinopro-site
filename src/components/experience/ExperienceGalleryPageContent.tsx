@@ -32,7 +32,11 @@ function ShowcaseGrid({
   return (
     <ul className="mt-10 grid list-none gap-8 sm:grid-cols-2 lg:grid-cols-3 lg:gap-10">
       {items.map((item) => (
-        <li key={item.slug} id={`demo-${item.slug}`} className="scroll-mt-28">
+        <li
+          key={item.slug}
+          id={`demo-${item.slug}`}
+          className="h-full scroll-mt-28"
+        >
           <ImplementationShowcaseCard item={item} />
         </li>
       ))}
@@ -60,21 +64,21 @@ export function ExperienceGalleryPageContent() {
   const isFilteredView = activeCategory !== "all";
 
   return (
-    <div className="pb-24 pt-10 md:pb-32 md:pt-14">
+    <div className="ax-page pb-24 pt-10 md:pb-32 md:pt-14" data-ax-theme="corporate">
       <section
-        className="container mx-auto max-w-6xl px-4 text-center md:px-6"
+        className="ax-container-wide text-center"
         aria-labelledby="experience-gallery-hero-heading"
       >
-        <p className="text-[13px] font-semibold uppercase tracking-[0.15em] text-[var(--color-accent-primary)] md:text-sm">
+        <p className="ax-role-eyebrow">
           {hero.kicker}
         </p>
         <h1
           id="experience-gallery-hero-heading"
-          className="mt-3 text-balance text-[clamp(1.75rem,4.2vw,2.75rem)] font-bold leading-tight tracking-tight text-[var(--color-text-primary)] md:mt-4"
+          className="ax-role-page-title mt-3 text-balance"
         >
           {hero.title}
         </h1>
-        <p className="mx-auto mt-5 max-w-[48ch] text-[16px] leading-[1.5] text-[var(--color-text-secondary)] md:mt-6 md:text-[17px]">
+        <p className="ax-role-lead mx-auto mt-5 max-w-[48ch] text-[var(--ax-text-supporting)]">
           {hero.lead}
         </p>
       </section>

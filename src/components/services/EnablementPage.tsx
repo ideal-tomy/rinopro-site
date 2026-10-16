@@ -1,7 +1,6 @@
 "use client";
 
 import shared from "./service-landing-shared.module.css";
-import base from "./consulting-page.module.css";
 import styles from "./enablement-page.module.css";
 import { ServicePageLinks } from "./ServicePageNavigation";
 import navigation from "./service-navigation.module.css";
@@ -11,12 +10,14 @@ import { EnablementPreSupportCards } from "./EnablementPreSupportCards";
 import { EnablementExternalItSections } from "./EnablementExternalItSections";
 import { SERVICE_HERO_PROCESS_PAGE_CONFIG } from "@/lib/content/service-hero-process-stages";
 import { ServiceFlowDiagram } from "./ServiceFlowDiagram";
+import { axLayout } from "@/lib/ui/ax-typography";
 
 export function EnablementPage() {
   const checksReveal = useEnablementSectionReveal();
   return (
     <div
-      className={`${shared.page} ${styles.page} ${navigation.page}`}
+      className={`ax-page ${shared.page} ${styles.page} ${navigation.page}`}
+      data-ax-theme="corporate"
       data-scroll-reveal="off"
       data-service-page
     >
@@ -52,10 +53,10 @@ export function EnablementPage() {
       <section
         ref={checksReveal}
         id="checks"
-        className={`${base.section} ${styles.checksSection}`}
+        className={`${axLayout.sectionStandard} ${styles.checksSection}`}
         aria-labelledby="checks-title"
       >
-        <div className={base.container}>
+        <div className={axLayout.containerWide}>
           <h2 id="checks-title" className={headingAccentRuleClasses.default}>
             支援を始める前に
           </h2>

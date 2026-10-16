@@ -1,11 +1,13 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import "../styles/axeon-ui.css";
+@import "../styles/axeon-themes.css";
 
 @custom-variant dark (&:is(.dark *));
 
 /* Design Tokens - docs/デザイン要件.md */
 :root {
-  --line-height-body: 1.5;
+  --line-height-body: 1.75;
   --color-base: #fafaf8;
   --color-base-dark: #f4f4f2;
   --color-bg-base: #fafaf8;
@@ -516,12 +518,4 @@
   [data-scroll-reveal-unit="true"] { opacity: 1 !important; transition: none !important; }
 }
 
-/* 本文行間 1.2: Tailwind leading-* / CSS Modules の上書き（見出し要素は対象外） */
-p,
-li,
-dd,
-figcaption,
-blockquote,
-td {
-  line-height: var(--line-height-body) !important;
-}
+/* 本文行間: 役割別クラス（ax-role-*）と .ax-prose を優先。要素一律の !important は廃止（AXEON_UI共通ルール） */

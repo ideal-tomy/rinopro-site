@@ -74,9 +74,11 @@ export function DemoDetailContent({
     <>
     <div
       className={cn(
-        "container mx-auto px-4 py-6 pb-28 md:py-16 md:pb-32 md:px-6",
+        "ax-page container mx-auto px-4 py-6 pb-28 md:py-16 md:pb-32 md:px-6",
         useImmersiveFirst ? "max-w-6xl" : "max-w-3xl"
       )}
+      data-ax-theme="corporate"
+      data-ax-density="compact"
     >
       {/* 1. タイトル（モバイルでコンパクト） */}
       <div className="mb-3 flex flex-wrap items-center gap-2 md:mb-4 md:gap-3">
@@ -137,7 +139,7 @@ export function DemoDetailContent({
           でも同じ内容を開けます。
         </p>
       ) : experienceHref ? (
-        <div className="mb-6 rounded-lg border border-accent/30 bg-accent/5 px-4 py-3 text-sm md:text-base">
+        <div className="mb-6 rounded-lg border border-accent/30 bg-accent/5 px-4 py-3 text-sm md:text-[16px]">
           <p className="mb-2 text-text-sub">
             画面操作の体験版（プロトタイプ）があります。
           </p>

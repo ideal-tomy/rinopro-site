@@ -16,15 +16,21 @@
 .page :is(h1, h2, h3) { color: var(--about-navy); font-weight: 700; word-break: keep-all; }
 .page :is(h1, h2, h3, p, dd) { overflow-wrap: anywhere; }
 .page :is(ul, ol) { padding: 0; list-style: none; }
-.container { width: 100%; max-width: 1280px; padding-inline: 32px; margin-inline: auto; }
-.section { padding-block: 80px; scroll-margin-top: 96px; }
+.container {
+  box-sizing: border-box;
+  width: min(var(--ax-container-max), calc(100% - var(--ax-gutter) * 2));
+  max-width: 100%;
+  margin-inline: auto;
+}
+.section { padding-block: var(--ax-section-standard-y); scroll-margin-top: 96px; }
 .pale { background: var(--about-pale); }
-.header { margin-bottom: 32px; }
-.kicker { color: var(--about-blue); font-size: 12px; font-weight: 700; letter-spacing: .12em; line-height: 1.6; }
-.page .heading { font-size: clamp(26px, 2.5vw, 34px); letter-spacing: -.03em; line-height: 1.45; }
-.kicker + .heading { margin-top: 10px; }
-.body { font-size: 16px; line-height: var(--line-height-body, 1.5); }
-.paragraphs { display: grid; gap: 22px; }
+.header { margin-bottom: var(--ax-heading-to-content, 28px); }
+.kicker { color: var(--about-blue); font-size: var(--ax-eyebrow-size, 0.75rem); font-weight: 700; letter-spacing: .12em; line-height: var(--ax-eyebrow-lh, 1.4); }
+/* ax-role-section-title 相当（PC 34 / SP 26） */
+.page .heading { font-size: var(--ax-section-title-size, 1.625rem); letter-spacing: -.03em; line-height: var(--ax-section-title-lh, 1.45); }
+.kicker + .heading { margin-top: var(--ax-heading-to-lead, 16px); }
+.body { font-size: var(--ax-body-size, 1rem); line-height: var(--ax-body-lh, 1.75); color: var(--ax-text-body, var(--about-body)); }
+.paragraphs { display: grid; gap: var(--ax-paragraph-gap, 16px); }
 .chevron { width: 18px; height: 18px; flex-shrink: 0; color: var(--about-blue); transition: transform 200ms ease; }
 [aria-expanded="true"] > .chevron { transform: rotate(180deg); }
 .icon { display: flex; align-items: center; justify-content: center; width: 56px; height: 56px; border-radius: 50%; background: #f0f6ff; color: var(--about-blue); flex-shrink: 0; }

@@ -3,8 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { SERVICE_DETAIL_LINKS } from "@/lib/ui/service-navigation";
-import base from "./consulting-page.module.css";
 import styles from "./service-navigation.module.css";
+import { axLayout } from "@/lib/ui/ax-typography";
 
 export function ServicePageLinks({
   current,
@@ -22,7 +22,7 @@ export function ServicePageLinks({
       }
       className={styles.pageLinks}
     >
-      <div className={base.container}>
+      <div className={axLayout.containerWide}>
         <div>
           <Link href="/services">← ご支援内容へ戻る</Link>
           {!bottom && (
@@ -100,16 +100,16 @@ export function ServiceSectionNav({
   return (
     <nav
       ref={nav}
-      className={`${base.anchorBar} ${styles.sectionNav}`}
+      className={`${styles.anchorBar} ${styles.sectionNav}`}
       aria-label={label}
     >
-      <div className={base.container}>
+      <div className={axLayout.containerWide}>
         {items.map(([id, title]) => (
           <a
             key={id}
             href={`#${id}`}
             aria-current={active === id ? "location" : undefined}
-            className={active === id ? base.initialAnchor : undefined}
+            className={active === id ? styles.initialAnchor : undefined}
           >
             {title}
           </a>

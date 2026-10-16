@@ -28,7 +28,7 @@ const steps = [
 ];
 export function ServicesPageContent() {
   return (
-    <div className={styles.page}>
+    <div className={`ax-page ${styles.page}`} data-ax-theme="corporate">
       <section
         className={styles.hero}
         aria-labelledby="services-heading"

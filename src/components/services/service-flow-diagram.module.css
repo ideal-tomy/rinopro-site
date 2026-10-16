@@ -54,10 +54,22 @@
     "Hiragino Kaku Gothic ProN",
     Meiryo,
     sans-serif;
-  font-size: clamp(11px, 1.24vw, 15px);
+  /* SP でも主説明は 15px 以上（AXEON UI 共通ルール） */
+  font-size: clamp(15px, 1.24vw, 15px);
   font-weight: 400;
   line-height: 1.5;
   color: #42516a;
+}
+
+@media (max-width: 767px) {
+  .wrap {
+    /* 図全体の横押し広げを防ぎ、内部スクロールに限定 */
+    max-width: 100%;
+  }
+
+  .contentBox {
+    padding: 6% 7% 5%;
+  }
 }
 
 .contentBoxEmphasized {

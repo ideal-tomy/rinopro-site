@@ -45,8 +45,9 @@
 }
 
 .container {
-  width: calc(100% - 12.8%);
-  max-width: 1140px;
+  box-sizing: border-box;
+  width: min(var(--ax-container-max), calc(100% - var(--ax-gutter) * 2));
+  max-width: 100%;
   margin-inline: auto;
 }
 .section {

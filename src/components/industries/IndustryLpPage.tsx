@@ -10,14 +10,13 @@ import type {
 import { IndustryLpRoiSection } from "@/components/industries/IndustryLpRoiSection";
 import { cn } from "@/lib/utils";
 
-/** ideal DemoLp brand に合わせたライトモード配色 */
-const LP = {
-  primary: "#0F766E",
-  primaryHover: "#0d6660",
-  accent: "#F59E0B",
-  ink: "#0F172A",
-  surface: "#F8FAFC",
-} as const;
+/** 既定は axeon-themes `[data-ax-theme="lp"]`。上書きが必要なときだけ設定 */
+const LP_OVERRIDES: Partial<{
+  primary: string;
+  accent: string;
+  ink: string;
+  surface: string;
+}> = {};
 
 function CtaLink({
   cta,
@@ -100,13 +99,20 @@ export function IndustryLpPage({ config }: { config: IndustryLpConfig }) {
 
   return (
     <div
-      className="demo-lp min-h-screen bg-[var(--lp-surface)] text-[var(--lp-ink)]"
+      className="demo-lp ax-page min-h-screen bg-[var(--lp-surface)] text-[var(--lp-ink)]"
+      data-ax-theme="lp"
       style={
         {
-          "--lp-primary": LP.primary,
-          "--lp-accent": LP.accent,
-          "--lp-ink": LP.ink,
-          "--lp-surface": LP.surface,
+          ...(LP_OVERRIDES.primary
+            ? { "--lp-primary": LP_OVERRIDES.primary }
+            : null),
+          ...(LP_OVERRIDES.accent
+            ? { "--lp-accent": LP_OVERRIDES.accent }
+            : null),
+          ...(LP_OVERRIDES.ink ? { "--lp-ink": LP_OVERRIDES.ink } : null),
+          ...(LP_OVERRIDES.surface
+            ? { "--lp-surface": LP_OVERRIDES.surface }
+            : null),
           colorScheme: "light",
         } as CSSProperties
       }

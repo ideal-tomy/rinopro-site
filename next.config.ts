@@ -15,16 +15,8 @@ const nextConfig: NextConfig = {
     root: projectRoot,
   },
   async rewrites() {
-    return [
-      {
-        source: "/lp/chuken-enterprise-v2",
-        destination: "/lp/chuken-enterprise-v2.html",
-      },
-      {
-        source: "/lp/kaigo-care-dx",
-        destination: "/lp/kaigo-care-dx.html",
-      },
-    ];
+    // /lp/kaigo-care-dx・/lp/chuken-enterprise-v2 は App Router へ移行済み
+    return [];
   },
   async redirects() {
     return [

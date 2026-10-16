@@ -10,7 +10,7 @@ export const manufacturingIndustryLp: IndustryLpConfig = {
   demoName: "製造の判断デモ",
   demoUrl: hubUrl,
   ogp: {
-    title: "製造の判断デモ｜聞いて、根拠付きで答えにたどり着く | AXEON",
+    title: "製造の判断デモ｜聞いて、根拠付きで答えにたどり着く",
     description:
       "規程・手順・判断基準を探し回る時間を減らし、回答と出典をセットで返します。製造ハブで体験できます。",
     image: {

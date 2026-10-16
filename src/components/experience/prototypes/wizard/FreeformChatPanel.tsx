@@ -28,13 +28,13 @@ export function FreeformChatPanel({
       )}
     >
       <p className="mb-1 text-xs text-text-sub">自由入力</p>
-      <h2 className="mb-3 text-base font-semibold text-accent md:text-lg">
+      <h2 className="mb-3 text-[16px] font-semibold text-accent md:text-lg">
         内容を具体的に書いてください
       </h2>
-      <p className="mb-4 rounded-lg border border-silver/15 bg-silver/5 p-2 text-xs leading-[1.5] text-text-sub">
+      <p className="mb-4 rounded-lg border border-silver/15 bg-silver/5 p-2 text-[15px] leading-[1.5] text-text-sub">
         選択済み: {contextLine}
       </p>
-      <p className="mb-2 text-xs text-text-sub">
+      <p className="mb-2 text-[15px] leading-[1.5] text-text-sub">
         これまでの選択とあわせて、登録ナレッジの範囲で回答します。
       </p>
       <div className="flex flex-col gap-3 sm:flex-row">

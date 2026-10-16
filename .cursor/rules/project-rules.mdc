@@ -9,6 +9,8 @@ alwaysApply: true
 
 ### 1.0 Tailwind 文字色・配色（重要・redesign-v2 ライト化前提）
 
+**UI 共通ルール（実装正本）:** `docs/最終改善/AXEON_UI共通ルール.md` / `src/styles/axeon-ui.css` / `src/components/ui/ax/*`。新規は `--ax-*` と `ax-role-*` を優先し、ページ名付き `*.module.css` は増やさない。
+
 **現行トークン（`src/app/globals.css`）**
 
 - `--color-bg-pure: #ffffff` / `--color-bg-base: #fafaf8` / `--color-bg-neutral: #f4f4f2`

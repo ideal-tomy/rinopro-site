@@ -12,7 +12,7 @@ import { HomeValuesSection } from "@/components/home/HomeValuesSection";
 export function HomeLandingPage() {
   return (
     <>
-      <div className="home-landing-copy home-top">
+      <div className="home-landing-copy home-top ax-page" data-ax-theme="corporate">
         <HomeFirstView />
         <HomeBrandStorySection />
         <HomeSectionShell tone="pure">

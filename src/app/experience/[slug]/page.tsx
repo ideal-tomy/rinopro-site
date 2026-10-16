@@ -58,16 +58,16 @@ export async function generateMetadata({
 
   if (liveMode) {
     const meta = getExperiencePrototypeBySlug(slug);
-    if (!meta) return { title: "体験 | AXEON" };
+    if (!meta) return { title: "体験" };
     return {
-      title: `${meta.title} | 体験 | AXEON`,
+      title: `${meta.title} | 体験`,
       description: meta.shortDescription,
     };
   }
 
   if (isFlagshipCaseStudySlug(slug)) {
     const detail = getCaseStudyDetail(slug);
-    if (!detail) return { title: "実装事例 | AXEON" };
+    if (!detail) return { title: "実装事例" };
     return {
       title: detail.metaTitle,
       description: detail.metaDescription,
@@ -79,14 +79,14 @@ export async function generateMetadata({
 
   if (isAllowedInteractiveExperienceSlug(slug)) {
     const meta = getExperiencePrototypeBySlug(slug);
-    if (!meta) return { title: "体験 | AXEON" };
+    if (!meta) return { title: "体験" };
     return {
-      title: `${meta.title} | 体験 | AXEON`,
+      title: `${meta.title} | 体験`,
       description: meta.shortDescription,
     };
   }
 
-  return { title: "体験 | AXEON" };
+  return { title: "体験" };
 }
 
 async function renderInteractiveExperience(
@@ -113,7 +113,11 @@ async function renderInteractiveExperience(
 
   return (
     <PageShell>
-      <div className="container mx-auto max-w-6xl px-4 pb-28 pt-8 md:px-6 md:pb-32 md:pt-14">
+      <div
+        className="ax-page container mx-auto max-w-6xl px-4 pb-28 pt-8 md:px-6 md:pb-32 md:pt-14"
+        data-ax-theme="corporate"
+        data-ax-density="compact"
+      >
         <nav className="mb-6 text-sm text-text-sub">
           <Link
             href={crumbBackHref}
@@ -200,11 +204,13 @@ export default async function ExperienceSlugPage({
 
     return (
       <PageShell>
-        <CaseStudyDetailView
-          detail={detail}
-          demoHref={demoHref}
-          demoOpenInNewTab={true}
-        />
+        <div className="ax-page" data-ax-theme="corporate">
+          <CaseStudyDetailView
+            detail={detail}
+            demoHref={demoHref}
+            demoOpenInNewTab={true}
+          />
+        </div>
       </PageShell>
     );
   }

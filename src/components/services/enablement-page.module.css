@@ -294,7 +294,12 @@
 }
 @media (max-width: 767px) {
   .page .stages {
-    width: calc(100% - 40px);
+    width: calc(100% - 24px);
+    gap: 12px;
+    margin-top: 20px;
+  }
+  .stages li {
+    padding: 20px 16px;
   }
   .checks {
     grid-template-columns: repeat(2, minmax(0, 1fr));

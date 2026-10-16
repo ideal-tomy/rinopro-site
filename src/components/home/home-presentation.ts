@@ -23,15 +23,15 @@ export const HOME_BRAND_STORY_STYLES = {
 
 export const HOME_DEMO_SHOWCASE_STYLES = {
   "section": "home-demo-first bg-[var(--df-bg-blue)] py-[clamp(40px,8vw,64px)] md:py-20",
-  "container": "container mx-auto max-w-6xl px-5 md:px-6",
+  "container": "ax-container-wide",
   "heading": "mb-4 text-[clamp(26px,5.6vw,40px)] leading-[1.5] font-bold text-[var(--df-text)] md:mb-6",
   "body": "mb-6 max-w-[640px] text-[16px] leading-[1.5] text-[var(--df-text-muted)] md:mb-8 md:text-[17px]",
-  "ctaContainer": "container mx-auto mt-8 flex max-w-6xl justify-center px-4 md:mt-10 md:px-6",
+  "ctaContainer": "ax-container-wide mt-8 flex justify-center md:mt-10",
   "cta": "inline-flex items-center gap-2.5 rounded-xl border border-[var(--site-border)] bg-[var(--df-bg)] px-7 py-3.5 font-bold text-[var(--df-text)] transition-colors hover:border-[var(--df-primary)]/45 hover:text-[var(--df-primary)]"
 } as const;
 
 export const HOME_INDUSTRY_STYLES = {
-  "section": "container mx-auto max-w-6xl scroll-mt-32 px-5 py-16 md:px-6 md:py-[120px]"
+  "section": "ax-container-wide scroll-mt-32 py-16 md:py-[120px]"
 } as const;
 
 export const HOME_VALUES_STYLES = {
@@ -45,7 +45,7 @@ export const HOME_VALUES_STYLES = {
 } as const;
 
 export const HOME_CEO_STYLES = {
-  "section": "container mx-auto max-w-6xl px-5 py-16 md:px-6 md:py-[120px] scroll-mt-28",
+  "section": "ax-container-wide py-16 md:py-[120px] scroll-mt-28",
   "role": "text-sm font-semibold tracking-wide text-[var(--color-accent-primary)]",
   "name": "text-2xl font-bold text-[var(--color-text-primary)]",
   "heading": "text-[28px] font-bold leading-tight text-[var(--color-text-primary)]",
@@ -53,7 +53,7 @@ export const HOME_CEO_STYLES = {
 } as const;
 
 export const HOME_FAQ_STYLES = {
-  "section": "container mx-auto max-w-3xl px-5 py-16 md:px-6 md:py-[120px] scroll-mt-32",
+  "section": "ax-container-reading py-16 md:py-[120px] scroll-mt-32",
   "list": "mx-auto mt-4 max-w-3xl list-none space-y-4",
   "question": "cursor-pointer list-none rounded-xl px-5 py-5 text-[17px] font-semibold leading-[1.5] text-[var(--color-text-primary)] text-balance marker:content-none [&::-webkit-details-marker]:hidden md:px-6 md:py-5 md:text-[18px]",
   "chevron": "mt-0.5 shrink-0 text-[var(--color-accent-primary)] transition group-open:rotate-180",
@@ -62,7 +62,7 @@ export const HOME_FAQ_STYLES = {
 
 export const HOME_CLOSING_CTA_STYLES = {
   "section": "border-t border-[var(--color-border-light)] bg-[var(--color-bg-pure)] py-[clamp(56px,12vw,88px)] text-center text-[var(--color-text-primary)] md:py-[clamp(72px,12vw,112px)]",
-  "container": "container mx-auto max-w-3xl px-5 md:px-6",
+  "container": "ax-container-reading",
   "heading": "mb-6 text-[clamp(24px,6.2vw,44px)] leading-[1.35] font-bold text-[var(--color-text-primary)]",
   "body": "mx-auto mb-8 max-w-[560px] text-left text-[16px] leading-[1.5] md:mb-10 md:text-center md:text-[17px] text-[var(--color-text-secondary)]",
   "primaryCta": "inline-flex min-h-12 w-full items-center justify-center gap-2.5 rounded-xl sm:w-auto bg-[var(--color-accent-primary)] px-8 py-4 text-lg font-bold text-white transition-transform hover:-translate-y-0.5 hover:bg-[var(--color-accent-primary-hover)]",

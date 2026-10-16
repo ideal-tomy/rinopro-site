@@ -38,7 +38,7 @@ export function DemoTelopOverlay({
           <div className="absolute inset-0 bg-slate-950" aria-hidden />
           <p
             className={cn(
-              "relative max-w-lg rounded-xl border border-emerald-500/30 bg-slate-900 px-4 py-3 text-center text-sm font-medium leading-[1.5] !text-white shadow-2xl sm:px-6 sm:py-4 sm:text-base"
+              "relative max-w-lg rounded-xl border border-emerald-500/30 bg-slate-900 px-4 py-3 text-center text-sm font-medium leading-[1.5] !text-white shadow-2xl sm:px-6 sm:py-4 sm:text-[16px]"
             )}
           >
             {text}

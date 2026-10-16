@@ -10,11 +10,13 @@ import {
   PrototypeToBusinessSection,
   WorkflowPrincipleSection,
 } from "@/components/prototype-showroom/ShowroomSupportSections";
+import { AxGallerySection } from "@/components/ui/ax/AxGallerySection";
 
 export function PrototypeShowroomContent() {
   return (
-    <>
+    <div className="ax-page" data-ax-theme="corporate">
       <ShowcaseHero />
+      <AxGallerySection />
       <FieldProblemSection />
       <WorkflowPrincipleSection />
 
@@ -33,6 +35,6 @@ export function PrototypeShowroomContent() {
       <PrototypeToBusinessSection />
       <CollaborationSection />
       <FinalCtaSection />
-    </>
+    </div>
   );
 }

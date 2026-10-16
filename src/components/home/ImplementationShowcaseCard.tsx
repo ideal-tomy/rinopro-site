@@ -106,7 +106,7 @@ export function ImplementationShowcaseCard({
         <h3 className="mt-2 text-balance text-[17px] font-semibold leading-snug text-[var(--color-text-primary)] md:text-lg">
           {item.productTitle}
         </h3>
-        <p className="mt-2 text-[15px] leading-[1.5] text-[var(--color-text-secondary)] md:text-[16px]">
+        <p className="mt-2 line-clamp-3 text-[15px] leading-[1.5] text-[var(--color-text-secondary)] md:text-[16px]">
           {item.catchCopy}
         </p>
         <p className="mt-4">

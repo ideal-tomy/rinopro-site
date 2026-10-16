@@ -23,7 +23,7 @@ const geist = Geist({
 const notoSansJP = Noto_Sans_JP({
   variable: "--font-noto-sans-jp",
   subsets: ["latin"],
-  weight: ["400"],
+  weight: ["400", "500", "700"],
   display: "swap",
   preload: false,
 });
@@ -91,7 +91,9 @@ export default function RootLayout({
       lang="ja"
       className={`${geist.variable} ${notoSansJP.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-[var(--color-base)] text-[var(--color-text)]">
+      <body
+        className="ax-site min-h-full flex flex-col bg-[var(--color-base)] text-[var(--color-text)]"
+      >
         {SITE_CONCIERGE_ENABLED ? (
           <ConciergeChatProvider>
             {shell}

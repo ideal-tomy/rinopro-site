@@ -1,0 +1,67 @@
+/**
+ * AXEON テーマ上書き（docs/ui-migration/themes.md）
+ * ルートに data-ax-theme="care" | "chuken" | "lp" を付与。
+ */
+
+[data-ax-theme="care"] {
+  --ax-brand-primary: #175e51;
+  --ax-link: #0f4438;
+  --ax-text-heading: #1c2522;
+  --ax-text-body: #1c2522;
+  --ax-text-supporting: #5a6660;
+  --ax-surface-page: #f6f4ee;
+  --ax-surface-card: #ffffff;
+  --ax-surface-muted: #edf1ec;
+  --ax-border-subtle: #e3e0d6;
+  --ax-focus-ring: #175e51;
+  --ax-theme-accent: #de8e33;
+  --ax-theme-demo-bg: #11342c;
+  --ax-theme-demo-fg: #eaf0ed;
+  --ax-theme-demo-muted: #a9c2b9;
+  --ax-theme-demo-note: #8faca3;
+  --ax-theme-ok: #3b8c6c;
+  --ax-theme-alert: #be5239;
+}
+
+[data-ax-theme="chuken"] {
+  --ax-brand-primary: #0a1f44;
+  --ax-link: #0a1f44;
+  --ax-text-heading: #1a1a1a;
+  --ax-text-body: #1a1a1a;
+  --ax-text-supporting: #6b6b6b;
+  --ax-surface-page: #fbfaf7;
+  --ax-surface-card: #ffffff;
+  --ax-surface-muted: #f3ebe0;
+  --ax-border-subtle: #e5e0d6;
+  --ax-focus-ring: #0a1f44;
+  --ax-theme-accent: #c84a3a;
+}
+
+[data-ax-theme="lp"] {
+  /* 業界 LP 既定（ページ側で --lp-* を上書き可） */
+  --lp-primary: #0f766e;
+  --lp-accent: #f59e0b;
+  --lp-ink: #0f172a;
+  --lp-surface: #f8fafc;
+  --ax-brand-primary: var(--lp-primary);
+  --ax-text-heading: var(--lp-ink);
+  --ax-text-body: var(--lp-ink);
+  --ax-surface-page: var(--lp-surface);
+  --ax-focus-ring: var(--lp-primary);
+  --ax-theme-accent: var(--lp-accent);
+}
+
+/* 高密度 UI（例外 density:compact） */
+[data-ax-density="compact"] {
+  --ax-body-lh: 1.5;
+  --ax-section-standard-y: 48px;
+  --ax-section-compact-y: 32px;
+  --ax-heading-to-content: 20px;
+}
+
+@media (min-width: 768px) {
+  [data-ax-density="compact"] {
+    --ax-section-standard-y: 64px;
+    --ax-section-compact-y: 48px;
+  }
+}

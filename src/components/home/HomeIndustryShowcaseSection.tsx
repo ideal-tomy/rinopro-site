@@ -26,7 +26,7 @@ export function HomeIndustryShowcaseSection() {
 
       <ul className="mt-10 grid list-none gap-8 sm:grid-cols-2 lg:mt-12 lg:grid-cols-3 lg:gap-10">
         {items.map((item) => (
-          <li key={item.slug}>
+          <li key={item.slug} className="h-full">
             <ImplementationShowcaseCard item={item} priorityImage={false} />
           </li>
         ))}

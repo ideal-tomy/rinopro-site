@@ -23,11 +23,11 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   if (LEGACY_OFFERING_REDIRECTS[slug]) {
-    return { title: "ご支援内容 | AXEON" };
+    return { title: "ご支援内容" };
   }
   const offering = getServiceOffering(slug);
   if (!offering) {
-    return { title: "ページが見つかりません | AXEON" };
+    return { title: "ページが見つかりません" };
   }
   const path = `/services/${slug}`;
   return {

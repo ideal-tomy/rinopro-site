@@ -33,7 +33,7 @@ export function GuidedStepPanel({
       )}
     >
       <p className="mb-1 text-xs text-text-sub">{breadcrumbTrail}</p>
-      <h2 className="mb-5 text-base font-semibold leading-snug text-text md:text-lg">
+      <h2 className="mb-5 text-[16px] font-semibold leading-snug text-text md:text-lg">
         {prompt}
       </h2>
       <div className="flex flex-col gap-2">

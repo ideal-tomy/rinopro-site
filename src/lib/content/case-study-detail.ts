@@ -60,7 +60,7 @@ export type CaseStudyDetail = {
 const DETAILS: readonly CaseStudyDetail[] = [
   {
     slug: "gempo",
-    metaTitle: "現場管理アプリ（GEMPO）| 実装事例 | AXEON",
+    metaTitle: "現場管理アプリ（GEMPO）| 実装事例",
     metaDescription:
       "建設・工事向け。現場と本社の情報分断を減らし、報告・配員・書類を一つのハブにまとめる実装サンプルの紹介です。",
     heroEyebrow: "GEMPO",
@@ -168,7 +168,7 @@ const DETAILS: readonly CaseStudyDetail[] = [
   },
   {
     slug: "recruit-cockpit",
-    metaTitle: "採用コックピット | 実装事例 | AXEON",
+    metaTitle: "採用コックピット | 実装事例",
     metaDescription:
       "人事・採用向け。候補者・選考ステージ・KPIを一画面で追い、選考の滞留と属人化を減らすパイプライン管理のサンプルです。",
     heroEyebrow: "採用コックピット",
@@ -267,7 +267,7 @@ const DETAILS: readonly CaseStudyDetail[] = [
   },
   {
     slug: "shift-auto",
-    metaTitle: "シフト管理自動システム（SHIFT AUTO）| 実装事例 | AXEON",
+    metaTitle: "シフト管理自動システム（SHIFT AUTO）| 実装事例",
     metaDescription:
       "飲食・サービス向け。スタッフの希望を取り込み、シフト案を素早く作成・調整するオペレーションの実装サンプルです。",
     heroEyebrow: "SHIFT AUTO",
@@ -361,7 +361,7 @@ const DETAILS: readonly CaseStudyDetail[] = [
   },
   {
     slug: "ma-dd-valueup",
-    metaTitle: "M&A DDプラットフォーム | 実装事例 | AXEON",
+    metaTitle: "M&A DDプラットフォーム | 実装事例",
     metaDescription:
       "M&A・投資向け。デューデリジェンスからバリューアップ、EXITまでを一気通貫で支援するシステムの実装サンプルです。",
     heroEyebrow: "M&A バリューアップ",
@@ -465,7 +465,7 @@ const DETAILS: readonly CaseStudyDetail[] = [
   },
   {
     slug: "smart-agri-copilot",
-    metaTitle: "スマート農業AI | 実装事例 | AXEON",
+    metaTitle: "スマート農業AI | 実装事例",
     metaDescription:
       "農業・アグリテック向け。圃場データと作業記録を現場で素早く整理し、栽培判断を支援するデモの実装サンプルです。",
     heroEyebrow: "Oriza Copilot",
@@ -569,7 +569,7 @@ const DETAILS: readonly CaseStudyDetail[] = [
   },
   {
     slug: "restaurant-ops-dashboard-demo",
-    metaTitle: "飲食店オペレーション・ダッシュボード | 実装事例 | AXEON",
+    metaTitle: "飲食店オペレーション・ダッシュボード | 実装事例",
     metaDescription:
       "飲食・サービス向け。売上・シフト・入金など店舗オペレーションを短時間で体感できるダッシュボードの実装サンプルです。",
     heroEyebrow: "Restaurant Ops",
@@ -664,7 +664,7 @@ const DETAILS: readonly CaseStudyDetail[] = [
   },
   {
     slug: "hr-evaluation-support",
-    metaTitle: "人事評価サポートAI | 実装事例 | AXEON",
+    metaTitle: "人事評価サポートAI | 実装事例",
     metaDescription:
       "人事・組織開発向け。評価コメントや面談準備を整理し、判断のムラを減らすAI支援ツールの実装サンプルです。",
     heroEyebrow: "人事評価サポートAI",
@@ -758,7 +758,7 @@ const DETAILS: readonly CaseStudyDetail[] = [
   },
   {
     slug: "handover-ai-charting",
-    metaTitle: "申し送りAI（自動カルテ作成）| 実装事例 | AXEON",
+    metaTitle: "申し送りAI（自動カルテ作成）| 実装事例",
     metaDescription:
       "医療・介護向け。音声メモから申し送り内容を素早く構造化するAI支援の実装サンプルです。",
     heroEyebrow: "申し送りAI",
@@ -852,7 +852,7 @@ const DETAILS: readonly CaseStudyDetail[] = [
   },
   {
     slug: "property-matching",
-    metaTitle: "物件マッチング | 実装事例 | AXEON",
+    metaTitle: "物件マッチング | 実装事例",
     metaDescription:
       "不動産向け。希望条件の整理と提案候補の比較を素早く行うマッチングUIの実装サンプルです。",
     heroEyebrow: "物件マッチング",
@@ -948,7 +948,7 @@ const DETAILS: readonly CaseStudyDetail[] = [
     slug: "internal-knowledge-bot",
     galleryNote:
       "業種横断デモの複数画面スクショは順次差し替え予定です。現時点は代表画面のイメージを掲載しています（`/experience/internal-knowledge-share-bot` で実際の操作をご確認ください）。",
-    metaTitle: "社内ナレッジ共有BOT | 実装事例 | AXEON",
+    metaTitle: "社内ナレッジ共有BOT | 実装事例",
     metaDescription:
       "業種別ナレッジに沿って回答し、ガイドツリーとチャットの両方から同じルールで案内する AI アシスタントの実装サンプルです。",
     heroEyebrow: "AI Knowledge Bot",

@@ -52,8 +52,8 @@ addSlugs('/solutions',getAllIndustryShowcaseSlugs(),'src/app/solutions/[slug]/pa
 addSlugs('/experience',[...FLAGSHIP_CASE_STUDY_SLUGS,...ALLOWED_INTERACTIVE_EXPERIENCE_SLUGS,...EXPERIENCE_PROTOTYPES.map(x=>x.slug),'shift-auto','hr-evaluation-support'],'src/app/experience/[slug]/page.tsx');
 addSlugs('/services',['insourcing-enablement','dx-strategy','industry-solutions','ai-apps','data-platform','continuous-improvement'],'src/app/services/[slug]/page.tsx');
 for(const f of walk('public').filter(f=>f.endsWith('.html'))) candidates.set('/'+f.slice(7),f);
-candidates.set('/lp/chuken-enterprise-v2','public/lp/chuken-enterprise-v2.html');
-candidates.set('/lp/kaigo-care-dx','public/lp/kaigo-care-dx.html');
+candidates.set('/lp/chuken-enterprise-v2','src/app/lp/chuken-enterprise-v2/page.tsx');
+candidates.set('/lp/kaigo-care-dx','src/app/lp/kaigo-care-dx/page.tsx');
 candidates.set('/studio','src/app/studio/[[...tool]]/page.tsx');
 for(const u of ['/cases','/case-studies'])candidates.set(u,'next.config.ts');
 const base=process.env.AUDIT_BASE_URL??'http://127.0.0.1:3000';
