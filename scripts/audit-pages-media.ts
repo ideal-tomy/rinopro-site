@@ -72,7 +72,7 @@ for(let i=0;!cached&&i<queue.length;i++) {
   const streamRedirect=body.match(/id="__next-page-redirect"[^>]*content="[^"]*url=([^";]+)/)?.[1]??'';
   const notFound=body.includes('NEXT_HTTP_ERROR_FALLBACK;404');
   const status=notFound?404:r.status;
-  results.push({url:u,status,redirect:loc||streamRedirect,title:clean(body.match(/<title>(.*?)<\/title>/s)?.[1]??''),source:candidates.get(u)??'リンクから検出',noindex:/name="robots" content="[^"]*noindex/.test(body)});
+  results.push({url:u,status,redirect:loc||streamRedirect,title:clean(body.match(/<title>([\s\S]*?)<\/title>/)?.[1]??''),source:candidates.get(u)??'リンクから検出',noindex:/name="robots" content="[^"]*noindex/.test(body)});
   if(status===200&&!loc&&!streamRedirect){htmls.set(u,body);const targets=new Set<string>();for(const m of body.matchAll(/<a\b[^>]*href="([^"]+)"/g)){const t=internal(m[1],u);if(t&&!/\.[a-z0-9]{2,5}$/i.test(t)&&!t.startsWith('/api/')&&!t.startsWith('/studio')){targets.add(t);if(!queue.includes(t)&&queue.length<300)queue.push(t);}}links.set(u,targets);}
  }catch(e){results.push({url:u,status:'ERROR',redirect:'',source:candidates.get(u)??'',title:String(e)});}
  if(i%20===0)console.log(`pages ${i+1}/${queue.length}`);
