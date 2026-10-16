@@ -7,8 +7,8 @@
 | ID | URL | 幅 | 部品 ID / 箇所 | 現象 | 重要度 | 対応方針 | 状態 |
 |----|-----|-----|----------------|------|--------|----------|------|
 | 1 | 複数（about / contact / industries / experience 等） | — | `layout.tsx` `metadata.template` | ページ側 title が既に `\| AXEON` を含むと、タブタイトルが `… \| AXEON \| AXEON` になる | P1 | 各 page / コンテンツ metaTitle から末尾 `\| AXEON` を外し template に一本化 | closed（fix/p1-design-signoff） |
-| 2 | `/` | 375/1280 | home.implementation-showcase-card（建物OS） | 「詳細」が「デモ体験」と同じ外部 URL（`obs-demo.vercel.app`） | P2 | 詳細を `/experience/...` または記事 URL に分離するか、意図ならラベル統一 | open |
-| 3 | `/lp/chuken-enterprise-v2` | 375 | グローバル Header + `ChukenSiteHeader` | SP でハンバーガーが二重（サイト全体メニューと LP 内アンカーメニュー） | P2 | LP ではグローバル SP メニューを抑止、または一本化 | open |
+| 2 | `/` | 375/1280 | home.implementation-showcase-card（建物OS・OpenEstate） | 「詳細」が「デモ体験」と同じ外部 URL だった | P2 | 外部デモのみの事例は `showDetailCta: false` で「詳細」を非表示 | closed |
+| 3 | `/lp/chuken-enterprise-v2` | 375 | グローバル Header + `ChukenSiteHeader` | SP でハンバーガーが二重（サイト全体メニューと LP 内アンカーメニュー） | P2 | `site-shell-routes` で chuken LP のグローバル Header/Footer を非表示 | closed |
 | 4 | `/lp/kaigo-care-dx` | — | `sitemap.ts` | 公開 LP だが `/sitemap.xml` に未掲載（chuken / showroom は noindex で除外妥当） | P1 | インデックス対象なら sitemap に追加 | closed（fix/p1-design-signoff） |
 
 ### 合格メモ（要約）

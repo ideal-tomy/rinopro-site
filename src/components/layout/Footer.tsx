@@ -1,5 +1,9 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { footerCopy } from "@/lib/content/site-copy";
+import { shouldHideGlobalChrome } from "@/lib/site-shell-routes";
 
 const FOOTER_LINKS = [
   { href: "/", label: "トップ" },
@@ -10,6 +14,11 @@ const FOOTER_LINKS = [
 ] as const;
 
 export function Footer() {
+  const pathname = usePathname();
+  if (shouldHideGlobalChrome(pathname)) {
+    return null;
+  }
+
   return (
     <footer className="mt-auto border-t border-[var(--color-border-light)] bg-[var(--color-bg-pure)]">
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 py-8 md:flex-row md:px-6">

@@ -42,6 +42,7 @@ export function ImplementationShowcaseCard({
 }: ImplementationShowcaseCardProps) {
   const demoHref = resolveImplementationDemoHref(item);
   const detailHref = resolveImplementationDetailHref(item);
+  const showDetailCta = item.showDetailCta !== false;
   const demoOpensExternal = isAbsoluteHttpUrl(demoHref);
   const videoThumbnail = isVideoPath(item.thumbnailSrc);
   const slideSources =
@@ -114,8 +115,17 @@ export function ImplementationShowcaseCard({
             {item.industryLabel}
           </span>
         </p>
-        <div className="mt-auto flex flex-col gap-2.5 pt-6 sm:flex-row">
-          <Button asChild size="sm" className="min-h-10 flex-1 gap-1.5">
+        <div
+          className={cn(
+            "mt-auto flex flex-col gap-2.5 pt-6",
+            showDetailCta ? "sm:flex-row" : ""
+          )}
+        >
+          <Button
+            asChild
+            size="sm"
+            className={cn("min-h-10 gap-1.5", showDetailCta ? "flex-1" : "w-full")}
+          >
             <a
               href={demoHref}
               target="_blank"
@@ -128,13 +138,15 @@ export function ImplementationShowcaseCard({
               <ExternalLink className="size-3.5 shrink-0" aria-hidden />
             </a>
           </Button>
-          <Button asChild variant="outline" size="sm" className="min-h-10 flex-1">
-            {needsHardNavigation(detailHref) ? (
-              <a href={detailHref}>詳細</a>
-            ) : (
-              <Link href={detailHref}>詳細</Link>
-            )}
-          </Button>
+          {showDetailCta ? (
+            <Button asChild variant="outline" size="sm" className="min-h-10 flex-1">
+              {needsHardNavigation(detailHref) ? (
+                <a href={detailHref}>詳細</a>
+              ) : (
+                <Link href={detailHref}>詳細</Link>
+              )}
+            </Button>
+          ) : null}
         </div>
       </div>
     </article>

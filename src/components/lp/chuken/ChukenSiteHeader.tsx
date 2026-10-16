@@ -62,7 +62,7 @@ export function ChukenSiteHeader() {
 
   return (
     <header
-      className={`sticky top-0 z-30 border-b border-[var(--ax-border-subtle)] bg-[color-mix(in_srgb,var(--ax-surface-page)_92%,transparent)] backdrop-blur transition-transform duration-300 ${
+      className={`sticky top-0 z-40 border-b border-[var(--ax-border-subtle)] bg-[color-mix(in_srgb,var(--ax-surface-page)_92%,transparent)] backdrop-blur transition-transform duration-300 ${
         hidden ? "-translate-y-full" : "translate-y-0"
       }`}
     >

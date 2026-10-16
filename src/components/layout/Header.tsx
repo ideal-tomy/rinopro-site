@@ -2,7 +2,9 @@
 
 import Link from "next/link";
 import dynamic from "next/dynamic";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { shouldHideGlobalChrome } from "@/lib/site-shell-routes";
 import { SERVICE_DETAIL_LINKS } from "@/lib/ui/service-navigation";
 
 const MobileNav = dynamic(
@@ -19,8 +21,13 @@ const NAV_ITEMS = [
 ] as const;
 
 export function Header() {
+  const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [shouldLoadMobileNav, setShouldLoadMobileNav] = useState(false);
+
+  if (shouldHideGlobalChrome(pathname)) {
+    return null;
+  }
 
   const handleOpenMobileNav = () => {
     setShouldLoadMobileNav(true);

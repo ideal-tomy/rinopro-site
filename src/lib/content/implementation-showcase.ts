@@ -45,6 +45,8 @@ export type ImplementationShowcaseItem = {
   /** 注目キュレーション＋サイト内LP（ハイブリッド） */
   featured?: boolean;
   flagship?: boolean;
+  /** false のときトップカードに「詳細」CTA を出さない（外部デモのみの事例） */
+  showDetailCta?: boolean;
 };
 
 /** v1 リリース: クライアント指定のおすすめ6本（トップ・/experience 冒頭） */
@@ -120,12 +122,6 @@ export function resolveImplementationDetailHref(
 ): string {
   if (item.slug === "kaigo-care-dx") {
     return "/lp/kaigo-care-dx";
-  }
-  if (item.slug === "building-os") {
-    return "https://obs-demo.vercel.app/";
-  }
-  if (item.slug === "openestate") {
-    return "https://openestate-demo.gembashift.com/";
   }
   return `/experience/${item.slug}`;
 }
@@ -233,6 +229,7 @@ export const IMPLEMENTATION_SHOWCASE_ITEMS: readonly ImplementationShowcaseItem[
       liveDemo: true,
       featured: true,
       flagship: true,
+      showDetailCta: false,
     },
     {
       slug: "smart-agri-copilot",
@@ -315,6 +312,7 @@ export const IMPLEMENTATION_SHOWCASE_ITEMS: readonly ImplementationShowcaseItem[
       liveDemo: true,
       featured: true,
       flagship: true,
+      showDetailCta: false,
     },
     {
       slug: "restaurant-ops-dashboard-demo",
