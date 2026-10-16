@@ -28,6 +28,10 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      { source: "/articles", destination: "/", permanent: false },
+      { source: "/consulting", destination: "/services/consulting", permanent: true },
+      { source: "/flow", destination: "/services/insourcing-enablement", permanent: true },
+      { source: "/services/development", destination: "/services/insourcing-enablement", permanent: true },
       { source: "/cases", destination: "/experience", permanent: true },
       { source: "/case-studies", destination: "/experience", permanent: true },
       {

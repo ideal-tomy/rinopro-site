@@ -1,0 +1,951 @@
+{
+  "root": "C:\\Users\\ryoji\\00myapp\\ai_demo_workspace\\sites\\rinopro-site",
+  "destination": "C:\\Users\\ryoji\\00myapp\\ai_demo_workspace\\sites\\rinopro-site\\docs\\page-media-audit-2026-10-16\\退避ファイル",
+  "files": [
+    {
+      "from": "public/file.svg",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/file.svg",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/globe.svg",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/globe.svg",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/about/AXEON-diagram-cards-implementation.md",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/about/AXEON-diagram-cards-implementation.md",
+      "reason": "公開素材フォルダ内の実装メモ"
+    },
+    {
+      "from": "public/images/demo_images/kaigo-care-dx.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/demo_images/kaigo-care-dx.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/demo-showcase/childcare/report-injury.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/demo-showcase/childcare/report-injury.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/genbakanri_admin.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/genbakanri_admin.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/genbakanri_admin.webp",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/genbakanri_admin.webp",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/genbakanri_mobile.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/genbakanri_mobile.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/genbakanri_mobile.webp",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/genbakanri_mobile.webp",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/genbakanri_pc.webp",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/genbakanri_pc.webp",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/hudousanmaching_mobile.mp4",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/hudousanmaching_mobile.mp4",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/jinji_pc.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/jinji_pc.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/kensetsu_desktop.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/kensetsu_desktop.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/kensetsu_mobile.jpg",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/kensetsu_mobile.jpg",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/kurumakanri_mobile.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/kurumakanri_mobile.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/kurumakanri_mobile.webp",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/kurumakanri_mobile.webp",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/kurumakanri_pc.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/kurumakanri_pc.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/kurumakanri_pc.webp",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/kurumakanri_pc.webp",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/lp/construction.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/lp/construction.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/lp/document_workflow.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/lp/document_workflow.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/lp/hero_light.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/lp/hero_light.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/lp/knowledge.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/lp/knowledge.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/lp/manufacturing.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/lp/manufacturing.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/og.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/og.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/regaldashboard_pc.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/regaldashboard_pc.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/saiyoumaching_mobile.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/saiyoumaching_mobile.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/saiyoumaching_pc.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/saiyoumaching_pc.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/salesdashboard_mobile.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/salesdashboard_mobile.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/salesdashboard_mobile.webp",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/salesdashboard_mobile.webp",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/salesdashboard_pc.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/salesdashboard_pc.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/salesdashboard_pc.webp",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/salesdashboard_pc.webp",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/services/approved/desktop-reference.jpeg",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/services/approved/desktop-reference.jpeg",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/services/consulting/diagnosis.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/services/consulting/diagnosis.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/services/consulting/organize.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/services/consulting/organize.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/services/consulting/plan.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/services/consulting/plan.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/services/consulting/poc.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/services/consulting/poc.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/services/consulting/prioritize.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/services/consulting/prioritize.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/services/consulting/priority.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/services/consulting/priority.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/services/consulting/process.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/services/consulting/process.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/services/dev/app-01.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/services/dev/app-01.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/services/dev/app-02.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/services/dev/app-02.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/services/dev/app-03.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/services/dev/app-03.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/services/dev/app-04.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/services/dev/app-04.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/services/dev/common-01.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/services/dev/common-01.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/services/dev/common-02.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/services/dev/common-02.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/services/dev/common-03.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/services/dev/common-03.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/services/dev/common-04.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/services/dev/common-04.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/services/dev/dashboard-01.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/services/dev/dashboard-01.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/services/dev/dashboard-02.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/services/dev/dashboard-02.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/services/dev/dashboard-03.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/services/dev/dashboard-03.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/services/dev/dashboard-04.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/services/dev/dashboard-04.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/services/dev/website-01.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/services/dev/website-01.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/services/dev/website-02.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/services/dev/website-02.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/services/dev/website-03.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/services/dev/website-03.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/services/dev/website-04.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/services/dev/website-04.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/shiftkanri_pc.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/shiftkanri_pc.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/showcase/gempo.jpg",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/showcase/gempo.jpg",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/showcase/internal-knowledge-bot.jpg",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/showcase/internal-knowledge-bot.jpg",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/showcase/recruit-cockpit.jpg",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/showcase/recruit-cockpit.jpg",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/showcase/sales-pipeline.jpg",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/showcase/sales-pipeline.jpg",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/showcase/shaken-notify.jpg",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/showcase/shaken-notify.jpg",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/showcase/shift-auto.jpg",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/showcase/shift-auto.jpg",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/top_about.jpg",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/top_about.jpg",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/top/hero01.jpg",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/top/hero01.jpg",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/top/hero03.jpg",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/top/hero03.jpg",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/voicedemo_mobile.mp4",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/voicedemo_mobile.mp4",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/images/ロゴ.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/ロゴ.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/media/industries/construction.svg",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/media/industries/construction.svg",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/media/industries/healthcare-public.svg",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/media/industries/healthcare-public.svg",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/media/industries/hospitality-food.svg",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/media/industries/hospitality-food.svg",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/media/industries/logistics-mobility.svg",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/media/industries/logistics-mobility.svg",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/media/industries/professional-services.svg",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/media/industries/professional-services.svg",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/media/industries/retail-distribution.svg",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/media/industries/retail-distribution.svg",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/next.svg",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/next.svg",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/vercel.svg",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/vercel.svg",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "public/window.svg",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/window.svg",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画"
+    },
+    {
+      "from": "roi-simulator-construction.html",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/roi-simulator-construction.html",
+      "reason": "public外の旧HTML・元素材"
+    },
+    {
+      "from": "roi-simulator-electrical.html",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/roi-simulator-electrical.html",
+      "reason": "public外の旧HTML・元素材"
+    },
+    {
+      "from": "roi-simulator-logistics.html",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/roi-simulator-logistics.html",
+      "reason": "public外の旧HTML・元素材"
+    },
+    {
+      "from": "roi-simulator-manufacturing.html",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/roi-simulator-manufacturing.html",
+      "reason": "public外の旧HTML・元素材"
+    },
+    {
+      "from": "roi-simulator-template.html",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/roi-simulator-template.html",
+      "reason": "public外の旧HTML・元素材"
+    },
+    {
+      "from": "src/app/articles/page.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/app/articles/page.tsx",
+      "reason": "旧URLの転送専用ファイル（next.config.tsの転送設定へ集約）"
+    },
+    {
+      "from": "src/app/consulting/loading.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/app/consulting/loading.tsx",
+      "reason": "旧URLの転送専用ファイル（next.config.tsの転送設定へ集約）"
+    },
+    {
+      "from": "src/app/consulting/page.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/app/consulting/page.tsx",
+      "reason": "旧URLの転送専用ファイル（next.config.tsの転送設定へ集約）"
+    },
+    {
+      "from": "src/app/demo/list/loading.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/app/demo/list/loading.tsx",
+      "reason": "旧URLの転送専用ファイル（next.config.tsの転送設定へ集約）"
+    },
+    {
+      "from": "src/app/demo/list/page.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/app/demo/list/page.tsx",
+      "reason": "旧URLの転送専用ファイル（next.config.tsの転送設定へ集約）"
+    },
+    {
+      "from": "src/app/demo/loading.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/app/demo/loading.tsx",
+      "reason": "旧URLの転送専用ファイル（next.config.tsの転送設定へ集約）"
+    },
+    {
+      "from": "src/app/demo/page.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/app/demo/page.tsx",
+      "reason": "旧URLの転送専用ファイル（next.config.tsの転送設定へ集約）"
+    },
+    {
+      "from": "src/app/flow/loading.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/app/flow/loading.tsx",
+      "reason": "旧URLの転送専用ファイル（next.config.tsの転送設定へ集約）"
+    },
+    {
+      "from": "src/app/flow/page.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/app/flow/page.tsx",
+      "reason": "旧URLの転送専用ファイル（next.config.tsの転送設定へ集約）"
+    },
+    {
+      "from": "src/app/services/development/loading.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/app/services/development/loading.tsx",
+      "reason": "旧URLの転送専用ファイル（next.config.tsの転送設定へ集約）"
+    },
+    {
+      "from": "src/app/services/development/page.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/app/services/development/page.tsx",
+      "reason": "旧URLの転送専用ファイル（next.config.tsの転送設定へ集約）"
+    },
+    {
+      "from": "src/components/about/TeamMember.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/about/TeamMember.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/chat/ChatSheet.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/chat/ChatSheet.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/contact/ContactAnsweredSnapshotSummary.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/contact/ContactAnsweredSnapshotSummary.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/contact/ContactFlowSteps.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/contact/ContactFlowSteps.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/contact/ContactForm.legacy.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/contact/ContactForm.legacy.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/contact/ContactIntakeHearingBlock.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/contact/ContactIntakeHearingBlock.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/demo/DemoCard.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/demo/DemoCard.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/demo/DemoConciergeCtaButton.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/demo/DemoConciergeCtaButton.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/demo/DemoListConciergeUrlSync.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/demo/DemoListConciergeUrlSync.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/demo/DemoListContent.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/demo/DemoListContent.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/demo/DemoListRecommendationPopup.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/demo/DemoListRecommendationPopup.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/demo/DemoPageContent.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/demo/DemoPageContent.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/demo/DemoStoryScroll.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/demo/DemoStoryScroll.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/demo/MockStyleExperienceCard.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/demo/MockStyleExperienceCard.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/demo/PurposePickSection.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/demo/PurposePickSection.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/demo/TypeExperienceSection.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/demo/TypeExperienceSection.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/estimate/EstimateDetailedContent.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/estimate/EstimateDetailedContent.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/estimate/EstimateDetailedInquiryPreparation.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/estimate/EstimateDetailedInquiryPreparation.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/experience/ExperienceCard.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/experience/ExperienceCard.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/experience/ExperiencePageContent.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/experience/ExperiencePageContent.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/experience/FeaturedExperienceVideoCard.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/experience/FeaturedExperienceVideoCard.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/experience/FeaturedExperienceVideoCardWithReturn.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/experience/FeaturedExperienceVideoCardWithReturn.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/experience/shells/DocumentShellChoiceFields.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/experience/shells/DocumentShellChoiceFields.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/home/articles/ArticleTocDirectory.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/home/articles/ArticleTocDirectory.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/home/articles/ArticleTocIcon.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/home/articles/ArticleTocIcon.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/home/articles/HomeArticleToc.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/home/articles/HomeArticleToc.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/home/HomeAcquisitionIntro.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/home/HomeAcquisitionIntro.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/home/HomeBelowFold.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/home/HomeBelowFold.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/home/HomeBelowFoldDeferred.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/home/HomeBelowFoldDeferred.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/home/HomeCompanyTeaser.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/home/HomeCompanyTeaser.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/home/HomeConsultCtaButton.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/home/HomeConsultCtaButton.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/home/HomeDemoEvidenceSection.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/home/HomeDemoEvidenceSection.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/home/HomeFirstViewActions.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/home/HomeFirstViewActions.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/home/HomeHeroIntro.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/home/HomeHeroIntro.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/home/HomeHorizontalDots.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/home/HomeHorizontalDots.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/home/HomeImplementationShowcaseSection.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/home/HomeImplementationShowcaseSection.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/home/HomeIndustryTabs.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/home/HomeIndustryTabs.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/home/HomeMissionSection.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/home/HomeMissionSection.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/home/HomeQuickStartCards.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/home/HomeQuickStartCards.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/home/HomeSectionStickyNav.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/home/HomeSectionStickyNav.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/home/HomeSeoEntrySection.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/home/HomeSeoEntrySection.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/home/HomeServiceFlowRow.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/home/HomeServiceFlowRow.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/home/HomeSolutionsSection.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/home/HomeSolutionsSection.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/home/HomeWhyPillars.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/home/HomeWhyPillars.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/home/IndustryShowcaseCard.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/home/IndustryShowcaseCard.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/home/IndustryShowcaseSection.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/home/IndustryShowcaseSection.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/home/PatternCaseGrid.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/home/PatternCaseGrid.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/illustrations/axis-on-diagram.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/illustrations/axis-on-diagram.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/illustrations/axis-on-give-diagram.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/illustrations/axis-on-give-diagram.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/illustrations/ceo-silhouette.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/illustrations/ceo-silhouette.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/illustrations/hero-axis-visual.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/illustrations/hero-axis-visual.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/illustrations/mission-contrast-diagram.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/illustrations/mission-contrast-diagram.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/layout/PageSectionWithScroll.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/layout/PageSectionWithScroll.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/motion/FadeIn.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/motion/FadeIn.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/motion/MotionDiv.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/motion/MotionDiv.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/motion/PageContent.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/motion/PageContent.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/motion/PulseScale.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/motion/PulseScale.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/motion/StaggerChildren.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/motion/StaggerChildren.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/services/consulting-mobile-cases.module.css",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/services/consulting-mobile-cases.module.css",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/services/ConsultingCardTrack.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/services/ConsultingCardTrack.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/services/EnablementDevelopmentFlipCards.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/services/EnablementDevelopmentFlipCards.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/services/EnablementFlowStepFlipCard.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/services/EnablementFlowStepFlipCard.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/services/hero-process-diagram.module.css",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/services/hero-process-diagram.module.css",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/services/hero-process/ProcessStageIcons.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/services/hero-process/ProcessStageIcons.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/services/ServiceHeroIllustration.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/services/ServiceHeroIllustration.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/services/ServiceHeroProcessDiagram.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/services/ServiceHeroProcessDiagram.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/services/ServiceValueBand.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/services/ServiceValueBand.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/services/SupportPillarCards.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/services/SupportPillarCards.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/services/useScrollReveal.ts",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/services/useScrollReveal.ts",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/three/ParticleBackground.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/three/ParticleBackground.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/three/ParticleField.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/three/ParticleField.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/ui/card.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/ui/card.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/components/ui/skeleton.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/ui/skeleton.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/hooks/use-contact-handoff.ts",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/hooks/use-contact-handoff.ts",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/hooks/use-page-transition.ts",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/hooks/use-page-transition.ts",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/hooks/use-voice-input.ts",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/hooks/use-voice-input.ts",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/lib/ai/deepgram-client.ts",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/lib/ai/deepgram-client.ts",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/lib/contact/contact-intake-context.ts",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/lib/contact/contact-intake-context.ts",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/lib/contact/contact-intake-initial-form.ts",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/lib/contact/contact-intake-initial-form.ts",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/lib/contact/contact-intake-satisfaction.ts",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/lib/contact/contact-intake-satisfaction.ts",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/lib/contact/navigate-to-contact-from-estimate.ts",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/lib/contact/navigate-to-contact-from-estimate.ts",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/lib/contact/parse-estimate-answers-to-form-draft.ts",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/lib/contact/parse-estimate-answers-to-form-draft.ts",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/lib/content/enablement-development-flip-cards.ts",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/lib/content/enablement-development-flip-cards.ts",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/lib/content/home-industry-cards.ts",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/lib/content/home-industry-cards.ts",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/lib/content/home-landing-styles.ts",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/lib/content/home-landing-styles.ts",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/lib/content/support-pillars.ts",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/lib/content/support-pillars.ts",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/lib/demo/industry-module-map.ts",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/lib/demo/industry-module-map.ts",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/lib/estimate-domain/default/index.ts",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/lib/estimate-domain/default/index.ts",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/lib/experience/featured-showcase-media.ts",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/lib/experience/featured-showcase-media.ts",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/lib/experience/professional-mini-sfa/dashboard-helpers.ts",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/lib/experience/professional-mini-sfa/dashboard-helpers.ts",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/lib/experience/professional-mini-sfa/demo-today.ts",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/lib/experience/professional-mini-sfa/demo-today.ts",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/lib/experience/professional-mini-sfa/mock-contacts.ts",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/lib/experience/professional-mini-sfa/mock-contacts.ts",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/lib/inquiry/fetch-inquiry-brief.ts",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/lib/inquiry/fetch-inquiry-brief.ts",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/sanity/lib/client.ts",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/sanity/lib/client.ts",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/sanity/lib/image.ts",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/sanity/lib/image.ts",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "src/sanity/lib/live.ts",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/sanity/lib/live.ts",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル"
+    },
+    {
+      "from": "tec02.avif",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/tec02.avif",
+      "reason": "public外の旧HTML・元素材"
+    }
+  ]
+}

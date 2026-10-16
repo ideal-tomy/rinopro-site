@@ -1,0 +1,1146 @@
+{
+  "root": "C:\\Users\\ryoji\\00myapp\\ai_demo_workspace\\sites\\rinopro-site",
+  "destination": "C:\\Users\\ryoji\\00myapp\\ai_demo_workspace\\sites\\rinopro-site\\docs\\page-media-audit-2026-10-16\\退避ファイル",
+  "files": [
+    {
+      "from": "public/file.svg",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/file.svg",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "2B67812C325C199A02536CDBEEA0C593A72F707D323B72EE3E08DBAB06753BD4"
+    },
+    {
+      "from": "public/globe.svg",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/globe.svg",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "B614B9BF183925957661AC851498FE1D8029FD43A62FBFED86F9E2624A57E7CF"
+    },
+    {
+      "from": "public/images/about/AXEON-diagram-cards-implementation.md",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/about/AXEON-diagram-cards-implementation.md",
+      "reason": "公開素材フォルダ内の実装メモ",
+      "sha256": "313E25A68D227BCD49862C74D9033475CA04CA854262FC536E110EF69DAF6F6C"
+    },
+    {
+      "from": "public/images/demo_images/kaigo-care-dx.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/demo_images/kaigo-care-dx.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "72C5B9860BAFF871AEB73BF9AA14FDEC2507F16023E392EA5CF1D659CE0C480A"
+    },
+    {
+      "from": "public/images/demo-showcase/childcare/report-injury.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/demo-showcase/childcare/report-injury.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "E0B507B950FF7E7F8A5FAB28A4E76C0DF00208BF2FBA3ABBDB8989B9097145B8"
+    },
+    {
+      "from": "public/images/genbakanri_admin.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/genbakanri_admin.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "32D6686F103523323975126F80B73FADBF2099D3F7D3FA1196EC0FEB28018AC3"
+    },
+    {
+      "from": "public/images/genbakanri_admin.webp",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/genbakanri_admin.webp",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "3AB38DE418FA911013E55857527770C3954701BBCEC6596ACD13CFE2ADCB4DFB"
+    },
+    {
+      "from": "public/images/genbakanri_mobile.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/genbakanri_mobile.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "6C2B645EC7621EE1283FBCFEEC39446334C6F4454951A6A57670A26D55E6D7FE"
+    },
+    {
+      "from": "public/images/genbakanri_mobile.webp",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/genbakanri_mobile.webp",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "2E22E15CA195EBA07D1231DED6F356C4CBB2380F09868F1C93497661C8D84E90"
+    },
+    {
+      "from": "public/images/genbakanri_pc.webp",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/genbakanri_pc.webp",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "F172A73AA26835A85DB13A5063ACB2FECD6CDFF42E40445BD86B55D4C79C22FF"
+    },
+    {
+      "from": "public/images/hudousanmaching_mobile.mp4",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/hudousanmaching_mobile.mp4",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "EF4921EE04E4FA8DCC821FD08F60F17B7639374A6E725F2093C7CAA314FF308D"
+    },
+    {
+      "from": "public/images/jinji_pc.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/jinji_pc.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "3B125464CFDAF1625EF5B71A600AFA1D09A3FD270D0C7CFFE5CB69559E5C8421"
+    },
+    {
+      "from": "public/images/kensetsu_desktop.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/kensetsu_desktop.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "FF44CA0DCB2816AC36A61F3371C54E665AFC4E11F67A5D2D91A7372CD9E3F677"
+    },
+    {
+      "from": "public/images/kensetsu_mobile.jpg",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/kensetsu_mobile.jpg",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "558A8A1CA266324D2B2A9FEC04679A81892F14B1E05B7ED646B7773B289CEC98"
+    },
+    {
+      "from": "public/images/kurumakanri_mobile.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/kurumakanri_mobile.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "3E876898FEBA55FAD1CBB693A881294A60B2AC7FF3C941D5BDA25C62FEF186E2"
+    },
+    {
+      "from": "public/images/kurumakanri_mobile.webp",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/kurumakanri_mobile.webp",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "13886874462A3D0F864F78F4A21D8D50E534C4C0C1A7949E1FD8D349215C2390"
+    },
+    {
+      "from": "public/images/kurumakanri_pc.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/kurumakanri_pc.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "4C18CDA0FB84E37C34AA8927546B86E2BA3D7364CF02F470D4C4492092DA44BC"
+    },
+    {
+      "from": "public/images/kurumakanri_pc.webp",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/kurumakanri_pc.webp",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "52B77E9BCE2C49ABF3B2A8BA082350F1F765B1B647819130B730A1A5D3B0E276"
+    },
+    {
+      "from": "public/images/lp/construction.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/lp/construction.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "D9697CD42C1A69EA956B45E771C8F4F3D0A68EC2510D4AD9A37420A32B2EAF2A"
+    },
+    {
+      "from": "public/images/lp/document_workflow.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/lp/document_workflow.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "D14F361D7A2F0B5CD43F27FA261ED6C2BEE1F2B5FDAC880479350A9F0EFACAAD"
+    },
+    {
+      "from": "public/images/lp/hero_light.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/lp/hero_light.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "52B471232D0848C2EA0AD7260965AC8C2A6C59D5D222EBA084E0AFF0EE6BDBE5"
+    },
+    {
+      "from": "public/images/lp/knowledge.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/lp/knowledge.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "0C305A6EE193046D4414752565FE55968C436FDFBB562E7C33361262E45A1B18"
+    },
+    {
+      "from": "public/images/lp/manufacturing.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/lp/manufacturing.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "9E8479AD35D9F2B1C7B1B5798B7976E283E0D3CFECE8EC7E85259CBEEEAFDCCC"
+    },
+    {
+      "from": "public/images/og.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/og.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "32BD4C2342BECE998CFF2C4541D4EC8CBBFFFEBCED29FD7D0453130C004A5D0E"
+    },
+    {
+      "from": "public/images/regaldashboard_pc.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/regaldashboard_pc.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "D89ACA8413E8B73D6F34F7478B7329DD90FECD13EC630F7D54902D7EFB9AC259"
+    },
+    {
+      "from": "public/images/saiyoumaching_mobile.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/saiyoumaching_mobile.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "DC00CFF3D669BDCB5CC8FDE6C2D1AC1D0190F3DEE287C8DD78FE3A3FFB2E86B0"
+    },
+    {
+      "from": "public/images/saiyoumaching_pc.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/saiyoumaching_pc.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "9C9B70EED2DB470B814AA5CE0E1C3EC919F8B4640FA5EBD5062DEE7979B9B06C"
+    },
+    {
+      "from": "public/images/salesdashboard_mobile.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/salesdashboard_mobile.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "46DD004E9C79D9BE99609B654DA879A14DAA7C38CF9B7E703613A7769BD12F08"
+    },
+    {
+      "from": "public/images/salesdashboard_mobile.webp",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/salesdashboard_mobile.webp",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "C2E358F15618E84BF9AECD03E46C46A81FC2B4810BC6702BFD0F445AFF0C2C1A"
+    },
+    {
+      "from": "public/images/salesdashboard_pc.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/salesdashboard_pc.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "ECCC1693D423E604C50C30AE71985C594DAB7DE74998719C6BC125EAB9CBF6CA"
+    },
+    {
+      "from": "public/images/salesdashboard_pc.webp",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/salesdashboard_pc.webp",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "3789534D95E8B10D2385B84E47CB1BC09FDAB72CC42B5FEAACC59E6F63F28BB0"
+    },
+    {
+      "from": "public/images/services/approved/desktop-reference.jpeg",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/services/approved/desktop-reference.jpeg",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "A4EA0E8D1EB476CDC9906497D54B14F8591ECAD15EAE830962ADA8A0A512D5D8"
+    },
+    {
+      "from": "public/images/services/consulting/diagnosis.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/services/consulting/diagnosis.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "F43A402264900A67C24FA8ABB2E8A0265C5FED1AB224403A4040BBBF534992F7"
+    },
+    {
+      "from": "public/images/services/consulting/organize.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/services/consulting/organize.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "ACDF5AC2E4191C556D120E7971B08FC3059DF25D5ACCF3DFCAF8E278FEA7CCD2"
+    },
+    {
+      "from": "public/images/services/consulting/plan.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/services/consulting/plan.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "A3C8638A0A05582A72CD2E551C2A68EAAF9F58AFDEE9962B8812F098B1BEF50A"
+    },
+    {
+      "from": "public/images/services/consulting/poc.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/services/consulting/poc.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "C5FAFB27C87EB37D1C0054A1C83278D08FF28047313DF0FDFC2F56F0507C8ADB"
+    },
+    {
+      "from": "public/images/services/consulting/prioritize.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/services/consulting/prioritize.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "682A48103D59472BE73B83AC9F8F7E8B3633357AB4A9D66F1A475135E96171B8"
+    },
+    {
+      "from": "public/images/services/consulting/priority.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/services/consulting/priority.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "E5FDEB59E678378103449D5618E8EF23691BC76F4089A6818F3245D09B3D34D4"
+    },
+    {
+      "from": "public/images/services/consulting/process.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/services/consulting/process.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "380627BB21EF32CF30C8BA18E60E3D4456BA390D1C347970A957E9D5D916294F"
+    },
+    {
+      "from": "public/images/services/dev/app-01.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/services/dev/app-01.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "DCE23B898775048A8BB06639958CE133B6B6E8E3ABC2834FDE2601E485758178"
+    },
+    {
+      "from": "public/images/services/dev/app-02.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/services/dev/app-02.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "E751B62C8B4F9929CC5D88D849A8BA068D56EF7884DA54913BDFCFFAC9E5DA67"
+    },
+    {
+      "from": "public/images/services/dev/app-03.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/services/dev/app-03.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "16C9B0AE71FFAC81C23DAB511D7BA54D8E510FF05BF7B07E23D9DDCEBA8FE29B"
+    },
+    {
+      "from": "public/images/services/dev/app-04.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/services/dev/app-04.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "E249AEEBCE042BA3481476E14E882DE0C50D3370040E37216AC64F4FC0221F51"
+    },
+    {
+      "from": "public/images/services/dev/common-01.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/services/dev/common-01.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "A460EE5A6C56ABAA714DA2064D53DF0CF50DFA1DB9D4CD12912F0ADB131818DD"
+    },
+    {
+      "from": "public/images/services/dev/common-02.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/services/dev/common-02.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "2BA1C3144565621204C4009C81B63E9F66BE1E0E1D20931C71945E8343953BFE"
+    },
+    {
+      "from": "public/images/services/dev/common-03.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/services/dev/common-03.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "83F697094066A4CEBD342F7A811F5026E3CA329F076116863504F9AC019BDD25"
+    },
+    {
+      "from": "public/images/services/dev/common-04.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/services/dev/common-04.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "F6F70749EA8067092D56EDA5C18D4873B5C9B3D955A4FBEEDD9FE9F344C4B3BD"
+    },
+    {
+      "from": "public/images/services/dev/dashboard-01.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/services/dev/dashboard-01.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "689CC3C2D655226F3AB6718770CB0477A165AF4E48F5CDE8043C15A7E2D32439"
+    },
+    {
+      "from": "public/images/services/dev/dashboard-02.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/services/dev/dashboard-02.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "61B553816579A32E79487A7DD180E13C8FBF353F2E181F87219081E79BB89FC8"
+    },
+    {
+      "from": "public/images/services/dev/dashboard-03.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/services/dev/dashboard-03.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "35D4B8B938EDE330BBECB331D7BE9D1113CD238AE42DE5A8A911544D4DCB0E62"
+    },
+    {
+      "from": "public/images/services/dev/dashboard-04.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/services/dev/dashboard-04.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "315CF6D13213D41EF5EB29E0018812116D589E7D88C5E65A1C9D8C3C17FFDCC8"
+    },
+    {
+      "from": "public/images/services/dev/website-01.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/services/dev/website-01.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "73DAD1B734050E4FA6F0ED82FB366AA8B7B8F4D6FF032ABE4168264CA5F67488"
+    },
+    {
+      "from": "public/images/services/dev/website-02.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/services/dev/website-02.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "AC13C4938967CD7D6E58B698F6659F13423DBDD6EC860A628AB93FBE48071E7D"
+    },
+    {
+      "from": "public/images/services/dev/website-03.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/services/dev/website-03.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "2662C0F0E4D0FCA0913E4D1E27DEE5DE92F3800F51BF10C31B78B7C2A389B5E8"
+    },
+    {
+      "from": "public/images/services/dev/website-04.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/services/dev/website-04.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "C1F8D0EAF5A26300114D315A23DBA4995B3AB320DCB508942EB7FD9C05DD2C24"
+    },
+    {
+      "from": "public/images/shiftkanri_pc.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/shiftkanri_pc.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "393F553E6FB0F35987403ACDEF756EEB4AFF5BAAABD58625EE9209EB31B81E9E"
+    },
+    {
+      "from": "public/images/showcase/gempo.jpg",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/showcase/gempo.jpg",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "C5F1C1BBEC3BBECF97056A96ED73A8759F3D039CCCE06725D1ADF2AB83C4F1AF"
+    },
+    {
+      "from": "public/images/showcase/internal-knowledge-bot.jpg",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/showcase/internal-knowledge-bot.jpg",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "ACE73163F0E353847FEC7A72A8E879A87FCAEC82D06687FD72BF714791A6F08A"
+    },
+    {
+      "from": "public/images/showcase/recruit-cockpit.jpg",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/showcase/recruit-cockpit.jpg",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "2DC23DC5E0BE1F4C81F221DEFB5D4EFD59B964D622B876776995ECFB20898676"
+    },
+    {
+      "from": "public/images/showcase/sales-pipeline.jpg",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/showcase/sales-pipeline.jpg",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "4E11B75F931C0A91986E3804E6D2B537F657A18E926E0243E3C80A1A94DF3F00"
+    },
+    {
+      "from": "public/images/showcase/shaken-notify.jpg",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/showcase/shaken-notify.jpg",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "8122A4BF796A1A9E177493B693B147E293822017D2C236E7DE5763265A632E91"
+    },
+    {
+      "from": "public/images/showcase/shift-auto.jpg",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/showcase/shift-auto.jpg",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "40D1A59169A4101A0C4A641D1E86A62428CAE66A310C3F2F765F74AE0C4160E1"
+    },
+    {
+      "from": "public/images/top_about.jpg",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/top_about.jpg",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "ACE73163F0E353847FEC7A72A8E879A87FCAEC82D06687FD72BF714791A6F08A"
+    },
+    {
+      "from": "public/images/top/hero01.jpg",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/top/hero01.jpg",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "B377E5677A6BA2EA05D6D1BC659AABE30A98F0BA3C6B61717B57ACE593EA45D7"
+    },
+    {
+      "from": "public/images/top/hero03.jpg",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/top/hero03.jpg",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "5D51E42C50F6D2F4C608258199BAC36695F1EA6FAA72972502D3FEE1CCF981E2"
+    },
+    {
+      "from": "public/images/voicedemo_mobile.mp4",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/voicedemo_mobile.mp4",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "79A34D5CF35784015021E65C368F6DF7C8F1DB2E6B4CA861927EA28AAAABC4B1"
+    },
+    {
+      "from": "public/images/ロゴ.png",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/images/ロゴ.png",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "7E3317E43DCFB4DA9D2974FCA76AFA525A61D586C3DDE5ED495C4C34705CD489"
+    },
+    {
+      "from": "public/media/industries/construction.svg",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/media/industries/construction.svg",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "2535C6E9AFB127504E821B47407E633D5664853FEF0FF4373AD3702E22758925"
+    },
+    {
+      "from": "public/media/industries/healthcare-public.svg",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/media/industries/healthcare-public.svg",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "75DB9DEDDAF19FF30B054B93CEF4A56B464DA6A459BDC29D2E90E68902A9667A"
+    },
+    {
+      "from": "public/media/industries/hospitality-food.svg",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/media/industries/hospitality-food.svg",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "49504A5BDB69F624D061C1EA100570D8C15E9BF241EED21CD0294C83588B9DC7"
+    },
+    {
+      "from": "public/media/industries/logistics-mobility.svg",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/media/industries/logistics-mobility.svg",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "633135BD7BCD93B3118F8C668EC8DE64B1EAC3192207F1F55500804CDF15E15D"
+    },
+    {
+      "from": "public/media/industries/professional-services.svg",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/media/industries/professional-services.svg",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "B89BA34BD09BBC9FCB35C2A55C51925DF000DA8CD402DB9C46162119610751B9"
+    },
+    {
+      "from": "public/media/industries/retail-distribution.svg",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/media/industries/retail-distribution.svg",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "360DD9EBD2E5062B94A45204BDA887E8364FFFABC6137B14147602F0B9388195"
+    },
+    {
+      "from": "public/next.svg",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/next.svg",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "55995DFAD6ECB4945A1E856DDCA03C5E16AA5BF13FD21B4DF6A74AE79357BCFC"
+    },
+    {
+      "from": "public/vercel.svg",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/vercel.svg",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "F081337B2FEE635B455B63275406A3E7F39D6A014E25AD90DAB5A67E62A12AC4"
+    },
+    {
+      "from": "public/window.svg",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/window.svg",
+      "reason": "監査と現行ソースの両方で参照なしの画像・動画",
+      "sha256": "644768C4AAEB4767BCE293344EEB0C125FB804A94D801440424072202D85E3A1"
+    },
+    {
+      "from": "roi-simulator-construction.html",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/roi-simulator-construction.html",
+      "reason": "public外の旧HTML・元素材",
+      "sha256": "5402277665F9F8B63BABA85A399C5FEBB63A6C3DA36E94F653C754A3FC83150D"
+    },
+    {
+      "from": "roi-simulator-electrical.html",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/roi-simulator-electrical.html",
+      "reason": "public外の旧HTML・元素材",
+      "sha256": "D0C721B410F0F36B437FE80C85A1363BC947DD7301F1CEA0559773CBE6CD7CAC"
+    },
+    {
+      "from": "roi-simulator-logistics.html",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/roi-simulator-logistics.html",
+      "reason": "public外の旧HTML・元素材",
+      "sha256": "A93E6F860D7F7E8926C136D1DE99000CD3E7D6BA95B08150C0F332C94EC0B3FD"
+    },
+    {
+      "from": "roi-simulator-manufacturing.html",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/roi-simulator-manufacturing.html",
+      "reason": "public外の旧HTML・元素材",
+      "sha256": "DF362C45B5FBE4248A3E0372BD30F2E29D868C97114D6FB29054C776A38E0332"
+    },
+    {
+      "from": "roi-simulator-template.html",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/roi-simulator-template.html",
+      "reason": "public外の旧HTML・元素材",
+      "sha256": "3B25CC50F7C413C737DE53B047D60DBA64A70DCF042E33A80803F6BB62723754"
+    },
+    {
+      "from": "src/app/articles/page.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/app/articles/page.tsx",
+      "reason": "旧URLの転送専用ファイル（next.config.tsの転送設定へ集約）",
+      "sha256": "A41190E94D02074464E54C69AD6D15A24CD478BEE3AA5EA32C30C20083676A63"
+    },
+    {
+      "from": "src/app/consulting/loading.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/app/consulting/loading.tsx",
+      "reason": "旧URLの転送専用ファイル（next.config.tsの転送設定へ集約）",
+      "sha256": "70F6CB7E0804986F2AD99CA881A6A3613A892A1AC89321B97BF7934E6B1E0E30"
+    },
+    {
+      "from": "src/app/consulting/page.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/app/consulting/page.tsx",
+      "reason": "旧URLの転送専用ファイル（next.config.tsの転送設定へ集約）",
+      "sha256": "66B1EF33FD46AFED438356C683057FCA47AE8CCBC3DE9D6E2E1F449E22E76496"
+    },
+    {
+      "from": "src/app/demo/list/loading.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/app/demo/list/loading.tsx",
+      "reason": "旧URLの転送専用ファイル（next.config.tsの転送設定へ集約）",
+      "sha256": "70F6CB7E0804986F2AD99CA881A6A3613A892A1AC89321B97BF7934E6B1E0E30"
+    },
+    {
+      "from": "src/app/demo/list/page.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/app/demo/list/page.tsx",
+      "reason": "旧URLの転送専用ファイル（next.config.tsの転送設定へ集約）",
+      "sha256": "FD99F11056C0A1DEF71C0727398467836FF1FA6AC48162DA66F363B97EF7C9A7"
+    },
+    {
+      "from": "src/app/demo/loading.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/app/demo/loading.tsx",
+      "reason": "旧URLの転送専用ファイル（next.config.tsの転送設定へ集約）",
+      "sha256": "70F6CB7E0804986F2AD99CA881A6A3613A892A1AC89321B97BF7934E6B1E0E30"
+    },
+    {
+      "from": "src/app/demo/page.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/app/demo/page.tsx",
+      "reason": "旧URLの転送専用ファイル（next.config.tsの転送設定へ集約）",
+      "sha256": "D428A84B6840600E9E49A8EB0BDD8C8702A2E194B3A148B4FC475EC198D90814"
+    },
+    {
+      "from": "src/app/flow/loading.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/app/flow/loading.tsx",
+      "reason": "旧URLの転送専用ファイル（next.config.tsの転送設定へ集約）",
+      "sha256": "70F6CB7E0804986F2AD99CA881A6A3613A892A1AC89321B97BF7934E6B1E0E30"
+    },
+    {
+      "from": "src/app/flow/page.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/app/flow/page.tsx",
+      "reason": "旧URLの転送専用ファイル（next.config.tsの転送設定へ集約）",
+      "sha256": "C36A08FF2758F9D740796B8B492F3F991D0F0B3DF8F869B9BFC4EF0F79F82E23"
+    },
+    {
+      "from": "src/app/services/development/loading.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/app/services/development/loading.tsx",
+      "reason": "旧URLの転送専用ファイル（next.config.tsの転送設定へ集約）",
+      "sha256": "70F6CB7E0804986F2AD99CA881A6A3613A892A1AC89321B97BF7934E6B1E0E30"
+    },
+    {
+      "from": "src/app/services/development/page.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/app/services/development/page.tsx",
+      "reason": "旧URLの転送専用ファイル（next.config.tsの転送設定へ集約）",
+      "sha256": "C6B751545F5B4682B8B96EC1AD91A22F803B59FD66B41A0A60CFFB608A79DCB6"
+    },
+    {
+      "from": "src/components/about/TeamMember.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/about/TeamMember.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "A8BAEA93BDDB4BDFD8C3588095F636F951DCEFF27F9B64559B998313059646B3"
+    },
+    {
+      "from": "src/components/chat/ChatSheet.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/chat/ChatSheet.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "D23B47750098E26AFB6D3AF74608486CD75ED07D8AA700E031E4470643B0678D"
+    },
+    {
+      "from": "src/components/contact/ContactAnsweredSnapshotSummary.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/contact/ContactAnsweredSnapshotSummary.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "B6A97E180B076922F0D0FA0CEE3A247ACB037B26E404ADB9B08EB4B880B4103C"
+    },
+    {
+      "from": "src/components/contact/ContactFlowSteps.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/contact/ContactFlowSteps.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "A74A108AE198207D67EBDCC22F4706A7D9649F48980D2549853D4F3261B8F622"
+    },
+    {
+      "from": "src/components/contact/ContactForm.legacy.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/contact/ContactForm.legacy.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "96676E960344293785847DF61D95A6276F2EFD5885647DE8D1B389DEDE5F4372"
+    },
+    {
+      "from": "src/components/contact/ContactIntakeHearingBlock.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/contact/ContactIntakeHearingBlock.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "18B887D7F36A446110D3368D4FB0B9C22BB1A9265AAF268A703EC4AB142220E6"
+    },
+    {
+      "from": "src/components/demo/DemoCard.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/demo/DemoCard.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "0622C1A8585D2A04113C530CABA0885E9AB294626C79B2E06478A6D70AD763EE"
+    },
+    {
+      "from": "src/components/demo/DemoConciergeCtaButton.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/demo/DemoConciergeCtaButton.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "3740E1D209C53249061C9136D2130059343F501FAFFF9A3B18C6528A2D4EEE4A"
+    },
+    {
+      "from": "src/components/demo/DemoListConciergeUrlSync.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/demo/DemoListConciergeUrlSync.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "774EB7C5C44ACF475C348EE45B49C066E60F467BD48505E76B93DB0C3D6EF9B2"
+    },
+    {
+      "from": "src/components/demo/DemoListContent.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/demo/DemoListContent.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "48CDA186B36BFC4C7948D5613E035DEE563D61C31E20548ACD01188267A983D0"
+    },
+    {
+      "from": "src/components/demo/DemoListRecommendationPopup.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/demo/DemoListRecommendationPopup.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "9838E057F200DB3D1FE60200085E6113C32E23CFB39704C747519EEC0601A288"
+    },
+    {
+      "from": "src/components/demo/DemoPageContent.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/demo/DemoPageContent.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "221AEED1A02F674E36D11087D06BBBB02400C715DACA6ED9BBC734B414A03A1A"
+    },
+    {
+      "from": "src/components/demo/DemoStoryScroll.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/demo/DemoStoryScroll.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "AE354AC1D7A6B0AFF3A4EC3C18E7B8A42CB41181142B7AD3C64FE9DFA84ACC24"
+    },
+    {
+      "from": "src/components/demo/MockStyleExperienceCard.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/demo/MockStyleExperienceCard.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "3684E4C737F3390EBDBC836D082B5CBF67AEFB1234AFC62423654BDB9100F12C"
+    },
+    {
+      "from": "src/components/demo/PurposePickSection.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/demo/PurposePickSection.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "E5A4F5952DFE0D9FBA6BFB33B4BD78BED6C537112C8C0940FC9E3231A4EAC771"
+    },
+    {
+      "from": "src/components/demo/TypeExperienceSection.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/demo/TypeExperienceSection.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "A791DBBB2A75FEA8455186F1EB5BCC070D605996C047EE601E14AC12B14FBE91"
+    },
+    {
+      "from": "src/components/estimate/EstimateDetailedContent.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/estimate/EstimateDetailedContent.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "A6B3E90DBA42228E3D2B28E174CECBAB1A6402830ED84499D58118D0663BFAE3"
+    },
+    {
+      "from": "src/components/estimate/EstimateDetailedInquiryPreparation.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/estimate/EstimateDetailedInquiryPreparation.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "EBA380F4AC0464EF818D2E8918B578D1867DEF1EA4DC13266E8E942532739A67"
+    },
+    {
+      "from": "src/components/experience/ExperienceCard.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/experience/ExperienceCard.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "5E0106483CEE5C6C679D0E5C357F2630EC51DC370CB51CEF33BEBD9C15010CDA"
+    },
+    {
+      "from": "src/components/experience/ExperiencePageContent.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/experience/ExperiencePageContent.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "A55A2C751FACD18D584C0C90C5BD8706744649B9B09A17511B93EA8C25A2D9D6"
+    },
+    {
+      "from": "src/components/experience/FeaturedExperienceVideoCard.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/experience/FeaturedExperienceVideoCard.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "24D3239BFBB31D1B1448D5244323B13BCCA7B8FA669B52177830BB3012986D15"
+    },
+    {
+      "from": "src/components/experience/FeaturedExperienceVideoCardWithReturn.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/experience/FeaturedExperienceVideoCardWithReturn.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "3BE3B557665A619C359A8ED1A59E3D89862616DE73EB4EB07B803DAD7CA338F8"
+    },
+    {
+      "from": "src/components/experience/shells/DocumentShellChoiceFields.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/experience/shells/DocumentShellChoiceFields.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "578AD43207878EB41D1286DD908CF5D18D705F4BD961A690D0E958C56DD89487"
+    },
+    {
+      "from": "src/components/home/articles/ArticleTocDirectory.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/home/articles/ArticleTocDirectory.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "0A0CB80CF2A5D9D3CE1F06790F7DC08BD006BED25EDC2F90D3CDBBAA7B48DAFF"
+    },
+    {
+      "from": "src/components/home/articles/ArticleTocIcon.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/home/articles/ArticleTocIcon.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "A869C1C538D17293321FC99C551ED5726E303E3C4EBD48F29A71C0F88FB30783"
+    },
+    {
+      "from": "src/components/home/articles/HomeArticleToc.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/home/articles/HomeArticleToc.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "6BF9EE25231002D108B8252B79A1D05FE22876D0D9F3710D9B5E8C0269B8254C"
+    },
+    {
+      "from": "src/components/home/HomeAcquisitionIntro.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/home/HomeAcquisitionIntro.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "F56DE26D2CEE9FC1D11969867FF891149986F8A20E45D5406C7C36AC6A2B6826"
+    },
+    {
+      "from": "src/components/home/HomeBelowFold.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/home/HomeBelowFold.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "61C66BFCEF4198E1C5DDCD47166D508E259A8F0DF1286F87B02E88749C93BE21"
+    },
+    {
+      "from": "src/components/home/HomeBelowFoldDeferred.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/home/HomeBelowFoldDeferred.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "1ED2E8BF7348570D6F02B4DC98E56CDABC1C9F4F5B6503516E6C476C1FB6794F"
+    },
+    {
+      "from": "src/components/home/HomeCompanyTeaser.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/home/HomeCompanyTeaser.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "07833BCA8C9EC1506DD6B2A21563B015E504A413E8142AFFDA81EE1CCBDD2220"
+    },
+    {
+      "from": "src/components/home/HomeConsultCtaButton.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/home/HomeConsultCtaButton.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "F8300B9704686EEE394A0BCC4F0B7D3E12080CC77D585C64FD6CDCA923D4C547"
+    },
+    {
+      "from": "src/components/home/HomeDemoEvidenceSection.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/home/HomeDemoEvidenceSection.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "C4DD80114D5C62DDB760678834BD16530F0BF7473A07C42D6EDB0FCA52745EAD"
+    },
+    {
+      "from": "src/components/home/HomeFirstViewActions.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/home/HomeFirstViewActions.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "90CBB510FB0D2A0EABCC4BFD77BA5E9CECAB7DC72F671424A291CCD243416421"
+    },
+    {
+      "from": "src/components/home/HomeHeroIntro.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/home/HomeHeroIntro.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "02E2C37A2555FE568C20041A1B3E1ADBCD6DDED5E72EFA867A9D8A8ACC59140E"
+    },
+    {
+      "from": "src/components/home/HomeHorizontalDots.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/home/HomeHorizontalDots.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "6C718B85855A332BB5DDADEECB7F11479E0D2603048911B13983312879292505"
+    },
+    {
+      "from": "src/components/home/HomeImplementationShowcaseSection.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/home/HomeImplementationShowcaseSection.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "2483FEA3365B5194E666C961C50E07641534AC5209F767DB60BFDA5B4EA40AE6"
+    },
+    {
+      "from": "src/components/home/HomeIndustryTabs.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/home/HomeIndustryTabs.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "AD45BD7BC4ABF36929635C1B107362374B3E24CA5A6379F4AFEED568D4C28987"
+    },
+    {
+      "from": "src/components/home/HomeMissionSection.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/home/HomeMissionSection.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "83A7A157C65540726AF9BBA6F18AEE7985B9349D18F8730AC4D80E15A7EE581D"
+    },
+    {
+      "from": "src/components/home/HomeQuickStartCards.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/home/HomeQuickStartCards.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "F29F4F939F95981AF690B08FF41039A0809A65E1CEB48FA16DBA62EC4E075251"
+    },
+    {
+      "from": "src/components/home/HomeSectionStickyNav.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/home/HomeSectionStickyNav.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "5D30A9DE813F717E13B5BBAEAB05711EF751CB888C3C8D488F1348F84923A70D"
+    },
+    {
+      "from": "src/components/home/HomeSeoEntrySection.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/home/HomeSeoEntrySection.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "1FEB0FFDA0D6A698632D80BB71308F2AFCFCD8D5EA15717F1F959C95CC3B4F00"
+    },
+    {
+      "from": "src/components/home/HomeServiceFlowRow.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/home/HomeServiceFlowRow.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "ED620E345B876335ECC0AA36B8A081F95F48266C0BD23DEE2BCA9FA25E4A1167"
+    },
+    {
+      "from": "src/components/home/HomeSolutionsSection.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/home/HomeSolutionsSection.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "972DCADDA5C1A8A7A43642391D204A8A799E796CD3328ADA91B0A60B4FEF25B2"
+    },
+    {
+      "from": "src/components/home/HomeWhyPillars.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/home/HomeWhyPillars.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "AAF6042EC8EEF7507875FA310902356F854ADC60B43C19028577CA4426C36661"
+    },
+    {
+      "from": "src/components/home/IndustryShowcaseCard.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/home/IndustryShowcaseCard.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "F63A945CDE81EC1D5842F2D7D4CADF95C0A5347BCA4D5D91E568DBBA0327FF42"
+    },
+    {
+      "from": "src/components/home/IndustryShowcaseSection.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/home/IndustryShowcaseSection.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "EF0103993FAEEB137B842D711BFB713778C50DCC96C9E445996C85A1DF6E4EC0"
+    },
+    {
+      "from": "src/components/home/PatternCaseGrid.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/home/PatternCaseGrid.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "BAE27788586FCB6F6C80F9A9758A19D94C39B11964016CB5F7BE0EB80E589D5A"
+    },
+    {
+      "from": "src/components/illustrations/axis-on-diagram.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/illustrations/axis-on-diagram.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "476DBDF4ED8E883DC724B85847B824A534C718C9E998D9303FBD9B7306324E24"
+    },
+    {
+      "from": "src/components/illustrations/axis-on-give-diagram.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/illustrations/axis-on-give-diagram.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "85019AEECA0DD85E88B5E60EFEFA1981ED0E9A19EA64374FD11E5E6C2524C64F"
+    },
+    {
+      "from": "src/components/illustrations/ceo-silhouette.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/illustrations/ceo-silhouette.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "D1802D884913B3E8963A2B24A6628BD32F1D4C909096741799D21F9095BC5153"
+    },
+    {
+      "from": "src/components/illustrations/hero-axis-visual.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/illustrations/hero-axis-visual.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "34A28BF07F9DC52BD26B95CF217174A31C4AF0B146ADCA4472E7DA65E7B4DACA"
+    },
+    {
+      "from": "src/components/illustrations/mission-contrast-diagram.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/illustrations/mission-contrast-diagram.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "21B0199A08B45BE72A99583131ADD12D2AEF7C3EFBAF28159556185519F19C37"
+    },
+    {
+      "from": "src/components/layout/PageSectionWithScroll.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/layout/PageSectionWithScroll.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "82838D6FA7EC79550BDD3754B7D2B7710941F39D81ADA527A7E8A6292150B6BB"
+    },
+    {
+      "from": "src/components/motion/FadeIn.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/motion/FadeIn.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "B0A30987B4D7A92DBEF772274FB4A69BC669EC8E4C6662E27CA6CC32A4083010"
+    },
+    {
+      "from": "src/components/motion/MotionDiv.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/motion/MotionDiv.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "163C6F847F0619433486737C3288DCC4D9C8C90053128CD47BDC117318A2A03F"
+    },
+    {
+      "from": "src/components/motion/PageContent.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/motion/PageContent.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "D96289FA3733244C52042664239B9CFE9374FD2663AAB71A3576395F20B6A6FF"
+    },
+    {
+      "from": "src/components/motion/PulseScale.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/motion/PulseScale.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "08FE7CDF6431AE76C43B6A011ABF27B526FB3307B5D0C0200A447850EF8B7BB6"
+    },
+    {
+      "from": "src/components/motion/StaggerChildren.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/motion/StaggerChildren.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "46AD76309344D7A0BBB30B1DB866C6C5357272FD27C7B94F7D6A56CE4EC41E03"
+    },
+    {
+      "from": "src/components/services/consulting-mobile-cases.module.css",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/services/consulting-mobile-cases.module.css",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "434AC3597C76314C595A92845FDD7FF1F7C14E81D9D123AB9972303B8D391E4F"
+    },
+    {
+      "from": "src/components/services/ConsultingCardTrack.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/services/ConsultingCardTrack.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "B5B8BA060BD0F9D80A9A14762796C7299C42D739F26BEBDF3EF865F729FB84C1"
+    },
+    {
+      "from": "src/components/services/EnablementDevelopmentFlipCards.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/services/EnablementDevelopmentFlipCards.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "62A4D79FCB1B4978018D3A999BA48A66359337571882FA28F03F329CA3D2FE14"
+    },
+    {
+      "from": "src/components/services/EnablementFlowStepFlipCard.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/services/EnablementFlowStepFlipCard.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "98F55EB85187695311A10B11BDAFE9C51BF0E4713BD2E634770B4B283E2EF55C"
+    },
+    {
+      "from": "src/components/services/hero-process-diagram.module.css",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/services/hero-process-diagram.module.css",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "7EDC0F3537FAD3565AF76B7D56C974F42EFE11433744639F4AE1AB4136F1FA6C"
+    },
+    {
+      "from": "src/components/services/hero-process/ProcessStageIcons.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/services/hero-process/ProcessStageIcons.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "AF099FDA5CB9BE7A898E077352206469BE44BCEE8FEFBEBE47DD08155AABC63C"
+    },
+    {
+      "from": "src/components/services/ServiceHeroIllustration.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/services/ServiceHeroIllustration.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "A3E5092AD558E8601B810281696CEC9FC6115244BC81EAC08EBD1AD16057B1A3"
+    },
+    {
+      "from": "src/components/services/ServiceHeroProcessDiagram.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/services/ServiceHeroProcessDiagram.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "A27101F38F73156DB2EA89FF7CB0B2802685FE9E574278948E69593006BD5283"
+    },
+    {
+      "from": "src/components/services/ServiceValueBand.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/services/ServiceValueBand.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "75DFBF3040FF2DABDE2416656B3FE247399B9864E10DBE8B2784A25B17518238"
+    },
+    {
+      "from": "src/components/services/SupportPillarCards.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/services/SupportPillarCards.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "ACB222949439B7B7E5C084445F0CF43F7CACF11020832875F3E5BC11CED8E7A5"
+    },
+    {
+      "from": "src/components/services/useScrollReveal.ts",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/services/useScrollReveal.ts",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "CD7E34A43ABD777F8DA66239950CE957671B23C6B89EA7C73974260AE0368BF5"
+    },
+    {
+      "from": "src/components/three/ParticleBackground.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/three/ParticleBackground.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "44CB4F0B54155A9D26864B694E76772E0DEC8099D58BB512B44CD02F4C9DA3AC"
+    },
+    {
+      "from": "src/components/three/ParticleField.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/three/ParticleField.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "07BA13CEEDC7A9E94CE021745E4BBDCE94531C902583A238F106F1B9C7F76DC4"
+    },
+    {
+      "from": "src/components/ui/card.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/ui/card.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "822C1ED7F1B04559AAE58B8A0172A7175DC290A82D46A97BF2FA1730C7F388B9"
+    },
+    {
+      "from": "src/components/ui/skeleton.tsx",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/components/ui/skeleton.tsx",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "D93182DA25BAAE7FDB9F9BED18A069948537D43C6BD50E3F43DEE39350E3FC4F"
+    },
+    {
+      "from": "src/hooks/use-contact-handoff.ts",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/hooks/use-contact-handoff.ts",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "9C8B367B83B6727695C5A285247109B573785240329C02DABCD2132E70180F43"
+    },
+    {
+      "from": "src/hooks/use-page-transition.ts",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/hooks/use-page-transition.ts",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "E3E95792B4032BBE6FFD3D57DE294501B8292E205D983B674741AECE9898B8D3"
+    },
+    {
+      "from": "src/hooks/use-voice-input.ts",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/hooks/use-voice-input.ts",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "D145558605B4B4E2E5E0C214805E5260C6E702915493199E3571A5FBB75EFFF5"
+    },
+    {
+      "from": "src/lib/ai/deepgram-client.ts",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/lib/ai/deepgram-client.ts",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "E2DD265EC7D762E566C419F298EDD74EA7E0DD87DF98E7097585BC9020B2F36F"
+    },
+    {
+      "from": "src/lib/contact/contact-intake-context.ts",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/lib/contact/contact-intake-context.ts",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "DF3FD9D6AB84B606E91FD13B2505C67F812D22178CD5E1008EB3842F17E5297C"
+    },
+    {
+      "from": "src/lib/contact/contact-intake-initial-form.ts",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/lib/contact/contact-intake-initial-form.ts",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "B2B521243BCFE0D7E8CB147C470B0F7211EBC1BB3092EFD643E925AD97755181"
+    },
+    {
+      "from": "src/lib/contact/contact-intake-satisfaction.ts",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/lib/contact/contact-intake-satisfaction.ts",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "1DCA84B72B10726209D49C5EB768795CEFE4935C57ED628465DC82DC1AF92A0C"
+    },
+    {
+      "from": "src/lib/contact/navigate-to-contact-from-estimate.ts",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/lib/contact/navigate-to-contact-from-estimate.ts",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "A730BBD6F94E50E78B5898D86E300D84811CE3A93D9FDDA262E91EBDFB48CDF5"
+    },
+    {
+      "from": "src/lib/contact/parse-estimate-answers-to-form-draft.ts",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/lib/contact/parse-estimate-answers-to-form-draft.ts",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "7AA6015FDD981A188677F2BB816A119E9CCF05723B2C8F26F8F865B3F9DF5F88"
+    },
+    {
+      "from": "src/lib/content/enablement-development-flip-cards.ts",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/lib/content/enablement-development-flip-cards.ts",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "394D9DB5347528F11F60CD85C226D2174FDC0BB0EA33DA28B198696F167755FA"
+    },
+    {
+      "from": "src/lib/content/home-industry-cards.ts",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/lib/content/home-industry-cards.ts",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "E050E7CE678F4BCD3F5801C574DFA0DDE4AC3430D4FF3DB7DA27E016BE05E14D"
+    },
+    {
+      "from": "src/lib/content/home-landing-styles.ts",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/lib/content/home-landing-styles.ts",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "F48F2E2A3F95C30049B8CB73F0DD3520607C36ECEB0FC1B770A2006C88C12182"
+    },
+    {
+      "from": "src/lib/content/support-pillars.ts",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/lib/content/support-pillars.ts",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "15076875C5A606AE90CA9003331D1643F150DEC00B7D20EED00F51A11DC9E8FF"
+    },
+    {
+      "from": "src/lib/demo/industry-module-map.ts",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/lib/demo/industry-module-map.ts",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "AB0852D5671DCBC4200F84EBC58777BEEFA3CC34B7451ACAF64CFE3AC2B8A8B6"
+    },
+    {
+      "from": "src/lib/estimate-domain/default/index.ts",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/lib/estimate-domain/default/index.ts",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "33AC0348E4801D63DEBF528BA6932D9AF4FFEAF3A9051E0D34DAF85D49895FDB"
+    },
+    {
+      "from": "src/lib/experience/featured-showcase-media.ts",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/lib/experience/featured-showcase-media.ts",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "084E6AB3BD1FA85EBFAA3E3ADE5E53202B98F373C4B4488C87B665DFB5B83B54"
+    },
+    {
+      "from": "src/lib/experience/professional-mini-sfa/dashboard-helpers.ts",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/lib/experience/professional-mini-sfa/dashboard-helpers.ts",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "F8565D2F985047B17B44DDFD6EABFEC78ADB2D93FF8716921EEF91330347EE7A"
+    },
+    {
+      "from": "src/lib/experience/professional-mini-sfa/demo-today.ts",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/lib/experience/professional-mini-sfa/demo-today.ts",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "5F5FA5918A8A7AFE7D482EC34937D2EF6A225056ADEB4532AC9D42C2244733E6"
+    },
+    {
+      "from": "src/lib/experience/professional-mini-sfa/mock-contacts.ts",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/lib/experience/professional-mini-sfa/mock-contacts.ts",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "25E588AC726CF796FF27620CDDC8F205D50D64F6B45FFB4AFFB8351712916477"
+    },
+    {
+      "from": "src/lib/inquiry/fetch-inquiry-brief.ts",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/lib/inquiry/fetch-inquiry-brief.ts",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "26154C0E25C1BBE70D634F1C93266DF6F4F9A3C18F1866B430D583CA617A1163"
+    },
+    {
+      "from": "src/sanity/lib/client.ts",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/sanity/lib/client.ts",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "BA46F97DED2343B8A3FA1476049F562D861111C2B840FA6EA6E8A7C70B8928CA"
+    },
+    {
+      "from": "src/sanity/lib/image.ts",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/sanity/lib/image.ts",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "6E0D0E765D5204AB71D3413AC8FE74B0A070DFD2F0F8C124E1C4AB7B39E1F695"
+    },
+    {
+      "from": "src/sanity/lib/live.ts",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/src/sanity/lib/live.ts",
+      "reason": "現在のルート・運用スクリプトから到達しないソース/スタイル",
+      "sha256": "E86566F6ABD9382C29C7C8887859DF92DED982F656E38E9ECC1706F84FB60B23"
+    },
+    {
+      "from": "tec02.avif",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/tec02.avif",
+      "reason": "public外の旧HTML・元素材",
+      "sha256": "429F85232169314A38ADC5029A007D02056121F728B8E61A28ED258205364086"
+    },
+    {
+      "from": "public/media/showcase/restaurant-ops-dashboard-demo.mp4",
+      "to": "docs/page-media-audit-2026-10-16/退避ファイル/public/media/showcase/restaurant-ops-dashboard-demo.mp4",
+      "reason": "退避済み旧コンポーネントのみが参照する動画。ページ応答からの参照なし",
+      "sha256": "53015702F4A32346B6E4A7D94035B3BBD0F6F45569B501E74D98967A739A2796"
+    }
+  ]
+}
