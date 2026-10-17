@@ -1,6 +1,10 @@
 import { HOME_BRAND_STORY_STYLES } from "./home-presentation";
 import { headingAccentRuleClasses } from "@/lib/ui/heading-accent-rule-styles";
+import { homeLandingCopy } from "@/lib/content/home-landing";
 import { cn } from "@/lib/utils";
+
+const { brandStory } = homeLandingCopy;
+
 /** AXEONの名前の由来と理念。既存のアンカー・見出しIDは維持する。 */
 export function HomeBrandStorySection() {
   return (
@@ -20,73 +24,58 @@ export function HomeBrandStorySection() {
           aria-hidden
         />
         <div className={HOME_BRAND_STORY_STYLES.container}>
+          <p className={HOME_BRAND_STORY_STYLES.kicker}>{brandStory.kicker}</p>
           <h2
             id="home-empathy-heading"
             className={cn(
               HOME_BRAND_STORY_STYLES.heading,
               headingAccentRuleClasses.onDark,
+              "md:[&::after]:mx-auto",
             )}
           >
-            <span className="inline-block">AXEON という名前に込めた、</span>
-            <br />
-            <span className="inline-block">二つの意味。</span>
+            <span className="block">{brandStory.headingLines[0]}</span>
+            <span className="block">{brandStory.headingLines[1]}</span>
           </h2>
-          <div className={HOME_BRAND_STORY_STYLES.body}>
-            <p className="font-semibold text-white">
-              AXEONという名前には、二つの読み方があります。
-            </p>
-            <p>
-              英語で読めば、Axis On。
-              <br />
-              
-              軸を持ち、前へ進む。
-              
-              環境が揺れても、流行が変わっても、
-              
-              意思決定の中心を見失わずに
-              
-              進み続けるための言葉です。
-            </p>
-            <p>
-              日本語で読めば、軸 恩（じくおん）。
-              <br />
-              
-              私たちは、社会や人から多くの機会を受け取り、
-              
-              育てられてきました。
-              
-              だからこそ、その恩を次の世代へ返していく。
-              
-              この恩送りの循環を、事業を通じて実装することが、
-              
-              私たちの使命です。
-            </p>
-            <p>
-              私たちが目指すのは、
-              
-              AIで人の仕事を奪う未来ではありません。
-              
-              定型業務、転記、検索、要約、整理をAIに任せ、
-              
-              創造、判断、関係構築、本質的な議論へ、
-              
-              人の時間を返していくこと。
-            </p>
-            <p>
-              AXEONは、企業の軸を共につくるパートナーとして、
-              
-              戦略と実装を同じテーブルに置き、
-              理想を現場で動く仕組みに変えていきます。
-            </p>
-            <p className={HOME_BRAND_STORY_STYLES.closing}>
-              日本の国力を上げる。
-              <br />
-              この言葉を、私たちは理念ではなく、実務で証明します。
-            </p>
+
+          <div className={HOME_BRAND_STORY_STYLES.prose}>
+            <p className={HOME_BRAND_STORY_STYLES.intro}>{brandStory.intro}</p>
+
+            {brandStory.meanings.map((meaning) => (
+              <div key={meaning.lead} className={HOME_BRAND_STORY_STYLES.meaningBlock}>
+                <p className={HOME_BRAND_STORY_STYLES.meaningContext}>
+                  {meaning.contextLabel}
+                </p>
+                <p className={HOME_BRAND_STORY_STYLES.meaningLead}>{meaning.lead}</p>
+                {"body" in meaning ? (
+                  <p className={HOME_BRAND_STORY_STYLES.meaningBody}>{meaning.body}</p>
+                ) : (
+                  <p className={HOME_BRAND_STORY_STYLES.meaningBody}>
+                    {meaning.bodyBeforeEmphasis}
+                    <span className={HOME_BRAND_STORY_STYLES.meaningEmphasis}>
+                      {meaning.emphasis}
+                    </span>
+                    {meaning.bodyAfterEmphasis}
+                  </p>
+                )}
+              </div>
+            ))}
+
+            <div className={HOME_BRAND_STORY_STYLES.sectionGap}>
+              <p className={HOME_BRAND_STORY_STYLES.visionLead}>
+                {brandStory.visionLead}
+              </p>
+              <p className={HOME_BRAND_STORY_STYLES.body}>{brandStory.visionBody}</p>
+              <p className={HOME_BRAND_STORY_STYLES.body}>{brandStory.partner}</p>
+            </div>
+
+            <div className={HOME_BRAND_STORY_STYLES.closing}>
+              {brandStory.closingLines.map((line) => (
+                <p key={line}>{line}</p>
+              ))}
+            </div>
           </div>
         </div>
       </article>
     </section>
   );
 }
-

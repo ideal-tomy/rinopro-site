@@ -15,10 +15,28 @@ export const HOME_FIRST_VIEW_STYLES = {
 } as const;
 
 export const HOME_BRAND_STORY_STYLES = {
-  "container": "relative mx-auto max-w-4xl px-5 py-14 text-center md:px-12 md:py-20",
-  "heading": "text-balance text-[clamp(1.375rem,4.6vw,3rem)] font-bold leading-[1.18] tracking-tight text-white md:text-[clamp(2rem,4vw,3rem)]",
-  "body": "mt-8 space-y-6 text-left text-[16px] leading-[1.5] text-white md:mt-12 md:text-center md:text-[17px]",
-  "closing": "pt-2 text-[18px] font-semibold text-white md:text-[20px]"
+  "container":
+    "relative mx-auto max-w-3xl px-5 py-14 md:max-w-4xl md:px-12 md:py-20",
+  "kicker":
+    "text-left text-[13px] font-semibold tracking-wide text-[#b8cff5] md:text-center md:text-sm",
+  "heading":
+    "mt-2 text-balance break-keep text-left text-[clamp(1.5rem,5.2vw,2.75rem)] font-bold leading-[1.32] tracking-tight text-white md:mt-3 md:text-center md:text-[clamp(2rem,4vw,3rem)] md:leading-[1.22]",
+  "prose": "mt-8 text-left md:mx-auto md:mt-10 md:max-w-[42rem]",
+  "intro":
+    "text-[16px] font-semibold leading-[1.65] text-white md:text-[17px]",
+  "meaningBlock": "mt-9 md:mt-10",
+  "meaningContext":
+    "text-[17px] font-semibold leading-[1.55] text-[#b8cff5] md:text-[19px]",
+  "meaningLead":
+    "mt-1.5 break-keep text-[clamp(1.25rem,4.8vw,1.625rem)] font-bold leading-[1.35] text-white",
+  "meaningBody":
+    "mt-3 text-[15px] leading-[1.8] text-white/92 md:text-[16px] md:leading-[1.85]",
+  "meaningEmphasis": "font-semibold text-white",
+  "sectionGap": "mt-9 space-y-3 md:mt-10",
+  "body": "text-[15px] leading-[1.8] text-white/90 md:text-[16px] md:leading-[1.85]",
+  "visionLead": "text-[16px] font-semibold leading-[1.65] text-white md:text-[17px]",
+  "closing":
+    "mt-8 space-y-1 text-[17px] font-semibold leading-[1.55] text-white md:mt-10 md:text-[19px]",
 } as const;
 
 export const HOME_DEMO_SHOWCASE_STYLES = {
@@ -46,10 +64,20 @@ export const HOME_VALUES_STYLES = {
 
 export const HOME_CEO_STYLES = {
   "section": "ax-container-wide py-16 md:py-[120px] scroll-mt-28",
+  "sectionLabel":
+    "text-[13px] font-semibold tracking-wide text-[var(--color-accent-primary)] md:text-sm",
+  "messageHeading":
+    "mt-3 break-keep text-[clamp(1.75rem,7vw,2.5rem)] font-bold leading-[1.28] text-[var(--color-text-primary)] md:mt-4 md:text-[clamp(2rem,3.2vw,2.75rem)] md:leading-[1.22]",
+  "identity": "mt-5 space-y-0.5 md:mt-6",
   "role": "text-sm font-semibold tracking-wide text-[var(--color-accent-primary)]",
-  "name": "text-2xl font-bold text-[var(--color-text-primary)]",
-  "heading": "text-[28px] font-bold leading-tight text-[var(--color-text-primary)]",
-  "body": "mt-4 space-y-5 text-[16px] leading-[1.5] text-[var(--color-text-secondary)] md:text-[17px]"
+  "name": "text-xl font-bold text-[var(--color-text-primary)] md:text-2xl",
+  "card":
+    "mt-6 rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-pure)] px-4 py-6 md:mt-8 md:px-8 md:py-8",
+  "body":
+    "space-y-6 text-[15px] leading-[1.8] text-[var(--color-text-secondary)] md:space-y-7 md:text-[16px] md:leading-[1.85]",
+  "bodyEmphasis": "font-semibold text-[var(--color-text-primary)]",
+  "quote":
+    "border-l-[3px] border-[var(--color-accent-primary)] py-0.5 pl-4 text-[15px] font-medium leading-[1.75] text-[var(--color-text-primary)] md:text-[16px]",
 } as const;
 
 export const HOME_FAQ_STYLES = {
