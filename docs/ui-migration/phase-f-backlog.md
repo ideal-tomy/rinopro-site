@@ -15,6 +15,8 @@
 | P2 | `/industries/*` | `--lp-*` hex 直書きの残 | axeon-themes `theme:lp` 既定化、ページ上書き枠のみ | **done**（F4 2026-10-16） |
 | P2 | `/experience/[slug]` | compact 内の操作 UI | FreeformChat 主説明 15px | **done**（F4 2026-10-16） |
 | P2 | `/services` | services-page module | process steps カード高さ stretch | **done**（F4 2026-10-16） |
+| P2 | `/services` | PROCESS / メニュー帯の余白が独自値 | `--ax-gutter` / `--ax-section-compact-y` に寄せる（hero・フリップカードは対象外） | **done**（2026-10-17） |
+| P2 | `/services/*` · `ServicePageLinks` | サブナビ・アンカーバーの hex 直書き | `service-navigation.module.css` を `--ax-*` 参照に統一 | **done**（2026-10-17） |
 
 ### 参照
 

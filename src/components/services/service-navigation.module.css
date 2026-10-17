@@ -14,9 +14,9 @@
   );
 }
 .pageLinks {
-  background: #fff;
-  border-bottom: 1px solid #d5e2f2;
-  color: #234b9d;
+  background: var(--ax-surface-card);
+  border-bottom: 1px solid var(--ax-border-subtle);
+  color: var(--ax-brand-primary);
   font-size: 14px;
 }
 .pageLinks > div {
@@ -38,6 +38,7 @@
   align-items: center;
   min-height: 44px;
   gap: 8px;
+  color: var(--ax-brand-primary);
   text-decoration: none;
 }
 .pageLinks a:hover {
@@ -45,11 +46,11 @@
   text-underline-offset: 4px;
 }
 .pageLinks [aria-current] {
-  color: #0b1933;
+  color: var(--ax-text-heading);
 }
 .pageLinks [aria-current]::before {
   content: "/";
-  color: #8a9db5;
+  color: var(--ax-text-supporting);
   margin-right: 18px;
 }
 .sectionNav {
@@ -70,7 +71,7 @@
   position: sticky;
   top: calc(64px + var(--service-section-nav-height));
   z-index: 20;
-  background: #f0f8ff;
+  background: color-mix(in srgb, var(--ax-brand-primary) 8%, var(--ax-surface-card));
 }
 @media (max-width: 767px) {
   .pageLinks > div {
@@ -83,13 +84,14 @@
 }
 
 .page .sectionNav a:focus-visible {
+  outline-color: var(--ax-focus-ring);
   outline-offset: -4px;
 }
 
 /* consulting-page.module.css から移設（C-2: 参照ゼロ化） */
 .anchorBar {
-  border-bottom: 1px solid #d5e2f2;
-  background: #fff;
+  border-bottom: 1px solid var(--ax-border-subtle);
+  background: var(--ax-surface-card);
 }
 .anchorBar > div {
   display: flex;
@@ -98,12 +100,13 @@
 .anchorBar a {
   display: block;
   padding-block: 18px;
-  color: #234b9d;
+  color: var(--ax-brand-primary);
   text-decoration: none;
   border-bottom: 3px solid transparent;
 }
 .anchorBar .initialAnchor {
-  border-bottom-color: #234b9d;
+  color: var(--ax-text-heading);
+  border-bottom-color: var(--ax-brand-primary);
   font-weight: 700;
 }
 @media (max-width: 767px) {

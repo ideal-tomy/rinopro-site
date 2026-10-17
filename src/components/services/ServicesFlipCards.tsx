@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { ChevronLeft, ChevronRight, Pause, Play } from "lucide-react";
 import { useServicesCardRotation } from "./useServicesCardRotation";
 import styles from "./services-page.module.css";
 
@@ -104,26 +105,48 @@ export function ServicesFlipCards() {
           </div>
         </div>
         <div className={styles.flipControls}>
-          <span className={styles.swipeHint} id="flip-help">
-            横スワイプで回転
+          <span className={styles.srOnly} id="flip-help">
+            左右にスワイプ、または矢印ボタンでカードを切り替えられます。
           </span>
-          {cards.map((card, i) => (
+          <div className={styles.flipNav}>
             <button
-              className={styles.sideDot}
+              className={styles.flipArrow}
               type="button"
-              key={card.label}
-              aria-label={`${card.title}を表示`}
-              aria-pressed={display.current === i}
-              onClick={() => selectSide.current(i)}
-            />
-          ))}
+              aria-label={`${cards[1 - display.current].title}を表示`}
+              onClick={() => selectSide.current(1 - display.current, -1)}
+            >
+              <ChevronLeft aria-hidden="true" strokeWidth={2} />
+            </button>
+            {cards.map((card, i) => (
+              <button
+                className={styles.sideDot}
+                type="button"
+                key={card.label}
+                aria-label={`${card.title}を表示`}
+                aria-pressed={display.current === i}
+                onClick={() => selectSide.current(i)}
+              />
+            ))}
+            <button
+              className={styles.flipArrow}
+              type="button"
+              aria-label={`${cards[1 - display.current].title}を表示`}
+              onClick={() => selectSide.current(1 - display.current, 1)}
+            >
+              <ChevronRight aria-hidden="true" strokeWidth={2} />
+            </button>
+          </div>
           <button
             className={styles.playback}
             type="button"
             aria-label={display.paused ? "自動回転を再開" : "自動回転を停止"}
             onClick={() => togglePlayback.current()}
           >
-            {display.paused ? "▶ 再生" : "Ⅱ 停止"}
+            {display.paused ? (
+              <Play aria-hidden="true" strokeWidth={2} />
+            ) : (
+              <Pause aria-hidden="true" strokeWidth={2} />
+            )}
           </button>
         </div>
         <span className={styles.srOnly} role="status">

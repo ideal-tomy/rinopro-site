@@ -9,9 +9,9 @@
 | `/` | ☑ | ☑ | ☑ | ☑ | ☑ | ☑ | ☑ | デザイン確認済・home 契約 OK |
 | `/about` | ☑ | ☑ | ☑ | ☑ | ☑ | ☑ | ☑ | デザイン確認済（title 二重は issues #1） |
 | `/contact` | ☑ | ☑ | ☑ | ☑ | — | ☑ | ☑ | フォーム UI OK・送信は本番で R5 |
-| `/services` | ☑ | ☑ | ☑ | ☑ | ☑ | ☑ | ☑ | PROCESS 高さ揃え・意図横スクロールあり |
-| `/services/consulting` | ☑ | ☑ | ☑ | ☑ | ☑ | ☑ | ☑ | 図解 SP 再確認 |
-| `/services/insourcing-enablement` | ☑ | ☑ | ☑ | ☑ | ☑ | ☑ | ☑ | stages 操作 OK |
+| `/services` | ☑ | ☑ | ☑ | ☑ | ☑ | ☑ | ☑ | PROCESS 高さ揃え・意図横スクロールあり。PROCESS/メニュー余白を ax（gutter・section-compact）化、フリップカードは PC 広幅・SP スワイプ維持（2026-10-17） |
+| `/services/consulting` | ☑ | ☑ | ☑ | ☑ | ☑ | ☑ | ☑ | 図解 SP 再確認。ヒーロー図は横書き（foreignObject）、サブナビ ax トークン化（2026-10-17） |
+| `/services/insourcing-enablement` | ☑ | ☑ | ☑ | ☑ | ☑ | ☑ | ☑ | stages 操作 OK。サブナビ ax トークン化（2026-10-17） |
 | `/industries/construction` | ☑ | ☑ | ☑ | ☑ | ☑ | ☑ | ☑ | ヒーロー・試算 375 OK |
 | `/industries/manufacturing` | ☑ | ☑ | ☑ | ☑ | ☑ | ☑ | ☑ | 同上 |
 | `/experience` | ☑ | ☑ | ☑ | ☑ | ☑ | ☑ | ☑ | 一覧カード 375 OK |

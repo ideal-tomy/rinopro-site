@@ -7,7 +7,9 @@ export function useServicesCardRotation({
   mobileQuery = "(max-width: 767px)",
 }: { labels?: readonly [string, string]; mobileQuery?: string } = {}) {
   const stage = useRef<HTMLDivElement>(null);
-  const selectSide = useRef<(side: number) => void>(() => {});
+  const selectSide = useRef<(side: number, direction?: number) => void>(
+    () => {},
+  );
   const togglePlayback = useRef<() => void>(() => {});
   const [display, setDisplay] = useState({
     current: 0,
@@ -83,9 +85,9 @@ export function useServicesCardRotation({
         motion.matches ? 0 : 1000,
       );
     };
-    selectSide.current = (side) => {
+    selectSide.current = (side, direction = 1) => {
       manualUntil = Date.now() + 12000;
-      if (side !== current) rotate(1, true);
+      if (side !== current) rotate(direction, true);
       else schedule();
     };
     togglePlayback.current = () => {
