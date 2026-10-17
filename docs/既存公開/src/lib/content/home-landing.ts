@@ -116,7 +116,7 @@ export const homeLandingCopy = {
     sectionKicker: "CEO MESSAGE",
     heading: "代表メッセージ",
     intro: "",
-    messageHeading: "日本の国力を上げたい。",
+    messageHeading: "日本の国力を上げたい",
     name: "秋吉 莉乃",
     role: "代表取締役社長 CEO",
     imageSrc: "/images/about.jpg",
