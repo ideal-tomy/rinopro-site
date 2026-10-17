@@ -137,9 +137,6 @@ export function ConsultingPage() {
           <AxText role="sectionTitle" id="examples-heading">
             例えば、こんなご相談から。
           </AxText>
-          <AxProse className="mt-5">
-            <p>解決方法が決まっていない段階でも、ご相談いただけます。</p>
-          </AxProse>
           <ConsultingExamples />
         </AxContainer>
       </AxSection>

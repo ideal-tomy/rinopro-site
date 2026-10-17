@@ -40,10 +40,7 @@ export const experienceGalleryCopy = {
   },
   listSection: {
     title: "その他の事例",
-    lead: "ほかにも業種・用途の異なるデモをご用意しています。業種で絞り込めます。",
-    filterLabel: "業種で絞り込み",
-    filteredTitle: "絞り込み結果",
-    filteredLead: "選択した業種に該当するデモです。",
+    lead: "ほかにも業種・用途の異なるデモをご用意しています。",
   },
   ctaSection: {
     title: "うちの業界でも作れる?",

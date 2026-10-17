@@ -11,6 +11,11 @@ import { useInViewAutoPlay } from "@/components/home/demo-showcase/useInViewAuto
 import { useScrollLinkedOpacity } from "@/components/home/demo-showcase/useScrollLinkedOpacity";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import {
+  viewSlideEase,
+  viewSlideProgress,
+  viewSlideTranslateX,
+} from "@/lib/motion/view-slide";
+import {
   knowledgeProcessingSteps,
   photoProcessingSteps,
   photoSampleSets,
@@ -452,20 +457,6 @@ function FeaturedMobileBaDimmer({ opacity }: { opacity: number }) {
   );
 }
 
-function clamp01(value: number) {
-  return Math.min(1, Math.max(0, value));
-}
-
-/** スクロール進捗の中盤で 0→1（左スライド用） */
-function baSlideProgress(scrollOpacity: number, start: number, span: number) {
-  return clamp01((scrollOpacity - start) / span);
-}
-
-/** 終盤もゆっくり寄せる（指数を下げて長めのスライド向き） */
-function baSlideEase(t: number) {
-  return 1 - Math.pow(1 - t, 2);
-}
-
 function FeaturedMobileBaPill({
   variant,
   lines,
@@ -475,8 +466,7 @@ function FeaturedMobileBaPill({
   lines: readonly [string, string];
   slide: number;
 }) {
-  const eased = baSlideEase(slide);
-  const translateX = (1 - eased) * -120;
+  const translateX = viewSlideTranslateX(slide, 120);
   const shellTone =
     variant === "before"
       ? "bg-[#E8EAED] border-[#D9DDE3]"
@@ -514,10 +504,10 @@ function FeaturedMobileSpOverlays({
 }) {
   const beforeSlide = motionReduced
     ? 1
-    : baSlideProgress(opacity, 0.16, 0.75);
+    : viewSlideProgress(opacity, 0.16, 0.75);
   const afterSlide = motionReduced
     ? 1
-    : baSlideProgress(opacity, 0.3, 0.75);
+    : viewSlideProgress(opacity, 0.3, 0.75);
   const showLayer = motionReduced || opacity > 0.04;
 
   return (

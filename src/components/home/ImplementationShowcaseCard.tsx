@@ -13,6 +13,9 @@ import {
 export type ImplementationShowcaseCardProps = {
   item: ImplementationShowcaseItem;
   priorityImage?: boolean;
+  variant?: "default" | "compact";
+  /** default カードの業種ピル（おすすめ一覧などで非表示にする） */
+  showIndustryLabel?: boolean;
 };
 
 function isVideoPath(path: string): boolean {
@@ -39,7 +42,13 @@ function needsHardNavigation(url: string): boolean {
 export function ImplementationShowcaseCard({
   item,
   priorityImage = false,
+  variant = "default",
+  showIndustryLabel = true,
 }: ImplementationShowcaseCardProps) {
+  const compact = variant === "compact";
+  const imageSizes = compact
+    ? "(max-width: 1024px) 72vw, 18vw"
+    : "(max-width: 768px) 82vw, (max-width: 1024px) 45vw, 320px";
   const demoHref = resolveImplementationDemoHref(item);
   const detailHref = resolveImplementationDetailHref(item);
   const showDetailCta = item.showDetailCta !== false;
@@ -53,10 +62,13 @@ export function ImplementationShowcaseCard({
   return (
     <article
       className={cn(
-        "interactive-card group flex h-full flex-col overflow-hidden rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-pure)] text-left",
+        "interactive-card group flex h-full flex-col overflow-hidden border border-[var(--color-border-light)] bg-[var(--color-bg-pure)] text-left",
+        compact ? "rounded-xl" : "rounded-2xl",
         "motion-reduce:hover:!transform-none motion-reduce:hover:!shadow-none",
         "motion-safe:transition-[transform,box-shadow,border-color] motion-safe:duration-300",
-        "hover:border-[var(--color-accent-primary)]/35 hover:shadow-lg md:hover:-translate-y-1"
+        compact
+          ? "hover:border-[var(--color-accent-primary)]/35 hover:shadow-md"
+          : "hover:border-[var(--color-accent-primary)]/35 hover:shadow-lg md:hover:-translate-y-1"
       )}
     >
       <div className="relative aspect-video w-full shrink-0 overflow-hidden bg-[var(--color-bg-neutral)]">
@@ -64,7 +76,7 @@ export function ImplementationShowcaseCard({
           <ShowcaseThumbnailSlides
             slides={slideSources}
             alt={item.thumbnailAlt}
-            sizes="(max-width: 768px) 82vw, (max-width: 1024px) 45vw, 320px"
+            sizes={imageSizes}
             priority={priorityImage}
             className="motion-safe:transition-transform motion-safe:duration-300 motion-safe:group-hover:scale-[1.04]"
           />
@@ -85,14 +97,15 @@ export function ImplementationShowcaseCard({
             alt={item.thumbnailAlt}
             fill
             className="object-cover motion-safe:transition-transform motion-safe:duration-300 motion-safe:group-hover:scale-[1.04]"
-            sizes="(max-width: 768px) 82vw, (max-width: 1024px) 45vw, 320px"
+            sizes={imageSizes}
             priority={priorityImage}
           />
         )}
         {item.liveDemo ? (
           <span
             className={cn(
-              "showcase-live-badge absolute right-2 top-2 rounded px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[var(--color-bg-pure)] md:right-2.5 md:top-2.5 md:text-[11px]",
+              "showcase-live-badge absolute right-2 top-2 rounded px-2 py-0.5 font-bold uppercase tracking-wider text-[var(--color-bg-pure)]",
+              compact ? "text-[9px] md:text-[10px]" : "text-[10px] md:right-2.5 md:top-2.5 md:text-[11px]",
               "bg-[var(--color-accent-primary)]"
             )}
           >
@@ -100,31 +113,59 @@ export function ImplementationShowcaseCard({
           </span>
         ) : null}
       </div>
-      <div className="flex flex-1 flex-col p-5 md:p-6">
-        <p className="text-[15px] font-bold leading-snug text-[var(--color-accent-primary)] md:text-[16px]">
+      <div
+        className={cn(
+          "flex flex-1 flex-col",
+          compact ? "p-3 md:p-3.5" : "p-5 md:p-6"
+        )}
+      >
+        <p
+          className={cn(
+            "font-bold leading-snug text-[var(--color-accent-primary)]",
+            compact ? "text-[13px]" : "text-[15px] md:text-[16px]"
+          )}
+        >
           {item.brandName}
         </p>
-        <h3 className="mt-2 text-balance text-[17px] font-semibold leading-snug text-[var(--color-text-primary)] md:text-lg">
+        <h3
+          className={cn(
+            "mt-1.5 text-balance font-semibold leading-snug text-[var(--color-text-primary)]",
+            compact ? "text-[14px] leading-[1.35]" : "mt-2 text-[17px] md:text-lg"
+          )}
+        >
           {item.productTitle}
         </h3>
-        <p className="mt-2 line-clamp-3 text-[15px] leading-[1.5] text-[var(--color-text-secondary)] md:text-[16px]">
+        <p
+          className={cn(
+            "mt-1.5 leading-[1.45] text-[var(--color-text-secondary)]",
+            compact
+              ? "line-clamp-2 text-[13px]"
+              : "mt-2 line-clamp-3 text-[15px] md:text-[16px]"
+          )}
+        >
           {item.catchCopy}
         </p>
-        <p className="mt-4">
-          <span className="inline-flex rounded-full border border-[var(--color-border-light)] bg-[var(--color-bg-base)] px-3 py-1 text-[13px] font-medium text-[var(--color-text-secondary)] md:text-[14px]">
-            {item.industryLabel}
-          </span>
-        </p>
+        {!compact && showIndustryLabel ? (
+          <p className="mt-4">
+            <span className="inline-flex rounded-full border border-[var(--color-border-light)] bg-[var(--color-bg-base)] px-3 py-1 text-[13px] font-medium text-[var(--color-text-secondary)] md:text-[14px]">
+              {item.industryLabel}
+            </span>
+          </p>
+        ) : null}
         <div
           className={cn(
-            "mt-auto flex flex-col gap-2.5 pt-6",
-            showDetailCta ? "sm:flex-row" : ""
+            "mt-auto flex flex-col gap-2",
+            compact ? "pt-3" : "gap-2.5 pt-6",
+            !compact && showDetailCta ? "sm:flex-row" : ""
           )}
         >
           <Button
             asChild
             size="sm"
-            className={cn("min-h-10 gap-1.5", showDetailCta ? "flex-1" : "w-full")}
+            className={cn(
+              compact ? "min-h-9 gap-1 text-[13px]" : "min-h-10 gap-1.5",
+              showDetailCta && !compact ? "flex-1" : "w-full"
+            )}
           >
             <a
               href={demoHref}
@@ -139,7 +180,12 @@ export function ImplementationShowcaseCard({
             </a>
           </Button>
           {showDetailCta ? (
-            <Button asChild variant="outline" size="sm" className="min-h-10 flex-1">
+            <Button
+              asChild
+              variant="outline"
+              size="sm"
+              className={cn(compact ? "min-h-9 text-[13px]" : "min-h-10 flex-1")}
+            >
               {needsHardNavigation(detailHref) ? (
                 <a href={detailHref}>詳細</a>
               ) : (

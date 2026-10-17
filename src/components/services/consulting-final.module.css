@@ -181,11 +181,15 @@
 
 .example {
   display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
-  gap: 28px 40px;
-  align-items: start;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: 28px 32px;
+  align-items: stretch;
   padding: 32px 0;
   border-top: 1px solid #d8d8d4;
+}
+
+.exampleMain {
+  padding-block: 4px;
 }
 
 .example:last-child {
@@ -209,87 +213,143 @@
 }
 
 .exampleDiagram {
-  width: fit-content;
+  width: 100%;
   max-width: 100%;
   margin: 20px 0 0;
   padding: 0;
 }
 
-.exampleDiagramSteps {
+.exampleFlowRow {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px 12px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 0;
+  width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
-.exampleDiagramStep {
+.exampleFlowRow::-webkit-scrollbar {
+  display: none;
+}
+
+.exampleFlowStep {
   display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 8px;
+  min-width: 4.25rem;
+  padding: 12px 8px;
+  border: 1px solid #c5c9d4;
+  border-radius: 12px;
+  background: #fff;
+  text-align: center;
+}
+
+.exampleFlowStepLabel {
   color: #1a1a1a;
-  font-size: 15px;
-  line-height: 1.5;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.35;
+  word-break: keep-all;
+}
+
+.exampleFlowConnectorStatic {
+  display: grid;
+  flex: 0 0 clamp(1rem, 4vw, 2rem);
+  place-items: center;
+  align-self: center;
+  width: clamp(1rem, 4vw, 2rem);
+  color: #8a8f99;
+}
+
+.exampleFlowConnectorStatic svg {
+  width: 16px;
+  height: 16px;
 }
 
 .exampleDiagramIcon {
   display: grid;
   place-items: center;
-  width: 36px;
-  height: 36px;
+  width: 42px;
+  height: 42px;
   border: 1px solid #c5c9d4;
-  border-radius: 8px;
+  border-radius: 10px;
   color: #26418e;
   background: #fff;
 }
 
 .exampleDiagramIcon svg {
-  width: 18px;
-  height: 18px;
-}
-
-.exampleDiagramArrow {
-  display: grid;
-  place-items: center;
-  color: #8a8f99;
-}
-
-.exampleDiagramArrow svg {
-  width: 16px;
-  height: 16px;
+  width: 20px;
+  height: 20px;
 }
 
 .exampleAside {
-  padding: 20px 22px;
-  background: #fff;
-  border-left: 3px solid #26418e;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  margin-block: -32px;
+  padding: 18px 16px;
+  min-height: 12rem;
 }
 
-.exampleLabel {
+.exampleAsideSpacer {
+  min-height: 2.25rem;
+}
+
+.examplePillBrand {
+  width: 100%;
+  margin: 0;
+  padding: 8px 14px;
+  border: 1px solid #d9dde3;
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgb(15 23 42 / 0.05);
   color: #4a4a4a;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.06em;
-  line-height: 1.5;
-}
-
-.exampleFocus {
-  margin-top: 8px;
-  color: #1a1a1a;
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 1.55;
+  line-height: 1.4;
+  text-align: center;
   word-break: normal;
   line-break: auto;
 }
 
-.exampleBody {
-  margin-top: 10px;
+.examplePillMain {
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid #d9dde3;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 8px 20px rgb(15 23 42 / 0.08);
+}
+
+.examplePillFocus {
+  margin: 0;
+  padding: 14px 16px;
+  background: #26418e;
+  color: #fff;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.5;
+  word-break: normal;
+  line-break: auto;
+}
+
+.examplePillBody {
+  margin: 0;
+  padding: 14px 16px;
+  background: #fff;
   color: #333;
-  font-size: 16px;
-  line-height: 1.8;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.75;
 }
 
 .resultGrid {
@@ -397,6 +457,42 @@
   border: 0;
 }
 
+@media (min-width: 901px) {
+  .exampleFlowStep {
+    min-width: 5.5rem;
+    padding: 14px 10px;
+  }
+
+  .exampleFlowStepLabel {
+    font-size: 14px;
+  }
+
+  .exampleDiagramIcon {
+    width: 48px;
+    height: 48px;
+  }
+
+  .exampleDiagramIcon svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .exampleAside {
+    padding: 22px 20px;
+    gap: 12px;
+  }
+
+  .examplePillFocus {
+    font-size: 18px;
+    padding: 16px 18px;
+  }
+
+  .examplePillBody {
+    font-size: 15px;
+    padding: 16px 18px;
+  }
+}
+
 @media (max-width: 900px) {
   .heroGrid,
   .resultGrid,
@@ -410,18 +506,48 @@
     width: 100%;
   }
 
-  .exampleDiagramSteps {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
+  .exampleFlowStep {
+    min-width: 3.75rem;
+    padding: 6px 4px;
   }
 
-  .exampleDiagramArrow {
-    transform: rotate(90deg);
+  .exampleFlowStepLabel {
+    font-size: 11px;
   }
 
-  .exampleDiagramStep {
-    font-size: 15px;
+  .exampleDiagramIcon {
+    width: 30px;
+    height: 30px;
+  }
+
+  .exampleDiagramIcon svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  .exampleFlowConnector {
+    width: 1rem;
+  }
+
+  .exampleAside {
+    margin-block: 20px 0;
+    padding: 0;
+    gap: 8px;
+  }
+
+  .exampleFlowStep {
+    min-width: 3.6rem;
+    padding: 10px 6px;
+    gap: 6px;
+  }
+
+  .examplePillFocus {
+    font-size: 16px;
+    padding: 13px 14px;
+  }
+
+  .examplePillBrand {
+    font-size: 11px;
   }
 
   .heroGrid {
@@ -458,7 +584,7 @@
   .prose,
   .roleBody,
   .stepBody,
-  .exampleBody,
+  .examplePillBody,
   .contactLead {
     font-size: 16px;
   }
