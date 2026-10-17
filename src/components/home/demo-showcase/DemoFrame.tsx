@@ -1,4 +1,9 @@
-import type { ReactNode } from "react";
+"use client";
+
+import { createContext, useContext, type ReactNode } from "react";
+
+/** 窓のタイトルバー直下に差し込む帯（トップの SP Before/After など） */
+export const DemoFrameOverlayContext = createContext<ReactNode>(null);
 
 interface DemoFrameProps {
   title?: string;
@@ -11,6 +16,7 @@ export function DemoFrame({
   children,
   className,
 }: DemoFrameProps) {
+  const overlay = useContext(DemoFrameOverlayContext);
   return (
     <div
       className={`flex h-full min-h-0 flex-col overflow-hidden rounded-2xl border border-[#D9DDE3] bg-[#F4F5F7] text-gray-900 shadow-lg ${className ?? ""}`}
@@ -23,6 +29,7 @@ export function DemoFrame({
           {title}
         </span>
       </div>
+      {overlay}
       <div className="min-h-0 flex-1 overflow-hidden p-4 sm:p-6">{children}</div>
     </div>
   );

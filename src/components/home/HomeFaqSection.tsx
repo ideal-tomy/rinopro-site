@@ -1,3 +1,4 @@
+import { ChevronDown } from "lucide-react";
 import { HOME_FAQ_STYLES } from "./home-presentation";
 import { HomeLandingSectionHeading } from "@/components/home/HomeLandingSectionHeading";
 import { homeLandingCopy } from "@/lib/content/home-landing";
@@ -17,24 +18,24 @@ export function HomeFaqSection() {
       />
       <ul className={HOME_FAQ_STYLES.list}>
         {faq.items.map((item) => (
-          <li
-            key={item.q}
-            className="rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-pure)]"
-          >
-            <details className="group p-1">
+          <li key={item.q} className={HOME_FAQ_STYLES.card}>
+            <details className="group">
               <summary className={HOME_FAQ_STYLES.question}>
-                <span className="flex items-start justify-between gap-4">
-                  <span>{item.q}</span>
-                  <span
-                    className={HOME_FAQ_STYLES.chevron}
-                    aria-hidden
-                  >
-                    ▼
-                  </span>
+                <span className={HOME_FAQ_STYLES.qMark} aria-hidden="true">
+                  Q
                 </span>
+                <span className={HOME_FAQ_STYLES.questionText}>{item.q}</span>
+                <ChevronDown
+                  className={HOME_FAQ_STYLES.chevron}
+                  aria-hidden="true"
+                  strokeWidth={2.25}
+                />
               </summary>
               <div className={HOME_FAQ_STYLES.answer}>
-                {item.a}
+                <span className={HOME_FAQ_STYLES.aMark} aria-hidden="true">
+                  A
+                </span>
+                <p className={HOME_FAQ_STYLES.answerText}>{item.a}</p>
               </div>
             </details>
           </li>

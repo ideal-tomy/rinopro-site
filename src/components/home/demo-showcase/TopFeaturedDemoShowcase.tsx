@@ -2,7 +2,10 @@
 
 import Image from "next/image";
 import { useEffect } from "react";
-import { DemoFrame } from "@/components/home/demo-showcase/DemoFrame";
+import {
+  DemoFrame,
+  DemoFrameOverlayContext,
+} from "@/components/home/demo-showcase/DemoFrame";
 import { useDemoProcess } from "@/components/home/demo-showcase/useDemoProcess";
 import { useInViewAutoPlay } from "@/components/home/demo-showcase/useInViewAutoPlay";
 import {
@@ -17,14 +20,8 @@ const FEATURED_LG_ROW_HEIGHT = "lg:h-[420px] lg:max-h-[420px]";
 const FEATURED_LG_ROW_CLIP = `${FEATURED_LG_ROW_HEIGHT} lg:overflow-hidden`;
 const FEATURED_LG_ROW_TEXT = `${FEATURED_LG_ROW_HEIGHT} lg:overflow-visible`;
 
-/** デモ枠の高さ（min だけだと中身で伸びるため max-h を常にセット） */
-const FEATURED_DEMO_VIEWPORT = [
-  "min-h-0 overflow-hidden",
-  "h-[260px] max-h-[260px]",
-  "sm:h-[300px] sm:max-h-[300px]",
-  "md:h-[340px] md:max-h-[340px]",
-  FEATURED_LG_ROW_CLIP,
-].join(" ");
+/** デモ枠：lg 未満は中身の高さに合わせて全体を見せ、lg は文案列と同じ固定高 */
+const FEATURED_DEMO_VIEWPORT = `min-h-0 ${FEATURED_LG_ROW_CLIP}`;
 
 const approvalSteps = [
   "図面指定を読み取り",
@@ -291,7 +288,7 @@ function ChildcareShowcase() {
   return (
     <section className="flex h-full flex-col">
       <DemoFrame title="今日の様子 → 報告書" className="min-h-0 flex-1">
-        <div className="grid h-full min-h-0 grid-cols-2 grid-rows-[minmax(0,1.15fr)_minmax(0,0.85fr)] gap-2 sm:gap-3">
+        <div className="grid h-[280px] min-h-0 grid-cols-2 grid-rows-[minmax(0,1.15fr)_minmax(0,0.85fr)] gap-2 sm:h-[360px] sm:gap-3 lg:h-full">
           {childcareShots.map((shot) => (
             <div
               key={shot.src}
@@ -330,7 +327,7 @@ function FeaturedShowcase({ demo }: { demo: TopFeaturedDemo }) {
 function ShowcaseWithTags({ demo }: { demo: TopFeaturedDemo }) {
   return (
     <div className="relative flex h-full min-h-0 flex-col">
-      <div className="absolute top-[2.85rem] left-2.5 z-10 flex max-w-[calc(100%-1.25rem)] flex-wrap gap-1 sm:top-[3.1rem] sm:left-3.5 sm:gap-1.5">
+      <div className="absolute top-[3.1rem] left-3.5 z-10 hidden max-w-[calc(100%-1.25rem)] flex-wrap gap-1.5 lg:flex">
         {demo.tags.map((tag) => (
           <span
             key={tag}
@@ -347,17 +344,32 @@ function ShowcaseWithTags({ demo }: { demo: TopFeaturedDemo }) {
   );
 }
 
-function FeaturedBaLabel({ variant }: { variant: "before" | "after" }) {
-  const isBefore = variant === "before";
+type BaVariant = "before" | "after";
+
+const BA_LABEL_TONE: Record<BaVariant, string> = {
+  before: "bg-[#E8EAED] text-[#3D3D3D]",
+  after: "bg-[var(--color-accent-primary-light)] text-brand-deep",
+};
+
+const BA_TEXT_TONE: Record<BaVariant, string> = {
+  before: "text-[#2B2B2B]",
+  after: "text-brand-deep",
+};
+
+function FeaturedBaLabel({
+  variant,
+  compact = false,
+}: {
+  variant: BaVariant;
+  compact?: boolean;
+}) {
   return (
     <span
-      className={`inline-flex w-fit rounded-full px-3.5 py-1.5 text-[17px] font-bold leading-none sm:text-[19px] lg:text-[20px] ${
-        isBefore
-          ? "bg-[#E8EAED] text-[#3D3D3D]"
-          : "bg-[var(--color-accent-primary-light)] text-brand-deep"
-      }`}
+      className={`inline-flex w-fit rounded-full font-bold leading-none ${
+        compact ? "px-2.5 py-1 text-[13px]" : "px-3.5 py-1.5 text-[20px]"
+      } ${BA_LABEL_TONE[variant]}`}
     >
-      {isBefore ? "Before" : "After"}
+      {variant === "before" ? "Before" : "After"}
     </span>
   );
 }
@@ -367,13 +379,11 @@ function FeaturedBaBody({
   variant,
 }: {
   lines: readonly [string, string];
-  variant: "before" | "after";
+  variant: BaVariant;
 }) {
   return (
     <p
-      className={`mt-3 max-w-none text-[21px] leading-[1.45] font-bold break-keep sm:text-[22px] lg:mt-3 lg:text-[30px] lg:leading-[1.4] ${
-        variant === "before" ? "text-[#2B2B2B]" : "text-brand-deep"
-      }`}
+      className={`mt-3 max-w-none text-[30px] leading-[1.4] font-bold break-keep ${BA_TEXT_TONE[variant]}`}
     >
       {lines[0]}
       <br />
@@ -382,47 +392,77 @@ function FeaturedBaBody({
   );
 }
 
+function FeaturedTryLink({ demo }: { demo: TopFeaturedDemo }) {
+  return (
+    <a
+      href={demo.tryHref}
+      target={demo.tryExternal ? "_blank" : undefined}
+      rel={demo.tryExternal ? "noopener noreferrer" : undefined}
+      className="bg-brand hover:bg-brand-hover inline-flex min-h-11 w-full items-center justify-center rounded-lg px-4 py-2.5 text-sm font-semibold text-[var(--df-on-primary)] transition-colors lg:w-auto lg:px-5 lg:py-3"
+    >
+      {demo.tryLabel}
+    </a>
+  );
+}
+
+/** lg 以上：左列の文案（タイトル 2 行・Before/After・CTA） */
 function FeaturedCopyColumn({ demo }: { demo: TopFeaturedDemo }) {
   return (
     <div className="flex h-full min-h-0 flex-col">
       <h3
         title={demo.title}
-        className="mb-2 text-lg leading-tight font-bold break-keep text-[var(--site-fg)] sm:mb-3 sm:text-2xl md:mb-3 md:text-3xl md:leading-tight lg:mb-0 lg:text-[1.875rem] lg:leading-[1.25]"
+        className="text-[1.875rem] leading-[1.25] font-bold break-keep text-[var(--site-fg)]"
       >
-        <span className="lg:hidden">{demo.title}</span>
-        <span className="hidden lg:block">
-          {demo.titleLines[0]}
-          <br />
-          {demo.titleLines[1]}
-        </span>
+        {demo.titleLines[0]}
+        <br />
+        {demo.titleLines[1]}
       </h3>
-      <p className="mb-4 line-clamp-2 text-sm leading-[1.5] text-[var(--site-fg)]/85 sm:text-[15px] lg:hidden">
-        {demo.lead}
-      </p>
 
-      <div className="flex min-h-0 flex-1 flex-col justify-between lg:pt-4">
+      <div className="flex min-h-0 flex-1 flex-col justify-between pt-4">
         <div>
           <div>
             <FeaturedBaLabel variant="before" />
             <FeaturedBaBody lines={demo.beforeLines} variant="before" />
           </div>
-          <div className="mt-6 lg:mt-6">
+          <div className="mt-6">
             <FeaturedBaLabel variant="after" />
             <FeaturedBaBody lines={demo.afterLines} variant="after" />
           </div>
         </div>
 
-        <div className="mt-6 lg:mt-4">
-          <a
-            href={demo.tryHref}
-            target={demo.tryExternal ? "_blank" : undefined}
-            rel={demo.tryExternal ? "noopener noreferrer" : undefined}
-            className="bg-brand hover:bg-brand-hover inline-flex w-full items-center justify-center rounded-lg px-4 py-2.5 text-sm font-semibold text-[var(--df-on-primary)] transition-colors sm:w-auto md:px-5 md:py-3"
-          >
-            {demo.tryLabel}
-          </a>
+        <div className="mt-4">
+          <FeaturedTryLink demo={demo} />
         </div>
       </div>
+    </div>
+  );
+}
+
+/** lg 未満：デモ窓のタイトルバー直下に重ねる Before/After 帯 */
+function FeaturedMobileBa({ demo }: { demo: TopFeaturedDemo }) {
+  const rows: { variant: BaVariant; lines: readonly [string, string] }[] = [
+    { variant: "before", lines: demo.beforeLines },
+    { variant: "after", lines: demo.afterLines },
+  ];
+  return (
+    <div className="relative z-10 shrink-0 border-b border-[#D9DDE3] bg-white px-4 py-3.5 shadow-[0_8px_14px_-10px_rgb(15_23_42_/_0.35)] sm:px-6 lg:hidden">
+      <h3 className="sr-only">{demo.title}</h3>
+      <dl className="grid grid-cols-[auto_minmax(0,1fr)] items-start gap-x-3 gap-y-3">
+        {rows.map(({ variant, lines }) => (
+          <div key={variant} className="contents">
+            <dt className="pt-0.5">
+              <FeaturedBaLabel variant={variant} compact />
+            </dt>
+            <dd
+              className={`text-[15px] leading-[1.5] font-bold sm:text-[16px] ${BA_TEXT_TONE[variant]}`}
+            >
+              {lines[0]}
+              <br />
+              {lines[1]}
+            </dd>
+          </div>
+        ))}
+      </dl>
     </div>
   );
 }
@@ -440,12 +480,21 @@ export function TopFeaturedDemoShowcase({ demos }: Props) {
           id={`featured-${demo.id}`}
           className="scroll-mt-[13.5rem] rounded-2xl border border-[var(--site-border)] bg-[var(--df-bg)] p-3 sm:rounded-[28px] sm:p-6 md:scroll-mt-[16rem] md:p-8 lg:scroll-mt-[18rem] lg:p-10"
         >
-          <div className="grid min-h-0 gap-4 sm:gap-8 lg:grid-cols-2 lg:items-stretch lg:gap-10">
-            <div className={`min-h-0 ${FEATURED_LG_ROW_TEXT}`}>
+          <div className="grid min-h-0 gap-4 sm:gap-5 lg:grid-cols-2 lg:items-stretch lg:gap-10">
+            <div
+              className={`hidden min-h-0 lg:block lg:pl-10 xl:pl-14 ${FEATURED_LG_ROW_TEXT}`}
+            >
               <FeaturedCopyColumn demo={demo} />
             </div>
             <div className={`flex flex-col ${FEATURED_DEMO_VIEWPORT}`}>
-              <ShowcaseWithTags demo={demo} />
+              <DemoFrameOverlayContext.Provider
+                value={<FeaturedMobileBa demo={demo} />}
+              >
+                <ShowcaseWithTags demo={demo} />
+              </DemoFrameOverlayContext.Provider>
+            </div>
+            <div className="lg:hidden">
+              <FeaturedTryLink demo={demo} />
             </div>
           </div>
         </article>

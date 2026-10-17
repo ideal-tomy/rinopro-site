@@ -21,9 +21,11 @@
 |------|------|
 | 外枠 | `rounded-2xl`〜`28px`、border、`bg-[var(--df-bg)]`、共通 padding 段階 |
 | グリッド | `lg:grid-cols-2` + **`items-stretch`** |
-| 右メディアスロット | **`h` + `max-h` 同値**（例: SP 260px → lg **420px**）。`min-h-0 overflow-hidden` でグリッド伸長を抑止 |
-| lg 文案列 | デモ列と **同じ行高（420px）**。見出しは **lg:text-4xl + line-clamp-2** で行の暴れを抑える |
-| テキスト | PC 見出しは `titleLines` 2行。Before/After はラベル上・2行本文。CTA は After 直下（注記なし） |
+| 右メディアスロット（lg） | **`h` + `max-h` 同値 420px**。`min-h-0 overflow-hidden` でグリッド伸長を抑止 |
+| 右メディアスロット（lg 未満） | 高さ固定なし（中身に合わせてデモ全体を表示）。保育デモの画像グリッドのみ `h-[280px]` / `sm:h-[360px]` |
+| lg 文案列 | デモ列と **同じ行高（420px）**。左だけ `lg:pl-10 xl:pl-14` で列間とのバランスを取る |
+| テキスト（lg） | 見出しは `titleLines` 2行。Before/After はラベル上・2行本文。CTA は After 直下（注記なし） |
+| テキスト（lg 未満） | 文案列は非表示（タイトル・lead を出さない）。Before/After のみ、デモ窓のタイトルバー直下に白帯で重ねる（`DemoFrameOverlayContext`）。タグは非表示。CTA はデモの下に全幅 |
 
 実装: `src/components/home/demo-showcase/TopFeaturedDemoShowcase.tsx`
 

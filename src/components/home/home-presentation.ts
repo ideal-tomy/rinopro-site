@@ -54,10 +54,15 @@ export const HOME_CEO_STYLES = {
 
 export const HOME_FAQ_STYLES = {
   "section": "ax-container-reading py-16 md:py-[120px] scroll-mt-32",
-  "list": "mx-auto mt-4 max-w-3xl list-none space-y-4",
-  "question": "cursor-pointer list-none rounded-xl px-5 py-5 text-[17px] font-semibold leading-[1.5] text-[var(--color-text-primary)] text-balance marker:content-none [&::-webkit-details-marker]:hidden md:px-6 md:py-5 md:text-[18px]",
-  "chevron": "mt-0.5 shrink-0 text-[var(--color-accent-primary)] transition group-open:rotate-180",
-  "answer": "border-t border-[var(--color-border-light)] px-5 py-5 text-[16px] leading-[1.5] text-[var(--color-text-secondary)] md:px-6 md:text-[17px]"
+  "list": "mx-auto mt-4 max-w-3xl list-none space-y-3 md:space-y-4",
+  "card": "overflow-hidden rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-pure)] shadow-[0_1px_3px_rgb(15_23_42_/_0.06)] transition-shadow has-[details[open]]:shadow-[0_4px_16px_rgb(38_65_142_/_0.10)]",
+  "question": "flex cursor-pointer list-none items-start gap-3 px-5 py-4 text-[17px] font-semibold leading-[1.5] text-[var(--color-text-primary)] marker:content-none group-open:bg-[var(--color-accent-primary-light)]/60 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-[var(--color-accent-primary)] [&::-webkit-details-marker]:hidden md:gap-4 md:px-6 md:py-5 md:text-[18px]",
+  "qMark": "shrink-0 text-[19px] font-bold leading-[1.4] text-[var(--color-accent-primary)] md:text-[20px]",
+  "questionText": "min-w-0 flex-1 text-balance",
+  "chevron": "mt-1 size-5 shrink-0 text-[var(--color-accent-primary)] motion-safe:transition-transform motion-safe:duration-200 group-open:rotate-180",
+  "answer": "flex items-start gap-3 border-t border-[var(--color-border-light)] px-5 py-5 md:gap-4 md:px-6",
+  "aMark": "shrink-0 text-[19px] font-bold leading-[1.4] text-[var(--color-text-secondary)] md:text-[20px]",
+  "answerText": "min-w-0 flex-1 text-[16px] leading-[1.75] text-[var(--color-text-secondary)] md:text-[17px]"
 } as const;
 
 export const HOME_CLOSING_CTA_STYLES = {
