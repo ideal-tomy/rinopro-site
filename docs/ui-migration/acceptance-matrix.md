@@ -34,4 +34,4 @@
 | 技術検証 | Auto（実装ゲート） | 2026-10-16 |
 | デザイン判断 | Auto（チェックリスト実行・P0 なし） | 2026-10-17 |
 
-**補足:** 最終デザイン承認者（人）の確認は未。P1/P2 は [design-signoff-issues.md](design-signoff-issues.md) を参照。本番 URL での R5（問い合わせテスト送信）・R6（Lighthouse）は未実施。
+**補足:** 最終デザイン承認者（人）の確認は未。P1/P2 は [design-signoff-issues.md](design-signoff-issues.md)（ブランチ上は対応済み）。R5/R6 は 2026-10-17 記録 — [release-gates-r5-r6.md](release-gates-r5-r6.md)（R5: 本番メール送信要修正、R6: a11y 100 / perf 要改善）。

@@ -235,8 +235,8 @@ PC に戻す例: `width: 1280`, `height: 800`, `deviceScaleFactor: 1`, `mobile: 
 | R2 | 環境変数（問い合わせ・Sanity 等）本番設定 | `.env.example` 対照（値は画面のみ） | |
 | R3 | `/sitemap.xml` に公開 URL が含まれる | 本番 URL をブラウザで開く | |
 | R4 | 旧 `public/lp/*.html` に依存しない（rewrite 済み） | 旧 URL 直アクセスが Next に寄る | |
-| R5 | 問い合わせ送信の**テスト送信**（ステージング推奨） | 実際に 1 件 | |
-| R6 | Lighthouse（Performance / A11y）主要 3 URL | 任意・記録のみ | |
+| R5 | 問い合わせ送信の**テスト送信**（ステージング推奨） | 実際に 1 件 | ☑（2026-10-17・本番は `send_failed` → Resend 要確認） |
+| R6 | Lighthouse（Performance / A11y）主要 3 URL | 任意・記録のみ | ☑（2026-10-17・[release-gates-r5-r6.md](release-gates-r5-r6.md)） |
 
 ---
 

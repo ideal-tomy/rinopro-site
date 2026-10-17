@@ -12,9 +12,10 @@ import {
 } from "@/lib/content/demo-showcase-samples";
 import type { TopFeaturedDemo } from "@/lib/content/top-featured-demos";
 
-/** lg 二列時：文案列とデモ列の共通行高（左の 5xl 見出しで行が伸びないようにする） */
-const FEATURED_LG_ROW =
-  "lg:h-[420px] lg:max-h-[420px] lg:overflow-hidden";
+/** lg 二列時：文案列とデモ列の共通行高 */
+const FEATURED_LG_ROW_HEIGHT = "lg:h-[420px] lg:max-h-[420px]";
+const FEATURED_LG_ROW_CLIP = `${FEATURED_LG_ROW_HEIGHT} lg:overflow-hidden`;
+const FEATURED_LG_ROW_TEXT = `${FEATURED_LG_ROW_HEIGHT} lg:overflow-visible`;
 
 /** デモ枠の高さ（min だけだと中身で伸びるため max-h を常にセット） */
 const FEATURED_DEMO_VIEWPORT = [
@@ -22,7 +23,7 @@ const FEATURED_DEMO_VIEWPORT = [
   "h-[260px] max-h-[260px]",
   "sm:h-[300px] sm:max-h-[300px]",
   "md:h-[340px] md:max-h-[340px]",
-  FEATURED_LG_ROW,
+  FEATURED_LG_ROW_CLIP,
 ].join(" ");
 
 const approvalSteps = [
@@ -346,48 +347,82 @@ function ShowcaseWithTags({ demo }: { demo: TopFeaturedDemo }) {
   );
 }
 
-function FeaturedText({ demo }: { demo: TopFeaturedDemo }) {
+function FeaturedBaLabel({ variant }: { variant: "before" | "after" }) {
+  const isBefore = variant === "before";
   return (
-    <div className="max-w-xl">
-      <h3
-        title={demo.title}
-        className="mb-2 text-lg leading-tight font-bold text-[var(--site-fg)] sm:mb-3 sm:text-2xl sm:line-clamp-2 md:mb-4 md:text-3xl md:leading-tight lg:mb-5 lg:text-4xl lg:line-clamp-2"
-      >
-        {demo.title}
-      </h3>
-      <p className="mb-3 line-clamp-2 text-sm leading-[1.5] text-[var(--site-fg)]/85 md:mb-4 md:text-base lg:mb-4 lg:text-lg">
-        {demo.lead}
-      </p>
-      <div className="hidden space-y-2 text-sm md:block">
-        <div className="flex gap-3">
-          <span className="w-14 shrink-0 text-[var(--site-fg-muted)]">Before</span>
-          <span className="line-clamp-2 text-[var(--site-fg)]/80">{demo.before}</span>
-        </div>
-        <div className="flex gap-3">
-          <span className="text-brand-deep w-14 shrink-0 font-semibold">After</span>
-          <span className="line-clamp-2 text-[var(--site-fg)]">{demo.after}</span>
-        </div>
-      </div>
-      {demo.sampleNote ? (
-        <p className="mt-4 hidden text-xs text-[var(--site-fg-muted)] md:block">
-          {demo.sampleNote}
-        </p>
-      ) : null}
-    </div>
+    <span
+      className={`inline-flex w-fit rounded-full px-3.5 py-1.5 text-[17px] font-bold leading-none sm:text-[19px] lg:text-[20px] ${
+        isBefore
+          ? "bg-[#E8EAED] text-[#3D3D3D]"
+          : "bg-[var(--color-accent-primary-light)] text-brand-deep"
+      }`}
+    >
+      {isBefore ? "Before" : "After"}
+    </span>
   );
 }
 
-function FeaturedActions({ demo }: { demo: TopFeaturedDemo }) {
+function FeaturedBaBody({
+  lines,
+  variant,
+}: {
+  lines: readonly [string, string];
+  variant: "before" | "after";
+}) {
   return (
-    <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:flex-wrap">
-      <a
-        href={demo.tryHref}
-        target={demo.tryExternal ? "_blank" : undefined}
-        rel={demo.tryExternal ? "noopener noreferrer" : undefined}
-        className="bg-brand hover:bg-brand-hover inline-flex w-full items-center justify-center rounded-lg px-4 py-2.5 text-sm font-semibold text-[var(--df-on-primary)] transition-colors sm:w-auto md:px-5 md:py-3"
+    <p
+      className={`mt-3 max-w-none text-[21px] leading-[1.45] font-bold break-keep sm:text-[22px] lg:mt-3 lg:text-[30px] lg:leading-[1.4] ${
+        variant === "before" ? "text-[#2B2B2B]" : "text-brand-deep"
+      }`}
+    >
+      {lines[0]}
+      <br />
+      {lines[1]}
+    </p>
+  );
+}
+
+function FeaturedCopyColumn({ demo }: { demo: TopFeaturedDemo }) {
+  return (
+    <div className="flex h-full min-h-0 flex-col">
+      <h3
+        title={demo.title}
+        className="mb-2 text-lg leading-tight font-bold break-keep text-[var(--site-fg)] sm:mb-3 sm:text-2xl md:mb-3 md:text-3xl md:leading-tight lg:mb-0 lg:text-[1.875rem] lg:leading-[1.25]"
       >
-        {demo.tryLabel}
-      </a>
+        <span className="lg:hidden">{demo.title}</span>
+        <span className="hidden lg:block">
+          {demo.titleLines[0]}
+          <br />
+          {demo.titleLines[1]}
+        </span>
+      </h3>
+      <p className="mb-4 line-clamp-2 text-sm leading-[1.5] text-[var(--site-fg)]/85 sm:text-[15px] lg:hidden">
+        {demo.lead}
+      </p>
+
+      <div className="flex min-h-0 flex-1 flex-col justify-between lg:pt-4">
+        <div>
+          <div>
+            <FeaturedBaLabel variant="before" />
+            <FeaturedBaBody lines={demo.beforeLines} variant="before" />
+          </div>
+          <div className="mt-6 lg:mt-6">
+            <FeaturedBaLabel variant="after" />
+            <FeaturedBaBody lines={demo.afterLines} variant="after" />
+          </div>
+        </div>
+
+        <div className="mt-6 lg:mt-4">
+          <a
+            href={demo.tryHref}
+            target={demo.tryExternal ? "_blank" : undefined}
+            rel={demo.tryExternal ? "noopener noreferrer" : undefined}
+            className="bg-brand hover:bg-brand-hover inline-flex w-full items-center justify-center rounded-lg px-4 py-2.5 text-sm font-semibold text-[var(--df-on-primary)] transition-colors sm:w-auto md:px-5 md:py-3"
+          >
+            {demo.tryLabel}
+          </a>
+        </div>
+      </div>
     </div>
   );
 }
@@ -405,16 +440,13 @@ export function TopFeaturedDemoShowcase({ demos }: Props) {
           id={`featured-${demo.id}`}
           className="scroll-mt-[13.5rem] rounded-2xl border border-[var(--site-border)] bg-[var(--df-bg)] p-3 sm:rounded-[28px] sm:p-6 md:scroll-mt-[16rem] md:p-8 lg:scroll-mt-[18rem] lg:p-10"
         >
-          <div className="grid min-h-0 gap-4 sm:gap-8 lg:grid-cols-2 lg:items-start lg:gap-10">
-            <div className={`min-h-0 ${FEATURED_LG_ROW}`}>
-              <FeaturedText demo={demo} />
+          <div className="grid min-h-0 gap-4 sm:gap-8 lg:grid-cols-2 lg:items-stretch lg:gap-10">
+            <div className={`min-h-0 ${FEATURED_LG_ROW_TEXT}`}>
+              <FeaturedCopyColumn demo={demo} />
             </div>
             <div className={`flex flex-col ${FEATURED_DEMO_VIEWPORT}`}>
               <ShowcaseWithTags demo={demo} />
             </div>
-          </div>
-          <div className="mt-4 sm:mt-6 md:mt-8">
-            <FeaturedActions demo={demo} />
           </div>
         </article>
       ))}

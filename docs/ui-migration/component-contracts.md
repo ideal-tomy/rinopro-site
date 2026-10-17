@@ -23,7 +23,7 @@
 | グリッド | `lg:grid-cols-2` + **`items-stretch`** |
 | 右メディアスロット | **`h` + `max-h` 同値**（例: SP 260px → lg **420px**）。`min-h-0 overflow-hidden` でグリッド伸長を抑止 |
 | lg 文案列 | デモ列と **同じ行高（420px）**。見出しは **lg:text-4xl + line-clamp-2** で行の暴れを抑える |
-| テキスト | SP は title truncate / lead `line-clamp-2`、MD+ 解除可 |
+| テキスト | PC 見出しは `titleLines` 2行。Before/After はラベル上・2行本文。CTA は After 直下（注記なし） |
 
 実装: `src/components/home/demo-showcase/TopFeaturedDemoShowcase.tsx`
 
