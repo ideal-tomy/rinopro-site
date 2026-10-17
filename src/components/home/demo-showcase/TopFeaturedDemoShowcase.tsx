@@ -1,13 +1,15 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import {
   DemoFrame,
-  DemoFrameOverlayContext,
+  DemoFrameBottomOverlayContext,
 } from "@/components/home/demo-showcase/DemoFrame";
 import { useDemoProcess } from "@/components/home/demo-showcase/useDemoProcess";
 import { useInViewAutoPlay } from "@/components/home/demo-showcase/useInViewAutoPlay";
+import { useScrollLinkedOpacity } from "@/components/home/demo-showcase/useScrollLinkedOpacity";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import {
   knowledgeProcessingSteps,
   photoProcessingSteps,
@@ -438,32 +440,148 @@ function FeaturedCopyColumn({ demo }: { demo: TopFeaturedDemo }) {
   );
 }
 
-/** lg 未満：デモ窓のタイトルバー直下に重ねる Before/After 帯 */
-function FeaturedMobileBa({ demo }: { demo: TopFeaturedDemo }) {
-  const rows: { variant: BaVariant; lines: readonly [string, string] }[] = [
-    { variant: "before", lines: demo.beforeLines },
-    { variant: "after", lines: demo.afterLines },
-  ];
+/** lg 未満：Before/After 表示と同じ opacity でデモ本文を暗くする */
+function FeaturedMobileBaDimmer({ opacity }: { opacity: number }) {
+  const visible = opacity > 0.04;
   return (
-    <div className="relative z-10 shrink-0 border-b border-[#D9DDE3] bg-white px-4 py-3.5 shadow-[0_8px_14px_-10px_rgb(15_23_42_/_0.35)] sm:px-6 lg:hidden">
-      <h3 className="sr-only">{demo.title}</h3>
-      <dl className="grid grid-cols-[auto_minmax(0,1fr)] items-start gap-x-3 gap-y-3">
-        {rows.map(({ variant, lines }) => (
-          <div key={variant} className="contents">
-            <dt className="pt-0.5">
-              <FeaturedBaLabel variant={variant} compact />
-            </dt>
-            <dd
-              className={`text-[15px] leading-[1.5] font-bold sm:text-[16px] ${BA_TEXT_TONE[variant]}`}
-            >
-              {lines[0]}
-              <br />
-              {lines[1]}
-            </dd>
-          </div>
-        ))}
-      </dl>
+    <div
+      className="pointer-events-none absolute inset-0 z-[5] bg-black/42 lg:hidden"
+      style={{ opacity }}
+      aria-hidden={!visible}
+    />
+  );
+}
+
+function clamp01(value: number) {
+  return Math.min(1, Math.max(0, value));
+}
+
+/** スクロール進捗の中盤で 0→1（左スライド用） */
+function baSlideProgress(scrollOpacity: number, start: number, span: number) {
+  return clamp01((scrollOpacity - start) / span);
+}
+
+/** 終盤もゆっくり寄せる（指数を下げて長めのスライド向き） */
+function baSlideEase(t: number) {
+  return 1 - Math.pow(1 - t, 2);
+}
+
+function FeaturedMobileBaPill({
+  variant,
+  lines,
+  slide,
+}: {
+  variant: BaVariant;
+  lines: readonly [string, string];
+  slide: number;
+}) {
+  const eased = baSlideEase(slide);
+  const translateX = (1 - eased) * -120;
+  const shellTone =
+    variant === "before"
+      ? "bg-[#E8EAED] border-[#D9DDE3]"
+      : "bg-[var(--color-accent-primary-light)] border-brand/20";
+
+  if (slide <= 0.001) {
+    return null;
+  }
+
+  return (
+    <div
+      className={`flex w-full max-w-[min(100%,19.5rem)] items-start gap-2.5 rounded-2xl border px-3 py-2.5 shadow-[0_6px_18px_rgb(15_23_42_/_0.14)] sm:max-w-[min(100%,21rem)] sm:gap-3 sm:px-3.5 sm:py-3 ${shellTone}`}
+      style={{ transform: `translateX(${translateX}px)` }}
+    >
+      <FeaturedBaLabel variant={variant} compact />
+      <p
+        className={`min-w-0 flex-1 text-[13px] leading-[1.45] font-bold break-keep sm:text-[14px] ${BA_TEXT_TONE[variant]}`}
+      >
+        {lines[0]}
+        <br />
+        {lines[1]}
+      </p>
     </div>
+  );
+}
+
+function FeaturedMobileSpOverlays({
+  demo,
+  opacity,
+  motionReduced,
+}: {
+  demo: TopFeaturedDemo;
+  opacity: number;
+  motionReduced: boolean;
+}) {
+  const beforeSlide = motionReduced
+    ? 1
+    : baSlideProgress(opacity, 0.16, 0.75);
+  const afterSlide = motionReduced
+    ? 1
+    : baSlideProgress(opacity, 0.3, 0.75);
+  const showLayer = motionReduced || opacity > 0.04;
+
+  return (
+    <>
+      <FeaturedMobileBaDimmer opacity={motionReduced ? 1 : opacity} />
+      <div
+        className="pointer-events-none absolute inset-x-0 bottom-3 z-10 flex flex-col items-start gap-2 px-1 sm:bottom-4 sm:gap-2.5 sm:px-2 lg:hidden"
+        aria-hidden={!showLayer}
+      >
+        <h3 className="sr-only">{demo.title}</h3>
+        <FeaturedMobileBaPill
+          variant="before"
+          lines={demo.beforeLines}
+          slide={beforeSlide}
+        />
+        <FeaturedMobileBaPill
+          variant="after"
+          lines={demo.afterLines}
+          slide={afterSlide}
+        />
+      </div>
+    </>
+  );
+}
+
+function FeaturedDemoArticle({ demo }: { demo: TopFeaturedDemo }) {
+  const demoColumnRef = useRef<HTMLDivElement>(null);
+  const reduceMotion = useReducedMotion();
+  const baOpacity = useScrollLinkedOpacity(demoColumnRef, {
+    disabled: reduceMotion,
+  });
+
+  return (
+    <article
+      id={`featured-${demo.id}`}
+      className="scroll-mt-[13.5rem] rounded-2xl border border-[var(--site-border)] bg-[var(--df-bg)] p-3 sm:rounded-[28px] sm:p-6 md:scroll-mt-[16rem] md:p-8 lg:scroll-mt-[18rem] lg:p-10"
+    >
+      <div className="grid min-h-0 gap-4 sm:gap-5 lg:grid-cols-2 lg:items-stretch lg:gap-10">
+        <div
+          className={`hidden min-h-0 lg:block lg:pl-10 xl:pl-14 ${FEATURED_LG_ROW_TEXT}`}
+        >
+          <FeaturedCopyColumn demo={demo} />
+        </div>
+        <div
+          ref={demoColumnRef}
+          className={`flex flex-col ${FEATURED_DEMO_VIEWPORT}`}
+        >
+          <DemoFrameBottomOverlayContext.Provider
+            value={
+              <FeaturedMobileSpOverlays
+                demo={demo}
+                opacity={baOpacity}
+                motionReduced={reduceMotion}
+              />
+            }
+          >
+            <ShowcaseWithTags demo={demo} />
+          </DemoFrameBottomOverlayContext.Provider>
+        </div>
+        <div className="lg:hidden">
+          <FeaturedTryLink demo={demo} />
+        </div>
+      </div>
+    </article>
   );
 }
 
@@ -475,29 +593,7 @@ export function TopFeaturedDemoShowcase({ demos }: Props) {
   return (
     <div className="mx-auto max-w-7xl space-y-4 px-4 py-2 sm:space-y-8 sm:px-6 md:space-y-10 lg:px-8">
       {demos.map((demo) => (
-        <article
-          key={demo.id}
-          id={`featured-${demo.id}`}
-          className="scroll-mt-[13.5rem] rounded-2xl border border-[var(--site-border)] bg-[var(--df-bg)] p-3 sm:rounded-[28px] sm:p-6 md:scroll-mt-[16rem] md:p-8 lg:scroll-mt-[18rem] lg:p-10"
-        >
-          <div className="grid min-h-0 gap-4 sm:gap-5 lg:grid-cols-2 lg:items-stretch lg:gap-10">
-            <div
-              className={`hidden min-h-0 lg:block lg:pl-10 xl:pl-14 ${FEATURED_LG_ROW_TEXT}`}
-            >
-              <FeaturedCopyColumn demo={demo} />
-            </div>
-            <div className={`flex flex-col ${FEATURED_DEMO_VIEWPORT}`}>
-              <DemoFrameOverlayContext.Provider
-                value={<FeaturedMobileBa demo={demo} />}
-              >
-                <ShowcaseWithTags demo={demo} />
-              </DemoFrameOverlayContext.Provider>
-            </div>
-            <div className="lg:hidden">
-              <FeaturedTryLink demo={demo} />
-            </div>
-          </div>
-        </article>
+        <FeaturedDemoArticle key={demo.id} demo={demo} />
       ))}
     </div>
   );

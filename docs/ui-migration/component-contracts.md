@@ -25,7 +25,7 @@
 | 右メディアスロット（lg 未満） | 高さ固定なし（中身に合わせてデモ全体を表示）。保育デモの画像グリッドのみ `h-[280px]` / `sm:h-[360px]` |
 | lg 文案列 | デモ列と **同じ行高（420px）**。左だけ `lg:pl-10 xl:pl-14` で列間とのバランスを取る |
 | テキスト（lg） | 見出しは `titleLines` 2行。Before/After はラベル上・2行本文。CTA は After 直下（注記なし） |
-| テキスト（lg 未満） | 文案列は非表示（タイトル・lead を出さない）。Before/After のみ、デモ窓のタイトルバー直下に白帯で重ねる（`DemoFrameOverlayContext`）。タグは非表示。CTA はデモの下に全幅 |
+| テキスト（lg 未満） | 文案列は非表示。Before/After は不透明の横長ピル2つ（左下重ね、`DemoFrameBottomOverlayContext`）。`useScrollLinkedOpacity` の中盤で左からスライドイン（After は Before より遅れ）。同 opacity で本文に黒ディム（`bg-black/42`）。`prefers-reduced-motion` 時はディム常時・ピルは最終位置。余白は増やさない。タグは非表示。CTA はデモ枠の下に全幅 |
 
 実装: `src/components/home/demo-showcase/TopFeaturedDemoShowcase.tsx`
 
