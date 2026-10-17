@@ -2,16 +2,17 @@
 
 import { Fragment } from "react";
 import { motion } from "framer-motion";
+import { AxPhrases } from "@/components/ui/ax/AxPhrases";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
 const STEPS = [
-  { label: "課題を聞く" },
+  { label: ["課題を", "聞く"] },
   {
-    label: "デモを作る",
+    label: ["デモを", "作る"],
     caption: "最短1〜2週間",
     emphasis: true,
   },
-  { label: "触って判断" },
+  { label: ["触って", "判断"] },
 ] as const;
 
 function Connector({ delay, animate }: { delay: number; animate: boolean }) {
@@ -59,7 +60,7 @@ export function ReasonFlowDiagram() {
       aria-label="課題を聞く、デモを作る、触って判断の流れ"
     >
       {STEPS.map((step, i) => (
-        <Fragment key={step.label}>
+        <Fragment key={step.label.join("")}>
           <motion.div
             className={`flex min-h-[88px] min-w-0 flex-1 flex-col items-center justify-center rounded-[10px] border px-2 py-3 text-center sm:min-h-[96px] sm:px-3.5 ${
               "emphasis" in step && step.emphasis
@@ -76,7 +77,7 @@ export function ReasonFlowDiagram() {
             }}
           >
             <span className="text-[13px] font-bold leading-snug tracking-wide text-[var(--reason-text)] sm:text-[14px]">
-              {step.label}
+              <AxPhrases phrases={step.label} />
             </span>
             {"caption" in step && step.caption ? (
               <span className="mt-1.5 text-[10px] font-medium tracking-wide text-[var(--reason-muted)] sm:text-[11px]">

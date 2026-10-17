@@ -18,3 +18,4 @@
 | 2026-10-16 | F1 | P0 着手: kaigo セクション復元・デモ強化・LP フォント / chuken display / トップデモ h-full | `KaigoLpSections`, `KaigoDemoViews`, layouts, `TopFeaturedDemoShowcase` | parity 残は backlog |
 | 2026-10-16 | F2–F4 | P0–P2 クローズ: kaigo demo a11y・密度 / chuken sections+header / home DemoFrame / consulting・enablement・about / industries トークン / experience 15px / services steps | `KaigoDemoViews`, `chuken/*`, `DemoFrame`, service/about modules, `axeon-themes.css` | acceptance デザイン判断待ち |
 | 2026-10-17 | デザイン判断 | checklist 段 A–G: 375/1280 ブラウザ確認・導線・noindex。P0 なし。P1/P2 記録 | `design-signoff-checklist.md`, `design-signoff-issues.md`, `acceptance-matrix.md` | issues #1–#4 open |
+| 2026-10-18 | テキスト表示 | 全サイト共通テキスト表示ルール v1.0 をコーポレート6ページに適用（文言変更なし）。句単位の折り返し・本文 15px 以上・行間・細線区切り。390 / 1280 確認 | `AxPhrases`, `AxRichParagraph`, `axeon-ui.css`, home/consulting/about/services/contact/enablement の各コンポーネント, `docs/ui-migration/text-rollout/*` | フェーズ 2（industries 以降） |

@@ -1,4 +1,5 @@
 import { HOME_SECTION_HEADING_STYLES } from "./home-presentation";
+import { AxPhrases } from "@/components/ui/ax/AxPhrases";
 import { headingAccentRuleClasses } from "@/lib/ui/heading-accent-rule-styles";
 import { cn } from "@/lib/utils";
 
@@ -10,7 +11,8 @@ export type HomeLandingSectionHeadingProps = {
   /** 見出し直上の小さなラベル。未指定なら出さない */
   kicker?: string;
   title: string;
-  description?: string;
+  /** 配列のときは句ごとにまとめて折り返す */
+  description?: string | readonly string[];
   className?: string;
 };
 
@@ -54,7 +56,11 @@ export function HomeLandingSectionHeading({
       </h2>
       {description ? (
         <p className={HOME_SECTION_HEADING_STYLES.description}>
-          {description}
+          {typeof description === "string" ? (
+            description
+          ) : (
+            <AxPhrases phrases={description} />
+          )}
         </p>
       ) : null}
     </header>

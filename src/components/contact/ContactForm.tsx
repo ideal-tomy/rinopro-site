@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { AxPhrases } from "@/components/ui/ax/AxPhrases";
 import { useContactForm } from "@/hooks/use-contact-form";
 import { contactCopy } from "@/lib/content/site-copy";
 import { getImplementationShowcaseContactFormOptions } from "@/lib/content/implementation-showcase";
@@ -202,7 +203,9 @@ export function ContactForm() {
             errors.message && "border-red-500"
           )}
         />
-        <p className="mt-2 text-sm text-text-sub">{form.messageHint}</p>
+        <p className="mt-2 text-sm leading-[1.65] text-text-sub">
+          <AxPhrases phrases={form.messageHint.split(/(?<=[、。])/)} />
+        </p>
         {errors.message ? <p className="mt-1 text-sm text-red-500">{errors.message}</p> : null}
       </div>
 

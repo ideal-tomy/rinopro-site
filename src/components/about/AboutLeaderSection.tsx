@@ -2,7 +2,9 @@
 
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
+import { AxRichParagraph } from "@/components/ui/ax/AxRichParagraph";
 import { aboutCopy } from "@/lib/content/site-copy";
+import { cn } from "@/lib/utils";
 import { AboutSectionHeader } from "./AboutSectionHeader";
 import { aboutReveal } from "./about-presentation";
 import styles from "./about-page.module.css";
@@ -24,9 +26,21 @@ export function AboutLeaderSection() {
             <div key={profile.title} className={styles.leaderColumns} data-open={expanded}>
               <article {...aboutReveal(80)}>
                 <div id={bodyId} className={styles.leaderBody}>
-                  {profile.body.map((paragraph, index) => (
-                    <p key={paragraph} className={index >= PREVIEW_PARAGRAPHS ? styles.leaderMore : undefined}>{paragraph}</p>
-                  ))}
+                  {profile.body.map((block, index) => {
+                    const more = index >= PREVIEW_PARAGRAPHS ? styles.leaderMore : undefined;
+                    return (
+                      <AxRichParagraph
+                        key={block.text.slice(0, 24)}
+                        block={block}
+                        className={more}
+                        emphasisClassName="font-semibold text-[var(--about-navy)]"
+                        quoteClassName={cn(
+                          "border-l-[3px] border-[var(--about-blue)] pl-4 font-medium text-[var(--about-navy)]",
+                          more,
+                        )}
+                      />
+                    );
+                  })}
                 </div>
                 <button
                   type="button"

@@ -16,6 +16,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { useScrollLinkedOpacity } from "@/components/home/demo-showcase/useScrollLinkedOpacity";
+import { AxPhrases } from "@/components/ui/ax/AxPhrases";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import {
   viewSlideProgress,
@@ -32,15 +33,15 @@ const SLIDE_SPAN = 0.75;
 const SLIDE_DISTANCE_PX = 120;
 
 const examples: {
-  problem: string;
-  focus: string;
+  problem: readonly string[];
+  focus: readonly string[];
   body: string;
   flowSteps: FlowStep[];
   flowAriaLabel: string;
 }[] = [
   {
-    problem: "同じ情報を、何度も入力している。",
-    focus: "入力を減らすには、どこを変えるべきか。",
+    problem: ["同じ情報を、", "何度も入力している。"],
+    focus: ["入力を減らすには、", "どこを変えるべきか。"],
     body: "同じ情報を入力している箇所を調べ、既存システムの連携、業務手順の変更、システムの入れ替えを比較します。",
     flowSteps: [
       { label: "Excel", Icon: Table },
@@ -50,8 +51,8 @@ const examples: {
     flowAriaLabel: "Excelから受注管理、請求管理へ情報が流れるイメージ",
   },
   {
-    problem: "AIを、どの業務に使えばよいかわからない。",
-    focus: "試す業務と、効果の確認方法を決める。",
+    problem: ["AIを、", "どの業務に使えばよいか", "わからない。"],
+    focus: ["試す業務と、", "効果の確認方法を決める。"],
     body: "対象となる業務や使える情報を調べ、人が確認すべき部分も含めて小さな検証の進め方を考えます。",
     flowSteps: [
       { label: "候補業務", Icon: ClipboardList },
@@ -61,8 +62,8 @@ const examples: {
     flowAriaLabel: "候補業務の選定から試作検証、効果確認までの流れ",
   },
   {
-    problem: "今のシステムを、どこまで変えるべきか。",
-    focus: "残す部分と、変更する部分を決める。",
+    problem: ["今のシステムを、", "どこまで変えるべきか。"],
+    focus: ["残す部分と、", "変更する部分を決める。"],
     body: "現在の利用状況と制約を確認し、機能追加、一部改修、全体の入れ替えを比較します。",
     flowSteps: [
       { label: "現状整理", Icon: ScanSearch },
@@ -122,7 +123,7 @@ function ConsultingExampleAside({
   focus,
   body,
 }: {
-  focus: string;
+  focus: readonly string[];
   body: string;
 }) {
   const asideRef = useRef<HTMLElement>(null);
@@ -171,7 +172,9 @@ function ConsultingExampleAside({
             opacity: reduceMotion ? 1 : Math.min(1, mainSlide * 1.1),
           }}
         >
-          <p className={styles.examplePillFocus}>{focus}</p>
+          <p className={styles.examplePillFocus}>
+            <AxPhrases phrases={focus} />
+          </p>
           <p className={styles.examplePillBody}>{body}</p>
         </div>
       ) : null}
@@ -188,8 +191,8 @@ function ConsultingExampleRow({
   flowAriaLabel,
 }: {
   index: number;
-  problem: string;
-  focus: string;
+  problem: readonly string[];
+  focus: readonly string[];
   body: string;
   flowSteps: FlowStep[];
   flowAriaLabel: string;
@@ -201,7 +204,9 @@ function ConsultingExampleRow({
           <span className={styles.srOnly}>事例 </span>
           {String(index + 1).padStart(2, "0")}
         </p>
-        <h3 className={styles.exampleProblem}>{problem}</h3>
+        <h3 className={styles.exampleProblem}>
+          <AxPhrases phrases={problem} />
+        </h3>
         <ConsultingExampleFlowDiagram
           steps={flowSteps}
           ariaLabel={flowAriaLabel}

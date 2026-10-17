@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";
+import { AxPhrases } from "@/components/ui/ax/AxPhrases";
 import { preSupportCards } from "./enablement-pre-support-cards-data";
 import styles from "./enablement-page.module.css";
 
@@ -80,7 +81,11 @@ export function EnablementPreSupportCards() {
             <li key={title} className={styles.preSupportCard}>
               <div className={styles.preSupportDiagram} aria-hidden><Diagram /></div>
               <h3 className={styles.preSupportCardTitle}>{title}</h3>
-              <p className={styles.preSupportCardBody}>{body}</p>
+              <p className={styles.preSupportCardBody}>
+                <span>
+                  <AxPhrases phrases={body} />
+                </span>
+              </p>
             </li>
           ))}
         </ul>

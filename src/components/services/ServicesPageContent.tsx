@@ -2,27 +2,28 @@ import Link from "next/link";
 import { Search, FileText, CodeXml, Laptop, RefreshCw } from "lucide-react";
 import { ServicesFlipCards } from "./ServicesFlipCards";
 import { ServicesMenu } from "./ServicesMenu";
+import { AxPhrases } from "@/components/ui/ax/AxPhrases";
 import styles from "./services-page.module.css";
 const steps = [
-  { title: "課題抽出", body: "経営と現場の論点を整理します。", Icon: Search },
+  { title: "課題抽出", body: ["経営と現場の論点を", "整理します。"], Icon: Search },
   {
     title: "設計",
-    body: "何を作るか・何を検証するかを決めます。",
+    body: ["何を作るか・", "何を検証するかを決めます。"],
     Icon: FileText,
   },
   {
     title: "試作・実装",
-    body: "小さく試してから本実装へ進めます。",
+    body: ["小さく試してから", "本実装へ進めます。"],
     Icon: CodeXml,
   },
   {
     title: "導入・展開",
-    body: "現場に乗る運用設計と関係者への共有まで整えます。",
+    body: ["現場に乗る運用設計と", "関係者への共有まで", "整えます。"],
     Icon: Laptop,
   },
   {
     title: "運用・保守",
-    body: "監視と改善サイクルを回し、使われ続ける状態を保ちます。",
+    body: ["監視と改善サイクルを回し、", "使われ続ける", "状態を保ちます。"],
     Icon: RefreshCw,
   },
 ];
@@ -127,7 +128,9 @@ export function ServicesPageContent() {
                   </div>
                 </div>
                 <h3>{title}</h3>
-                <p>{body}</p>
+                <p>
+                  <AxPhrases phrases={body} />
+                </p>
               </li>
             ))}
           </ol>

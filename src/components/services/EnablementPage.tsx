@@ -11,6 +11,7 @@ import { EnablementExternalItSections } from "./EnablementExternalItSections";
 import { SERVICE_HERO_PROCESS_PAGE_CONFIG } from "@/lib/content/service-hero-process-stages";
 import { ServiceFlowDiagram } from "./ServiceFlowDiagram";
 import { axLayout } from "@/lib/ui/ax-typography";
+import { AxPhrases } from "@/components/ui/ax/AxPhrases";
 
 export function EnablementPage() {
   const checksReveal = useEnablementSectionReveal();
@@ -37,7 +38,24 @@ export function EnablementPage() {
               <span>という選択。</span>
             </h1>
             <p className={shared.heroBody}>
-              社内に専任者を置かず、AXEONが外部のIT担当として継続的に対応します。日々のIT相談から、システムの管理・改善、新しい技術の検討まで。
+              <span className="block">
+                <AxPhrases
+                  phrases={[
+                    "社内に専任者を置かず、",
+                    "AXEONが外部のIT担当として",
+                    "継続的に対応します。",
+                  ]}
+                />
+              </span>
+              <span className="block">
+                <AxPhrases
+                  phrases={[
+                    "日々のIT相談から、",
+                    "システムの管理・改善、",
+                    "新しい技術の検討まで。",
+                  ]}
+                />
+              </span>
             </p>
             <p className={shared.heroStrong}>
               必要な仕事を、必要な範囲で任せられます。
@@ -61,7 +79,9 @@ export function EnablementPage() {
             支援を始める前に
           </h2>
           <p className={styles.intro}>
-            現在の体制や業務に合わせて、担当する範囲と進め方を確認します。
+            <AxPhrases
+              phrases={["現在の体制や業務に合わせて、", "担当する範囲と進め方を確認します。"]}
+            />
           </p>
           <EnablementPreSupportCards />
         </div>

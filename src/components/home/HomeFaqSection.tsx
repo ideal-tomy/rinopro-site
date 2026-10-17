@@ -1,6 +1,7 @@
 import { ChevronDown } from "lucide-react";
 import { HOME_FAQ_STYLES } from "./home-presentation";
 import { HomeLandingSectionHeading } from "@/components/home/HomeLandingSectionHeading";
+import { AxPhrases } from "@/components/ui/ax/AxPhrases";
 import { homeLandingCopy } from "@/lib/content/home-landing";
 
 const { faq } = homeLandingCopy;
@@ -18,13 +19,15 @@ export function HomeFaqSection() {
       />
       <ul className={HOME_FAQ_STYLES.list}>
         {faq.items.map((item) => (
-          <li key={item.q} className={HOME_FAQ_STYLES.card}>
+          <li key={item.q.join("")} className={HOME_FAQ_STYLES.card}>
             <details className="group">
               <summary className={HOME_FAQ_STYLES.question}>
                 <span className={HOME_FAQ_STYLES.qMark} aria-hidden="true">
                   Q
                 </span>
-                <span className={HOME_FAQ_STYLES.questionText}>{item.q}</span>
+                <span className={HOME_FAQ_STYLES.questionText}>
+                  <AxPhrases phrases={item.q} />
+                </span>
                 <ChevronDown
                   className={HOME_FAQ_STYLES.chevron}
                   aria-hidden="true"

@@ -945,7 +945,7 @@
   .challengeText { font-size: 18px; }
   .supportHeading { font-size: 17px; }
   .checksSection .intro {
-    font-size: 14px;
+    font-size: 15px;
   }
 }
 @media (hover: none) {
@@ -963,7 +963,7 @@
 .checksSection .intro {
   margin-top: 16px;
   font-size: 16px;
-  line-height: var(--line-height-body, 1.5);
+  line-height: var(--ax-body-lh, 1.75);
   color: #24364b;
 }
 .preSupport {

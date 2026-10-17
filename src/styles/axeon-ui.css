@@ -163,6 +163,7 @@
   line-height: var(--ax-lead-lh);
   font-weight: 400;
   color: var(--ax-text-body);
+  text-wrap: pretty;
 }
 
 .ax-role-body {
@@ -170,6 +171,7 @@
   line-height: var(--ax-body-lh);
   font-weight: 400;
   color: var(--ax-text-body);
+  text-wrap: pretty;
 }
 
 .ax-role-supporting {
@@ -210,6 +212,7 @@
   font-size: var(--ax-body-size);
   line-height: var(--ax-body-lh);
   color: var(--ax-text-body);
+  text-wrap: pretty;
 }
 
 /* フォーカス（サイト横断） */
@@ -361,12 +364,13 @@
   font-size: var(--ax-body-size);
   line-height: var(--ax-body-lh);
   color: var(--ax-text-body);
+  text-wrap: pretty;
 }
 
+/* margin は付けない（unlayered のため mt-* ユーティリティを打ち消してしまう） */
 .ax-pattern-flow {
   display: grid;
-  gap: 24px;
-  margin: 0;
+  gap: 32px;
   padding: 0;
   list-style: none;
 }
@@ -380,8 +384,8 @@
 
 .ax-pattern-flow__step {
   min-width: 0;
-  padding-top: 16px;
-  border-top: 2px solid var(--ax-brand-primary);
+  padding-top: 20px;
+  border-top: 1px solid var(--ax-border-subtle);
 }
 
 .ax-pattern-flow__label {
@@ -402,10 +406,11 @@
 }
 
 .ax-pattern-flow__body {
-  margin: 10px 0 0;
+  margin: 8px 0 0;
   font-size: var(--ax-body-size);
   line-height: var(--ax-body-lh);
   color: var(--ax-text-body);
+  text-wrap: pretty;
 }
 
 .ax-pattern-cta {
@@ -431,6 +436,7 @@
   color: #e6e8ee;
   font-size: var(--ax-body-size);
   line-height: var(--ax-body-lh);
+  text-wrap: pretty;
 }
 
 .ax-pattern-cta__actions {
@@ -570,8 +576,7 @@
 
 .ax-pattern-compare {
   display: grid;
-  gap: 20px;
-  margin: 0;
+  gap: 32px;
   padding: 0;
   list-style: none;
 }
@@ -579,13 +584,13 @@
 @media (min-width: 768px) {
   .ax-pattern-compare {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 28px 40px;
+    gap: 36px 40px;
   }
 }
 
 .ax-pattern-compare__item {
-  padding-top: 16px;
-  border-top: 2px solid var(--ax-brand-primary);
+  padding-top: 20px;
+  border-top: 1px solid var(--ax-border-subtle);
 }
 
 .ax-pattern-compare__title {
@@ -601,4 +606,5 @@
   font-size: var(--ax-body-size);
   line-height: var(--ax-body-lh);
   color: var(--ax-text-body);
+  text-wrap: pretty;
 }

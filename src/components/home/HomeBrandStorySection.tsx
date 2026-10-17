@@ -29,8 +29,8 @@ export function HomeBrandStorySection() {
             id="home-empathy-heading"
             className={cn(
               HOME_BRAND_STORY_STYLES.heading,
-              headingAccentRuleClasses.onDark,
-              "md:[&::after]:mx-auto",
+              headingAccentRuleClasses.onDarkInline,
+              "md:mx-auto",
             )}
           >
             <span className="block">{brandStory.headingLines[0]}</span>

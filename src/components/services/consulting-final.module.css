@@ -6,8 +6,11 @@
   max-width: 100%;
 }
 
-.page :is(h1, h2, h3, p, ul, ol) {
-  margin: 0;
+/* base 層に置き、ページ内の mt-* ユーティリティを打ち消さない */
+@layer base {
+  .page :is(h1, h2, h3, p, ul, ol) {
+    margin: 0;
+  }
 }
 
 .page :is(h1, h2, h3) {

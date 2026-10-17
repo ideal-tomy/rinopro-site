@@ -1,5 +1,15 @@
 import { HOME_CLOSING_CTA_STYLES } from "./home-presentation";
 import Link from "next/link";
+import { AxPhrases } from "@/components/ui/ax/AxPhrases";
+
+const HEADING = ["簡単なお悩みから", "課題を明確にします。"] as const;
+const BODY = [
+  "「なんとなく非効率な気がする」——",
+  "その段階からで構いません。",
+  "お話を伺いながら、",
+  "まずは触れるデモのかたちでご提案します。",
+  "デモのカスタマイズ相談だけでも歓迎です。",
+] as const;
 
 export function HomeClosingCta() {
   return (
@@ -13,10 +23,10 @@ export function HomeClosingCta() {
           id="home-closing-cta-heading"
           className={HOME_CLOSING_CTA_STYLES.heading}
         >
-          <span className="inline-block">簡単なお悩みから</span><span className="inline-block">課題を明確にします。</span>
+          <AxPhrases phrases={HEADING} />
         </h2>
         <p className={HOME_CLOSING_CTA_STYLES.body}>
-          「なんとなく非効率な気がする」——その段階からで構いません。お話を伺いながら、まずは触れるデモのかたちでご提案します。デモのカスタマイズ相談だけでも歓迎です。
+          <AxPhrases phrases={BODY} />
         </p>
 
         <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">

@@ -7,6 +7,7 @@ import { AboutPrinciplesSection } from "./AboutPrinciplesSection";
 import { AboutStorySection } from "./AboutStorySection";
 import { AboutTeamSection } from "./AboutTeamSection";
 import { aboutReveal } from "./about-presentation";
+import { AxPhrases } from "@/components/ui/ax/AxPhrases";
 import { Button } from "@/components/ui/button";
 import { aboutCopy } from "@/lib/content/site-copy";
 import { headingAccentRuleClasses } from "@/lib/ui/heading-accent-rule-styles";
@@ -28,7 +29,11 @@ export function AboutPageContent() {
             <span className={styles.mobileOnly}><span>企業の業務整理から</span><span>システム開発・運用支援まで</span></span>
           </h1>
           <p className={styles.heroBody + " " + styles.body} {...aboutReveal(160, true)}>
-            {heroSentences.map((sentence) => <span key={sentence}>{sentence}。</span>)}
+            {heroSentences.map((sentence) => (
+              <span key={sentence}>
+                <AxPhrases phrases={(sentence + "。").split(/(?<=、)/)} />
+              </span>
+            ))}
           </p>
         </div>
       </section>
@@ -54,7 +59,9 @@ export function AboutPageContent() {
           >
             {cta.heading}
           </h2>
-          <p className={styles.contactBody} {...aboutReveal(80)}>{cta.sub}</p>
+          <p className={styles.contactBody} {...aboutReveal(80)}>
+            <AxPhrases phrases={cta.sub} />
+          </p>
           <div {...aboutReveal(160)}>
             <Button asChild variant="outline" className={styles.button + " " + styles.contactButton}>
               <Link href={cta.primaryHref}>{cta.primaryLabel}<ArrowRight aria-hidden="true" /></Link>

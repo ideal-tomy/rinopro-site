@@ -5,6 +5,7 @@ import {
   ScrollSequence,
   ScrollSequenceItem,
 } from "@/components/motion/ScrollSequence";
+import { AxPhrases } from "@/components/ui/ax/AxPhrases";
 import { ContactForm } from "./ContactForm";
 import { contactCopy } from "@/lib/content/site-copy";
 
@@ -17,7 +18,7 @@ export function ContactPageContent() {
             {contactCopy.title}
           </h1>
           <p className="ax-role-body mb-8 text-[var(--ax-text-supporting)]">
-            {contactCopy.purpose}
+            <AxPhrases phrases={contactCopy.purpose.split(/(?<=。)/)} />
           </p>
         </ScrollSequenceItem>
 
@@ -27,16 +28,20 @@ export function ContactPageContent() {
 
         <ScrollSequenceItem thresholds={[0.24, 0.42]}>
           <aside className="mt-10 rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-pure)] p-5 md:p-6">
-            <p className="text-sm leading-[1.5] text-text-sub">{contactCopy.depthPromptLine}</p>
-            <p className="mt-3 text-sm">
+            <p className="text-[15px] leading-[1.7] text-text-sub">
+              <AxPhrases phrases={contactCopy.depthPromptLine.split(/(?<=、)/)} />
+            </p>
+            <p className="mt-3 text-[15px]">
               <Link
                 href="/estimate-detailed"
                 className="font-medium text-accent underline-offset-4 hover:underline"
               >
                 {contactCopy.estimateShortcutCta}
               </Link>
-              <span className="mt-2 block text-xs leading-[1.5] text-text-sub">
-                {contactCopy.estimateShortcutHint}
+              <span className="ax-role-supporting mt-2 block">
+                <AxPhrases
+                  phrases={contactCopy.estimateShortcutHint.split(/(?<=[、。])/)}
+                />
               </span>
             </p>
           </aside>
@@ -47,11 +52,13 @@ export function ContactPageContent() {
             <h2 className="mb-4 font-semibold text-accent">
               {contactCopy.assurance.title}
             </h2>
-            <ul className="space-y-2 text-sm text-text-sub">
+            <ul className="space-y-2 text-[15px] leading-[1.7] text-text-sub">
               {contactCopy.assurance.items.map((item) => (
-                <li key={item} className="flex gap-2">
+                <li key={item.join("")} className="flex gap-2">
                   <span className="text-accent/70">・</span>
-                  {item}
+                  <span>
+                    <AxPhrases phrases={item} />
+                  </span>
                 </li>
               ))}
             </ul>

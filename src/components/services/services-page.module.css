@@ -400,6 +400,7 @@
   .processHeading h2 {
     margin-top: 8px;
     font-size: 23px;
+    font-weight: 750;
     line-height: 1.5;
     letter-spacing: -0.03em;
   }
@@ -417,6 +418,7 @@
     grid-template-columns: 96px minmax(0, 1fr);
     grid-template-rows: auto auto;
     align-items: center;
+    align-content: center;
     gap: 3px 10px;
     min-height: 80px;
   }
@@ -469,14 +471,15 @@
     grid-row: 1;
     margin: 0;
     font-size: 17px;
+    font-weight: 700;
     line-height: 1.4;
   }
   .steps p {
     grid-column: 2;
     grid-row: 2;
     margin: 0;
-    font-size: 14px;
-    line-height: var(--line-height-body, 1.5);
+    font-size: 15px;
+    line-height: 1.7;
   }
   .bottomCta {
     display: flex;

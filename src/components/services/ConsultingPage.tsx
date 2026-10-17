@@ -7,6 +7,7 @@ import { SERVICE_HERO_PROCESS_PAGE_CONFIG } from "@/lib/content/service-hero-pro
 import { ServiceFlowDiagram } from "./ServiceFlowDiagram";
 import { AxContainer } from "@/components/ui/ax/AxContainer";
 import { AxSection } from "@/components/ui/ax/AxSection";
+import { AxPhrases } from "@/components/ui/ax/AxPhrases";
 import { AxText } from "@/components/ui/ax/AxText";
 import {
   AxContactCta,
@@ -74,10 +75,10 @@ export function ConsultingPage() {
               lead={
                 <>
                   <span className="block">
-                    経営の方針と現場の状況を確認し、課題を整理します。
+                    <AxPhrases phrases={["経営の方針と現場の状況を確認し、", "課題を整理します。"]} />
                   </span>
                   <span className="block">
-                    改善案を比較したうえで、取り組む範囲と進め方を決めます。
+                    <AxPhrases phrases={["改善案を比較したうえで、", "取り組む範囲と進め方を決めます。"]} />
                   </span>
                 </>
               }
@@ -130,6 +131,7 @@ export function ConsultingPage() {
       <AxSection
         id="consulting-examples"
         tone="muted"
+        className="overflow-x-clip"
         aria-labelledby="examples-heading"
       >
         <AxContainer>
@@ -154,7 +156,9 @@ export function ConsultingPage() {
                   検討した内容は、関係者が確認できる形にまとめます。相談内容に応じて、業務の整理資料や改善案、実行計画などを作成します。
                 </p>
                 <p className="ax-role-supporting">
-                  ※ 図は構成例です。作成する資料は、ご依頼の範囲によって異なります。
+                  <AxPhrases
+                    phrases={["※ 図は構成例です。", "作成する資料は、", "ご依頼の範囲によって異なります。"]}
+                  />
                 </p>
               </AxProse>
             </div>
@@ -168,14 +172,20 @@ export function ConsultingPage() {
         titleId="consultation-heading"
         title={
           <>
-            <span className="block">課題の整理や計画づくりだけでも</span>
+            <span className="block">
+              <AxPhrases phrases={["課題の整理や", "計画づくりだけでも"]} />
+            </span>
             <span className="block">ご相談いただけます。</span>
           </>
         }
         lead={
           <>
-            <span className="block">困っていることや検討中の内容をお聞かせください。</span>
-            <span className="block">開発に進むかどうかも含めて、一緒に考えます。</span>
+            <span className="block">
+              <AxPhrases phrases={["困っていることや", "検討中の内容をお聞かせください。"]} />
+            </span>
+            <span className="block">
+              <AxPhrases phrases={["開発に進むかどうかも含めて、", "一緒に考えます。"]} />
+            </span>
           </>
         }
         primaryHref="/contact"

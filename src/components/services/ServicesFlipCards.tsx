@@ -18,7 +18,7 @@ const cards = [
   {
     label: "ENABLEMENT",
     title: "半内製化（FDE）",
-    description: ["作って終わらせず、社内で", "改善できる状態へ移行します。"],
+    description: ["作って終わらせず、", "社内で改善できる状態へ移行します。"],
     benefits: [
       "社内メンバーと伴走",
       "運用の仕組み作り",

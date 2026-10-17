@@ -47,3 +47,51 @@
 | 文言 | 既存コピーを維持（新規作成しない） |
 
 実装: `src/components/home/HomeDemoFirstShowcase.tsx`
+
+## 読み物（テキスト表示ルール基準実装）
+
+正本: [`AXEON_全サイト共通_テキスト表示ルール.md`](../最終改善/AXEON_全サイト共通_テキスト表示ルール.md) §3.2・§9
+
+### `home.brand-story`（型 B・暗背景）
+
+| 項目 | 契約 |
+|------|------|
+| 構成 | 文脈ラベル → 2 行見出し（`headingLines`）→ 導入 → 意味ブロック ×2 → ビジョン → 結び |
+| 意味ブロック | context（lead サイズ・薄青）→ block lead（太字）→ body。context と block lead は近く、ブロック間は広く |
+| 揃え | SP は全て左揃え。PC は見出しのみ中央、本文は `max-w-[42rem]` 左揃え |
+| 強調 | 1 ブロック 1 箇所まで（`emphasis` を構造化して保持） |
+
+実装: `HomeBrandStorySection.tsx` / `homeLandingCopy.brandStory` / `HOME_BRAND_STORY_STYLES`
+
+### `home.ceo-message`（型 B・明背景）
+
+| 項目 | 契約 |
+|------|------|
+| 構成 | ラベル → 2 行見出し（`messageHeadingLines`）→ 役職・氏名 → 本文カード |
+| PC（lg+） | 左: 見出し・署名（sticky）、右: 本文カード `46rem` 上限（1 行 35〜40 字） |
+| 本文 | `message[]` の `emphasis`（本文内太字）と `variant: "quote"`（左線の引用）だけで差をつける |
+
+実装: `HomeCeoMessageSection.tsx` / `homeLandingCopy.ceo` / `HOME_CEO_STYLES`
+
+### `ax.phrases`
+
+| 項目 | 契約 |
+|------|------|
+| 用途 | 見出し・リード・FAQ 質問・短い注記など、**短い文**を意味のまとまりでだけ折り返す |
+| データ | `readonly string[]`（句の配列）。文言は変えず区切るだけ |
+| 1 文 1 行を守りたいとき | `<span className="block">` の中に `AxPhrases` を入れる（PC は行固定、SP は句で折り返し） |
+| 使わない | 3 行を超える本文段落（自然折り返し＋`text-wrap: pretty` に任せる） |
+
+実装: `src/components/ui/ax/AxPhrases.tsx`
+
+### `ax.compare` / `ax.flow`（区切り線）
+
+| 項目 | 契約 |
+|------|------|
+| 区切り線 | 1px `--ax-border-subtle`。ブランド色の太線は使わない（ラベル・見出しで階層を作る） |
+| 間隔 | 項目間 32px 以上、項目見出し → 説明 8px |
+| 余白 | パターン側で `margin` を持たない（`mt-*` を親から渡す） |
+
+### `ax.reading-block`（保留）
+
+意味ブロックを持つ読み物が **2 箇所目** に現れた時点で `src/components/ui/ax/patterns/AxReadingBlock.tsx` に切り出す。それまでは上記 2 契約を見本としてコピーしない（同じ形のデータ構造だけ揃える）。
