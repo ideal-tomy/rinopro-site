@@ -55,6 +55,19 @@ const steps = [
   },
 ] as const;
 
+/** PC だけ 1 文 1 行・句単位で折り返す。SP は通常の段落として流す。 */
+function PcLine({ phrases }: { phrases: readonly string[] }) {
+  return (
+    <span className="md:block">
+      {phrases.map((phrase, index) => (
+        <span key={index} className="md:inline-block">
+          {phrase}
+        </span>
+      ))}
+    </span>
+  );
+}
+
 export function ConsultingPage() {
   return (
     <div className={`ax-page ${styles.page}`} data-ax-theme="corporate" data-service-page>
@@ -105,7 +118,8 @@ export function ConsultingPage() {
           </AxText>
           <AxProse className="mt-5">
             <p>
-              システムの導入が最初から答えとは限りません。業務の進め方を変えるだけで改善できる場合もあります。
+              <PcLine phrases={["システムの導入が", "最初から答えとは限りません。"]} />
+              <PcLine phrases={["業務の進め方を変えるだけで", "改善できる場合もあります。"]} />
             </p>
             <p>方法を決めつけず、費用や負担も含めて比較します。</p>
           </AxProse>
@@ -121,7 +135,8 @@ export function ConsultingPage() {
           </AxText>
           <AxProse className="mt-5">
             <p>
-              まず現在の仕事を把握し、複数の方法から現実的な案を選びます。検討だけで終了することもできます。
+              <PcLine phrases={["まず現在の仕事を把握し、", "複数の方法から現実的な案を選びます。"]} />
+              <PcLine phrases={["検討だけで終了することもできます。"]} />
             </p>
           </AxProse>
           <AxProcessFlow className="mt-12" steps={steps} />
@@ -153,7 +168,10 @@ export function ConsultingPage() {
               </AxText>
               <AxProse className="mt-5">
                 <p>
-                  検討した内容は、関係者が確認できる形にまとめます。相談内容に応じて、業務の整理資料や改善案、実行計画などを作成します。
+                  <PcLine phrases={["検討した内容は、", "関係者が確認できる形にまとめます。"]} />
+                  <PcLine
+                    phrases={["相談内容に応じて、", "業務の整理資料や改善案、", "実行計画などを作成します。"]}
+                  />
                 </p>
                 <p className="ax-role-supporting">
                   <AxPhrases

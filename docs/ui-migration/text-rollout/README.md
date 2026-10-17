@@ -31,7 +31,7 @@
 |---|-----|--------|:---:|:----:|----------|--------|
 | 0 | `/`（#about・#ceo 基準実装） | [01-home.md](01-home.md) | ☑ | ☑ | なし | — |
 | 1 | `/` 残セクション | [01-home.md](01-home.md) | ☑ | ☑ | なし | デモの Before/After ピルは既存契約のまま |
-| 2 | `/services/consulting` | [02-consulting.md](02-consulting.md) | ☑ | ☑ | なし | リード本文の行途中の折り返しは自然折り返し |
+| 2 | `/services/consulting` | [02-consulting.md](02-consulting.md) | ☑ | ☑ | なし | 項目本文（比較・工程）は共通パターンが文字列のみのため自然折り返し |
 | 3 | `/about` | [03-about.md](03-about.md) | ☑ | ☑ | なし（代表原稿をトップと共有） | 「大切にしていること」3 列の行末 |
 | 4 | `/services` | [04-services.md](04-services.md) | ☑ | ☑ | なし | — |
 | 5 | `/contact` | [05-contact.md](05-contact.md) | ☑ | ☑ | なし | — |
