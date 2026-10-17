@@ -18,7 +18,11 @@ const FONT_FAMILY =
   '"Noto Sans JP", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif';
 
 const VIEWBOX_WIDTH = 1206;
-const VIEWBOX_HEIGHT = 508;
+/** 白枠の高さ（5行リスト＋見出しに合わせた設計値） */
+const CARD_TOP = 140;
+const CARD_WIDTH = 194;
+const CARD_HEIGHT = 218;
+const VIEWBOX_HEIGHT = CARD_TOP + CARD_HEIGHT + 28;
 
 type ServiceFlowDiagramProps = {
   highlightedStageIds?: readonly ServiceHeroProcessStageId[];
@@ -86,15 +90,20 @@ export function ServiceFlowDiagram({
               </text>
               <rect
                 x={x + 6}
-                y="140"
-                width="194"
-                height="353"
+                y={CARD_TOP}
+                width={CARD_WIDTH}
+                height={CARD_HEIGHT}
                 rx="6"
                 fill="#ffffff"
                 stroke={emphasized ? "#286491" : "#dae7f4"}
                 strokeWidth="2.3"
               />
-              <foreignObject x={x + 6} y="140" width="194" height="353">
+              <foreignObject
+                x={x + 6}
+                y={CARD_TOP}
+                width={CARD_WIDTH}
+                height={CARD_HEIGHT}
+              >
                 <div className={contentClass}>
                   <p className={styles.stageTitle}>{stage.title}</p>
                   <p className={styles.sectionHeading}>代表的な業務例</p>
