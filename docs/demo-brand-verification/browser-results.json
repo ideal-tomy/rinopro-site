@@ -36,7 +36,12 @@
         "href": "https://kanri-kensetsu.vercel.app/login"
       }
     ],
-    "errors": []
+    "errors": [],
+    "contactDestination": {
+      "url": "https://www.axeon.jp/contact?demo=construction-hub",
+      "title": "問い合わせ | AXEON",
+      "status": 200
+    }
   },
   {
     "brand": "ideal",
@@ -75,7 +80,12 @@
         "href": "https://kanri-kensetsu.vercel.app/login"
       }
     ],
-    "errors": []
+    "errors": [],
+    "contactDestination": {
+      "url": "https://ideal-official-three.vercel.app/contact?service=ai-consulting&intent=gallery&demo=construction-hub",
+      "title": "お問い合わせ | ideal",
+      "status": 200
+    }
   },
   {
     "brand": "axeon",
@@ -114,7 +124,12 @@
         "href": "https://kanri-kensetsu.vercel.app/login"
       }
     ],
-    "errors": []
+    "errors": [],
+    "contactDestination": {
+      "url": "https://www.axeon.jp/contact?demo=construction-hub",
+      "title": "問い合わせ | AXEON",
+      "status": 200
+    }
   },
   {
     "siteRoute": "/",

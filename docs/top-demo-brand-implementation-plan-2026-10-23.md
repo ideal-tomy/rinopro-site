@@ -6,6 +6,8 @@
 
 実装結果: [実装・検証報告](./demo-brand-verification/implementation-report.md)
 
+建設の問い合わせ先に関する追記対応: [公開未反映の切り分け・問い合わせ先設定の補強](./demo-brand-verification/contact-routing-follow-up.md)
+
 関連調査: [トップ掲載デモのリンク調査](./top-demo-link-audit-2026-10-23.md)
 
 追記レビュー: [追記.md](./追記.md) の提案を既存コードと照合し、2026-10-23に反映。以下は計画の更新であり、アプリ実装の開始を意味しない。

@@ -48,7 +48,16 @@ for (const brand of ['axeon', 'ideal']) {
     assert.equal(roi.searchParams.get(key), value);
   }
   assert.equal(new URL(getContactUrl(brand)).hostname, brand === 'axeon' ? 'www.axeon.jp' : 'ideal-official-three.vercel.app');
+  const opposite = brand === 'axeon'
+    ? 'https://ideal-official-three.vercel.app/contact'
+    : 'https://www.axeon.jp/contact';
+  assert.equal(getContactUrl(brand, opposite), getContactUrl(brand));
+  for (const invalid of ['not a URL', 'javascript:alert(1)', 'https://unregistered.invalid/contact']) {
+    assert.equal(getContactUrl(brand, invalid), getContactUrl(brand));
+  }
 }
+assert.equal(getContactUrl('axeon', 'https://axeon.jp/contact?demo=custom'), 'https://axeon.jp/contact?demo=custom');
+assert.equal(getContactUrl('ideal', 'https://ideal-official-three.vercel.app/contact?demo=custom'), 'https://ideal-official-three.vercel.app/contact?demo=custom');
 assert.throws(() => demoHref('https://other.invalid/', 'axeon'));
 assert.throws(() => demoHref('//other.invalid/', 'axeon'));
 

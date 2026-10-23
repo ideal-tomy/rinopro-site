@@ -100,7 +100,15 @@ async function brandUrl(page, brand) {
       await brandUrl(page, brand);
       assert.equal(new URL(page.url()).pathname, '/');
       assert.deepEqual(errors, []);
-      report.push({ brand, mobile, passed: true, hubLinks, completionEstimate: href, opsLinks, errors });
+      const [contactResponse] = await Promise.all([
+        page.waitForNavigation({ waitUntil: 'domcontentloaded', timeout: 60000 }),
+        page.getByRole('link', { name: '相談する', exact: true }).click(),
+      ]);
+      assert.equal(new URL(page.url()).hostname, contact.hostname);
+      assert.equal(new URL(page.url()).pathname.replace(/\/$/, ''), '/contact');
+      assert.ok(contactResponse?.ok());
+      await page.locator('form').first().waitFor();
+      report.push({ brand, mobile, passed: true, hubLinks, completionEstimate: href, opsLinks, errors, contactDestination: { url: page.url(), title: await page.title(), status: contactResponse.status() } });
       console.log(`PASS: ${brand} ${mobile ? 'mobile' : 'desktop'} complete flow`);
       await context.close();
     }
