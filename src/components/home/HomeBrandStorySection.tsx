@@ -40,25 +40,29 @@ export function HomeBrandStorySection() {
           <div className={HOME_BRAND_STORY_STYLES.prose}>
             <p className={HOME_BRAND_STORY_STYLES.intro}>{brandStory.intro}</p>
 
-            {brandStory.meanings.map((meaning) => (
-              <div key={meaning.lead} className={HOME_BRAND_STORY_STYLES.meaningBlock}>
-                <p className={HOME_BRAND_STORY_STYLES.meaningContext}>
-                  {meaning.contextLabel}
+            <div className={HOME_BRAND_STORY_STYLES.readingContextGroup}>
+              {brandStory.readingContextLines.map((line) => (
+                <p key={line} className={HOME_BRAND_STORY_STYLES.meaningContext}>
+                  {line}
                 </p>
-                <p className={HOME_BRAND_STORY_STYLES.meaningLead}>{meaning.lead}</p>
-                {"body" in meaning ? (
-                  <p className={HOME_BRAND_STORY_STYLES.meaningBody}>{meaning.body}</p>
-                ) : (
-                  <p className={HOME_BRAND_STORY_STYLES.meaningBody}>
-                    {meaning.bodyBeforeEmphasis}
-                    <span className={HOME_BRAND_STORY_STYLES.meaningEmphasis}>
-                      {meaning.emphasis}
-                    </span>
-                    {meaning.bodyAfterEmphasis}
-                  </p>
-                )}
-              </div>
-            ))}
+              ))}
+            </div>
+
+            <div className={HOME_BRAND_STORY_STYLES.meaningBlock}>
+              <p className={HOME_BRAND_STORY_STYLES.meaningLead}>
+                {brandStory.narrativeLead}
+              </p>
+              <p className={HOME_BRAND_STORY_STYLES.meaningBody}>
+                {brandStory.narrativeBodyAxis}
+              </p>
+              <p className={HOME_BRAND_STORY_STYLES.meaningBody}>
+                {brandStory.narrativeBodyGratitudeBeforeEmphasis}
+                <span className={HOME_BRAND_STORY_STYLES.meaningEmphasis}>
+                  {brandStory.narrativeBodyGratitudeEmphasis}
+                </span>
+                {brandStory.narrativeBodyGratitudeAfterEmphasis}
+              </p>
+            </div>
 
             <div className={HOME_BRAND_STORY_STYLES.sectionGap}>
               <p className={HOME_BRAND_STORY_STYLES.visionLead}>

@@ -27,23 +27,18 @@ export const homeLandingCopy = {
     kicker: "名前の由来",
     headingLines: ["AXEON という名前に込めた、", "二つの意味。"] as const,
     intro: "AXEONという名前には、二つの読み方があります。",
-    meanings: [
-      {
-        contextLabel: "英語で読めば、Axis On。",
-        lead: "軸を持ち、前へ進む。",
-        body:
-          "環境が揺れても、流行が変わっても、意思決定の中心を見失わずに進み続けるための言葉です。",
-      },
-      {
-        contextLabel: "日本語で読めば、",
-        lead: "軸恩（じくおん）。",
-        bodyBeforeEmphasis:
-          "私たちは、社会や人から多くの機会を受け取り、育てられてきました。だからこそ、",
-        emphasis: "その恩を次の世代へ返していく。",
-        bodyAfterEmphasis:
-          "この恩送りの循環を、事業を通じて実装することが、私たちの使命です。",
-      },
-    ],
+    readingContextLines: [
+      "英語で読めば、Axis On。",
+      "日本語で読めば、軸恩（じくおん）。",
+    ] as const,
+    narrativeLead: "軸を持ち、前へ進む。",
+    narrativeBodyAxis:
+      "環境が揺れても、流行が変わっても、意思決定の中心を見失わずに進み続けるための言葉です。",
+    narrativeBodyGratitudeBeforeEmphasis:
+      "私たちは、社会や人から多くの機会を受け取り、育てられてきました。だからこそ、",
+    narrativeBodyGratitudeEmphasis: "その恩を次の世代へ返していく。",
+    narrativeBodyGratitudeAfterEmphasis:
+      "この恩送りの循環を、事業を通じて実装することが、私たちの使命です。",
     visionLead: "私たちが目指すのは、AIで人の仕事を奪う未来ではありません。",
     visionBody:
       "定型業務、転記、検索、要約、整理をAIに任せ、創造、判断、関係構築、本質的な議論へ、人の時間を返していくこと。",

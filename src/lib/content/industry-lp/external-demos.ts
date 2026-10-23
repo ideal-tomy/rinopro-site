@@ -6,5 +6,5 @@ export const INDUSTRY_EXTERNAL_DEMOS = {
   ocrConstruction: CONSTRUCTION_DEMO_URLS.report,
   constructionOps: "https://kanri-kensetsu.vercel.app/login",
   manufacturing: "https://product-flow-jet.vercel.app/manufacturing",
-  internalKnowledge: "https://internal-knowledge-demo.vercel.app/",
+  internalKnowledge: "https://internal-knowledge-demo.vercel.app/?brand=axeon",
 } as const;

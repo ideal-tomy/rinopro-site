@@ -1,0 +1,416 @@
+[
+  {
+    "id": "manufacturing-quality",
+    "entry": "https://axeonmanufacturing02.vercel.app/",
+    "pages": [
+      {
+        "url": "https://axeonmanufacturing02.vercel.app/",
+        "finalUrl": "https://axeonmanufacturing02.vercel.app/",
+        "status": 200,
+        "title": "Quality Incident Console",
+        "externalLinks": [],
+        "logoImages": [
+          {
+            "alt": "主力部品A-214の外観検査写真",
+            "src": "https://axeonmanufacturing02.vercel.app/assets/a214.png"
+          },
+          {
+            "alt": "主力部品A-214の外観検査写真",
+            "src": "https://axeonmanufacturing02.vercel.app/assets/a214.png"
+          },
+          {
+            "alt": "",
+            "src": "https://axeonmanufacturing02.vercel.app/assets/a214.png"
+          },
+          {
+            "alt": "主力部品A-214の外観検査写真",
+            "src": "https://axeonmanufacturing02.vercel.app/assets/a214.png"
+          },
+          {
+            "alt": "主力部品A-214の外観検査写真",
+            "src": "https://axeonmanufacturing02.vercel.app/assets/a214.png"
+          }
+        ],
+        "idealVisible": []
+      }
+    ]
+  },
+  {
+    "id": "childcare",
+    "entry": "https://childcare-demo-six.vercel.app/",
+    "pages": [
+      {
+        "url": "https://childcare-demo-six.vercel.app/",
+        "finalUrl": "https://childcare-demo-six.vercel.app/",
+        "status": 200,
+        "title": "SafeChild DX",
+        "externalLinks": [],
+        "logoImages": [],
+        "idealVisible": []
+      },
+      {
+        "url": "https://childcare-demo-six.vercel.app/dashboard.html",
+        "finalUrl": "https://childcare-demo-six.vercel.app/dashboard.html#dashboard",
+        "status": 200,
+        "title": "SafeChild DX — 保育の記録と報告",
+        "externalLinks": [],
+        "logoImages": [],
+        "idealVisible": []
+      }
+    ]
+  },
+  {
+    "id": "approval",
+    "entry": "https://approval-diagram.vercel.app/",
+    "pages": [
+      {
+        "url": "https://approval-diagram.vercel.app/",
+        "finalUrl": "https://approval-diagram.vercel.app/",
+        "status": 200,
+        "title": "受入検査 AIサポート",
+        "externalLinks": [],
+        "logoImages": [],
+        "idealVisible": []
+      },
+      {
+        "url": "https://approval-diagram.vercel.app/index.html",
+        "finalUrl": "https://approval-diagram.vercel.app/index.html",
+        "status": 200,
+        "title": "受入検査 AIサポート",
+        "externalLinks": [],
+        "logoImages": [],
+        "idealVisible": []
+      },
+      {
+        "url": "https://approval-diagram.vercel.app/screens.html?screen=match",
+        "finalUrl": "https://approval-diagram.vercel.app/screens.html?screen=match",
+        "status": 200,
+        "title": "実画面を見る",
+        "externalLinks": [],
+        "logoImages": [],
+        "idealVisible": []
+      }
+    ]
+  },
+  {
+    "id": "knowledge",
+    "entry": "https://internal-knowledge-demo.vercel.app/",
+    "pages": [
+      {
+        "url": "https://internal-knowledge-demo.vercel.app/",
+        "finalUrl": "https://internal-knowledge-demo.vercel.app/",
+        "status": 200,
+        "title": "社内ナレッジAI",
+        "externalLinks": [],
+        "logoImages": [],
+        "idealVisible": []
+      }
+    ]
+  },
+  {
+    "id": "manufacturing-hub",
+    "entry": "https://product-flow-jet.vercel.app/manufacturing",
+    "pages": [
+      {
+        "url": "https://product-flow-jet.vercel.app/manufacturing",
+        "finalUrl": "https://product-flow-jet.vercel.app/manufacturing",
+        "status": 200,
+        "title": "AXEON",
+        "externalLinks": [
+          {
+            "text": "投資回収の目安",
+            "href": "https://roi-simulator-eta.vercel.app/?kit=chatbot&industry=manufacturing&cat=internal&from=product-flow"
+          }
+        ],
+        "logoImages": [],
+        "idealVisible": []
+      },
+      {
+        "url": "https://product-flow-jet.vercel.app/lp",
+        "finalUrl": "https://product-flow-jet.vercel.app/lp",
+        "status": 200,
+        "title": "AXEON",
+        "externalLinks": [
+          {
+            "text": "自社文書での活用を相談する",
+            "href": "mailto:contact@example.com?subject=ConformSystem%20%E6%96%87%E6%9B%B8%E6%A4%9C%E8%A8%BC%E3%81%AE%E7%9B%B8%E8%AB%87"
+          }
+        ],
+        "logoImages": [],
+        "idealVisible": []
+      },
+      {
+        "url": "https://product-flow-jet.vercel.app/play/minato-factory",
+        "finalUrl": "https://product-flow-jet.vercel.app/play/minato-factory",
+        "status": 200,
+        "title": "AXEON",
+        "externalLinks": [],
+        "logoImages": [],
+        "idealVisible": []
+      }
+    ]
+  },
+  {
+    "id": "genpo",
+    "entry": "https://kanri-kensetsu.vercel.app/",
+    "pages": [
+      {
+        "url": "https://kanri-kensetsu.vercel.app/",
+        "finalUrl": "https://kanri-kensetsu.vercel.app/login",
+        "status": 200,
+        "title": "GENBA NOTE",
+        "externalLinks": [],
+        "logoImages": [],
+        "idealVisible": []
+      },
+      {
+        "url": "https://kanri-kensetsu.vercel.app/",
+        "finalUrl": "https://kanri-kensetsu.vercel.app/login",
+        "status": 200,
+        "title": "GENBA NOTE",
+        "externalLinks": [],
+        "logoImages": [],
+        "idealVisible": []
+      }
+    ]
+  },
+  {
+    "id": "recruit",
+    "entry": "https://saiyou-demo0420.vercel.app/",
+    "pages": [
+      {
+        "url": "https://saiyou-demo0420.vercel.app/",
+        "finalUrl": "https://saiyou-demo0420.vercel.app/",
+        "status": 200,
+        "title": "採用コックピット（採用管理デモ）",
+        "externalLinks": [],
+        "logoImages": [],
+        "idealVisible": []
+      },
+      {
+        "url": "https://saiyou-demo0420.vercel.app/candidates?industry=staffing",
+        "finalUrl": "https://saiyou-demo0420.vercel.app/candidates?industry=staffing",
+        "status": 200,
+        "title": "採用コックピット（採用管理デモ）",
+        "externalLinks": [],
+        "logoImages": [],
+        "idealVisible": []
+      },
+      {
+        "url": "https://saiyou-demo0420.vercel.app/clients?industry=staffing",
+        "finalUrl": "https://saiyou-demo0420.vercel.app/clients?industry=staffing",
+        "status": 200,
+        "title": "採用コックピット（採用管理デモ）",
+        "externalLinks": [],
+        "logoImages": [],
+        "idealVisible": []
+      }
+    ]
+  },
+  {
+    "id": "building-os",
+    "entry": "https://obs-demo.vercel.app/",
+    "pages": [
+      {
+        "url": "https://obs-demo.vercel.app/",
+        "finalUrl": "https://obs-demo.vercel.app/",
+        "status": 200,
+        "title": "Building OS Console｜建物OS統合コンソール",
+        "externalLinks": [],
+        "logoImages": [],
+        "idealVisible": []
+      },
+      {
+        "url": "https://obs-demo.vercel.app/dashboard",
+        "finalUrl": "https://obs-demo.vercel.app/dashboard",
+        "status": 200,
+        "title": "Building OS Console｜建物OS統合コンソール",
+        "externalLinks": [],
+        "logoImages": [],
+        "idealVisible": []
+      },
+      {
+        "url": "https://obs-demo.vercel.app/ask",
+        "finalUrl": "https://obs-demo.vercel.app/ask",
+        "status": 200,
+        "title": "Building OS Console｜建物OS統合コンソール",
+        "externalLinks": [],
+        "logoImages": [],
+        "idealVisible": []
+      }
+    ]
+  },
+  {
+    "id": "agriculture",
+    "entry": "https://oriza-copilot.vercel.app/",
+    "pages": [
+      {
+        "url": "https://oriza-copilot.vercel.app/",
+        "finalUrl": "https://oriza-copilot.vercel.app/",
+        "status": 200,
+        "title": "ORiZA Copilot",
+        "externalLinks": [],
+        "logoImages": [
+          {
+            "alt": "ORiZA Copilot",
+            "src": "https://oriza-copilot.vercel.app/brand/logo.svg?dpl=dpl_Ai9Y7kCL4rNwirD9qw2GXeuGwmNK"
+          }
+        ],
+        "idealVisible": []
+      },
+      {
+        "url": "https://oriza-copilot.vercel.app/fields",
+        "finalUrl": "https://oriza-copilot.vercel.app/fields",
+        "status": 200,
+        "title": "圃場マップ | ORiZA Copilot",
+        "externalLinks": [],
+        "logoImages": [
+          {
+            "alt": "ORiZA Copilot",
+            "src": "https://oriza-copilot.vercel.app/brand/logo.svg?dpl=dpl_Ai9Y7kCL4rNwirD9qw2GXeuGwmNK"
+          }
+        ],
+        "idealVisible": []
+      },
+      {
+        "url": "https://oriza-copilot.vercel.app/soil",
+        "finalUrl": "https://oriza-copilot.vercel.app/soil",
+        "status": 200,
+        "title": "土壌の見える化 | ORiZA Copilot",
+        "externalLinks": [],
+        "logoImages": [
+          {
+            "alt": "ORiZA Copilot",
+            "src": "https://oriza-copilot.vercel.app/brand/logo.svg?dpl=dpl_Ai9Y7kCL4rNwirD9qw2GXeuGwmNK"
+          }
+        ],
+        "idealVisible": []
+      }
+    ]
+  },
+  {
+    "id": "dd",
+    "entry": "https://dd-demo-red.vercel.app/",
+    "pages": [
+      {
+        "url": "https://dd-demo-red.vercel.app/",
+        "finalUrl": "https://dd-demo-red.vercel.app/",
+        "status": 200,
+        "title": "AXEON DD Intelligence｜DD→PMI→バリューアップ→EXIT",
+        "externalLinks": [],
+        "logoImages": [],
+        "idealVisible": []
+      },
+      {
+        "url": "https://dd-demo-red.vercel.app/ai",
+        "finalUrl": "https://dd-demo-red.vercel.app/ai",
+        "status": 200,
+        "title": "AXEON DD Intelligence｜DD→バリューアップ→EXIT",
+        "externalLinks": [
+          {
+            "text": "体験コードを取得 →",
+            "href": "https://ai-demo-studio-lime.vercel.app/admin/trial?demo=dd-diagnosis&return=https%3A%2F%2Fdd-demo-red.vercel.app%2Fai"
+          }
+        ],
+        "logoImages": [],
+        "idealVisible": []
+      }
+    ]
+  },
+  {
+    "id": "care",
+    "entry": "https://kaigo-operation-demo.vercel.app/",
+    "pages": [
+      {
+        "url": "https://kaigo-operation-demo.vercel.app/",
+        "finalUrl": "https://kaigo-operation-demo.vercel.app/experience/kaigo-care-dx",
+        "status": 200,
+        "title": "ケア記録DX 体験デモ ｜ AXEON",
+        "externalLinks": [],
+        "logoImages": [],
+        "idealVisible": []
+      },
+      {
+        "url": "https://kaigo-operation-demo.vercel.app/experience/kaigo-care-dx/field",
+        "finalUrl": "https://kaigo-operation-demo.vercel.app/experience/kaigo-care-dx/field",
+        "status": 200,
+        "title": "ケア記録DX 体験デモ ｜ AXEON",
+        "externalLinks": [],
+        "logoImages": [],
+        "idealVisible": []
+      },
+      {
+        "url": "https://kaigo-operation-demo.vercel.app/experience/kaigo-care-dx/medical",
+        "finalUrl": "https://kaigo-operation-demo.vercel.app/experience/kaigo-care-dx/medical",
+        "status": 200,
+        "title": "ケア記録DX 体験デモ ｜ AXEON",
+        "externalLinks": [],
+        "logoImages": [],
+        "idealVisible": []
+      }
+    ]
+  },
+  {
+    "id": "estate",
+    "entry": "https://openestate-demo.gembashift.com/",
+    "pages": [
+      {
+        "url": "https://openestate-demo.gembashift.com/",
+        "finalUrl": "https://openestate-demo.gembashift.com/",
+        "status": 200,
+        "title": "OpenEstate｜1万円から、デジタル大家に。",
+        "externalLinks": [],
+        "logoImages": [],
+        "idealVisible": []
+      },
+      {
+        "url": "https://openestate-demo.gembashift.com/properties",
+        "finalUrl": "https://openestate-demo.gembashift.com/properties",
+        "status": 200,
+        "title": "掲載中の物件｜OpenEstate",
+        "externalLinks": [],
+        "logoImages": [],
+        "idealVisible": []
+      },
+      {
+        "url": "https://openestate-demo.gembashift.com/portfolio",
+        "finalUrl": "https://openestate-demo.gembashift.com/login?next=%2Fportfolio",
+        "status": 200,
+        "title": "OpenEstate",
+        "externalLinks": [],
+        "logoImages": [],
+        "idealVisible": []
+      }
+    ]
+  },
+  {
+    "id": "matching",
+    "entry": "https://candid-salmiakki-22e9c7.netlify.app/",
+    "pages": [
+      {
+        "url": "https://candid-salmiakki-22e9c7.netlify.app/",
+        "finalUrl": "https://candid-salmiakki-22e9c7.netlify.app/",
+        "status": 200,
+        "title": "estateMatch｜物件マッチング",
+        "externalLinks": [],
+        "logoImages": [],
+        "idealVisible": []
+      }
+    ]
+  },
+  {
+    "id": "handover",
+    "entry": "https://lambent-smakager-7bcf0a.netlify.app/",
+    "pages": [
+      {
+        "url": "https://lambent-smakager-7bcf0a.netlify.app/",
+        "finalUrl": "https://lambent-smakager-7bcf0a.netlify.app/",
+        "status": 200,
+        "title": "申し送りAI デモ",
+        "externalLinks": [],
+        "logoImages": [],
+        "idealVisible": []
+      }
+    ]
+  }
+]

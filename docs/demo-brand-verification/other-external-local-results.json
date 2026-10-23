@@ -1,0 +1,39 @@
+{
+  "results": [
+    {
+      "demo": "manufacturing",
+      "brand": "axeon",
+      "title": "AXEON",
+      "roi": "http://127.0.0.1:3181/?kit=chatbot&industry=manufacturing&cat=internal&from=product-flow&brand=axeon",
+      "completionHref": "https://www.axeon.jp/contact?demo=product-flow",
+      "contactHref": "https://www.axeon.jp/contact?demo=product-flow",
+      "contactDestination": "https://www.axeon.jp/contact?demo=product-flow",
+      "formVisible": true
+    },
+    {
+      "demo": "manufacturing",
+      "brand": "ideal",
+      "title": "ideal",
+      "roi": "http://127.0.0.1:3181/?kit=chatbot&industry=manufacturing&cat=internal&from=product-flow&brand=ideal",
+      "completionHref": "https://ideal-official-three.vercel.app/contact?demo=product-flow",
+      "contactHref": "https://ideal-official-three.vercel.app/contact?demo=product-flow",
+      "contactDestination": "https://ideal-official-three.vercel.app/contact?demo=product-flow",
+      "formVisible": true
+    },
+    {
+      "demo": "knowledge",
+      "brand": "axeon",
+      "roi": "http://127.0.0.1:3181/?kit=chatbot&industry=other&cat=internal&from=internal-knowledge&brand=axeon",
+      "preservesQueryOnIntroAndReload": true,
+      "selectionReturnVisible": true
+    },
+    {
+      "demo": "knowledge",
+      "brand": "ideal",
+      "roi": "http://127.0.0.1:3181/?kit=chatbot&industry=other&cat=internal&from=internal-knowledge&brand=ideal",
+      "preservesQueryOnIntroAndReload": true,
+      "selectionReturnVisible": false
+    }
+  ],
+  "pageErrors": []
+}

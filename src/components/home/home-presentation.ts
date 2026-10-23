@@ -24,7 +24,8 @@ export const HOME_BRAND_STORY_STYLES = {
   "prose": "mt-8 text-left md:mx-auto md:mt-10 md:max-w-[42rem]",
   "intro":
     "text-pretty text-[16px] font-semibold leading-[1.65] text-white md:text-[17px]",
-  "meaningBlock": "mt-9 md:mt-10",
+  "readingContextGroup": "mt-9 space-y-1 md:mt-10",
+  "meaningBlock": "mt-6 md:mt-7",
   "meaningContext":
     "text-[17px] font-semibold leading-[1.55] text-[#b8cff5] md:text-[19px]",
   "meaningLead":
