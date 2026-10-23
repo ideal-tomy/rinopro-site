@@ -1,0 +1,27 @@
+{
+  "origin": "http://127.0.0.1:3190",
+  "results": [
+    {
+      "case": "amount-to-contact",
+      "entryHref": "/contact",
+      "messageAfterNavigation": "",
+      "interceptedPayloadKeys": [
+        "name",
+        "email",
+        "message"
+      ],
+      "sentEstimateSnapshot": false,
+      "actualEmailSent": false
+    },
+    {
+      "case": "explicit-estimate-marker-with-valid-storage",
+      "message": "",
+      "outcome": "Valid estimate flow, snapshot and prefill are ignored by ContactForm"
+    },
+    {
+      "case": "concierge-prefill-url",
+      "message": "",
+      "outcome": "URL prefill is also ignored"
+    }
+  ]
+}

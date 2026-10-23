@@ -1,0 +1,16 @@
+{
+  "validFlowWithoutSourceMarker": "none",
+  "validFlowWithSourceMarker": "estimate_ok",
+  "generatedFullDraftLength": 7466,
+  "fullDraftValidationErrors": [
+    {
+      "path": [
+        "message"
+      ],
+      "message": "6000文字以内で入力してください"
+    }
+  ],
+  "shortMessageWithFullSnapshotValid": true,
+  "attachmentCountWithSnapshot": 2,
+  "attachmentCountWithoutSnapshot": 0
+}
