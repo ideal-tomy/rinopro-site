@@ -1,7 +1,9 @@
-/** 外部デモ URL（Ideal TOP §03 と同型） */
+import { CONSTRUCTION_DEMO_URLS } from "./external-demos";
+
+/** トップ掲載の外部デモURL */
 export const EXTERNAL_DEMO_URLS = {
-  construction: "https://construction-demo-six.vercel.app/",
-  manufacturingIdeal: "https://axeonmanufacturing02.vercel.app/",
+  construction: CONSTRUCTION_DEMO_URLS.hub,
+  manufacturingQualityIncident: "https://axeonmanufacturing02.vercel.app/",
   approvalDiagram: "https://approval-diagram.vercel.app/",
   childcare: "https://childcare-demo-six.vercel.app/",
 } as const;
@@ -53,7 +55,7 @@ export const TOP_FEATURED_DEMOS: TopFeaturedDemo[] = [
     afterLines: ["回答と根拠が同時に揃い", "次の手が決まる"],
     tags: ["製造", "ナレッジ", "判断"],
     showcase: "manufacturing-judgment",
-    tryHref: EXTERNAL_DEMO_URLS.manufacturingIdeal,
+    tryHref: EXTERNAL_DEMO_URLS.manufacturingQualityIncident,
     tryLabel: "サンプルで体験 ↗",
     tryExternal: true,
   },

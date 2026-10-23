@@ -1,0 +1,230 @@
+[
+  {
+    "stage": "manufacturing entry",
+    "url": "https://axeonmanufacturing02.vercel.app/",
+    "links": []
+  },
+  {
+    "stage": "manufacturing dashboard",
+    "url": "https://axeonmanufacturing02.vercel.app/",
+    "links": []
+  },
+  {
+    "stage": "manufacturing incident",
+    "url": "https://axeonmanufacturing02.vercel.app/",
+    "links": []
+  },
+  {
+    "stage": "manufacturing root cause",
+    "url": "https://axeonmanufacturing02.vercel.app/",
+    "links": []
+  },
+  {
+    "stage": "manufacturing corrective / completion",
+    "url": "https://axeonmanufacturing02.vercel.app/",
+    "links": []
+  },
+  {
+    "stage": "manufacturing submitted",
+    "url": "https://axeonmanufacturing02.vercel.app/",
+    "links": []
+  },
+  {
+    "stage": "approval entry",
+    "url": "https://approval-diagram.vercel.app/",
+    "links": [
+      {
+        "text": "受入検査 AIサポート",
+        "href": "https://approval-diagram.vercel.app/index.html"
+      },
+      {
+        "text": "実画面を見る →",
+        "href": "https://approval-diagram.vercel.app/screens.html?screen=match"
+      },
+      {
+        "text": "詳しい仕組みを見る",
+        "href": "https://approval-diagram.vercel.app/story-mode.html"
+      },
+      {
+        "text": "01 / MATCH照合図面と証明書を並べ、差分を3分類。要確認だけを人へ渡します。",
+        "href": "https://approval-diagram.vercel.app/screens.html?screen=match"
+      },
+      {
+        "text": "02 / HOLD LIST保留一覧全件ではなく、人が見るべき項目だけを絞り込みます。",
+        "href": "https://approval-diagram.vercel.app/screens.html?screen=hold"
+      },
+      {
+        "text": "03 / APPROVAL承認記録何を確認し、どの資料を根拠にしたかを後から追えます。",
+        "href": "https://approval-diagram.vercel.app/screens.html?screen=approval"
+      },
+      {
+        "text": "04 / STANDARD基準改定見つかった不足を検査基準へ戻し、同じ問題を防ぎます。",
+        "href": "https://approval-diagram.vercel.app/screens.html?screen=standard"
+      }
+    ]
+  },
+  {
+    "stage": "approval screen: 照合",
+    "url": "https://approval-diagram.vercel.app/screens.html?screen=match",
+    "links": [
+      {
+        "text": "受入検査 AIサポート",
+        "href": "https://approval-diagram.vercel.app/index.html"
+      },
+      {
+        "text": "← トップへ戻る",
+        "href": "https://approval-diagram.vercel.app/index.html"
+      },
+      {
+        "text": "詳しい仕組みを見る →",
+        "href": "https://approval-diagram.vercel.app/story-mode.html"
+      },
+      {
+        "text": "元の実画面を開く ↗",
+        "href": "https://approval-diagram.vercel.app/images/01.png"
+      }
+    ]
+  },
+  {
+    "stage": "approval screen: 保留一覧",
+    "url": "https://approval-diagram.vercel.app/screens.html?screen=hold",
+    "links": [
+      {
+        "text": "受入検査 AIサポート",
+        "href": "https://approval-diagram.vercel.app/index.html"
+      },
+      {
+        "text": "← トップへ戻る",
+        "href": "https://approval-diagram.vercel.app/index.html"
+      },
+      {
+        "text": "詳しい仕組みを見る →",
+        "href": "https://approval-diagram.vercel.app/story-mode.html"
+      },
+      {
+        "text": "元の実画面を開く ↗",
+        "href": "https://approval-diagram.vercel.app/images/02.png"
+      }
+    ]
+  },
+  {
+    "stage": "approval screen: 承認",
+    "url": "https://approval-diagram.vercel.app/screens.html?screen=approval",
+    "links": [
+      {
+        "text": "受入検査 AIサポート",
+        "href": "https://approval-diagram.vercel.app/index.html"
+      },
+      {
+        "text": "← トップへ戻る",
+        "href": "https://approval-diagram.vercel.app/index.html"
+      },
+      {
+        "text": "詳しい仕組みを見る →",
+        "href": "https://approval-diagram.vercel.app/story-mode.html"
+      },
+      {
+        "text": "元の実画面を開く ↗",
+        "href": "https://approval-diagram.vercel.app/images/03.png"
+      }
+    ]
+  },
+  {
+    "stage": "approval screen: 基準改定",
+    "url": "https://approval-diagram.vercel.app/screens.html?screen=standard",
+    "links": [
+      {
+        "text": "受入検査 AIサポート",
+        "href": "https://approval-diagram.vercel.app/index.html"
+      },
+      {
+        "text": "← トップへ戻る",
+        "href": "https://approval-diagram.vercel.app/index.html"
+      },
+      {
+        "text": "詳しい仕組みを見る →",
+        "href": "https://approval-diagram.vercel.app/story-mode.html"
+      },
+      {
+        "text": "元の実画面を開く ↗",
+        "href": "https://approval-diagram.vercel.app/images/04.png"
+      }
+    ]
+  },
+  {
+    "stage": "approval explanation",
+    "url": "https://approval-diagram.vercel.app/story-mode.html",
+    "links": [
+      {
+        "text": "トップへ",
+        "href": "https://approval-diagram.vercel.app/index.html"
+      }
+    ]
+  },
+  {
+    "stage": "childcare entry",
+    "url": "https://childcare-demo-six.vercel.app/",
+    "links": [
+      {
+        "text": "今日の様子を開く",
+        "href": "https://childcare-demo-six.vercel.app/dashboard.html"
+      },
+      {
+        "text": "話して、報告書にする\n      話した内容から、報告書の下書きまで",
+        "href": "https://childcare-demo-six.vercel.app/dashboard.html#voice"
+      },
+      {
+        "text": "できた報告書を見る\n      どの決まりを見たかを、報告書に付けています",
+        "href": "https://childcare-demo-six.vercel.app/dashboard.html#reports"
+      },
+      {
+        "text": "この対応でよいか確かめる\n      園の決まりに沿って答えます",
+        "href": "https://childcare-demo-six.vercel.app/dashboard.html#chat"
+      }
+    ]
+  },
+  {
+    "stage": "childcare dashboard",
+    "url": "https://childcare-demo-six.vercel.app/dashboard.html#dashboard",
+    "links": [
+      {
+        "text": "SafeChildDX\n      保育の記録と報告",
+        "href": "https://childcare-demo-six.vercel.app/index.html"
+      }
+    ]
+  },
+  {
+    "stage": "childcare generated report",
+    "url": "https://childcare-demo-six.vercel.app/dashboard.html#voice",
+    "links": [
+      {
+        "text": "SafeChildDX\n      保育の記録と報告",
+        "href": "https://childcare-demo-six.vercel.app/index.html"
+      }
+    ]
+  },
+  {
+    "stage": "childcare report detail",
+    "url": "https://childcare-demo-six.vercel.app/dashboard.html#reports",
+    "links": [
+      {
+        "text": "SafeChildDX\n      保育の記録と報告",
+        "href": "https://childcare-demo-six.vercel.app/index.html"
+      }
+    ]
+  },
+  {
+    "stage": "childcare questions / policy reference",
+    "url": "https://childcare-demo-six.vercel.app/dashboard.html#chat",
+    "links": [
+      {
+        "text": "SafeChildDX\n      保育の記録と報告",
+        "href": "https://childcare-demo-six.vercel.app/index.html"
+      },
+      {
+        "text": "園の決まりを見る",
+        "href": "https://childcare-demo-six.vercel.app/dashboard.html#knowledge"
+      }
+    ]
+  }
+]

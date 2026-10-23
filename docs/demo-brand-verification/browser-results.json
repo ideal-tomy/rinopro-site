@@ -1,0 +1,153 @@
+[
+  {
+    "brand": "axeon",
+    "mobile": false,
+    "passed": true,
+    "hubLinks": [
+      {
+        "text": "① 写真の仕事化散在写真 → 分類・命名サンプルで体験（実アップロード不要）。写真を整える →",
+        "href": "http://127.0.0.1:3180/photo?brand=axeon"
+      },
+      {
+        "text": "② 報告書・朝礼下書き写真 → 報告書／朝礼 → 確認提出整えた写真が、報告書の下書きになる。下書きを出す →",
+        "href": "http://127.0.0.1:3180/report?brand=axeon"
+      },
+      {
+        "text": "③ 現場オペ画面通知確認・不足写真の催促提出した日報が届き、内勤確認・催促まで体験できます。管理画面を開く →",
+        "href": "http://127.0.0.1:3180/ops?brand=axeon"
+      },
+      {
+        "text": "投資回収の目安 ↗",
+        "href": "http://127.0.0.1:3181/?kit=report-auto&industry=construction&cat=internal&from=construction-demo&brand=axeon"
+      },
+      {
+        "text": "相談する",
+        "href": "https://www.axeon.jp/contact?demo=construction-hub"
+      }
+    ],
+    "completionEstimate": "http://127.0.0.1:3181/?kit=report-auto&industry=construction&cat=internal&from=construction-demo&brand=axeon",
+    "opsLinks": [
+      {
+        "text": "← ハブ",
+        "href": "http://127.0.0.1:3180/?brand=axeon"
+      },
+      {
+        "text": "本格アプリを見る ↗",
+        "href": "https://kanri-kensetsu.vercel.app/login"
+      }
+    ],
+    "errors": []
+  },
+  {
+    "brand": "ideal",
+    "mobile": false,
+    "passed": true,
+    "hubLinks": [
+      {
+        "text": "① 写真の仕事化散在写真 → 分類・命名サンプルで体験（実アップロード不要）。写真を整える →",
+        "href": "http://127.0.0.1:3180/photo?brand=ideal"
+      },
+      {
+        "text": "② 報告書・朝礼下書き写真 → 報告書／朝礼 → 確認提出整えた写真が、報告書の下書きになる。下書きを出す →",
+        "href": "http://127.0.0.1:3180/report?brand=ideal"
+      },
+      {
+        "text": "③ 現場オペ画面通知確認・不足写真の催促提出した日報が届き、内勤確認・催促まで体験できます。管理画面を開く →",
+        "href": "http://127.0.0.1:3180/ops?brand=ideal"
+      },
+      {
+        "text": "投資回収の目安 ↗",
+        "href": "http://127.0.0.1:3181/?kit=report-auto&industry=construction&cat=internal&from=construction-demo&brand=ideal"
+      },
+      {
+        "text": "相談する",
+        "href": "https://ideal-official-three.vercel.app/contact?service=ai-consulting&intent=gallery&demo=construction-hub"
+      }
+    ],
+    "completionEstimate": "http://127.0.0.1:3181/?kit=report-auto&industry=construction&cat=internal&from=construction-demo&brand=ideal",
+    "opsLinks": [
+      {
+        "text": "← ハブ",
+        "href": "http://127.0.0.1:3180/?brand=ideal"
+      },
+      {
+        "text": "本格アプリを見る ↗",
+        "href": "https://kanri-kensetsu.vercel.app/login"
+      }
+    ],
+    "errors": []
+  },
+  {
+    "brand": "axeon",
+    "mobile": true,
+    "passed": true,
+    "hubLinks": [
+      {
+        "text": "① 写真の仕事化散在写真 → 分類・命名サンプルで体験（実アップロード不要）。写真を整える →",
+        "href": "http://127.0.0.1:3180/photo?brand=axeon"
+      },
+      {
+        "text": "② 報告書・朝礼下書き写真 → 報告書／朝礼 → 確認提出整えた写真が、報告書の下書きになる。下書きを出す →",
+        "href": "http://127.0.0.1:3180/report?brand=axeon"
+      },
+      {
+        "text": "③ 現場オペ画面通知確認・不足写真の催促提出した日報が届き、内勤確認・催促まで体験できます。管理画面を開く →",
+        "href": "http://127.0.0.1:3180/ops?brand=axeon"
+      },
+      {
+        "text": "投資回収の目安 ↗",
+        "href": "http://127.0.0.1:3181/?kit=report-auto&industry=construction&cat=internal&from=construction-demo&brand=axeon"
+      },
+      {
+        "text": "相談する",
+        "href": "https://www.axeon.jp/contact?demo=construction-hub"
+      }
+    ],
+    "completionEstimate": "http://127.0.0.1:3181/?kit=report-auto&industry=construction&cat=internal&from=construction-demo&brand=axeon",
+    "opsLinks": [
+      {
+        "text": "← ハブ",
+        "href": "http://127.0.0.1:3180/?brand=axeon"
+      },
+      {
+        "text": "本格アプリを見る ↗",
+        "href": "https://kanri-kensetsu.vercel.app/login"
+      }
+    ],
+    "errors": []
+  },
+  {
+    "siteRoute": "/",
+    "constructionEntries": [
+      {
+        "text": "サンプルで体験 ↗",
+        "href": "https://construction-demo-six.vercel.app/?brand=axeon"
+      }
+    ]
+  },
+  {
+    "siteRoute": "/industries/construction",
+    "constructionEntries": [
+      {
+        "text": "デモを試す ↗",
+        "href": "https://construction-demo-six.vercel.app/?brand=axeon"
+      },
+      {
+        "text": "デモを試す ↗",
+        "href": "https://construction-demo-six.vercel.app/?brand=axeon"
+      },
+      {
+        "text": "デモを試す ↗",
+        "href": "https://construction-demo-six.vercel.app/report?brand=axeon"
+      },
+      {
+        "text": "デモを試す ↗",
+        "href": "https://construction-demo-six.vercel.app/?brand=axeon"
+      },
+      {
+        "text": "デモを試す ↗",
+        "href": "https://construction-demo-six.vercel.app/?brand=axeon"
+      }
+    ]
+  }
+]

@@ -1,0 +1,46 @@
+[
+  {
+    "route": "/",
+    "links": [
+      {
+        "text": "サンプルで体験 ↗",
+        "href": "https://construction-demo-six.vercel.app/?brand=ideal"
+      }
+    ]
+  },
+  {
+    "route": "/demo/w/construction-record",
+    "links": [
+      {
+        "text": "デモを試す ↗",
+        "href": "https://construction-demo-six.vercel.app/?brand=ideal"
+      },
+      {
+        "text": "デモで体験する",
+        "href": "https://construction-demo-six.vercel.app/?brand=ideal"
+      },
+      {
+        "text": "デモを試す ↗",
+        "href": "https://construction-demo-six.vercel.app/?brand=ideal"
+      }
+    ]
+  },
+  {
+    "route": "/articles/construction",
+    "links": [
+      {
+        "text": "写真から報告書を作ってみる",
+        "href": "https://construction-demo-six.vercel.app/report?brand=ideal"
+      },
+      {
+        "text": "写真・報告・管理を通しで見る\n            現場から上がった情報が、管理する側でどう見えるかまで。\n            動かしてみる →",
+        "href": "https://construction-demo-six.vercel.app/?brand=ideal"
+      }
+    ]
+  },
+  {
+    "route": "/construction",
+    "status": 307,
+    "location": "https://construction-demo-six.vercel.app/?brand=ideal"
+  }
+]
