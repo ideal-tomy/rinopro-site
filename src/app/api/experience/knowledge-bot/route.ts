@@ -1,6 +1,8 @@
 import { streamText } from "ai";
 import { defaultGeminiModel } from "@/lib/ai/gemini-model";
-import { rateLimit } from "@/lib/rate-limit";
+import { aiFailureResponse, logStreamTextError } from "@/lib/ai/api-error-response";
+import { checkKnowledgeBotRequest, readJsonWithLimit } from "@/lib/ai/request-limits";
+import { rateLimitRequest } from "@/lib/rate-limit";
 import { getInternalKnowledgeDataset } from "@/lib/experience/internal-knowledge/datasets";
 import {
   buildKnowledgeBotSystemPrompt,
@@ -11,42 +13,17 @@ import {
 export const maxDuration = 30;
 
 export async function POST(req: Request) {
-  const ip =
-    req.headers.get("x-forwarded-for") ??
-    req.headers.get("x-real-ip") ??
-    "anonymous";
-  if (!rateLimit(ip)) {
+  if (!rateLimitRequest(req, "knowledge-bot")) {
     return new Response("Too Many Requests", { status: 429 });
   }
 
-  let body: {
-    industryId?: string;
-    pathLabels?: unknown;
-    kbRefIds?: unknown;
-    freeformText?: string;
-  };
-  try {
-    body = await req.json();
-  } catch {
-    return new Response("Invalid JSON", { status: 400 });
+  const parsedBody = await readJsonWithLimit(req);
+  const checked = parsedBody.ok ? checkKnowledgeBotRequest(parsedBody.value) : parsedBody;
+  if (!checked.ok) {
+    return new Response(checked.error, { status: 400 });
   }
 
-  const industryId =
-    typeof body.industryId === "string" ? body.industryId.trim() : "";
-  if (!industryId) {
-    return new Response("Missing industryId", { status: 400 });
-  }
-
-  const pathLabels = Array.isArray(body.pathLabels)
-    ? body.pathLabels.filter((x): x is string => typeof x === "string")
-    : [];
-
-  const kbRefIds = Array.isArray(body.kbRefIds)
-    ? body.kbRefIds.filter((x): x is string => typeof x === "string")
-    : [];
-
-  const freeformText =
-    typeof body.freeformText === "string" ? body.freeformText : undefined;
+  const { industryId, pathLabels, kbRefIds, freeformText } = checked.value;
 
   const dataset = getInternalKnowledgeDataset(industryId);
   if (!dataset) {
@@ -72,15 +49,11 @@ export async function POST(req: Request) {
       system,
       messages: [{ role: "user", content: userMessage }],
       maxOutputTokens: 2048,
+      onError: logStreamTextError("api/experience/knowledge-bot stream"),
     });
 
     return result.toTextStreamResponse();
   } catch (err) {
-    const message = err instanceof Error ? err.message : "Knowledge bot failed";
-    console.error("[api/experience/knowledge-bot]", err);
-    return new Response(JSON.stringify({ error: message }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
+    return aiFailureResponse("api/experience/knowledge-bot", err);
   }
 }

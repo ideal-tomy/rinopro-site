@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { rateLimit } from "@/lib/rate-limit";
+import { rateLimitRequest } from "@/lib/rate-limit";
 import { fetchDemosForDisplay } from "@/lib/sanity/fetch";
 import { pickRecommendedDemos } from "@/lib/demo/intelligent-concierge";
 import {
@@ -14,8 +14,7 @@ const MAX_TEXT_LEN = 2000;
  * LLM は使わない（課金・遅延を抑える）。
  */
 export async function POST(req: Request) {
-  const ip = req.headers.get("x-forwarded-for") ?? req.headers.get("x-real-ip") ?? "anonymous";
-  if (!rateLimit(`recommend-text:${ip}`)) {
+  if (!rateLimitRequest(req, "recommend-text")) {
     return NextResponse.json({ error: "Too Many Requests" }, { status: 429 });
   }
 

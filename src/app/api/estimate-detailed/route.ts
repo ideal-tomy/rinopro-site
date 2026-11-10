@@ -5,6 +5,8 @@ import {
   buildEstimateDetailedUserPrompt,
 } from "@/lib/estimate-domain/default/prompts";
 import { defaultGeminiModel, estimateFallbackGeminiModel } from "@/lib/ai/gemini-model";
+import { aiFailureResponse, logAiRouteError } from "@/lib/ai/api-error-response";
+import { checkEstimateRequest, readJsonWithLimit } from "@/lib/ai/request-limits";
 import {
   estimateRangeWidthMan,
   isNarrowRangeEligible,
@@ -20,7 +22,7 @@ import {
 } from "@/lib/estimate/estimate-pricing-input";
 import { applyCredibleMinimumRangeToEstimate } from "@/lib/estimate/estimate-credible-range";
 import { estimateDetailedAiOutputSchema } from "@/lib/estimate/estimate-snapshot";
-import { rateLimit } from "@/lib/rate-limit";
+import { rateLimitRequest } from "@/lib/rate-limit";
 
 export const maxDuration = 60;
 
@@ -47,7 +49,7 @@ async function generateEstimateObjectWithFallback(
     });
     return { object, usedFallbackModel: false };
   } catch (primaryErr) {
-    console.warn("[api/estimate-detailed] primary model failed, trying fallback", primaryErr);
+    logAiRouteError("api/estimate-detailed primary model failed, trying fallback", primaryErr);
     const { object } = await generateObject({
       model: estimateFallbackGeminiModel,
       schema: ResultSchema,
@@ -68,26 +70,21 @@ function sortLoHi(object: { estimateLoMan: number; estimateHiMan: number }) {
 }
 
 export async function POST(req: Request) {
-  const ip = req.headers.get("x-forwarded-for") ?? req.headers.get("x-real-ip") ?? "anonymous";
-  if (!rateLimit(ip)) {
+  if (!rateLimitRequest(req, "estimate-detailed")) {
     return new Response("Too Many Requests", { status: 429 });
   }
 
-  let body: {
-    answers?: Record<string, string>;
-    priorContext?: string;
-  };
-  try {
-    body = (await req.json()) as typeof body;
-  } catch {
-    return new Response(JSON.stringify({ error: "Invalid JSON" }), {
+  const parsedBody = await readJsonWithLimit(req);
+  const checked = parsedBody.ok ? checkEstimateRequest(parsedBody.value) : parsedBody;
+  if (!checked.ok) {
+    return new Response(JSON.stringify({ error: checked.error }), {
       status: 400,
       headers: { "Content-Type": "application/json" },
     });
   }
 
-  const answers = body.answers ?? {};
-  const prior = (body.priorContext ?? "").trim();
+  const { answers } = checked.value;
+  const prior = checked.value.priorContext.trim();
 
   const pricingLines = buildPricingAnswerLines(answers);
   if (pricingLines.length === 0) {
@@ -132,7 +129,7 @@ export async function POST(req: Request) {
         sortLoHi(retryObject);
         final = retryObject;
       } catch (retryErr) {
-        console.warn("[api/estimate-detailed] narrow retry skipped", retryErr);
+        logAiRouteError("api/estimate-detailed narrow retry skipped", retryErr);
       }
     }
 
@@ -161,11 +158,6 @@ export async function POST(req: Request) {
 
     return Response.json(final);
   } catch (err) {
-    const message = err instanceof Error ? err.message : "generate failed";
-    console.error("[api/estimate-detailed]", err);
-    return new Response(JSON.stringify({ error: message }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
+    return aiFailureResponse("api/estimate-detailed", err);
   }
 }

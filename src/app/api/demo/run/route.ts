@@ -1,6 +1,12 @@
 import { streamText, convertToModelMessages, type UIMessage } from "ai";
 import { defaultGeminiModel } from "@/lib/ai/gemini-model";
-import { rateLimit } from "@/lib/rate-limit";
+import {
+  aiFailureResponse,
+  aiStreamErrorText,
+  logStreamTextError,
+} from "@/lib/ai/api-error-response";
+import { checkUiMessages, readJsonWithLimit } from "@/lib/ai/request-limits";
+import { rateLimitRequest } from "@/lib/rate-limit";
 import {
   getMockTonePhrasing,
   getWritingToneSystemInstruction,
@@ -113,28 +119,27 @@ function createMockStreamResponse(
 }
 
 export async function POST(req: Request) {
-  const ip =
-    req.headers.get("x-forwarded-for") ??
-    req.headers.get("x-real-ip") ??
-    "anonymous";
-  if (!rateLimit(ip)) {
+  if (!rateLimitRequest(req, "demo-run")) {
     return new Response("Too Many Requests", { status: 429 });
   }
 
-  let body: { messages?: UIMessage[]; slug?: string };
-  try {
-    body = await req.json();
-  } catch {
-    return new Response("Invalid JSON", { status: 400 });
+  const parsedBody = await readJsonWithLimit(req);
+  if (!parsedBody.ok) {
+    return new Response(parsedBody.error, { status: 400 });
   }
+  const body = (
+    typeof parsedBody.value === "object" && parsedBody.value !== null ? parsedBody.value : {}
+  ) as { messages?: unknown; slug?: unknown };
 
-  const { messages, slug } = body;
-  if (!slug || typeof slug !== "string") {
+  const { slug } = body;
+  if (!slug || typeof slug !== "string" || slug.length > 200) {
     return new Response("Missing slug", { status: 400 });
   }
-  if (!Array.isArray(messages)) {
-    return new Response("Missing messages", { status: 400 });
+  const checkedMessages = checkUiMessages(body.messages);
+  if (!checkedMessages.ok) {
+    return new Response(checkedMessages.error, { status: 400 });
   }
+  const messages: UIMessage[] = checkedMessages.value;
 
   const aiDemo = await fetchAiDemoBySlug(slug);
   if (!aiDemo) {
@@ -180,16 +185,12 @@ export async function POST(req: Request) {
       messages: await convertToModelMessages(messages),
       // 見出し・複数ブロックの成果物は 500 では不足しがち
       maxOutputTokens: 4096,
+      onError: logStreamTextError("api/demo/run stream"),
     });
 
     // ai_live は useChat + DefaultChatTransport（SSE UI ストリーム）と整合させる
-    return result.toUIMessageStreamResponse();
+    return result.toUIMessageStreamResponse({ onError: aiStreamErrorText() });
   } catch (err) {
-    const message = err instanceof Error ? err.message : "Demo AI failed";
-    console.error("[api/demo/run]", err);
-    return new Response(JSON.stringify({ error: message }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
+    return aiFailureResponse("api/demo/run", err);
   }
 }

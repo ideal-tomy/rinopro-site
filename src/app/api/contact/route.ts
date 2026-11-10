@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { sendContactEmails } from "@/lib/contact/send-contact-emails";
 import { contactSchema } from "@/lib/validation/contact-schema";
-import { rateLimit } from "@/lib/rate-limit";
+import { rateLimitRequest } from "@/lib/rate-limit";
 
 function normalizeContactBody(raw: unknown): unknown {
   if (typeof raw !== "object" || raw === null) return raw;
@@ -19,8 +19,7 @@ function normalizeContactBody(raw: unknown): unknown {
 }
 
 export async function POST(req: Request) {
-  const ip = req.headers.get("x-forwarded-for") ?? req.headers.get("x-real-ip") ?? "anonymous";
-  if (!rateLimit(ip)) {
+  if (!rateLimitRequest(req, "contact")) {
     return NextResponse.json({ error: "Too Many Requests" }, { status: 429 });
   }
 
@@ -71,20 +70,22 @@ export async function POST(req: Request) {
       ...(additionalNote?.trim() ? { additionalNote: additionalNote.trim() } : {}),
     };
 
+    const sendResult = await sendContactEmails(mailBase);
+
+    // 氏名・メール・会社名・本文はログに残さない
     console.info("[Contact] inbound", {
-      name,
-      email,
-      company: company?.trim() ?? null,
       inquiryIntent: inquiryIntent ?? null,
       desiredReply: desiredReply ?? null,
       messageLength: messageBody.length,
-      triedExperience: triedExperience ?? null,
+      hasCompany: Boolean(company?.trim()),
+      hasTriedExperience: Boolean(triedExperience),
       hasVisitorJourney: Boolean(visitorJourney ?? estimateSnapshot?.visitorJourney),
       hasEstimateSnapshot: Boolean(estimateSnapshot),
       hasInquiryBrief: Boolean(inquiryBrief),
+      result: sendResult.ok ? sendResult.mode : sendResult.code,
+      customerReply: sendResult.ok ? sendResult.customerReply : null,
     });
 
-    const sendResult = await sendContactEmails(mailBase);
     if (!sendResult.ok) {
       const status = sendResult.code === "mail_not_configured" ? 503 : 502;
       return NextResponse.json(
@@ -95,7 +96,9 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ success: true, mode: sendResult.mode });
   } catch (error) {
-    console.error("[Contact] unexpected error", error);
+    console.error("[Contact] unexpected error", {
+      name: error instanceof Error ? error.name : "UnknownError",
+    });
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }

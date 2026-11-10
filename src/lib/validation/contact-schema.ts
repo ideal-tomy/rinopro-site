@@ -7,11 +7,25 @@ import {
   inquiryIntentSchema,
 } from "@/lib/inquiry/inquiry-brief";
 
+/** 件名・宛先に入る項目。改行が入るとメールヘッダーの区切りと区別できない。 */
+const SINGLE_LINE = /^[^\r\n]*$/;
+
 /** 問い合わせ API 受信。シンプル版は name / email / message のみ必須。 */
 export const contactSchema = z.object({
-  name: z.string().min(1, "お名前を入力してください").max(100),
-  email: z.string().email("正しいメールアドレスを入力してください"),
-  company: z.string().max(200, "会社名は200文字以内で入力してください").optional(),
+  name: z
+    .string()
+    .min(1, "お名前を入力してください")
+    .max(100)
+    .regex(SINGLE_LINE, "お名前に改行は使えません"),
+  email: z
+    .string()
+    .email("正しいメールアドレスを入力してください")
+    .regex(SINGLE_LINE, "正しいメールアドレスを入力してください"),
+  company: z
+    .string()
+    .max(200, "会社名は200文字以内で入力してください")
+    .regex(SINGLE_LINE, "会社名に改行は使えません")
+    .optional(),
   message: z
     .string()
     .min(8, "ご相談内容をもう少し具体的に入力してください（8文字以上）")
