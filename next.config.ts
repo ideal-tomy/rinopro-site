@@ -71,8 +71,9 @@ const nextConfig: NextConfig = {
     ];
   },
   async headers() {
+    const turnstile = "https://challenges.cloudflare.com";
     const defaultCsp =
-      "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https: blob:; font-src 'self'; connect-src 'self' https://*.sanity.io wss:; frame-ancestors 'none';";
+      `default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' ${turnstile}; style-src 'self' 'unsafe-inline'; img-src 'self' data: https: blob:; font-src 'self'; connect-src 'self' https://*.sanity.io wss: ${turnstile}; frame-src ${turnstile}; frame-ancestors 'none';`;
     const lpCsp =
       "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https: blob:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; frame-ancestors 'none';";
 

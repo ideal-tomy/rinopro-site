@@ -45,6 +45,8 @@ export const contactSchema = z.object({
   decisionTimeline: z.string().max(200, "200文字以内で入力してください").optional(),
   constraintsSummary: z.string().max(1000, "1000文字以内で入力してください").optional(),
   additionalNote: z.string().max(6000, "6000文字以内で入力してください").optional(),
+  /** Cloudflare Turnstile。フォームの項目ではなく、送信確認の結果 */
+  turnstileToken: z.string().max(4096).optional(),
 });
 
 export type ContactFormData = z.infer<typeof contactSchema>;

@@ -8,7 +8,6 @@ import {
   type InquiryDesiredReply,
   type InquiryIntent,
 } from "@/lib/inquiry/inquiry-brief";
-import { ESTIMATE_PHILOSOPHY_UI_PARAGRAPH } from "@/lib/estimate/estimate-output-philosophy";
 import { isContactSyntheticEstimateSnapshot } from "@/lib/contact/build-contact-synthetic-snapshot";
 import {
   buildAdminContactSubject,
@@ -21,7 +20,6 @@ import {
 } from "@/lib/contact/build-contact-mail-attachments";
 import {
   adminUserAddedDisplay,
-  customerMessageDisplay,
   splitContactMessage,
 } from "@/lib/contact/split-contact-message";
 
@@ -193,45 +191,22 @@ export function buildAdminContactEmail(ctx: ContactMailContext): {
   };
 }
 
-/** お客様向け：短い受付確認 */
+/**
+ * お客様向けの受付確認。本文は定型文だけにする。
+ * 入力された氏名・相談内容・見積を入れると、第三者のアドレスへその文章を送る経路になる。
+ */
 export function buildCustomerContactEmail(ctx: ContactMailContext): {
   subject: string;
   textBody: string;
 } {
-  const split = splitContactMessage(ctx.message);
-  const snap = ctx.estimateSnapshot;
-  const hasRealEstimate =
-    snap != null && !isContactSyntheticEstimateSnapshot(snap);
-
-  const lines: (string | null)[] = [
-    `${ctx.name} 様`,
-    ctx.company?.trim() ? `会社名: ${ctx.company.trim()}` : null,
-    "",
-    "このたびはお問い合わせありがとうございます。内容を確認のうえ、2営業日以内にご返信いたします。",
-    "",
-    "▼ お送りいただいた内容",
-    customerMessageDisplay(split),
-  ];
-
-  if (ctx.additionalNote?.trim()) {
-    lines.push("", "▼ 補足", ctx.additionalNote.trim());
-  }
-
-  if (hasRealEstimate && snap) {
-    lines.push(
-      "",
-      "▼ 見積もりの目安（参考）",
-      `約 ${snap.ai.estimateLoMan} 万円〜${snap.ai.estimateHiMan} 万円程度`,
-      "※ 正式なお見積もりではありません。詳細は返信にてご案内します。",
-      "",
-      ESTIMATE_PHILOSOPHY_UI_PARAGRAPH
-    );
-  }
-
-  lines.push("", "※ 本メールに心当たりがない場合は、お手数ですが破棄してください。");
-
+  void ctx;
   return {
     subject: "【AXEON】お問い合わせを受け付けました",
-    textBody: lines.filter((x) => x !== null).join("\n"),
+    textBody: [
+      "このたびはお問い合わせありがとうございます。",
+      "内容を確認のうえ、2営業日以内にご返信いたします。",
+      "",
+      "※ 本メールに心当たりがない場合は、お手数ですが破棄してください。",
+    ].join("\n"),
   };
 }

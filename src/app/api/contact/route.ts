@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { sendContactEmails } from "@/lib/contact/send-contact-emails";
+import { verifyTurnstileToken } from "@/lib/contact/turnstile";
 import { contactSchema } from "@/lib/validation/contact-schema";
 import { rateLimitRequest } from "@/lib/rate-limit";
 
@@ -50,6 +51,14 @@ export async function POST(req: Request) {
       constraintsSummary,
       additionalNote,
     } = result.data;
+
+    const turnstile = await verifyTurnstileToken(result.data.turnstileToken);
+    if (!turnstile.ok) {
+      return NextResponse.json(
+        { error: turnstile.code, message: turnstile.error },
+        { status: turnstile.status }
+      );
+    }
 
     const messageBody = message.trim();
 

@@ -118,8 +118,9 @@ function run(): void {
   const customer = buildCustomerContactEmail(baseCtx({ message }));
   assert(!customer.textBody.includes(CONTACT_AUTO_MEMO_MARKER), "customer: no auto memo");
   assert(!customer.textBody.includes("# 建設業向け"), "customer: no requirement md");
-  assert(customer.textBody.includes("追記テスト"), "customer: user message");
-  assert(customer.textBody.includes("800"), "customer: range");
+  assert(!customer.textBody.includes("追記テスト"), "customer: no user message");
+  assert(!customer.textBody.includes("800"), "customer: no estimate range");
+  assert(customer.textBody.includes("2営業日以内にご返信いたします。"), "customer: fixed receipt");
 
   const plain = buildAdminContactEmail(
     baseCtx({ message: "通常の問い合わせ本文です。八文字以上。" })

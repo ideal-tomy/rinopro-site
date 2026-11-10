@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { AxPhrases } from "@/components/ui/ax/AxPhrases";
+import { ContactTurnstile, type ContactTurnstileHandle } from "@/components/contact/ContactTurnstile";
 import { useContactForm } from "@/hooks/use-contact-form";
 import { contactCopy } from "@/lib/content/site-copy";
 import { getImplementationShowcaseContactFormOptions } from "@/lib/content/implementation-showcase";
@@ -40,6 +41,9 @@ export function ContactForm() {
   const [message, setMessage] = useState("");
   const [closestExperience, setClosestExperience] = useState("");
   const [closestExperienceOther, setClosestExperienceOther] = useState("");
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const turnstileRef = useRef<ContactTurnstileHandle>(null);
+  const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
   const { status, errors, submit, submitError, resetStatus } = useContactForm();
   const form = contactCopy.form;
@@ -120,7 +124,11 @@ export function ContactForm() {
         ? { triedExperience: resolvedTriedExperience }
         : {}),
     };
-    const success = await submit(payload);
+    const success = await submit({
+      ...payload,
+      ...(turnstileToken ? { turnstileToken } : {}),
+    });
+    turnstileRef.current?.reset();
     if (success) {
       setName("");
       setEmail("");
@@ -135,7 +143,8 @@ export function ContactForm() {
     name.trim().length > 0 &&
     email.trim().length > 0 &&
     message.trim().length >= 8 &&
-    status !== "submitting";
+    status !== "submitting" &&
+    (!turnstileSiteKey || Boolean(turnstileToken));
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
@@ -247,6 +256,8 @@ export function ContactForm() {
           <p className="mt-1 text-sm text-red-500">{errors.triedExperience}</p>
         ) : null}
       </div>
+
+      <ContactTurnstile ref={turnstileRef} onToken={setTurnstileToken} />
 
       {status === "success" ? <p className="text-sm text-accent">{form.success}</p> : null}
       {status === "error" && submitError ? (
